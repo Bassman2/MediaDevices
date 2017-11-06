@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E5353CB2-1320-4E96-A15E-551BA0B51105}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MediaDevices</RootNamespace>
+    <AssemblyName>MediaDevices</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\MediaDevices.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.PortableDeviceApiLib">
+      <HintPath>Interop\Interop.PortableDeviceApiLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.PortableDeviceTypesLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>Interop\Interop.PortableDeviceTypesLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands.cs" />
+    <Compile Include="ContentType.cs" />
+    <Compile Include="DeviceTransport.cs" />
+    <Compile Include="DeviceType.cs" />
+    <Compile Include="Internal\Command.cs" />
+    <Compile Include="Internal\DeviceProperties.cs" />
+    <Compile Include="Internal\EnumExtentions.cs" />
+    <Compile Include="Internal\EventCallback.cs" />
+    <Compile Include="Events.cs" />
+    <Compile Include="FunctionalCategory.cs" />
+    <Compile Include="Internal\GuidAttribute.cs" />
+    <Compile Include="HResult.cs" />
+    <Compile Include="Internal\Item.cs" />
+    <Compile Include="Internal\ItemType.cs" />
+    <Compile Include="Internal\KeyAttribute.cs" />
+    <Compile Include="Internal\ObjectProperties.cs" />
+    <Compile Include="Internal\SmsMessageType.cs" />
+    <Compile Include="Internal\WPD.cs" />
+    <Compile Include="MediaDevice.cs" />
+    <Compile Include="MediaDeviceEventArgs.cs" />
+    <Compile Include="MediaDeviceExtentions.cs" />
+    <Compile Include="MediaDirectoryInfo.cs" />
+    <Compile Include="MediaFileAttributes.cs" />
+    <Compile Include="MediaFileInfo.cs" />
+    <Compile Include="MediaFileSystemInfo.cs" />
+    <Compile Include="NotConnectedException.cs" />
+    <Compile Include="OperationState.cs" />
+    <Compile Include="PowerSource.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Internal\PropVariant.cs" />
+    <Compile Include="Internal\StreamWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MediaDevicesLicense.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MediaDevices.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Header\PortableDeviceApi.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Header\PortableDevice.h" />
+    <None Include="Header\PortableDeviceConnectApi.h" />
+    <None Include="Header\PortableDeviceConnectImports.h" />
+    <None Include="Header\PortableDeviceTypes.h" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release'">
+    <Exec Command="nuget pack $(ProjectFileName) -Prop Configuration=Release">
+    </Exec>
+  </Target>
+</Project>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Ralf Beckers</authors>
+    <owners>Ralf Beckers</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>API to communicate with MTP / WPD devices like smart phones, tablets and cameras. Documentation included.</description>
+    <releaseNotes>Untested implementation of StillImageCaptureInitiate.</releaseNotes>
+    <copyright>Copyright 2016 - 2017 by Ralf Beckers</copyright>
+    <tags>MTP WPD PortableDevice PortableDevices API phone tablet</tags>
+  </metadata>
+  <files>
+    <file src="MediaDevicesLicense.txt" target="content" />
+    <file src="..\MediaDevicesDoc\Help\MediaDevices.chm" target="content" />
+  </files>
+</package>

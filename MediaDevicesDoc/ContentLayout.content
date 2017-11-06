@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Topics>
+  <Topic id="d419c6d2-c27c-480d-a58c-66f719dd3e52" visible="True" isDefault="true" title="Welcome to the Media Devices">
+    <HelpKeywords>
+      <HelpKeyword index="K" term="Welcome" />
+    </HelpKeywords>
+  </Topic>
+  <Topic id="bff03914-bc16-4667-8c45-b59a0de9faa4" visible="True" isSelected="true" title="Version History">
+    <HelpKeywords>
+      <HelpKeyword index="K" term="version, history" />
+    </HelpKeywords>
+  </Topic>
+</Topics>

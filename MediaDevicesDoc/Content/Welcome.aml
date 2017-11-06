@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<topic id="d419c6d2-c27c-480d-a58c-66f719dd3e52" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>Media Devices is a API to interact with MTP (Media Transfer Protocol) devices like cell phones, tablets and cameras.</para>
+		</introduction>
+
+		<section>
+			<title>Getting Started</title>
+			<content>
+				<para>To get started, add the MediaDevices package to your project.</para>
+
+				<list class="bullet">
+					<listItem>
+						<para>Call <codeInline>MediaDevice.GetDevices()</codeInline> to get a list of all currently available MTP devices.</para>
+					</listItem>
+
+					<listItem>
+						<para>Call <codeInline>device.Connect()</codeInline> to connect to the MTP device.</para>
+					</listItem>
+					
+				</list>
+
+        <para>
+          Example:
+          
+          <code language="C#">
+            var devices = MediaDevice.GetDevices();
+            using (var device = devices.First(d => d.FriendlyName == "My Cell Phone"))
+            {
+              device.Connect();
+
+              device.CreateDirectory(@"\Phone\Documents\Temp");
+
+              using(FileStream stream = File.OpenRead(@"C:/Temp/Test.txt"))
+              {
+                device.UploadFile(stream, @"\Phone\Documents\Temp\Test.txt");
+              }
+              device.Disconnect();
+            }
+          </code>
+        </para>
+
+        <para>
+          See the <legacyBold>MediaDevices</legacyBold> topics for more information.
+        </para>
+
+        <para>
+          Feel free to contact me if you need additional features or find bugs with your devices.
+        </para>
+			</content>
+		</section>
+
+		<relatedTopics>
+			<link xlink:href="bff03914-bc16-4667-8c45-b59a0de9faa4" />
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>
