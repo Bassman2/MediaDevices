@@ -1,0 +1,51 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+
+
+environment:
+  matrix:
+    - PlatformToolset: v140
+
+platform:
+    - Any CPU
+
+configuration:
+    - Release
+    #- Debug
+
+
+install:
+    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesDoc\packages.config -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
+
+
+build_script:
+    - cd "%APPVEYOR_BUILD_FOLDER%"
+    - msbuild MediaDevices.sln /m /p:configuration="%configuration%" /p:platform="%platform%" /p:PlatformToolset="%PlatformToolset%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+after_build:
+    - cd "%APPVEYOR_BUILD_FOLDER%"
+    - ps: >-
+
+        Push-AppveyorArtifact "MediaDevices\bin\$env:CONFIGURATION\MediaDevices.dll" -FileName MediaDevices.dll
+
+        if ($($env:APPVEYOR_REPO_TAG) -eq "true" -and $env:CONFIGURATION -eq "Release" -and $env:PLATFORMTOOLSET -eq "v140") {
+            $ZipFileName = "MediaDevices_$($env:APPVEYOR_REPO_TAG_NAME).zip"
+            7z a $ZipFileName MediaDevices\bin\$env:CONFIGURATION\MediaDevices.dll
+        }
+
+artifacts:
+  - path: MediaDevices_*.zip
+    name: releases
+
+deploy:
+    provider: GitHub
+    auth_token:
+        secure: !!TODO, see https://www.appveyor.com/docs/deployment/github/#provider-settings!!
+    artifact: releases
+    draft: false
+    prerelease: false
+    force_update: true
+    on:
+        appveyor_repo_tag: true
+        PlatformToolset: v140
+        configuration: Release
