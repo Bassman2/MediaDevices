@@ -1,5 +1,8 @@
-﻿using System;
+﻿using MediaDevices.Internal;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace MediaDevices
 {
@@ -196,7 +199,7 @@ namespace MediaDevices
             }
 
             device.CreateDirectory(destination);
-            
+
             if (recursive)
             {
                 DirectoryInfo di = new DirectoryInfo(source);
@@ -230,5 +233,23 @@ namespace MediaDevices
                 }
             }
         }
+
+        ////{
+        //var bitmapImage = new BitmapImage();
+        //bitmapImage.BeginInit();
+        //        bitmapImage.StreamSource = new MemoryStream(imageBytes);
+        //bitmapImage.EndInit();
+        //        return bitmapImage;
+
+        //    }
+
+        //public static Stream GetCapturedStillImage(this MediaDevice device, string functionalObject)
+        //{
+        //    List<Item> list = device.GetChildren(functionalObject).ToList();
+
+        //    Item item = list.OrderBy(i => i.Name).Last();
+        //    return device.OpenRead(item.Id);
+            
+        //}
     }
 }

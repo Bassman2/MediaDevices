@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="MediaDeviceApp.View.StillImageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MediaDeviceApp.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             IsEnabled="{Binding IsStillImageSupported}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="0" Grid.Row="0" Content="Functional Object"/>
+        <ComboBox Grid.Column="1" Grid.Row="0" SelectedItem="{Binding SelectedStillImageFunctionalObject}" ItemsSource="{Binding StillImageFunctionalObjects}" SelectedIndex="0" Margin="3" />
+        <Button Grid.Column="1" Grid.Row="1" Content="Take Picture" Command="{Binding StillImageCommand}" Width="80" HorizontalAlignment="Left" Margin="3"/>
+        <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0.5" Margin="3" >
+            <Image Source="{Binding StillImageSource}" Stretch="UniformToFill"/>
+        </Border>
+    </Grid>
+</UserControl>

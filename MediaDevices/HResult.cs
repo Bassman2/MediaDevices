@@ -11,9 +11,19 @@ namespace MediaDevices
     /// </summary>
     public enum HResult : uint
     {
+        /// <summary>
+        /// OK
+        /// </summary>
         S_OK = 0,
 
+        /// <summary>
+        /// Not implemented
+        /// </summary>
         E_NOT_IMPLEMENTED = 0x80004001,
+
+        /// <summary>
+        /// Element not found
+        /// </summary>
         E_ELEMENT_NOT_FOUND = 0x80070490,
 
         /// <summary>

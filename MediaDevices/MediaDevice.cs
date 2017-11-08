@@ -113,13 +113,18 @@ namespace MediaDevices
             uint count = 0;
             portableDeviceManager.GetDevices(null, ref count);
 
+            if (count == 0)
+            {
+                return new List<MediaDevice>();
+            }
+
             // get device IDs
             var deviceIds = new string[count];
             portableDeviceManager.GetDevices(deviceIds, ref count);
 
             return deviceIds.Select(d => new MediaDevice(d));
         }
-                                                          
+
         //public static IEnumerable<MediaDevice> GetDevices(FunctionalCategory category)
         //{
         //    if (category == FunctionalCategory.All)
@@ -164,7 +169,7 @@ namespace MediaDevices
             char[] buffer = new char[260];
             uint count = 256;
             try
-            { 
+            {
                 portableDeviceManager.GetDeviceDescription(deviceId, buffer, ref count);
                 this.Description = new string(buffer, 0, (int)count - 1);
             }
@@ -194,7 +199,7 @@ namespace MediaDevices
             }
 
             this.device = new PortableDeviceApiLib.PortableDevice();
-            
+
         }
 
         /// <summary>
@@ -211,7 +216,26 @@ namespace MediaDevices
         /// <returns>A string with the friendly name, the manufacture and the description.</returns>
         public override string ToString()
         {
-            return $"{this.FriendlyName} - {this.Manufacturer} - {this.Description}";
+            string friendlyName = String.Empty;
+            string manufacturer = String.Empty;
+            string description = String.Empty;
+            try
+            {
+                friendlyName = this.FriendlyName;
+
+            }
+            catch { }
+            try
+            {
+                manufacturer = this.Manufacturer;
+            }
+            catch { }
+            try
+            {
+                description = this.Description;
+            }
+            catch { }
+            return $"{friendlyName} - {manufacturer} - {description}";
         }
 
         #endregion
@@ -296,7 +320,7 @@ namespace MediaDevices
         {
             get { return GetStringProperty(WPD.DEVICE_PROTOCOL); }
         }
-        
+
         /// <summary>
         /// Model of the portable device.
         /// </summary>
@@ -472,7 +496,11 @@ namespace MediaDevices
             }
             this.device.Cancel();
         }
-
+        
+        /// <summary>
+        /// Get the last error
+        /// </summary>
+        /// <returns>Error code</returns>
         public HResult GetLastError()
         {
             return this.lastError;
@@ -546,7 +574,7 @@ namespace MediaDevices
             }
             return GetChildren(item.Id, searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => i.Name);
         }
-        
+
 
         /// <summary>
         /// Returns an enumerable collection of file names in a specified path.
@@ -810,7 +838,7 @@ namespace MediaDevices
             Download(item.Id, stream);
         }
 
-        
+
 
         /// <summary>
         /// Upload data from a stream to a file on a portable device.
@@ -853,7 +881,7 @@ namespace MediaDevices
             {
                 throw new IOException($"File {path} already exists");
             }
-                       
+
             IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
 
             portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, item.Id);
@@ -896,7 +924,7 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
             var objectId = FindFile(path);
-            return objectId != null; 
+            return objectId != null;
         }
 
         /// <summary>
@@ -1046,7 +1074,7 @@ namespace MediaDevices
             this.deviceCapabilities.GetFunctionalObjects(functionalCategory.Guid(), out objects);
             return objects.ToStrings();
         }
-        
+
 
         /// <summary>
         /// Get supported content types
@@ -1063,10 +1091,10 @@ namespace MediaDevices
 
             IPortableDevicePropVariantCollection types;
             this.deviceCapabilities.GetSupportedContentTypes(functionalCategory.Guid(), out types);
-            return types.ToEnum<ContentType>(); 
+            return types.ToEnum<ContentType>();
         }
 
-        
+
         /// <summary>
         /// Retrieves all events supported by the device.
         /// </summary>
@@ -1108,7 +1136,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            
+
             Command cmd = Command.Create(WPD.COMMAND_DEVICE_HINTS_GET_CONTENT_LOCATION);
             cmd.Add(WPD.PROPERTY_DEVICE_HINTS_CONTENT_TYPE, contentType.Guid());
             cmd.Send(this.device);
@@ -1176,6 +1204,9 @@ namespace MediaDevices
         /// Send a text SMS
         /// </summary>
         /// <param name="functionalObject">Functional object of the SMS</param>
+        /// <param name="recipient">Recipient of the SMS</param>
+        /// <param name="text">Text of the SMS</param>
+        /// <returns>true is success; false if not</returns>
         /// <example>
         /// <code>
         /// var devices = MediaDevice.GetDevices();
@@ -1221,6 +1252,9 @@ namespace MediaDevices
         /// Initiate a still image capturing
         /// </summary>
         /// <param name="functionalObject">Functional object of the camera</param>
+        /// <returns>true is success; false if not</returns>
+        /// <exception cref="System.ArgumentNullException">path is null or empty.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         /// <example>
         /// <code>
         /// var devices = MediaDevice.GetDevices();
@@ -1248,7 +1282,7 @@ namespace MediaDevices
             {
                 throw new ArgumentNullException("functionalObject");
             }
-            
+
             var values = (IPortableDeviceValues)new PortableDeviceValues();
             IPortableDeviceValues result;
             values.SetGuidValue(WPD.PROPERTY_COMMON_COMMAND_CATEGORY, WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE.fmtid);
@@ -1270,7 +1304,7 @@ namespace MediaDevices
             string objectCreationCookie = string.Empty;
             int childHierarchyChanged = 0;
             string serviceMethodContext = string.Empty;
-            
+
             eventParameters.GetStringValue(WPD.EVENT_PARAMETER_PNP_DEVICE_ID, out pnpDeviceId);
             eventParameters.GetGuidValue(WPD.EVENT_PARAMETER_EVENT_ID, out eventGuid);
             try
@@ -1303,7 +1337,7 @@ namespace MediaDevices
                 eventParameters.GetStringValue(WPD.EVENT_PARAMETER_SERVICE_METHOD_CONTEXT, out serviceMethodContext);
             }
             catch { }
-        
+
 
             Events eventEnum = GetEnumFromAttrGuid<Events>(eventGuid);
 
@@ -1315,7 +1349,7 @@ namespace MediaDevices
                 objectParentPersistanceUniqueId,
                 objectCreationCookie,
                 childHierarchyChanged != 0,
-                serviceMethodContext);              
+                serviceMethodContext);
 
             switch (eventEnum)
             {
@@ -1353,9 +1387,142 @@ namespace MediaDevices
                 break;
             }
 
-            
+
         }
 
+        /// <summary>
+        /// Get storage informations
+        /// </summary>
+        /// <param name="storageObjectId">ID of the storage object</param>
+        /// <returns>MediaStorageInfo class with storage informations</returns>
+        /// <exception cref="System.ArgumentNullException">path is null or empty.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        /// <example>
+        /// <code>
+        /// var devices = MediaDevice.GetDevices();
+        /// using (var device = devices.First(d => d.FriendlyName == "My Cell Phone"))
+        /// {
+        ///     device.Connect();
+        ///     
+        ///     // get list of available storages (SD-Card, Internal Flash, ...)
+        ///     var objects = device.FunctionalObjects(FunctionalCategory.Storage);
+        ///     MediaStorageInfo info = GetStorageInfo(objects.First());
+        ///     ulong size = info.FreeSpaceInBytes;
+        ///     
+        ///     device.Disconnect();
+        /// }
+        /// </code>
+        /// </example>
+        public MediaStorageInfo GetStorageInfo(string storageObjectId)
+        {
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+            if (string.IsNullOrEmpty(storageObjectId))
+            {
+                throw new ArgumentNullException(nameof(storageObjectId));
+            }
+
+            IPortableDeviceKeyCollection keys = (IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();
+            keys.Add(WPD.STORAGE_TYPE);
+            keys.Add(WPD.STORAGE_FILE_SYSTEM_TYPE);
+            keys.Add(WPD.STORAGE_CAPACITY);
+            keys.Add(WPD.STORAGE_FREE_SPACE_IN_BYTES);
+            keys.Add(WPD.STORAGE_FREE_SPACE_IN_OBJECTS);
+            keys.Add(WPD.STORAGE_DESCRIPTION);
+            keys.Add(WPD.STORAGE_SERIAL_NUMBER);
+            keys.Add(WPD.STORAGE_MAX_OBJECT_SIZE);
+            keys.Add(WPD.STORAGE_CAPACITY_IN_OBJECTS);
+            keys.Add(WPD.STORAGE_ACCESS_CAPABILITY);
+
+            IPortableDeviceValues values;
+            this.deviceProperties.GetValues(storageObjectId, keys, out values);
+
+            MediaStorageInfo info = new MediaStorageInfo();
+
+            uint type = 0;
+            try
+            {
+                values.GetUnsignedIntegerValue(WPD.STORAGE_TYPE, out type);
+            }
+            catch { }
+            info.Type = (StorageType)type;
+
+            string fileSystemType = String.Empty;
+            try
+            {
+                values.GetStringValue(WPD.STORAGE_FILE_SYSTEM_TYPE, out fileSystemType);
+            }
+            catch { }
+            info.FileSystemType = fileSystemType;
+
+            ulong capacity = 0;
+            try
+            {
+                values.GetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY, out capacity);
+            }
+            catch { }
+            info.Capacity = capacity;
+
+            ulong freeBytes = 0;
+            try
+            {
+                values.GetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_BYTES, out freeBytes);
+            }
+            catch { }
+            info.FreeSpaceInBytes = freeBytes;
+
+            ulong freeObjects = 0;
+            try
+            {
+                values.GetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_OBJECTS, out freeObjects);
+            }
+            catch { }
+            info.FreeSpaceInObjects = freeObjects;
+
+            string description = String.Empty;
+            try
+            {
+                values.GetStringValue(WPD.STORAGE_DESCRIPTION, out description);
+            }
+            catch { }
+            info.Description = description;
+
+            string serialNumber = String.Empty;
+            try
+            {
+                values.GetStringValue(WPD.STORAGE_SERIAL_NUMBER, out serialNumber);
+            }
+            catch { }
+            info.SerialNumber = serialNumber;
+
+            ulong maxObjectSize = 0;
+            try
+            {
+                values.GetUnsignedLargeIntegerValue(WPD.STORAGE_MAX_OBJECT_SIZE, out maxObjectSize);
+            }
+            catch { }
+            info.MaxObjectSize = maxObjectSize;
+
+            ulong capacityInObjects = 0;
+            try
+            {
+                values.GetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY_IN_OBJECTS, out capacityInObjects);
+            }
+            catch { }
+            info.CapacityInObjects = capacityInObjects;
+
+            uint accessCapability = 0;
+            try
+            {
+                values.GetUnsignedIntegerValue(WPD.STORAGE_ACCESS_CAPABILITY, out accessCapability);
+            }
+            catch { }
+            info.AccessCapability = (StorageAccessCapability)accessCapability;
+
+            return info;
+        }
 
         #endregion
 
@@ -1464,7 +1631,7 @@ namespace MediaDevices
                 item.Name = prop.OriginalFileName;
                 item.Type = ItemType.File;
             }
-            
+
             return item;
         }
 
@@ -1519,7 +1686,7 @@ namespace MediaDevices
         //        throw;
         //    }
         //}
-        
+
         //private T GetPropery<T>(PropertyKey propertyKey)
         //{
         //    if (!this.IsConnected)
@@ -1548,7 +1715,7 @@ namespace MediaDevices
         //        throw;
         //    }
         //}
-        
+
         private string GetStringProperty(PropertyKey propertyKey)
         {
             if (!this.IsConnected)
@@ -1734,7 +1901,7 @@ namespace MediaDevices
             foreach (var folder in folders)
             {
                 item = GetChildren(item.Id).FirstOrDefault(i => i.Type != ItemType.File && i.Name == folder);     // check all if folder             
-                if (item == null)  
+                if (item == null)
                 {
                     return null;
                 }

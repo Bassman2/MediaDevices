@@ -81,12 +81,15 @@
     <Compile Include="MediaFileAttributes.cs" />
     <Compile Include="MediaFileInfo.cs" />
     <Compile Include="MediaFileSystemInfo.cs" />
+    <Compile Include="MediaStorageInfo.cs" />
     <Compile Include="NotConnectedException.cs" />
     <Compile Include="OperationState.cs" />
     <Compile Include="PowerSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\PropVariant.cs" />
     <Compile Include="Internal\StreamWrapper.cs" />
+    <Compile Include="StorageAccessCapability.cs" />
+    <Compile Include="StorageType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MediaDevicesLicense.txt" />

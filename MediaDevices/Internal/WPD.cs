@@ -592,5 +592,71 @@ namespace MediaDevices.Internal
         };
 
         #endregion
+
+        #region STORAGE_OBJECT_PROPERTIES
+
+        public static Guid STORAGE_OBJECT_PROPERTIES_V1 = new Guid(0x01A3057A, 0x74D6, 0x4E80, 0xBE, 0xA7, 0xDC, 0x4C, 0x21, 0x2C, 0xE5, 0x0A);
+
+        public static PropertyKey STORAGE_TYPE = new PropertyKey()
+        {
+            fmtid = STORAGE_OBJECT_PROPERTIES_V1,
+            pid = 2
+        };
+
+        public static PropertyKey STORAGE_FILE_SYSTEM_TYPE = new PropertyKey()
+        {
+            fmtid = STORAGE_OBJECT_PROPERTIES_V1,
+            pid = 3
+        };
+
+        public static PropertyKey STORAGE_CAPACITY = new PropertyKey()
+        {
+            fmtid = STORAGE_OBJECT_PROPERTIES_V1,
+            pid = 4
+        };
+
+        public static PropertyKey STORAGE_FREE_SPACE_IN_BYTES = new PropertyKey()
+        {
+            fmtid = STORAGE_OBJECT_PROPERTIES_V1,
+            pid = 5
+        };
+
+        public static PropertyKey STORAGE_FREE_SPACE_IN_OBJECTS = new PropertyKey()
+        {
+            fmtid = STORAGE_OBJECT_PROPERTIES_V1,
+            pid = 6
+        };
+
+        public static PropertyKey STORAGE_DESCRIPTION = new PropertyKey()
+        {
+            fmtid = STORAGE_OBJECT_PROPERTIES_V1,
+            pid = 7
+        };
+
+        public static PropertyKey STORAGE_SERIAL_NUMBER = new PropertyKey()
+        {
+            fmtid = STORAGE_OBJECT_PROPERTIES_V1,
+            pid = 8
+        };
+
+        public static PropertyKey STORAGE_MAX_OBJECT_SIZE = new PropertyKey()
+        {
+            fmtid = STORAGE_OBJECT_PROPERTIES_V1,
+            pid = 9
+        };
+
+        public static PropertyKey STORAGE_CAPACITY_IN_OBJECTS = new PropertyKey()
+        {
+            fmtid = STORAGE_OBJECT_PROPERTIES_V1,
+            pid = 10
+        };
+
+        public static PropertyKey STORAGE_ACCESS_CAPABILITY = new PropertyKey()
+        {
+            fmtid = STORAGE_OBJECT_PROPERTIES_V1,
+            pid = 11
+        };
+        
+        #endregion
     }
 }
