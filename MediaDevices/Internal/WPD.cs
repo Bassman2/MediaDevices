@@ -656,7 +656,61 @@ namespace MediaDevices.Internal
             fmtid = STORAGE_OBJECT_PROPERTIES_V1,
             pid = 11
         };
-        
+
+        #endregion
+
+        #region CATEGORY_MTP_EXT_VENDOR_OPERATIONS
+
+        public static Guid CATEGORY_MTP_EXT_VENDOR_OPERATIONS = new Guid(0x4d545058, 0x1a2e, 0x4106, 0xa3, 0x57, 0x77, 0x1e, 0x8, 0x19, 0xfc, 0x56);
+
+        public static PropertyKey COMMAND_MTP_EXT_GET_SUPPORTED_VENDOR_OPCODES = new PropertyKey()
+        {
+            fmtid = CATEGORY_MTP_EXT_VENDOR_OPERATIONS,
+            pid = 11
+        };
+
+        public static PropertyKey COMMAND_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE = new PropertyKey()
+        {
+            fmtid = CATEGORY_MTP_EXT_VENDOR_OPERATIONS,
+            pid = 12
+        };
+
+        public static PropertyKey COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_READ = new PropertyKey()
+        {
+            fmtid = CATEGORY_MTP_EXT_VENDOR_OPERATIONS,
+            pid = 13
+        };
+
+        public static PropertyKey COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_WRITE = new PropertyKey()
+        {
+            fmtid = CATEGORY_MTP_EXT_VENDOR_OPERATIONS,
+            pid = 14
+        };
+
+        public static PropertyKey COMMAND_MTP_EXT_READ_DATA = new PropertyKey()
+        {
+            fmtid = CATEGORY_MTP_EXT_VENDOR_OPERATIONS,
+            pid = 15
+        };
+
+        public static PropertyKey COMMAND_MTP_EXT_WRITE_DATA = new PropertyKey()
+        {
+            fmtid = CATEGORY_MTP_EXT_VENDOR_OPERATIONS,
+            pid = 16
+        };
+
+        public static PropertyKey COMMAND_MTP_EXT_END_DATA_TRANSFER = new PropertyKey()
+        {
+            fmtid = CATEGORY_MTP_EXT_VENDOR_OPERATIONS,
+            pid = 17
+        };
+
+        public static PropertyKey COMMAND_MTP_EXT_GET_VENDOR_EXTENSION_DESCRIPTION = new PropertyKey()
+        {
+            fmtid = CATEGORY_MTP_EXT_VENDOR_OPERATIONS,
+            pid = 18
+        };
+
         #endregion
     }
 }

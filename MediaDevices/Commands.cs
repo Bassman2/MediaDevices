@@ -428,5 +428,58 @@ namespace MediaDevices
         ProcessWirelessProfile,
 
         #endregion
+
+        #region WPD_CATEGORY_MTP_EXT_VENDOR_OPERATIONS
+
+        /// <summary>
+        /// Queries for vendor extended operation codes.   
+        /// </summary>
+        [Key(0x4d545058, 0x1a2e, 0x4106, 0xa3, 0x57, 0x77, 0x1e, 0x8, 0x19, 0xfc, 0x56, 11)]
+        MtpExtVendorGetSupportedVendorOpcodes,
+
+        /// <summary>
+        /// Sends a MTP command block that no data phase follows.   
+        /// </summary>
+        [Key(0x4d545058, 0x1a2e, 0x4106, 0xa3, 0x57, 0x77, 0x1e, 0x8, 0x19, 0xfc, 0x56, 12)]
+        MtpExtVendorExecuteCommandWithoutDataPhase,
+
+        /// <summary>
+        /// Sends a MTP command block followed by a data phase with data from Device to Host.   
+        /// </summary>
+        [Key(0x4d545058, 0x1a2e, 0x4106, 0xa3, 0x57, 0x77, 0x1e, 0x8, 0x19, 0xfc, 0x56, 13)]
+        MtpExtVendorExecuteCommandWithDataToRead,
+
+        /// <summary>
+        /// sends a MTP command block followed by a data phase with data from Host to Device.   
+        /// </summary>
+        [Key(0x4d545058, 0x1a2e, 0x4106, 0xa3, 0x57, 0x77, 0x1e, 0x8, 0x19, 0xfc, 0x56, 14)]
+        MtpExtVendorExecuteCommandWithDataToWrite,
+
+        /// <summary>
+        /// receives a chunk of data from device following WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_READ.   
+        /// </summary>
+        [Key(0x4d545058, 0x1a2e, 0x4106, 0xa3, 0x57, 0x77, 0x1e, 0x8, 0x19, 0xfc, 0x56, 15)]
+        MtpExtVendorReadData,
+
+        /// <summary>
+        /// sends a chunk of data to device following WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_WRITE.   
+        /// </summary>
+        [Key(0x4d545058, 0x1a2e, 0x4106, 0xa3, 0x57, 0x77, 0x1e, 0x8, 0x19, 0xfc, 0x56, 16)]
+        MtpExtVendorWriteData,
+
+        /// <summary>
+        /// Completes a data transfer and read response from device. The transfer is initiated by either 
+        /// WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_READ, or WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_WRITE.   
+        /// </summary>
+        [Key(0x4d545058, 0x1a2e, 0x4106, 0xa3, 0x57, 0x77, 0x1e, 0x8, 0x19, 0xfc, 0x56, 17)]
+        MtpExtVendorEndDataTransfer,
+
+        /// <summary>
+        /// Retrieves the vendor extension description string (as defined by DeviceInfo dataset).   
+        /// </summary>
+        [Key(0x4d545058, 0x1a2e, 0x4106, 0xa3, 0x57, 0x77, 0x1e, 0x8, 0x19, 0xfc, 0x56, 18)]
+        MtpExtVendorGetVendorExtensionDescription,
+
+        #endregion
     }
 }
