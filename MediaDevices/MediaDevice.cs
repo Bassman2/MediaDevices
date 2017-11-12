@@ -1998,7 +1998,7 @@ namespace MediaDevices
                 {
                     yield return item;
                 }
-                foreach (var c in GetChildrenRecursive(item.Id, pattern).Where(i => i.Type != ItemType.File))
+                foreach (var c in GetChildrenRecursive(item.Id, pattern))
                 {
                     yield return c;
                 }
