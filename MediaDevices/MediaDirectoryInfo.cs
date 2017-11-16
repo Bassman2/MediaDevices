@@ -38,13 +38,14 @@ namespace MediaDevices
         /// Creates a subdirectory or subdirectories on the specified path. The specified path is relative to this instance of the DirectoryInfo class.
         /// </summary>
         /// <param name="path">The specified path. </param>
+        /// <param name="caseSensitive">Case-sensitive/insensitive matching (default true)</param>
         /// <returns>The last directory specified in path.</returns>
         /// <exception cref="System.IO.IOException">path is a file name.</exception>
         /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
         /// <exception cref="System.ArgumentNullException">path is null.</exception>
         /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public MediaDirectoryInfo CreateSubdirectory(string path)
+        public MediaDirectoryInfo CreateSubdirectory(string path, bool caseSensitive = true)
         {
             if (path == null)
             {
@@ -58,7 +59,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            Item item = this.device.CreateSubdirectory(this.id, path);
+            Item item = this.device.CreateSubdirectory(this.id, caseSensitive, path);
             return new MediaDirectoryInfo(this.device, item.Id);
         }
 
