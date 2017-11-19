@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MediaDevices.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 
 namespace MediaDevices
 {
@@ -11,24 +13,60 @@ namespace MediaDevices
     /// </summary>
     public class MediaDeviceEventArgs : EventArgs
     {
-        internal MediaDeviceEventArgs(
-            string pnpDeviceId, 
-            Events eventEnum,
-            OperationState operationState,
-            uint operationProgress,
-            string objectParentPersistanceUniqueId, 
-            string objectCreationCookie,
-            bool childHierarchyChanged,
-            string serviceMethodContext)
+        protected MediaDevice mediaDevice;
+
+        internal MediaDeviceEventArgs(Events eventEnum, MediaDevice mediaDevice, IPortableDeviceValues eventParameters)
         {
-            this.PnpDeviceId = pnpDeviceId;
+            this.mediaDevice = mediaDevice;
             this.Event = eventEnum;
-            this.OperationState = operationState;
-            this.OperationProgress = operationProgress;
-            this.ObjectParentPersistanceUniqueId = objectParentPersistanceUniqueId;
-            this.ObjectCreationCookie = objectCreationCookie;
-            this.ChildHierarchyChanged = childHierarchyChanged;
-            this.ServiceMethodContext = serviceMethodContext;
+
+            string pnpDeviceId = string.Empty;
+            eventParameters.GetStringValue(WPD.EVENT_PARAMETER_PNP_DEVICE_ID, out pnpDeviceId);
+            this.PnpDeviceId = pnpDeviceId;
+                        
+            //try
+            if (ComHelper.HasKeyValue(eventParameters, WPD.EVENT_PARAMETER_OPERATION_STATE))
+            {
+                uint operationState = 0;
+                eventParameters.GetUnsignedIntegerValue(WPD.EVENT_PARAMETER_OPERATION_STATE, out operationState);
+                this.OperationState = (OperationState)operationState;
+            }
+            //catch { }
+            try
+            {
+                uint operationProgress = 0;
+                eventParameters.GetUnsignedIntegerValue(WPD.EVENT_PARAMETER_OPERATION_PROGRESS, out operationProgress);
+                this.OperationProgress = operationProgress;
+            }
+            catch { }
+            try
+            {
+                string objectParentPersistanceUniqueId = string.Empty;
+                eventParameters.GetStringValue(WPD.EVENT_PARAMETER_OBJECT_PARENT_PERSISTENT_UNIQUE_ID, out objectParentPersistanceUniqueId);
+                this.ObjectParentPersistanceUniqueId = objectParentPersistanceUniqueId;
+            }
+            catch { }
+            try
+            {
+                string objectCreationCookie = string.Empty;
+                eventParameters.GetStringValue(WPD.EVENT_PARAMETER_OBJECT_CREATION_COOKIE, out objectCreationCookie);
+                this.ObjectCreationCookie = objectCreationCookie;
+            }
+            catch { }
+            try
+            {
+                int childHierarchyChanged = 0;
+                eventParameters.GetBoolValue(WPD.EVENT_PARAMETER_CHILD_HIERARCHY_CHANGED, out childHierarchyChanged);
+                this.ChildHierarchyChanged = childHierarchyChanged != 0;
+            }
+            catch { }
+            try
+            {
+                string serviceMethodContext = string.Empty;
+                eventParameters.GetStringValue(WPD.EVENT_PARAMETER_SERVICE_METHOD_CONTEXT, out serviceMethodContext);
+                this.ServiceMethodContext = serviceMethodContext;
+            }
+            catch { }
         }
 
         /// <summary>
@@ -62,7 +100,7 @@ namespace MediaDevices
         public string ObjectCreationCookie { get; private set; }
 
         /// <summary>
-        /// Indicates that the child hiearchy for the object has changed.
+        /// Indicates that the child hierarchy for the object has changed.
         /// </summary>
         public bool ChildHierarchyChanged { get; private set; }
 

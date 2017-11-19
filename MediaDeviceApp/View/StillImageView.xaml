@@ -21,7 +21,7 @@
         <ComboBox Grid.Column="1" Grid.Row="0" SelectedItem="{Binding SelectedStillImageFunctionalObject}" ItemsSource="{Binding StillImageFunctionalObjects}" SelectedIndex="0" Margin="3" />
         <Button Grid.Column="1" Grid.Row="1" Content="Take Picture" Command="{Binding StillImageCommand}" Width="80" HorizontalAlignment="Left" Margin="3"/>
         <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0.5" Margin="3" >
-            <Image Source="{Binding StillImageSource}" Stretch="UniformToFill"/>
+            <Image Source="{Binding StillImageSource}" />
         </Border>
     </Grid>
 </UserControl>

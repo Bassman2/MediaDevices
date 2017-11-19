@@ -52,7 +52,7 @@ namespace MediaDevices
         /// <summary>
         /// This event is sent after a new object is available on the device.
         /// </summary>
-        public event EventHandler<MediaDeviceEventArgs> ObjectAdded;
+        public event EventHandler<ObjectAddedEventArgs> ObjectAdded;
 
         /// <summary>
         /// This event is sent after a previously existing object has been removed from the device.
@@ -1296,98 +1296,43 @@ namespace MediaDevices
 
         internal void CallEvent(IPortableDeviceValues eventParameters)
         {
-            string pnpDeviceId = string.Empty;
+            ComTrace.WriteObject(eventParameters);
             Guid eventGuid;
-            uint operationState = 0;
-            uint operationProgress = 0;
-            string objectParentPersistanceUniqueId = string.Empty;
-            string objectCreationCookie = string.Empty;
-            int childHierarchyChanged = 0;
-            string serviceMethodContext = string.Empty;
-
-            eventParameters.GetStringValue(WPD.EVENT_PARAMETER_PNP_DEVICE_ID, out pnpDeviceId);
             eventParameters.GetGuidValue(WPD.EVENT_PARAMETER_EVENT_ID, out eventGuid);
-            try
-            {
-                eventParameters.GetUnsignedIntegerValue(WPD.EVENT_PARAMETER_OPERATION_STATE, out operationState);
-            }
-            catch { }
-            try
-            {
-                eventParameters.GetUnsignedIntegerValue(WPD.EVENT_PARAMETER_OPERATION_PROGRESS, out operationProgress);
-            }
-            catch { }
-            try
-            {
-                eventParameters.GetStringValue(WPD.EVENT_PARAMETER_OBJECT_PARENT_PERSISTENT_UNIQUE_ID, out objectParentPersistanceUniqueId);
-            }
-            catch { }
-            try
-            {
-                eventParameters.GetStringValue(WPD.EVENT_PARAMETER_OBJECT_CREATION_COOKIE, out objectCreationCookie);
-            }
-            catch { }
-            try
-            {
-                eventParameters.GetBoolValue(WPD.EVENT_PARAMETER_CHILD_HIERARCHY_CHANGED, out childHierarchyChanged);
-            }
-            catch { }
-            try
-            {
-                eventParameters.GetStringValue(WPD.EVENT_PARAMETER_SERVICE_METHOD_CONTEXT, out serviceMethodContext);
-            }
-            catch { }
-
-
             Events eventEnum = GetEnumFromAttrGuid<Events>(eventGuid);
-
-            MediaDeviceEventArgs eventArgs = new MediaDeviceEventArgs(
-                pnpDeviceId,
-                eventEnum,
-                (OperationState)operationState,
-                operationProgress,
-                objectParentPersistanceUniqueId,
-                objectCreationCookie,
-                childHierarchyChanged != 0,
-                serviceMethodContext);
-
+            
             switch (eventEnum)
             {
-            case Events.Notification:
-                //this.Notification?.Invoke(this, eventArgs);
-                break;
             case Events.ObjectAdded:
-                this.ObjectAdded?.Invoke(this, eventArgs);
+                this.ObjectAdded?.Invoke(this, new ObjectAddedEventArgs(eventEnum, this, eventParameters));
                 break;
             case Events.ObjectRemoved:
-                this.ObjectRemoved?.Invoke(this, eventArgs);
+                this.ObjectRemoved?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
                 break;
             case Events.ObjectUpdated:
-                this.ObjectUpdated?.Invoke(this, eventArgs);
+                this.ObjectUpdated?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
                 break;
             case Events.DeviceReset:
-                this.DeviceReset?.Invoke(this, eventArgs);
+                this.DeviceReset?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
                 break;
             case Events.DeviceCapabilitiesUpdated:
-                this.DeviceCapabilitiesUpdated?.Invoke(this, eventArgs);
+                this.DeviceCapabilitiesUpdated?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
                 break;
             case Events.StorageFormat:
-                this.StorageFormat?.Invoke(this, eventArgs);
+                this.StorageFormat?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
                 break;
             case Events.ObjectTransferRequest:
-                this.ObjectTransferRequest?.Invoke(this, eventArgs);
+                this.ObjectTransferRequest?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
                 break;
             case Events.DeviceRemoved:
-                this.DeviceRemoved?.Invoke(this, eventArgs);
+                this.DeviceRemoved?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
                 break;
             case Events.ServiceMethodComplete:
-                this.ServiceMethodComplete?.Invoke(this, eventArgs);
+                this.ServiceMethodComplete?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
                 break;
             default:
                 break;
             }
-
-
         }
 
         /// <summary>
@@ -1526,6 +1471,85 @@ namespace MediaDevices
 
         #endregion
 
+        #region MTP_EXT_VENDOR
+
+        public IEnumerable<int> VendorOpcodes()
+        {
+            Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_SUPPORTED_VENDOR_OPCODES);
+            cmd.Send(this.device);
+            var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES);
+            return list.Select(p => p.ToInt());
+        }
+
+        public IEnumerable<int> VendorExcecute(int opCode, IEnumerable<int> inputParams, out int respCode)
+        {
+            Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
+            cmd.Send(this.device);
+            respCode = cmd.GetInt(WPD.PROPERTY_MTP_EXT_RESPONSE_CODE);
+            return cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_RESPONSE_PARAMS).Select(p => p.ToInt());
+        }
+
+        public IEnumerable<int> VendorExcecuteRead(int opCode, IEnumerable<int> inputParams)
+        {
+            Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_READ);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
+            cmd.Send(this.device);
+            var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
+            return list.Select(p => p.ToInt()).ToList();
+        }
+
+        public IEnumerable<int> VendorExcecuteWrite(int opCode, IEnumerable<int> inputParams)
+        {
+            Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_WRITE);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
+            cmd.Send(this.device);
+            var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
+            return list.Select(p => p.ToInt()).ToList();
+        }
+        /*
+        public IEnumerable<byte> VendorRead(string context, int bytesToRead, byte[] input, out int bytesRead)
+        {
+            Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_READ_DATA);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_CONTEXT, opCode);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_NUM_BYTES_TO_READ, inputParams);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_DATA, inputParams);
+            cmd.Send(this.device);
+            var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
+            return list.Select(p => p.ToInt()).ToList();
+        }
+
+        public int VendorWrite(string context, int bytesToWrite, byte[] buffer )
+        {
+            Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_WRITE_DATA);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_CONTEXT, context);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_NUM_BYTES_TO_WRITE, bytesToWrite);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_DATA, buffer);
+            cmd.Send(this.device);
+            return cmd.GetInt(WPD.PROPERTY_MTP_EXT_TRANSFER_NUM_BYTES_WRITTEN);
+        }
+
+        public IEnumerable<int> VendorEndTransfer(string context, out int respCode)
+        {
+            Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_END_DATA_TRANSFER);
+            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_CONTEXT, context);
+            cmd.Send(this.device);
+            respCode = cmd.GetInt(WPD.PROPERTY_MTP_EXT_RESPONSE_CODE);
+            return cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_RESPONSE_PARAMS).Select(p => p.ToInt());
+        }
+        */
+        public string VendorExtentionDescription()
+        {
+            Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_VENDOR_EXTENSION_DESCRIPTION);
+            cmd.Send(this.device);
+            string description = cmd.GetString(WPD.PROPERTY_MTP_EXT_VENDOR_EXTENSION_DESCRIPTION);
+            return description;
+        }
+        #endregion
+
         #region Intern Methods
 
         internal void Download(string id, Stream stream)
@@ -1601,37 +1625,22 @@ namespace MediaDevices
 
         internal Item GetItem(string id)
         {
-            Item item = new Item() { Id = id };
+            Item item = null;
             ObjectProperties prop = new ObjectProperties(this.deviceProperties, id);
             Guid contentType = prop.ContentType;
 
-            //IPortableDeviceKeyCollection keys;
-            //IPortableDeviceValues values;
-            //string name = string.Empty;
-            ////bool isFolder = false;
-            //Guid contentType;
-            //ItemType itemType;
-            //this.deviceProperties.GetSupportedProperties(objectId, out keys);
-            //this.deviceProperties.GetValues(objectId, keys, out values);
-            //values.GetGuidValue(WPD_OBJECT_CONTENT_TYPE, out contentType);
-            //isFolder = contentType == WPD_CONTENT_TYPE_FOLDER || contentType == WPD_CONTENT_TYPE_FUNCTIONAL_OBJECT;
-
             if (contentType == WPD.CONTENT_TYPE_FUNCTIONAL_OBJECT)
             {
-                item.Name = prop.Name;
-                item.Type = ItemType.Object;
+                item = new Item(id, prop.Name, ItemType.Object);
             }
             else if (contentType == WPD.CONTENT_TYPE_FOLDER)
             {
-                item.Name = prop.OriginalFileName;
-                item.Type = ItemType.Folder;
+                item = new Item(id, prop.OriginalFileName, ItemType.Folder);
             }
             else
             {
-                item.Name = prop.OriginalFileName;
-                item.Type = ItemType.File;
+                item = new Item(id, prop.OriginalFileName, ItemType.File);
             }
-
             return item;
         }
 
@@ -1639,14 +1648,6 @@ namespace MediaDevices
         {
             ObjectProperties prop = new ObjectProperties(this.deviceProperties, objectId);
             return prop.ParentId;
-            //IPortableDeviceKeyCollection keys;
-            //IPortableDeviceValues values;
-            //string parentId = string.Empty;
-            //this.deviceProperties.GetSupportedProperties(objectId, out keys);
-            //this.deviceProperties.GetValues(objectId, keys, out values);
-
-            //values.GetStringValue(WPD_OBJECT_PARENT_ID, out parentId);
-            //return parentId;
         }
 
         internal string GetPath(string objectId)

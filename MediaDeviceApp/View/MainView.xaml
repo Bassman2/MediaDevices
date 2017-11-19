@@ -11,7 +11,7 @@
         Width="800" 
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ResizeMode="CanResizeWithGrip">
     <DockPanel>
-        <Grid DockPanel.Dock="Top">
+        <Grid DockPanel.Dock="Top" Margin="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="100"/>
@@ -39,7 +39,7 @@
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0" Content="" />
         </StatusBar>
-        <TabControl Margin="3" TabStripPlacement="Left">
+        <TabControl TabStripPlacement="Left" Margin="6,0,6,6">
             <TabItem Header="Info" DataContext="{Binding Info}">
                 <v:InfoView/>
             </TabItem>
@@ -52,11 +52,20 @@
             <TabItem Header="Storage" DataContext="{Binding Storage}">
                 <v:StorageView/>
             </TabItem>
+            <TabItem Header="Files" DataContext="{Binding Files}">
+                <v:FilesView/>
+            </TabItem>
             <TabItem Header="Still Image" DataContext="{Binding StillImage}" IsEnabled="{Binding IsStillImageSupported}">
                 <v:StillImageView />
             </TabItem>
             <TabItem Header="SMS" DataContext="{Binding Sms}" IsEnabled="{Binding IsSmsSupported}">
                 <v:SmsView/>
+            </TabItem>
+            <TabItem Header="Explorer" DataContext="{Binding Explorer}">
+                <v:ExplorerView/>
+            </TabItem>
+            <TabItem Header="Vendor" DataContext="{Binding Vendor}">
+                <v:VendorView/>
             </TabItem>
         </TabControl>
     </DockPanel>

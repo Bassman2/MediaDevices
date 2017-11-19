@@ -44,7 +44,7 @@ namespace MediaDevices.Internal
             }
         }
 
-        private static T GetEnumFromAttrKey<T>(this PropertyKey key) where T : struct // enum
+        public static T GetEnumFromAttrKey<T>(this PropertyKey key) where T : struct // enum
         {
             T en = Enum.GetValues(typeof(T)).Cast<T>().Where(e =>
             {
@@ -59,7 +59,7 @@ namespace MediaDevices.Internal
         }
 
 
-        private static T GetEnumFromAttrGuid<T>(this Guid guid) where T : struct // enum
+        public static T GetEnumFromAttrGuid<T>(this Guid guid) where T : struct // enum
         {
             T en = Enum.GetValues(typeof(T)).Cast<T>().Where(e =>
             {

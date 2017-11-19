@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="MediaDeviceApp.View.ExplorerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MediaDeviceApp.View"
+             xmlns:exp="clr-namespace:ExplorerCtrl;assembly=Explorer"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="100"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="120" MinWidth="100"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding ExplorerPath}" Margin="3,3,0,3" />
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext" Cursor="SizeWE" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+            <TextBox Grid.Column="2" Text="{Binding ExplorerFilter}" Margin="0,3,3,3" />
+        </Grid>
+        <exp:Explorer Grid.Row="1" ItemsSource="{Binding ExplorerRoot}"  Margin="3"/>
+        <!--<Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="100"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="500" MinWidth="100"/>
+            </Grid.ColumnDefinitions>
+            <TreeView Grid.Column="0" ItemsSource="{Binding StorageRoot}" Margin="3,3,0,3" >
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate >
+                        <TextBlock Text="Hallo" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext" Cursor="SizeWE" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <ListView Grid.Column="2" ItemsSource="{Binding StorageFolder}" Margin="0,3,3,3" />
+        </Grid>-->
+    </Grid>
+</UserControl>

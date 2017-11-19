@@ -54,21 +54,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\AttributeConverter.cs" />
     <Compile Include="Mvvm\BaseViewModel.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
+    <Compile Include="Mvvm\Enums.cs" />
     <Compile Include="Mvvm\MsgBox.cs" />
+    <Compile Include="Mvvm\WaitCursor.cs" />
     <Compile Include="ViewModel\CapabilityViewModel.cs" />
     <Compile Include="ViewModel\ContentLocationViewModel.cs" />
+    <Compile Include="ViewModel\FilesViewModel.cs" />
+    <Compile Include="ViewModel\ExplorerViewModel.cs" />
     <Compile Include="ViewModel\InfoViewModel.cs" />
+    <Compile Include="ViewModel\ItemViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SmsViewModel.cs" />
     <Compile Include="ViewModel\StillImageViewModel.cs" />
     <Compile Include="ViewModel\StorageViewModel.cs" />
+    <Compile Include="ViewModel\VendorViewModel.cs" />
     <Compile Include="View\CapabilityView.xaml.cs">
       <DependentUpon>CapabilityView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ContentLocationView.xaml.cs">
       <DependentUpon>ContentLocationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FilesView.xaml.cs">
+      <DependentUpon>FilesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\InfoView.xaml.cs">
       <DependentUpon>InfoView.xaml</DependentUpon>
@@ -86,14 +96,24 @@
     <Compile Include="View\StillImageView.xaml.cs">
       <DependentUpon>StillImageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ExplorerView.xaml.cs">
+      <DependentUpon>ExplorerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\StorageView.xaml.cs">
       <DependentUpon>StorageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VendorView.xaml.cs">
+      <DependentUpon>VendorView.xaml</DependentUpon>
     </Compile>
     <Page Include="View\CapabilityView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ContentLocationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FilesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -113,7 +133,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\StorageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VendorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,6 +176,10 @@
     <Folder Include="Model\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Explorer\Explorer.csproj">
+      <Project>{03fb5d97-71e4-4304-b52f-6836605398b5}</Project>
+      <Name>Explorer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MediaDevices\MediaDevices.csproj">
       <Project>{e5353cb2-1320-4e96-a15e-551ba0b51105}</Project>
       <Name>MediaDevices</Name>

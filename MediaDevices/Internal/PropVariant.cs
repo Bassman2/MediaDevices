@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
+using TPROPVARIANT = PortableDeviceTypesLib.tag_inner_PROPVARIANT;
 
 namespace MediaDevices
 {
@@ -74,6 +75,10 @@ namespace MediaDevices
 
             case VT_UI8:
                 return longValue.ToString();
+
+            case VT_ERROR:
+                string name = Enum.GetName(typeof(HResult), longValue) ?? longValue.ToString("X");
+                return $"Error: {name}";
             }
 
             return $"Unknown type {variantType}";
@@ -110,6 +115,27 @@ namespace MediaDevices
             {
                 variantType = VT_LPWSTR,
                 pointerValue = Marshal.StringToCoTaskMemUni(value)
+            };
+
+            // Marshal our definition into a pointer
+            var ptrValue = Marshal.AllocHGlobal(Marshal.SizeOf(pvSet));
+            Marshal.StructureToPtr(pvSet, ptrValue, false);
+
+            // Marshal pointer into the interop PROPVARIANT 
+            return (PROPVARIANT)Marshal.PtrToStructure(ptrValue, typeof(PROPVARIANT));
+        }
+
+        public static PROPVARIANT IntToPropVariant(int value)
+        {
+            // Tried using the method suggested here:
+            // http://blogs.msdn.com/b/dimeby8/archive/2007/01/08/creating-wpd-propvariants-in-c-without-using-interop.aspx
+            // However, the GetValue fails (Element Not Found) even though we've just added it.
+            // So, I use the alternative (and I think more "correct") approach below.
+
+            var pvSet = new PropVariant
+            {
+                variantType = VT_UI4,
+                intValue = value
             };
 
             // Marshal our definition into a pointer

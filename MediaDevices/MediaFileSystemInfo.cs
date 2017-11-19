@@ -139,5 +139,7 @@ namespace MediaDevices
         /// Gets the attributes for the current file, directory or object.
         /// </summary>
         public MediaFileAttributes Attributes { get; internal set; }
+
+        public string Id {  get { return this.id; } }
     }
 }

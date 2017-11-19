@@ -25,9 +25,11 @@ namespace MediaDeviceApp.ViewModel
         public CapabilityViewModel Capability { get; private set; }
         public ContentLocationViewModel ContentLocation { get; private set; }
         public StorageViewModel Storage { get; private set; }
+        public FilesViewModel Files { get; private set; }
         public StillImageViewModel StillImage { get; private set; }
         public SmsViewModel Sms { get; private set; }
-        
+        public ExplorerViewModel Explorer { get; private set; }
+        public VendorViewModel Vendor { get; private set; }
 
         public MainViewModel()
         {
@@ -38,9 +40,11 @@ namespace MediaDeviceApp.ViewModel
             this.Capability = new CapabilityViewModel();
             this.ContentLocation = new ContentLocationViewModel();
             this.Storage = new StorageViewModel();
+            this.Files = new FilesViewModel();
             this.StillImage = new StillImageViewModel();
             this.Sms = new SmsViewModel();
-            
+            this.Explorer = new ExplorerViewModel();
+            this.Vendor = new VendorViewModel();
             
             OnRefresh();
         }
@@ -110,9 +114,19 @@ namespace MediaDeviceApp.ViewModel
                     this.Capability.Update(this.selectedDevice);
                     this.ContentLocation.Update(this.selectedDevice);
                     this.Storage.Update(this.selectedDevice);
+                    this.Files.Update(this.selectedDevice);
                     this.StillImage.Update(this.selectedDevice);
                     this.Sms.Update(this.selectedDevice);
-                    
+                    this.Explorer.Update(this.selectedDevice);
+                    this.Vendor.Update(this.selectedDevice);
+
+                    //if (selectedDevice.Description != "My Passport 25E2")
+                    //{
+                    //    var root = selectedDevice.GetRootDirectory();
+                    //    var result = root.EnumerateFileSystemInfos("*", SearchOption.AllDirectories).ToList();
+                    //    var files = result.OfType<MediaFileInfo>().ToList();
+                    //}
+
                 }
             }
         }

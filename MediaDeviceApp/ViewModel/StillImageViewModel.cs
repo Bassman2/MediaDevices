@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -17,18 +18,13 @@ namespace MediaDeviceApp.ViewModel
         private List<string> stillImageFunctionalObjects;
         private string selectedStillImageFunctionalObject;
         private ImageSource stillImageSource;
-
-        private DispatcherTimer stillImageTimer;
-
+        
         public DelegateCommand StillImageCommand { get; private set; }
 
         public StillImageViewModel()
         {
+            //this.stillImageSource = new BitmapImage(new Uri("pack://application:,,,/MediaDeviceApp;component/Images/Folder.png"));
             this.StillImageCommand = new DelegateCommand(OnStillImageCapture);
-
-            this.stillImageTimer = new DispatcherTimer();
-            this.stillImageTimer.Tick += OnStillImageTimer;
-            this.stillImageTimer.Interval = new TimeSpan(0, 0, 2);
         }
 
         public void Update(MediaDevice device)
@@ -80,56 +76,40 @@ namespace MediaDeviceApp.ViewModel
         public ImageSource StillImageSource
         {
             get { return this.stillImageSource; }
-            set { this.stillImageSource = value; NotifyPropertyChanged(nameof(StillImageSource)); }
+            set
+            {
+                this.stillImageSource = value;
+                NotifyPropertyChanged(nameof(StillImageSource));
+            }
         }
 
         public void OnStillImageCapture()
         {
             this.device.ObjectAdded += OnStillImage;
-            this.stillImageTimer.Start();
+            
             this.device.StillImageCaptureInitiate(this.selectedStillImageFunctionalObject);
         }
 
-        private void OnStillImage(object sender, MediaDeviceEventArgs e)
+        private void OnStillImage(object sender, ObjectAddedEventArgs e)
         {
-            this.stillImageTimer.Stop();
             this.device.ObjectAdded -= OnStillImage;
-            FindStillImage();
-        }
 
-        private void OnStillImageTimer(object sender, EventArgs e)
-        {
-            this.stillImageTimer.Stop();
-            this.device.ObjectAdded -= OnStillImage;
-            FindStillImage();
-        }
-
-        private void FindStillImage()
-        {
-            List<string> files = null;
-            List<string> locations = this.device.GetContentLocations(ContentType.Image).ToList();
-            if (locations.Any())
-            {
-                files = locations.SelectMany(l => this.device.EnumerateFiles(l, "*.jpg", SearchOption.AllDirectories)).ToList();
-            }
-            else
-            {
-                string root = this.device.GetRootDirectory().FullName;
-                files = this.device.EnumerateFiles(root, "*.jpg", SearchOption.AllDirectories).ToList();
-            }
-            string file = files.OrderByDescending(f => Path.GetFileNameWithoutExtension(f)).FirstOrDefault();
-
+            string fullName = e.ObjectFullFileName;
             using (MemoryStream mem = new MemoryStream())
             {
-                this.device.DownloadFile(file, mem);
+                e.ObjectFileStream.CopyTo(mem);
                 mem.Position = 0;
 
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                image.StreamSource = mem;
-                image.EndInit();
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = mem;
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.EndInit();
 
-                this.StillImageSource = image;
+                    this.StillImageSource = image;
+                });
             }
         }
     }

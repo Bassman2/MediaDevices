@@ -9,13 +9,22 @@ namespace MediaDevices.Internal
     
     internal class Item
     {
-        public string Id;
-        public string Name;
-        public ItemType Type;
+        
 
         public const string RootId = "DEVICE";
 
-        public static Item Root { get { return new Item() { Id = RootId, Name = RootId, Type = ItemType.Object }; } }
+        public static Item Root { get { return new Item(RootId, RootId , ItemType.Object ); } }
+
+        public Item(string id, string name, ItemType type)
+        {
+            this.Id = id;
+            this.Name = name;
+            this.Type = type;
+        }
+
+        public string Id { get; private set; }
+        public string Name { get; private set; }
+        public ItemType Type { get; private set; }
 
         public override string ToString()
         {

@@ -10,6 +10,7 @@ using PropertyKey = PortableDeviceApiLib._tagpropertykey;
 using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
+using System.Runtime.InteropServices;
 
 namespace MediaDevices.Internal
 {
@@ -40,10 +41,27 @@ namespace MediaDevices.Internal
             this.values.SetSignedIntegerValue(key, value);
         }
 
+        public void Add(PropertyKey key, IEnumerable<int> values)
+        {
+            PortableDeviceApiLib.IPortableDevicePropVariantCollection col = (PortableDeviceApiLib.IPortableDevicePropVariantCollection) new PortableDevicePropVariantCollection();
+            foreach (var value in values)
+            {
+                var var = PropVariant.IntToPropVariant(value);
+                col.Add(ref var);
+            }
+            this.values.SetIPortableDevicePropVariantCollectionValue(key, col);
+        }
+
         public void Add(PropertyKey key, string value)
         {
             this.values.SetStringValue(key, value);
         }
+
+        //public void Add(PropertyKey key, byte[] buffer, int size)
+        //{
+        //    Marshal..
+        //    this.values.SetBufferValue(key, ref buffer, (uint)size);
+        //}
 
         public Guid GetGuid(PropertyKey key)
         {
