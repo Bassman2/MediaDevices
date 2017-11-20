@@ -716,12 +716,13 @@ namespace MediaDevices
         /// Creates all directories and subdirectories in the specified path.
         /// </summary>
         /// <param name="path">The directory path to create.</param>
+        /// <param name="caseSensitive">Case-sensitive/insensitive matching (default true)</param>
         /// <exception cref="System.IO.IOException">path is a file name.</exception>
         /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
         /// <exception cref="System.ArgumentNullException">path is null.</exception>
         /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public void CreateDirectory(string path)
+        public void CreateDirectory(string path, bool caseSensitive = true)
         {
             if (path == null)
             {
@@ -736,7 +737,7 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            CreateSubdirectory(path);
+            CreateSubdirectory(path, caseSensitive);
         }
 
         /// <summary>
@@ -744,12 +745,13 @@ namespace MediaDevices
         /// </summary>
         /// <param name="path">The name of the directory to remove.</param>
         /// <param name="recursive">true to remove directories, subdirectories, and files in path; otherwise, false.</param>
+        /// <param name="caseSensitive">Case-sensitive/insensitive matching (default true)</param>
         /// <exception cref="System.IO.IOException">path is a file name.</exception>
         /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
         /// <exception cref="System.ArgumentNullException">path is null.</exception>
         /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public void DeleteDirectory(string path, bool recursive = false)
+        public void DeleteDirectory(string path, bool recursive = false, bool caseSensitive = true)
         {
             if (path == null)
             {
@@ -764,7 +766,7 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = FindFolder(path);
+            Item item = FindFolder(path, caseSensitive);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
@@ -783,11 +785,12 @@ namespace MediaDevices
         /// Determines whether the given path refers to an existing directory on disk.
         /// </summary>
         /// <param name="path">The path to test.</param>
+        /// <param name="caseSensitive">Case-sensitive/insensitive matching (default true)</param>
         /// <returns>true if path refers to an existing directory; otherwise, false.</returns>
         /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
         /// <exception cref="System.ArgumentNullException">path is null.</exception>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public bool DirectoryExists(string path)
+        public bool DirectoryExists(string path, bool caseSensitive = true)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -797,7 +800,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return FindFolder(path) != null;
+            return FindFolder(path, caseSensitive) != null;
         }
 
         /// <summary>
@@ -845,12 +848,13 @@ namespace MediaDevices
         /// </summary>
         /// <param name="stream">The stream to upload from.</param>
         /// <param name="path">The path to the file.</param>
+        /// <param name="caseSensitive">Case-sensitive/insensitive matching (default true)</param>
         /// <exception cref="System.IO.IOException">path is a file name.</exception>
         /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
         /// <exception cref="System.ArgumentNullException">path is null.</exception>
         /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public void UploadFile(Stream stream, string path)
+        public void UploadFile(Stream stream, string path, bool caseSensitive = true)
         {
             if (path == null)
             {
@@ -871,7 +875,7 @@ namespace MediaDevices
 
             string folder = Path.GetDirectoryName(path);
             string fileName = Path.GetFileName(path);
-            Item item = FindFolder(folder);
+            Item item = FindFolder(folder, caseSensitive);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"Directory {folder} not found.");
@@ -931,12 +935,13 @@ namespace MediaDevices
         /// Deletes the specified file.
         /// </summary>
         /// <param name="path">The name of the file to be deleted. Wildcard characters are not supported.</param>
+        /// <param name="caseSensitive">Case-sensitive/insensitive matching (default true)</param>
         /// <exception cref="System.IO.IOException">path is a file name.</exception>
         /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
         /// <exception cref="System.ArgumentNullException">path is null.</exception>
         /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public void DeleteFile(string path)
+        public void DeleteFile(string path, bool caseSensitive = true)
         {
             if (path == null)
             {
@@ -951,7 +956,7 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = FindFile(path);
+            Item item = FindFile(path, caseSensitive);
             if (item == null)
             {
                 throw new FileNotFoundException($"File {path} not found.");
@@ -1895,13 +1900,22 @@ namespace MediaDevices
             return val;
         }
 
-        private Item FindFolder(string path)
+        private Item FindFolder(string path, bool caseSensitive = true)
         {
             var item = Item.Root;
             var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var folder in folders)
             {
-                item = GetChildren(item.Id).FirstOrDefault(i => i.Type != ItemType.File && i.Name == folder);     // check all if folder             
+                if (caseSensitive)
+                {
+                    item = GetChildren(item.Id)
+                        .FirstOrDefault(i => i.Type != ItemType.File && i.Name == folder); // check all if folder     
+                }
+                else
+                {
+                    item = GetChildren(item.Id)
+                        .FirstOrDefault(i => i.Type != ItemType.File && i.Name.Equals(folder, StringComparison.CurrentCultureIgnoreCase)); // check all if folder     
+                }
                 if (item == null)
                 {
                     return null;
@@ -1910,13 +1924,20 @@ namespace MediaDevices
             return item;
         }
 
-        private Item FindFile(string path)
+        private Item FindFile(string path, bool caseSensitive = true)
         {
             var item = Item.Root;
             var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var folder in folders)
             {
-                item = GetChildren(item.Id).FirstOrDefault(i => i.Name == folder);
+                if (caseSensitive)
+                {
+                    item = GetChildren(item.Id).FirstOrDefault(i => i.Name == folder);
+                }
+                else
+                {
+                    item = GetChildren(item.Id).FirstOrDefault(i => i.Name.Equals(folder, StringComparison.CurrentCultureIgnoreCase));
+                }
                 if (item == null)
                 {
                     return null;
@@ -2007,13 +2028,20 @@ namespace MediaDevices
             }
         }
 
-        internal Item CreateSubdirectory(string path, string id = Item.RootId)
+        internal Item CreateSubdirectory(string path, bool caseSensitive = true, string id = Item.RootId)
         {
             Item child = null;
             var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var folder in folders)
             {
-                child = GetChildren(id).FirstOrDefault(i => i.Name == folder);
+                if (caseSensitive)
+                {
+                    child = GetChildren(id).FirstOrDefault(i => i.Name == folder);
+                }
+                else
+                {
+                    child = GetChildren(id).FirstOrDefault(i => i.Name.Equals(folder, StringComparison.CurrentCultureIgnoreCase));
+                }
                 if (child == null)
                 {
                     // create a new directory
