@@ -239,10 +239,10 @@ namespace MediaDevicesUnitTest
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
-            var events = device.SupportedEvents().ToList();
-            var commands = device.SupportedCommands().ToList();
-            var contents = device.SupportedContentTypes(FunctionalCategory.All).ToList();
-            var categories = device.FunctionalCategories().ToList();
+            var events = device.SupportedEvents()?.ToList();
+            var commands = device.SupportedCommands()?.ToList();
+            var contents = device.SupportedContentTypes(FunctionalCategory.All)?.ToList();
+            var categories = device.FunctionalCategories()?.ToList();
 
             var stillImageCaptureObjects = device.FunctionalObjects(FunctionalCategory.StillImageCapture).ToList();
             var storageObjects = device.FunctionalObjects(FunctionalCategory.Storage).ToList();

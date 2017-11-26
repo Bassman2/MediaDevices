@@ -6,13 +6,14 @@ using System.Runtime.InteropServices;
 using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 using TPROPVARIANT = PortableDeviceTypesLib.tag_inner_PROPVARIANT;
 
-namespace MediaDevices
+namespace MediaDevices.Internal
 {
+
     [StructLayout(LayoutKind.Explicit, Size = 16)]
     internal struct PropVariant : IDisposable
     {
         [FieldOffset(0)]
-        public short variantType;
+        public VarType variantType;
         [FieldOffset(8)]
         public IntPtr pointerValue;
         [FieldOffset(8)]
@@ -25,24 +26,7 @@ namespace MediaDevices
         public double dateValue;
         [FieldOffset(8)]
         public short boolValue;
-
-        public const int VT_I2 = 2;
-        public const int VT_I4 = 3;
-        public const int VT_DATE = 7;
-        public const int VT_ERROR = 10;
-        public const int VT_BOOL = 11;
-        public const int VT_UNKNOWN = 13;
-        public const int VT_I1 = 16;
-        public const int VT_UI1 = 17;
-        public const int VT_UI2 = 18;
-        public const int VT_UI4 = 19;
-        public const int VT_I8 = 20;
-        public const int VT_UI8 = 21;
-        public const int VT_LPWSTR = 31;
-        public const int VT_CLSID = 72;
-
-        public const int VT_VECTOR = 0x1000;
-
+        
         public static PropVariant FromValue(PROPVARIANT value)
         {
             IntPtr ptrValue = Marshal.AllocHGlobal(Marshal.SizeOf(value));
@@ -56,27 +40,27 @@ namespace MediaDevices
 
         public override string ToString()
         {
-            switch (variantType)
+            switch ((VarType)variantType)
             {
-            case VT_LPWSTR:
+            case VarType.VT_LPWSTR:
                 return Marshal.PtrToStringUni(pointerValue);
 
-            case VT_CLSID:
+            case VarType.VT_CLSID:
                 return ToGuid().ToString();
 
-            case VT_DATE:
+            case VarType.VT_DATE:
                 return ToDate().ToString();
 
-            case VT_BOOL:
+            case VarType.VT_BOOL:
                 return ToBool().ToString();
 
-            case VT_UI4:
+            case VarType.VT_UI4:
                 return intValue.ToString();
 
-            case VT_UI8:
+            case VarType.VT_UI8:
                 return longValue.ToString();
 
-            case VT_ERROR:
+            case VarType.VT_ERROR:
                 string name = Enum.GetName(typeof(HResult), longValue) ?? longValue.ToString("X");
                 return $"Error: {name}";
             }
@@ -104,6 +88,17 @@ namespace MediaDevices
             return (int)this.intValue;
         }
 
+        public Byte[] ToByteArray()
+        {
+            // TODO
+
+            //byte[] arr = new byte[16];
+            ////Marshal.Copy(pointerValue, arr, 0, 199);
+            //Marshal.Copy((IntPtr)longValue, arr, 0, 16);
+            //return arr;
+            return null;
+        }
+
         public static PROPVARIANT StringToPropVariant(string value)
         {
             // Tried using the method suggested here:
@@ -113,7 +108,7 @@ namespace MediaDevices
 
             var pvSet = new PropVariant
             {
-                variantType = VT_LPWSTR,
+                variantType = VarType.VT_LPWSTR,
                 pointerValue = Marshal.StringToCoTaskMemUni(value)
             };
 
@@ -134,7 +129,7 @@ namespace MediaDevices
 
             var pvSet = new PropVariant
             {
-                variantType = VT_UI4,
+                variantType = VarType.VT_UI4,
                 intValue = value
             };
 
@@ -180,5 +175,11 @@ namespace MediaDevices
         {
             return val.ToInt();
         }
+
+        public static implicit operator Byte[](PropVariant val)
+        {
+            return val.ToByteArray();
+        }
     }
+
 }

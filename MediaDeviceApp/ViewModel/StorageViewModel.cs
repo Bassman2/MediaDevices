@@ -21,7 +21,7 @@ namespace MediaDeviceApp.ViewModel
         public void Update(MediaDevice device)
         {
             this.device = device;
-            this.Storages = this.device?.FunctionalObjects(FunctionalCategory.Storage).ToList();
+            this.Storages = this.device?.FunctionalObjects(FunctionalCategory.Storage)?.ToList();
             this.SelectedStorage = this.Storages?.FirstOrDefault();
         }
         

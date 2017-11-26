@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 using PropertyKey = PortableDeviceApiLib._tagpropertykey;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace MediaDevices.Internal
 {
@@ -16,9 +17,17 @@ namespace MediaDevices.Internal
 
         public ObjectProperties(IPortableDeviceProperties deviceProperties, string objectId)
         {
-            IPortableDeviceKeyCollection keys;
-            deviceProperties.GetSupportedProperties(objectId, out keys);
-            deviceProperties.GetValues(objectId, keys, out this.values);
+            try
+            {
+                IPortableDeviceKeyCollection keys;
+                deviceProperties.GetSupportedProperties(objectId, out keys);
+                deviceProperties.GetValues(objectId, keys, out this.values);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+            //ComTrace.WriteObject(this.values);
         }
 
         public Guid ContentType
@@ -26,7 +35,7 @@ namespace MediaDevices.Internal
             get
             {
                 Guid value;
-                this.values.GetGuidValue(WPD.OBJECT_CONTENT_TYPE, out value);
+                this.values.TryGetGuidValue(WPD.OBJECT_CONTENT_TYPE, out value);
                 return value;
             }
         }
@@ -36,7 +45,7 @@ namespace MediaDevices.Internal
             get
             {
                 string value;
-                this.values.GetStringValue(WPD.OBJECT_NAME, out value);
+                this.values.TryGetStringValue(WPD.OBJECT_NAME, out value);
                 return value;
             }
         }
@@ -46,7 +55,7 @@ namespace MediaDevices.Internal
             get
             {
                 string value;
-                this.values.GetStringValue(WPD.OBJECT_ORIGINAL_FILE_NAME, out value);
+                this.values.TryGetStringValue(WPD.OBJECT_ORIGINAL_FILE_NAME, out value);
                 return value;
             }
         }
@@ -56,17 +65,7 @@ namespace MediaDevices.Internal
             get
             {
                 ulong value = 0;
-                try
-                { 
-                    this.values.GetUnsignedLargeIntegerValue(WPD.OBJECT_SIZE, out value);
-                }
-                catch (COMException ex)
-                {
-                    if ((uint)ex.HResult != (uint)HResult.ERROR_NOT_FOUND)
-                    {
-                        throw;
-                    }
-                }
+                this.values.TryGetUnsignedLargeIntegerValue(WPD.OBJECT_SIZE, out value);
                 return value;
             }
         }
@@ -75,21 +74,9 @@ namespace MediaDevices.Internal
         {
             get
             {
-                DateTime? res = null;
-                try
-                {
-                    PROPVARIANT value;
-                    this.values.GetValue(WPD.OBJECT_DATE_CREATED, out value);
-                    res = ((PropVariant)value).ToDate();
-                }
-                catch (COMException ex)
-                {
-                    if ((uint)ex.HResult != (uint)HResult.ERROR_NOT_FOUND)
-                    {
-                        throw;
-                    }
-                }
-                return res;
+                DateTime? value = null;
+                this.values.TryGetDateTimeValue(WPD.OBJECT_DATE_CREATED, out value);
+                return value;
             }
         }
 
@@ -97,22 +84,9 @@ namespace MediaDevices.Internal
         {
             get
             {
-                DateTime? res = null;
-                try
-                {
-                    PROPVARIANT value;
-                    this.values.GetValue(WPD.OBJECT_DATE_MODIFIED, out value);
-                    res = ((PropVariant)value).ToDate();
-
-                }
-                catch (COMException ex)
-                {
-                    if ((uint)ex.HResult != (uint)HResult.ERROR_NOT_FOUND)
-                    {
-                        throw;
-                    }
-                }
-                return res;
+                DateTime? value = null;
+                this.values.TryGetDateTimeValue(WPD.OBJECT_DATE_MODIFIED, out value);
+                return value;
             }
         }
 
@@ -120,22 +94,9 @@ namespace MediaDevices.Internal
         {
             get
             {
-                DateTime? res = null;
-                try
-                {
-                    PROPVARIANT value;
-                    this.values.GetValue(WPD.OBJECT_DATE_AUTHORED, out value);
-                    res = ((PropVariant)value).ToDate();
-
-                }
-                catch (COMException ex)
-                {
-                    if ((uint)ex.HResult != (uint)HResult.ERROR_NOT_FOUND)
-                    {
-                        throw;
-                    }
-                }
-                return res;
+                DateTime? value = null;
+                this.values.TryGetDateTimeValue(WPD.OBJECT_DATE_AUTHORED, out value);
+                return value;
             }
         }
 
@@ -143,9 +104,9 @@ namespace MediaDevices.Internal
         {
             get
             {
-                int value;
-                this.values.GetBoolValue(WPD.OBJECT_CAN_DELETE, out value);
-                return value != 0;
+                bool value;
+                this.values.TryGetBoolValue(WPD.OBJECT_CAN_DELETE, out value);
+                return value;
             }
         }
 
@@ -153,19 +114,9 @@ namespace MediaDevices.Internal
         {
             get
             {
-                int value = 0;
-                try
-                {
-                    this.values.GetBoolValue(WPD.OBJECT_ISSYSTEM, out value);
-                }
-                catch(COMException ex)
-                {
-                    if ((uint)ex.HResult != (uint)HResult.ERROR_NOT_FOUND)
-                    {
-                        throw;
-                    }
-                }
-                return value != 0;
+                bool value;
+                this.values.TryGetBoolValue(WPD.OBJECT_ISSYSTEM, out value);
+                return value;
             }
         }
 
@@ -173,19 +124,9 @@ namespace MediaDevices.Internal
         {
             get
             {
-                int value = 0;
-                try
-                {
-                    this.values.GetBoolValue(WPD.OBJECT_ISHIDDEN, out value);
-                }
-                catch (COMException ex)
-                {
-                    if ((uint)ex.HResult != (uint)HResult.ERROR_NOT_FOUND)
-                    {
-                        throw;
-                    }
-                }
-                return value != 0;
+                bool value;
+                this.values.TryGetBoolValue(WPD.OBJECT_ISHIDDEN, out value);
+                return value;
             }
         }
 
@@ -193,19 +134,9 @@ namespace MediaDevices.Internal
         {
             get
             {
-                int value = 0;
-                try
-                {
-                    this.values.GetBoolValue(WPD.OBJECT_IS_DRM_PROTECTED, out value);
-                }
-                catch (COMException ex)
-                {
-                    if ((uint)ex.HResult != (uint)HResult.ERROR_NOT_FOUND)
-                    {
-                        throw;
-                    }
-                }
-                return value != 0;
+                bool value;
+                this.values.TryGetBoolValue(WPD.OBJECT_IS_DRM_PROTECTED, out value);
+                return value;
             }
         }
 
@@ -214,14 +145,9 @@ namespace MediaDevices.Internal
             get
             {
                 string value;
-                this.values.GetStringValue(WPD.OBJECT_PARENT_ID, out value);
+                this.values.TryGetStringValue(WPD.OBJECT_PARENT_ID, out value);
                 return value;
             }
         }
-
-        //private bool Contains(PropertyKey key)
-        //{
-
-        //}
     }
 }

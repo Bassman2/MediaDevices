@@ -1,6 +1,7 @@
 ﻿using MediaDeviceApp.Mvvm;
 using MediaDevices;
 using System;
+using System.Linq;
 
 namespace MediaDeviceApp.ViewModel
 {
@@ -17,20 +18,27 @@ namespace MediaDeviceApp.ViewModel
             NotifyAllPropertiesChanged();
         }
 
-        public string DeviceId { get { return this.device?.DeviceId; } }
+        public string DeviceId
+        {
+            get
+            {
+                return this.device?.DeviceId;
+            }
+        }
 
-        public string Description { get { return this.device?.Description; } }
+        public string Description
+        {
+            get
+            {
+                return this.device?.Description;
+            }
+        }
 
         public string FriendlyName
         {
             get
             {
-                try
-                {
-                    return this.device?.FriendlyName;
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.FriendlyName;
             }
             set
             {
@@ -43,12 +51,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.Manufacturer;
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.Manufacturer;
             }
         }
 
@@ -56,12 +59,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.SyncPartner;
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.SyncPartner;
             }
         }
 
@@ -69,12 +67,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.FirmwareVersion;
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.FirmwareVersion;
             }
         }
 
@@ -82,12 +75,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.PowerLevel.ToString();
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.PowerLevel.ToString();
             }
         }
 
@@ -95,12 +83,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.PowerSource.ToString();
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.PowerSource.ToString();
             }
         }
 
@@ -108,12 +91,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.Protocol;
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.Protocol;
             }
         }
 
@@ -121,12 +99,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.Model;
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.Model;
             }
         }
 
@@ -134,12 +107,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.SerialNumber;
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.SerialNumber;
             }
         }
 
@@ -147,12 +115,15 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.SupportsNonConsumable.ToString();
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.SupportsNonConsumable.ToString();
+            }
+        }
+
+        public string DateTime
+        {
+            get
+            {
+                return this.device?.DateTime.ToString();
             }
         }
 
@@ -160,12 +131,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.SupportedFormatsAreOrdered.ToString();
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.SupportedFormatsAreOrdered.ToString();
             }
         }
 
@@ -173,12 +139,31 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.DeviceType.ToString();
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.DeviceType.ToString();
+            }
+        }
+
+        public string NetworkIdentifier
+        {
+            get
+            {
+                return this.device?.NetworkIdentifier.ToString();
+            }
+        }
+
+        public string FunctionalUniqueId
+        {
+            get
+            {
+                return this.device?.FunctionalUniqueId?.Select(b => b.ToString()).Aggregate((a, b) => $"{a},{b}");
+            }
+        }
+
+        public string ModelUniqueId
+        {
+            get
+            {
+                return this.device?.ModelUniqueId?.Select(b => b.ToString()).Aggregate((a, b) => $"{a},{b}"); 
             }
         }
 
@@ -186,12 +171,15 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.Transport.ToString();
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.Transport.ToString();
+            }
+        }
+
+        public string UseDeviceStage
+        {
+            get
+            {
+                return this.device?.UseDeviceStage.ToString();
             }
         }
 
@@ -199,12 +187,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.PnPDeviceID;
-                }
-                catch { }
-                return String.Empty;
+                return this.device?.PnPDeviceID;
             }
         }
     }

@@ -74,7 +74,9 @@
     <Compile Include="Internal\ItemType.cs" />
     <Compile Include="Internal\KeyAttribute.cs" />
     <Compile Include="Internal\ObjectProperties.cs" />
+    <Compile Include="Internal\Profiler.cs" />
     <Compile Include="Internal\SmsMessageType.cs" />
+    <Compile Include="Internal\VarType.cs" />
     <Compile Include="Internal\WPD.cs" />
     <Compile Include="MediaDevice.cs" />
     <Compile Include="MediaDeviceEventArgs.cs" />

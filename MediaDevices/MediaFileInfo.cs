@@ -13,7 +13,7 @@ namespace MediaDevices
     /// </summary>
     public class MediaFileInfo : MediaFileSystemInfo
     {
-        internal MediaFileInfo(MediaDevice device, string id) : base(device, id)
+        internal MediaFileInfo(MediaDevice device, Item item) : base(device, item)
         { }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace MediaDevices
             }
             using (FileStream file = File.Open(destFileName, overwrite ? FileMode.Create : FileMode.CreateNew))
             {
-                this.device.Download(this.id, file);
+                this.device.Download(this.item, file);
             }
         }
 
@@ -64,7 +64,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return this.device.OpenRead(this.id);
+            return this.device.OpenRead(this.item.Id);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return new StreamReader(this.device.OpenRead(this.id));
+            return new StreamReader(this.device.OpenRead(this.item.Id));
         }
     }
 }

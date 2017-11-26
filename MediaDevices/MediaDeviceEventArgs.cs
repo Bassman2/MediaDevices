@@ -21,52 +21,32 @@ namespace MediaDevices
             this.Event = eventEnum;
 
             string pnpDeviceId = string.Empty;
-            eventParameters.GetStringValue(WPD.EVENT_PARAMETER_PNP_DEVICE_ID, out pnpDeviceId);
+            eventParameters.TryGetStringValue(WPD.EVENT_PARAMETER_PNP_DEVICE_ID, out pnpDeviceId);
             this.PnpDeviceId = pnpDeviceId;
-                        
-            //try
-            if (ComHelper.HasKeyValue(eventParameters, WPD.EVENT_PARAMETER_OPERATION_STATE))
-            {
-                uint operationState = 0;
-                eventParameters.GetUnsignedIntegerValue(WPD.EVENT_PARAMETER_OPERATION_STATE, out operationState);
-                this.OperationState = (OperationState)operationState;
-            }
-            //catch { }
-            try
-            {
-                uint operationProgress = 0;
-                eventParameters.GetUnsignedIntegerValue(WPD.EVENT_PARAMETER_OPERATION_PROGRESS, out operationProgress);
-                this.OperationProgress = operationProgress;
-            }
-            catch { }
-            try
-            {
-                string objectParentPersistanceUniqueId = string.Empty;
-                eventParameters.GetStringValue(WPD.EVENT_PARAMETER_OBJECT_PARENT_PERSISTENT_UNIQUE_ID, out objectParentPersistanceUniqueId);
-                this.ObjectParentPersistanceUniqueId = objectParentPersistanceUniqueId;
-            }
-            catch { }
-            try
-            {
-                string objectCreationCookie = string.Empty;
-                eventParameters.GetStringValue(WPD.EVENT_PARAMETER_OBJECT_CREATION_COOKIE, out objectCreationCookie);
-                this.ObjectCreationCookie = objectCreationCookie;
-            }
-            catch { }
-            try
-            {
-                int childHierarchyChanged = 0;
-                eventParameters.GetBoolValue(WPD.EVENT_PARAMETER_CHILD_HIERARCHY_CHANGED, out childHierarchyChanged);
-                this.ChildHierarchyChanged = childHierarchyChanged != 0;
-            }
-            catch { }
-            try
-            {
-                string serviceMethodContext = string.Empty;
-                eventParameters.GetStringValue(WPD.EVENT_PARAMETER_SERVICE_METHOD_CONTEXT, out serviceMethodContext);
-                this.ServiceMethodContext = serviceMethodContext;
-            }
-            catch { }
+
+            uint operationState = 0;
+            eventParameters.TryGetUnsignedIntegerValue(WPD.EVENT_PARAMETER_OPERATION_STATE, out operationState);
+            this.OperationState = (OperationState)operationState;
+
+            uint operationProgress = 0;
+            eventParameters.TryGetUnsignedIntegerValue(WPD.EVENT_PARAMETER_OPERATION_PROGRESS, out operationProgress);
+            this.OperationProgress = operationProgress;
+
+            string objectParentPersistanceUniqueId = string.Empty;
+            eventParameters.TryGetStringValue(WPD.EVENT_PARAMETER_OBJECT_PARENT_PERSISTENT_UNIQUE_ID, out objectParentPersistanceUniqueId);
+            this.ObjectParentPersistanceUniqueId = objectParentPersistanceUniqueId;
+
+            string objectCreationCookie = string.Empty;
+            eventParameters.TryGetStringValue(WPD.EVENT_PARAMETER_OBJECT_CREATION_COOKIE, out objectCreationCookie);
+            this.ObjectCreationCookie = objectCreationCookie;
+
+            bool childHierarchyChanged = false;
+            eventParameters.TryGetBoolValue(WPD.EVENT_PARAMETER_CHILD_HIERARCHY_CHANGED, out childHierarchyChanged);
+            this.ChildHierarchyChanged = childHierarchyChanged;
+
+            string serviceMethodContext = string.Empty;
+            eventParameters.TryGetStringValue(WPD.EVENT_PARAMETER_SERVICE_METHOD_CONTEXT, out serviceMethodContext);
+            this.ServiceMethodContext = serviceMethodContext;
         }
 
         /// <summary>

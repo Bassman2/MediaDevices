@@ -43,14 +43,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.GetContentLocations(this.selectedContent).ToList();
-                }
-                catch
-                {
-                    return null;
-                }
+                return this.device?.GetContentLocations(this.selectedContent)?.ToList();
             }
         }
 

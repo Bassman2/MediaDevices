@@ -41,6 +41,11 @@ namespace MediaDevices.Internal
             this.values.SetSignedIntegerValue(key, value);
         }
 
+        public void Add(PropertyKey key, uint value)
+        {
+            this.values.SetUnsignedIntegerValue(key, value);
+        }
+
         public void Add(PropertyKey key, IEnumerable<int> values)
         {
             PortableDeviceApiLib.IPortableDevicePropVariantCollection col = (PortableDeviceApiLib.IPortableDevicePropVariantCollection) new PortableDevicePropVariantCollection();
@@ -117,7 +122,7 @@ namespace MediaDevices.Internal
             return false;
         }
 
-        public void Send(PortableDevice device)
+        public bool Send(PortableDevice device)
         {
             device.SendCommand(0, this.values, out this.result);
 
@@ -126,9 +131,9 @@ namespace MediaDevices.Internal
             switch ((HResult)error)
             {
             case HResult.S_OK:
-                return;
+                return true;
             case HResult.E_NOT_IMPLEMENTED:
-                throw new NotSupportedException($"{new StackFrame(1, true).GetMethod().Name} not supported by device");
+                return false;
             default:
                 throw new Exception($"Error {error:X}");
             }

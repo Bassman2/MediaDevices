@@ -18,7 +18,7 @@ namespace MediaDeviceApp.ViewModel
         {
             this.device = device;
 
-            this.FunctionalCategories = this.device?.FunctionalCategories().ToList();
+            this.FunctionalCategories = this.device?.FunctionalCategories()?.ToList();
             this.SelectedFunctionalCategory = this.FunctionalCategories?.FirstOrDefault() ?? FunctionalCategory.Unknown;
 
             NotifyAllPropertiesChanged();
@@ -28,12 +28,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.SupportedCommands().Select(c => c.ToString()).ToList();
-                }
-                catch { }
-                return null;
+                return this.device?.SupportedCommands()?.Select(c => c.ToString()).ToList();
             }
         }
 
@@ -41,12 +36,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.SupportedEvents().Select(c => c.ToString()).ToList();
-                }
-                catch { }
-                return null;
+                return this.device?.SupportedEvents()?.Select(c => c.ToString()).ToList();
             }
         }
         
@@ -82,12 +72,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.FunctionalObjects(this.selectedFunctionalCategory).Select(c => c.ToString()).ToList();
-                }
-                catch { }
-                return null;
+                return this.device?.FunctionalObjects(this.selectedFunctionalCategory)?.Select(c => c.ToString()).ToList();
             }
         }
 
@@ -95,12 +80,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                try
-                {
-                    return this.device?.SupportedContentTypes(this.selectedFunctionalCategory).Select(c => c.ToString()).ToList();
-                }
-                catch { }
-                return null;
+                return this.device?.SupportedContentTypes(this.selectedFunctionalCategory)?.Select(c => c.ToString()).ToList();
             }
         }
     }

@@ -3,52 +3,75 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:conv="clr-namespace:MediaDeviceApp.Converter"
              xmlns:local="clr-namespace:MediaDeviceApp.View"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600">
+             d:DesignHeight="300" d:DesignWidth="800">
     <UserControl.Resources>
-        <conv:AttributeConverter x:Key="AttributeConverter"/>
-
         <DataTemplate x:Key="ImageDateTemplate">
-            <Image Source="{Binding Path=Attributes, Converter={StaticResource AttributeConverter}}" Width="16" Height="16" />
+            <Image Source="{Binding Path=Image}" Width="16" Height="16" />
         </DataTemplate>
         <!--Binding="{Binding Path=Attributes, Mode=OneWay, Converter={StaticResource AttributeConverter}}"-->
     </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="160"/>
-            <ColumnDefinition Width="80"/>
-            <ColumnDefinition Width="80"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Grid.Column="0" Grid.Row="0" Content="Filter"/>
-        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Filter}" Margin="3"/>
-        <CheckBox Grid.Column="2" Grid.Row="0" Content="Recursive" IsChecked="{Binding UseRecursive}" VerticalAlignment="Center" Margin="3"/>
-        <Button Grid.Column="3" Grid.Row="0" Content="Enumerate" Command="{Binding EnumerateCommand}" Margin="3"/>
-        <TextBlock Grid.Column="4" Grid.Row="0" Text="{Binding NumOfFiles}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="3"/>
-        
-        <DataGrid Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="1" 
-                    ItemsSource="{Binding Files}" 
-                    GridLinesVisibility="None" 
-                    AutoGenerateColumns="False" 
-                    HeadersVisibility="Column" 
-                    CanUserResizeColumns="True"
-                    CanUserAddRows="False"
-                    CanUserDeleteRows="False"
-                    Margin="3">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Type" CellTemplate="{StaticResource ImageDateTemplate}" Width="40"/>
-                <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}" Width="*"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, Mode=OneWay}" Width="*"/>
-                <DataGridTextColumn Header="FullName" Binding="{Binding Path=FullName, Mode=OneWay}" Width="*"/>
-                <DataGridTextColumn Header="Length" Binding="{Binding Path=Length, Mode=OneWay}" Width="80"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Content="Function"/>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding Functions}" SelectedItem="{Binding SelectedFunction}" Margin="3" IsEditable="True" IsReadOnly="True"/>
+            <Label Grid.Column="2" Content="Path"/>
+            <TextBox Grid.Column="3" Text="{Binding Path}" Margin="3"/>
+            <Label Grid.Column="4" Content="Filter"/>
+            <TextBox Grid.Column="5" Text="{Binding Filter}" Margin="3"/>
+            <CheckBox Grid.Column="6" Content="Recursive" IsChecked="{Binding UseRecursive}" VerticalAlignment="Center" Margin="3"/>
+            <Button Grid.Column="7" Content="Enumerate" Command="{Binding EnumerateCommand}" Margin="3"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <DataGrid 
+                ItemsSource="{Binding Files}" 
+                GridLinesVisibility="None" 
+                AutoGenerateColumns="False" 
+                HeadersVisibility="Column" 
+                CanUserResizeColumns="True"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                Margin="3">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Type" CellTemplate="{StaticResource ImageDateTemplate}" Width="40"/>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}" Width="*"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, Mode=OneWay}" Width="*"/>
+                    <DataGridTextColumn Header="FullName" Binding="{Binding Path=FullName, Mode=OneWay}" Width="*"/>
+                    <DataGridTextColumn Header="Length" Binding="{Binding Path=Length, Mode=OneWay}" Width="80"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Number"/>
+            <TextBlock Grid.Column="1"  Text="{Binding NumOfFiles}" Margin="3"/>
+            <Label Grid.Column="2" Content="Time"/>
+            <TextBlock Grid.Column="3"  Text="{Binding Time}" Margin="3"/>
+        </Grid>
     </Grid>
 </UserControl>

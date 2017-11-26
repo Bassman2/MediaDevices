@@ -17,6 +17,7 @@ namespace MediaDeviceApp.ViewModel
         private List<MediaDevice> devices;
         private MediaDevice selectedDevice;
         private bool usePrivateDevices = false;
+        private bool canReset = true;
 
         public DelegateCommand RefreshCommand { get; private set; }
         public DelegateCommand ResetCommand { get; private set; }
@@ -107,6 +108,12 @@ namespace MediaDeviceApp.ViewModel
                     if (this.selectedDevice != null)
                     {
                         this.selectedDevice.Connect();
+
+                        this.canReset = true;
+                    }
+                    else
+                    {
+                        this.canReset = false;
                     }
                     NotifyAllPropertiesChanged();
                     
@@ -144,6 +151,13 @@ namespace MediaDeviceApp.ViewModel
                     MsgBox.ShowError(ex.Message);
                 }
             }
+        }
+
+        public bool CanReset
+        {
+            get { return this.canReset; }
+            set { this.canReset = value; NotifyPropertyChanged(nameof(CanReset)); }
+
         }
     }
 }

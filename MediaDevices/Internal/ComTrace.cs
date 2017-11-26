@@ -39,5 +39,16 @@ namespace MediaDevices.Internal
                 }
             }
         }
+
+        public static void WriteObject(IPortableDeviceProperties deviceProperties, string objectId)
+        {
+            IPortableDeviceKeyCollection keys;
+            deviceProperties.GetSupportedProperties(objectId, out keys);
+
+            IPortableDeviceValues values;
+            deviceProperties.GetValues(objectId, keys, out values);
+
+            WriteObject(values);
+        }
     }
 }

@@ -30,8 +30,8 @@ namespace MediaDeviceApp.ViewModel
         public void Update(MediaDevice device)
         {
             this.device = device;
-            this.IsStillImageSupported = this.device?.FunctionalCategories().Any(c => c == FunctionalCategory.StillImageCapture) ?? false;
-            this.StillImageFunctionalObjects = this.device?.FunctionalObjects(FunctionalCategory.StillImageCapture).ToList();
+            this.IsStillImageSupported = this.device?.FunctionalCategories()?.Any(c => c == FunctionalCategory.StillImageCapture) ?? false;
+            this.StillImageFunctionalObjects = this.device?.FunctionalObjects(FunctionalCategory.StillImageCapture)?.ToList();
         }
         
         public bool IsStillImageSupported

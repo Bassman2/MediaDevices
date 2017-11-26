@@ -23,8 +23,8 @@ namespace MediaDeviceApp.ViewModel
         public void Update(MediaDevice device)
         {
             this.device = device;
-            this.IsSmsSupported = this.device?.FunctionalCategories().Any(c => c == FunctionalCategory.SMS) ?? false;
-            this.SmsFunctionalObjects = this.device?.FunctionalObjects(FunctionalCategory.SMS).ToList();
+            this.IsSmsSupported = this.device?.FunctionalCategories()?.Any(c => c == FunctionalCategory.SMS) ?? false;
+            this.SmsFunctionalObjects = this.device?.FunctionalObjects(FunctionalCategory.SMS)?.ToList();
         }
 
         public bool IsSmsSupported

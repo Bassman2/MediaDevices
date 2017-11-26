@@ -40,10 +40,11 @@ namespace MediaDevices
         internal IPortableDeviceContent deviceContent;
         private IPortableDeviceProperties deviceProperties;
         private IPortableDeviceCapabilities deviceCapabilities;
+        private IPortableDeviceValues deviceValues;
         private string friendlyName = string.Empty;
         private string eventCookie;
         private EventCallback eventCallback;
-        private HResult lastError;
+        //private HResult lastError;
 
         #endregion
 
@@ -165,6 +166,7 @@ namespace MediaDevices
         private MediaDevice(string deviceId)
         {
             this.DeviceId = deviceId;
+            this.IsCaseSensitive = false;
 
             char[] buffer = new char[260];
             uint count = 256;
@@ -173,8 +175,9 @@ namespace MediaDevices
                 portableDeviceManager.GetDeviceDescription(deviceId, buffer, ref count);
                 this.Description = new string(buffer, 0, (int)count - 1);
             }
-            catch (COMException)
+            catch (COMException ex)
             {
+                Trace.WriteLine(ex.ToString());
                 this.Description = string.Empty;
             }
             try
@@ -183,8 +186,9 @@ namespace MediaDevices
                 portableDeviceManager.GetDeviceFriendlyName(deviceId, buffer, ref count);
                 this.friendlyName = new string(buffer, 0, (int)count - 1);
             }
-            catch (COMException)
+            catch (COMException ex)
             {
+                Trace.WriteLine(ex.ToString());
                 this.friendlyName = string.Empty;
             }
             try
@@ -193,8 +197,9 @@ namespace MediaDevices
                 portableDeviceManager.GetDeviceManufacturer(deviceId, buffer, ref count);
                 this.Manufacturer = new string(buffer, 0, (int)count - 1);
             }
-            catch (COMException)
+            catch (COMException ex)
             {
+                Trace.WriteLine(ex.ToString());
                 this.Description = string.Empty;
             }
 
@@ -224,17 +229,29 @@ namespace MediaDevices
                 friendlyName = this.FriendlyName;
 
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+
             try
             {
                 manufacturer = this.Manufacturer;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+
             try
             {
                 description = this.Description;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+
             return $"{friendlyName} - {manufacturer} - {description}";
         }
 
@@ -246,6 +263,11 @@ namespace MediaDevices
         /// Is portable device connected.
         /// </summary>
         public bool IsConnected { get; private set; }
+
+        /// <summary>
+        /// Select if path is case sensitive or not. Default is not. 
+        /// </summary>
+        public bool IsCaseSensitive { get; private set; }
 
         /// <summary>
         /// Device Id of the portable device.
@@ -266,8 +288,29 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected. only for setter</exception>
         public string FriendlyName
         {
-            get { return IsConnected ? GetStringProperty(WPD.DEVICE_FRIENDLY_NAME) : this.friendlyName; }
-            set { SetStringProperty(WPD.DEVICE_FRIENDLY_NAME, value); }
+            get
+            {
+                if (IsConnected)
+                {
+                    string val = string.Empty;
+                    this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out val);
+                    return val;
+                }
+                else
+                {
+                    return this.friendlyName;
+                }
+            }
+            set
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                this.deviceValues.SetStringValue(WPD.DEVICE_FRIENDLY_NAME, value);
+                this.deviceProperties.SetValues(Item.Root.Id, this.deviceValues, out this.deviceValues);
+            }
         }
 
         /// <summary>
@@ -282,7 +325,17 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public string SyncPartner
         {
-            get { return GetStringProperty(WPD.DEVICE_SYNC_PARTNER); }
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                string val = string.Empty;
+                this.deviceValues.TryGetStringValue(WPD.DEVICE_SYNC_PARTNER, out val);
+                return val;
+            }
         }
 
         /// <summary>
@@ -291,7 +344,17 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public string FirmwareVersion
         {
-            get { return GetStringProperty(WPD.DEVICE_FIRMWARE_VERSION); }
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                string val = string.Empty;
+                this.deviceValues.TryGetStringValue(WPD.DEVICE_FIRMWARE_VERSION, out val);
+                return val;
+            }
         }
 
         /// <summary>
@@ -300,7 +363,17 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public int PowerLevel
         {
-            get { return GetIntegerProperty(WPD.DEVICE_POWER_LEVEL); }
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                int val = -1;
+                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_LEVEL, out val);
+                return val;
+            }
         }
 
         /// <summary>
@@ -309,7 +382,17 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public PowerSource PowerSource
         {
-            get { return (PowerSource)GetIntegerProperty(WPD.DEVICE_POWER_SOURCE); }
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                int val = 0;
+                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE, out val);
+                return (PowerSource)val;
+            }
         }
 
         /// <summary>
@@ -318,7 +401,17 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public string Protocol
         {
-            get { return GetStringProperty(WPD.DEVICE_PROTOCOL); }
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                string val = string.Empty;
+                this.deviceValues.TryGetStringValue(WPD.DEVICE_PROTOCOL, out val);
+                return val;
+            }
         }
 
         /// <summary>
@@ -327,7 +420,17 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public string Model
         {
-            get { return GetStringProperty(WPD.DEVICE_MODEL); }
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                string val = string.Empty;
+                this.deviceValues.TryGetStringValue(WPD.DEVICE_MODEL, out val);
+                return val;
+            }
         }
 
         /// <summary>
@@ -336,7 +439,17 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public string SerialNumber
         {
-            get { return GetStringProperty(WPD.DEVICE_SERIAL_NUMBER); }
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                string val = string.Empty;
+                this.deviceValues.TryGetStringValue(WPD.DEVICE_SERIAL_NUMBER, out val);
+                return val;
+            }
         }
 
         /// <summary>
@@ -345,17 +458,37 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public bool SupportsNonConsumable
         {
-            get { return GetBoolProperty(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE); }
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                bool val = false;
+                this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out val);
+                return val;
+            }
         }
 
-        ///// <summary>
-        ///// Date and time of the media device.
-        ///// </summary>
-        ///// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        //public DateTime? DateTime
-        //{
-        //    get { return GetDateTimeProperty(WPD_DEVICE_DATETIME); }
-        //}
+        /// <summary>
+        /// Date and time of the media device.
+        /// </summary>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public DateTime? DateTime
+        {
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                DateTime? val = null;
+                this.deviceValues.TryGetDateTimeValue(WPD.DEVICE_DATETIME, out val);
+                return val;
+            }
+        }
 
         /// <summary>
         /// Supported formats are ordered.
@@ -363,7 +496,17 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public bool SupportedFormatsAreOrdered
         {
-            get { return GetBoolProperty(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED); }
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                bool val = false;
+                this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out val);
+                return val;
+            }
         }
 
         /// <summary>
@@ -372,35 +515,76 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public DeviceType DeviceType
         {
-            get { return (DeviceType)this.GetIntegerProperty(WPD.DEVICE_TYPE); }
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                int val = 0;
+                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TYPE, out val);
+                return (DeviceType)val;
+            }
         }
 
-        ///// <summary>
-        ///// EUI-64
-        ///// </summary>
-        ///// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        //public ulong NetworIdentifier
-        //{
-        //    get { return GetULongProperty(WPD_DEVICE_NETWORK_IDENTIFIER); }
-        //}
+        /// <summary>
+        /// Network Identifier
+        /// </summary>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public ulong NetworkIdentifier
+        {
+            get
+            {
+                
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
 
-        ///// <summary>
-        ///// Functional unique id od the media device
-        ///// </summary>
-        ///// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        //public object FunctionalUniqueId
-        //{
-        //    get { return GetObjectProperty(WPD_DEVICE_FUNCTIONAL_UNIQUE_ID); }
-        //}
+                ulong val = 0;
+                this.deviceValues.TryGetUnsignedLargeIntegerValue(WPD.DEVICE_NETWORK_IDENTIFIER, out val);
+                return val;
+            }
+        }
 
-        ///// <summary>
-        ///// Model unique id od the media device
-        ///// </summary>
-        ///// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        //public object ModelUniqueId
-        //{
-        //    get { return GetObjectProperty(WPD_DEVICE_MODEL_UNIQUE_ID); }
-        //}
+        /// <summary>
+        /// Functional unique id od the media device
+        /// </summary>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public byte[] FunctionalUniqueId
+        {
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                byte[] val = null;
+                this.deviceValues.TryByteArrayValue(WPD.DEVICE_FUNCTIONAL_UNIQUE_ID, out val);
+                return val;
+            }
+        }
+
+        /// <summary>
+        /// Model unique id od the media device
+        /// </summary>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public byte[] ModelUniqueId
+        {
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                byte[] value;
+                this.deviceValues.TryByteArrayValue(WPD.DEVICE_MODEL_UNIQUE_ID, out value);
+                return value;
+            }
+        }
 
         /// <summary>
         /// Device transport.
@@ -408,17 +592,37 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public DeviceTransport Transport
         {
-            get { return (DeviceTransport)this.GetIntegerProperty(WPD.DEVICE_TRANSPORT); }
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                int val = 0;
+                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TRANSPORT, out val);
+                return (DeviceTransport)val;
+            }
         }
 
-        ///// <summary>
-        ///// Use device stage
-        ///// </summary>
-        ///// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        //public DeviceTransport UseDeviceStage
-        //{
-        //    get { return (DeviceTransport)this.GetIntegerProperty(WPD_DEVICE_USE_DEVICE_STAGE); }
-        //}
+        /// <summary>
+        /// Use device stage
+        /// </summary>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public DeviceTransport UseDeviceStage
+        {
+            get
+            {
+                if (!this.IsConnected)
+                {
+                    throw new NotConnectedException("Not connected");
+                }
+
+                uint val = 0;
+                this.deviceValues.TryGetUnsignedIntegerValue(WPD.DEVICE_USE_DEVICE_STAGE, out val);
+                return (DeviceTransport)val;
+            }
+        }
 
         /// <summary>
         /// PnP device ID
@@ -458,6 +662,7 @@ namespace MediaDevices
             this.device.Capabilities(out this.deviceCapabilities);
             this.device.Content(out this.deviceContent);
             this.deviceContent.Properties(out this.deviceProperties);
+            this.deviceProperties.GetValues(Item.Root.Id, null, out this.deviceValues);            
 
             // advice event handler
             this.eventCallback = new EventCallback(this);
@@ -497,14 +702,14 @@ namespace MediaDevices
             this.device.Cancel();
         }
         
-        /// <summary>
-        /// Get the last error
-        /// </summary>
-        /// <returns>Error code</returns>
-        public HResult GetLastError()
-        {
-            return this.lastError;
-        }
+        ///// <summary>
+        ///// Get the last error
+        ///// </summary>
+        ///// <returns>Error code</returns>
+        //public HResult GetLastError()
+        //{
+        //    return this.lastError;
+        //}
 
         /// <summary>
         /// Returns an enumerable collection of directory names in a specified path.
@@ -536,7 +741,7 @@ namespace MediaDevices
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
-            return GetChildren(item.Id).Where(i => i.Type != ItemType.File).Select(i => i.Name);
+            return GetChildren(item).Where(i => i.Type != ItemType.File).Select(i => i.FullName);
         }
 
         /// <summary>
@@ -572,7 +777,7 @@ namespace MediaDevices
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
-            return GetChildren(item.Id, searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => i.Name);
+            return GetChildren(item, FilterToRegex(searchPattern), searchOption).Where(i => i.Type != ItemType.File).Select(i => i.FullName);
         }
 
 
@@ -606,7 +811,7 @@ namespace MediaDevices
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
-            return GetChildren(item.Id).Where(i => i.Type == ItemType.File).Select(i => i.Name);
+            return GetChildren(item).Where(i => i.Type == ItemType.File).Select(i => i.FullName);
         }
 
         /// <summary>
@@ -641,7 +846,8 @@ namespace MediaDevices
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
-            return GetChildren(item.Id, searchPattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.Name);
+            string pattern = MediaDevice.FilterToRegex(searchPattern);
+            return GetChildren(item, pattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.FullName);
         }
 
         /// <summary>
@@ -674,7 +880,7 @@ namespace MediaDevices
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
-            return GetChildren(item.Id).Select(i => i.Name);
+            return GetChildren(item).Select(i => i.FullName);
         }
 
         /// <summary>
@@ -709,7 +915,32 @@ namespace MediaDevices
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
-            return GetChildren(item.Id, searchPattern, searchOption).Select(i => i.Name);
+            
+            return GetChildren(item, FilterToRegex(searchPattern), searchOption).Select(i => i.FullName);
+        }
+
+        public IEnumerable<string> EnumerateFileSystemEntries2(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        {
+            if (path == null)
+            {
+                throw new ArgumentNullException("path");
+            }
+            if (!IsPath(path))
+            {
+                throw new ArgumentException("path");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            Item item = FindFolder(path);
+            if (item == null)
+            {
+                throw new DirectoryNotFoundException($"Director {path} not found.");
+            }
+            
+            return GetChildren(item, FilterToRegex(searchPattern), searchOption).Select(i => i.FullName);
         }
 
         /// <summary>
@@ -736,7 +967,7 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            CreateSubdirectory(path);
+            CreateSubdirectory(Item.Root, path);
         }
 
         /// <summary>
@@ -835,7 +1066,7 @@ namespace MediaDevices
                 throw new FileNotFoundException($"File {path} not found.");
             }
 
-            Download(item.Id, stream);
+            Download(item, stream);
         }
 
 
@@ -877,7 +1108,7 @@ namespace MediaDevices
                 throw new DirectoryNotFoundException($"Directory {folder} not found.");
             }
 
-            if (GetChildren(item.Id).Any(i => i.Name == fileName))
+            if (GetChildren(item).Any(i => EqualsName(i.Name, fileName)))
             {
                 throw new IOException($"File {path} already exists");
             }
@@ -992,7 +1223,7 @@ namespace MediaDevices
                 throw new FileNotFoundException($"{path} not found.");
             }
 
-            return new MediaFileInfo(this, item.Id);
+            return new MediaFileInfo(this, item);
         }
 
         /// <summary>
@@ -1021,7 +1252,7 @@ namespace MediaDevices
                 throw new DirectoryNotFoundException($"{path} not found.");
             }
 
-            return new MediaDirectoryInfo(this, item.Id);
+            return new MediaDirectoryInfo(this, item);
         }
 
         /// <summary>
@@ -1034,7 +1265,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return new MediaDirectoryInfo(this, Item.RootId);
+            return new MediaDirectoryInfo(this, Item.Root);
         }
 
         #endregion
@@ -1045,22 +1276,50 @@ namespace MediaDevices
         /// Retrieves all commands supported by the device.
         /// </summary>
         /// <returns>List with supported commands</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<Commands> SupportedCommands()
         {
-            IPortableDeviceKeyCollection commands;
-            this.deviceCapabilities.GetSupportedCommands(out commands);
-            return commands.ToEnum<Commands>();
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            try
+            {
+                IPortableDeviceKeyCollection commands;
+                this.deviceCapabilities.GetSupportedCommands(out commands);
+                return commands.ToEnum<Commands>();
+            }
+            catch (COMException ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+            return null;
         }
 
         /// <summary>
         /// Retrieves all functional categories by the device.
         /// </summary>
         /// <returns>List with functional categories</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<FunctionalCategory> FunctionalCategories()
         {
-            IPortableDevicePropVariantCollection categories;
-            this.deviceCapabilities.GetFunctionalCategories(out categories);
-            return categories.ToEnum<FunctionalCategory>();
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            try
+            {
+                IPortableDevicePropVariantCollection categories;
+                this.deviceCapabilities.GetFunctionalCategories(out categories);
+                return categories.ToEnum<FunctionalCategory>();
+            }
+            catch (COMException ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+            return null;
         }
 
         /// <summary>
@@ -1068,11 +1327,25 @@ namespace MediaDevices
         /// </summary>
         /// <param name="functionalCategory">Select functional category</param>
         /// <returns>List with functional objects</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> FunctionalObjects(FunctionalCategory functionalCategory)
         {
-            IPortableDevicePropVariantCollection objects;
-            this.deviceCapabilities.GetFunctionalObjects(functionalCategory.Guid(), out objects);
-            return objects.ToStrings();
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            try
+            {
+                IPortableDevicePropVariantCollection objects;
+                this.deviceCapabilities.GetFunctionalObjects(functionalCategory.Guid(), out objects);
+                return objects.ToStrings();
+            }
+            catch (COMException ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+            return null;
         }
 
 
@@ -1089,9 +1362,17 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            IPortableDevicePropVariantCollection types;
-            this.deviceCapabilities.GetSupportedContentTypes(functionalCategory.Guid(), out types);
-            return types.ToEnum<ContentType>();
+            try
+            {
+                IPortableDevicePropVariantCollection types;
+                this.deviceCapabilities.GetSupportedContentTypes(functionalCategory.Guid(), out types);
+                return types.ToEnum<ContentType>();
+            }
+            catch (COMException ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+            return null;
         }
 
 
@@ -1099,11 +1380,25 @@ namespace MediaDevices
         /// Retrieves all events supported by the device.
         /// </summary>
         /// <returns>List with supported events</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<Events> SupportedEvents()
         {
-            IPortableDevicePropVariantCollection events;
-            this.deviceCapabilities.GetSupportedEvents(out events);
-            return events.ToEnum<Events>();
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            try
+            { 
+                IPortableDevicePropVariantCollection events;
+                this.deviceCapabilities.GetSupportedEvents(out events);
+                return events.ToEnum<Events>();
+            }
+            catch (COMException ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+            return null;
         }
 
         #endregion
@@ -1234,18 +1529,25 @@ namespace MediaDevices
                 throw new ArgumentNullException("functionalObject");
             }
 
-            var values = (IPortableDeviceValues)new PortableDeviceValues();
-            IPortableDeviceValues result;
-            values.SetGuidValue(WPD.PROPERTY_COMMON_COMMAND_CATEGORY, WPD.COMMAND_SMS_SEND.fmtid);
-            values.SetUnsignedIntegerValue(WPD.PROPERTY_COMMON_COMMAND_ID, WPD.COMMAND_SMS_SEND.pid);
+            //var values = (IPortableDeviceValues)new PortableDeviceValues();
+            //IPortableDeviceValues result;
+            //values.SetGuidValue(WPD.PROPERTY_COMMON_COMMAND_CATEGORY, WPD.COMMAND_SMS_SEND.fmtid);
+            //values.SetUnsignedIntegerValue(WPD.PROPERTY_COMMON_COMMAND_ID, WPD.COMMAND_SMS_SEND.pid);
 
-            values.SetStringValue(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
-            values.SetStringValue(WPD.PROPERTY_SMS_RECIPIENT, recipient);
-            values.SetUnsignedIntegerValue(WPD.PROPERTY_SMS_MESSAGE_TYPE, (uint)SmsMessageType.Text);
-            values.SetStringValue(WPD.PROPERTY_SMS_TEXT_MESSAGE, text);
-            this.device.SendCommand(0, values, out result);
+            //values.SetStringValue(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
+            //values.SetStringValue(WPD.PROPERTY_SMS_RECIPIENT, recipient);
+            //values.SetUnsignedIntegerValue(WPD.PROPERTY_SMS_MESSAGE_TYPE, (uint)SmsMessageType.Text);
+            //values.SetStringValue(WPD.PROPERTY_SMS_TEXT_MESSAGE, text);
+            //this.device.SendCommand(0, values, out result);
 
-            return CheckCommonResult(result);
+            //return CheckCommonResult(result);
+
+            Command cmd = Command.Create(WPD.COMMAND_SMS_SEND);
+            cmd.Add(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
+            cmd.Add(WPD.PROPERTY_SMS_RECIPIENT, recipient);
+            cmd.Add(WPD.PROPERTY_SMS_MESSAGE_TYPE, (uint)SmsMessageType.Text);
+            cmd.Add(WPD.PROPERTY_SMS_TEXT_MESSAGE, text);
+            return cmd.Send(this.device);
         }
 
         /// <summary>
@@ -1283,15 +1585,19 @@ namespace MediaDevices
                 throw new ArgumentNullException("functionalObject");
             }
 
-            var values = (IPortableDeviceValues)new PortableDeviceValues();
-            IPortableDeviceValues result;
-            values.SetGuidValue(WPD.PROPERTY_COMMON_COMMAND_CATEGORY, WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE.fmtid);
-            values.SetUnsignedIntegerValue(WPD.PROPERTY_COMMON_COMMAND_ID, WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE.pid);
+            //var values = (IPortableDeviceValues)new PortableDeviceValues();
+            //IPortableDeviceValues result;
+            //values.SetGuidValue(WPD.PROPERTY_COMMON_COMMAND_CATEGORY, WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE.fmtid);
+            //values.SetUnsignedIntegerValue(WPD.PROPERTY_COMMON_COMMAND_ID, WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE.pid);
 
-            values.SetStringValue(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
-            this.device.SendCommand(0, values, out result);
+            //values.SetStringValue(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
+            //this.device.SendCommand(0, values, out result);
 
-            return CheckCommonResult(result);
+            //return CheckCommonResult(result);
+
+            Command cmd = Command.Create(WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE);
+            cmd.Add(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
+            return cmd.Send(this.device);
         }
 
         internal void CallEvent(IPortableDeviceValues eventParameters)
@@ -1299,8 +1605,9 @@ namespace MediaDevices
             ComTrace.WriteObject(eventParameters);
             Guid eventGuid;
             eventParameters.GetGuidValue(WPD.EVENT_PARAMETER_EVENT_ID, out eventGuid);
-            Events eventEnum = GetEnumFromAttrGuid<Events>(eventGuid);
-            
+            //Events eventEnum = GetEnumFromAttrGuid<Events>(eventGuid);
+            Events eventEnum = eventGuid.GetEnumFromAttrGuid<Events>();
+
             switch (eventEnum)
             {
             case Events.ObjectAdded:
@@ -1387,83 +1694,43 @@ namespace MediaDevices
             MediaStorageInfo info = new MediaStorageInfo();
 
             uint type = 0;
-            try
-            {
-                values.GetUnsignedIntegerValue(WPD.STORAGE_TYPE, out type);
-            }
-            catch { }
+            values.TryGetUnsignedIntegerValue(WPD.STORAGE_TYPE, out type);
             info.Type = (StorageType)type;
 
             string fileSystemType = String.Empty;
-            try
-            {
-                values.GetStringValue(WPD.STORAGE_FILE_SYSTEM_TYPE, out fileSystemType);
-            }
-            catch { }
+            values.TryGetStringValue(WPD.STORAGE_FILE_SYSTEM_TYPE, out fileSystemType);
             info.FileSystemType = fileSystemType;
 
             ulong capacity = 0;
-            try
-            {
-                values.GetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY, out capacity);
-            }
-            catch { }
+            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY, out capacity);
             info.Capacity = capacity;
 
             ulong freeBytes = 0;
-            try
-            {
-                values.GetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_BYTES, out freeBytes);
-            }
-            catch { }
+            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_BYTES, out freeBytes);
             info.FreeSpaceInBytes = freeBytes;
 
             ulong freeObjects = 0;
-            try
-            {
-                values.GetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_OBJECTS, out freeObjects);
-            }
-            catch { }
+            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_OBJECTS, out freeObjects);
             info.FreeSpaceInObjects = freeObjects;
 
             string description = String.Empty;
-            try
-            {
-                values.GetStringValue(WPD.STORAGE_DESCRIPTION, out description);
-            }
-            catch { }
+            values.TryGetStringValue(WPD.STORAGE_DESCRIPTION, out description);
             info.Description = description;
 
             string serialNumber = String.Empty;
-            try
-            {
-                values.GetStringValue(WPD.STORAGE_SERIAL_NUMBER, out serialNumber);
-            }
-            catch { }
+            values.TryGetStringValue(WPD.STORAGE_SERIAL_NUMBER, out serialNumber);
             info.SerialNumber = serialNumber;
 
             ulong maxObjectSize = 0;
-            try
-            {
-                values.GetUnsignedLargeIntegerValue(WPD.STORAGE_MAX_OBJECT_SIZE, out maxObjectSize);
-            }
-            catch { }
+            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_MAX_OBJECT_SIZE, out maxObjectSize);
             info.MaxObjectSize = maxObjectSize;
 
             ulong capacityInObjects = 0;
-            try
-            {
-                values.GetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY_IN_OBJECTS, out capacityInObjects);
-            }
-            catch { }
+            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY_IN_OBJECTS, out capacityInObjects);
             info.CapacityInObjects = capacityInObjects;
 
             uint accessCapability = 0;
-            try
-            {
-                values.GetUnsignedIntegerValue(WPD.STORAGE_ACCESS_CAPABILITY, out accessCapability);
-            }
-            catch { }
+            values.TryGetUnsignedIntegerValue(WPD.STORAGE_ACCESS_CAPABILITY, out accessCapability);
             info.AccessCapability = (StorageAccessCapability)accessCapability;
 
             return info;
@@ -1552,9 +1819,9 @@ namespace MediaDevices
 
         #region Intern Methods
 
-        internal void Download(string id, Stream stream)
+        internal void Download(Item item, Stream stream)
         {
-            using (Stream sourceStream = OpenRead(id))
+            using (Stream sourceStream = OpenRead(item.Id))
             {
                 sourceStream.CopyTo(stream);
             }
@@ -1623,12 +1890,16 @@ namespace MediaDevices
             return !string.IsNullOrWhiteSpace(path) && path.IndexOfAny(Path.GetInvalidPathChars()) < 0;
         }
 
-        internal Item GetItem(string id)
+        internal Item GetItem(string id, string path = null)
         {
             Item item = null;
             ObjectProperties prop = new ObjectProperties(this.deviceProperties, id);
             Guid contentType = prop.ContentType;
-
+            if (id == Item.RootId)
+            {
+                item = Item.Root;
+            }
+            else
             if (contentType == WPD.CONTENT_TYPE_FUNCTIONAL_OBJECT)
             {
                 item = new Item(id, prop.Name, ItemType.Object);
@@ -1641,6 +1912,11 @@ namespace MediaDevices
             {
                 item = new Item(id, prop.OriginalFileName, ItemType.File);
             }
+            if (!string.IsNullOrEmpty(path))
+            {
+                item.FullName = Path.Combine(path, item.Name);
+            }
+
             return item;
         }
 
@@ -1652,6 +1928,11 @@ namespace MediaDevices
 
         internal string GetPath(string objectId)
         {
+            if (objectId == Item.RootId)
+            {
+                return @"\";
+            }
+
             StringBuilder sb = new StringBuilder();
             do
             {
@@ -1717,191 +1998,136 @@ namespace MediaDevices
         //    }
         //}
 
-        private string GetStringProperty(PropertyKey propertyKey)
-        {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+        //private string GetStringProperty(PropertyKey propertyKey)
+        //{
+        //    if (!this.IsConnected)
+        //    {
+        //        throw new NotConnectedException("Not connected");
+        //    }
 
-            string val = string.Empty;
-            try
-            {
-                IPortableDeviceValues propertyValues;
-                this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-                propertyValues.GetStringValue(ref propertyKey, out val);
-            }
-            catch (COMException ex)
-            {
-                if ((uint)ex.ErrorCode != (uint)HResult.E_ELEMENT_NOT_FOUND)
-                {
-                    Trace.TraceError("{0} - {1} - {2}", this.Description, new StackFrame(1, true).GetMethod().Name, ex.Message);
-                    throw new NotSupportedException($"{this.Description} - {new StackFrame(1, true).GetMethod().Name}", ex);
+            
+        //    IPortableDeviceValues propertyValues;
+        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
+            
+        //    string val = string.Empty;
+        //    propertyValues.TryGetStringValue(propertyKey, out val);
+        //    return val;
+        //}
 
-                }
-            }
-            return val;
-        }
+        //private void SetStringProperty(PropertyKey propertyKey, string val)
+        //{
+        //    if (!this.IsConnected)
+        //    {
+        //        throw new NotConnectedException("Not connected");
+        //    }
 
-        private void SetStringProperty(PropertyKey propertyKey, string val)
-        {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+        //    try
+        //    {
+        //        IPortableDeviceValues propertyValues;
+        //        IPortableDeviceValues propertyValuesRes;
+        //        this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
 
-            try
-            {
-                IPortableDeviceValues propertyValues;
-                IPortableDeviceValues propertyValuesRes;
-                this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-                propertyValues.SetStringValue(ref propertyKey, val);
+        //        propertyValues.SetStringValue(ref propertyKey, val);
 
-                this.deviceProperties.SetValues(Item.Root.Id, propertyValues, out propertyValuesRes);
-            }
-            catch (COMException ex)
-            {
-                if ((uint)ex.ErrorCode != (uint)HResult.E_ELEMENT_NOT_FOUND)
-                {
-                    Trace.TraceError("{0} - {1} - {2}", this.Description, new StackFrame(1, true).GetMethod().Name, ex.Message);
-                    throw new NotSupportedException($"{this.Description} - {new StackFrame(1, true).GetMethod().Name}", ex);
-                }
-                throw;
-            }
-        }
+        //        this.deviceProperties.SetValues(Item.Root.Id, propertyValues, out propertyValuesRes);
+        //    }
+        //    catch (COMException ex)
+        //    {
+        //        if ((uint)ex.ErrorCode != (uint)HResult.E_ELEMENT_NOT_FOUND)
+        //        {
+        //            Trace.TraceError("{0} - {1} - {2}", this.Description, new StackFrame(1, true).GetMethod().Name, ex.Message);
+        //            throw new NotSupportedException($"{this.Description} - {new StackFrame(1, true).GetMethod().Name}", ex);
+        //        }
+        //        throw;
+        //    }
+        //}
 
-        private int GetIntegerProperty(PropertyKey propertyKey)
-        {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+        //private int GetIntegerProperty(PropertyKey propertyKey)
+        //{
+        //    if (!this.IsConnected)
+        //    {
+        //        throw new NotConnectedException("Not connected");
+        //    }
+                        
+        //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
+        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
 
-            int val = -1;
-            try
-            {
-                PortableDeviceApiLib.IPortableDeviceValues propertyValues;
-                this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-                propertyValues.GetSignedIntegerValue(ref propertyKey, out val);
-            }
-            catch (COMException ex)
-            {
-                if ((uint)ex.ErrorCode != (uint)HResult.E_ELEMENT_NOT_FOUND)
-                {
-                    Trace.TraceError("{0} - {1} - {2}", this.Description, new StackFrame(1, true).GetMethod().Name, ex.Message);
-                    throw new NotSupportedException($"{this.Description} - {new StackFrame(1, true).GetMethod().Name}", ex);
-                }
-            }
-            return val;
-        }
+        //    int val = -1;
+        //    propertyValues.TryGetSignedIntegerValue(propertyKey, out val);
+        //    return val;
+        //}
 
-        private ulong GetULongProperty(PropertyKey propertyKey)
-        {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+        //private ulong GetULongProperty(PropertyKey propertyKey)
+        //{
+        //    if (!this.IsConnected)
+        //    {
+        //        throw new NotConnectedException("Not connected");
+        //    }
+            
+        //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
+        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
 
-            ulong val = 0;
-            try
-            {
-                PortableDeviceApiLib.IPortableDeviceValues propertyValues;
-                this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-                propertyValues.GetUnsignedLargeIntegerValue(ref propertyKey, out val);
-            }
-            catch (COMException ex)
-            {
-                if ((uint)ex.ErrorCode != (uint)HResult.E_ELEMENT_NOT_FOUND)
-                {
-                    Trace.TraceError("{0} - {1} - {2}", this.Description, new StackFrame(1, true).GetMethod().Name, ex.Message);
-                    throw new NotSupportedException($"{this.Description} - {new StackFrame(1, true).GetMethod().Name}", ex);
-                }
-            }
-            return val;
-        }
+        //    ulong val = 0;
+        //    propertyValues.TryGetUnsignedLargeIntegerValue(propertyKey, out val);
+        //    return val;
+        //}
 
-        private bool GetBoolProperty(PropertyKey propertyKey)
-        {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+        //private bool GetBoolProperty(PropertyKey propertyKey)
+        //{
+        //    if (!this.IsConnected)
+        //    {
+        //        throw new NotConnectedException("Not connected");
+        //    }
+            
+        //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
+        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
 
-            int val = 0;
-            try
-            {
-                PortableDeviceApiLib.IPortableDeviceValues propertyValues;
-                this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-                propertyValues.GetBoolValue(ref propertyKey, out val);
-            }
-            catch (COMException ex)
-            {
-                if ((uint)ex.ErrorCode != (uint)HResult.E_ELEMENT_NOT_FOUND)
-                {
-                    Trace.TraceError("{0} - {1} - {2}", this.Description, new StackFrame(1, true).GetMethod().Name, ex.Message);
-                    throw new NotSupportedException($"{this.Description} - {new StackFrame(1, true).GetMethod().Name}", ex);
-                }
-            }
-            return val > 0;
-        }
+        //    bool val = false;
+        //    propertyValues.TryGetBoolValue(propertyKey, out val);
+        //    return val;
+        //}
 
-        private DateTime? GetDateTimeProperty(PropertyKey propertyKey)
-        {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+        //private DateTime? GetDateTimeProperty(PropertyKey propertyKey)
+        //{
+        //    if (!this.IsConnected)
+        //    {
+        //        throw new NotConnectedException("Not connected");
+        //    }
+            
+        //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
+        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
 
-            object obj = null;
-            try
-            {
-                PortableDeviceApiLib.IPortableDeviceValues propertyValues;
-                this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-                propertyValues.GetIUnknownValue(ref propertyKey, out obj);
-            }
-            catch (COMException ex)
-            {
-                if ((uint)ex.ErrorCode != (uint)HResult.E_ELEMENT_NOT_FOUND)
-                {
-                    Trace.TraceError(ex.Message);
-                    throw new NotSupportedException($"{this.Description} - {new StackFrame(1, true).GetMethod().Name}", ex);
-                }
-            }
-            return (DateTime?)obj;
-        }
+        //    DateTime? obj = null;
+        //    propertyValues.TryGetDateTimeValue(propertyKey, out obj);
+        //    return obj;
+        //}
 
-        private object GetObjectProperty(PropertyKey propertyKey)
-        {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+        //private object GetObjectProperty(PropertyKey propertyKey)
+        //{
+        //    if (!this.IsConnected)
+        //    {
+        //        throw new NotConnectedException("Not connected");
+        //    }
 
-            object val = null;
-            try
-            {
-                PortableDeviceApiLib.IPortableDeviceValues propertyValues;
-                this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-                propertyValues.GetIUnknownValue(ref propertyKey, out val);
-            }
-            catch (COMException ex)
-            {
-                if ((uint)ex.ErrorCode != (uint)HResult.E_ELEMENT_NOT_FOUND)
-                {
-                    Trace.TraceError("{0} - {1} - {2}", this.Description, new StackFrame(1, true).GetMethod().Name, ex.Message);
-                    throw new NotSupportedException($"{this.Description} - {new StackFrame(1, true).GetMethod().Name}", ex);
-                }
-            }
-            return val;
-        }
+        //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
+        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
+
+        //    object val = null;
+        //    propertyValues.TryGetIUnknownValue(propertyKey, out val);
+        //    return val;
+        //}
 
         private Item FindFolder(string path)
         {
-            var item = Item.Root;
+            if (path == @"\")
+            {
+                return Item.Root;
+            }
+            var item = Item.Root; 
             var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var folder in folders)
             {
-                item = GetChildren(item.Id).FirstOrDefault(i => i.Type != ItemType.File && i.Name == folder);     // check all if folder             
+                item = GetChildren(item).FirstOrDefault(i => i.Type != ItemType.File && EqualsName(i.Name, folder));     // check all if folder             
                 if (item == null)
                 {
                     return null;
@@ -1912,11 +2138,15 @@ namespace MediaDevices
 
         private Item FindFile(string path)
         {
+            if (path == @"\")
+            {
+                return Item.Root;
+            }
             var item = Item.Root;
             var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var folder in folders)
             {
-                item = GetChildren(item.Id).FirstOrDefault(i => i.Name == folder);
+                item = GetChildren(item).FirstOrDefault(i => EqualsName(i.Name, folder));
                 if (item == null)
                 {
                     return null;
@@ -1927,11 +2157,15 @@ namespace MediaDevices
 
         private Item FindItem(string path)
         {
+            if (path == @"\")
+            {
+                return Item.Root;
+            }
             var item = Item.Root;
             var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var folder in folders)
             {
-                item = GetChildren(item.Id).FirstOrDefault(i => i.Name == folder);
+                item = GetChildren(item).FirstOrDefault(i => EqualsName(i.Name, folder));
                 if (item == null)
                 {
                     return null;
@@ -1940,41 +2174,121 @@ namespace MediaDevices
             return item;
         }
 
-        internal IEnumerable<Item> GetChildren(string id)
+        private bool EqualsName(string a, string b)
         {
-            IEnumPortableDeviceObjectIDs objectIds;
-            this.deviceContent.EnumObjects(0, id, null, out objectIds);
-
-            uint fetched = 0;
-            string objectId;
-            objectIds.Next(1, out objectId, ref fetched);
-            while (fetched > 0)
-            {
-                yield return this.GetItem(objectId);
-                objectIds.Next(1, out objectId, ref fetched);
-            }
+            return this.IsCaseSensitive ? a == b : string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
         }
 
-        internal IEnumerable<Item> GetChildren(string id, string searchPattern, SearchOption searchOption)
-        {
-            string pattern = MediaDevice.FilterToRegex(searchPattern);
+        //private Item Root()
+        //{
+        //    Item item = this.GetItem(Item.RootId);
+        //    item.FullName = item.Name;
+        //    return item;
+        //}
+        
 
+        //internal IEnumerable<Item> GetChildren(string id)
+        //{
+        //    IEnumPortableDeviceObjectIDs objectIds;
+        //    this.deviceContent.EnumObjects(0, id, null, out objectIds);
+
+        //    uint fetched = 0;
+        //    string objectId;
+        //    objectIds.Next(1, out objectId, ref fetched);
+        //    while (fetched > 0)
+        //    {
+        //        yield return this.GetItem(objectId);
+        //        objectIds.Next(1, out objectId, ref fetched);
+        //    }
+        //}
+
+        //internal IEnumerable<Item> GetChildren(Item item)
+        //{
+        //    IEnumPortableDeviceObjectIDs objectIds;
+        //    this.deviceContent.EnumObjects(0, item.Id, null, out objectIds);
+
+        //    uint fetched = 0;
+        //    string objectId;
+        //    objectIds.Next(1, out objectId, ref fetched);
+        //    while (fetched > 0)
+        //    {
+        //        yield return this.GetItem(objectId, item.FullName);
+        //        objectIds.Next(1, out objectId, ref fetched);
+        //    }
+        //}
+
+        //internal IEnumerable<Item> GetChildren(string id, string searchPattern, SearchOption searchOption)
+        //{
+        //    string pattern = MediaDevice.FilterToRegex(searchPattern);
+
+        //    IEnumPortableDeviceObjectIDs objectIds;
+        //    this.deviceContent.EnumObjects(0, id, null, out objectIds);
+
+        //    uint fetched = 0;
+        //    string objectId;
+        //    objectIds.Next(1, out objectId, ref fetched);
+        //    while (fetched > 0)
+        //    {
+        //        Item item = this.GetItem(objectId);
+        //        if (Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
+        //        {
+        //            yield return item;
+        //        }
+        //        if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
+        //        {
+        //            var children = GetChildrenRecursive(item.Id, pattern);
+        //            foreach (var c in children)
+        //            {
+        //                yield return c;
+        //            }
+        //        }
+        //        objectIds.Next(1, out objectId, ref fetched);
+        //    }
+        //}
+
+        //internal IEnumerable<Item> GetChildrenRecursive(string id, string pattern)
+        //{
+        //    IEnumPortableDeviceObjectIDs objectIds;
+        //    this.deviceContent.EnumObjects(0, id, null, out objectIds);
+
+        //    uint fetched = 0;
+        //    string objectId;
+        //    objectIds.Next(1, out objectId, ref fetched);
+        //    while (fetched > 0)
+        //    {
+        //        Item item = this.GetItem(objectId);
+        //        if (Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
+        //        {
+        //            yield return item;
+        //        }
+        //        foreach (var c in GetChildrenRecursive(item.Id, pattern))
+        //        {
+        //            yield return c;
+        //        }
+        //        objectIds.Next(1, out objectId, ref fetched);
+        //    }
+        //}
+
+        //string pattern = MediaDevice.FilterToRegex(searchPattern);
+
+        internal IEnumerable<Item> GetChildren(Item parentItem, string pattern = null, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        {
             IEnumPortableDeviceObjectIDs objectIds;
-            this.deviceContent.EnumObjects(0, id, null, out objectIds);
+            this.deviceContent.EnumObjects(0, parentItem.Id, null, out objectIds);
 
             uint fetched = 0;
             string objectId;
             objectIds.Next(1, out objectId, ref fetched);
             while (fetched > 0)
             {
-                Item item = this.GetItem(objectId);
-                if (Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
+                Item item = this.GetItem(objectId, parentItem.FullName);
+                if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
                 {
                     yield return item;
                 }
                 if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
                 {
-                    var children = GetChildrenRecursive(item.Id, pattern);
+                    var children = GetChildren(item, pattern, searchOption);
                     foreach (var c in children)
                     {
                         yield return c;
@@ -1984,44 +2298,45 @@ namespace MediaDevices
             }
         }
 
-        internal IEnumerable<Item> GetChildrenRecursive(string id, string pattern)
-        {
-            IEnumPortableDeviceObjectIDs objectIds;
-            this.deviceContent.EnumObjects(0, id, null, out objectIds);
+        //internal IEnumerable<Item> GetChildrenRecursive2(Item parentItem, string pattern)
+        //{
+        //    IEnumPortableDeviceObjectIDs objectIds;
+        //    this.deviceContent.EnumObjects(0, parentItem.Id, null, out objectIds);
 
-            uint fetched = 0;
-            string objectId;
-            objectIds.Next(1, out objectId, ref fetched);
-            while (fetched > 0)
-            {
-                Item item = this.GetItem(objectId);
-                if (Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
-                {
-                    yield return item;
-                }
-                foreach (var c in GetChildrenRecursive(item.Id, pattern))
-                {
-                    yield return c;
-                }
-                objectIds.Next(1, out objectId, ref fetched);
-            }
-        }
+        //    uint fetched = 0;
+        //    string objectId;
+        //    objectIds.Next(1, out objectId, ref fetched);
+        //    while (fetched > 0)
+        //    {
+        //        Item item = this.GetItem(objectId, parentItem.FullName);
+        //        if (Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
+        //        {
+        //            yield return item;
+        //        }
+        //        foreach (var c in GetChildrenRecursive2(item, pattern))
+        //        {
+        //            yield return c;
+        //        }
+        //        objectIds.Next(1, out objectId, ref fetched);
+        //    }
+        //}
 
-        internal Item CreateSubdirectory(string path, string id = Item.RootId)
+        internal Item CreateSubdirectory(Item item, string path)
         {
             Item child = null;
             var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var folder in folders)
             {
-                child = GetChildren(id).FirstOrDefault(i => i.Name == folder);
+                child = GetChildren(item).FirstOrDefault(i => EqualsName(i.Name, folder));
                 if (child == null)
                 {
                     // create a new directory
                     IPortableDeviceValues deviceValues = (IPortableDeviceValues)new PortableDeviceValues();
-                    deviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, id);
+                    deviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, item.Id);
                     deviceValues.SetStringValue(ref WPD.OBJECT_NAME, folder);
                     deviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, folder);
                     deviceValues.SetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, ref WPD.CONTENT_TYPE_FOLDER);
+                    string id = string.Empty;
                     this.deviceContent.CreateObjectWithPropertiesOnly(deviceValues, ref id);
                 }
                 else if (child.Type == ItemType.File)
@@ -2032,7 +2347,10 @@ namespace MediaDevices
                 else
                 {
                     // folder exists
-                    id = child.Id;
+                    //id = child.Id;
+                    //new Item()
+
+                // TODO
                 }
             }
             return child;
@@ -2040,6 +2358,11 @@ namespace MediaDevices
 
         internal static string FilterToRegex(string filter)
         {
+            if (filter == "*" || filter == "*.*")
+            {
+                return null;
+            }
+
             StringBuilder s = new StringBuilder(Path.GetFileName(filter));
             s.Replace(".", @"\.");
             s.Replace("+", @"\+");
@@ -2057,71 +2380,71 @@ namespace MediaDevices
 
         #region helper
 
-        private static FieldInfo[] propertyKeyFields = null;
+        //private static FieldInfo[] propertyKeyFields = null;
 
-        private string FindPropertyKeyName(PropertyKey propertyKey)
-        {
-            if (propertyKeyFields == null)
-            {
-                propertyKeyFields = this.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Static).Where(f => f.FieldType == typeof(PropertyKey)).ToArray();
-            }
+        //private string FindPropertyKeyName(PropertyKey propertyKey)
+        //{
+        //    if (propertyKeyFields == null)
+        //    {
+        //        propertyKeyFields = this.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Static).Where(f => f.FieldType == typeof(PropertyKey)).ToArray();
+        //    }
 
-            return propertyKeyFields.
-                Select(f => new { FI = f, PK = (PropertyKey)f.GetValue(this) }).
-                Where(n => n.PK.fmtid == propertyKey.fmtid && n.PK.pid == propertyKey.pid).
-                Select(n => n.FI.Name).
-                FirstOrDefault();
-        }
+        //    return propertyKeyFields.
+        //        Select(f => new { FI = f, PK = (PropertyKey)f.GetValue(this) }).
+        //        Where(n => n.PK.fmtid == propertyKey.fmtid && n.PK.pid == propertyKey.pid).
+        //        Select(n => n.FI.Name).
+        //        FirstOrDefault();
+        //}
 
-        private static FieldInfo[] guidFields = null;
+        //private static FieldInfo[] guidFields = null;
 
-        private string FindGuidName(PROPVARIANT value)
-        {
-            if (guidFields == null)
-            {
-                guidFields = this.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Static).Where(f => f.FieldType == typeof(Guid)).ToArray();
-            }
+        //private string FindGuidName(PROPVARIANT value)
+        //{
+        //    if (guidFields == null)
+        //    {
+        //        guidFields = this.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Static).Where(f => f.FieldType == typeof(Guid)).ToArray();
+        //    }
 
-            Guid guid = (PropVariant)value;
-            return guidFields.
-                Select(f => new { FI = f, Guid = (Guid)f.GetValue(this) }).
-                Where(n => n.Guid == guid).
-                Select(n => n.FI.Name).
-                FirstOrDefault();
-        }
+        //    Guid guid = (PropVariant)value;
+        //    return guidFields.
+        //        Select(f => new { FI = f, Guid = (Guid)f.GetValue(this) }).
+        //        Where(n => n.Guid == guid).
+        //        Select(n => n.FI.Name).
+        //        FirstOrDefault();
+        //}
 
 
-        private Guid GetAttrGuidFromEnum<T>(T val)
-        {
-            return val.GetType().GetField(val.ToString()).GetCustomAttribute<GuidAttribute>().Guid;
-        }
+        //////private Guid GetAttrGuidFromEnum<T>(T val)
+        //////{
+        //////    return val.GetType().GetField(val.ToString()).GetCustomAttribute<GuidAttribute>().Guid;
+        //////}
 
-        private T GetEnumFromAttrGuid<T>(Guid guid)
-        {
-            return Enum.GetValues(typeof(T)).Cast<T>().Where(e => GetAttrGuidFromEnum(e) == guid).FirstOrDefault();
-        }
+        //////private T GetEnumFromAttrGuid<T>(Guid guid)
+        //////{
+        //////    return Enum.GetValues(typeof(T)).Cast<T>().Where(e => GetAttrGuidFromEnum(e) == guid).FirstOrDefault();
+        //////}
 
-        private bool IsAttrKeyFromEnum<T>(T val, PropertyKey key)
-        {
-            KeyAttribute attr = val.GetType().GetField(val.ToString()).GetCustomAttribute<KeyAttribute>();
-            return attr.Guid == key.fmtid && attr.Id == key.pid;
-        }
+        //////private bool IsAttrKeyFromEnum<T>(T val, PropertyKey key)
+        //////{
+        //////    KeyAttribute attr = val.GetType().GetField(val.ToString()).GetCustomAttribute<KeyAttribute>();
+        //////    return attr.Guid == key.fmtid && attr.Id == key.pid;
+        //////}
 
-        private T GetEnumFromAttrKey<T>(PropertyKey key)
-        {
-            return Enum.GetValues(typeof(T)).Cast<T>().Where(e => IsAttrKeyFromEnum(e, key)).FirstOrDefault();
-        }
+        //////private T GetEnumFromAttrKey<T>(PropertyKey key)
+        //////{
+        //////    return Enum.GetValues(typeof(T)).Cast<T>().Where(e => IsAttrKeyFromEnum(e, key)).FirstOrDefault();
+        //////}
 
-        private bool CheckCommonResult(IPortableDeviceValues result)
-        {
-            int error = 0;
-            result.GetErrorValue(WPD.PROPERTY_COMMON_HRESULT, out error);
-            //uint deviceErrorCode = 0;
-            //result.GetUnsignedIntegerValue(WPD.PROPERTY_COMMON_DRIVER_ERROR_CODE, out deviceErrorCode);
+        //private bool CheckCommonResult(IPortableDeviceValues result)
+        //{
+        //    int error = 0;
+        //    result.GetErrorValue(WPD.PROPERTY_COMMON_HRESULT, out error);
+        //    //uint deviceErrorCode = 0;
+        //    //result.GetUnsignedIntegerValue(WPD.PROPERTY_COMMON_DRIVER_ERROR_CODE, out deviceErrorCode);
 
-            this.lastError = (HResult)error;
-            return error == 0;
-        }
+        //    this.lastError = (HResult)error;
+        //    return error == 0;
+        //}
 
 
         #endregion

@@ -17,11 +17,7 @@ namespace MediaDeviceApp.ViewModel
         {
             this.device = device;
             MediaDirectoryInfo root = null;
-            try
-            {
-                root = this.device?.GetRootDirectory();
-            }
-            catch { }
+            root = this.device?.GetRootDirectory();
             this.ExplorerRoot = root != null ? new List<ItemViewModel>() { new ItemViewModel(root) } : null;
         }
 

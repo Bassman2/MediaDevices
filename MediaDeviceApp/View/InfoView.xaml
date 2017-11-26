@@ -28,6 +28,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Device ID"/>
@@ -55,13 +60,23 @@
         <TextBox Grid.Column="1" Grid.Row="10" Text="{Binding SerialNumber, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
         <Label Grid.Column="0" Grid.Row="11" Content="Supports Non Consumable"/>
         <TextBox Grid.Column="1" Grid.Row="11" Text="{Binding SupportsNonConsumable, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
-        <Label Grid.Column="0" Grid.Row="12" Content="Supported Formats Are Ordered"/>
-        <TextBox Grid.Column="1" Grid.Row="12" Text="{Binding SupportedFormatsAreOrdered, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
-        <Label Grid.Column="0" Grid.Row="13" Content="Device Type"/>
-        <TextBox Grid.Column="1" Grid.Row="13" Text="{Binding DeviceType, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
-        <Label Grid.Column="0" Grid.Row="14" Content="Transport"/>
-        <TextBox Grid.Column="1" Grid.Row="14" Text="{Binding Transport, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
-        <Label Grid.Column="0" Grid.Row="15" Content="PnP Device ID"/>
-        <TextBox Grid.Column="1" Grid.Row="15" Text="{Binding PnPDeviceID, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="12" Content="Date Time"/>
+        <TextBox Grid.Column="1" Grid.Row="12" Text="{Binding DateTime, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="13" Content="Supported Formats Are Ordered"/>
+        <TextBox Grid.Column="1" Grid.Row="13" Text="{Binding SupportedFormatsAreOrdered, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="14" Content="Device Type"/>
+        <TextBox Grid.Column="1" Grid.Row="14" Text="{Binding DeviceType, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="15" Content="Network Identifier"/>
+        <TextBox Grid.Column="1" Grid.Row="15" Text="{Binding NetworkIdentifier, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="16" Content="Functional Unique Id"/>
+        <TextBox Grid.Column="1" Grid.Row="16" Text="{Binding FunctionalUniqueId, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="17" Content="Model Unique Id"/>
+        <TextBox Grid.Column="1" Grid.Row="17" Text="{Binding ModelUniqueId, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="18" Content="Transport"/>
+        <TextBox Grid.Column="1" Grid.Row="18" Text="{Binding Transport, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="19" Content="Use Device Stage"/>
+        <TextBox Grid.Column="1" Grid.Row="19" Text="{Binding UseDeviceStage, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="20" Content="PnP Device ID"/>
+        <TextBox Grid.Column="1" Grid.Row="20" Text="{Binding PnPDeviceID, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
     </Grid>
 </UserControl>

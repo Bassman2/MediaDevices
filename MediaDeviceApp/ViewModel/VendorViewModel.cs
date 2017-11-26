@@ -19,8 +19,16 @@ namespace MediaDeviceApp.ViewModel
         public void Update(MediaDevice device)
         {
             this.device = device;
-            this.OpCodes = this.device.VendorOpcodes().ToList();
-            this.Description = this.device.VendorExtentionDescription();
+            try
+            {
+                this.OpCodes = this.device.VendorOpcodes().ToList();
+                this.Description = this.device.VendorExtentionDescription();
+            }
+            catch
+            {
+                this.OpCodes = null;
+                this.Description = null;
+            }
         }
 
         public string Description

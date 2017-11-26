@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -129,10 +130,15 @@ namespace MediaDevices
 
                 return bytesRead;
             }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
             finally
             {
                 Marshal.FreeCoTaskMem(bytesReadPtr);
             }
+            return 0;
         }
 
         public override long Seek(long offset, SeekOrigin origin)
@@ -166,10 +172,15 @@ namespace MediaDevices
                 this.stream.Seek(offset, dwOrigin, posPtr);
                 return Marshal.ReadInt64(posPtr);
             }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
             finally
             {
                 Marshal.FreeCoTaskMem(posPtr);
             }
+            return 0;
         }
 
         public override void SetLength(long value)

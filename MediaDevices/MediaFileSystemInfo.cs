@@ -19,10 +19,11 @@ namespace MediaDevices
         /// </summary>
         protected MediaDevice device;
 
-        /// <summary>
-        /// MTP id 
-        /// </summary>
-        protected string id;
+        internal Item item;
+        ///// <summary>
+        ///// MTP id 
+        ///// </summary>
+        //protected string id;
 
         /// <summary>
         /// parent MTP id 
@@ -39,10 +40,10 @@ namespace MediaDevices
         /// </summary>
         protected MediaDirectoryInfo parent;
 
-        internal MediaFileSystemInfo(MediaDevice device, string id)
+        internal MediaFileSystemInfo(MediaDevice device, Item item)
         {
             this.device = device;
-            this.id = id;
+            this.item = item;
             Refresh();
         }
 
@@ -51,13 +52,13 @@ namespace MediaDevices
         /// </summary>
         public virtual void Refresh()
         {
-            ObjectProperties prop = this.device.GetProperties(this.id);
+            ObjectProperties prop = this.device.GetProperties(this.item.Id);
 
             Guid contentType = prop.ContentType;
             MediaFileAttributes attributes;
             string name;
 
-            if (this.id == Item.RootId)
+            if (this.item.Id == Item.RootId)
             {
                 name = this.device.DirectorySeparatorChar.ToString();
                 attributes = MediaFileAttributes.Object;
@@ -99,7 +100,7 @@ namespace MediaDevices
         /// </summary>
         protected MediaDirectoryInfo GetParent()
         {
-            return this.parent ?? (string.IsNullOrEmpty(this.parentId) ? null : (this.parent = new MediaDirectoryInfo(this.device, this.parentId)));
+            return this.parent ?? (string.IsNullOrEmpty(this.parentId) ? null : (this.parent = new MediaDirectoryInfo(this.device, this.device.GetItem(this.parentId, System.IO.Path.GetDirectoryName(this.FullName)))));
         }
 
         /// <summary>
@@ -107,7 +108,7 @@ namespace MediaDevices
         /// </summary>
         public string FullName
         {
-            get { return this.fullName ?? (this.id == Item.RootId ? this.device.DirectorySeparatorChar.ToString() : (this.fullName = this.device.GetPath(this.id))); }
+            get { return this.fullName ?? (this.item.Id == Item.RootId ? this.device.DirectorySeparatorChar.ToString() : (this.fullName = this.device.GetPath(this.item.Id))); }
         }
 
         /// <summary>
@@ -140,6 +141,6 @@ namespace MediaDevices
         /// </summary>
         public MediaFileAttributes Attributes { get; internal set; }
 
-        public string Id {  get { return this.id; } }
+        public string Id {  get { return this.item.Id; } }
     }
 }
