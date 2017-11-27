@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevices", "MediaDevices\MediaDevices.csproj", "{E5353CB2-1320-4E96-A15E-551BA0B51105}"
 EndProject
 Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "MediaDevicesDoc", "MediaDevicesDoc\MediaDevicesDoc.shfbproj", "{15DBA1E6-2C21-40AC-BD19-67926C3442AC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E5353CB2-1320-4E96-A15E-551BA0B51105} = {E5353CB2-1320-4E96-A15E-551BA0B51105}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesUnitTest", "MediaDevicesUnitTest\MediaDevicesUnitTest.csproj", "{068A3C3C-99B6-4CDF-9DCA-DAAE229B8615}"
 EndProject
