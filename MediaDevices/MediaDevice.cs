@@ -38,7 +38,7 @@ namespace MediaDevices
 
         private PortableDeviceApiLib.PortableDevice device;
         internal IPortableDeviceContent deviceContent;
-        private IPortableDeviceProperties deviceProperties;
+        internal IPortableDeviceProperties deviceProperties;
         private IPortableDeviceCapabilities deviceCapabilities;
         private IPortableDeviceValues deviceValues;
         private string friendlyName = string.Empty;
@@ -2005,10 +2005,10 @@ namespace MediaDevices
         //        throw new NotConnectedException("Not connected");
         //    }
 
-            
+
         //    IPortableDeviceValues propertyValues;
         //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-            
+
         //    string val = string.Empty;
         //    propertyValues.TryGetStringValue(propertyKey, out val);
         //    return val;
@@ -2048,7 +2048,7 @@ namespace MediaDevices
         //    {
         //        throw new NotConnectedException("Not connected");
         //    }
-                        
+
         //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
         //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
 
@@ -2063,7 +2063,7 @@ namespace MediaDevices
         //    {
         //        throw new NotConnectedException("Not connected");
         //    }
-            
+
         //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
         //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
 
@@ -2078,7 +2078,7 @@ namespace MediaDevices
         //    {
         //        throw new NotConnectedException("Not connected");
         //    }
-            
+
         //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
         //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
 
@@ -2093,7 +2093,7 @@ namespace MediaDevices
         //    {
         //        throw new NotConnectedException("Not connected");
         //    }
-            
+
         //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
         //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
 

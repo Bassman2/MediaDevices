@@ -108,7 +108,10 @@ namespace MediaDevices
         /// </summary>
         public string FullName
         {
-            get { return this.fullName ?? (this.item.Id == Item.RootId ? this.device.DirectorySeparatorChar.ToString() : (this.fullName = this.device.GetPath(this.item.Id))); }
+            get
+            {
+                return item.FullName;
+            }
         }
 
         /// <summary>

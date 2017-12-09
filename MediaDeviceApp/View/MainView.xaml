@@ -46,7 +46,7 @@
             <TabItem Header="Capability" DataContext="{Binding Capability}">
                 <v:CapabilityView/>
             </TabItem>
-            <TabItem Header="Content Location" DataContext="{Binding ContentLocation}">
+            <TabItem Header="Content Location" DataContext="{Binding ContentLocation}" IsEnabled="{Binding IsContentLocationSupported}">
                 <v:ContentLocationView/>
             </TabItem>
             <TabItem Header="Storage" DataContext="{Binding Storage}">
