@@ -26,6 +26,7 @@ namespace MediaDeviceApp.ViewModel
         public CapabilityViewModel Capability { get; private set; }
         public ContentLocationViewModel ContentLocation { get; private set; }
         public StorageViewModel Storage { get; private set; }
+        public RootViewModel Root { get; private set; }
         public FilesViewModel Files { get; private set; }
         public StillImageViewModel StillImage { get; private set; }
         public SmsViewModel Sms { get; private set; }
@@ -41,6 +42,7 @@ namespace MediaDeviceApp.ViewModel
             this.Capability = new CapabilityViewModel();
             this.ContentLocation = new ContentLocationViewModel();
             this.Storage = new StorageViewModel();
+            this.Root = new RootViewModel();
             this.Files = new FilesViewModel();
             this.StillImage = new StillImageViewModel();
             this.Sms = new SmsViewModel();
@@ -121,6 +123,7 @@ namespace MediaDeviceApp.ViewModel
                     this.Capability.Update(this.selectedDevice);
                     this.ContentLocation.Update(this.selectedDevice);
                     this.Storage.Update(this.selectedDevice);
+                    this.Root.Update(this.selectedDevice);
                     this.Files.Update(this.selectedDevice);
                     this.StillImage.Update(this.selectedDevice);
                     this.Sms.Update(this.selectedDevice);

@@ -1,10 +1,5 @@
 ﻿using MediaDevices.Internal;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaDevices
 {
@@ -29,7 +24,10 @@ namespace MediaDevices
         /// </summary>
         public MediaDirectoryInfo Directory
         {
-            get { return GetParent(); }
+            get
+            {
+                return this.ParentDirectoryInfo;
+            }
         }
 
         /// <summary>
@@ -48,7 +46,10 @@ namespace MediaDevices
             }
             using (FileStream file = File.Open(destFileName, overwrite ? FileMode.Create : FileMode.CreateNew))
             {
-                this.device.Download(this.item, file);
+                using (Stream sourceStream = item.OpenRead())
+                {
+                    sourceStream.CopyTo(file);
+                }
             }
         }
 
@@ -64,7 +65,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return this.device.OpenRead(this.item.Id);
+            return this.item.OpenRead();
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return new StreamReader(this.device.OpenRead(this.item.Id));
+            return new StreamReader(this.item.OpenRead());
         }
     }
 }

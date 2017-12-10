@@ -11,6 +11,7 @@ namespace MediaDeviceApp.ViewModel
     {
         MediaDevice device;
         private bool isContentLocationSupported = true;
+        private List<ContentType> contents;
         private ContentType selectedContent;
         
         public ContentLocationViewModel()
@@ -20,13 +21,17 @@ namespace MediaDeviceApp.ViewModel
         {
             this.device = device;
 
-            //var a = this.device?.SupportedCommands().ToList();
-            //var b = a.Any(c => c == Commands.GetContentLocation);
-            //this.IsContentLocationSupported = this.device?.SupportedCommands().Any(c => c == Commands.GetContentLocation) ?? false;
+            // needed for Nicon
+            try
+            {
+                this.Contents = Enum.GetValues(typeof(ContentType)).Cast<ContentType>().Where(c => this.device?.GetContentLocations(c)?.Any() ?? false).ToList();
+            }
+            catch 
+            {
+                this.Contents = null;
+            }
 
-
-
-            this.SelectedContent = this.Contents.FirstOrDefault();
+            this.SelectedContent = this.Contents?.FirstOrDefault() ?? ContentType.Unknown;
         }
 
         public bool IsContentLocationSupported
@@ -42,9 +47,22 @@ namespace MediaDeviceApp.ViewModel
             }
         }
 
+        //public List<ContentType> Contents
+        //{
+        //    get { return Enum.GetValues(typeof(ContentType)).Cast<ContentType>().ToList(); }
+        //}
+
         public List<ContentType> Contents
         {
-            get { return Enum.GetValues(typeof(ContentType)).Cast<ContentType>().ToList(); }
+            get
+            {
+                return this.contents;
+            }
+            set
+            {
+                this.contents = value;
+                NotifyPropertyChanged(nameof(Contents));
+            }
         }
 
         public ContentType SelectedContent
@@ -65,6 +83,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
+                // needed for Nicon
                 try
                 {
                     return this.device?.GetContentLocations(this.selectedContent)?.ToList();

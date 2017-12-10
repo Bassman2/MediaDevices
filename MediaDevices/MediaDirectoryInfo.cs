@@ -31,7 +31,10 @@ namespace MediaDevices
         /// </summary>
         public MediaDirectoryInfo Parent
         {
-            get { return GetParent(); }
+            get
+            {
+                return this.ParentDirectoryInfo;
+            }
         }
 
         /// <summary>
@@ -58,7 +61,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            Item item = this.device.CreateSubdirectory(this.item, path);
+            Item item = this.item.CreateSubdirectory(path);
             return new MediaDirectoryInfo(this.device, item);
         }
 
@@ -74,9 +77,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return from i in this.device.GetChildren(this.item)
-                   where i.Type != ItemType.File
-                   select new MediaDirectoryInfo(this.device, i);
+            return this.item.GetChildren().Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(this.device, i));
         }
 
         /// <summary>
@@ -93,9 +94,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return from i in this.device.GetChildren(this.item, MediaDevice.FilterToRegex(searchPattern), searchOption)
-                   where i.Type != ItemType.File
-                   select new MediaDirectoryInfo(this.device, i);
+            return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern), searchOption).Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(this.device, i));
         }
 
         /// <summary>
@@ -110,9 +109,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return from i in this.device.GetChildren(this.item)
-                   where i.Type == ItemType.File
-                   select new MediaFileInfo(this.device, i);
+            return this.item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(this.device, i));
         }
 
         /// <summary>
@@ -129,9 +126,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return from i in this.device.GetChildren(this.item, MediaDevice.FilterToRegex(searchPattern), searchOption)
-                where i.Type == ItemType.File
-                select new MediaFileInfo(this.device, i);
+            return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern), searchOption).Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(this.device, i));
         }
 
         /// <summary>
@@ -146,10 +141,9 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return from i in this.device.GetChildren(this.item)
-                   select i.Type == ItemType.File ? 
+            return this.item.GetChildren().Select(i => i.Type == ItemType.File ? 
                         (MediaFileSystemInfo)new MediaFileInfo(this.device, i) : 
-                        (MediaFileSystemInfo)new MediaDirectoryInfo(this.device, i);
+                        (MediaFileSystemInfo)new MediaDirectoryInfo(this.device, i));
         }
 
         /// <summary>
@@ -166,11 +160,10 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            
-            return from i in this.device.GetChildren(this.item, MediaDevice.FilterToRegex(searchPattern), searchOption)
-                   select i.Type == ItemType.File ?
+
+            return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern), searchOption).Select(i => i.Type == ItemType.File ?
                         (MediaFileSystemInfo)new MediaFileInfo(this.device, i) :
-                        (MediaFileSystemInfo)new MediaDirectoryInfo(this.device, i);
+                        (MediaFileSystemInfo)new MediaDirectoryInfo(this.device, i));
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MediaDevices.Internal
         public static bool HasKeyValue(this IPortableDeviceValues values, PropertyKey findKey)
         {
             uint num = 0;
-            values.GetCount(ref num);
+            values?.GetCount(ref num);
             for (uint i = 0; i < num; i++)
             {
                 PropertyKey key = new PropertyKey();

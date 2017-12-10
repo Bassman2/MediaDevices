@@ -50,5 +50,18 @@ namespace MediaDevices.Internal
 
             WriteObject(values);
         }
+
+        public static void WriteObject(IPortableDevicePropVariantCollection collection)
+        {
+            uint num = 0;
+            collection.GetCount(ref num);
+            for (uint index = 0; index < num; index++)
+            {
+                PROPVARIANT val = new PROPVARIANT();
+                collection.GetAt(index, ref val);
+
+                Trace.WriteLine($"##### {((PropVariant)val).ToString()}");
+            }
+        }
     }
 }

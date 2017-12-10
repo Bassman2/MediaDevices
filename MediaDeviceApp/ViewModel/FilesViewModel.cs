@@ -30,7 +30,6 @@ namespace MediaDeviceApp.ViewModel
             MediaDevice_EnumerateDirectories,
             MediaDevice_EnumerateFiles,
             MediaDevice_EnumerateFileSystemEntries,
-            MediaDevice_EnumerateFileSystemEntries2,
 
             MediaFileSystemInfo_EnumerateDirectories,
             MediaFileSystemInfo_EnumerateFiles,
@@ -214,15 +213,7 @@ namespace MediaDeviceApp.ViewModel
                     stopwatch.Stop();
                     this.Files = list3.Select(f => new Info(f)).ToList();
                     break;
-
-                case Function.MediaDevice_EnumerateFileSystemEntries2:
-                    stopwatch.Start();
-                    var listx = this.device.EnumerateFileSystemEntries2("\\", this.Filter, searchOption).ToList();
-                    stopwatch.Stop();
-                    this.Files = listx.Select(f => new Info(f)).ToList();
-                    break;
-
-
+                    
                 case Function.MediaFileSystemInfo_EnumerateDirectories:
                     stopwatch.Start();
                     var list4 = this.device.GetDirectoryInfo(this.Path).EnumerateDirectories(this.Filter, searchOption).ToList();

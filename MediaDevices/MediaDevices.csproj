@@ -63,7 +63,6 @@
     <Compile Include="Internal\ComHelper.cs" />
     <Compile Include="Internal\Command.cs" />
     <Compile Include="Internal\ComTrace.cs" />
-    <Compile Include="Internal\DeviceProperties.cs" />
     <Compile Include="Internal\EnumExtentions.cs" />
     <Compile Include="Internal\EventCallback.cs" />
     <Compile Include="Events.cs" />
@@ -73,7 +72,6 @@
     <Compile Include="Internal\Item.cs" />
     <Compile Include="Internal\ItemType.cs" />
     <Compile Include="Internal\KeyAttribute.cs" />
-    <Compile Include="Internal\ObjectProperties.cs" />
     <Compile Include="Internal\Profiler.cs" />
     <Compile Include="Internal\SmsMessageType.cs" />
     <Compile Include="Internal\VarType.cs" />

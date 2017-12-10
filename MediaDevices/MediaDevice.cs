@@ -27,13 +27,9 @@ namespace MediaDevices
 
         private delegate void RefAction<T1, T2>(T1 arg1, ref T2 arg2);
 
-        private const uint PORTABLE_DEVICE_DELETE_NO_RECURSION = 0;
-        private const uint PORTABLE_DEVICE_DELETE_WITH_RECURSION = 1;
-
-        //private const uint SMS_TEXT_MESSAGE = 0;
-        //private const uint SMS_BINARY_MESSAGE = 1;
-
-
+        //private const uint PORTABLE_DEVICE_DELETE_NO_RECURSION = 0;
+        //private const uint PORTABLE_DEVICE_DELETE_WITH_RECURSION = 1;
+        
         #region Fields
 
         private PortableDeviceApiLib.PortableDevice device;
@@ -44,7 +40,7 @@ namespace MediaDevices
         private string friendlyName = string.Empty;
         private string eventCookie;
         private EventCallback eventCallback;
-        //private HResult lastError;
+        
 
         #endregion
 
@@ -151,6 +147,11 @@ namespace MediaDevices
             // get number of devices
             uint count = 0;
             portableDeviceManager.GetPrivateDevices(null, ref count);
+
+            if (count == 0)
+            {
+                return new List<MediaDevice>();
+            }
 
             // get device IDs
             var deviceIds = new string[count];
@@ -292,8 +293,7 @@ namespace MediaDevices
             {
                 if (IsConnected)
                 {
-                    string val = string.Empty;
-                    this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out val);
+                    this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val);
                     return val;
                 }
                 else
@@ -309,7 +309,7 @@ namespace MediaDevices
                 }
 
                 this.deviceValues.SetStringValue(WPD.DEVICE_FRIENDLY_NAME, value);
-                this.deviceProperties.SetValues(Item.Root.Id, this.deviceValues, out this.deviceValues);
+                this.deviceProperties.SetValues(Item.RootId, this.deviceValues, out this.deviceValues);
             }
         }
 
@@ -332,8 +332,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                string val = string.Empty;
-                this.deviceValues.TryGetStringValue(WPD.DEVICE_SYNC_PARTNER, out val);
+                this.deviceValues.TryGetStringValue(WPD.DEVICE_SYNC_PARTNER, out string val);
                 return val;
             }
         }
@@ -351,8 +350,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                string val = string.Empty;
-                this.deviceValues.TryGetStringValue(WPD.DEVICE_FIRMWARE_VERSION, out val);
+                this.deviceValues.TryGetStringValue(WPD.DEVICE_FIRMWARE_VERSION, out string val);
                 return val;
             }
         }
@@ -370,8 +368,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                int val = -1;
-                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_LEVEL, out val);
+                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_LEVEL, out int val);
                 return val;
             }
         }
@@ -389,8 +386,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                int val = 0;
-                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE, out val);
+                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE, out int val);
                 return (PowerSource)val;
             }
         }
@@ -408,8 +404,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                string val = string.Empty;
-                this.deviceValues.TryGetStringValue(WPD.DEVICE_PROTOCOL, out val);
+                this.deviceValues.TryGetStringValue(WPD.DEVICE_PROTOCOL, out string val);
                 return val;
             }
         }
@@ -427,8 +422,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                string val = string.Empty;
-                this.deviceValues.TryGetStringValue(WPD.DEVICE_MODEL, out val);
+                this.deviceValues.TryGetStringValue(WPD.DEVICE_MODEL, out string val);
                 return val;
             }
         }
@@ -446,8 +440,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                string val = string.Empty;
-                this.deviceValues.TryGetStringValue(WPD.DEVICE_SERIAL_NUMBER, out val);
+                this.deviceValues.TryGetStringValue(WPD.DEVICE_SERIAL_NUMBER, out string val);
                 return val;
             }
         }
@@ -465,8 +458,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                bool val = false;
-                this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out val);
+                this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out bool val);
                 return val;
             }
         }
@@ -484,8 +476,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                DateTime? val = null;
-                this.deviceValues.TryGetDateTimeValue(WPD.DEVICE_DATETIME, out val);
+                this.deviceValues.TryGetDateTimeValue(WPD.DEVICE_DATETIME, out DateTime? val);
                 return val;
             }
         }
@@ -503,8 +494,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                bool val = false;
-                this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out val);
+                this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out bool val);
                 return val;
             }
         }
@@ -522,8 +512,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                int val = 0;
-                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TYPE, out val);
+                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TYPE, out int val);
                 return (DeviceType)val;
             }
         }
@@ -542,8 +531,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                ulong val = 0;
-                this.deviceValues.TryGetUnsignedLargeIntegerValue(WPD.DEVICE_NETWORK_IDENTIFIER, out val);
+                this.deviceValues.TryGetUnsignedLargeIntegerValue(WPD.DEVICE_NETWORK_IDENTIFIER, out ulong val);
                 return val;
             }
         }
@@ -561,8 +549,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                byte[] val = null;
-                this.deviceValues.TryByteArrayValue(WPD.DEVICE_FUNCTIONAL_UNIQUE_ID, out val);
+                this.deviceValues.TryByteArrayValue(WPD.DEVICE_FUNCTIONAL_UNIQUE_ID, out byte[] val);
                 return val;
             }
         }
@@ -580,8 +567,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                byte[] value;
-                this.deviceValues.TryByteArrayValue(WPD.DEVICE_MODEL_UNIQUE_ID, out value);
+                this.deviceValues.TryByteArrayValue(WPD.DEVICE_MODEL_UNIQUE_ID, out byte[] value);
                 return value;
             }
         }
@@ -599,8 +585,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                int val = 0;
-                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TRANSPORT, out val);
+                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TRANSPORT, out int val);
                 return (DeviceTransport)val;
             }
         }
@@ -618,8 +603,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                uint val = 0;
-                this.deviceValues.TryGetUnsignedIntegerValue(WPD.DEVICE_USE_DEVICE_STAGE, out val);
+                this.deviceValues.TryGetUnsignedIntegerValue(WPD.DEVICE_USE_DEVICE_STAGE, out uint val);
                 return (DeviceTransport)val;
             }
         }
@@ -637,8 +621,7 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                string pnPDeviceID = string.Empty;
-                this.device.GetPnPDeviceID(out pnPDeviceID);
+                this.device.GetPnPDeviceID(out string pnPDeviceID);
                 return pnPDeviceID;
             }
         }
@@ -662,7 +645,7 @@ namespace MediaDevices
             this.device.Capabilities(out this.deviceCapabilities);
             this.device.Content(out this.deviceContent);
             this.deviceContent.Properties(out this.deviceProperties);
-            this.deviceProperties.GetValues(Item.Root.Id, null, out this.deviceValues);            
+            this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);            
 
             // advice event handler
             this.eventCallback = new EventCallback(this);
@@ -702,15 +685,6 @@ namespace MediaDevices
             this.device.Cancel();
         }
         
-        ///// <summary>
-        ///// Get the last error
-        ///// </summary>
-        ///// <returns>Error code</returns>
-        //public HResult GetLastError()
-        //{
-        //    return this.lastError;
-        //}
-
         /// <summary>
         /// Returns an enumerable collection of directory names in a specified path.
         /// </summary>
@@ -736,12 +710,12 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = FindFolder(path);
+            Item item = Item.FindFolder(this, path);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
-            return GetChildren(item).Where(i => i.Type != ItemType.File).Select(i => i.FullName);
+            return item.GetChildren().Where(i => i.Type != ItemType.File).Select(i => i.FullName);
         }
 
         /// <summary>
@@ -772,12 +746,12 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = FindFolder(path);
+            Item item = Item.FindFolder(this, path);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
-            return GetChildren(item, FilterToRegex(searchPattern), searchOption).Where(i => i.Type != ItemType.File).Select(i => i.FullName);
+            return item.GetChildren(FilterToRegex(searchPattern), searchOption).Where(i => i.Type != ItemType.File).Select(i => i.FullName);
         }
 
 
@@ -806,12 +780,12 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = FindFolder(path);
+            Item item = Item.FindFolder(this, path);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
-            return GetChildren(item).Where(i => i.Type == ItemType.File).Select(i => i.FullName);
+            return item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => i.FullName);
         }
 
         /// <summary>
@@ -841,13 +815,13 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = FindFolder(path);
+            Item item = Item.FindFolder(this, path);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
             string pattern = MediaDevice.FilterToRegex(searchPattern);
-            return GetChildren(item, pattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.FullName);
+            return item.GetChildren(pattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.FullName);
         }
 
         /// <summary>
@@ -875,12 +849,12 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = FindFolder(path);
+            Item item = Item.FindFolder(this, path);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
-            return GetChildren(item).Select(i => i.FullName);
+            return item.GetChildren().Select(i => i.FullName);
         }
 
         /// <summary>
@@ -910,39 +884,15 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = FindFolder(path);
+            Item item = Item.FindFolder(this, path);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
             
-            return GetChildren(item, FilterToRegex(searchPattern), searchOption).Select(i => i.FullName);
+            return item.GetChildren(FilterToRegex(searchPattern), searchOption).Select(i => i.FullName);
         }
-
-        public IEnumerable<string> EnumerateFileSystemEntries2(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
-        {
-            if (path == null)
-            {
-                throw new ArgumentNullException("path");
-            }
-            if (!IsPath(path))
-            {
-                throw new ArgumentException("path");
-            }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
-
-            Item item = FindFolder(path);
-            if (item == null)
-            {
-                throw new DirectoryNotFoundException($"Director {path} not found.");
-            }
-            
-            return GetChildren(item, FilterToRegex(searchPattern), searchOption).Select(i => i.FullName);
-        }
-
+        
         /// <summary>
         /// Creates all directories and subdirectories in the specified path.
         /// </summary>
@@ -967,7 +917,7 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            CreateSubdirectory(Item.Root, path);
+            Item.GetRoot(this).CreateSubdirectory(path);
         }
 
         /// <summary>
@@ -995,19 +945,20 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = FindFolder(path);
+            Item item = Item.FindFolder(this, path);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"Director {path} not found.");
             }
 
-            var objectIdCollection = (IPortableDevicePropVariantCollection)new PortableDeviceTypesLib.PortableDevicePropVariantCollection();
+            item.Delete(recursive);
+            //var objectIdCollection = (IPortableDevicePropVariantCollection)new PortableDeviceTypesLib.PortableDevicePropVariantCollection();
 
-            var propVariantValue = PropVariant.StringToPropVariant(item.Id);
-            objectIdCollection.Add(ref propVariantValue);
+            //var propVariantValue = PropVariant.StringToPropVariant(item.Id);
+            //objectIdCollection.Add(ref propVariantValue);
 
-            // TODO: get the results back and handle failures correctly
-            deviceContent.Delete(recursive ? PORTABLE_DEVICE_DELETE_WITH_RECURSION : PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, null);
+            //// TODO: get the results back and handle failures correctly
+            //deviceContent.Delete(recursive ? PORTABLE_DEVICE_DELETE_WITH_RECURSION : PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, null);
         }
 
         /// <summary>
@@ -1028,7 +979,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return FindFolder(path) != null;
+            return Item.FindFolder(this, path) != null;
         }
 
         /// <summary>
@@ -1060,13 +1011,16 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = FindFile(path);
+            Item item = Item.FindFile(this, path);
             if (item == null)
             {
                 throw new FileNotFoundException($"File {path} not found.");
             }
-
-            Download(item, stream);
+            
+            using (Stream sourceStream = item.OpenRead())
+            {
+                sourceStream.CopyTo(stream);
+            }
         }
 
 
@@ -1102,34 +1056,35 @@ namespace MediaDevices
 
             string folder = Path.GetDirectoryName(path);
             string fileName = Path.GetFileName(path);
-            Item item = FindFolder(folder);
+            Item item = Item.FindFolder(this, path);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"Directory {folder} not found.");
             }
 
-            if (GetChildren(item).Any(i => EqualsName(i.Name, fileName)))
+            if (item.GetChildren().Any(i => EqualsName(i.Name, fileName)))
             {
                 throw new IOException($"File {path} already exists");
             }
 
-            IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
+            item.UploadFile(fileName, stream);
+            //IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
 
-            portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, item.Id);
-            portableDeviceValues.SetUnsignedLargeIntegerValue(ref WPD.OBJECT_SIZE, (ulong)stream.Length);
-            portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, fileName);
-            portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, fileName);
+            //portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, item.Id);
+            //portableDeviceValues.SetUnsignedLargeIntegerValue(ref WPD.OBJECT_SIZE, (ulong)stream.Length);
+            //portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, fileName);
+            //portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, fileName);
 
-            uint num = 0u;
-            string text = null;
-            PortableDeviceApiLib.IStream wpdStream;
-            this.deviceContent.CreateObjectWithPropertiesAndData(portableDeviceValues, out wpdStream, ref num, ref text);
+            //uint num = 0u;
+            //string text = null;
+            //PortableDeviceApiLib.IStream wpdStream;
+            //this.deviceContent.CreateObjectWithPropertiesAndData(portableDeviceValues, out wpdStream, ref num, ref text);
 
-            using (StreamWrapper destinationStream = new StreamWrapper(wpdStream))
-            {
-                stream.CopyTo(destinationStream);
-                destinationStream.Flush();
-            }
+            //using (StreamWrapper destinationStream = new StreamWrapper(wpdStream))
+            //{
+            //    stream.CopyTo(destinationStream);
+            //    destinationStream.Flush();
+            //}
         }
 
         /// <summary>
@@ -1154,7 +1109,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            var objectId = FindFile(path);
+            var objectId = Item.FindFile(this, path);
             return objectId != null;
         }
 
@@ -1182,19 +1137,20 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Item item = FindFile(path);
+            Item item = Item.FindFile(this, path); 
             if (item == null)
             {
                 throw new FileNotFoundException($"File {path} not found.");
             }
 
-            var objectIdCollection = (PortableDeviceApiLib.IPortableDevicePropVariantCollection)new PortableDeviceTypesLib.PortableDevicePropVariantCollection();
+            item.Delete();
+            //var objectIdCollection = (PortableDeviceApiLib.IPortableDevicePropVariantCollection)new PortableDeviceTypesLib.PortableDevicePropVariantCollection();
 
-            var propVariantValue = PropVariant.StringToPropVariant(item.Id);
-            objectIdCollection.Add(ref propVariantValue);
+            //var propVariantValue = PropVariant.StringToPropVariant(item.Id);
+            //objectIdCollection.Add(ref propVariantValue);
 
-            // TODO: get the results back and handle failures correctly
-            deviceContent.Delete(PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, null);
+            //// TODO: get the results back and handle failures correctly
+            //deviceContent.Delete(PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, null);
         }
 
         /// <summary>
@@ -1217,7 +1173,7 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            var item = FindItem(path);
+            var item = Item.FindItem(this, path);
             if (item == null)
             {
                 throw new FileNotFoundException($"{path} not found.");
@@ -1246,7 +1202,7 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            var item = FindFolder(path);
+            var item = Item.FindFolder(this, path);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"{path} not found.");
@@ -1265,7 +1221,7 @@ namespace MediaDevices
             {
                 throw new NotConnectedException("Not connected");
             }
-            return new MediaDirectoryInfo(this, Item.Root);
+            return new MediaDirectoryInfo(this, Item.GetRoot(this));
         }
 
         #endregion
@@ -1435,7 +1391,7 @@ namespace MediaDevices
             Command cmd = Command.Create(WPD.COMMAND_DEVICE_HINTS_GET_CONTENT_LOCATION);
             cmd.Add(WPD.PROPERTY_DEVICE_HINTS_CONTENT_TYPE, contentType.Guid());
             cmd.Send(this.device);
-            return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => GetPath(c));
+            return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => Item.Create(this, c).FullName);
         }
 
         //public void Supported(string id)
@@ -1468,7 +1424,7 @@ namespace MediaDevices
                 throw new ArgumentNullException("path");
             }
 
-            Item item = FindFolder(path);
+            Item item = Item.FindFolder(this, path);
             Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
             cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item.Id);
             cmd.Send(this.device);
@@ -1489,7 +1445,7 @@ namespace MediaDevices
                 throw new ArgumentNullException("path");
             }
 
-            Item item = FindFolder(path);
+            Item item = Item.FindFolder(this, path);
             Command cmd = Command.Create(WPD.COMMAND_STORAGE_FORMAT);
             cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item.Id);
             cmd.Send(this.device);
@@ -1528,20 +1484,7 @@ namespace MediaDevices
             {
                 throw new ArgumentNullException("functionalObject");
             }
-
-            //var values = (IPortableDeviceValues)new PortableDeviceValues();
-            //IPortableDeviceValues result;
-            //values.SetGuidValue(WPD.PROPERTY_COMMON_COMMAND_CATEGORY, WPD.COMMAND_SMS_SEND.fmtid);
-            //values.SetUnsignedIntegerValue(WPD.PROPERTY_COMMON_COMMAND_ID, WPD.COMMAND_SMS_SEND.pid);
-
-            //values.SetStringValue(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
-            //values.SetStringValue(WPD.PROPERTY_SMS_RECIPIENT, recipient);
-            //values.SetUnsignedIntegerValue(WPD.PROPERTY_SMS_MESSAGE_TYPE, (uint)SmsMessageType.Text);
-            //values.SetStringValue(WPD.PROPERTY_SMS_TEXT_MESSAGE, text);
-            //this.device.SendCommand(0, values, out result);
-
-            //return CheckCommonResult(result);
-
+            
             Command cmd = Command.Create(WPD.COMMAND_SMS_SEND);
             cmd.Add(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
             cmd.Add(WPD.PROPERTY_SMS_RECIPIENT, recipient);
@@ -1584,17 +1527,7 @@ namespace MediaDevices
             {
                 throw new ArgumentNullException("functionalObject");
             }
-
-            //var values = (IPortableDeviceValues)new PortableDeviceValues();
-            //IPortableDeviceValues result;
-            //values.SetGuidValue(WPD.PROPERTY_COMMON_COMMAND_CATEGORY, WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE.fmtid);
-            //values.SetUnsignedIntegerValue(WPD.PROPERTY_COMMON_COMMAND_ID, WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE.pid);
-
-            //values.SetStringValue(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
-            //this.device.SendCommand(0, values, out result);
-
-            //return CheckCommonResult(result);
-
+            
             Command cmd = Command.Create(WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE);
             cmd.Add(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
             return cmd.Send(this.device);
@@ -1605,7 +1538,6 @@ namespace MediaDevices
             ComTrace.WriteObject(eventParameters);
             Guid eventGuid;
             eventParameters.GetGuidValue(WPD.EVENT_PARAMETER_EVENT_ID, out eventGuid);
-            //Events eventEnum = GetEnumFromAttrGuid<Events>(eventGuid);
             Events eventEnum = eventGuid.GetEnumFromAttrGuid<Events>();
 
             switch (eventEnum)
@@ -1688,49 +1620,38 @@ namespace MediaDevices
             keys.Add(WPD.STORAGE_CAPACITY_IN_OBJECTS);
             keys.Add(WPD.STORAGE_ACCESS_CAPABILITY);
 
-            IPortableDeviceValues values;
-            this.deviceProperties.GetValues(storageObjectId, keys, out values);
+            this.deviceProperties.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
 
             MediaStorageInfo info = new MediaStorageInfo();
 
-            uint type = 0;
-            values.TryGetUnsignedIntegerValue(WPD.STORAGE_TYPE, out type);
+            values.TryGetUnsignedIntegerValue(WPD.STORAGE_TYPE, out uint type);
             info.Type = (StorageType)type;
 
-            string fileSystemType = String.Empty;
-            values.TryGetStringValue(WPD.STORAGE_FILE_SYSTEM_TYPE, out fileSystemType);
+            values.TryGetStringValue(WPD.STORAGE_FILE_SYSTEM_TYPE, out string fileSystemType);
             info.FileSystemType = fileSystemType;
 
-            ulong capacity = 0;
-            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY, out capacity);
+            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY, out ulong capacity);
             info.Capacity = capacity;
 
-            ulong freeBytes = 0;
-            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_BYTES, out freeBytes);
+            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_BYTES, out ulong freeBytes);
             info.FreeSpaceInBytes = freeBytes;
 
-            ulong freeObjects = 0;
-            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_OBJECTS, out freeObjects);
+            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_OBJECTS, out ulong freeObjects);
             info.FreeSpaceInObjects = freeObjects;
 
-            string description = String.Empty;
-            values.TryGetStringValue(WPD.STORAGE_DESCRIPTION, out description);
+            values.TryGetStringValue(WPD.STORAGE_DESCRIPTION, out string description);
             info.Description = description;
 
-            string serialNumber = String.Empty;
-            values.TryGetStringValue(WPD.STORAGE_SERIAL_NUMBER, out serialNumber);
+            values.TryGetStringValue(WPD.STORAGE_SERIAL_NUMBER, out string serialNumber);
             info.SerialNumber = serialNumber;
 
-            ulong maxObjectSize = 0;
-            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_MAX_OBJECT_SIZE, out maxObjectSize);
+            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_MAX_OBJECT_SIZE, out ulong maxObjectSize);
             info.MaxObjectSize = maxObjectSize;
 
-            ulong capacityInObjects = 0;
-            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY_IN_OBJECTS, out capacityInObjects);
+            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY_IN_OBJECTS, out ulong capacityInObjects);
             info.CapacityInObjects = capacityInObjects;
 
-            uint accessCapability = 0;
-            values.TryGetUnsignedIntegerValue(WPD.STORAGE_ACCESS_CAPABILITY, out accessCapability);
+            values.TryGetUnsignedIntegerValue(WPD.STORAGE_ACCESS_CAPABILITY, out uint accessCapability);
             info.AccessCapability = (StorageAccessCapability)accessCapability;
 
             return info;
@@ -1819,486 +1740,125 @@ namespace MediaDevices
 
         #region Intern Methods
 
-        internal void Download(Item item, Stream stream)
-        {
-            using (Stream sourceStream = OpenRead(item.Id))
-            {
-                sourceStream.CopyTo(stream);
-            }
-        }
-
-        internal Stream OpenRead(string id)
-        {
-            IPortableDeviceResources resources;
-            this.deviceContent.Transfer(out resources);
-
-            PortableDeviceApiLib.IStream wpdStream;
-            uint optimalTransferSize = 0;
-
-            resources.GetStream(id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out wpdStream);
-
-            return new StreamWrapper(wpdStream);
-        }
-
-        internal ObjectProperties GetProperties(string id)
-        {
-            return new ObjectProperties(this.deviceProperties, id);
-        }
-
-        //internal void RefreshFileSystemInfo(MediaFileSystemInfo fileSystemInfo, string id)
-        //{ 
-
-        //    ObjectProperties prop = new ObjectProperties(this.deviceProperties, id);
-        //    Guid contentType = prop.ContentType;
-        //    MediaFileAttributes attributes;
-        //    string name;
-        //    if (contentType == WPD.CONTENT_TYPE_FUNCTIONAL_OBJECT)
+        //internal void Download(Item item, Stream stream)
+        //{
+        //    using (Stream sourceStream = OpenRead(item.Id))
         //    {
-        //        name = prop.Name;
-        //        attributes = MediaFileAttributes.Object;
+        //        sourceStream.CopyTo(stream);
         //    }
-        //    else if (contentType == WPD.CONTENT_TYPE_FOLDER)
-        //    {
-        //        name = prop.OriginalFileName;
-        //        attributes = MediaFileAttributes.Directory;
-        //    }
-        //    else
-        //    {
-        //        name = prop.OriginalFileName;
-        //        attributes = MediaFileAttributes.Normal;
-        //    }
-
-        //    attributes |= prop.CanDelete ? MediaFileAttributes.CanDelete : 0;
-        //    attributes |= prop.IsSystem ? MediaFileAttributes.System : 0;
-        //    attributes |= prop.IsHidden ? MediaFileAttributes.Hidden : 0;
-        //    attributes |= prop.IsDRMProtected ? MediaFileAttributes.DRMProtected : 0;
-
-        //    fileSystemInfo.Name = name;
-        //    fileSystemInfo.Length = prop.Size;
-        //    fileSystemInfo.CreationTime = prop.DateCreated;
-        //    fileSystemInfo.LastWriteTime = prop.DateModified;
-        //    fileSystemInfo.DateAuthored = prop.DateAuthored;
-        //    fileSystemInfo.Attributes = attributes;
         //}
 
-        #endregion
+        //internal Stream OpenRead(string id)
+        //{
+        //    IPortableDeviceResources resources;
+        //    this.deviceContent.Transfer(out resources);
 
-        #region Private Methods
+        //    PortableDeviceApiLib.IStream wpdStream;
+        //    uint optimalTransferSize = 0;
+
+        //    resources.GetStream(id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out wpdStream);
+
+        //    return new StreamWrapper(wpdStream);
+        //}
 
         internal static bool IsPath(string path)
         {
             return !string.IsNullOrWhiteSpace(path) && path.IndexOfAny(Path.GetInvalidPathChars()) < 0;
         }
 
-        internal Item GetItem(string id, string path = null)
-        {
-            Item item = null;
-            ObjectProperties prop = new ObjectProperties(this.deviceProperties, id);
-            Guid contentType = prop.ContentType;
-            if (id == Item.RootId)
-            {
-                item = Item.Root;
-            }
-            else
-            if (contentType == WPD.CONTENT_TYPE_FUNCTIONAL_OBJECT)
-            {
-                item = new Item(id, prop.Name, ItemType.Object);
-            }
-            else if (contentType == WPD.CONTENT_TYPE_FOLDER)
-            {
-                item = new Item(id, prop.OriginalFileName, ItemType.Folder);
-            }
-            else
-            {
-                item = new Item(id, prop.OriginalFileName, ItemType.File);
-            }
-            if (!string.IsNullOrEmpty(path))
-            {
-                item.FullName = Path.Combine(path, item.Name);
-            }
-
-            return item;
-        }
-
-        private string GetParent(string objectId)
-        {
-            ObjectProperties prop = new ObjectProperties(this.deviceProperties, objectId);
-            return prop.ParentId;
-        }
-
-        internal string GetPath(string objectId)
-        {
-            if (objectId == Item.RootId)
-            {
-                return @"\";
-            }
-
-            StringBuilder sb = new StringBuilder();
-            do
-            {
-                sb.Insert(0, GetItem(objectId).Name);
-                sb.Insert(0, DirectorySeparatorChar);
-
-            } while ((objectId = GetParent(objectId)) != Item.Root.Id);
-            return sb.ToString();
-        }
-
-        //private PropVariant GetProperty(PropertyKey propertyKey)
-        //{
-        //    if (!this.IsConnected)
-        //    {
-        //        throw new NotConnectedException("Not connected");
-        //    }
-
-        //    try
-        //    {
-        //        PROPVARIANT val;
-        //        IPortableDeviceValues propertyValues;
-        //        this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-        //        propertyValues.GetValue(ref propertyKey, out val);
-        //        return val;
-        //    }
-        //    catch (COMException ex)
-        //    {
-        //        if ((uint)ex.ErrorCode != E_ELEMENT_NOT_FOUND)
-        //        {
-        //            Trace.TraceError("{0} - {1} - {2}", this.Description, new StackFrame(1, true).GetMethod().Name, ex.Message);
-        //            throw new NotSupportedException($"{this.Description} - {new StackFrame(1, true).GetMethod().Name}", ex);
-        //        }
-        //        throw;
-        //    }
-        //}
-
-        //private T GetPropery<T>(PropertyKey propertyKey)
-        //{
-        //    if (!this.IsConnected)
-        //    {
-        //        throw new NotConnectedException("Not connected");
-        //    }
-        //    try
-        //    {
-        //        PROPVARIANT val;
-        //        IPortableDeviceValues propertyValues;
-        //        this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-        //        propertyValues.GetValue(ref propertyKey, out val);
-
-        //        int size = Marshal.SizeOf(typeof(PROPVARIANT));
-        //        IntPtr ptrValue = Marshal.AllocHGlobal(size);
-        //        Marshal.StructureToPtr(val, ptrValue, false);
-
-        //        return (T)Marshal.GetObjectForNativeVariant(ptrValue);
-        //    }
-        //    catch (COMException ex)
-        //    {
-        //        if ((uint)ex.ErrorCode != E_ELEMENT_NOT_FOUND)
-        //        {
-        //            throw new NotSupportedException($"{this.Description} - {new StackFrame(1, true).GetMethod().Name}", ex);
-        //        }
-        //        throw;
-        //    }
-        //}
-
-        //private string GetStringProperty(PropertyKey propertyKey)
-        //{
-        //    if (!this.IsConnected)
-        //    {
-        //        throw new NotConnectedException("Not connected");
-        //    }
-
-
-        //    IPortableDeviceValues propertyValues;
-        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-
-        //    string val = string.Empty;
-        //    propertyValues.TryGetStringValue(propertyKey, out val);
-        //    return val;
-        //}
-
-        //private void SetStringProperty(PropertyKey propertyKey, string val)
-        //{
-        //    if (!this.IsConnected)
-        //    {
-        //        throw new NotConnectedException("Not connected");
-        //    }
-
-        //    try
-        //    {
-        //        IPortableDeviceValues propertyValues;
-        //        IPortableDeviceValues propertyValuesRes;
-        //        this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-
-        //        propertyValues.SetStringValue(ref propertyKey, val);
-
-        //        this.deviceProperties.SetValues(Item.Root.Id, propertyValues, out propertyValuesRes);
-        //    }
-        //    catch (COMException ex)
-        //    {
-        //        if ((uint)ex.ErrorCode != (uint)HResult.E_ELEMENT_NOT_FOUND)
-        //        {
-        //            Trace.TraceError("{0} - {1} - {2}", this.Description, new StackFrame(1, true).GetMethod().Name, ex.Message);
-        //            throw new NotSupportedException($"{this.Description} - {new StackFrame(1, true).GetMethod().Name}", ex);
-        //        }
-        //        throw;
-        //    }
-        //}
-
-        //private int GetIntegerProperty(PropertyKey propertyKey)
-        //{
-        //    if (!this.IsConnected)
-        //    {
-        //        throw new NotConnectedException("Not connected");
-        //    }
-
-        //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
-        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-
-        //    int val = -1;
-        //    propertyValues.TryGetSignedIntegerValue(propertyKey, out val);
-        //    return val;
-        //}
-
-        //private ulong GetULongProperty(PropertyKey propertyKey)
-        //{
-        //    if (!this.IsConnected)
-        //    {
-        //        throw new NotConnectedException("Not connected");
-        //    }
-
-        //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
-        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-
-        //    ulong val = 0;
-        //    propertyValues.TryGetUnsignedLargeIntegerValue(propertyKey, out val);
-        //    return val;
-        //}
-
-        //private bool GetBoolProperty(PropertyKey propertyKey)
-        //{
-        //    if (!this.IsConnected)
-        //    {
-        //        throw new NotConnectedException("Not connected");
-        //    }
-
-        //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
-        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-
-        //    bool val = false;
-        //    propertyValues.TryGetBoolValue(propertyKey, out val);
-        //    return val;
-        //}
-
-        //private DateTime? GetDateTimeProperty(PropertyKey propertyKey)
-        //{
-        //    if (!this.IsConnected)
-        //    {
-        //        throw new NotConnectedException("Not connected");
-        //    }
-
-        //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
-        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-
-        //    DateTime? obj = null;
-        //    propertyValues.TryGetDateTimeValue(propertyKey, out obj);
-        //    return obj;
-        //}
-
-        //private object GetObjectProperty(PropertyKey propertyKey)
-        //{
-        //    if (!this.IsConnected)
-        //    {
-        //        throw new NotConnectedException("Not connected");
-        //    }
-
-        //    PortableDeviceApiLib.IPortableDeviceValues propertyValues;
-        //    this.deviceProperties.GetValues(Item.Root.Id, null, out propertyValues);
-
-        //    object val = null;
-        //    propertyValues.TryGetIUnknownValue(propertyKey, out val);
-        //    return val;
-        //}
-
-        private Item FindFolder(string path)
-        {
-            if (path == @"\")
-            {
-                return Item.Root;
-            }
-            var item = Item.Root; 
-            var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var folder in folders)
-            {
-                item = GetChildren(item).FirstOrDefault(i => i.Type != ItemType.File && EqualsName(i.Name, folder));     // check all if folder             
-                if (item == null)
-                {
-                    return null;
-                }
-            }
-            return item;
-        }
-
-        private Item FindFile(string path)
-        {
-            if (path == @"\")
-            {
-                return Item.Root;
-            }
-            var item = Item.Root;
-            var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var folder in folders)
-            {
-                item = GetChildren(item).FirstOrDefault(i => EqualsName(i.Name, folder));
-                if (item == null)
-                {
-                    return null;
-                }
-            }
-            return item.Type == ItemType.File ? item : null;    // check only last if not folder
-        }
-
-        private Item FindItem(string path)
-        {
-            if (path == @"\")
-            {
-                return Item.Root;
-            }
-            var item = Item.Root;
-            var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var folder in folders)
-            {
-                item = GetChildren(item).FirstOrDefault(i => EqualsName(i.Name, folder));
-                if (item == null)
-                {
-                    return null;
-                }
-            }
-            return item;
-        }
-
-        private bool EqualsName(string a, string b)
+        internal bool EqualsName(string a, string b)
         {
             return this.IsCaseSensitive ? a == b : string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
         }
 
-        //private Item Root()
+        #endregion
+
+        #region Private Methods
+
+        // TODO should be removed
+        //private string GetParent(string objectId)
         //{
-        //    Item item = this.GetItem(Item.RootId);
-        //    item.FullName = item.Name;
-        //    return item;
+        //    Item item = Item.Create(this, objectId);
+        //    return item.ParentId;
+        //}
+
+        //// TODO should be removed
+        //internal string GetPath(string objectId)
+        //{
+        //    if (objectId == Item.RootId)
+        //    {
+        //        return @"\";
+        //    }
+
+        //    StringBuilder sb = new StringBuilder();
+        //    do
+        //    {
+        //        sb.Insert(0, Item.Create(this, objectId).Name);
+        //        sb.Insert(0, DirectorySeparatorChar);
+
+        //    } while ((objectId = GetParent(objectId)) != Item.RootId);
+        //    return sb.ToString();
         //}
         
-
-        //internal IEnumerable<Item> GetChildren(string id)
+        //private Item FindFolder(string path)
         //{
-        //    IEnumPortableDeviceObjectIDs objectIds;
-        //    this.deviceContent.EnumObjects(0, id, null, out objectIds);
-
-        //    uint fetched = 0;
-        //    string objectId;
-        //    objectIds.Next(1, out objectId, ref fetched);
-        //    while (fetched > 0)
+        //    var item = Item.GetRoot(this);
+        //    if (path == @"\")
         //    {
-        //        yield return this.GetItem(objectId);
-        //        objectIds.Next(1, out objectId, ref fetched);
+        //        return item;
         //    }
+        //    var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+        //    foreach (var folder in folders)
+        //    {
+        //        item = item.GetChildren().FirstOrDefault(i => i.Type != ItemType.File && EqualsName(i.Name, folder));     // check all if folder             
+        //        if (item == null)
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //    return item;
         //}
 
-        //internal IEnumerable<Item> GetChildren(Item item)
+        //private Item FindFile(string path)
         //{
-        //    IEnumPortableDeviceObjectIDs objectIds;
-        //    this.deviceContent.EnumObjects(0, item.Id, null, out objectIds);
-
-        //    uint fetched = 0;
-        //    string objectId;
-        //    objectIds.Next(1, out objectId, ref fetched);
-        //    while (fetched > 0)
+        //    var item = Item.GetRoot(this);
+        //    if (path == @"\")
         //    {
-        //        yield return this.GetItem(objectId, item.FullName);
-        //        objectIds.Next(1, out objectId, ref fetched);
+        //        return item;
         //    }
+        //    var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+        //    foreach (var folder in folders)
+        //    {
+        //        item = item.GetChildren().FirstOrDefault(i => EqualsName(i.Name, folder));
+        //        if (item == null)
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //    return item.Type == ItemType.File ? item : null;    // check only last if not folder
         //}
 
-        //internal IEnumerable<Item> GetChildren(string id, string searchPattern, SearchOption searchOption)
+        //private Item FindItem(string path)
         //{
-        //    string pattern = MediaDevice.FilterToRegex(searchPattern);
-
-        //    IEnumPortableDeviceObjectIDs objectIds;
-        //    this.deviceContent.EnumObjects(0, id, null, out objectIds);
-
-        //    uint fetched = 0;
-        //    string objectId;
-        //    objectIds.Next(1, out objectId, ref fetched);
-        //    while (fetched > 0)
+        //    var item = Item.GetRoot(this);
+        //    if (path == @"\")
         //    {
-        //        Item item = this.GetItem(objectId);
-        //        if (Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
-        //        {
-        //            yield return item;
-        //        }
-        //        if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
-        //        {
-        //            var children = GetChildrenRecursive(item.Id, pattern);
-        //            foreach (var c in children)
-        //            {
-        //                yield return c;
-        //            }
-        //        }
-        //        objectIds.Next(1, out objectId, ref fetched);
+        //        return item;
         //    }
+        //    var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+        //    foreach (var folder in folders)
+        //    {
+        //        item = item.GetChildren().FirstOrDefault(i => EqualsName(i.Name, folder));
+        //        if (item == null)
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //    return item;
         //}
 
-        //internal IEnumerable<Item> GetChildrenRecursive(string id, string pattern)
-        //{
-        //    IEnumPortableDeviceObjectIDs objectIds;
-        //    this.deviceContent.EnumObjects(0, id, null, out objectIds);
-
-        //    uint fetched = 0;
-        //    string objectId;
-        //    objectIds.Next(1, out objectId, ref fetched);
-        //    while (fetched > 0)
-        //    {
-        //        Item item = this.GetItem(objectId);
-        //        if (Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
-        //        {
-        //            yield return item;
-        //        }
-        //        foreach (var c in GetChildrenRecursive(item.Id, pattern))
-        //        {
-        //            yield return c;
-        //        }
-        //        objectIds.Next(1, out objectId, ref fetched);
-        //    }
-        //}
-
-        //string pattern = MediaDevice.FilterToRegex(searchPattern);
-
-        internal IEnumerable<Item> GetChildren(Item parentItem, string pattern = null, SearchOption searchOption = SearchOption.TopDirectoryOnly)
-        {
-            IEnumPortableDeviceObjectIDs objectIds;
-            this.deviceContent.EnumObjects(0, parentItem.Id, null, out objectIds);
-
-            uint fetched = 0;
-            string objectId;
-            objectIds.Next(1, out objectId, ref fetched);
-            while (fetched > 0)
-            {
-                Item item = this.GetItem(objectId, parentItem.FullName);
-                if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
-                {
-                    yield return item;
-                }
-                if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
-                {
-                    var children = GetChildren(item, pattern, searchOption);
-                    foreach (var c in children)
-                    {
-                        yield return c;
-                    }
-                }
-                objectIds.Next(1, out objectId, ref fetched);
-            }
-        }
-
-        //internal IEnumerable<Item> GetChildrenRecursive2(Item parentItem, string pattern)
+        
+        //internal IEnumerable<Item> GetChildren(Item parentItem, string pattern = null, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         //{
         //    IEnumPortableDeviceObjectIDs objectIds;
         //    this.deviceContent.EnumObjects(0, parentItem.Id, null, out objectIds);
@@ -2308,53 +1868,57 @@ namespace MediaDevices
         //    objectIds.Next(1, out objectId, ref fetched);
         //    while (fetched > 0)
         //    {
-        //        Item item = this.GetItem(objectId, parentItem.FullName);
-        //        if (Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
+        //        Item item = Item.Create(this, objectId, parentItem.FullName);
+        //        if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
         //        {
         //            yield return item;
         //        }
-        //        foreach (var c in GetChildrenRecursive2(item, pattern))
+        //        if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
         //        {
-        //            yield return c;
+        //            var children = GetChildren(item, pattern, searchOption);
+        //            foreach (var c in children)
+        //            {
+        //                yield return c;
+        //            }
         //        }
         //        objectIds.Next(1, out objectId, ref fetched);
         //    }
         //}
+        
+        //internal Item CreateSubdirectory(Item item, string path)
+        //{
+        //    Item child = null;
+        //    var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+        //    foreach (var folder in folders)
+        //    {
+        //        child = item.GetChildren().FirstOrDefault(i => EqualsName(i.Name, folder));
+        //        if (child == null)
+        //        {
+        //            // create a new directory
+        //            IPortableDeviceValues deviceValues = (IPortableDeviceValues)new PortableDeviceValues();
+        //            deviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, item.Id);
+        //            deviceValues.SetStringValue(ref WPD.OBJECT_NAME, folder);
+        //            deviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, folder);
+        //            deviceValues.SetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, ref WPD.CONTENT_TYPE_FOLDER);
+        //            string id = string.Empty;
+        //            this.deviceContent.CreateObjectWithPropertiesOnly(deviceValues, ref id);
+        //        }
+        //        else if (child.Type == ItemType.File)
+        //        {
+        //            // folder is already a file
+        //            throw new Exception($"A path of the path {folder} is a file");
+        //        }
+        //        else
+        //        {
+        //            // folder exists
+        //            //id = child.Id;
+        //            //new Item()
 
-        internal Item CreateSubdirectory(Item item, string path)
-        {
-            Item child = null;
-            var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var folder in folders)
-            {
-                child = GetChildren(item).FirstOrDefault(i => EqualsName(i.Name, folder));
-                if (child == null)
-                {
-                    // create a new directory
-                    IPortableDeviceValues deviceValues = (IPortableDeviceValues)new PortableDeviceValues();
-                    deviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, item.Id);
-                    deviceValues.SetStringValue(ref WPD.OBJECT_NAME, folder);
-                    deviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, folder);
-                    deviceValues.SetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, ref WPD.CONTENT_TYPE_FOLDER);
-                    string id = string.Empty;
-                    this.deviceContent.CreateObjectWithPropertiesOnly(deviceValues, ref id);
-                }
-                else if (child.Type == ItemType.File)
-                {
-                    // folder is already a file
-                    throw new Exception($"A path of the path {folder} is a file");
-                }
-                else
-                {
-                    // folder exists
-                    //id = child.Id;
-                    //new Item()
-
-                // TODO
-                }
-            }
-            return child;
-        }
+        //        // TODO
+        //        }
+        //    }
+        //    return child;
+        //}
 
         internal static string FilterToRegex(string filter)
         {
@@ -2378,75 +1942,6 @@ namespace MediaDevices
 
         #endregion
 
-        #region helper
-
-        //private static FieldInfo[] propertyKeyFields = null;
-
-        //private string FindPropertyKeyName(PropertyKey propertyKey)
-        //{
-        //    if (propertyKeyFields == null)
-        //    {
-        //        propertyKeyFields = this.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Static).Where(f => f.FieldType == typeof(PropertyKey)).ToArray();
-        //    }
-
-        //    return propertyKeyFields.
-        //        Select(f => new { FI = f, PK = (PropertyKey)f.GetValue(this) }).
-        //        Where(n => n.PK.fmtid == propertyKey.fmtid && n.PK.pid == propertyKey.pid).
-        //        Select(n => n.FI.Name).
-        //        FirstOrDefault();
-        //}
-
-        //private static FieldInfo[] guidFields = null;
-
-        //private string FindGuidName(PROPVARIANT value)
-        //{
-        //    if (guidFields == null)
-        //    {
-        //        guidFields = this.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Static).Where(f => f.FieldType == typeof(Guid)).ToArray();
-        //    }
-
-        //    Guid guid = (PropVariant)value;
-        //    return guidFields.
-        //        Select(f => new { FI = f, Guid = (Guid)f.GetValue(this) }).
-        //        Where(n => n.Guid == guid).
-        //        Select(n => n.FI.Name).
-        //        FirstOrDefault();
-        //}
-
-
-        //////private Guid GetAttrGuidFromEnum<T>(T val)
-        //////{
-        //////    return val.GetType().GetField(val.ToString()).GetCustomAttribute<GuidAttribute>().Guid;
-        //////}
-
-        //////private T GetEnumFromAttrGuid<T>(Guid guid)
-        //////{
-        //////    return Enum.GetValues(typeof(T)).Cast<T>().Where(e => GetAttrGuidFromEnum(e) == guid).FirstOrDefault();
-        //////}
-
-        //////private bool IsAttrKeyFromEnum<T>(T val, PropertyKey key)
-        //////{
-        //////    KeyAttribute attr = val.GetType().GetField(val.ToString()).GetCustomAttribute<KeyAttribute>();
-        //////    return attr.Guid == key.fmtid && attr.Id == key.pid;
-        //////}
-
-        //////private T GetEnumFromAttrKey<T>(PropertyKey key)
-        //////{
-        //////    return Enum.GetValues(typeof(T)).Cast<T>().Where(e => IsAttrKeyFromEnum(e, key)).FirstOrDefault();
-        //////}
-
-        //private bool CheckCommonResult(IPortableDeviceValues result)
-        //{
-        //    int error = 0;
-        //    result.GetErrorValue(WPD.PROPERTY_COMMON_HRESULT, out error);
-        //    //uint deviceErrorCode = 0;
-        //    //result.GetUnsignedIntegerValue(WPD.PROPERTY_COMMON_DRIVER_ERROR_CODE, out deviceErrorCode);
-
-        //    this.lastError = (HResult)error;
-        //    return error == 0;
-        //}
-
-
-        #endregion
+        
     }
 }

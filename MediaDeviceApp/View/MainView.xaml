@@ -52,6 +52,9 @@
             <TabItem Header="Storage" DataContext="{Binding Storage}">
                 <v:StorageView/>
             </TabItem>
+            <TabItem Header="Device Root" DataContext="{Binding Root}">
+                <v:RootView/>
+            </TabItem>
             <TabItem Header="Files" DataContext="{Binding Files}">
                 <v:FilesView/>
             </TabItem>

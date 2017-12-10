@@ -97,7 +97,7 @@ namespace MediaDevices
         {
             get
             {
-                return this.mediaDevice.GetPath(this.ObjectId);
+                return Item.Create(this.mediaDevice, this.ObjectId).FullName;
             }
         }
 
@@ -105,7 +105,7 @@ namespace MediaDevices
         {
             get
             {
-                return this.mediaDevice.OpenRead(this.ObjectId);
+                return Item.Create(this.mediaDevice, this.ObjectId).OpenRead();
             }
         }
     }

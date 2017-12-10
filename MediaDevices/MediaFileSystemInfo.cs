@@ -20,25 +20,9 @@ namespace MediaDevices
         protected MediaDevice device;
 
         internal Item item;
-        ///// <summary>
-        ///// MTP id 
-        ///// </summary>
-        //protected string id;
 
-        /// <summary>
-        /// parent MTP id 
-        /// </summary>
-        protected string parentId;
+        private MediaDirectoryInfo parent;
 
-        /// <summary>
-        /// full name 
-        /// </summary>
-        protected string fullName;
-
-        /// <summary>
-        /// Parent MediaDirectoryInfo instance
-        /// </summary>
-        protected MediaDirectoryInfo parent;
 
         internal MediaFileSystemInfo(MediaDevice device, Item item)
         {
@@ -52,55 +36,22 @@ namespace MediaDevices
         /// </summary>
         public virtual void Refresh()
         {
-            ObjectProperties prop = this.device.GetProperties(this.item.Id);
-
-            Guid contentType = prop.ContentType;
-            MediaFileAttributes attributes;
-            string name;
-
-            if (this.item.Id == Item.RootId)
-            {
-                name = this.device.DirectorySeparatorChar.ToString();
-                attributes = MediaFileAttributes.Object;
-            }
-            else if (contentType == WPD.CONTENT_TYPE_FUNCTIONAL_OBJECT)
-            {
-                name = prop.Name;
-                attributes = MediaFileAttributes.Object;
-            }
-            else if (contentType == WPD.CONTENT_TYPE_FOLDER)
-            {
-                name = prop.OriginalFileName;
-                attributes = MediaFileAttributes.Directory;
-            }
-            else
-            {
-                name = prop.OriginalFileName;
-                attributes = MediaFileAttributes.Normal;
-            }
-
-            attributes |= prop.CanDelete ? MediaFileAttributes.CanDelete : 0;
-            attributes |= prop.IsSystem ? MediaFileAttributes.System : 0;
-            attributes |= prop.IsHidden ? MediaFileAttributes.Hidden : 0;
-            attributes |= prop.IsDRMProtected ? MediaFileAttributes.DRMProtected : 0;
-
-            this.Name = name;
-            this.Length = prop.Size;
-            this.CreationTime = prop.DateCreated;
-            this.LastWriteTime = prop.DateModified;
-            this.DateAuthored = prop.DateAuthored;
-            this.Attributes = attributes;
-            this.parentId = prop.ParentId;
-            this.parent = null;     // create once if needed
-            this.fullName = null;   // create once if needed
+            this.item.Refresh();
         }
 
         /// <summary>
         /// Gets the parent directory of a specified subdirectory.
         /// </summary>
-        protected MediaDirectoryInfo GetParent()
+        protected MediaDirectoryInfo ParentDirectoryInfo
         {
-            return this.parent ?? (string.IsNullOrEmpty(this.parentId) ? null : (this.parent = new MediaDirectoryInfo(this.device, this.device.GetItem(this.parentId, System.IO.Path.GetDirectoryName(this.FullName)))));
+            get
+            { 
+                if (this.parent == null && this.item.Parent != null)
+                {
+                    this.parent = new MediaDirectoryInfo(this.device, this.item.Parent);
+                }
+                return this.parent;
+            }
         }
 
         /// <summary>
@@ -110,40 +61,102 @@ namespace MediaDevices
         {
             get
             {
-                return item.FullName;
+                return this.item.FullName;
             }
         }
 
         /// <summary>
         /// For files, gets the name of the file. For directories, gets the name of the last directory in the hierarchy if a hierarchy exists. Otherwise, the Name property gets the name of the directory.
         /// </summary>
-        public string Name { get; internal set; }
+        public string Name
+        {
+            get
+            {
+                return this.item.Name;
+            }
+        }
 
         /// <summary>
         /// Gets the size, in bytes, of the current file.   
         /// </summary>
-        public ulong Length { get; internal set; }
+        public ulong Length
+        {
+            get
+            {
+                return this.item.Size;
+            }
+        }
 
         /// <summary>
         /// Gets the creation time of the current file or directory.
         /// </summary>
-        public DateTime? CreationTime { get; internal set; }
+        public DateTime? CreationTime
+        {
+            get
+            {
+                return this.item.DateCreated;
+            }
+        }
 
         /// <summary>
         /// Gets the time when the current file or directory was last written to.
         /// </summary>
-        public DateTime? LastWriteTime { get; internal set; }
+        public DateTime? LastWriteTime
+        {
+            get
+            {
+                return this.item.DateModified;
+            }
+        }
 
         /// <summary>
         /// Gets the time when the current file was authored.
         /// </summary>
-        public DateTime? DateAuthored { get; internal set; }
+        public DateTime? DateAuthored
+        {
+            get
+            {
+                return this.item.DateAuthored;
+            }
+        }
 
         /// <summary>
         /// Gets the attributes for the current file, directory or object.
         /// </summary>
-        public MediaFileAttributes Attributes { get; internal set; }
+        public MediaFileAttributes Attributes
+        {
+            get
+            {
+                MediaFileAttributes attributes = MediaFileAttributes.Normal;
+                switch (this.item.Type)
+                {
+                case ItemType.File:
+                    attributes = MediaFileAttributes.Normal;
+                    break;
+                case ItemType.Folder:
+                    attributes = MediaFileAttributes.Directory;
+                    break;
+                case ItemType.Object:
+                    attributes = MediaFileAttributes.Object;
+                    break;
+                }
+                attributes |= this.item.CanDelete ? MediaFileAttributes.CanDelete : 0;
+                attributes |= this.item.IsSystem ? MediaFileAttributes.System : 0;
+                attributes |= this.item.IsHidden ? MediaFileAttributes.Hidden : 0;
+                attributes |= this.item.IsDRMProtected ? MediaFileAttributes.DRMProtected : 0;
+                return attributes; 
+            }
+        }
 
-        public string Id {  get { return this.item.Id; } }
+        /// <summary>
+        /// Gets the id of the MTP object.
+        /// </summary>
+        public string Id
+        {
+            get
+            {
+                return this.item.Id;
+            }
+        }
     }
 }
