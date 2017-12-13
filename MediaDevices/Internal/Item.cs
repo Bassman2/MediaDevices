@@ -281,7 +281,7 @@ namespace MediaDevices.Internal
             {
                 if (this.parent == null)
                 {
-                    this.parent = new Item(this.device, ParentId, Path.GetDirectoryName(Path.GetDirectoryName(this.FullName)));
+                    this.parent = string.IsNullOrEmpty(this.ParentId) ? null : new Item(this.device, this.ParentId, Path.GetDirectoryName(Path.GetDirectoryName(this.FullName)));
                 }
                 return this.parent;
             }
