@@ -1620,9 +1620,15 @@ namespace MediaDevices
             keys.Add(WPD.STORAGE_CAPACITY_IN_OBJECTS);
             keys.Add(WPD.STORAGE_ACCESS_CAPABILITY);
 
-            this.deviceProperties.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
-
             MediaStorageInfo info = new MediaStorageInfo();
+
+            try
+            {
+                this.deviceProperties.GetSupportedProperties(storageObjectId, out IPortableDeviceKeyCollection ppKeys);
+                ComTrace.WriteObject(ppKeys);
+                this.deviceProperties.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
+           
+            
 
             values.TryGetUnsignedIntegerValue(WPD.STORAGE_TYPE, out uint type);
             info.Type = (StorageType)type;
@@ -1654,6 +1660,11 @@ namespace MediaDevices
             values.TryGetUnsignedIntegerValue(WPD.STORAGE_ACCESS_CAPABILITY, out uint accessCapability);
             info.AccessCapability = (StorageAccessCapability)accessCapability;
 
+            }
+            catch (Exception ex)
+            {
+
+            }
             return info;
         }
 

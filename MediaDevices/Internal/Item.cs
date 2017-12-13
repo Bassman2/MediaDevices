@@ -337,7 +337,7 @@ namespace MediaDevices.Internal
             var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var folder in folders)
             {
-                child = GetChildren().FirstOrDefault(i => device.EqualsName(i.Name, folder));
+                child = parent.GetChildren().FirstOrDefault(i => device.EqualsName(i.Name, folder));
                 if (child == null)
                 {
                     // create a new directory

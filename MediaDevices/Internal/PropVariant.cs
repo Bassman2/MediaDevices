@@ -96,6 +96,7 @@ namespace MediaDevices.Internal
             ////Marshal.Copy(pointerValue, arr, 0, 199);
             //Marshal.Copy((IntPtr)longValue, arr, 0, 16);
             //return arr;
+            
             return null;
         }
 
