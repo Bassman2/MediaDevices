@@ -16,13 +16,13 @@ namespace MediaDevicesUnitTest
             this.deviceDescription = "Lumia 650 Dual SIM";
             this.deviceFriendlyName = "Ralf Phone";
             this.deviceManufacture = "Microsoft";
-            this.deviceFirmwareVersion = "10.0.15063.0";
+            this.deviceFirmwareVersion = "10.0.15254.0";
             this.deviceModel = "Lumia 650 Dual SIM";
             this.deviceSerialNumber = "9aaa36ebd8901685d39337ced4b30893";
             this.deviceDeviceType = DeviceType.Phone;
             this.deviceTransport = DeviceTransport.USB;
             this.devicePowerSource = PowerSource.Battery;
-            this.devicePnPDeviceID = @"\\?\usb#vid_045e&pid_0a00&mi_00#6&72102a2&2&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
+            this.devicePnPDeviceID = @"\\?\usb#vid_045e&pid_0a00&mi_00#6&72102a2&0&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
             this.workingFolder = @"\Phone\Documents";
 
             this.existingDirectory = @"\Phone\Music\Artist";
@@ -31,6 +31,7 @@ namespace MediaDevicesUnitTest
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image };
+            this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage, FunctionalCategory.RenderingInformation };
 
             this.contentLocations = new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 

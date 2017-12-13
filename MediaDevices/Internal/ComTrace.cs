@@ -63,5 +63,19 @@ namespace MediaDevices.Internal
                 Trace.WriteLine($"##### {((PropVariant)val).ToString()}");
             }
         }
+
+        public static void WriteObject(IPortableDeviceKeyCollection collection)
+        {
+            uint num = 0;
+            collection.GetCount(ref num);
+            for (uint index = 0; index < num; index++)
+            {
+                PropertyKey key = new PropertyKey();
+                collection.GetAt(index, ref key);
+
+                //EnumExtentions.GetEnumFromAttrKey<TEnum>(key);
+                //Trace.WriteLine($"##### {((PropVariant)val).ToString()}");
+            }
+        }
     }
 }
