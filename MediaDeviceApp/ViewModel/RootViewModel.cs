@@ -25,7 +25,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.root.Id;
+                return this.root?.Id;
             }
         }
 
@@ -33,7 +33,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.root.Name;
+                return this.root?.Name;
             }
         }
 
@@ -41,7 +41,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.root.FullName;
+                return this.root?.FullName;
             }
         }
 
@@ -49,7 +49,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.root.Length;
+                return this.root?.Length ?? 0;
             }
         }
 
@@ -57,7 +57,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.root.Attributes.ToString();
+                return this.root?.Attributes.ToString();
             }
         }
 

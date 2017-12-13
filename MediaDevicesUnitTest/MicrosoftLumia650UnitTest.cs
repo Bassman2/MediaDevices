@@ -31,6 +31,7 @@ namespace MediaDevicesUnitTest
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image };
+            this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage, FunctionalCategory.RenderingInformation };
 
             this.contentLocations = new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
