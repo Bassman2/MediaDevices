@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace MediaDevices.Internal
 {
-    public sealed class Profiler : IDisposable
+    internal sealed class Profiler : IDisposable
     {
         private Stopwatch stopwatch;
         private string title;

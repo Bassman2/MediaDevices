@@ -1,45 +1,43 @@
-﻿using MediaDevices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
+using MediaDevices;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class NokiaLumia630UnitTest : WritableUnitTest
+    public class AmazonKindlePaperwhiteUnitTest : WritableUnitTest
     {
-        public NokiaLumia630UnitTest()
+        public AmazonKindlePaperwhiteUnitTest()
         {
-            // Device Select
-            this.deviceSelect = device => device.Description == this.deviceDescription;
-
             // Device Test
-            this.deviceDescription = "Lumia 630 Dual SIM";
+            this.deviceDescription = "Internal Storage";
             this.deviceFriendlyName = "Ralf Phone";
-            this.deviceManufacture = "NOKIA";
-            this.deviceFirmwareVersion = "8.10.14234.0";
-            this.deviceModel = "Lumia 630 Dual SIM";
-            this.deviceSerialNumber = "29918575d76ae110111b8ced6429e399";
+            this.deviceManufacture = "Microsoft";
+            this.deviceFirmwareVersion = "10.0.15254.0";
+            this.deviceModel = "Lumia 650 Dual SIM";
+            this.deviceSerialNumber = "9aaa36ebd8901685d39337ced4b30893";
             this.deviceDeviceType = DeviceType.Phone;
             this.deviceTransport = DeviceTransport.USB;
-            this.devicePowerSource = PowerSource.External;
-            this.devicePnPDeviceID = @"\\?\usb#vid_0421&pid_06fc&mi_00#6&336a5666&2&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
+            this.devicePowerSource = PowerSource.Battery;
+            this.devicePnPDeviceID = @"\\?\usb#vid_045e&pid_0a00&mi_00#6&72102a2&2&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
 
             // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image };
+            this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage, FunctionalCategory.RenderingInformation };
 
             // ContentLocation Test
-            this.contentLocations = new List<string> { @"\SD card\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
+            this.contentLocations = new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
+            // Writable Tests
             this.workingFolder = @"\Phone\Documents";
 
+
             // Exists Test
-            this.existingFile = @"\Phone\Music\Artist\OMD";
+            this.existingFile = @"\E:\documents\Old Firehand_B004WLCSLC.sdr\Old Firehand_B004WLCSLC.phl";
+
 
             this.infoDirectoryName = "Pictures";
             this.infoDirectoryPath = @"\SD card\Pictures";
@@ -67,14 +65,14 @@ namespace MediaDevicesUnitTest
             this.enumFilesmask = "desk*";
             this.enumItemMask = "*es*";
 
-            this.enumAllFolders = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots" };
-            this.enumMaskFolders = new List<string> { @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots" };
+            this.enumAllFolders = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
+            this.enumMaskFolders = new List<string> { @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
 
             this.enumAllFiles = new List<string> { @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
             this.enumMaskFiles = new List<string> { @"\Phone\Pictures\desktop.ini" };
             this.enumMaskRecursiveFiles = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
 
-            this.enumAllItems = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
+            this.enumAllItems = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
             this.enumMaskItems = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
             this.enumMaskRecursiveItems = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
         }

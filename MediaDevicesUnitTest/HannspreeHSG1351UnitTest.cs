@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class HannspreeHSG1351UnitTest : UnitTest
+    public class HannspreeHSG1351UnitTest : WritableUnitTest
     {
         public HannspreeHSG1351UnitTest()
         {
@@ -18,6 +18,7 @@ namespace MediaDevicesUnitTest
             //this.supEvent = false;
             //this.supContentLocation = false;
 
+            // Device Test
             this.deviceDescription = "HSG1351";
             this.deviceFriendlyName = "Canon EOS 60D";
             this.deviceManufacture = "Canon Inc.";
@@ -29,16 +30,21 @@ namespace MediaDevicesUnitTest
             this.devicePowerSource = PowerSource.Battery;
             this.devicePnPDeviceID = @"";
 
-            this.workingFolder = @"\SD\DCIM\100CANON";
-
-            this.existingDirectory = @"\SD\DCIM\100CANON";
-            this.existingFile = @"\SD\DCIM\100CANON\IMG_2568.JPG";
-
+            // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image };
 
+            // ContentLocation Test
             this.contentLocations = new List<string> { "" };
+
+
+            this.workingFolder = @"\SD\DCIM\100CANON";
+
+            // Exists Test
+            this.existingFile = @"\SD\DCIM\100CANON\IMG_2568.JPG";
+
+            
 
             this.infoDirectoryName = "DCIM";
             this.infoDirectoryPath = @"\Internal Storage\DCIM";

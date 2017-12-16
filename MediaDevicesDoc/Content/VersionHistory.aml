@@ -6,6 +6,32 @@
 		</introduction>
 
     <section>
+      <title>Version 1.5 was released on Dec. 16th, 2017.</title>
+      <content>
+        <list class="bullet">
+          <listItem>
+            <para>General tags for speed optimizations</para>
+          </listItem>
+          <listItem>
+            <para>New vendor methods</para>
+          </listItem>
+          <listItem>
+            <para>New ObjectAddedEventArgs</para>
+          </listItem>
+          <listItem>
+            <para>Enumerate methods returns full names instead of single names only.</para>
+          </listItem>
+          <listItem>
+            <para>File and folder comparison are case insensitive by default now. This can be changed with the new IsCaseSensitive property.</para>
+          </listItem>
+          <listItem>
+            <para>Smaller fixes</para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+    
+    <section>
       <title>Version 1.5 beta was released on Nov. 5th, 2017.</title>
       <content>
         <list class="bullet">

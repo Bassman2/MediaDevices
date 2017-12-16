@@ -8,15 +8,11 @@ using System.Collections.Generic;
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class CanonPowerShotSX30UnitTest : UnitTest
+    public class CanonPowerShotSX30UnitTest : ReadonlyUnitTest
     {
         public CanonPowerShotSX30UnitTest()
         {
-            //this.supDevicePowerLevel = false;
-            //this.supWritable = false;
-            //this.supEvent = false;
-            //this.supContentLocation = false;
-
+            // Device Test
             this.deviceDescription = "Canon PowerShot SX30 IS";
             this.deviceFriendlyName = "Canon PowerShot SX30 IS";
             this.deviceManufacture = "Canon Inc.";
@@ -28,16 +24,21 @@ namespace MediaDevicesUnitTest
             this.devicePowerSource = PowerSource.Battery;
             this.devicePnPDeviceID = @"";
 
-            this.workingFolder = @"\Phone\Documents";
-
-            this.existingDirectory = @"\Wechselmedien\DCIM\101___06";
-            this.existingFile = @"\Wechselmedien\DCIM\101___06\IMG_0477.JPG";
-
+            // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image };
 
+            // ContentLocation Test
             this.contentLocations = new List<string> { "" };
+
+
+
+
+            // Exists Test
+            this.existingFile = @"\Wechselmedien\DCIM\101___06\IMG_0477.JPG";
+
+            
 
             this.infoDirectoryName = "DCIM";
             this.infoDirectoryPath = @"\Internal Storage\DCIM";

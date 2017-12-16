@@ -7,10 +7,11 @@ using System.Collections.Generic;
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class MicrosoftVolumeUnitTest : UnitTest
+    public class MicrosoftVolumeUnitTest : WritableUnitTest
     {
         public MicrosoftVolumeUnitTest()
         {
+            // Device Test
             this.deviceDescription = "WPD-Dateisystem-Volumetreiber";
             this.deviceFriendlyName = "";
             this.deviceManufacture = "Microsoft";
@@ -22,16 +23,21 @@ namespace MediaDevicesUnitTest
             this.devicePowerSource = PowerSource.External;
             this.devicePnPDeviceID = @"";
 
-            this.workingFolder = @"\Phone\Documents";
-
-            this.existingDirectory = @"\Phone\Music\Artist";
-            this.existingFile = @"\Phone\Music\Artist\OMD";
-
+            // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image };
 
+            // ContentLocation Test
             this.contentLocations = new List<string> { @"\SD card\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
+
+
+            this.workingFolder = @"\Phone\Documents";
+
+            // Exists Test
+            this.existingFile = @"\Phone\Music\Artist\OMD";
+
+            
 
             this.infoDirectoryName = "Pictures";
             this.infoDirectoryPath = @"\SD card\Pictures";

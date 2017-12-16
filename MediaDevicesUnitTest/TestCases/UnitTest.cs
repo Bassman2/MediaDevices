@@ -11,11 +11,10 @@ namespace MediaDevicesUnitTest
 {
     public abstract class UnitTest
     {
-        protected bool supDevicePowerLevel = true;
-        protected bool supWritable = true;
-        protected bool supEvent = true;
-        protected bool supContentLocation = true;
+        // Device Select
+        protected Func<MediaDevice, bool> deviceSelect;
 
+        // Device Test
         protected string deviceDescription;
         protected string deviceFriendlyName;
         protected string deviceManufacture;
@@ -27,17 +26,21 @@ namespace MediaDevicesUnitTest
         protected PowerSource devicePowerSource;
         protected string devicePnPDeviceID;
 
-        protected string workingFolder;
-
-        protected string existingDirectory;
-        protected string existingFile;
-
+        // Capability Test
         protected List<Events> supportedEvents;
         protected List<Commands> supportedCommands;
         protected List<ContentType> supportedContents;
         protected List<FunctionalCategory> functionalCategories;
 
+        // ContentLocation Test
         protected List<string> contentLocations;
+
+        // Exists Test
+        protected string existingFile;
+
+
+
+
 
         // parent is object and grandparent is root
         protected string infoDirectoryName;
@@ -78,12 +81,17 @@ namespace MediaDevicesUnitTest
         protected List<string> enumMaskItems;
         protected List<string> enumMaskRecursiveItems;
 
+        public UnitTest()
+        {
+            this.deviceSelect = device => device.Description == this.deviceDescription;
+        }
+
         [TestMethod]
         [Description("Basic device tests")]
         public void DeviceTest()
         {
             var devices = MediaDevice.GetDevices().ToArray();
-            var device = devices.FirstOrDefault(d => d.Description == this.deviceDescription);
+            var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
 
             string description = device.Description;
@@ -112,35 +120,49 @@ namespace MediaDevicesUnitTest
             Assert.AreEqual(this.deviceTransport, transport, "Transport");
             Assert.AreEqual(this.devicePowerSource, powerSource, "PowerSource");
             Assert.AreEqual(this.devicePnPDeviceID, pnPDeviceID, "PnPDeviceID");
-            if (this.supDevicePowerLevel)
-            {
-                Assert.IsTrue(powerLevel > 0, "PowerLevel");
-            }
+            Assert.IsTrue(powerLevel > 0, "PowerLevel");
         }
 
         [TestMethod]
-        [Description("Creating a new folder.")]
-        public void CreateFolderTest()
+        [Description("Check compatibility informations.")]
+        public void CapabilityTest()
         {
-            if (!this.supWritable) return;
-
-            var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
+            var devices = MediaDevice.GetDevices().ToList();
+            var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
-            string newFolder = Path.Combine(this.workingFolder, "Test");
-            var exists1 = device.DirectoryExists(this.workingFolder);
-            device.CreateDirectory(newFolder);
-            var exists2 = device.DirectoryExists(newFolder);
-            device.DeleteDirectory(newFolder, true);
-            var exists3 = device.DirectoryExists(newFolder);
+            var events = device.SupportedEvents()?.ToList();
+            var commands = device.SupportedCommands()?.ToList();
+            var contents = device.SupportedContentTypes(FunctionalCategory.All)?.ToList();
+            var categories = device.FunctionalCategories()?.ToList();
+
+            var stillImageCaptureObjects = device.FunctionalObjects(FunctionalCategory.StillImageCapture).ToList();
+            var storageObjects = device.FunctionalObjects(FunctionalCategory.Storage).ToList();
+            var smsObjects = device.FunctionalObjects(FunctionalCategory.SMS).ToList();
 
             device.Disconnect();
 
-            Assert.IsTrue(exists1, "exists1");
-            Assert.IsTrue(exists2, "exists2");
-            Assert.IsFalse(exists3, "exists3");
+            CollectionAssert.IsSubsetOf(supportedEvents, events, "Events");
+            CollectionAssert.IsSubsetOf(supportedCommands, commands, "Commands");
+            CollectionAssert.IsSubsetOf(supportedContents, contents, "Contents");
+            CollectionAssert.AreEquivalent(functionalCategories, categories, "Categories");
+        }
+        
+        [TestMethod]
+        [Description("Check content locations functionality.")]
+        public void ContentLocationTest()
+        {
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
+
+            var locations = device.GetContentLocations(ContentType.Image).ToList();
+
+            device.Disconnect();
+
+            CollectionAssert.AreEquivalent(this.contentLocations, locations, "Locations");
         }
 
 
@@ -148,14 +170,16 @@ namespace MediaDevicesUnitTest
         [Description("Check if files and folders exists.")]
         public void ExistsTest()
         {
+            string existingDirectory = Path.GetDirectoryName(this.existingFile);
+
             var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
+            var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
-            var exists1 = device.DirectoryExists(this.existingDirectory);
+            var exists1 = device.DirectoryExists(existingDirectory);
             var exists2 = device.DirectoryExists(this.existingFile);
-            var exists3 = device.FileExists(this.existingDirectory);
+            var exists3 = device.FileExists(existingDirectory);
             var exists4 = device.FileExists(this.existingFile);
 
             device.Disconnect();
@@ -166,36 +190,7 @@ namespace MediaDevicesUnitTest
             Assert.IsTrue(exists4, "exists4");
         }
 
-        [TestMethod]
-        [Description("Upload a file to the target.")]
-        public void UploadTest()
-        {
-            if (!this.supWritable) return;
-
-            var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
-            Assert.IsNotNull(device, "Device");
-            device.Connect();
-
-            string filePath = Path.Combine(this.workingFolder, "Test.txt");
-            if (device.FileExists(filePath))
-            {
-                device.DeleteFile(filePath);
-            }
-
-            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
-            {
-                device.UploadFile(stream, filePath);
-            }
-            var exists1 = device.FileExists(filePath);
-            device.DeleteFile(filePath);
-            var exists2 = device.FileExists(@"\Phone\Downloads\Test.txt");
-
-            device.Disconnect();
-
-            Assert.IsTrue(exists1, "exists1");
-            Assert.IsFalse(exists2, "exists2");
-        }
+       
 
         [TestMethod]
         [Description("Download a file to the target.")]
@@ -203,7 +198,7 @@ namespace MediaDevicesUnitTest
         {
             long position;
             var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
+            var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
@@ -230,89 +225,14 @@ namespace MediaDevicesUnitTest
 
         }
 
-        [TestMethod]
-        [Description("Check compatibility informations.")]
-        public void CapabilityTest()
-        {
-            var devices = MediaDevice.GetDevices().ToList();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
-            Assert.IsNotNull(device, "Device");
-            device.Connect();
-
-            var events = device.SupportedEvents()?.ToList();
-            var commands = device.SupportedCommands()?.ToList();
-            var contents = device.SupportedContentTypes(FunctionalCategory.All)?.ToList();
-            var categories = device.FunctionalCategories()?.ToList();
-
-            var stillImageCaptureObjects = device.FunctionalObjects(FunctionalCategory.StillImageCapture).ToList();
-            var storageObjects = device.FunctionalObjects(FunctionalCategory.Storage).ToList();
-            var smsObjects = device.FunctionalObjects(FunctionalCategory.SMS).ToList();
-
-            device.Disconnect();
-
-            CollectionAssert.IsSubsetOf(supportedEvents, events, "Events");
-            CollectionAssert.IsSubsetOf(supportedCommands, commands, "Commands");
-            CollectionAssert.IsSubsetOf(supportedContents, contents, "Contents");
-            CollectionAssert.AreEquivalent(functionalCategories, categories, "Categories");
-        }
-
-        [TestMethod]
-        [Description("Test event handling.")]
-        public void EventTest()
-        {
-            if (!this.supEvent) return;
-
-            AutoResetEvent fired = new AutoResetEvent(false);
-
-            var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
-            Assert.IsNotNull(device, "Device");
-            device.ObjectRemoved += (s, a) => fired.Set();
-            device.Connect();
-            
-            string filePath = Path.Combine(this.workingFolder, "Test.txt");
-            if (device.FileExists(filePath))
-            {
-                device.DeleteFile(filePath);
-            }
-
-            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
-            {
-                device.UploadFile(stream, filePath);
-            }
-            
-            device.DeleteFile(filePath);
-
-            bool isFired = fired.WaitOne(new TimeSpan(0, 10, 0));
-            device.Disconnect();
-
-            Assert.IsTrue(isFired);
-        }
-
-        [TestMethod]
-        [Description("Check content locations functionality.")]
-        public void ContentLocationTest()
-        {
-            if (!this.supContentLocation) return;
-
-            var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
-            Assert.IsNotNull(device, "Device");
-            device.Connect();
-
-            var locations = device.GetContentLocations(ContentType.Image).ToList();
-
-            device.Disconnect();
-
-            CollectionAssert.AreEquivalent(this.contentLocations, locations, "Locations");
-        }
+        
 
         [TestMethod]
         [Description("Check file infos.")]
         public void FileInfoTest()
         {
             var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
+            var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
@@ -383,7 +303,7 @@ namespace MediaDevicesUnitTest
         public void DirectoryInfoTest()
         {
             var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
+            var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
@@ -435,7 +355,7 @@ namespace MediaDevicesUnitTest
         public void DirectoryInfoEnumTest()
         {
             var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
+            var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
@@ -466,44 +386,14 @@ namespace MediaDevicesUnitTest
             CollectionAssert.AreEquivalent(this.enumMaskRecursiveItems, enum8, "enum8");
         }
 
-        [TestMethod]
-        [Description("Upload a file to the target.")]
-        public void UploadFileTest()
-        {
-            if (!this.supWritable) return;
-
-            var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
-            Assert.IsNotNull(device, "Device");
-            device.Connect();
-
-            string sourceFile = Path.GetFullPath(@".\..\..\..\TestData\TestFile.txt");
-            string destFile = Path.Combine(this.workingFolder, "TestFile.txt");
-
-            var exists1 = device.FileExists(destFile);
-            if (exists1)
-            {
-                device.DeleteFile(destFile);
-            }
-
-            device.UploadFile(sourceFile, destFile);
-            
-            var exists = device.FileExists(destFile);
-
-            device.DeleteFile(destFile);
-
-            device.Disconnect();
-
-            Assert.IsTrue(exists, "exists");
-            
-        }
+        
 
         [TestMethod]
         [Description("Download a file to the target.")]
         public void DownloadFileTest()
         {
             var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
+            var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
@@ -520,73 +410,8 @@ namespace MediaDevicesUnitTest
 
         }
 
-        [TestMethod]
-        [Description("Upload a tree to the target.")]
-        public void UploadTreeTest()
-        {
-            if (!this.supWritable) return;
+        
 
-            var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
-            Assert.IsNotNull(device, "Device");
-            device.Connect();
-
-            string sourceFolder = Path.GetFullPath(@".\..\..\..\TestData\UploadTree");
-            string destFolder = Path.Combine(this.workingFolder, "UploadTree");
-
-            var exists1 = device.DirectoryExists(destFolder);
-            if (exists1)
-            {
-                device.DeleteDirectory(destFolder, true);
-            }
-
-            
-            device.UploadFolder(sourceFolder, destFolder);
-
-            //var exists = device.FileExists(destFile);
-
-            //device.DeleteDirectory(destFolder, true);
-
-            device.Disconnect();
-
-            //Assert.IsTrue(exists, "exists");
-
-        }
-
-        [TestMethod]
-        [Description("Download a file to the target.")]
-        public void DownloadTreeTest()
-        {
-            var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(d => d.Description == deviceDescription);
-            Assert.IsNotNull(device, "Device");
-            device.Connect();
-
-            string sourceFolder = Path.GetFullPath(@".\..\..\..\TestData\UploadTree");
-            string destFolder = Path.Combine(this.workingFolder, "UploadTree");
-
-            var exists1 = device.DirectoryExists(destFolder);
-            if (exists1)
-            {
-                device.DeleteDirectory(destFolder, true);
-            }
-
-
-            device.UploadFolder(sourceFolder, destFolder);
-
-            string downloadFolder = Path.GetFullPath(@".\..\..\..\TestData\DownloadTree");
-
-            if (Directory.Exists(downloadFolder))
-            {
-                Directory.Delete(downloadFolder, true);
-            }
-
-            device.DownloadFolder(destFolder, downloadFolder);
-
-            device.Disconnect();
-
-            //Assert.IsTrue(File.Exists(tempFile), "Exists");
-
-        }
+        
     }
 }

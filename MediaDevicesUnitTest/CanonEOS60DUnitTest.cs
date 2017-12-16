@@ -8,15 +8,13 @@ using System.Collections.Generic;
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class CanonEOS60DUnitTest : UnitTest
+    public class CanonEOS60DUnitTest : ReadonlyUnitTest
     {
         public CanonEOS60DUnitTest()
         {
-            //this.supDevicePowerLevel = false;
-            //this.supWritable = false;
-            //this.supEvent = false;
-            //this.supContentLocation = false;
+            
 
+            // Device Test
             this.deviceDescription = "Canon EOS 60D";
             this.deviceFriendlyName = "Canon EOS 60D";
             this.deviceManufacture = "Canon Inc.";
@@ -28,16 +26,18 @@ namespace MediaDevicesUnitTest
             this.devicePowerSource = PowerSource.Battery;
             this.devicePnPDeviceID = @"";
 
-            this.workingFolder = @"\SD\DCIM\100CANON";
-
-            this.existingDirectory = @"\SD\DCIM\100CANON";
-            this.existingFile = @"\SD\DCIM\100CANON\IMG_2568.JPG";
-
+            // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image };
-
+            
+            // ContentLocation Test
             this.contentLocations = new List<string> { "" };
+
+
+            // Exists Test
+            this.existingFile = @"\SD\DCIM\100CANON\IMG_2568.JPG";
+                        
 
             this.infoDirectoryName = "DCIM";
             this.infoDirectoryPath = @"\Internal Storage\DCIM";

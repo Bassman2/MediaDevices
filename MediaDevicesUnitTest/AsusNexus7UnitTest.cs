@@ -8,13 +8,11 @@ using System.Collections.Generic;
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class Nexus7UnitTest : UnitTest
+    public class Nexus7UnitTest : WritableUnitTest
     {
         public Nexus7UnitTest()
         {
-            this.supEvent = false;
-            this.supContentLocation = false;
-
+            // Device Test
             this.deviceDescription = "Nexus 7";
             this.deviceFriendlyName = "My Nexus 7";
             this.deviceManufacture = "asus";
@@ -26,16 +24,21 @@ namespace MediaDevicesUnitTest
             this.devicePowerSource = PowerSource.Battery;
             this.devicePnPDeviceID = @"\\?\usb#vid_18d1&pid_4ee2&mi_00#6&13ce989a&0&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
 
-            this.workingFolder = @"\Internal storage\Download";
-
-            this.existingDirectory = @"\Internal storage\Ringtones";
-            this.existingFile = @"\Internal storage\Ringtones\hangouts_message.ogg";
-
+            // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image, ContentType.Audio, ContentType.Playlist, ContentType.Video, ContentType.Document, ContentType.Unspecified, ContentType.Folder };
 
+            // ContentLocation Test
             this.contentLocations = new List<string> { @"\SD card\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
+
+
+            this.workingFolder = @"\Internal storage\Download";
+
+            // Exists Test
+            this.existingFile = @"\Internal storage\Ringtones\hangouts_message.ogg";
+
+            
 
             this.infoDirectoryName = "Ringtones";
             this.infoDirectoryPath = @"\Internal storage\Ringtones";

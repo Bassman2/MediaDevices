@@ -5,7 +5,7 @@ using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 
 namespace MediaDevices.Internal
 {
-    public static class ComHelper
+    internal static class ComHelper
     {
         public static bool HasKeyValue(this IPortableDeviceValues values, PropertyKey findKey)
         {

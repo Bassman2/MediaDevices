@@ -9,10 +9,11 @@ using System.Collections.Generic;
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class MicrosoftLumia650UnitTest : UnitTest
+    public class MicrosoftLumia650UnitTest : WritableUnitTest
     {
         public MicrosoftLumia650UnitTest()
         {
+            // Device Test
             this.deviceDescription = "Lumia 650 Dual SIM";
             this.deviceFriendlyName = "Ralf Phone";
             this.deviceManufacture = "Microsoft";
@@ -23,17 +24,20 @@ namespace MediaDevicesUnitTest
             this.deviceTransport = DeviceTransport.USB;
             this.devicePowerSource = PowerSource.Battery;
             this.devicePnPDeviceID = @"\\?\usb#vid_045e&pid_0a00&mi_00#6&72102a2&2&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
-            this.workingFolder = @"\Phone\Documents";
 
-            this.existingDirectory = @"\Phone\Music\Artist";
-            this.existingFile = @"\Phone\Music\Artist\05 - Decoupage.mp3";
-
+            // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image };
             this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage, FunctionalCategory.RenderingInformation };
 
+            // ContentLocation Test
             this.contentLocations = new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
+
+            this.workingFolder = @"\Phone\Documents";
+
+            // Exists Test
+            this.existingFile = @"\Phone\Music\Artist\05 - Decoupage.mp3";
 
             this.infoDirectoryName = "Pictures";
             this.infoDirectoryPath = @"\SD card\Pictures";

@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.IO;
-using System.Diagnostics;
+﻿using MediaDevices.Internal;
 using PortableDeviceApiLib;
 using PortableDeviceTypesLib;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using IPortableDeviceKeyCollection = PortableDeviceApiLib.IPortableDeviceKeyCollection;
-using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
-using PropertyKey = PortableDeviceApiLib._tagpropertykey;
-using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
-using MediaDevices.Internal;
-using System.Text.RegularExpressions;
-using System.Reflection;
+using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 
 namespace MediaDevices
 {
@@ -23,12 +19,6 @@ namespace MediaDevices
     /// </summary>
     public sealed class MediaDevice : IDisposable
     {
-        internal char DirectorySeparatorChar = '\\';
-
-        private delegate void RefAction<T1, T2>(T1 arg1, ref T2 arg2);
-
-        //private const uint PORTABLE_DEVICE_DELETE_NO_RECURSION = 0;
-        //private const uint PORTABLE_DEVICE_DELETE_WITH_RECURSION = 1;
         
         #region Fields
 
@@ -39,8 +29,7 @@ namespace MediaDevices
         private IPortableDeviceValues deviceValues;
         private string friendlyName = string.Empty;
         private string eventCookie;
-        private EventCallback eventCallback;
-        
+        private EventCallback eventCallback;        
 
         #endregion
 
@@ -952,13 +941,6 @@ namespace MediaDevices
             }
 
             item.Delete(recursive);
-            //var objectIdCollection = (IPortableDevicePropVariantCollection)new PortableDeviceTypesLib.PortableDevicePropVariantCollection();
-
-            //var propVariantValue = PropVariant.StringToPropVariant(item.Id);
-            //objectIdCollection.Add(ref propVariantValue);
-
-            //// TODO: get the results back and handle failures correctly
-            //deviceContent.Delete(recursive ? PORTABLE_DEVICE_DELETE_WITH_RECURSION : PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, null);
         }
 
         /// <summary>
@@ -1023,8 +1005,6 @@ namespace MediaDevices
             }
         }
 
-
-
         /// <summary>
         /// Upload data from a stream to a file on a portable device.
         /// </summary>
@@ -1056,7 +1036,7 @@ namespace MediaDevices
 
             string folder = Path.GetDirectoryName(path);
             string fileName = Path.GetFileName(path);
-            Item item = Item.FindFolder(this, path);
+            Item item = Item.FindFolder(this, folder);
             if (item == null)
             {
                 throw new DirectoryNotFoundException($"Directory {folder} not found.");
@@ -1068,23 +1048,6 @@ namespace MediaDevices
             }
 
             item.UploadFile(fileName, stream);
-            //IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
-
-            //portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, item.Id);
-            //portableDeviceValues.SetUnsignedLargeIntegerValue(ref WPD.OBJECT_SIZE, (ulong)stream.Length);
-            //portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, fileName);
-            //portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, fileName);
-
-            //uint num = 0u;
-            //string text = null;
-            //PortableDeviceApiLib.IStream wpdStream;
-            //this.deviceContent.CreateObjectWithPropertiesAndData(portableDeviceValues, out wpdStream, ref num, ref text);
-
-            //using (StreamWrapper destinationStream = new StreamWrapper(wpdStream))
-            //{
-            //    stream.CopyTo(destinationStream);
-            //    destinationStream.Flush();
-            //}
         }
 
         /// <summary>
@@ -1144,13 +1107,6 @@ namespace MediaDevices
             }
 
             item.Delete();
-            //var objectIdCollection = (PortableDeviceApiLib.IPortableDevicePropVariantCollection)new PortableDeviceTypesLib.PortableDevicePropVariantCollection();
-
-            //var propVariantValue = PropVariant.StringToPropVariant(item.Id);
-            //objectIdCollection.Add(ref propVariantValue);
-
-            //// TODO: get the results back and handle failures correctly
-            //deviceContent.Delete(PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, null);
         }
 
         /// <summary>
@@ -1158,6 +1114,11 @@ namespace MediaDevices
         /// </summary>
         /// <param name="path">The fully qualified name of the file, directory or object.</param>
         /// <returns>New instance of the MediaFileInfo class</returns>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public MediaFileInfo GetFileInfo(string path)
         {
             if (path == null)
@@ -1187,6 +1148,11 @@ namespace MediaDevices
         /// </summary>
         /// <param name="path">The fully qualified name of the directory or object.</param>
         /// <returns>New instance of the MediaDirectoryInfo class</returns>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public MediaDirectoryInfo GetDirectoryInfo(string path)
         {
             if (path == null)
@@ -1215,6 +1181,7 @@ namespace MediaDevices
         /// Gets a new instance of the root MediaDirectoryInfo class, which acts as a wrapper for the root directory path.
         /// </summary>
         /// <returns>New instance of the root MediaDirectoryInfo class</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public MediaDirectoryInfo GetRootDirectory()
         {
             if (!this.IsConnected)
@@ -1388,10 +1355,18 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            Command cmd = Command.Create(WPD.COMMAND_DEVICE_HINTS_GET_CONTENT_LOCATION);
-            cmd.Add(WPD.PROPERTY_DEVICE_HINTS_CONTENT_TYPE, contentType.Guid());
-            cmd.Send(this.device);
-            return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => Item.Create(this, c).FullName);
+            try
+            {
+                Command cmd = Command.Create(WPD.COMMAND_DEVICE_HINTS_GET_CONTENT_LOCATION);
+                cmd.Add(WPD.PROPERTY_DEVICE_HINTS_CONTENT_TYPE, contentType.Guid());
+                cmd.Send(this.device);
+                return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => Item.Create(this, c).FullName);
+            }
+            catch (COMException ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+            return null;
         }
 
         //public void Supported(string id)
@@ -1620,68 +1595,90 @@ namespace MediaDevices
             keys.Add(WPD.STORAGE_CAPACITY_IN_OBJECTS);
             keys.Add(WPD.STORAGE_ACCESS_CAPABILITY);
 
-            MediaStorageInfo info = new MediaStorageInfo();
-
             try
             {
+                MediaStorageInfo info = new MediaStorageInfo();
+
                 this.deviceProperties.GetSupportedProperties(storageObjectId, out IPortableDeviceKeyCollection ppKeys);
                 ComTrace.WriteObject(ppKeys);
                 this.deviceProperties.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
            
-            
+                values.TryGetUnsignedIntegerValue(WPD.STORAGE_TYPE, out uint type);
+                info.Type = (StorageType)type;
 
-            values.TryGetUnsignedIntegerValue(WPD.STORAGE_TYPE, out uint type);
-            info.Type = (StorageType)type;
+                values.TryGetStringValue(WPD.STORAGE_FILE_SYSTEM_TYPE, out string fileSystemType);
+                info.FileSystemType = fileSystemType;
 
-            values.TryGetStringValue(WPD.STORAGE_FILE_SYSTEM_TYPE, out string fileSystemType);
-            info.FileSystemType = fileSystemType;
+                values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY, out ulong capacity);
+                info.Capacity = capacity;
 
-            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY, out ulong capacity);
-            info.Capacity = capacity;
+                values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_BYTES, out ulong freeBytes);
+                info.FreeSpaceInBytes = freeBytes;
 
-            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_BYTES, out ulong freeBytes);
-            info.FreeSpaceInBytes = freeBytes;
+                values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_OBJECTS, out ulong freeObjects);
+                info.FreeSpaceInObjects = freeObjects;
 
-            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_OBJECTS, out ulong freeObjects);
-            info.FreeSpaceInObjects = freeObjects;
+                values.TryGetStringValue(WPD.STORAGE_DESCRIPTION, out string description);
+                info.Description = description;
 
-            values.TryGetStringValue(WPD.STORAGE_DESCRIPTION, out string description);
-            info.Description = description;
+                values.TryGetStringValue(WPD.STORAGE_SERIAL_NUMBER, out string serialNumber);
+                info.SerialNumber = serialNumber;
 
-            values.TryGetStringValue(WPD.STORAGE_SERIAL_NUMBER, out string serialNumber);
-            info.SerialNumber = serialNumber;
+                values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_MAX_OBJECT_SIZE, out ulong maxObjectSize);
+                info.MaxObjectSize = maxObjectSize;
 
-            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_MAX_OBJECT_SIZE, out ulong maxObjectSize);
-            info.MaxObjectSize = maxObjectSize;
+                values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY_IN_OBJECTS, out ulong capacityInObjects);
+                info.CapacityInObjects = capacityInObjects;
 
-            values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY_IN_OBJECTS, out ulong capacityInObjects);
-            info.CapacityInObjects = capacityInObjects;
+                values.TryGetUnsignedIntegerValue(WPD.STORAGE_ACCESS_CAPABILITY, out uint accessCapability);
+                info.AccessCapability = (StorageAccessCapability)accessCapability;
 
-            values.TryGetUnsignedIntegerValue(WPD.STORAGE_ACCESS_CAPABILITY, out uint accessCapability);
-            info.AccessCapability = (StorageAccessCapability)accessCapability;
-
+                return info;
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex.ToString());
             }
-            return info;
+            return null;
         }
 
         #endregion
 
         #region MTP_EXT_VENDOR
 
+        /// <summary>
+        /// Queries for vendor extended operation code.
+        /// </summary>
+        /// <returns>List of vendor extended operation code.</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<int> VendorOpcodes()
         {
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_SUPPORTED_VENDOR_OPCODES);
             cmd.Send(this.device);
             var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES);
             return list.Select(p => p.ToInt());
         }
 
+        /// <summary>
+        /// Execute a vendor command.
+        /// </summary>
+        /// <param name="opCode">Operational code of the vendor command.</param>
+        /// <param name="inputParams">Input parameters.</param>
+        /// <param name="respCode">Response code</param>
+        /// <returns>Output parameters</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<int> VendorExcecute(int opCode, IEnumerable<int> inputParams, out int respCode)
         {
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE);
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
@@ -1690,8 +1687,20 @@ namespace MediaDevices
             return cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_RESPONSE_PARAMS).Select(p => p.ToInt());
         }
 
+        /// <summary>
+        /// Sends a MTP command block followed by a data phase with data from Device to Host.
+        /// </summary>
+        /// <param name="opCode">Operational code of the vendor command.</param>
+        /// <param name="inputParams">Input parameters.</param>
+        /// <returns>Returned as a context identifier for subsequent data transfer</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<int> VendorExcecuteRead(int opCode, IEnumerable<int> inputParams)
         {
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_READ);
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
@@ -1700,8 +1709,20 @@ namespace MediaDevices
             return list.Select(p => p.ToInt()).ToList();
         }
 
+        /// <summary>
+        /// Sends a MTP command block followed by a data phase with data from Host to Device 
+        /// </summary>
+        /// <param name="opCode">Operational code of the vendor command.</param>
+        /// <param name="inputParams">Input parameters.</param>
+        /// <returns>Returned as a context identifier for subsequent data transfer</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<int> VendorExcecuteWrite(int opCode, IEnumerable<int> inputParams)
         {
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_WRITE);
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
@@ -1709,6 +1730,7 @@ namespace MediaDevices
             var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
             return list.Select(p => p.ToInt()).ToList();
         }
+
         /*
         public IEnumerable<byte> VendorRead(string context, int bytesToRead, byte[] input, out int bytesRead)
         {
@@ -1740,38 +1762,29 @@ namespace MediaDevices
             return cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_RESPONSE_PARAMS).Select(p => p.ToInt());
         }
         */
+
+        /// <summary>
+        /// Retrieves the vendor extension description string.
+        /// </summary>
+        /// <returns>Vendor extension description string</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public string VendorExtentionDescription()
         {
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_VENDOR_EXTENSION_DESCRIPTION);
             cmd.Send(this.device);
             string description = cmd.GetString(WPD.PROPERTY_MTP_EXT_VENDOR_EXTENSION_DESCRIPTION);
             return description;
         }
+
         #endregion
 
         #region Intern Methods
-
-        //internal void Download(Item item, Stream stream)
-        //{
-        //    using (Stream sourceStream = OpenRead(item.Id))
-        //    {
-        //        sourceStream.CopyTo(stream);
-        //    }
-        //}
-
-        //internal Stream OpenRead(string id)
-        //{
-        //    IPortableDeviceResources resources;
-        //    this.deviceContent.Transfer(out resources);
-
-        //    PortableDeviceApiLib.IStream wpdStream;
-        //    uint optimalTransferSize = 0;
-
-        //    resources.GetStream(id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out wpdStream);
-
-        //    return new StreamWrapper(wpdStream);
-        //}
-
+        
         internal static bool IsPath(string path)
         {
             return !string.IsNullOrWhiteSpace(path) && path.IndexOfAny(Path.GetInvalidPathChars()) < 0;
@@ -1781,156 +1794,7 @@ namespace MediaDevices
         {
             return this.IsCaseSensitive ? a == b : string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
         }
-
-        #endregion
-
-        #region Private Methods
-
-        // TODO should be removed
-        //private string GetParent(string objectId)
-        //{
-        //    Item item = Item.Create(this, objectId);
-        //    return item.ParentId;
-        //}
-
-        //// TODO should be removed
-        //internal string GetPath(string objectId)
-        //{
-        //    if (objectId == Item.RootId)
-        //    {
-        //        return @"\";
-        //    }
-
-        //    StringBuilder sb = new StringBuilder();
-        //    do
-        //    {
-        //        sb.Insert(0, Item.Create(this, objectId).Name);
-        //        sb.Insert(0, DirectorySeparatorChar);
-
-        //    } while ((objectId = GetParent(objectId)) != Item.RootId);
-        //    return sb.ToString();
-        //}
         
-        //private Item FindFolder(string path)
-        //{
-        //    var item = Item.GetRoot(this);
-        //    if (path == @"\")
-        //    {
-        //        return item;
-        //    }
-        //    var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-        //    foreach (var folder in folders)
-        //    {
-        //        item = item.GetChildren().FirstOrDefault(i => i.Type != ItemType.File && EqualsName(i.Name, folder));     // check all if folder             
-        //        if (item == null)
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //    return item;
-        //}
-
-        //private Item FindFile(string path)
-        //{
-        //    var item = Item.GetRoot(this);
-        //    if (path == @"\")
-        //    {
-        //        return item;
-        //    }
-        //    var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-        //    foreach (var folder in folders)
-        //    {
-        //        item = item.GetChildren().FirstOrDefault(i => EqualsName(i.Name, folder));
-        //        if (item == null)
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //    return item.Type == ItemType.File ? item : null;    // check only last if not folder
-        //}
-
-        //private Item FindItem(string path)
-        //{
-        //    var item = Item.GetRoot(this);
-        //    if (path == @"\")
-        //    {
-        //        return item;
-        //    }
-        //    var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-        //    foreach (var folder in folders)
-        //    {
-        //        item = item.GetChildren().FirstOrDefault(i => EqualsName(i.Name, folder));
-        //        if (item == null)
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //    return item;
-        //}
-
-        
-        //internal IEnumerable<Item> GetChildren(Item parentItem, string pattern = null, SearchOption searchOption = SearchOption.TopDirectoryOnly)
-        //{
-        //    IEnumPortableDeviceObjectIDs objectIds;
-        //    this.deviceContent.EnumObjects(0, parentItem.Id, null, out objectIds);
-
-        //    uint fetched = 0;
-        //    string objectId;
-        //    objectIds.Next(1, out objectId, ref fetched);
-        //    while (fetched > 0)
-        //    {
-        //        Item item = Item.Create(this, objectId, parentItem.FullName);
-        //        if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
-        //        {
-        //            yield return item;
-        //        }
-        //        if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
-        //        {
-        //            var children = GetChildren(item, pattern, searchOption);
-        //            foreach (var c in children)
-        //            {
-        //                yield return c;
-        //            }
-        //        }
-        //        objectIds.Next(1, out objectId, ref fetched);
-        //    }
-        //}
-        
-        //internal Item CreateSubdirectory(Item item, string path)
-        //{
-        //    Item child = null;
-        //    var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-        //    foreach (var folder in folders)
-        //    {
-        //        child = item.GetChildren().FirstOrDefault(i => EqualsName(i.Name, folder));
-        //        if (child == null)
-        //        {
-        //            // create a new directory
-        //            IPortableDeviceValues deviceValues = (IPortableDeviceValues)new PortableDeviceValues();
-        //            deviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, item.Id);
-        //            deviceValues.SetStringValue(ref WPD.OBJECT_NAME, folder);
-        //            deviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, folder);
-        //            deviceValues.SetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, ref WPD.CONTENT_TYPE_FOLDER);
-        //            string id = string.Empty;
-        //            this.deviceContent.CreateObjectWithPropertiesOnly(deviceValues, ref id);
-        //        }
-        //        else if (child.Type == ItemType.File)
-        //        {
-        //            // folder is already a file
-        //            throw new Exception($"A path of the path {folder} is a file");
-        //        }
-        //        else
-        //        {
-        //            // folder exists
-        //            //id = child.Id;
-        //            //new Item()
-
-        //        // TODO
-        //        }
-        //    }
-        //    return child;
-        //}
-
         internal static string FilterToRegex(string filter)
         {
             if (filter == "*" || filter == "*.*")
@@ -1952,7 +1816,5 @@ namespace MediaDevices
         }
 
         #endregion
-
-        
     }
 }

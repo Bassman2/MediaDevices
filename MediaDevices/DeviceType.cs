@@ -36,7 +36,7 @@
         PersonalInformationManager = 5,
 
         /// <summary>
-        /// audio recorderdevice type
+        /// audio recorder device type
         /// </summary>
         AudioRecorder = 6
     }

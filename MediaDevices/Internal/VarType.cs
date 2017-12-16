@@ -1,6 +1,6 @@
 ﻿namespace MediaDevices.Internal
 {
-    public enum VarType : short
+    internal enum VarType : short
     {
         VT_EMPTY = 0,
         VT_NULL = 1,

@@ -28,6 +28,7 @@ namespace MediaDeviceApp.ViewModel
         public ItemViewModel(MediaFileSystemInfo item)
         {
             this.item = item;
+            //this.Refresh += (o, a) => this.item.Refresh();
         }
 
         public string Name

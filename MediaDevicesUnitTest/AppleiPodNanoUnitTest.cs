@@ -8,10 +8,11 @@ using System.Collections.Generic;
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class AppleiPodNanoUnitTest : UnitTest
+    public class AppleiPodNanoUnitTest : ReadonlyUnitTest
     {
         public AppleiPodNanoUnitTest()
         {
+            // Device Test
             this.deviceDescription = "iPod";
             this.deviceFriendlyName = "AVALON";
             this.deviceManufacture = "Apple";
@@ -23,16 +24,21 @@ namespace MediaDevicesUnitTest
             this.devicePowerSource = PowerSource.Battery;
             this.devicePnPDeviceID = @"";
 
-            this.workingFolder = @"\Internal Storage\DCIM";
-
-            this.existingDirectory = @"\Internal Storage\DCIM";
-            this.existingFile = @"Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";
-
+            // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image };
 
+            // ContentLocation Test
             this.contentLocations = new List<string> { "" };
+
+
+            // Exists Test
+            this.existingFile = @"Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";
+
+            
+
+            
 
             this.infoDirectoryName = "DCIM";
             this.infoDirectoryPath = @"\Internal Storage\DCIM";

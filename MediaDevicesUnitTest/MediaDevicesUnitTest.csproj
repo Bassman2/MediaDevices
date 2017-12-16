@@ -63,7 +63,11 @@
     <Compile Include="NokiaLumia630UnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MicrosoftLumia650UnitTest.cs" />
-    <Compile Include="UnitTest.cs" />
+    <Compile Include="TestCases\ReadonlyUnitTest.cs" />
+    <Compile Include="TestCases\UnitTest.cs" />
+    <Compile Include="AmazonKindlePaperwhiteUnitTest.cs" />
+    <Compile Include="AmazonFire7UnitTest.cs" />
+    <Compile Include="TestCases\WritableUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MediaDevices\MediaDevices.csproj">
