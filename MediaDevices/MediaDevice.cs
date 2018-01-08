@@ -1209,6 +1209,11 @@ namespace MediaDevices
             return new MediaDirectoryInfo(this, item);
         }
 
+        public MediaDriveInfo[] GetDrives()
+        {
+            return this.FunctionalObjects(FunctionalCategory.Storage)?.Select(o => new MediaDriveInfo(this, o)).ToArray();
+        }
+
         /// <summary>
         /// Gets a new instance of the root MediaDirectoryInfo class, which acts as a wrapper for the root directory path.
         /// </summary>
