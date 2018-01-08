@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using System.Windows;
 using System.Threading;
+using System.Media;
 
 namespace MediaDeviceApp.ViewModel
 {
@@ -21,6 +22,8 @@ namespace MediaDeviceApp.ViewModel
 
         public DelegateCommand RefreshCommand { get; private set; }
         public DelegateCommand ResetCommand { get; private set; }
+        public DelegateCommand UsbChangedCommand { get; private set; }
+
 
         public InfoViewModel Info { get; private set; }
         public CapabilityViewModel Capability { get; private set; }
@@ -37,6 +40,8 @@ namespace MediaDeviceApp.ViewModel
         {
             this.RefreshCommand = new DelegateCommand(OnRefresh);
             this.ResetCommand = new DelegateCommand(OnReset);
+            this.UsbChangedCommand = new DelegateCommand(OnUsbChanged);
+
 
             this.Info = new InfoViewModel();
             this.Capability = new CapabilityViewModel();
@@ -51,7 +56,7 @@ namespace MediaDeviceApp.ViewModel
             
             OnRefresh();
         }
-
+        
         public bool UsePrivateDevices
         {
             get
@@ -71,6 +76,23 @@ namespace MediaDeviceApp.ViewModel
 
         private void OnRefresh()
         {
+            if (this.usePrivateDevices)
+            {
+                this.Devices = MediaDevice.GetPrivateDevices().ToList();
+            }
+            else
+            {
+                this.Devices = MediaDevice.GetDevices().ToList();
+            }
+            if (this.selectedDevice == null)
+            {
+                this.SelectedDevice = this.Devices.FirstOrDefault();
+            }
+        }
+
+        private void OnUsbChanged()
+        {
+            SystemSounds.Beep.Play();
             if (this.usePrivateDevices)
             {
                 this.Devices = MediaDevice.GetPrivateDevices().ToList();

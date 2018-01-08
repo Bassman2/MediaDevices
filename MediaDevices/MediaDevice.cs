@@ -87,6 +87,9 @@ namespace MediaDevices
 
         private static readonly PortableDeviceManager portableDeviceManager = new PortableDeviceManager();
 
+        private static List<MediaDevice> devices;
+        private static List<MediaDevice> privateDevices;
+
         /// <summary>
         /// Returns an enumerable collection of currently available portable devices.
         /// </summary>
@@ -108,7 +111,28 @@ namespace MediaDevices
             var deviceIds = new string[count];
             portableDeviceManager.GetDevices(deviceIds, ref count);
 
-            return deviceIds.Select(d => new MediaDevice(d));
+            if (devices == null)
+            {
+                devices = deviceIds.Select(d => new MediaDevice(d)).ToList();
+            }
+            else
+            {
+                UpdateDeviceList(devices, deviceIds);
+            }
+            return devices;
+        }
+
+        private static void UpdateDeviceList(List<MediaDevice> deviceList, string[] deviceIdList)
+        {
+            var idList = deviceIdList.ToList();
+
+            // remove
+            var remove = deviceList.Where(d => !idList.Contains(d.DeviceId)).Select(d => d.DeviceId).ToList();
+            deviceList.RemoveAll(d => remove.Contains(d.DeviceId));
+
+            // add
+            var add = idList.Where(id => !deviceList.Select(d => d.DeviceId).Contains(id)).ToList();
+            deviceList.AddRange(add.Select(id => new MediaDevice(id)));
         }
 
         //public static IEnumerable<MediaDevice> GetDevices(FunctionalCategory category)
@@ -146,7 +170,15 @@ namespace MediaDevices
             var deviceIds = new string[count];
             portableDeviceManager.GetPrivateDevices(deviceIds, ref count);
 
-            return deviceIds.Select(d => new MediaDevice(d));
+            if (privateDevices == null)
+            {
+                privateDevices = deviceIds.Select(d => new MediaDevice(d)).ToList();
+            }
+            else
+            {
+                UpdateDeviceList(privateDevices, deviceIds);
+            }
+            return privateDevices;
         }
 
         #endregion
