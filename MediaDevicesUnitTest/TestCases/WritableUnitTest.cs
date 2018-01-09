@@ -140,24 +140,40 @@ namespace MediaDevicesUnitTest
 
             string sourceFolder = Path.GetFullPath(@".\..\..\..\TestData\UploadTree");
             string destFolder = Path.Combine(this.workingFolder, "UploadTree");
+            int pathLen = this.workingFolder.Length;
+
+            List<string> pathes = new List<string>
+            {
+                "\\UploadTree\\Aaa",
+                "\\UploadTree\\Aaa\\A.txt",
+                "\\UploadTree\\Aaa\\Abb",
+                "\\UploadTree\\Aaa\\Abb\\Acc",
+                "\\UploadTree\\Aaa\\Abb\\Acc\\Ctest.txt",
+                "\\UploadTree\\Aaa\\Abb\\Add",
+                "\\UploadTree\\Aaa\\Abb\\Aee.txt",
+                "\\UploadTree\\Aaa\\Abb\\Aff.txt",
+                "\\UploadTree\\Aaa\\Abb\\Agg.txt",
+                "\\UploadTree\\Aaa\\Abb\\B.txt",
+                "\\UploadTree\\Baa",
+                "\\UploadTree\\Baa\\Bxx.txt",
+                "\\UploadTree\\Caa",
+                "\\UploadTree\\Caa\\Cxx.txt",
+                "\\UploadTree\\Root.txt"
+            };
 
             var exists1 = device.DirectoryExists(destFolder);
             if (exists1)
             {
                 device.DeleteDirectory(destFolder, true);
             }
-
-
+            
             device.UploadFolder(sourceFolder, destFolder);
-
-            //var exists = device.FileExists(destFile);
-
-            //device.DeleteDirectory(destFolder, true);
-
+                        
+            var list = device.EnumerateFileSystemEntries(destFolder, null, SearchOption.AllDirectories).Select(p => p.Remove(0, pathLen)).ToList();
+            
             device.Disconnect();
 
-            //Assert.IsTrue(exists, "exists");
-
+            CollectionAssert.AreEquivalent(pathes, list, "EnumerateFileSystemEntries");
         }
 
         [TestMethod]
