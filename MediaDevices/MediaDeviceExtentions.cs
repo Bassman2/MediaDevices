@@ -137,7 +137,7 @@ namespace MediaDevices
             {
                 foreach (MediaFileSystemInfo fsi in dir.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
                 {
-                    string path = Path.Combine(destination, fsi.FullName.Remove(0, source.Length + 1));
+                    string path = Path.Combine(destination, GetLocalPath(source, fsi.FullName));
                     if (fsi.Attributes.HasFlag(MediaFileAttributes.Directory) || fsi.Attributes.HasFlag(MediaFileAttributes.Object))
                     {
                         if (!Directory.Exists(path))
@@ -156,7 +156,7 @@ namespace MediaDevices
             {
                 foreach (MediaFileInfo mfi in dir.EnumerateFiles())
                 {
-                    string path = Path.Combine(destination, mfi.FullName.Remove(0, source.Length + 1));
+                    string path = Path.Combine(destination, GetLocalPath(source, mfi.FullName));
                     mfi.CopyTo(path);
                 }
             }
@@ -205,7 +205,7 @@ namespace MediaDevices
                 DirectoryInfo di = new DirectoryInfo(source);
                 foreach (var e in di.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
                 {
-                    string path = Path.Combine(destination, e.FullName.Remove(0, source.Length + 1));
+                    string path = Path.Combine(destination, GetLocalPath(source, e.FullName));
                     if (e.Attributes.HasFlag(FileAttributes.Directory))
                     {
                         device.CreateDirectory(path);
@@ -225,7 +225,7 @@ namespace MediaDevices
                 DirectoryInfo di = new DirectoryInfo(source);
                 foreach (FileInfo fi in di.EnumerateFiles())
                 {
-                    string path = Path.Combine(destination, fi.FullName.Remove(0, source.Length + 1));
+                    string path = Path.Combine(destination, GetLocalPath(source, fi.FullName));
                     using (FileStream stream = fi.OpenRead())
                     {
                         device.UploadFile(stream, path);
@@ -234,22 +234,13 @@ namespace MediaDevices
             }
         }
 
-        ////{
-        //var bitmapImage = new BitmapImage();
-        //bitmapImage.BeginInit();
-        //        bitmapImage.StreamSource = new MemoryStream(imageBytes);
-        //bitmapImage.EndInit();
-        //        return bitmapImage;
-
-        //    }
-
-        //public static Stream GetCapturedStillImage(this MediaDevice device, string functionalObject)
-        //{
-        //    List<Item> list = device.GetChildren(functionalObject).ToList();
-
-        //    Item item = list.OrderBy(i => i.Name).Last();
-        //    return device.OpenRead(item.Id);
-            
-        //}
+        private static string GetLocalPath(string basePath, string fullPath)
+        {
+            if (!fullPath.StartsWith(basePath))
+            {
+                throw new ArgumentException($"{basePath} is not the base path of {fullPath}!");
+            }
+            return fullPath.Remove(0, basePath.Length).TrimStart('\\', '/');
+        }
     }
 }
