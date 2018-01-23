@@ -74,5 +74,15 @@ namespace MediaDevices
 
         public string VolumeLabel
         { get; private set; }
+
+        public void Eject()
+        {
+            this.device.Eject(this.objectId);
+        }
+
+        public void Format()
+        {
+            this.device.Format(this.objectId);
+        }
     }
 }

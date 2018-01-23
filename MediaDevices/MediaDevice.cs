@@ -1437,8 +1437,16 @@ namespace MediaDevices
             }
 
             Item item = Item.FindFolder(this, path);
+            Eject(item.Id);
+            //Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
+            //cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item.Id);
+            //cmd.Send(this.device);
+        }
+
+        internal void Eject(string id)
+        {
             Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
-            cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item.Id);
+            cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, id);
             cmd.Send(this.device);
         }
 
@@ -1458,8 +1466,16 @@ namespace MediaDevices
             }
 
             Item item = Item.FindFolder(this, path);
+            Format(item.Id);
+            //Command cmd = Command.Create(WPD.COMMAND_STORAGE_FORMAT);
+            //cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item.Id);
+            //cmd.Send(this.device);
+        }
+
+        internal void Format(string id)
+        {
             Command cmd = Command.Create(WPD.COMMAND_STORAGE_FORMAT);
-            cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item.Id);
+            cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, id);
             cmd.Send(this.device);
         }
 

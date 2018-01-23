@@ -65,6 +65,7 @@
     <Compile Include="Mvvm\WaitCursor.cs" />
     <Compile Include="ViewModel\CapabilityViewModel.cs" />
     <Compile Include="ViewModel\ContentLocationViewModel.cs" />
+    <Compile Include="ViewModel\DriveViewModel.cs" />
     <Compile Include="ViewModel\FilesViewModel.cs" />
     <Compile Include="ViewModel\ExplorerViewModel.cs" />
     <Compile Include="ViewModel\InfoViewModel.cs" />
@@ -80,6 +81,9 @@
     </Compile>
     <Compile Include="View\ContentLocationView.xaml.cs">
       <DependentUpon>ContentLocationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DriveView.xaml.cs">
+      <DependentUpon>DriveView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FilesView.xaml.cs">
       <DependentUpon>FilesView.xaml</DependentUpon>
@@ -117,6 +121,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ContentLocationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DriveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
