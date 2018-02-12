@@ -158,5 +158,14 @@ namespace MediaDevices
                 return this.item.Id;
             }
         }
+
+        /// <summary>
+        /// Rename the folder of file
+        /// </summary>
+        /// <param name="newName"></param>
+        public void Rename(string newName)
+        {
+            this.item.Rename(newName);
+        }
     }
 }

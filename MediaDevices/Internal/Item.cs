@@ -433,6 +433,16 @@ namespace MediaDevices.Internal
             }
         }
 
+        internal void Rename(string newName)
+        {
+            IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
+            IPortableDeviceValues result;
+            portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, newName);
+            this.deviceProperties.SetValues(this.Id, null, out result);
+            Refresh();
+        }
+
+
         #endregion
     }
 }
