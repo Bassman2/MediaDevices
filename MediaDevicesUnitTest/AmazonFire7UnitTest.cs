@@ -20,7 +20,6 @@ namespace MediaDevicesUnitTest
             this.deviceDeviceType = DeviceType.Generic;
             this.deviceTransport = DeviceTransport.USB;
             this.devicePowerSource = PowerSource.Battery;
-            this.devicePnPDeviceID = @"\\?\usb#vid_1949&pid_0271#g0w0mb06729405k5#{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
 
             // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };

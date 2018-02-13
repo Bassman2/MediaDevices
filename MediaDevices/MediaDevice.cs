@@ -1142,6 +1142,39 @@ namespace MediaDevices
         }
 
         /// <summary>
+        /// Rename a file or folder.
+        /// </summary>
+        /// <param name="path">Path to the file or folder to rename.</param>
+        /// <param name="newName">New name of the file or folder.</param>
+        public void Rename(string path, string newName)
+        {
+            if (path == null)
+            {
+                throw new ArgumentNullException("path");
+            }
+            if (!IsPath(path))
+            {
+                throw new ArgumentException("path");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+            if (string.IsNullOrEmpty(newName))
+            {
+                throw new ArgumentNullException("newName");
+            }
+
+            Item item = Item.FindItem(this, path);
+            if (item == null)
+            {
+                throw new FileNotFoundException($"Path {path} not found.");
+            }
+
+            item.Rename(newName);
+        }
+
+        /// <summary>
         /// Gets a new instance of the MediaFileInfo class, which acts as a wrapper for a file path.
         /// </summary>
         /// <param name="path">The fully qualified name of the file, directory or object.</param>
@@ -1209,6 +1242,10 @@ namespace MediaDevices
             return new MediaDirectoryInfo(this, item);
         }
 
+        /// <summary>
+        /// Get all drives of the device.
+        /// </summary>
+        /// <returns>Array with all drives of the device.</returns>
         public MediaDriveInfo[] GetDrives()
         {
             return this.FunctionalObjects(FunctionalCategory.Storage)?.Select(o => new MediaDriveInfo(this, o)).ToArray();

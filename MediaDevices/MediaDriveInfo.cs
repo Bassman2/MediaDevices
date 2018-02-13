@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace MediaDevices
 {
+    /// <summary>
+    /// Provides properties for drives.
+    /// </summary>
     public sealed class MediaDriveInfo
     {
         private MediaDevice device;
@@ -48,38 +51,62 @@ namespace MediaDevices
 
         }
 
-        public long AvailableFreeSpace
-        { get; private set; }
+        /// <summary>
+        /// Indicates the available space in bytes.
+        /// </summary>
+        public long AvailableFreeSpace { get; private set; }
 
-        public string DriveFormat
-        { get; private set; }
+        /// <summary>
+        /// Format of the drive.
+        /// </summary>
+        public string DriveFormat { get; private set; }
 
-        public DriveType DriveType
-        { get; private set; }
+        /// <summary>
+        /// Type of the drive
+        /// </summary>
+        public DriveType DriveType { get; private set; }
 
-        public bool IsReady
-        { get { return true; } }
+        /// <summary>
+        /// True is the drive is ready; false if not.
+        /// </summary>
+        public bool IsReady { get { return true; } }
 
-        public string Name
-        { get; private set; }
+        /// <summary>
+        /// Name of the drive
+        /// </summary>
+        public string Name { get; private set; }
 
-        public MediaDirectoryInfo RootDirectory
-        { get; private set; }
+        /// <summary>
+        /// Get the root directory of the drive.
+        /// </summary>
+        public MediaDirectoryInfo RootDirectory { get; private set; }
 
-        public long TotalFreeSpace
-        { get; private set; }
+        /// <summary>
+        /// Gets the total free space of the device in bytes.
+        /// </summary>
+        public long TotalFreeSpace { get; private set; }
 
-        public long TotalSize
-        { get; private set; }
+        /// <summary>
+        /// Gets the total size of the device in bytes.
+        /// </summary>
+        public long TotalSize { get; private set; }
 
-        public string VolumeLabel
-        { get; private set; }
+        /// <summary>
+        /// Get the volume lable of the drive.
+        /// </summary>
+        public string VolumeLabel { get; private set; }
 
+        /// <summary>
+        /// Eject the drive.
+        /// </summary>
         public void Eject()
         {
             this.device.Eject(this.objectId);
         }
 
+        /// <summary>
+        /// Format the drive.
+        /// </summary>
         public void Format()
         {
             this.device.Format(this.objectId);

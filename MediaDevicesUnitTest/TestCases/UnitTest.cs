@@ -24,7 +24,6 @@ namespace MediaDevicesUnitTest
         protected DeviceType deviceDeviceType;
         protected DeviceTransport deviceTransport;
         protected PowerSource devicePowerSource;
-        protected string devicePnPDeviceID;
 
         // Capability Test
         protected List<Events> supportedEvents;
@@ -106,7 +105,6 @@ namespace MediaDevicesUnitTest
             string serialNumber = device.SerialNumber;
             DeviceType deviceType = device.DeviceType;
             DeviceTransport transport = device.Transport;
-            string pnPDeviceID = device.PnPDeviceID;
             device.Disconnect();
 
             Assert.AreEqual(this.deviceDescription, description, "Description");
@@ -119,7 +117,6 @@ namespace MediaDevicesUnitTest
             Assert.AreEqual(this.deviceDeviceType, deviceType, "DeviceType");
             Assert.AreEqual(this.deviceTransport, transport, "Transport");
             Assert.AreEqual(this.devicePowerSource, powerSource, "PowerSource");
-            Assert.AreEqual(this.devicePnPDeviceID, pnPDeviceID, "PnPDeviceID");
             Assert.IsTrue(powerLevel > 0, "PowerLevel");
         }
 

@@ -162,7 +162,7 @@ namespace MediaDevices
         /// <summary>
         /// Rename the folder of file
         /// </summary>
-        /// <param name="newName"></param>
+        /// <param name="newName">New name of the file or folder.</param>
         public void Rename(string newName)
         {
             this.item.Rename(newName);

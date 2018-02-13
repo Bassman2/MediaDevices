@@ -211,5 +211,82 @@ namespace MediaDevicesUnitTest
             //Assert.IsTrue(File.Exists(tempFile), "Exists");
 
         }
+
+        [TestMethod]
+        [Description("Rename a file.")]
+        public void RenameFileTest()
+        {
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
+
+            string filePath = Path.Combine(this.workingFolder, "RenameTest.txt");
+            string newName = "NewName.txt";
+            string newPath = Path.Combine(this.workingFolder, newName);
+
+
+            if (device.FileExists(filePath))
+            {
+                device.DeleteFile(filePath);
+            }
+
+            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
+            {
+                device.UploadFile(stream, filePath);
+            }
+            var exists1 = device.FileExists(filePath);
+
+            device.Rename(filePath, newName);
+            
+            var exists2 = device.FileExists(newPath);
+
+            device.DeleteFile(newPath);
+            var exists3 = device.FileExists(newPath);
+
+            device.Disconnect();
+
+            Assert.IsTrue(exists1, "exists1");
+            Assert.IsTrue(exists2, "exists2");
+            Assert.IsFalse(exists3, "exists3");
+        }
+
+        [TestMethod]
+        [Description("Rename a folder.")]
+        public void RenameFolderTest()
+        {
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
+
+            string filePath = Path.Combine(this.workingFolder, "RenameFolder");
+            string newName = "NewFolder";
+            string newPath = Path.Combine(this.workingFolder, newName);
+
+
+            if (device.DirectoryExists(filePath))
+            {
+                device.DeleteDirectory(filePath);
+            }
+
+            device.CreateDirectory(filePath);
+            
+            var exists1 = device.DirectoryExists(filePath);
+
+            device.Rename(filePath, newName);
+
+
+            var exists2 = device.DirectoryExists(newPath);
+
+            device.DeleteDirectory(newPath);
+            var exists3 = device.DirectoryExists(newPath);
+
+            device.Disconnect();
+
+            Assert.IsTrue(exists1, "exists1");
+            Assert.IsTrue(exists2, "exists2");
+            Assert.IsFalse(exists3, "exists3");
+        }
     }
 }

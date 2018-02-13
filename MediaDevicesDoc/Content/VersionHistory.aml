@@ -6,6 +6,20 @@
 		</introduction>
 
     <section>
+      <title>Version 1.6 was released on Feb. 13th, 2018.</title>
+      <content>
+        <list class="bullet">
+          <listItem>
+            <para>MediaDriveInfo class added.</para>
+          </listItem>
+          <listItem>
+            <para>Rename added to MediaDevice and MediaFileSystemInfo</para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+    
+    <section>
       <title>Version 1.5 was released on Dec. 16th, 2017.</title>
       <content>
         <list class="bullet">

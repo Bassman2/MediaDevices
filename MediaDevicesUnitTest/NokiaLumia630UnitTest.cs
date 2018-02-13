@@ -26,7 +26,6 @@ namespace MediaDevicesUnitTest
             this.deviceDeviceType = DeviceType.Phone;
             this.deviceTransport = DeviceTransport.USB;
             this.devicePowerSource = PowerSource.External;
-            this.devicePnPDeviceID = @"\\?\usb#vid_0421&pid_06fc&mi_00#6&336a5666&2&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
 
             // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };

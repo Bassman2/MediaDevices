@@ -21,7 +21,6 @@ namespace MediaDevicesUnitTest
             this.deviceDeviceType = DeviceType.Generic;
             this.deviceTransport = DeviceTransport.NotSupported;
             this.devicePowerSource = PowerSource.External;
-            this.devicePnPDeviceID = @"";
 
             // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };

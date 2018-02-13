@@ -437,8 +437,12 @@ namespace MediaDevices.Internal
         {
             IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
             IPortableDeviceValues result;
+            
             portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, newName);
-            this.deviceProperties.SetValues(this.Id, null, out result);
+            portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, newName);
+            this.deviceProperties.SetValues(this.Id, portableDeviceValues, out result);
+            //ComTrace.WriteObject(result);
+                        
             Refresh();
         }
 
