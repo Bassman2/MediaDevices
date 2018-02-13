@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>API to communicate with MTP / WPD devices like smart phones, tablets and cameras. Documentation included.</description>
     <releaseNotes>Speed optimized.</releaseNotes>
-    <copyright>Copyright 2016 - 2017 by Ralf Beckers</copyright>
+    <copyright>Copyright 2016 - 2018 by Ralf Beckers</copyright>
     <tags>MTP WPD PortableDevice PortableDevices API phone tablet</tags>
 	<dependencies>
       <group targetFramework=".NETFramework4.5" />
