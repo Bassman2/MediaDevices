@@ -1274,7 +1274,7 @@ namespace MediaDevices
         /// </summary>
         /// <returns>List with supported commands</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public IEnumerable<Commands> SupportedCommands()
+        public Commands[] SupportedCommands()
         {
             if (!this.IsConnected)
             {
@@ -1285,7 +1285,7 @@ namespace MediaDevices
             {
                 IPortableDeviceKeyCollection commands;
                 this.deviceCapabilities.GetSupportedCommands(out commands);
-                return commands.ToEnum<Commands>();
+                return commands.ToArray<Commands>();
             }
             catch (COMException ex)
             {
@@ -1299,7 +1299,7 @@ namespace MediaDevices
         /// </summary>
         /// <returns>List with functional categories</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public IEnumerable<FunctionalCategory> FunctionalCategories()
+        public FunctionalCategory[] FunctionalCategories()
         {
             if (!this.IsConnected)
             {
@@ -1310,7 +1310,7 @@ namespace MediaDevices
             {
                 IPortableDevicePropVariantCollection categories;
                 this.deviceCapabilities.GetFunctionalCategories(out categories);
-                return categories.ToEnum<FunctionalCategory>();
+                return categories.ToArray<FunctionalCategory>();
             }
             catch (COMException ex)
             {
@@ -1352,7 +1352,7 @@ namespace MediaDevices
         /// <param name="functionalCategory">Select functional category</param>
         /// <returns>List with supported content types </returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public IEnumerable<ContentType> SupportedContentTypes(FunctionalCategory functionalCategory)
+        public ContentType[] SupportedContentTypes(FunctionalCategory functionalCategory)
         {
             if (!this.IsConnected)
             {
@@ -1363,7 +1363,7 @@ namespace MediaDevices
             {
                 IPortableDevicePropVariantCollection types;
                 this.deviceCapabilities.GetSupportedContentTypes(functionalCategory.Guid(), out types);
-                return types.ToEnum<ContentType>();
+                return types.ToArray<ContentType>();
             }
             catch (COMException ex)
             {
@@ -1378,7 +1378,7 @@ namespace MediaDevices
         /// </summary>
         /// <returns>List with supported events</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public IEnumerable<Events> SupportedEvents()
+        public Events[] SupportedEvents()
         {
             if (!this.IsConnected)
             {
@@ -1389,7 +1389,7 @@ namespace MediaDevices
             { 
                 IPortableDevicePropVariantCollection events;
                 this.deviceCapabilities.GetSupportedEvents(out events);
-                return events.ToEnum<Events>();
+                return events.ToArray<Events>();
             }
             catch (COMException ex)
             {

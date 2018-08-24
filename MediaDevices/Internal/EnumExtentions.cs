@@ -20,28 +20,32 @@ namespace MediaDevices.Internal
             return attribute.Guid;
         }
 
-        public static IEnumerable<TEnum> ToEnum<TEnum>(this IPortableDeviceKeyCollection col) where TEnum : struct // enum
+        public static TEnum[] ToArray<TEnum>(this IPortableDeviceKeyCollection col) where TEnum : struct // enum
         {
             uint count = 0;
             col.GetCount(ref count);
+            var result = new TEnum[count];
             for (uint i = 0; i < count; i++)
             {
                 PropertyKey key = new PropertyKey();
                 col.GetAt(i, ref key);
-                yield return GetEnumFromAttrKey<TEnum>(key);
+                result[i] = GetEnumFromAttrKey<TEnum>(key);
             }
+            return result;
         }
 
-        public static IEnumerable<TEnum> ToEnum<TEnum>(this IPortableDevicePropVariantCollection col) where TEnum : struct // enum
+        public static TEnum[] ToArray<TEnum>(this IPortableDevicePropVariantCollection col) where TEnum : struct // enum
         {
             uint count = 0;
             col.GetCount(ref count);
+            var result = new TEnum[count];
             for (uint i = 0; i < count; i++)
             {
                 PROPVARIANT val = new PROPVARIANT();
                 col.GetAt(i, ref val);
-                yield return GetEnumFromAttrGuid<TEnum>(PropVariant.FromValue(val));
+                result[i] = GetEnumFromAttrGuid<TEnum>(PropVariant.FromValue(val));
             }
+            return result;
         }
 
         public static T GetEnumFromAttrKey<T>(this PropertyKey key) where T : struct // enum
@@ -71,29 +75,33 @@ namespace MediaDevices.Internal
             }
             return en;
         }
-
-        public static IEnumerable<Guid> ToGuid(this IPortableDevicePropVariantCollection col) 
+        
+        public static Guid[] ToGuid(this IPortableDevicePropVariantCollection col)
         {
             uint count = 0;
             col.GetCount(ref count);
+            var result = new Guid[count];
             for (uint i = 0; i < count; i++)
             {
                 PROPVARIANT val = new PROPVARIANT();
                 col.GetAt(i, ref val);
-                yield return PropVariant.FromValue(val);
+                result[i] = PropVariant.FromValue(val);
             }
+            return result;
         }
 
-        public static IEnumerable<string> ToStrings(this IPortableDevicePropVariantCollection col)
+        public static string[] ToStrings(this IPortableDevicePropVariantCollection col)
         {
             uint count = 0;
             col.GetCount(ref count);
+            var result = new string[count];
             for (uint i = 0; i < count; i++)
             {
                 PROPVARIANT val = new PROPVARIANT();
                 col.GetAt(i, ref val);
-                yield return PropVariant.FromValue(val);
+                result[i] = PropVariant.FromValue(val);
             }
+            return result;
         }
     }
 }

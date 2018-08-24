@@ -89,20 +89,25 @@ namespace MediaDevices.Internal
             return value;
         }
         
-        public IEnumerable<PropVariant> GetPropVariants(PropertyKey key) 
+        public PropVariant[] GetPropVariants(PropertyKey key) 
         {
-            object obj = null;
-            this.result.GetIUnknownValue(key, out obj);
+            if (!this.result.TryGetIUnknownValue(key, out object obj)) {
+                return new PropVariant[0];
+            }
             var col = obj as IPortableDevicePropVariantCollection;
         
             uint count = 0;
             col.GetCount(ref count);
+            var result = new PropVariant[count];
+
             for (uint i = 0; i < count; i++)
             {
                 PROPVARIANT val = new PROPVARIANT();
                 col.GetAt(i, ref val);
-                yield return PropVariant.FromValue(val);
+                result[i] = PropVariant.FromValue(val);
             }
+
+            return result;
         }
 
         public bool Has(PropertyKey key)
