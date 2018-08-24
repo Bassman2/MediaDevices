@@ -442,7 +442,7 @@
        extends [mscorlib]System.ValueType
 {
   .pack 8
-  .size 0
+  .size 32
   .field public uint16 vt
   .field public uint8 wReserved1
   .field public uint8 wReserved2

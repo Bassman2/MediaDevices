@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define COM_TRACE_ENABLE
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +21,7 @@ namespace MediaDevices.Internal
 
         public static void WriteObject(IPortableDeviceValues values)
         {
+#if COM_TRACE_ENABLE
             uint num = 0;
             values.GetCount(ref num);
             for (uint i = 0; i < num; i++)
@@ -38,10 +41,12 @@ namespace MediaDevices.Internal
                     }
                 }
             }
+#endif
         }
 
         public static void WriteObject(IPortableDeviceProperties deviceProperties, string objectId)
         {
+#if COM_TRACE_ENABLE
             IPortableDeviceKeyCollection keys;
             deviceProperties.GetSupportedProperties(objectId, out keys);
 
@@ -49,10 +54,12 @@ namespace MediaDevices.Internal
             deviceProperties.GetValues(objectId, keys, out values);
 
             WriteObject(values);
+#endif
         }
 
         public static void WriteObject(IPortableDevicePropVariantCollection collection)
         {
+#if COM_TRACE_ENABLE
             uint num = 0;
             collection.GetCount(ref num);
             for (uint index = 0; index < num; index++)
@@ -62,10 +69,12 @@ namespace MediaDevices.Internal
 
                 Trace.WriteLine($"##### {((PropVariant)val).ToString()}");
             }
+#endif
         }
 
         public static void WriteObject(IPortableDeviceKeyCollection collection)
         {
+#if COM_TRACE_ENABLE
             uint num = 0;
             collection.GetCount(ref num);
             for (uint index = 0; index < num; index++)
@@ -76,6 +85,7 @@ namespace MediaDevices.Internal
                 //EnumExtentions.GetEnumFromAttrKey<TEnum>(key);
                 //Trace.WriteLine($"##### {((PropVariant)val).ToString()}");
             }
+#endif
         }
     }
 }

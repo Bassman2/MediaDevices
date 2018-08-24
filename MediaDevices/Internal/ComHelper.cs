@@ -134,7 +134,7 @@ namespace MediaDevices.Internal
                 values.GetIUnknownValue(key, out value);
                 return true;
             }
-            value = 0;
+            value = null;
             return false;
         }
 
