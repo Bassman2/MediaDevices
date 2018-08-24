@@ -225,8 +225,7 @@ namespace MediaDevices
                 this.Description = string.Empty;
             }
 
-            this.device = new PortableDeviceApiLib.PortableDevice();
-
+            this.device = new PortableDevice();
         }
 
         /// <summary>
@@ -406,8 +405,14 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE, out int val);
-                return (PowerSource)val;
+                if (this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE, out int val))
+                {
+                    return (PowerSource)val;
+                }
+                else
+                {
+                    return PowerSource.Unknown;
+                }
             }
         }
 
@@ -469,7 +474,7 @@ namespace MediaDevices
         /// Supports non consumable.
         /// </summary>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public bool SupportsNonConsumable
+        public bool? SupportsNonConsumable
         {
             get
             {
@@ -478,8 +483,11 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out bool val);
-                return val;
+                if (this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out bool val))
+                {
+                    return val;
+                }
+                return null;
             }
         }
 
@@ -505,7 +513,7 @@ namespace MediaDevices
         /// Supported formats are ordered.
         /// </summary>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public bool SupportedFormatsAreOrdered
+        public bool? SupportedFormatsAreOrdered
         {
             get
             {
@@ -514,8 +522,11 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out bool val);
-                return val;
+                if (this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out bool val))
+                {
+                    return val;
+                }
+                return null;
             }
         }
 
@@ -1247,7 +1258,7 @@ namespace MediaDevices
         /// <returns>Array with all drives of the device.</returns>
         public MediaDriveInfo[] GetDrives()
         {
-            return this.FunctionalObjects(FunctionalCategory.Storage)?.Select(o => new MediaDriveInfo(this, o)).ToArray();
+            return this.FunctionalObjects(FunctionalCategory.Storage).Select(o => new MediaDriveInfo(this, o)).ToArray();
         }
 
         /// <summary>
@@ -1290,7 +1301,7 @@ namespace MediaDevices
             {
                 Trace.WriteLine(ex.ToString());
             }
-            return null;
+            return new Commands[0];
         }
 
         /// <summary>
@@ -1315,7 +1326,7 @@ namespace MediaDevices
             {
                 Trace.WriteLine(ex.ToString());
             }
-            return null;
+            return new FunctionalCategory[0];
         }
 
         /// <summary>
@@ -1324,7 +1335,7 @@ namespace MediaDevices
         /// <param name="functionalCategory">Select functional category</param>
         /// <returns>List with functional objects</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public IEnumerable<string> FunctionalObjects(FunctionalCategory functionalCategory)
+        public string[] FunctionalObjects(FunctionalCategory functionalCategory)
         {
             if (!this.IsConnected)
             {
@@ -1341,7 +1352,7 @@ namespace MediaDevices
             {
                 Trace.WriteLine(ex.ToString());
             }
-            return null;
+            return new string[0];
         }
 
 
@@ -1368,7 +1379,7 @@ namespace MediaDevices
             {
                 Trace.WriteLine(ex.ToString());
             }
-            return null;
+            return new ContentType[0];
         }
 
 
@@ -1394,7 +1405,7 @@ namespace MediaDevices
             {
                 Trace.WriteLine(ex.ToString());
             }
-            return null;
+            return new Events[0];
         }
 
         #endregion
@@ -1421,7 +1432,7 @@ namespace MediaDevices
         /// <param name="contentType">Content type to find the locations for.</param>
         /// <returns>List with the location pathes.</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public IEnumerable<string> GetContentLocations(ContentType contentType)
+        public string[] GetContentLocations(ContentType contentType)
         {
             if (!this.IsConnected)
             {
@@ -1433,13 +1444,13 @@ namespace MediaDevices
                 Command cmd = Command.Create(WPD.COMMAND_DEVICE_HINTS_GET_CONTENT_LOCATION);
                 cmd.Add(WPD.PROPERTY_DEVICE_HINTS_CONTENT_TYPE, contentType.Guid());
                 cmd.Send(this.device);
-                return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => Item.Create(this, c).FullName);
+                return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => Item.Create(this, c).FullName).ToArray();
             }
             catch (COMException ex)
             {
                 Trace.WriteLine(ex.ToString());
             }
-            return null;
+            return new string[0];
         }
 
         //public void Supported(string id)
@@ -1795,7 +1806,7 @@ namespace MediaDevices
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
             cmd.Send(this.device);
             var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
-            return list.Select(p => p.ToInt()).ToList();
+            return list.Select(p => p.ToInt());
         }
 
         /// <summary>
@@ -1817,7 +1828,7 @@ namespace MediaDevices
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
             cmd.Send(this.device);
             var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
-            return list.Select(p => p.ToInt()).ToList();
+            return list.Select(p => p.ToInt());
         }
 
         /*
@@ -1872,7 +1883,7 @@ namespace MediaDevices
 
         #endregion
 
-        #region Intern Methods
+        #region Internal Methods
         
         internal static bool IsPath(string path)
         {

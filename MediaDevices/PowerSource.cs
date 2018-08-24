@@ -6,6 +6,11 @@
     public enum PowerSource
     {
         /// <summary>
+        /// Device does not report the power source.
+        /// </summary>
+        Unknown = -1,
+
+        /// <summary>
         /// The power source of the device is battery.
         /// </summary>
         Battery = 0,

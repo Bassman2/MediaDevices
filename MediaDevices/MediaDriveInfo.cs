@@ -23,6 +23,11 @@ namespace MediaDevices
             this.objectId = objectId;
             this.info = device.GetStorageInfo(objectId);
 
+            if (this.info == null)
+            {
+                return;
+            }
+
             this.TotalSize = (long)this.info.Capacity;
             this.TotalFreeSpace = this.AvailableFreeSpace = (long)this.info.FreeSpaceInBytes;
 
