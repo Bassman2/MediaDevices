@@ -312,9 +312,8 @@ namespace MediaDevices
         {
             get
             {
-                if (IsConnected)
+                if (IsConnected && this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val))
                 {
-                    this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val);
                     return val;
                 }
                 else
