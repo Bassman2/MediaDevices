@@ -9,7 +9,7 @@ using TPROPVARIANT = PortableDeviceTypesLib.tag_inner_PROPVARIANT;
 namespace MediaDevices.Internal
 {
 
-    [StructLayout(LayoutKind.Explicit, Size = 16)]
+    [StructLayout(LayoutKind.Explicit, Size = 32)]
     internal struct PropVariant : IDisposable
     {
         [FieldOffset(0)]

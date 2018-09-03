@@ -149,15 +149,17 @@ namespace MediaDevicesUnitTest
                 "\\UploadTree\\Aaa\\Abb",
                 "\\UploadTree\\Aaa\\Abb\\Acc",
                 "\\UploadTree\\Aaa\\Abb\\Acc\\Ctest.txt",
-                "\\UploadTree\\Aaa\\Abb\\Add",
                 "\\UploadTree\\Aaa\\Abb\\Aee.txt",
                 "\\UploadTree\\Aaa\\Abb\\Aff.txt",
                 "\\UploadTree\\Aaa\\Abb\\Agg.txt",
                 "\\UploadTree\\Aaa\\Abb\\B.txt",
+                "\\UploadTree\\Aaa\\Acc",
                 "\\UploadTree\\Baa",
                 "\\UploadTree\\Baa\\Bxx.txt",
+                "\\UploadTree\\Bbb",
                 "\\UploadTree\\Caa",
                 "\\UploadTree\\Caa\\Cxx.txt",
+                "\\UploadTree\\Ccc",
                 "\\UploadTree\\Root.txt"
             };
 

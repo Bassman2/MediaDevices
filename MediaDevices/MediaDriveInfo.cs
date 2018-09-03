@@ -30,21 +30,21 @@ namespace MediaDevices
 
             switch (this.info.Type)
             {
-                case StorageType.FixedRam: 
+                case StorageType.FixedRam:
                 case StorageType.FixedRom:
                     this.DriveType = DriveType.Fixed;
                     break;
-                case StorageType.RemovableRam: 
+                case StorageType.RemovableRam:
                 case StorageType.RemovableRom:
                     this.DriveType = DriveType.Removable;
                     break;
-                case StorageType.Undefined: 
+                case StorageType.Undefined:
                 default:
                     this.DriveType = DriveType.Unknown;
                     break;
             }
 
-            
+
             this.RootDirectory = new MediaDirectoryInfo(this.device, Item.Create(this.device, this.objectId));
             this.Name = this.RootDirectory.FullName;
             this.VolumeLabel = this.info.Description;
