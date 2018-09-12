@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Explorer, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfExplorer.1.0.0-beta1\lib\net45\Explorer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -61,7 +65,6 @@
     <Compile Include="Mvvm\BaseViewModel.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Mvvm\Enums.cs" />
-    <Compile Include="Mvvm\EventToCommand.cs" />
     <Compile Include="Mvvm\MsgBox.cs" />
     <Compile Include="Mvvm\WaitCursor.cs" />
     <Compile Include="ViewModel\CapabilityViewModel.cs" />
@@ -184,6 +187,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Explorer.chm" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -198,10 +202,6 @@
     <Folder Include="Model\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Explorer\Explorer.csproj">
-      <Project>{03fb5d97-71e4-4304-b52f-6836605398b5}</Project>
-      <Name>Explorer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MediaDevices\MediaDevices.csproj">
       <Project>{e5353cb2-1320-4e96-a15e-551ba0b51105}</Project>
       <Name>MediaDevices</Name>
@@ -213,6 +213,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="WpfUsbMonitorLicense.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ExplorerLicense.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

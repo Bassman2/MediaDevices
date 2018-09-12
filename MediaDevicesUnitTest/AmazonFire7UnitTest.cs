@@ -17,7 +17,7 @@ namespace MediaDevicesUnitTest
             this.deviceFirmwareVersion = "1.0";
             this.deviceModel = "Fire";
             this.deviceSerialNumber = "G0W0MB06729405K5";
-            this.deviceDeviceType = DeviceType.Generic;
+            this.deviceDeviceType = DeviceType.MediaPlayer;
             this.deviceTransport = DeviceTransport.USB;
             this.devicePowerSource = PowerSource.Battery;
 

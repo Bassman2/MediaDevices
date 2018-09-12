@@ -1,6 +1,6 @@
 
 //  Microsoft (R) .NET Framework IL Disassembler.  Version 4.6.1055.0
-//  Copyright (c) Microsoft Corporation.  All rights reserved.
+//  Copyright (c) Microsoft Corporation. Alle Rechte vorbehalten.
 
 
 
@@ -24,13 +24,13 @@
   .ver 1:0:0:0
 }
 .module PortableDeviceApiLib.dll
-// MVID: {DD01ECD2-6701-4CD7-B18F-79178600E8E4}
-.imagebase 0x00400000
+// MVID: {27DF76FF-2425-4FAF-821A-A4DE87F0FEDC}
+.imagebase 0x0000000140000000
 .file alignment 0x00000200
-.stackreserve 0x00100000
+.stackreserve 0x0000000000400000
 .subsystem 0x0003       // WINDOWS_CUI
 .corflags 0x00000001    //  ILONLY
-// Image base: 0x00530000
+// Image base: 0x00BC0000
 
 
 // =============== CLASS MEMBERS DECLARATION ===================
@@ -125,10 +125,10 @@
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.IPortableDevice
 {
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 36 32 35 45 32 44 46 38 2D 36 33 39 32   // ..$625E2DF8-6392
                                                                                                   2D 34 43 46 30 2D 39 41 44 31 2D 33 43 46 41 35   // -4CF0-9AD1-3CFA5
                                                                                                   46 31 37 37 37 35 43 00 00 )                      // F17775C..
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  Open([in] string  marshal( lpwstr) pszPnPDeviceID,
                               [in] class PortableDeviceApiLib.IPortableDeviceValues  marshal( interface ) pClientInfo) runtime managed internalcall
@@ -184,11 +184,11 @@
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.IPortableDeviceValues
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
-  .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 36 38 34 38 46 36 46 32 2D 33 31 35 35   // ..$6848F6F2-3155
                                                                                                   2D 34 46 38 36 2D 42 36 46 35 2D 32 36 33 45 45   // -4F86-B6F5-263EE
                                                                                                   45 41 42 33 31 34 33 00 00 )                      // EAB3143..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+  .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  GetCount([in] uint32& pcelt) runtime managed internalcall
   {
@@ -454,7 +454,7 @@
        extends [mscorlib]System.ValueType
 {
   .pack 8
-  .size 8
+  .size 16
 } // end of class PortableDeviceApiLib.__MIDL___MIDL_itf_PortableDeviceApi_0001_0000_0001
 
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._LARGE_INTEGER
@@ -485,7 +485,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCLIPDATA
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cbSize
@@ -497,7 +497,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagBSTRBLOB
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cbSize
@@ -508,7 +508,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagBLOB
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cbSize
@@ -519,10 +519,10 @@
 .class interface public abstract auto ansi import PortableDeviceApiLib.IStream
        implements PortableDeviceApiLib.ISequentialStream
 {
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 30 30 30 30 30 30 30 43 2D 30 30 30 30   // ..$0000000C-0000
                                                                                                   2D 30 30 30 30 2D 43 30 30 30 2D 30 30 30 30 30   // -0000-C000-00000
                                                                                                   30 30 30 30 30 34 36 00 00 )                      // 0000046..
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  RemoteRead([out] uint8& pv,
                                     [in] uint32 cb,
@@ -804,7 +804,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagVersionedStream
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .field public valuetype [mscorlib]System.Guid guidVersion
   .field public  marshal( interface ) class PortableDeviceApiLib.IStream pStream
@@ -813,7 +813,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._wireSAFEARRAY
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint16 cDims
@@ -828,7 +828,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._wireSAFEARRAY_UNION
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .field public uint32 sfType
   .field public valuetype PortableDeviceApiLib.__MIDL_IOleAutomationTypes_0001 u
@@ -837,14 +837,14 @@
 .class public explicit ansi sealed PortableDeviceApiLib.__MIDL_IOleAutomationTypes_0001
        extends [mscorlib]System.ValueType
 {
-  .pack 4
-  .size 24
+  .pack 8
+  .size 32
 } // end of class PortableDeviceApiLib.__MIDL_IOleAutomationTypes_0001
 
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._wireSAFEARR_BSTR
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 Size
@@ -867,7 +867,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._wireSAFEARR_UNKNOWN
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 Size
@@ -878,7 +878,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._wireSAFEARR_DISPATCH
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 Size
@@ -889,7 +889,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._wireSAFEARR_VARIANT
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 Size
@@ -921,7 +921,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._wireBRECORD
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 fFlags
@@ -933,10 +933,10 @@
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.IRecordInfo
 {
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 30 30 30 30 30 30 32 46 2D 30 30 30 30   // ..$0000002F-0000
                                                                                                   2D 30 30 30 30 2D 43 30 30 30 2D 30 30 30 30 30   // -0000-C000-00000
                                                                                                   30 30 30 30 30 34 36 00 00 )                      // 0000046..
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  RecordInit([out] native int pvNew) runtime managed internalcall
   {
@@ -1037,10 +1037,10 @@
 .class interface public abstract auto ansi import PortableDeviceApiLib.ITypeInfo
 {
   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
-  .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 30 30 30 32 30 34 30 31 2D 30 30 30 30   // ..$00020401-0000
                                                                                                   2D 30 30 30 30 2D 43 30 30 30 2D 30 30 30 30 30   // -0000-C000-00000
                                                                                                   30 30 30 30 30 34 36 00 00 )                      // 0000046..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  RemoteGetTypeAttr([out] native int ppTypeAttr,
                                            [out] uint32& pDummy) runtime managed internalcall
@@ -1175,7 +1175,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagTYPEATTR
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .field public valuetype [mscorlib]System.Guid guid
   .field public uint32 lcid
@@ -1215,7 +1215,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagTYPEDESC
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .field public valuetype PortableDeviceApiLib.__MIDL_IOleAutomationTypes_0005 DUMMYUNIONNAME
   .field public uint16 vt
@@ -1224,8 +1224,8 @@
 .class public explicit ansi sealed PortableDeviceApiLib.__MIDL_IOleAutomationTypes_0005
        extends [mscorlib]System.ValueType
 {
-  .pack 4
-  .size 4
+  .pack 8
+  .size 8
 } // end of class PortableDeviceApiLib.__MIDL_IOleAutomationTypes_0005
 
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagARRAYDESC
@@ -1252,9 +1252,9 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagIDLDESC
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
-  .field public uint32 dwReserved
+  .field public uint64 dwReserved
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComAliasNameAttribute::.ctor(string) = ( 01 00 1E 50 6F 72 74 61 62 6C 65 44 65 76 69 63   // ...PortableDevic
                                                                                                           65 41 70 69 4C 69 62 2E 55 4C 4F 4E 47 5F 50 54   // eApiLib.ULONG_PT
                                                                                                           52 00 00 )                                        // R..
@@ -1263,10 +1263,10 @@
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.ITypeComp
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 30 30 30 32 30 34 30 33 2D 30 30 30 30   // ..$00020403-0000
                                                                                                   2D 30 30 30 30 2D 43 30 30 30 2D 30 30 30 30 30   // -0000-C000-00000
                                                                                                   30 30 30 30 30 34 36 00 00 )                      // 0000046..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  RemoteBind([in] string  marshal( lpwstr) szName,
@@ -1310,7 +1310,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagFUNCDESC
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public int32 memid
@@ -1332,7 +1332,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagELEMDESC
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .field public valuetype PortableDeviceApiLib.tagTYPEDESC tdesc
   .field public valuetype PortableDeviceApiLib.tagPARAMDESC paramdesc
@@ -1341,7 +1341,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagPARAMDESC
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public native int pparamdescex
@@ -1399,7 +1399,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagVARDESC
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .field public int32 memid
   .field public  marshal( lpwstr) string lpstrSchema
@@ -1412,8 +1412,8 @@
 .class public explicit ansi sealed PortableDeviceApiLib.__MIDL_IOleAutomationTypes_0006
        extends [mscorlib]System.ValueType
 {
-  .pack 4
-  .size 4
+  .pack 8
+  .size 8
 } // end of class PortableDeviceApiLib.__MIDL_IOleAutomationTypes_0006
 
 .class public auto ansi sealed PortableDeviceApiLib.tagVARKIND
@@ -1428,8 +1428,8 @@
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.ITypeLib
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+  .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 30 30 30 32 30 34 30 32 2D 30 30 30 30   // ..$00020402-0000
                                                                                                   2D 30 30 30 30 2D 43 30 30 30 2D 30 30 30 30 30   // -0000-C000-00000
                                                                                                   30 30 30 30 30 34 36 00 00 )                      // 0000046..
@@ -1534,7 +1534,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._wireSAFEARR_BRECORD
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 Size
@@ -1545,7 +1545,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._wireSAFEARR_HAVEIID
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 Size
@@ -1557,7 +1557,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._BYTE_SIZEDARR
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 clSize
@@ -1568,7 +1568,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._SHORT_SIZEDARR
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 clSize
@@ -1579,7 +1579,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._LONG_SIZEDARR
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 clSize
@@ -1590,7 +1590,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib._HYPER_SIZEDARR
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 clSize
@@ -1601,7 +1601,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCAC
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1612,7 +1612,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCAUB
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1623,7 +1623,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCAI
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1634,7 +1634,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCAUI
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1645,7 +1645,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCAL
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1656,7 +1656,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCAUL
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1667,7 +1667,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCAH
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1678,7 +1678,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCAUH
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1689,7 +1689,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCAFLT
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1700,7 +1700,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCADBL
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1711,7 +1711,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCABOOL
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1722,7 +1722,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCASCODE
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1733,7 +1733,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCACY
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1744,7 +1744,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCADATE
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1755,7 +1755,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCAFILETIME
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1766,7 +1766,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCACLSID
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1777,7 +1777,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCACLIPDATA
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1788,7 +1788,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCABSTR
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1799,7 +1799,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCABSTRBLOB
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1810,7 +1810,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCALPSTR
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1821,7 +1821,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCALPWSTR
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1832,7 +1832,7 @@
 .class public sequential ansi sealed beforefieldinit PortableDeviceApiLib.tagCAPROPVARIANT
        extends [mscorlib]System.ValueType
 {
-  .pack 4
+  .pack 8
   .size 0
   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
   .field public uint32 cElems
@@ -1842,10 +1842,10 @@
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.IPortableDevicePropVariantCollection
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 38 39 42 32 45 34 32 32 2D 34 46 31 42   // ..$89B2E422-4F1B
                                                                                                   2D 34 33 31 36 2D 42 43 45 46 2D 41 34 34 41 46   // -4316-BCEF-A44AF
                                                                                                   45 41 38 33 45 42 33 00 00 )                      // EA83EB3..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  GetCount([in] uint32& pcElems) runtime managed internalcall
   {
@@ -1954,10 +1954,10 @@
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.IPropertyStore
 {
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 38 38 36 44 38 45 45 42 2D 38 43 46 32   // ..$886D8EEB-8CF2
                                                                                                   2D 34 34 34 36 2D 38 44 30 32 2D 43 44 42 41 31   // -4446-8D02-CDBA1
                                                                                                   44 42 44 43 46 39 39 00 00 )                      // DBDCF99..
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  GetCount([out] uint32& cProps) runtime managed internalcall
   {
@@ -2097,10 +2097,10 @@
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.IPortableDeviceProperties
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 37 46 36 44 36 39 35 43 2D 30 33 44 46   // ..$7F6D695C-03DF
                                                                                                   2D 34 34 33 39 2D 41 38 30 39 2D 35 39 32 36 36   // -4439-A809-59266
                                                                                                   42 45 45 45 33 41 36 00 00 )                      // BEEE3A6..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  GetSupportedProperties([in] string  marshal( lpwstr) pszObjectID,
                                                 [out] class PortableDeviceApiLib.IPortableDeviceKeyCollection&  marshal( interface ) ppKeys) runtime managed internalcall
@@ -2143,10 +2143,10 @@
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.IPortableDeviceResources
 {
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 46 44 38 38 37 38 41 43 2D 44 38 34 31   // ..$FD8878AC-D841
                                                                                                   2D 34 44 31 37 2D 38 39 31 43 2D 45 36 38 32 39   // -4D17-891C-E6829
                                                                                                   43 44 42 36 39 33 34 00 00 )                      // CDB6934..
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  GetSupportedResources([in] string  marshal( lpwstr) pszObjectID,
                                                [out] class PortableDeviceApiLib.IPortableDeviceKeyCollection&  marshal( interface ) ppKeys) runtime managed internalcall
@@ -2263,10 +2263,10 @@
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.IPortableDeviceEventCallback
 {
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 41 38 37 39 32 41 33 31 2D 46 33 38 35   // ..$A8792A31-F385
                                                                                                   2D 34 39 33 43 2D 41 38 39 33 2D 34 30 46 36 34   // -493C-A893-40F64
                                                                                                   45 42 34 35 46 36 45 00 00 )                      // EB45F6E..
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  OnEvent([in] class PortableDeviceApiLib.IPortableDeviceValues  marshal( interface ) pEventParameters) runtime managed internalcall
   {
@@ -2279,8 +2279,8 @@
        implements PortableDeviceApiLib.IPortableDeviceManager,
                   PortableDeviceApiLib.PortableDeviceManager
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+  .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 30 41 46 31 30 43 45 43 2D 32 45 43 44   // ..$0AF10CEC-2ECD
                                                                                                   2D 34 42 39 32 2D 39 35 38 31 2D 33 34 46 36 41   // -4B92-9581-34F6A
                                                                                                   45 30 36 33 37 46 33 00 00 )                      // E0637F3..
@@ -2348,21 +2348,21 @@
 .class interface public abstract auto ansi import PortableDeviceApiLib.PortableDeviceManager
        implements PortableDeviceApiLib.IPortableDeviceManager
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 41 31 35 36 37 35 39 35 2D 34 43 32 46   // ..$A1567595-4C2F
-                                                                                                  2D 34 35 37 34 2D 41 36 46 41 2D 45 43 45 46 39   // -4574-A6FA-ECEF9
-                                                                                                  31 37 42 39 41 34 30 00 00 )                      // 17B9A40..
   .custom instance void [mscorlib]System.Runtime.InteropServices.CoClassAttribute::.ctor(class [mscorlib]System.Type) = ( 01 00 2F 50 6F 72 74 61 62 6C 65 44 65 76 69 63   // ../PortableDevic
                                                                                                                           65 41 70 69 4C 69 62 2E 50 6F 72 74 61 62 6C 65   // eApiLib.Portable
                                                                                                                           44 65 76 69 63 65 4D 61 6E 61 67 65 72 43 6C 61   // DeviceManagerCla
                                                                                                                           73 73 00 00 )                                     // ss..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 41 31 35 36 37 35 39 35 2D 34 43 32 46   // ..$A1567595-4C2F
+                                                                                                  2D 34 35 37 34 2D 41 36 46 41 2D 45 43 45 46 39   // -4574-A6FA-ECEF9
+                                                                                                  31 37 42 39 41 34 30 00 00 )                      // 17B9A40..
 } // end of class PortableDeviceApiLib.PortableDeviceManager
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.IPortableDeviceManager
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 41 31 35 36 37 35 39 35 2D 34 43 32 46   // ..$A1567595-4C2F
                                                                                                   2D 34 35 37 34 2D 41 36 46 41 2D 45 43 45 46 39   // -4574-A6FA-ECEF9
                                                                                                   31 37 42 39 41 34 30 00 00 )                      // 17B9A40..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  GetDevices([in][out] string[] marshal( lpwstr[] ) pPnPDeviceIDs,
                                     [in][out] uint32& pcPnPDeviceIDs) runtime managed internalcall
@@ -2417,8 +2417,8 @@
        implements PortableDeviceApiLib.IPortableDeviceService,
                   PortableDeviceApiLib.PortableDeviceService
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+  .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 45 46 35 44 42 34 43 32 2D 39 33 31 32   // ..$EF5DB4C2-9312
                                                                                                   2D 34 32 32 43 2D 39 31 35 32 2D 34 31 31 43 44   // -422C-9152-411CD
                                                                                                   39 43 34 44 44 38 34 00 00 )                      // 9C4DD84..
@@ -2767,10 +2767,10 @@
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.IPortableDeviceServiceMethods
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 45 32 30 33 33 33 43 39 2D 46 44 33 34   // ..$E20333C9-FD34
                                                                                                   2D 34 31 32 44 2D 41 33 38 31 2D 43 43 36 46 32   // -412D-A381-CC6F2
                                                                                                   44 38 32 30 44 46 37 00 00 )                      // D820DF7..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  Invoke([in] valuetype [mscorlib]System.Guid& Method,
                                 [in] class PortableDeviceApiLib.IPortableDeviceValues  marshal( interface ) pParameters,
@@ -2811,11 +2811,11 @@
        implements PortableDeviceApiLib.IPortableDeviceDispatchFactory,
                   PortableDeviceApiLib.PortableDeviceDispatchFactory
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 34 33 32 33 32 32 33 33 2D 38 33 33 38   // ..$43232233-8338
                                                                                                   2D 34 36 35 38 2D 41 45 30 31 2D 30 42 34 41 45   // -4658-AE01-0B4AE
                                                                                                   38 33 30 42 36 42 30 00 00 )                      // 830B6B0..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
   .method public specialname rtspecialname 
           instance void  .ctor() runtime managed internalcall
   {
@@ -2833,21 +2833,21 @@
 .class interface public abstract auto ansi import PortableDeviceApiLib.PortableDeviceDispatchFactory
        implements PortableDeviceApiLib.IPortableDeviceDispatchFactory
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 35 45 31 45 41 46 43 33 2D 45 33 44 37   // ..$5E1EAFC3-E3D7
-                                                                                                  2D 34 31 33 32 2D 39 36 46 41 2D 37 35 39 43 30   // -4132-96FA-759C0
-                                                                                                  46 39 44 31 45 30 46 00 00 )                      // F9D1E0F..
   .custom instance void [mscorlib]System.Runtime.InteropServices.CoClassAttribute::.ctor(class [mscorlib]System.Type) = ( 01 00 37 50 6F 72 74 61 62 6C 65 44 65 76 69 63   // ..7PortableDevic
                                                                                                                           65 41 70 69 4C 69 62 2E 50 6F 72 74 61 62 6C 65   // eApiLib.Portable
                                                                                                                           44 65 76 69 63 65 44 69 73 70 61 74 63 68 46 61   // DeviceDispatchFa
                                                                                                                           63 74 6F 72 79 43 6C 61 73 73 00 00 )             // ctoryClass..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 35 45 31 45 41 46 43 33 2D 45 33 44 37   // ..$5E1EAFC3-E3D7
+                                                                                                  2D 34 31 33 32 2D 39 36 46 41 2D 37 35 39 43 30   // -4132-96FA-759C0
+                                                                                                  46 39 44 31 45 30 46 00 00 )                      // F9D1E0F..
 } // end of class PortableDeviceApiLib.PortableDeviceDispatchFactory
 
 .class interface public abstract auto ansi import PortableDeviceApiLib.IPortableDeviceDispatchFactory
 {
+  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 35 45 31 45 41 46 43 33 2D 45 33 44 37   // ..$5E1EAFC3-E3D7
                                                                                                   2D 34 31 33 32 2D 39 36 46 41 2D 37 35 39 43 30   // -4132-96FA-759C0
                                                                                                   46 39 44 31 45 30 46 00 00 )                      // F9D1E0F..
-  .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
   .method public hidebysig newslot abstract virtual 
           instance void  GetDeviceDispatch([in] string  marshal( lpwstr) pszPnPDeviceID,
                                            [out] object&  marshal( idispatch ) ppDeviceDispatch) runtime managed internalcall
@@ -2861,11 +2861,11 @@
        implements PortableDeviceApiLib.IPortableDevice,
                   PortableDeviceApiLib.PortableDeviceFTM
 {
-  .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 46 37 43 30 30 33 39 41 2D 34 37 36 32   // ..$F7C0039A-4762
                                                                                                   2D 34 38 38 41 2D 42 34 42 33 2D 37 36 30 45 46   // -488A-B4B3-760EF
                                                                                                   39 41 31 42 41 39 42 00 00 )                      // 9A1BA9B..
   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
+  .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
   .method public specialname rtspecialname 
           instance void  .ctor() runtime managed internalcall
   {
@@ -2949,11 +2949,11 @@
        implements PortableDeviceApiLib.IPortableDeviceService,
                   PortableDeviceApiLib.PortableDeviceServiceFTM
 {
+  .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
+  .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 31 36 34 39 42 31 35 34 2D 43 37 39 34   // ..$1649B154-C794
                                                                                                   2D 34 39 37 41 2D 39 42 30 33 2D 46 33 46 30 31   // -497A-9B03-F3F01
                                                                                                   32 31 33 30 32 46 33 00 00 )                      // 21302F3..
-  .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
-  .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
   .method public specialname rtspecialname 
           instance void  .ctor() runtime managed internalcall
   {
@@ -3045,8 +3045,79 @@
                                                                                                                           43 6C 61 73 73 00 00 )                            // Class..
 } // end of class PortableDeviceApiLib.PortableDeviceServiceFTM
 
+.class public auto ansi import PortableDeviceApiLib.PortableDeviceWebControlClass
+       extends [mscorlib]System.Object
+       implements PortableDeviceApiLib.IPortableDeviceWebControl,
+                  PortableDeviceApiLib.PortableDeviceWebControl
+{
+  .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 31 38 36 44 44 30 32 43 2D 32 44 45 43   // ..$186DD02C-2DEC
+                                                                                                  2D 34 31 42 35 2D 41 37 44 34 2D 42 35 39 30 35   // -41B5-A7D4-B5905
+                                                                                                  36 46 41 44 45 35 31 00 00 )                      // 6FADE51..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
+  .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+  .method public specialname rtspecialname 
+          instance void  .ctor() runtime managed internalcall
+  {
+  } // end of method PortableDeviceWebControlClass::.ctor
+
+  .method public hidebysig newslot virtual 
+          instance object 
+          marshal( idispatch ) 
+          GetDeviceFromId([in] string  marshal( bstr) deviceId) runtime managed internalcall
+  {
+    .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 01 00 00 00 00 00 ) 
+    .override PortableDeviceApiLib.IPortableDeviceWebControl::GetDeviceFromId
+  } // end of method PortableDeviceWebControlClass::GetDeviceFromId
+
+  .method public hidebysig newslot virtual 
+          instance void  GetDeviceFromIdAsync([in] string  marshal( bstr) deviceId,
+                                              [in] object  marshal( idispatch ) pCompletionHandler,
+                                              [in] object  marshal( idispatch ) pErrorHandler) runtime managed internalcall
+  {
+    .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 02 00 00 00 00 00 ) 
+    .override PortableDeviceApiLib.IPortableDeviceWebControl::GetDeviceFromIdAsync
+  } // end of method PortableDeviceWebControlClass::GetDeviceFromIdAsync
+
+} // end of class PortableDeviceApiLib.PortableDeviceWebControlClass
+
+.class interface public abstract auto ansi import PortableDeviceApiLib.PortableDeviceWebControl
+       implements PortableDeviceApiLib.IPortableDeviceWebControl
+{
+  .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 39 34 46 43 37 39 35 33 2D 35 43 41 31   // ..$94FC7953-5CA1
+                                                                                                  2D 34 38 33 41 2D 38 41 45 45 2D 44 46 35 32 45   // -483A-8AEE-DF52E
+                                                                                                  37 37 34 37 44 30 30 00 00 )                      // 7747D00..
+  .custom instance void [mscorlib]System.Runtime.InteropServices.CoClassAttribute::.ctor(class [mscorlib]System.Type) = ( 01 00 32 50 6F 72 74 61 62 6C 65 44 65 76 69 63   // ..2PortableDevic
+                                                                                                                          65 41 70 69 4C 69 62 2E 50 6F 72 74 61 62 6C 65   // eApiLib.Portable
+                                                                                                                          44 65 76 69 63 65 57 65 62 43 6F 6E 74 72 6F 6C   // DeviceWebControl
+                                                                                                                          43 6C 61 73 73 00 00 )                            // Class..
+} // end of class PortableDeviceApiLib.PortableDeviceWebControl
+
+.class interface public abstract auto ansi import PortableDeviceApiLib.IPortableDeviceWebControl
+{
+  .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 C0 10 00 00 ) 
+  .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 39 34 46 43 37 39 35 33 2D 35 43 41 31   // ..$94FC7953-5CA1
+                                                                                                  2D 34 38 33 41 2D 38 41 45 45 2D 44 46 35 32 45   // -483A-8AEE-DF52E
+                                                                                                  37 37 34 37 44 30 30 00 00 )                      // 7747D00..
+  .method public hidebysig newslot abstract virtual 
+          instance object 
+          marshal( idispatch ) 
+          GetDeviceFromId([in] string  marshal( bstr) deviceId) runtime managed internalcall
+  {
+    .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 01 00 00 00 00 00 ) 
+  } // end of method IPortableDeviceWebControl::GetDeviceFromId
+
+  .method public hidebysig newslot abstract virtual 
+          instance void  GetDeviceFromIdAsync([in] string  marshal( bstr) deviceId,
+                                              [in] object  marshal( idispatch ) pCompletionHandler,
+                                              [in] object  marshal( idispatch ) pErrorHandler) runtime managed internalcall
+  {
+    .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 02 00 00 00 00 00 ) 
+  } // end of method IPortableDeviceWebControl::GetDeviceFromIdAsync
+
+} // end of class PortableDeviceApiLib.IPortableDeviceWebControl
+
 
 // =============================================================
 
 // *********** DISASSEMBLY COMPLETE ***********************
-// WARNING: Created Win32 resource file pdapi.res
+// Warnung: Win32-Ressourcendatei "pdapi.res" wurde erstellt.
