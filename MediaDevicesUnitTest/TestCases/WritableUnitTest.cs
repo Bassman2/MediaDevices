@@ -139,6 +139,11 @@ namespace MediaDevicesUnitTest
             device.Connect();
 
             string sourceFolder = Path.GetFullPath(@".\..\..\..\TestData\UploadTree");
+            // create empty folders
+            Directory.CreateDirectory(Path.Combine(sourceFolder, @"Aaa\Abb\Add"));
+            Directory.CreateDirectory(Path.Combine(sourceFolder, @"Aaa\Acc"));
+            Directory.CreateDirectory(Path.Combine(sourceFolder, "Bbb"));
+            Directory.CreateDirectory(Path.Combine(sourceFolder, "Ccc"));
             string destFolder = Path.Combine(this.workingFolder, "UploadTree");
             int pathLen = this.workingFolder.Length;
 
@@ -149,6 +154,7 @@ namespace MediaDevicesUnitTest
                 "\\UploadTree\\Aaa\\Abb",
                 "\\UploadTree\\Aaa\\Abb\\Acc",
                 "\\UploadTree\\Aaa\\Abb\\Acc\\Ctest.txt",
+                "\\UploadTree\\Aaa\\Abb\\Add",
                 "\\UploadTree\\Aaa\\Abb\\Aee.txt",
                 "\\UploadTree\\Aaa\\Abb\\Aff.txt",
                 "\\UploadTree\\Aaa\\Abb\\Agg.txt",
