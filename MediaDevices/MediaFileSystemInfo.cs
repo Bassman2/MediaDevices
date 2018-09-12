@@ -160,12 +160,45 @@ namespace MediaDevices
         }
 
         /// <summary>
+        /// Gets the persistent unique id of the MTP object.
+        /// </summary>
+        /// <remarks>
+        /// A unique cross session object ID, that is not changing when device is disconnected.
+        /// </remarks>
+        public string PersistentUniqueId
+        {
+            get
+            {
+                return this.item.PersistentUniqueId;
+            }
+        }
+
+        /// <summary>
         /// Rename the folder of file
         /// </summary>
         /// <param name="newName">New name of the file or folder.</param>
         public void Rename(string newName)
         {
             this.item.Rename(newName);
+        }
+
+        /// <summary>
+        /// Gets the hash code for the current object.
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
+
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
+        public override bool Equals(object obj)
+        {
+            return (obj as MediaFileSystemInfo)?.Id == this.Id;
         }
     }
 }

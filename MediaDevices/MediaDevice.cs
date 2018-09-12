@@ -19,10 +19,10 @@ namespace MediaDevices
     /// </summary>
     public sealed class MediaDevice : IDisposable
     {
-        
+
         #region Fields
 
-        private PortableDeviceApiLib.PortableDevice device;
+        internal PortableDeviceApiLib.PortableDevice device;
         internal IPortableDeviceContent deviceContent;
         internal IPortableDeviceProperties deviceProperties;
         private IPortableDeviceCapabilities deviceCapabilities;
@@ -1265,6 +1265,146 @@ namespace MediaDevices
             return new MediaDirectoryInfo(this, Item.GetRoot(this));
         }
 
+
+        /// <summary>
+        /// Download data from a file on a portable device to a stream identified by a Persistent Unique Id.
+        /// </summary>
+        /// <param name="persistentUniqueId">Persistent Unique Id of the file.</param>
+        /// <param name="stream">The stream to download to.</param>
+        /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+        /// <exception cref="System.ArgumentNullException">stream is null.</exception>
+        /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public void DownloadFileFromPersistentUniqueId(string persistentUniqueId, Stream stream)
+        {
+            if (string.IsNullOrEmpty(persistentUniqueId))
+            {
+                throw new ArgumentNullException("persistentUniqueId");
+            }
+            if (stream == null)
+            {
+                throw new ArgumentNullException("stream");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            using (Stream sourceStream = OpenReadFromPersistentUniqueId(persistentUniqueId))
+            {
+                sourceStream.CopyTo(stream);
+            }
+        }
+
+        /// <summary>
+        /// Opens a files stream from an Persistent Unique ID to read from.
+        /// </summary>
+        /// <param name="persistentUniqueId">Persistent unique ID of the item.</param>
+        /// <returns>A new read-only FileStream object.</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+        /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+        public Stream OpenReadFromPersistentUniqueId(string persistentUniqueId)
+        {
+            if (string.IsNullOrEmpty(persistentUniqueId))
+            {
+                throw new ArgumentNullException("persistentUniqueId");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
+            if (item == null || !item.IsFile)
+            {
+                throw new FileNotFoundException($"{persistentUniqueId} not found.");
+            }
+            return item.OpenRead();
+        }
+
+        /// <summary>
+        /// Opens a stream reader with UTF-8 encoding from an Persistent Unique ID to read from.
+        /// </summary>
+        /// <param name="persistentUniqueId">Persistent unique ID of the item.</param>
+        /// <returns>A new StreamReader object.</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+        /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+        public StreamReader OpenTextFromPersistentUniqueId(string persistentUniqueId)
+        {
+            if (string.IsNullOrEmpty(persistentUniqueId))
+            {
+                throw new ArgumentNullException("persistentUniqueId");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
+            if (item == null || !item.IsFile)
+            {
+                throw new FileNotFoundException($"{persistentUniqueId} not found.");
+            }
+            return item == null ? null : new StreamReader(item.OpenRead());
+        }
+
+        /// <summary>
+        /// Create a <see cref="MediaFileInfo"/> instance from the Persistent Unique Id.
+        /// </summary>
+        /// <param name="persistentUniqueId">Persistent Unique Id of the file.</param>
+        /// <returns>New instance of the <see cref="MediaFileInfo"/> class.</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+        /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+        public MediaFileInfo GetFileInfoFromPersistentUniqueId(string persistentUniqueId)
+        {
+            if (string.IsNullOrEmpty(persistentUniqueId))
+            {
+                throw new ArgumentNullException("persistentUniqueId");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
+            if (item == null || !item.IsFile)
+            {
+                throw new FileNotFoundException($"{persistentUniqueId} not found.");
+            }
+
+            return new MediaFileInfo(this, item);
+        }
+
+        /// <summary>
+        /// Create a <see cref="MediaDirectoryInfo"/> instance from the Persistent Unique Id.
+        /// </summary>
+        /// <param name="persistentUniqueId">Persistent Unique Id to get the directory from.</param>
+        /// <returns>New instance of the <see cref="MediaDirectoryInfo"/> class.</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">persistentUniqueId not found.</exception>
+        public MediaDirectoryInfo GetDirectoryInfoFromPersistentUniqueId(string persistentUniqueId)
+        {
+            if (persistentUniqueId == null)
+            {
+                throw new ArgumentNullException("persistentUniqueId");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
+            if (item == null || item.IsFile)
+            {
+                throw new DirectoryNotFoundException($"{persistentUniqueId} not found.");
+            }
+            return new MediaDirectoryInfo(this, item);
+        }
+
         #endregion
 
         #region Device Capabilities
@@ -1420,7 +1560,7 @@ namespace MediaDevices
         /// Get content locations
         /// </summary>
         /// <param name="contentType">Content type to find the locations for.</param>
-        /// <returns>List with the location pathes.</returns>
+        /// <returns>List with the location paths.</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> GetContentLocations(ContentType contentType)
         {
@@ -1442,7 +1582,7 @@ namespace MediaDevices
             }
             return null;
         }
-
+        
         //public void Supported(string id)
         //{
         //    var values = (IPortableDeviceValues)new PortableDeviceValues();

@@ -6,6 +6,18 @@
 		</introduction>
 
     <section>
+      <title>Version 1.7 was released on xx. xxth, 2018.</title>
+      <content>
+        <list class="bullet">
+          <listItem>
+            <para>Support for Persistent Unique Id handling.</para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+
+    
+    <section>
       <title>Version 1.6 was released on Feb. 13th, 2018.</title>
       <content>
         <list class="bullet">
