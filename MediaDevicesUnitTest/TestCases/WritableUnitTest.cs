@@ -14,6 +14,27 @@ namespace MediaDevicesUnitTest
     {
         protected string workingFolder;
 
+        protected void UploadTestTree(MediaDevice device)
+        {
+            string sourceFolder = Path.GetFullPath(@".\..\..\..\TestData\UploadTree");
+
+            // create empty folders not checked in
+            Directory.CreateDirectory(Path.Combine(sourceFolder, @"Aaa\Abb\Add"));
+            Directory.CreateDirectory(Path.Combine(sourceFolder, @"Aaa\Acc"));
+            Directory.CreateDirectory(Path.Combine(sourceFolder, "Bbb"));
+            Directory.CreateDirectory(Path.Combine(sourceFolder, "Ccc"));
+
+            string destFolder = Path.Combine(this.workingFolder, "UploadTree");
+            
+            var exists = device.DirectoryExists(destFolder);
+            if (exists)
+            {
+                device.DeleteDirectory(destFolder, true);
+            }
+
+            device.UploadFolder(sourceFolder, destFolder);
+        }
+
         [TestMethod]
         [Description("Test event handling.")]
         public void EventTest()
@@ -138,7 +159,8 @@ namespace MediaDevicesUnitTest
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
-            string sourceFolder = Path.GetFullPath(@".\..\..\..\TestData\UploadTree");
+            UploadTestTree(device);
+            
             string destFolder = Path.Combine(this.workingFolder, "UploadTree");
             int pathLen = this.workingFolder.Length;
 
@@ -149,6 +171,7 @@ namespace MediaDevicesUnitTest
                 "\\UploadTree\\Aaa\\Abb",
                 "\\UploadTree\\Aaa\\Abb\\Acc",
                 "\\UploadTree\\Aaa\\Abb\\Acc\\Ctest.txt",
+                "\\UploadTree\\Aaa\\Abb\\Add",
                 "\\UploadTree\\Aaa\\Abb\\Aee.txt",
                 "\\UploadTree\\Aaa\\Abb\\Aff.txt",
                 "\\UploadTree\\Aaa\\Abb\\Agg.txt",
@@ -162,15 +185,7 @@ namespace MediaDevicesUnitTest
                 "\\UploadTree\\Ccc",
                 "\\UploadTree\\Root.txt"
             };
-
-            var exists1 = device.DirectoryExists(destFolder);
-            if (exists1)
-            {
-                device.DeleteDirectory(destFolder, true);
-            }
             
-            device.UploadFolder(sourceFolder, destFolder);
-                        
             var list = device.EnumerateFileSystemEntries(destFolder, null, SearchOption.AllDirectories).Select(p => p.Remove(0, pathLen)).ToList();
             
             device.Disconnect();
@@ -290,5 +305,65 @@ namespace MediaDevicesUnitTest
             Assert.IsTrue(exists2, "exists2");
             Assert.IsFalse(exists3, "exists3");
         }
+
+        [TestMethod]
+        [Description("Roma Test")]
+        public void RomaTest()
+        {
+            string res = string.Empty;
+
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
+
+            var fI = device.GetFileInfo(@"\SD card\Documents\note.txt");
+            using (var stream = fI.OpenText())
+            {
+                res = stream.ReadToEnd();
+            }
+
+            device.Disconnect();
+
+            Assert.AreEqual("Dies ist ein Test", res, "text");
+            
+        }
+
+        [TestMethod]
+        [Description("PersistentUniqueId Test")]
+        public void PersistentUniqueIdTest()
+        {
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
+
+            UploadTestTree(device);
+
+            MediaDirectoryInfo dir = device.GetDirectoryInfo(Path.Combine(this.workingFolder, @"UploadTree\Aaa\Abb"));
+            string dirPui = dir.PersistentUniqueId;
+            MediaDirectoryInfo dirGet = device.GetDirectoryInfoFromPersistentUniqueId(dirPui);
+
+            MediaFileInfo file = device.GetFileInfo(Path.Combine(this.workingFolder, @"UploadTree\Aaa\Abb\Acc\Ctest.txt"));
+            string filePui = file.PersistentUniqueId;
+            MediaFileInfo fileGet = device.GetFileInfoFromPersistentUniqueId(filePui);
+
+            string tmp = Path.GetTempFileName();
+            device.DownloadFileFromPersistentUniqueId(filePui, tmp);
+            var text = File.ReadAllText(tmp);
+
+            device.Disconnect();
+
+
+            Assert.IsNotNull(dirPui, "dirPui");
+            Assert.AreEqual(dir, dirGet, "dirGet");
+
+            Assert.IsNotNull(filePui, "filePui");
+            Assert.AreEqual(file, fileGet, "fileGet");
+
+            Assert.AreEqual("test", text, "text");
+        }
+
+        
     }
 }

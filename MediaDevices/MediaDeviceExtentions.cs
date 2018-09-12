@@ -234,6 +234,42 @@ namespace MediaDevices
             }
         }
 
+        /// <summary>
+        /// Download a file from a portable device using a Persistent Unique Id.
+        /// </summary>
+        /// <param name="device">Device class.</param>
+        /// <param name="persistentUniqueId">Persistent Unique Id of the source file.</param>
+        /// <param name="destination">The path to the destination.</param>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public static void DownloadFileFromPersistentUniqueId(this MediaDevice device, string persistentUniqueId, string destination)
+        {
+            if (string.IsNullOrEmpty(persistentUniqueId))
+            {
+                throw new ArgumentNullException("persistentUniqueId");
+            }
+            if (string.IsNullOrEmpty(destination))
+            {
+                throw new ArgumentNullException("destination");
+            }
+            if (!MediaDevice.IsPath(destination))
+            {
+                throw new ArgumentException("destination");
+            }
+            if (!device.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            using (FileStream stream = File.Create(destination))
+            {
+                device.DownloadFileFromPersistentUniqueId(persistentUniqueId, stream);
+            }
+        }
+
         private static string GetLocalPath(string basePath, string fullPath)
         {
             if (!fullPath.StartsWith(basePath))

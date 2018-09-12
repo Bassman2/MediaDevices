@@ -76,13 +76,29 @@ namespace MediaDevices.Internal
             return item;
         }
 
+        public static Item GetFromPersistentUniqueId(MediaDevice device, string persistentUniqueId)
+        {
+            var propVariantPUID = PropVariant.StringToPropVariant(persistentUniqueId);
+            var collection = (IPortableDevicePropVariantCollection)new PortableDevicePropVariantCollection();
+            collection.Add(ref propVariantPUID);
+
+            Command cmd = Command.Create(WPD.COMMAND_COMMON_GET_OBJECT_IDS_FROM_PERSISTENT_UNIQUE_IDS);
+            cmd.Add(WPD.PROPERTY_COMMON_PERSISTENT_UNIQUE_IDS, collection);
+            cmd.Send(device.device);
+            string mediaObjectId = cmd.GetPropVariants(WPD.PROPERTY_COMMON_OBJECT_IDS).Select(c => c.ToString()).FirstOrDefault();
+
+            return mediaObjectId == null ? null : Item.Create(device, mediaObjectId);
+        }
+
         public string Id { get; private set; }
         public string Name { get; private set; }
         public string FullName { get; set; }
         public ItemType Type { get; private set; }
 
         public bool IsRoot { get { return this.Id == RootId; } }
-        
+
+        public bool IsFile { get { return this.Type == ItemType.File; } }
+
         private Item(MediaDevice device, string id, string path)
         {
             this.device = device;
@@ -271,6 +287,15 @@ namespace MediaDevices.Internal
             get
             {
                 this.values.TryGetStringValue(WPD.OBJECT_PARENT_ID, out string value);
+                return value;
+            }
+        }
+
+        public string PersistentUniqueId
+        {
+            get
+            {
+                this.values.TryGetStringValue(WPD.OBJECT_PERSISTENT_UNIQUE_ID, out string value);
                 return value;
             }
         }

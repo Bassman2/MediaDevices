@@ -6,15 +6,27 @@
 		</introduction>
 
     <section>
+<<<<<<< HEAD
       <title>Version 1.7 was released on Sept. 3th, 2018.</title>
       <content>
         <list class="bullet">
           <listItem>
             <para>Fix for the 64Bit problem.</para>
+=======
+      <title>Version 1.7 was released on xx. xxth, 2018.</title>
+      <content>
+        <list class="bullet">
+          <listItem>
+            <para>Support for Persistent Unique Id handling.</para>
+>>>>>>> 143c8f5ca0b09e38d8c66b7a04ab57c988711523
           </listItem>
         </list>
       </content>
     </section>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 143c8f5ca0b09e38d8c66b7a04ab57c988711523
     
     <section>
       <title>Version 1.6 was released on Feb. 13th, 2018.</title>

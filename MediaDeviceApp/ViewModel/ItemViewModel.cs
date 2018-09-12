@@ -73,8 +73,10 @@ namespace MediaDeviceApp.ViewModel
                 }
             }
         }
-        
+
+#pragma warning disable CS0067
         public event EventHandler<RefreshEventArgs> Refresh;
+#pragma warning restore CS0067
 
         public void CreateFolder(string path)
         {

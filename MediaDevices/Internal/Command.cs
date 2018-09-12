@@ -46,6 +46,11 @@ namespace MediaDevices.Internal
             this.values.SetUnsignedIntegerValue(key, value);
         }
 
+        public void Add(PropertyKey key, IPortableDevicePropVariantCollection value)
+        {
+            this.values.SetIPortableDevicePropVariantCollectionValue(key, value);
+        }
+        
         public void Add(PropertyKey key, IEnumerable<int> values)
         {
             PortableDeviceApiLib.IPortableDevicePropVariantCollection col = (PortableDeviceApiLib.IPortableDevicePropVariantCollection) new PortableDevicePropVariantCollection();
