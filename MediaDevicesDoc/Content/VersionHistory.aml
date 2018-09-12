@@ -6,6 +6,17 @@
 		</introduction>
 
     <section>
+      <title>Version 1.7 was released on Sept. 3th, 2018.</title>
+      <content>
+        <list class="bullet">
+          <listItem>
+            <para>Fix for the 64Bit problem.</para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+    
+    <section>
       <title>Version 1.6 was released on Feb. 13th, 2018.</title>
       <content>
         <list class="bullet">
