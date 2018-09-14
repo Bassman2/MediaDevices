@@ -1,10 +1,5 @@
 ﻿using MediaDevices.Internal;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaDevices
 {
@@ -23,13 +18,15 @@ namespace MediaDevices
             this.objectId = objectId;
             this.info = device.GetStorageInfo(objectId);
 
-            this.TotalSize = (long)this.info.Capacity;
-            this.TotalFreeSpace = this.AvailableFreeSpace = (long)this.info.FreeSpaceInBytes;
-
-            this.DriveFormat = this.info.FileSystemType;
-
-            switch (this.info.Type)
+            if (this.info != null)
             {
+                this.TotalSize = (long)this.info.Capacity;
+                this.TotalFreeSpace = this.AvailableFreeSpace = (long)this.info.FreeSpaceInBytes;
+
+                this.DriveFormat = this.info.FileSystemType;
+
+                switch (this.info.Type)
+                {
                 case StorageType.FixedRam:
                 case StorageType.FixedRom:
                     this.DriveType = DriveType.Fixed;
@@ -42,13 +39,13 @@ namespace MediaDevices
                 default:
                     this.DriveType = DriveType.Unknown;
                     break;
+                }
+
+
+                this.RootDirectory = new MediaDirectoryInfo(this.device, Item.Create(this.device, this.objectId));
+                this.Name = this.RootDirectory.FullName;
+                this.VolumeLabel = this.info.Description;
             }
-
-
-            this.RootDirectory = new MediaDirectoryInfo(this.device, Item.Create(this.device, this.objectId));
-            this.Name = this.RootDirectory.FullName;
-            this.VolumeLabel = this.info.Description;
-
         }
 
         /// <summary>

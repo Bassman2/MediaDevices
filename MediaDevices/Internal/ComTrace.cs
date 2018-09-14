@@ -73,8 +73,8 @@ namespace MediaDevices.Internal
                 PropertyKey key = new PropertyKey();
                 collection.GetAt(index, ref key);
 
-                //EnumExtentions.GetEnumFromAttrKey<TEnum>(key);
-                //Trace.WriteLine($"##### {((PropVariant)val).ToString()}");
+                PropertyKeys propertyKey = key.GetEnumFromAttrKey<PropertyKeys>();
+                Trace.WriteLine($"##### {propertyKey}");
             }
         }
     }

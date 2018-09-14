@@ -1865,7 +1865,7 @@ namespace MediaDevices
 
                 return info;
             }
-            catch (Exception ex)
+            catch (FileNotFoundException ex)
             {
                 Debug.WriteLine(ex.ToString());
             }

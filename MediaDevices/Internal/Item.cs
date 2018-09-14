@@ -156,7 +156,7 @@ namespace MediaDevices.Internal
             if (this.Id != Item.RootId)
             {
                 this.deviceProperties.GetValues(this.Id, this.keyCollection, out this.values);
-
+                
                 Guid contentType = this.ContentType;
                 if (contentType == WPD.CONTENT_TYPE_FUNCTIONAL_OBJECT)
                 {
@@ -177,6 +177,12 @@ namespace MediaDevices.Internal
                 if (this.path != null) // TODO check if we can remove empty pathes
                 {
                     this.FullName = Path.Combine(this.path, this.Name);
+                }
+
+                // TODO test
+                if (this.values.TryGetStringValue(WPD.OBJECT_HINT_LOCATION_DISPLAY_NAME, out string value))
+                {
+                    Trace.TraceInformation($"Refresh OBJECT_HINT_LOCATION_DISPLAY_NAME = {value}");
                 }
             }
         }
@@ -200,6 +206,44 @@ namespace MediaDevices.Internal
                 return value;
             }
         }
+
+        // TODO ??? currently not use
+
+        /// <summary>
+        /// Gets the hint-specific name to display to the user instead of the object name, only if an object is a hint location.
+        /// </summary>
+        /// <remarks>
+        /// Drivers can specify location hints for various object types.
+        /// These are preferred storage locations for folders that hold
+        /// a particular object type. An equivalent would be the My Pictures
+        /// folder for image files in Windows. If this property does not exist,
+        /// typically the <see cref="Name"/> is used instead.
+        /// </remarks>
+        public string HintLocationName
+        {
+            get
+            {
+                this.values.TryGetStringValue(WPD.OBJECT_HINT_LOCATION_DISPLAY_NAME, out string value);
+                return value;
+            }
+        }
+
+        // TODO
+
+        /// <summary>
+        /// Gets the object ID of the closest functional object that contains this object.
+        /// </summary>
+        /// <remarks>For example, a file inside a storage functional object will have 
+        /// this property set to the ID of the storage functional object.
+        /// </remarks>
+        public string ParentContainerId
+        {
+            get
+            {
+                this.values.TryGetStringValue(WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID, out string value);
+                return value;
+            }
+        }        
 
         public string OriginalFileName
         {
@@ -324,8 +368,24 @@ namespace MediaDevices.Internal
             objectIds.Next(1, out string objectId, ref fetched);
             while (fetched > 0)
             {
-                Item item = Item.Create(this.device, objectId, this.FullName);
-                yield return item;
+                Item item = null;
+
+                try
+                {
+                    item = Item.Create(this.device, objectId, this.FullName);
+                }
+                catch (FileNotFoundException)
+                {
+                    // handle system files, that cannot be opened or read.
+                    // Windows sometimes creates a fake files in e.g. System Volume Information.
+                    // Let's handle such situations.
+                }
+
+                if (item != null)
+                {
+                    yield return item;
+                }
+
                 objectIds.Next(1, out objectId, ref fetched);
             }
         }
@@ -338,19 +398,36 @@ namespace MediaDevices.Internal
             objectIds.Next(1, out string objectId, ref fetched);
             while (fetched > 0)
             {
-                Item item = Item.Create(this.device, objectId, this.FullName);
-                if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
+                Item item = null;
+
+                try
                 {
-                    yield return item;
+                    item = Item.Create(this.device, objectId, this.FullName);
                 }
-                if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
+                catch (FileNotFoundException)
                 {
-                    var children = item.GetChildren(pattern, searchOption);
-                    foreach (var c in children)
+                    // handle system files, that cannot be opened or read.
+                    // Windows sometimes creates a fake files in e.g. System Volume Information.
+                    // Let's handle such situations.
+                }
+
+                if (item != null)
+                {
+                    if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
                     {
-                        yield return c;
+                        yield return item;
+                    }
+
+                    if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
+                    {
+                        var children = item.GetChildren(pattern, searchOption);
+                        foreach (var c in children)
+                        {
+                            yield return c;
+                        }
                     }
                 }
+
                 objectIds.Next(1, out objectId, ref fetched);
             }
         }
@@ -418,11 +495,53 @@ namespace MediaDevices.Internal
             StringBuilder sb = new StringBuilder();
             do
             {
+                // ++ TODO
+                if (string.IsNullOrWhiteSpace(item.ParentId))
+                {
+                    item = TryHandleNonHierarchicalStorage();
+
+                    if (item == null)
+                    {
+                        throw new Exception($"Problem occurred when trying to get full object path on device {this.device.FriendlyName}.");
+                    }
+                }
+
+                // -- TODO
+
                 sb.Insert(0, item.Name);
                 sb.Insert(0, DirectorySeparatorChar);
 
             } while (!(item = new Item(this.device, item.ParentId)).IsRoot);
             return sb.ToString();
+        }
+
+        // TODO
+
+        /// <summary>
+        /// Handles DCF storages specific for Apple iPhones.
+        /// </summary>
+        /// <returns></returns>
+        private Item TryHandleNonHierarchicalStorage()
+        {
+            // EXPLANATION
+            // Some MTP compatible devices uses different storage formats that Generic
+            // Hierarchical storage like WP, Android. Good examples are Apple devices,
+            // which are using DCF storage. The specific in that storage is a way how
+            // directories handles parent object ID. If in Generic Hierarchical storage
+            // we check parent ID of root directory, it contains an ID of functional storage
+            // so that means storage ID. In DCF when we check parent ID of root object
+            // it will have object ID, not storage ID, e.g. parent id is o10001 (object10001),
+            // but storage has ID = s10001 (storage10001). So to find a parent of top most folder
+            // we need to fetch an object functional container ID. Which is storage for top most
+            // directory.
+            var drives = this.device.GetDrives();
+            var storageRoot = drives.FirstOrDefault(s => s.RootDirectory.Id == this.ParentContainerId);
+            if (storageRoot != null)
+            {
+                return storageRoot.RootDirectory.item;
+            }
+            
+            return null;
         }
 
         internal Stream OpenRead()
