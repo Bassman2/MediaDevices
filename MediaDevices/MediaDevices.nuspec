@@ -9,7 +9,7 @@
 	<projectUrl>https://github.com/Bassman2/MediaDevices</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>API to communicate with MTP / WPD devices like smart phones, tablets and cameras. Documentation included.</description>
-    <releaseNotes>Rename and MediaDriveInfo added.</releaseNotes>
+    <releaseNotes>New features and bug fixing.</releaseNotes>
     <copyright>Copyright 2016 - 2018 by Ralf Beckers</copyright>
     <tags>MTP WPD PortableDevice PortableDevices API phone tablet</tags>
 	<dependencies>

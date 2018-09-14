@@ -6,11 +6,34 @@
 		</introduction>
 
     <section>
-      <title>Version 1.7 was released on xx. xxth, 2018.</title>
+      <title>Version 1.8 was released on xx. xth, 2018.</title>
       <content>
         <list class="bullet">
           <listItem>
+            <para>GetDirectories, GetFiles and GetFileSystemEntries added for getting arrays.</para>
+          </listItem>
+          <listItem>
+            <para>Condition for COM traces.</para>
+          </listItem>
+          <listItem>
             <para>Support for Persistent Unique Id handling.</para>
+          </listItem>
+          <listItem>
+            <para>Support for HierarchicalStorage.</para>
+          </listItem>
+          <listItem>
+            <para>Smaller fixes.</para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+    
+    <section>
+      <title>Version 1.7 was released on Sept. 3th, 2018.</title>
+      <content>
+        <list class="bullet">
+          <listItem>
+            <para>Fix for the 64Bit problem.</para>
           </listItem>
         </list>
       </content>

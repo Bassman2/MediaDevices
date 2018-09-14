@@ -9,10 +9,10 @@ using PortableDeviceTypesLib;
 using IPortableDeviceKeyCollection = PortableDeviceApiLib.IPortableDeviceKeyCollection;
 using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
-using PropertyKey = PortableDeviceApiLib._tagpropertykey;
-using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
-using MediaDevices.Internal;
-using System.Reflection;
+//using PropertyKey = PortableDeviceApiLib._tagpropertykey;
+//using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
+//using MediaDevices.Internal;
+//using System.Reflection;
 using System.Text;
 
 namespace MediaDevices.Internal
@@ -363,6 +363,11 @@ namespace MediaDevices.Internal
         public IEnumerable<Item> GetChildren()
         {
             this.device.deviceContent.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs objectIds);
+            if (objectIds == null) 
+            {
+                Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
+                yield break;
+            }
 
             uint fetched = 0;
             objectIds.Next(1, out string objectId, ref fetched);
@@ -393,6 +398,11 @@ namespace MediaDevices.Internal
         public IEnumerable<Item> GetChildren(string pattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             this.device.deviceContent.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs objectIds);
+            if (objectIds == null) 
+            {
+                Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
+                yield break; 
+            }
 
             uint fetched = 0;
             objectIds.Next(1, out string objectId, ref fetched);

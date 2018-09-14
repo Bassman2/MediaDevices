@@ -225,8 +225,8 @@ namespace MediaDevices
                 this.Description = string.Empty;
             }
 
-            this.device = new PortableDeviceApiLib.PortableDevice();
-
+            //this.device = new PortableDeviceApiLib.PortableDevice();
+            this.device = new PortableDevice();
         }
 
         /// <summary>
@@ -314,8 +314,14 @@ namespace MediaDevices
             {
                 if (IsConnected)
                 {
-                    this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val);
-                    return val;
+                    if (this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val))
+                    {
+                        return val;
+                    }
+                    else
+                    {
+                        return this.friendlyName;
+                    }
                 }
                 else
                 {
@@ -407,8 +413,14 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE, out int val);
-                return (PowerSource)val;
+                if (this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE, out int val))
+                {
+                    return (PowerSource)val;
+                }
+                else
+                {
+                    return PowerSource.Unknown;
+                }
             }
         }
 
@@ -470,7 +482,7 @@ namespace MediaDevices
         /// Supports non consumable.
         /// </summary>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public bool SupportsNonConsumable
+        public bool? SupportsNonConsumable
         {
             get
             {
@@ -479,8 +491,11 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out bool val);
-                return val;
+                if (this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out bool val))
+                {
+                    return val;
+                }
+                return null;
             }
         }
 
@@ -506,7 +521,7 @@ namespace MediaDevices
         /// Supported formats are ordered.
         /// </summary>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public bool SupportedFormatsAreOrdered
+        public bool? SupportedFormatsAreOrdered
         {
             get
             {
@@ -515,8 +530,11 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out bool val);
-                return val;
+                if (this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out bool val))
+                {
+                    return val;
+                }
+                return null;
             }
         }
 
@@ -2033,7 +2051,7 @@ namespace MediaDevices
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
             cmd.Send(this.device);
             var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
-            return list.Select(p => p.ToInt()).ToList();
+            return list.Select(p => p.ToInt()); //.ToList();
         }
 
         /// <summary>
@@ -2055,7 +2073,7 @@ namespace MediaDevices
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
             cmd.Send(this.device);
             var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
-            return list.Select(p => p.ToInt()).ToList();
+            return list.Select(p => p.ToInt()); //.ToList();
         }
 
         /*
@@ -2110,7 +2128,7 @@ namespace MediaDevices
 
         #endregion
 
-        #region Intern Methods
+        #region Internal Methods
         
         internal static bool IsPath(string path)
         {

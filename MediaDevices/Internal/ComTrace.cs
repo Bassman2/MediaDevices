@@ -14,9 +14,11 @@ using System.Diagnostics;
 
 namespace MediaDevices.Internal
 {
+    // to enable COM traces add "COMTRACE" to the Build Conditional compilation symbols of the MediaDevice project.
+
     internal class ComTrace
     {
-
+        [Conditional("COMTRACE")]
         public static void WriteObject(IPortableDeviceValues values)
         {
             uint num = 0;
@@ -40,6 +42,7 @@ namespace MediaDevices.Internal
             }
         }
 
+        [Conditional("COMTRACE")]
         public static void WriteObject(IPortableDeviceProperties deviceProperties, string objectId)
         {
             IPortableDeviceKeyCollection keys;
@@ -51,6 +54,7 @@ namespace MediaDevices.Internal
             WriteObject(values);
         }
 
+        [Conditional("COMTRACE")]
         public static void WriteObject(IPortableDevicePropVariantCollection collection)
         {
             uint num = 0;
@@ -64,6 +68,7 @@ namespace MediaDevices.Internal
             }
         }
 
+        [Conditional("COMTRACE")]
         public static void WriteObject(IPortableDeviceKeyCollection collection)
         {
             uint num = 0;
