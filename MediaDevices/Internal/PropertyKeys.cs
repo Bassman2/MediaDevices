@@ -125,7 +125,7 @@ namespace MediaDevices.Internal
 
         /// <summary>
         /// Indicates the date and time the object was modified on the device.
-        //  Recommended Device Services Property: PKEY_GenericObj_DateModified
+        /// Recommended Device Services Property: PKEY_GenericObj_DateModified
         /// </summary>
         [Key(0xef6b490d, 0x5cd8, 0x437a, 0xaf, 0xfc, 0xda, 0x8b, 0x60, 0xee, 0x4a, 0x3c, 19)]
         ObjectDateModified,

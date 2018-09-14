@@ -913,7 +913,104 @@ namespace MediaDevices
             
             return item.GetChildren(FilterToRegex(searchPattern), searchOption).Select(i => i.FullName);
         }
-        
+
+        /// <summary>
+        /// Returns an array of directory names in a specified path.
+        /// </summary>
+        /// <param name="path">The directory to search.</param>
+        /// <returns>An array of directory names in the directory specified by path.</returns>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public string[] GetDirectories(string path)
+        {
+            return EnumerateDirectories(path).ToArray();
+        }
+
+        /// <summary>
+        /// Returns an array of directory information that matches a specified search pattern and search subdirectory option. 
+        /// </summary>
+        /// <param name="path">The directory to search in.</param>
+        /// <param name="searchPattern">The search string to match against the names of directories. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters (see Remarks), but doesn't support regular expressions. The default pattern is "*", which returns all files.</param>
+        /// <param name="searchOption">One of the values that specifies whether the search operation should include only the current directory or all subdirectories. The default value is TopDirectoryOnly.</param>
+        /// <returns>An array of directories that matches searchPattern and searchOption.</returns>
+        /// <remarks>searchPattern can be a combination of literal and wildcard characters, but doesn't support regular expressions.</remarks>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public string[] GetDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return EnumerateDirectories(path, searchPattern, searchOption).ToArray();
+        }
+
+        /// <summary>
+        /// Returns an array of file names in a specified path.
+        /// </summary>
+        /// <param name="path">The directory to search.</param>
+        /// <returns>An array of file names in the directory specified by path.</returns>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public string[] GetFiles(string path)
+        {
+            return EnumerateFiles(path).ToArray();
+        }
+
+        /// <summary>
+        /// Returns an array of file names that match a search pattern in a specified path, and optionally searches subdirectories.
+        /// </summary>
+        /// <param name="path">The absolute path to the directory to search. This string is case-sensitive.</param>
+        /// <param name="searchPattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions.</param>
+        /// <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.</param>
+        /// <returns>An array of the full names (including paths) for the files in the directory specified by path and that match the specified search pattern and option.</returns>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public string[] GetFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return EnumerateFiles(path, searchPattern, searchOption).ToArray();
+        }
+
+        /// <summary>
+        /// Returns an array of file-system entries in a specified path.
+        /// </summary>
+        /// <param name="path">The directory to search.</param>
+        /// <returns>An array of file-system entries in the directory specified by path.</returns>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public string[] GetFileSystemEntries(string path)
+        {
+            return EnumerateFileSystemEntries(path).ToArray();
+        }
+
+        /// <summary>
+        /// Returns an array of file names and directory names that match a search pattern in a specified path, and optionally searches subdirectories.
+        /// </summary>
+        /// <param name="path">The absolute path to the directory to search. This string is case-sensitive.</param>
+        /// <param name="searchPattern">The search string to match against file-system entries in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions.</param>
+        /// <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.</param>
+        /// <returns>An array of file-system entries in the directory specified by path and that match the specified search pattern and option.</returns>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public string[] GetFileSystemEntries(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return EnumerateFileSystemEntries(path, searchPattern, searchOption).ToArray();
+        }
+
         /// <summary>
         /// Creates all directories and subdirectories in the specified path.
         /// </summary>
