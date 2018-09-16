@@ -306,28 +306,28 @@ namespace MediaDevicesUnitTest
             Assert.IsFalse(exists3, "exists3");
         }
 
-        [TestMethod]
-        [Description("Roma Test")]
-        public void RomaTest()
-        {
-            string res = string.Empty;
+        //[TestMethod]
+        //[Description("Roma Test")]
+        //public void RomaTest()
+        //{
+        //    string res = string.Empty;
 
-            var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(this.deviceSelect);
-            Assert.IsNotNull(device, "Device");
-            device.Connect();
+        //    var devices = MediaDevice.GetDevices();
+        //    var device = devices.FirstOrDefault(this.deviceSelect);
+        //    Assert.IsNotNull(device, "Device");
+        //    device.Connect();
 
-            var fI = device.GetFileInfo(@"\SD card\Documents\note.txt");
-            using (var stream = fI.OpenText())
-            {
-                res = stream.ReadToEnd();
-            }
+        //    var fI = device.GetFileInfo(@"\SD card\Documents\note.txt");
+        //    using (var stream = fI.OpenText())
+        //    {
+        //        res = stream.ReadToEnd();
+        //    }
 
-            device.Disconnect();
+        //    device.Disconnect();
 
-            Assert.AreEqual("Dies ist ein Test", res, "text");
+        //    Assert.AreEqual("Dies ist ein Test", res, "text");
             
-        }
+        //}
 
         [TestMethod]
         [Description("PersistentUniqueId Test")]

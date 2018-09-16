@@ -41,46 +41,46 @@ namespace MediaDevicesUnitTest
             this.workingFolder = @"\SD\DCIM\100CANON";
 
             // Exists Test
-            this.existingFile = @"\SD\DCIM\100CANON\IMG_2568.JPG";
+            //this.existingFile = @"\SD\DCIM\100CANON\IMG_2568.JPG";
 
             
 
-            this.infoDirectoryName = "DCIM";
-            this.infoDirectoryPath = @"\Internal Storage\DCIM";
-            this.infoDirectoryCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
-            this.infoDirectoryLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
+            //this.infoDirectoryName = "DCIM";
+            //this.infoDirectoryPath = @"\Internal Storage\DCIM";
+            //this.infoDirectoryCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
+            //this.infoDirectoryLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
 
-            this.infoDirectoryParentName = "Internal Storage";
-            this.infoDirectoryParentPath = @"\Internal Storage";
-            this.infoDirectoryParentCreationTime = null;
-            this.infoDirectoryParentLastWriteTime = null;
+            //this.infoDirectoryParentName = "Internal Storage";
+            //this.infoDirectoryParentPath = @"\Internal Storage";
+            //this.infoDirectoryParentCreationTime = null;
+            //this.infoDirectoryParentLastWriteTime = null;
 
-            this.infoFileName = "IMG_0001.JPG";
-            this.infoFilePath = @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";
-            this.infoFileLength = 467430ul;
-            this.infoFileCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
-            this.infoFileLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
+            //this.infoFileName = "IMG_0001.JPG";
+            //this.infoFilePath = @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";
+            //this.infoFileLength = 467430ul;
+            //this.infoFileCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
+            //this.infoFileLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
 
-            this.infoFileParentName = "800AAAAA";
-            this.infoFileParentPath = @"\Internal Storage\DCIM\800AAAAA";
-            this.infoFileParentCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
-            this.infoFileParentLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
+            //this.infoFileParentName = "800AAAAA";
+            //this.infoFileParentPath = @"\Internal Storage\DCIM\800AAAAA";
+            //this.infoFileParentCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
+            //this.infoFileParentLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
 
-            this.enumDirectory = @"\Internal Storage\DCIM\800AAAAA";
-            this.enumFolderMask = "*";
-            this.enumFilesmask = "*_0002*";
-            this.enumItemMask = "*_0003*";
+            //this.enumDirectory = @"\Internal Storage\DCIM\800AAAAA";
+            //this.enumFolderMask = "*";
+            //this.enumFilesmask = "*_0002*";
+            //this.enumItemMask = "*_0003*";
 
-            this.enumAllFolders = new List<string> { };
-            this.enumMaskFolders = new List<string> { };
+            //this.enumAllFolders = new List<string> { };
+            //this.enumMaskFolders = new List<string> { };
 
-            this.enumAllFiles = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
-            this.enumMaskFiles = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
-            this.enumMaskRecursiveFiles = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
+            //this.enumAllFiles = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
+            //this.enumMaskFiles = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
+            //this.enumMaskRecursiveFiles = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
 
-            this.enumAllItems = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
-            this.enumMaskItems = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
-            this.enumMaskRecursiveItems = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
+            //this.enumAllItems = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
+            //this.enumMaskItems = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
+            //this.enumMaskRecursiveItems = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
         }
     }
 }
