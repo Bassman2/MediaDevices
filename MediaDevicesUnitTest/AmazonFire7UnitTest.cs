@@ -8,7 +8,7 @@ namespace MediaDevicesUnitTest
     [TestClass]
     public class AmazonFire7UnitTest : WritableUnitTest
     {
-        public AmazonFire7UnitTest()
+        public AmazonFire7UnitTest() 
         {
             // Device Test
             this.deviceDescription = "Fire";
@@ -28,7 +28,11 @@ namespace MediaDevicesUnitTest
             this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage };
 
             // ContentLocation Test
-            this.contentLocations = new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
+            this.contentLocations = new List<string>(); // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
+
+            // PersistentUniqueId
+            this.PersistentUniqueId = "{00000027-0001-0001-0000-000000000000}";
+            this.PersistentUniqueIdPath = @"\Interner Speicher\Download";
 
             // Writable Tests
             this.workingFolder = @"\Interner Speicher\tmp";

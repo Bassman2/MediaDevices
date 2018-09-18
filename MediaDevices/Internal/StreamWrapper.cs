@@ -9,6 +9,7 @@ namespace MediaDevices
     internal class StreamWrapper : Stream
     {
         private IStream stream;
+        private IntPtr pLength;
 
         private void CheckDisposed()
         {
@@ -25,7 +26,15 @@ namespace MediaDevices
                 Marshal.ReleaseComObject(this.stream);
                 this.stream = null;
             }
+            if (this.pLength != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(this.pLength);
+                this.pLength = IntPtr.Zero;
+            }
         }
+
+        public StreamWrapper(PortableDeviceApiLib.IStream stream) : this((IStream)stream) 
+        { }
 
         public StreamWrapper(IStream stream)
         {
@@ -35,18 +44,8 @@ namespace MediaDevices
             }
 
             this.stream = stream;
+            this.pLength = Marshal.AllocHGlobal(16);
         }
-
-        public StreamWrapper(PortableDeviceApiLib.IStream stream)
-        {
-            if (stream == null)
-            {
-                throw new ArgumentNullException("stream");
-            }
-
-            this.stream = (IStream)stream;
-        }
-         
 
         public override bool CanRead
         {
@@ -116,12 +115,10 @@ namespace MediaDevices
                 localBuffer = new byte[count];
             }
 
-            IntPtr bytesReadPtr = Marshal.AllocCoTaskMem(sizeof(int));
-
             try
             {
-                this.stream.Read(localBuffer, count, bytesReadPtr);
-                int bytesRead = Marshal.ReadInt32(bytesReadPtr);
+                this.stream.Read(localBuffer, count, this.pLength);
+                int bytesRead = Marshal.ReadInt32(this.pLength);
 
                 if (offset > 0)
                 {
@@ -133,10 +130,6 @@ namespace MediaDevices
             catch (Exception ex)
             {
                 Trace.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                Marshal.FreeCoTaskMem(bytesReadPtr);
             }
             return 0;
         }
@@ -165,20 +158,14 @@ namespace MediaDevices
                 throw new ArgumentOutOfRangeException();
             }
 
-            IntPtr posPtr = Marshal.AllocCoTaskMem(sizeof(long));
-
             try
             {
-                this.stream.Seek(offset, dwOrigin, posPtr);
-                return Marshal.ReadInt64(posPtr);
+                this.stream.Seek(offset, dwOrigin, this.pLength);
+                return Marshal.ReadInt64(this.pLength);
             }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                Marshal.FreeCoTaskMem(posPtr);
             }
             return 0;
         }
@@ -209,9 +196,7 @@ namespace MediaDevices
 
             // workaround for Windows 10 Update 1703 problem 
             // https://social.msdn.microsoft.com/Forums/en-US/7f7a045d-9d9d-4ff4-b8e3-de2d7477a177/windows-10-update-1703-problem-with-wpd-and-mtp?forum=csharpgeneral
-            IntPtr pcbWritten = Marshal.AllocHGlobal(16);
-            stream.Write(localBuffer, count, pcbWritten);
-            Marshal.FreeHGlobal(pcbWritten);
+            stream.Write(localBuffer, count, this.pLength);
         }
     }
 }

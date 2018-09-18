@@ -33,6 +33,10 @@ namespace MediaDevicesUnitTest
             // ContentLocation Test
             this.contentLocations = new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
+            // PersistentUniqueId
+            this.PersistentUniqueId = "{CF527675-97D8-3DEF-0000-000000000000}";
+            this.PersistentUniqueIdPath = @"\Phone\Music\Album";
+
             this.workingFolder = @"\Phone\Documents";
 
             // Exists Test

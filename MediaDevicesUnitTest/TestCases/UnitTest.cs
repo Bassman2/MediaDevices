@@ -34,7 +34,10 @@ namespace MediaDevicesUnitTest
         // ContentLocation Test
         protected List<string> contentLocations;
 
-        
+        // PersistentUniqueId
+        protected string PersistentUniqueId;
+        protected string PersistentUniqueIdPath;
+
 
         public UnitTest()
         {
@@ -118,11 +121,20 @@ namespace MediaDevicesUnitTest
             CollectionAssert.AreEquivalent(this.contentLocations, locations, "Locations");
         }
 
+        [TestMethod]
+        [Description("Check persistent unique id functionality.")]
+        public void PersistentUniqueIdTest()
+        {
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
 
-        
+            var path = device.GetDirectoryInfoFromPersistentUniqueId(this.PersistentUniqueId).FullName;
 
-        
+            device.Disconnect();
 
-        
+            Assert.AreEqual(this.PersistentUniqueIdPath, path, "Path");
+        }
     }
 }

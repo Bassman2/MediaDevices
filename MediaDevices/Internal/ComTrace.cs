@@ -11,17 +11,33 @@ using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevic
 using PropertyKey = PortableDeviceApiLib._tagpropertykey;
 using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace MediaDevices.Internal
 {
     // to enable COM traces add "COMTRACE" to the Build Conditional compilation symbols of the MediaDevice project.
 
-    internal class ComTrace
+    internal static class ComTrace
     {
+        private static List<FieldInfo> fields;
+
+        static ComTrace()
+        {
+            fields = typeof(WPD).GetFields().Where(f => f.FieldType == typeof(PropertyKey)).ToList();
+        }
+
+        private static FieldInfo FindField(PropertyKey key)
+        {
+            return fields.SingleOrDefault(i => ((PropertyKey)i.GetValue(null)).pid == key.pid && ((PropertyKey)i.GetValue(null)).fmtid == key.fmtid);
+        }
+
         [Conditional("COMTRACE")]
         public static void WriteObject(IPortableDeviceValues values)
         {
+            string func = new StackTrace().GetFrame(1).GetMethod().Name;
+            Trace.WriteLine($"############################### {func}");
             uint num = 0;
+
             values.GetCount(ref num);
             for (uint i = 0; i < num; i++)
             {
@@ -29,16 +45,17 @@ namespace MediaDevices.Internal
                 PROPVARIANT val = new PROPVARIANT();
                 values.GetAt(i, ref key, ref val);
 
-                Type twpd = typeof(WPD);
-                var fields = twpd.GetFields().Where(f => f.FieldType == typeof(PropertyKey)).ToList();
-                foreach (var field in fields)
-                {
-                    PropertyKey pk = (PropertyKey)field.GetValue(null);
-                    if (pk.pid == key.pid && pk.fmtid == key.fmtid)
-                    {
-                        Trace.WriteLine($"##### {field.Name} = {((PropVariant)val).ToString()}");
-                    }
-                }
+                FieldInfo field = FindField(key);
+                Trace.WriteLine($"##### {field.Name} = {((PropVariant)val).ToString()}");
+
+                //foreach (var field in fields)
+                //{
+                //    PropertyKey pk = (PropertyKey)field.GetValue(null);
+                //    if (pk.pid == key.pid && pk.fmtid == key.fmtid)
+                //    {
+                //        Trace.WriteLine($"##### {field.Name} = {((PropVariant)val).ToString()}");
+                //    }
+                //}
             }
         }
 
@@ -57,6 +74,7 @@ namespace MediaDevices.Internal
         [Conditional("COMTRACE")]
         public static void WriteObject(IPortableDevicePropVariantCollection collection)
         {
+            Trace.WriteLine("###############################");
             uint num = 0;
             collection.GetCount(ref num);
             for (uint index = 0; index < num; index++)
@@ -71,6 +89,7 @@ namespace MediaDevices.Internal
         [Conditional("COMTRACE")]
         public static void WriteObject(IPortableDeviceKeyCollection collection)
         {
+            Trace.WriteLine("###############################");
             uint num = 0;
             collection.GetCount(ref num);
             for (uint index = 0; index < num; index++)

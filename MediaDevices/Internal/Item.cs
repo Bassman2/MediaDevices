@@ -9,8 +9,8 @@ using PortableDeviceTypesLib;
 using IPortableDeviceKeyCollection = PortableDeviceApiLib.IPortableDeviceKeyCollection;
 using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
-//using PropertyKey = PortableDeviceApiLib._tagpropertykey;
-//using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
+using PropertyKey = PortableDeviceApiLib._tagpropertykey;
+using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 //using MediaDevices.Internal;
 //using System.Reflection;
 using System.Text;
@@ -78,14 +78,21 @@ namespace MediaDevices.Internal
 
         public static Item GetFromPersistentUniqueId(MediaDevice device, string persistentUniqueId)
         {
+            // TODO check
+
             var propVariantPUID = PropVariant.StringToPropVariant(persistentUniqueId);
             var collection = (IPortableDevicePropVariantCollection)new PortableDevicePropVariantCollection();
             collection.Add(ref propVariantPUID);
 
-            Command cmd = Command.Create(WPD.COMMAND_COMMON_GET_OBJECT_IDS_FROM_PERSISTENT_UNIQUE_IDS);
-            cmd.Add(WPD.PROPERTY_COMMON_PERSISTENT_UNIQUE_IDS, collection);
-            cmd.Send(device.device);
-            string mediaObjectId = cmd.GetPropVariants(WPD.PROPERTY_COMMON_OBJECT_IDS).Select(c => c.ToString()).FirstOrDefault();
+            //Command cmd = Command.Create(WPD.COMMAND_COMMON_GET_OBJECT_IDS_FROM_PERSISTENT_UNIQUE_IDS);
+            //cmd.Add(WPD.PROPERTY_COMMON_PERSISTENT_UNIQUE_IDS, collection);
+            //cmd.Send(device.device);
+            //string mediaObjectId = cmd.GetPropVariants(WPD.PROPERTY_COMMON_OBJECT_IDS).Select(c => c.ToString()).FirstOrDefault();
+                                   
+            device.deviceContent.GetObjectIDsFromPersistentUniqueIDs(collection, out IPortableDevicePropVariantCollection results);
+            string mediaObjectId = results.ToStrings().FirstOrDefault();
+
+
 
             return mediaObjectId == null ? null : Item.Create(device, mediaObjectId);
         }
@@ -176,7 +183,8 @@ namespace MediaDevices.Internal
                 }
                 if (this.path != null) // TODO check if we can remove empty pathes
                 {
-                    this.FullName = Path.Combine(this.path, this.Name);
+                    //this.FullName = Path.Combine(this.path, this.Name);
+                    this.FullName = this.path.TrimEnd(DirectorySeparatorChar) + DirectorySeparatorChar + this.Name;
                 }
 
                 // TODO test
@@ -459,7 +467,15 @@ namespace MediaDevices.Internal
                     deviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, folder);
                     deviceValues.SetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, ref WPD.CONTENT_TYPE_FOLDER);
                     string id = string.Empty;
-                    this.device.deviceContent.CreateObjectWithPropertiesOnly(deviceValues, ref id);
+                    try
+                    {
+                        this.device.deviceContent.CreateObjectWithPropertiesOnly(deviceValues, ref id);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                        return null;
+                    }
                     child = Item.Create(this.device, id, parent.FullName);
                 }
                 else if (child.Type == ItemType.File)
@@ -587,17 +603,54 @@ namespace MediaDevices.Internal
             }
         }
 
-        internal void Rename(string newName)
+        internal bool Rename(string newName)
         {
             IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
             IPortableDeviceValues result;
-            
-            portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, newName);
+
+            // with OBJECT_NAME does not work for Amazon Kindle Paperwhite
+            //portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, newName);
             portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, newName);
             this.deviceProperties.SetValues(this.Id, portableDeviceValues, out result);
-            //ComTrace.WriteObject(result);
-                        
-            Refresh();
+            ComTrace.WriteObject(result);
+            
+            if (result.TryGetStringValue(WPD.OBJECT_ORIGINAL_FILE_NAME, out string check))
+            {
+                if (check == "Error: S_OK")
+                {
+                    // id can change on rename (e.g. Amazon Kindle Paperwhite) so find new one
+                    var newItem = this.parent.GetChildren().FirstOrDefault(i => device.EqualsName(i.Name, newName));
+                    this.Id = newItem.Id;
+
+                    this.deviceProperties = device.deviceProperties;
+                    this.deviceProperties.GetSupportedProperties(newItem.Id, out keyCollection);
+                    Refresh();
+                    return true;
+                }
+            }
+            //uint num = 0;
+            //result.GetCount(ref num);
+            //if (num == 1)
+            //{
+            //    PropertyKey key = new PropertyKey();
+            //    PROPVARIANT val = new PROPVARIANT();
+            //    result.GetAt(0, ref key, ref val);
+
+            //    if (key.pid == WPD.OBJECT_ID.pid && key.fmtid == WPD.OBJECT_ID.fmtid)
+            //    {
+            //        this.Id = val.ToString();
+            //    }
+            //}
+
+
+            //if (result.TryGetStringValue(WPD.OBJECT_ID, out string id))
+            //{
+            //    this.Id = id;
+            //    
+            //}
+
+            //
+            return false;
         }
 
 
