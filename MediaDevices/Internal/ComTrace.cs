@@ -19,44 +19,54 @@ namespace MediaDevices.Internal
 
     internal static class ComTrace
     {
-        private static List<FieldInfo> fields;
+        private static List<FieldInfo> pkeyFields;
+        private static List<FieldInfo> guidFields;
 
         static ComTrace()
         {
-            fields = typeof(WPD).GetFields().Where(f => f.FieldType == typeof(PropertyKey)).ToList();
+            pkeyFields = typeof(WPD).GetFields().Where(f => f.FieldType == typeof(PropertyKey)).ToList();
+            guidFields = typeof(WPD).GetFields().Where(f => f.FieldType == typeof(Guid)).ToList();
         }
 
-        private static FieldInfo FindField(PropertyKey key)
+        private static FieldInfo FindPropertyKeyField(PropertyKey key)
         {
-            return fields.SingleOrDefault(i => ((PropertyKey)i.GetValue(null)).pid == key.pid && ((PropertyKey)i.GetValue(null)).fmtid == key.fmtid);
+            return pkeyFields.SingleOrDefault(i => ((PropertyKey)i.GetValue(null)).pid == key.pid && ((PropertyKey)i.GetValue(null)).fmtid == key.fmtid);
+        }
+        
+        private static FieldInfo FindGuidField(Guid guid)
+        {
+            return guidFields.SingleOrDefault(i => ((Guid)i.GetValue(null)) == guid);
         }
 
         [Conditional("COMTRACE")]
         public static void WriteObject(IPortableDeviceValues values)
         {
-            string func = new StackTrace().GetFrame(1).GetMethod().Name;
-            Trace.WriteLine($"############################### {func}");
-            uint num = 0;
+            InternalWriteObject(values);
+            //string func = new StackTrace().GetFrame(1).GetMethod().Name;
+            //Trace.WriteLine($"############################### {func}");
+            //uint num = 0;
 
-            values.GetCount(ref num);
-            for (uint i = 0; i < num; i++)
-            {
-                PropertyKey key = new PropertyKey();
-                PROPVARIANT val = new PROPVARIANT();
-                values.GetAt(i, ref key, ref val);
+            //values.GetCount(ref num);
+            //for (uint i = 0; i < num; i++)
+            //{
+            //    PropertyKey key = new PropertyKey();
+            //    PROPVARIANT val = new PROPVARIANT();
+            //    values.GetAt(i, ref key, ref val);
 
-                FieldInfo field = FindField(key);
-                Trace.WriteLine($"##### {field.Name} = {((PropVariant)val).ToString()}");
+            //    FieldInfo field = FindPropertyKeyField(key);
+            //    PropVariant vari = (PropVariant)val;
 
-                //foreach (var field in fields)
-                //{
-                //    PropertyKey pk = (PropertyKey)field.GetValue(null);
-                //    if (pk.pid == key.pid && pk.fmtid == key.fmtid)
-                //    {
-                //        Trace.WriteLine($"##### {field.Name} = {((PropVariant)val).ToString()}");
-                //    }
-                //}
-            }
+            //    switch ((VarType)vari.variantType)
+            //    {
+
+            //    case VarType.VT_CLSID:
+            //        Trace.WriteLine($"##### {field?.Name} = {FindGuidField(vari.ToGuid())?.Name ?? vari.ToString()}");
+            //        break;
+            //    default:
+            //        Trace.WriteLine($"##### {field?.Name} = {vari.ToString()}");
+            //        break;
+            //    }
+            //}
         }
 
         [Conditional("COMTRACE")]
@@ -68,7 +78,37 @@ namespace MediaDevices.Internal
             IPortableDeviceValues values;
             deviceProperties.GetValues(objectId, keys, out values);
 
-            WriteObject(values);
+            InternalWriteObject(values);
+        }
+
+        [Conditional("COMTRACE")]
+        private static void InternalWriteObject(IPortableDeviceValues values)
+        {
+            string func = new StackTrace().GetFrame(2).GetMethod().Name;
+            Trace.WriteLine($"############################### {func}");   
+            uint num = 0;
+
+            values.GetCount(ref num);
+            for (uint i = 0; i < num; i++)
+            {
+                PropertyKey key = new PropertyKey();
+                PROPVARIANT val = new PROPVARIANT();
+                values.GetAt(i, ref key, ref val);
+
+                FieldInfo field = FindPropertyKeyField(key);
+                PropVariant vari = (PropVariant)val;
+
+                switch ((VarType)vari.variantType)
+                {
+
+                case VarType.VT_CLSID:
+                    Trace.WriteLine($"##### {field?.Name} = {FindGuidField(vari.ToGuid())?.Name ?? vari.ToString()}");
+                    break;
+                default:
+                    Trace.WriteLine($"##### {field?.Name} = {vari.ToString()}");
+                    break;
+                }
+            }
         }
 
         [Conditional("COMTRACE")]

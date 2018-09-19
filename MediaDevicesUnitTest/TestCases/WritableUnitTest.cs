@@ -103,6 +103,8 @@ namespace MediaDevicesUnitTest
             var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
             device.Connect();
+            var root = device.GetRootDirectory();
+            var list = root.EnumerateFileSystemInfos().ToList();
 
             string newFolder = Path.Combine(this.workingFolder, "Test");
             var exists1 = device.DirectoryExists(this.workingFolder);

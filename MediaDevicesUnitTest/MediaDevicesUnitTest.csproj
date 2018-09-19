@@ -60,6 +60,7 @@
     <Compile Include="CanonEOS60DUnitTest.cs" />
     <Compile Include="CanonPowerShotSX30UnitTest.cs" />
     <Compile Include="HannspreeHSG1351UnitTest.cs" />
+    <Compile Include="KingstonFCRHS219UnitTest.cs" />
     <Compile Include="MicrosoftLumia950UnitTest.cs" />
     <Compile Include="MicrosoftVolumeUnitTest.cs" />
     <Compile Include="NokiaLumia630UnitTest.cs" />

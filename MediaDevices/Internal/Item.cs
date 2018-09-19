@@ -113,6 +113,10 @@ namespace MediaDevices.Internal
             this.path = path;
             if (id == Item.RootId)
             {
+                this.deviceProperties = device.deviceProperties;
+                this.deviceProperties.GetSupportedProperties(id, out keyCollection);
+                ComTrace.WriteObject(this.deviceProperties, id);
+
                 this.Name = @"\";
                 this.FullName = @"\";
                 this.Type = ItemType.Object;
@@ -121,7 +125,7 @@ namespace MediaDevices.Internal
             {
                 this.deviceProperties = device.deviceProperties;
                 this.deviceProperties.GetSupportedProperties(id, out keyCollection);
-                //ComTrace.WriteObject(this.deviceProperties, id);
+                ComTrace.WriteObject(this.deviceProperties, id);
                 Refresh();
 
                 // find full name if no path

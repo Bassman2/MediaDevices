@@ -6,44 +6,40 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class AmazonKindlePaperwhiteUnitTest : WritableUnitTest
+    public class KingstonFCRHS219UnitTest : WritableUnitTest
     {
-        public AmazonKindlePaperwhiteUnitTest()
+        public KingstonFCRHS219UnitTest()
         {
             // Device Test
-            this.deviceDescription = "Internal Storage";
-            this.deviceFriendlyName = "Kindle";
-            this.deviceManufacture = "Kindle  ";
-            this.deviceFirmwareVersion = "0100";
-            this.deviceModel = "Internal Storage";
-            this.deviceSerialNumber = "";
-            this.deviceDeviceType = DeviceType.Generic;
-            this.deviceTransport = DeviceTransport.Unspecified;
-            this.devicePowerSource = PowerSource.External;
+            this.deviceDescription = "FCR-HS219/1     ";
+            this.deviceFriendlyName = "T_ASGAR";
+            this.deviceManufacture = "Kingston";
+            this.deviceFirmwareVersion = "1.0";
+            this.deviceModel = "Fire";
+            this.deviceSerialNumber = "G0W0MB06729405K5";
+            this.deviceDeviceType = DeviceType.MediaPlayer;
+            this.deviceTransport = DeviceTransport.USB;
+            this.devicePowerSource = PowerSource.Battery;
 
             // Capability Test
-            this.supportedEvents = new List<Events> { Events.ObjectAdded, Events.ObjectRemoved, Events.ObjectUpdated };
-            this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectEnumerationFindNext, Commands.ObjectEnumerationEndFind,
-                Commands.ObjectManagementDeleteObjects, Commands.ObjectManagementCreateObjectWithPropertiesOnly, Commands.ObjectManagementCreateObjectWithPropertiesAndData,
-                Commands.ObjectManagementWriteObjectData, Commands.ObjectManagementCommitObject, Commands.ObjectManagementRevertObject
-            };
-            this.supportedContents = new List<ContentType> { ContentType.Unspecified, ContentType.Folder, ContentType.Audio, ContentType.Video, ContentType.Image, ContentType.Contact };
+            this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
+            this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
+            this.supportedContents = new List<ContentType> { ContentType.Image };
             this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage };
 
             // ContentLocation Test
-            this.contentLocations = new List<string> ();
+            this.contentLocations = new List<string>(); // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
             // PersistentUniqueId
-            this.PersistentUniqueId = "E%3B%5Csystem%5Cstartactions";
-            this.PersistentUniqueIdPath = @"\E:\system\startactions";
+            this.PersistentUniqueId = "{00000027-0001-0001-0000-000000000000}";
+            this.PersistentUniqueIdPath = @"\Interner Speicher\Download";
 
             // Writable Tests
-            this.workingFolder = @"E:\documents";
+            this.workingFolder = @"K:\Test";
 
 
             // Exists Test
-            //this.existingFile = @"\E:\documents\Old Firehand_B004WLCSLC.sdr\Old Firehand_B004WLCSLC.phl";
-
+            //this.existingFile = @"\Interner Speicher\Download\14.jpg";
 
             //this.infoDirectoryName = "Pictures";
             //this.infoDirectoryPath = @"\SD card\Pictures";
@@ -81,6 +77,8 @@ namespace MediaDevicesUnitTest
             //this.enumAllItems = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
             //this.enumMaskItems = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
             //this.enumMaskRecursiveItems = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
+
+
         }
     }
 }

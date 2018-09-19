@@ -41,7 +41,7 @@ namespace MediaDevicesUnitTest
 
         public UnitTest()
         {
-            this.deviceSelect = device => device.Description == this.deviceDescription;
+            this.deviceSelect = d => d.Description == this.deviceDescription;
         }
 
         [TestMethod]
