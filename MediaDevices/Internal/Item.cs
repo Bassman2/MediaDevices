@@ -114,7 +114,7 @@ namespace MediaDevices.Internal
             {
                 this.deviceProperties = device.deviceProperties;
                 this.deviceProperties.GetSupportedProperties(id, out keyCollection);
-                //ComTrace.WriteObject(this.deviceProperties, id);
+                ComTrace.WriteObject(this.deviceProperties, id);
                 Refresh();
 
                 // find full name if no path
@@ -146,7 +146,7 @@ namespace MediaDevices.Internal
             {
                 this.deviceProperties = device.deviceProperties;
                 this.deviceProperties.GetSupportedProperties(id, out keyCollection);
-                //ComTrace.WriteObject(this.deviceProperties, id);
+                ComTrace.WriteObject(this.deviceProperties, id);
                 Refresh();
             }
         }
@@ -595,7 +595,7 @@ namespace MediaDevices.Internal
             portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, newName);
             portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, newName);
             this.deviceProperties.SetValues(this.Id, portableDeviceValues, out result);
-            //ComTrace.WriteObject(result);
+            ComTrace.WriteObject(result);
                         
             Refresh();
         }
