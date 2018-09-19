@@ -38,7 +38,7 @@ namespace MediaDevicesUnitTest
             this.PersistentUniqueIdPath = @"\E:\system\startactions";
 
             // Writable Tests
-            this.workingFolder = @"E:\documents";
+            this.workingFolder = @"\E:\documents";
 
 
             // Exists Test

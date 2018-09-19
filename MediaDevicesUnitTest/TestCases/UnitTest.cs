@@ -13,7 +13,7 @@ namespace MediaDevicesUnitTest
     {
         // Device Select
         protected Func<MediaDevice, bool> deviceSelect;
-
+        
         // Device Test
         protected string deviceDescription;
         protected string deviceFriendlyName;
@@ -41,7 +41,7 @@ namespace MediaDevicesUnitTest
 
         public UnitTest()
         {
-            this.deviceSelect = d => d.Description == this.deviceDescription;
+            this.deviceSelect = d => d.Description == this.deviceDescription && d.FriendlyName == this.deviceFriendlyName;
         }
 
         [TestMethod]

@@ -14,28 +14,28 @@ namespace MediaDevicesUnitTest
             this.deviceDescription = "FCR-HS219/1     ";
             this.deviceFriendlyName = "T_ASGAR";
             this.deviceManufacture = "Kingston";
-            this.deviceFirmwareVersion = "1.0";
-            this.deviceModel = "Fire";
-            this.deviceSerialNumber = "G0W0MB06729405K5";
-            this.deviceDeviceType = DeviceType.MediaPlayer;
-            this.deviceTransport = DeviceTransport.USB;
-            this.devicePowerSource = PowerSource.Battery;
+            this.deviceFirmwareVersion = "9722";
+            this.deviceModel = "FCR-HS219/1     ";
+            this.deviceSerialNumber = "";
+            this.deviceDeviceType = DeviceType.Generic;
+            this.deviceTransport = DeviceTransport.Unspecified;
+            this.devicePowerSource = PowerSource.External;
 
             // Capability Test
-            this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
+            this.supportedEvents = new List<Events> { Events.ObjectAdded, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
-            this.supportedContents = new List<ContentType> { ContentType.Image };
+            this.supportedContents = new List<ContentType> { ContentType.Unspecified, ContentType.Folder, ContentType.Audio, ContentType.Video, ContentType.Image, ContentType.Contact };
             this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage };
 
             // ContentLocation Test
             this.contentLocations = new List<string>(); // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
             // PersistentUniqueId
-            this.PersistentUniqueId = "{00000027-0001-0001-0000-000000000000}";
-            this.PersistentUniqueIdPath = @"\Interner Speicher\Download";
+            this.PersistentUniqueId = "K%3B%5CTest";
+            this.PersistentUniqueIdPath = @"\K:\Test";
 
             // Writable Tests
-            this.workingFolder = @"K:\Test";
+            this.workingFolder = @"\K:\Test";
 
 
             // Exists Test
