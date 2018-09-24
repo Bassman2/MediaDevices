@@ -1466,14 +1466,14 @@ namespace MediaDevices
         }
 
         /// <summary>
-        /// Create a <see cref="MediaFileInfo"/> instance from the Persistent Unique Id.
+        /// Create a <see cref="MediaFileSystemInfo"/> instance from the Persistent Unique Id.
         /// </summary>
-        /// <param name="persistentUniqueId">Persistent Unique Id of the file.</param>
-        /// <returns>New instance of the <see cref="MediaFileInfo"/> class.</returns>
+        /// <param name="persistentUniqueId">Persistent Unique Id of the file or folder.</param>
+        /// <returns>New instance of the <see cref="MediaFileInfo"/> or <see cref="MediaDirectoryInfo"/> class.</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
         /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
-        public MediaFileInfo GetFileInfoFromPersistentUniqueId(string persistentUniqueId)
+        public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(string persistentUniqueId)
         {
             if (string.IsNullOrEmpty(persistentUniqueId))
             {
@@ -1490,34 +1490,14 @@ namespace MediaDevices
                 throw new FileNotFoundException($"{persistentUniqueId} not found.");
             }
 
-            return new MediaFileInfo(this, item);
-        }
-
-        /// <summary>
-        /// Create a <see cref="MediaDirectoryInfo"/> instance from the Persistent Unique Id.
-        /// </summary>
-        /// <param name="persistentUniqueId">Persistent Unique Id to get the directory from.</param>
-        /// <returns>New instance of the <see cref="MediaDirectoryInfo"/> class.</returns>
-        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
-        /// <exception cref="System.IO.DirectoryNotFoundException">persistentUniqueId not found.</exception>
-        public MediaDirectoryInfo GetDirectoryInfoFromPersistentUniqueId(string persistentUniqueId)
-        {
-            if (persistentUniqueId == null)
+            if (item.IsFile)
             {
-                throw new ArgumentNullException("persistentUniqueId");
+                return new MediaFileInfo(this, item);
             }
-            if (!this.IsConnected)
+            else
             {
-                throw new NotConnectedException("Not connected");
+                return new MediaDirectoryInfo(this, item);
             }
-
-            Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
-            if (item == null || item.IsFile)
-            {
-                throw new DirectoryNotFoundException($"{persistentUniqueId} not found.");
-            }
-            return new MediaDirectoryInfo(this, item);
         }
 
         #endregion

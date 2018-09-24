@@ -130,7 +130,7 @@ namespace MediaDevicesUnitTest
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
-            var path = device.GetDirectoryInfoFromPersistentUniqueId(this.PersistentUniqueId).FullName;
+            var path = device.GetFileSystemInfoFromPersistentUniqueId(this.PersistentUniqueId).FullName;
 
             device.Disconnect();
 

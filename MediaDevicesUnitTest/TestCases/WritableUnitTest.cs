@@ -362,11 +362,11 @@ namespace MediaDevicesUnitTest
 
             MediaDirectoryInfo dir = device.GetDirectoryInfo(Path.Combine(this.workingFolder, @"UploadTree\Aaa\Abb"));
             string dirPui = dir.PersistentUniqueId;
-            MediaDirectoryInfo dirGet = device.GetDirectoryInfoFromPersistentUniqueId(dirPui);
+            MediaDirectoryInfo dirGet = device.GetFileSystemInfoFromPersistentUniqueId(dirPui) as MediaDirectoryInfo;
 
             MediaFileInfo file = device.GetFileInfo(Path.Combine(this.workingFolder, @"UploadTree\Aaa\Abb\Acc\Ctest.txt"));
             string filePui = file.PersistentUniqueId;
-            MediaFileInfo fileGet = device.GetFileInfoFromPersistentUniqueId(filePui);
+            MediaFileInfo fileGet = device.GetFileSystemInfoFromPersistentUniqueId(filePui) as MediaFileInfo;
 
             string tmp = Path.GetTempFileName();
             device.DownloadFileFromPersistentUniqueId(filePui, tmp);
