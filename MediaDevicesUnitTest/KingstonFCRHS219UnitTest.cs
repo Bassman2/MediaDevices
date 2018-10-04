@@ -31,8 +31,10 @@ namespace MediaDevicesUnitTest
             this.contentLocations = new List<string>(); // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
             // PersistentUniqueId
-            this.PersistentUniqueId = "K%3B%5CTest";
-            this.PersistentUniqueIdPath = @"\K:\Test";
+            this.FolderPersistentUniqueId = "K%3B%5CTest";
+            this.FolderPersistentUniqueIdPath = @"\K:\Test";
+            this.FilePersistentUniqueId = "K%3B%5CTest%5Cdesctop.ini";
+            this.FilePersistentUniqueIdPath = @"\K:\Test\desctop.ini";
 
             // Writable Tests
             this.workingFolder = @"\K:\Test";

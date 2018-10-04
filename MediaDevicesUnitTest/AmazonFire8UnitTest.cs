@@ -6,44 +6,42 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class AmazonKindlePaperwhiteUnitTest : WritableUnitTest
+    public class AmazonFire8UnitTest : WritableUnitTest
     {
-        public AmazonKindlePaperwhiteUnitTest()
+        public AmazonFire8UnitTest()
         {
             // Device Test
-            this.deviceDescription = "Internal Storage";
-            this.deviceFriendlyName = "Kindle";
-            this.deviceManufacture = "Kindle  ";
-            this.deviceFirmwareVersion = "0100";
-            this.deviceModel = "Internal Storage";
-            this.deviceSerialNumber = "";
-            this.deviceDeviceType = DeviceType.Generic;
-            this.deviceTransport = DeviceTransport.Unspecified;
-            this.devicePowerSource = PowerSource.External;
+            this.deviceDescription = "Fire";
+            this.deviceFriendlyName = "Ralf's Fire 8";
+            this.deviceManufacture = "Amazon";
+            this.deviceFirmwareVersion = "1.0";
+            this.deviceModel = "Fire";
+            this.deviceSerialNumber = "G0W0T8058304F7P8";
+            this.deviceDeviceType = DeviceType.MediaPlayer;
+            this.deviceTransport = DeviceTransport.USB;
+            this.devicePowerSource = PowerSource.Battery;
 
             // Capability Test
-            this.supportedEvents = new List<Events> { Events.ObjectAdded, Events.ObjectRemoved, Events.ObjectUpdated };
-            this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectEnumerationFindNext, Commands.ObjectEnumerationEndFind,
-                Commands.ObjectManagementDeleteObjects, Commands.ObjectManagementCreateObjectWithPropertiesOnly, Commands.ObjectManagementCreateObjectWithPropertiesAndData,
-                Commands.ObjectManagementWriteObjectData, Commands.ObjectManagementCommitObject, Commands.ObjectManagementRevertObject
-            };
-            this.supportedContents = new List<ContentType> { ContentType.Unspecified, ContentType.Folder, ContentType.Audio, ContentType.Video, ContentType.Image, ContentType.Contact };
+            this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
+            this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
+            this.supportedContents = new List<ContentType> { ContentType.Image };
             this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage };
 
             // ContentLocation Test
-            this.contentLocations = new List<string> ();
+            this.contentLocations = new List<string>(); // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
             // PersistentUniqueId
-            this.FolderPersistentUniqueId = "E%3B%5Csystem%5Cstartactions";
-            this.FolderPersistentUniqueIdPath = @"\E:\system\startactions";
+            this.FolderPersistentUniqueId = "{00000023-0001-0001-0000-000000000000}";
+            this.FolderPersistentUniqueIdPath = @"\Interner Speicher\Download";
+            this.FilePersistentUniqueId = "{0000002B-0001-0001-0000-000000000000}";
+            this.FilePersistentUniqueIdPath = @"\Interner Speicher\Android\data\com.amazon.ags.app\files\cardcache\version";
 
             // Writable Tests
-            this.workingFolder = @"\E:\documents";
+            this.workingFolder = @"\Interner Speicher\tmp";
 
 
             // Exists Test
-            //this.existingFile = @"\E:\documents\Old Firehand_B004WLCSLC.sdr\Old Firehand_B004WLCSLC.phl";
-
+            //this.existingFile = @"\Interner Speicher\Download\14.jpg";
 
             //this.infoDirectoryName = "Pictures";
             //this.infoDirectoryPath = @"\SD card\Pictures";
@@ -81,6 +79,7 @@ namespace MediaDevicesUnitTest
             //this.enumAllItems = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
             //this.enumMaskItems = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
             //this.enumMaskRecursiveItems = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
+
         }
     }
 }

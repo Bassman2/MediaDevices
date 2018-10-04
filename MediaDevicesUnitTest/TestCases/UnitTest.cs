@@ -35,8 +35,10 @@ namespace MediaDevicesUnitTest
         protected List<string> contentLocations;
 
         // PersistentUniqueId
-        protected string PersistentUniqueId;
-        protected string PersistentUniqueIdPath;
+        protected string FolderPersistentUniqueId;
+        protected string FolderPersistentUniqueIdPath;
+        protected string FilePersistentUniqueId;
+        protected string FilePersistentUniqueIdPath;
 
 
         public UnitTest()
@@ -130,11 +132,57 @@ namespace MediaDevicesUnitTest
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
-            var path = device.GetFileSystemInfoFromPersistentUniqueId(this.PersistentUniqueId).FullName;
+            MediaDirectoryInfo dir = device.GetFileSystemInfoFromPersistentUniqueId(this.FolderPersistentUniqueId) as MediaDirectoryInfo;
+
+            MediaFileInfo file = device.GetFileSystemInfoFromPersistentUniqueId(this.FilePersistentUniqueId) as MediaFileInfo;
+            device.Disconnect();
+
+            Assert.IsNotNull(dir, "Dir");
+            Assert.IsTrue(dir.Attributes.HasFlag(MediaFileAttributes.Directory), "dir.IsDirectory");
+            Assert.AreEqual(this.FolderPersistentUniqueIdPath, dir.FullName, "dir.FullName");
+
+            Assert.IsNotNull(file, "File");
+            Assert.IsTrue(file.Attributes.HasFlag(MediaFileAttributes.Normal), "file.IsFile");
+            Assert.AreEqual(this.FilePersistentUniqueIdPath, file.FullName, "file.FullName");
+        }
+
+        [TestMethod]
+        [Description("Check persistent unique id functionality.")]
+        public void FriendlyNameTest()
+        {
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+
+            string disconnectedFriendlyName = device.FriendlyName;
+
+            device.Connect();
+
+            string connectedFriendlyName = device.FriendlyName;
+
+            // some devices use only upper letters in friendly names
+            device.FriendlyName = "DUMMY";
+
+            string dummyFriendlyName = device.FriendlyName;
 
             device.Disconnect();
 
-            Assert.AreEqual(this.PersistentUniqueIdPath, path, "Path");
+            string disconnectedDummyFriendlyName = device.FriendlyName;
+
+            device.Connect();
+
+            string connectedDummyFriendlyName = device.FriendlyName;
+
+            device.FriendlyName = connectedFriendlyName;
+
+            device.Disconnect();
+
+            
+            Assert.AreEqual(this.deviceFriendlyName, disconnectedFriendlyName, "disconnectedFriendlyName");
+            Assert.AreEqual(this.deviceFriendlyName, connectedFriendlyName, "connectedFriendlyName");
+            Assert.AreEqual("DUMMY", dummyFriendlyName, "dummyFriendlyName");
+            Assert.AreEqual("DUMMY", disconnectedDummyFriendlyName, "disconnectedDummyFriendlyName");
+            Assert.AreEqual("DUMMY", connectedDummyFriendlyName, "connectedDummyFriendlyName");
         }
     }
 }
