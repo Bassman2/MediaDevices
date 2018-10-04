@@ -8,6 +8,13 @@ namespace MediaDevices
 {
     public static class Enumerables
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="src"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public static IEnumerable<T> CatchExceptions<T>(this IEnumerable<T> src, Action<Exception> action = null)
         {
             using (var enumerator = src.GetEnumerator())

@@ -11,6 +11,9 @@ namespace MediaDevices
     /// </summary>
     public class MediaStorageInfo
     {
+        internal MediaStorageInfo()
+        { }
+
         /// <summary>
         /// Indicates the type of storage e.g. fixed, removable etc.
         /// </summary>

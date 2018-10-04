@@ -23,7 +23,6 @@ namespace MediaDevices
 
         private MediaDirectoryInfo parent;
 
-
         internal MediaFileSystemInfo(MediaDevice device, Item item)
         {
             this.device = device;

@@ -335,8 +335,13 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                this.deviceValues.SetStringValue(WPD.DEVICE_FRIENDLY_NAME, value);
-                this.deviceProperties.SetValues(Item.RootId, this.deviceValues, out this.deviceValues);
+                // set new friendly name
+                IPortableDeviceValues devValues = (IPortableDeviceValues)new PortableDeviceTypesLib.PortableDeviceValues();
+                devValues.SetStringValue(WPD.DEVICE_FRIENDLY_NAME, value);
+                this.deviceProperties.SetValues(Item.RootId, devValues, out devValues);
+
+                // reload device values with new friendly name 
+                this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);
             }
         }
 
@@ -1485,7 +1490,7 @@ namespace MediaDevices
             }
 
             Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
-            if (item == null || !item.IsFile)
+            if (item == null)
             {
                 throw new FileNotFoundException($"{persistentUniqueId} not found.");
             }
