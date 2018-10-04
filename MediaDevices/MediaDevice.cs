@@ -342,6 +342,20 @@ namespace MediaDevices
 
                 // reload device values with new friendly name 
                 this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);
+
+                // reload disconnected friendly name
+                try
+                {
+                    char[] buffer = new char[260];
+                    uint count = 256;
+                    portableDeviceManager.GetDeviceFriendlyName(this.DeviceId, buffer, ref count);
+                    this.friendlyName = new string(buffer, 0, (int)count - 1);
+                }
+                catch (COMException ex)
+                {
+                    Trace.WriteLine(ex.ToString());
+                    this.friendlyName = string.Empty;
+                }
             }
         }
 
