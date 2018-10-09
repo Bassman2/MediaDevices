@@ -42,31 +42,6 @@ namespace MediaDevices.Internal
         public static void WriteObject(IPortableDeviceValues values)
         {
             InternalWriteObject(values);
-            //string func = new StackTrace().GetFrame(1).GetMethod().Name;
-            //Trace.WriteLine($"############################### {func}");
-            //uint num = 0;
-
-            //values.GetCount(ref num);
-            //for (uint i = 0; i < num; i++)
-            //{
-            //    PropertyKey key = new PropertyKey();
-            //    PROPVARIANT val = new PROPVARIANT();
-            //    values.GetAt(i, ref key, ref val);
-
-            //    FieldInfo field = FindPropertyKeyField(key);
-            //    PropVariant vari = (PropVariant)val;
-
-            //    switch ((VarType)vari.variantType)
-            //    {
-
-            //    case VarType.VT_CLSID:
-            //        Trace.WriteLine($"##### {field?.Name} = {FindGuidField(vari.ToGuid())?.Name ?? vari.ToString()}");
-            //        break;
-            //    default:
-            //        Trace.WriteLine($"##### {field?.Name} = {vari.ToString()}");
-            //        break;
-            //    }
-            //}
         }
 
         [Conditional("COMTRACE")]
@@ -98,14 +73,15 @@ namespace MediaDevices.Internal
                 FieldInfo field = FindPropertyKeyField(key);
                 PropVariant vari = (PropVariant)val;
 
+                string fieldName = field?.Name ?? $"{key.fmtid}, {key.pid}";
+
                 switch ((VarType)vari.variantType)
                 {
-
                 case VarType.VT_CLSID:
-                    Trace.WriteLine($"##### {field?.Name} = {FindGuidField(vari.ToGuid())?.Name ?? vari.ToString()}");
+                    Trace.WriteLine($"##### {fieldName} = {FindGuidField(vari.ToGuid())?.Name ?? vari.ToString()}");
                     break;
                 default:
-                    Trace.WriteLine($"##### {field?.Name} = {vari.ToString()}");
+                    Trace.WriteLine($"##### {fieldName} = {vari.ToString()}");
                     break;
                 }
             }

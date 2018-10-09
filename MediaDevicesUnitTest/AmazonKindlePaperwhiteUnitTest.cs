@@ -12,7 +12,7 @@ namespace MediaDevicesUnitTest
         {
             // Device Test
             this.deviceDescription = "Internal Storage";
-            this.deviceFriendlyName = "Kindle";
+            this.deviceFriendlyName = "KINDLE";
             this.deviceManufacture = "Kindle  ";
             this.deviceFirmwareVersion = "0100";
             this.deviceModel = "Internal Storage";
@@ -36,6 +36,8 @@ namespace MediaDevicesUnitTest
             // PersistentUniqueId
             this.FolderPersistentUniqueId = "E%3B%5Csystem%5Cstartactions";
             this.FolderPersistentUniqueIdPath = @"\E:\system\startactions";
+            this.FilePersistentUniqueId = "E%3B%5Csystem%5Cversion.txt";
+            this.FilePersistentUniqueIdPath = @"\E:\system\version.txt";
 
             // Writable Tests
             this.workingFolder = @"\E:\documents";

@@ -78,22 +78,16 @@ namespace MediaDevices.Internal
 
         public static Item GetFromPersistentUniqueId(MediaDevice device, string persistentUniqueId)
         {
-            // TODO check
-
+            // fill collection with id to request
             var propVariantPUID = PropVariant.StringToPropVariant(persistentUniqueId);
             var collection = (IPortableDevicePropVariantCollection)new PortableDevicePropVariantCollection();
             collection.Add(ref propVariantPUID);
 
-            //Command cmd = Command.Create(WPD.COMMAND_COMMON_GET_OBJECT_IDS_FROM_PERSISTENT_UNIQUE_IDS);
-            //cmd.Add(WPD.PROPERTY_COMMON_PERSISTENT_UNIQUE_IDS, collection);
-            //cmd.Send(device.device);
-            //string mediaObjectId = cmd.GetPropVariants(WPD.PROPERTY_COMMON_OBJECT_IDS).Select(c => c.ToString()).FirstOrDefault();
-                                   
+            // request id collection           
             device.deviceContent.GetObjectIDsFromPersistentUniqueIDs(collection, out IPortableDevicePropVariantCollection results);
             string mediaObjectId = results.ToStrings().FirstOrDefault();
 
-
-
+            // return result item
             return mediaObjectId == null ? null : Item.Create(device, mediaObjectId);
         }
 
@@ -185,9 +179,9 @@ namespace MediaDevices.Internal
                     this.Name = this.OriginalFileName;
                     this.Type = ItemType.File;
                 }
-                if (this.path != null) // TODO check if we can remove empty pathes
+                if (this.path != null) // TODO check if we can remove empty paths
                 {
-                    //this.FullName = Path.Combine(this.path, this.Name);
+                    // don't use Path.Combine
                     this.FullName = this.path.TrimEnd(DirectorySeparatorChar) + DirectorySeparatorChar + this.Name;
                 }
 
@@ -239,8 +233,6 @@ namespace MediaDevices.Internal
                 return value;
             }
         }
-
-        // TODO
 
         /// <summary>
         /// Gets the object ID of the closest functional object that contains this object.

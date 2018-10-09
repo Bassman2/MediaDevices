@@ -17,6 +17,7 @@ namespace MediaDevices
     /// <summary>
     /// Represents a portable device.
     /// </summary>
+    [DebuggerDisplay("{FriendlyName}, {Manufacturer}, {Description}")]
     public sealed class MediaDevice : IDisposable
     {
 
@@ -235,46 +236,6 @@ namespace MediaDevices
         public void Dispose()
         {
             Disconnect();
-        }
-
-        /// <summary>
-        /// Overrides ToString for debug use.
-        /// </summary>
-        /// <returns>A string with the friendly name, the manufacture and the description.</returns>
-        public override string ToString()
-        {
-            string friendlyName = String.Empty;
-            string manufacturer = String.Empty;
-            string description = String.Empty;
-            try
-            {
-                friendlyName = this.FriendlyName;
-
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex.ToString());
-            }
-
-            try
-            {
-                manufacturer = this.Manufacturer;
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex.ToString());
-            }
-
-            try
-            {
-                description = this.Description;
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex.ToString());
-            }
-
-            return $"{friendlyName} - {manufacturer} - {description}";
         }
 
         #endregion
@@ -703,7 +664,9 @@ namespace MediaDevices
             this.device.Capabilities(out this.deviceCapabilities);
             this.device.Content(out this.deviceContent);
             this.deviceContent.Properties(out this.deviceProperties);
-            this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);            
+            this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);
+
+            ComTrace.WriteObject(this.deviceValues);
 
             // advice event handler
             this.eventCallback = new EventCallback(this);
