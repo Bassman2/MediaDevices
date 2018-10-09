@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AmazonFire8UnitTest.cs" />
     <Compile Include="AppleiPhoneS3UnitTest.cs" />
     <Compile Include="AppleiPodNanoUnitTest.cs" />
     <Compile Include="AsusNexus7UnitTest.cs" />

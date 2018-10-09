@@ -6,17 +6,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class AmazonFire7UnitTest : WritableUnitTest
+    public class AmazonFire8UnitTest : WritableUnitTest
     {
-        public AmazonFire7UnitTest() 
+        public AmazonFire8UnitTest()
         {
             // Device Test
             this.deviceDescription = "Fire";
-            this.deviceFriendlyName = "Ralf's Fire 7";
+            this.deviceFriendlyName = "Ralf's Fire 8";
             this.deviceManufacture = "Amazon";
             this.deviceFirmwareVersion = "1.0";
             this.deviceModel = "Fire";
-            this.deviceSerialNumber = "G0W0MB06729405K5";
+            this.deviceSerialNumber = "G0W0T8058304F7P8";
             this.deviceDeviceType = DeviceType.MediaPlayer;
             this.deviceTransport = DeviceTransport.USB;
             this.devicePowerSource = PowerSource.Battery;
@@ -31,8 +31,10 @@ namespace MediaDevicesUnitTest
             this.contentLocations = new List<string>(); // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
             // PersistentUniqueId
-            this.FolderPersistentUniqueId = "{00000027-0001-0001-0000-000000000000}";
+            this.FolderPersistentUniqueId = "{00000023-0001-0001-0000-000000000000}";
             this.FolderPersistentUniqueIdPath = @"\Interner Speicher\Download";
+            this.FilePersistentUniqueId = "{0000002B-0001-0001-0000-000000000000}";
+            this.FilePersistentUniqueIdPath = @"\Interner Speicher\Android\data\com.amazon.ags.app\files\cardcache\version";
 
             // Writable Tests
             this.workingFolder = @"\Interner Speicher\tmp";
@@ -77,7 +79,6 @@ namespace MediaDevicesUnitTest
             //this.enumAllItems = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
             //this.enumMaskItems = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
             //this.enumMaskRecursiveItems = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
-
 
         }
     }

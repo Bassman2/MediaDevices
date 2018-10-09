@@ -17,6 +17,7 @@ namespace MediaDevices
     /// <summary>
     /// Represents a portable device.
     /// </summary>
+    [DebuggerDisplay("{FriendlyName}, {Manufacturer}, {Description}")]
     public sealed class MediaDevice : IDisposable
     {
 
@@ -237,46 +238,6 @@ namespace MediaDevices
             Disconnect();
         }
 
-        /// <summary>
-        /// Overrides ToString for debug use.
-        /// </summary>
-        /// <returns>A string with the friendly name, the manufacture and the description.</returns>
-        public override string ToString()
-        {
-            string friendlyName = String.Empty;
-            string manufacturer = String.Empty;
-            string description = String.Empty;
-            try
-            {
-                friendlyName = this.FriendlyName;
-
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex.ToString());
-            }
-
-            try
-            {
-                manufacturer = this.Manufacturer;
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex.ToString());
-            }
-
-            try
-            {
-                description = this.Description;
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex.ToString());
-            }
-
-            return $"{friendlyName} - {manufacturer} - {description}";
-        }
-
         #endregion
 
         #region Properties
@@ -335,8 +296,27 @@ namespace MediaDevices
                     throw new NotConnectedException("Not connected");
                 }
 
-                this.deviceValues.SetStringValue(WPD.DEVICE_FRIENDLY_NAME, value);
-                this.deviceProperties.SetValues(Item.RootId, this.deviceValues, out this.deviceValues);
+                // set new friendly name
+                IPortableDeviceValues devValues = (IPortableDeviceValues)new PortableDeviceTypesLib.PortableDeviceValues();
+                devValues.SetStringValue(WPD.DEVICE_FRIENDLY_NAME, value);
+                this.deviceProperties.SetValues(Item.RootId, devValues, out devValues);
+
+                // reload device values with new friendly name 
+                this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);
+
+                // reload disconnected friendly name
+                try
+                {
+                    char[] buffer = new char[260];
+                    uint count = 256;
+                    portableDeviceManager.GetDeviceFriendlyName(this.DeviceId, buffer, ref count);
+                    this.friendlyName = new string(buffer, 0, (int)count - 1);
+                }
+                catch (COMException ex)
+                {
+                    Trace.WriteLine(ex.ToString());
+                    this.friendlyName = string.Empty;
+                }
             }
         }
 
@@ -684,7 +664,9 @@ namespace MediaDevices
             this.device.Capabilities(out this.deviceCapabilities);
             this.device.Content(out this.deviceContent);
             this.deviceContent.Properties(out this.deviceProperties);
-            this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);            
+            this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);
+
+            ComTrace.WriteObject(this.deviceValues);
 
             // advice event handler
             this.eventCallback = new EventCallback(this);
@@ -1466,14 +1448,14 @@ namespace MediaDevices
         }
 
         /// <summary>
-        /// Create a <see cref="MediaFileInfo"/> instance from the Persistent Unique Id.
+        /// Create a <see cref="MediaFileSystemInfo"/> instance from the Persistent Unique Id.
         /// </summary>
-        /// <param name="persistentUniqueId">Persistent Unique Id of the file.</param>
-        /// <returns>New instance of the <see cref="MediaFileInfo"/> class.</returns>
+        /// <param name="persistentUniqueId">Persistent Unique Id of the file or folder.</param>
+        /// <returns>New instance of the <see cref="MediaFileInfo"/> or <see cref="MediaDirectoryInfo"/> class.</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
         /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
-        public MediaFileInfo GetFileInfoFromPersistentUniqueId(string persistentUniqueId)
+        public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(string persistentUniqueId)
         {
             if (string.IsNullOrEmpty(persistentUniqueId))
             {
@@ -1485,39 +1467,19 @@ namespace MediaDevices
             }
 
             Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
-            if (item == null || !item.IsFile)
+            if (item == null)
             {
                 throw new FileNotFoundException($"{persistentUniqueId} not found.");
             }
 
-            return new MediaFileInfo(this, item);
-        }
-
-        /// <summary>
-        /// Create a <see cref="MediaDirectoryInfo"/> instance from the Persistent Unique Id.
-        /// </summary>
-        /// <param name="persistentUniqueId">Persistent Unique Id to get the directory from.</param>
-        /// <returns>New instance of the <see cref="MediaDirectoryInfo"/> class.</returns>
-        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
-        /// <exception cref="System.IO.DirectoryNotFoundException">persistentUniqueId not found.</exception>
-        public MediaDirectoryInfo GetDirectoryInfoFromPersistentUniqueId(string persistentUniqueId)
-        {
-            if (persistentUniqueId == null)
+            if (item.IsFile)
             {
-                throw new ArgumentNullException("persistentUniqueId");
+                return new MediaFileInfo(this, item);
             }
-            if (!this.IsConnected)
+            else
             {
-                throw new NotConnectedException("Not connected");
+                return new MediaDirectoryInfo(this, item);
             }
-
-            Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
-            if (item == null || item.IsFile)
-            {
-                throw new DirectoryNotFoundException($"{persistentUniqueId} not found.");
-            }
-            return new MediaDirectoryInfo(this, item);
         }
 
         #endregion

@@ -34,8 +34,10 @@ namespace MediaDevicesUnitTest
             this.contentLocations = new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
             // PersistentUniqueId
-            this.PersistentUniqueId = "{CF527675-97D8-3DEF-0000-000000000000}";
-            this.PersistentUniqueIdPath = @"\Phone\Music\Album";
+            this.FolderPersistentUniqueId = "{CF527675-97D8-3DEF-0000-000000000000}";
+            this.FolderPersistentUniqueIdPath = @"\Phone\Music\Album";
+            this.FilePersistentUniqueId = "{FDFF71F3-E0BD-D98E-0000-000000000000}";
+            this.FilePersistentUniqueIdPath = @"\Phone\Videos\desktop.ini";
 
             this.workingFolder = @"\Phone\Documents";
 

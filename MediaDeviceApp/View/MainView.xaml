@@ -20,7 +20,19 @@
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
-            <ComboBox Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="3"/>
+            <ComboBox Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="3">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding FriendlyName}"/>
+                            <TextBlock Text=" - "/>
+                            <TextBlock Text="{Binding Manufacturer}"/>
+                            <TextBlock Text=" - "/>
+                            <TextBlock Text="{Binding Description}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Button Grid.Column="1" Content="Refresh" Command="{Binding RefreshCommand}" Margin="3" />
             <Button Grid.Column="2" Content="Reset" Command="{Binding ResetCommand}" IsEnabled="{Binding CanReset}" Margin="3" />
             <CheckBox Grid.Column="3" Content="Private Devices" IsChecked="{Binding UsePrivateDevices}" VerticalAlignment="Center" Margin="3"/>

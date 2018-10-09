@@ -73,14 +73,15 @@ namespace MediaDevices.Internal
                 FieldInfo field = FindPropertyKeyField(key);
                 PropVariant vari = (PropVariant)val;
 
+                string fieldName = field?.Name ?? $"{key.fmtid}, {key.pid}";
+
                 switch ((VarType)vari.variantType)
                 {
-
                 case VarType.VT_CLSID:
-                    Trace.WriteLine($"##### {field?.Name} = {FindGuidField(vari.ToGuid())?.Name ?? vari.ToString()}");
+                    Trace.WriteLine($"##### {fieldName} = {FindGuidField(vari.ToGuid())?.Name ?? vari.ToString()}");
                     break;
                 default:
-                    Trace.WriteLine($"##### {field?.Name} = {vari.ToString()}");
+                    Trace.WriteLine($"##### {fieldName} = {vari.ToString()}");
                     break;
                 }
             }
