@@ -57,6 +57,7 @@
                     <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, Mode=OneWay}" Width="*"/>
                     <DataGridTextColumn Header="FullName" Binding="{Binding Path=FullName, Mode=OneWay}" Width="*"/>
                     <DataGridTextColumn Header="Length" Binding="{Binding Path=Length, Mode=OneWay}" Width="80"/>
+                    <DataGridTextColumn Header="Persistent Unique Id" Binding="{Binding Path=PersistentUniqueId, Mode=OneWay}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

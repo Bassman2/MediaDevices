@@ -13,9 +13,33 @@ namespace MediaDevicesUnitTest
     public abstract class WritableUnitTest : UnitTest
     {
         protected string workingFolder;
+        protected List<string> treeList = new List<string>
+        {
+            "\\UploadTree\\Aaa",
+            "\\UploadTree\\Aaa\\A.txt",
+            "\\UploadTree\\Aaa\\Abb",
+            "\\UploadTree\\Aaa\\Abb\\Acc",
+            "\\UploadTree\\Aaa\\Abb\\Acc\\Ctest.txt",
+            "\\UploadTree\\Aaa\\Abb\\Add",
+            "\\UploadTree\\Aaa\\Abb\\Aee.txt",
+            "\\UploadTree\\Aaa\\Abb\\Aff.txt",
+            "\\UploadTree\\Aaa\\Abb\\Agg.txt",
+            "\\UploadTree\\Aaa\\Abb\\B.txt",
+            "\\UploadTree\\Aaa\\Acc",
+            "\\UploadTree\\Baa",
+            "\\UploadTree\\Baa\\Bxx.txt",
+            "\\UploadTree\\Bbb",
+            "\\UploadTree\\Caa",
+            "\\UploadTree\\Caa\\Cxx.txt",
+            "\\UploadTree\\Ccc",
+            "\\UploadTree\\Root.txt"
+        };
+        protected List<string> treeListFull;
 
         protected void UploadTestTree(MediaDevice device)
         {
+            this.treeListFull = treeList.Select(p => workingFolder + p).ToList();
+
             string sourceFolder = Path.GetFullPath(@".\..\..\..\TestData\UploadTree");
 
             // create empty folders not checked in
@@ -23,6 +47,9 @@ namespace MediaDevicesUnitTest
             Directory.CreateDirectory(Path.Combine(sourceFolder, @"Aaa\Acc"));
             Directory.CreateDirectory(Path.Combine(sourceFolder, "Bbb"));
             Directory.CreateDirectory(Path.Combine(sourceFolder, "Ccc"));
+
+            var l = Directory.EnumerateFileSystemEntries(sourceFolder, "*", SearchOption.AllDirectories).OrderBy(s => s).ToList();
+            var x = Directory.GetFileSystemEntries(sourceFolder, "*", SearchOption.AllDirectories).OrderBy(s => s).ToList();
 
             string destFolder = Path.Combine(this.workingFolder, "UploadTree");
             
@@ -76,6 +103,8 @@ namespace MediaDevicesUnitTest
             var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
             device.Connect();
+            var root = device.GetRootDirectory();
+            var list = root.EnumerateFileSystemInfos().ToList();
 
             string newFolder = Path.Combine(this.workingFolder, "Test");
             var exists1 = device.DirectoryExists(this.workingFolder);
@@ -164,33 +193,15 @@ namespace MediaDevicesUnitTest
             string destFolder = Path.Combine(this.workingFolder, "UploadTree");
             int pathLen = this.workingFolder.Length;
 
-            List<string> pathes = new List<string>
-            {
-                "\\UploadTree\\Aaa",
-                "\\UploadTree\\Aaa\\A.txt",
-                "\\UploadTree\\Aaa\\Abb",
-                "\\UploadTree\\Aaa\\Abb\\Acc",
-                "\\UploadTree\\Aaa\\Abb\\Acc\\Ctest.txt",
-                "\\UploadTree\\Aaa\\Abb\\Add",
-                "\\UploadTree\\Aaa\\Abb\\Aee.txt",
-                "\\UploadTree\\Aaa\\Abb\\Aff.txt",
-                "\\UploadTree\\Aaa\\Abb\\Agg.txt",
-                "\\UploadTree\\Aaa\\Abb\\B.txt",
-                "\\UploadTree\\Aaa\\Acc",
-                "\\UploadTree\\Baa",
-                "\\UploadTree\\Baa\\Bxx.txt",
-                "\\UploadTree\\Bbb",
-                "\\UploadTree\\Caa",
-                "\\UploadTree\\Caa\\Cxx.txt",
-                "\\UploadTree\\Ccc",
-                "\\UploadTree\\Root.txt"
-            };
             
-            var list = device.EnumerateFileSystemEntries(destFolder, null, SearchOption.AllDirectories).Select(p => p.Remove(0, pathLen)).ToList();
+            
+            var list = device.EnumerateFileSystemEntries(destFolder, null, SearchOption.AllDirectories).ToList();
             
             device.Disconnect();
 
-            CollectionAssert.AreEquivalent(pathes, list, "EnumerateFileSystemEntries");
+
+            CollectionAssert.AreEquivalent(this.treeListFull, list, "EnumerateFileSystemEntries");
+            //CollectionAssert.AreEquivalent(pathes, list, "EnumerateFileSystemEntries");
         }
 
         [TestMethod]
@@ -247,6 +258,10 @@ namespace MediaDevicesUnitTest
             {
                 device.DeleteFile(filePath);
             }
+            if (device.FileExists(newPath))
+            {
+                device.DeleteFile(newPath);
+            }
 
             using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
             {
@@ -285,6 +300,11 @@ namespace MediaDevicesUnitTest
             if (device.DirectoryExists(filePath))
             {
                 device.DeleteDirectory(filePath);
+            }
+
+            if (device.DirectoryExists(newPath))
+            {
+                device.DeleteDirectory(newPath);
             }
 
             device.CreateDirectory(filePath);
@@ -326,12 +346,12 @@ namespace MediaDevicesUnitTest
         //    device.Disconnect();
 
         //    Assert.AreEqual("Dies ist ein Test", res, "text");
-            
+
         //}
 
         [TestMethod]
-        [Description("PersistentUniqueId Test")]
-        public void PersistentUniqueIdTest()
+        [Description("Writable PersistentUniqueId Test")]
+        public void WritablePersistentUniqueIdTest()
         {
             var devices = MediaDevice.GetDevices();
             var device = devices.FirstOrDefault(this.deviceSelect);
@@ -364,6 +384,6 @@ namespace MediaDevicesUnitTest
             Assert.AreEqual("test", text, "text");
         }
 
-        
+
     }
 }

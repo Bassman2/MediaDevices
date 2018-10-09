@@ -98,7 +98,7 @@ namespace MediaDevices
         /// </summary>
         public void Eject()
         {
-            this.device.Eject(this.objectId);
+            this.device.InternalEject(this.objectId);
         }
 
         /// <summary>

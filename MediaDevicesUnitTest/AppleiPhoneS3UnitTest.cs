@@ -12,7 +12,7 @@ namespace MediaDevicesUnitTest
         {
             // Device Test
             this.deviceDescription = "Apple iPhone";
-            this.deviceFriendlyName = "Apple iPhone";
+            this.deviceFriendlyName = "iPhone von Egon";
             this.deviceManufacture = "Apple Inc.";
             this.deviceFirmwareVersion = "4.2.1";
             this.deviceModel = "Apple iPhone";
@@ -27,7 +27,7 @@ namespace MediaDevicesUnitTest
             this.supportedContents = new List<ContentType> { ContentType.Image };
 
             // ContentLocation Test
-            this.contentLocations = new List<string> { "" };
+            this.contentLocations = new List<string> { };
 
 
 

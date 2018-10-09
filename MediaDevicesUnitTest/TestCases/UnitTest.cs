@@ -13,7 +13,7 @@ namespace MediaDevicesUnitTest
     {
         // Device Select
         protected Func<MediaDevice, bool> deviceSelect;
-
+        
         // Device Test
         protected string deviceDescription;
         protected string deviceFriendlyName;
@@ -34,11 +34,14 @@ namespace MediaDevicesUnitTest
         // ContentLocation Test
         protected List<string> contentLocations;
 
-        
+        // PersistentUniqueId
+        protected string PersistentUniqueId;
+        protected string PersistentUniqueIdPath;
+
 
         public UnitTest()
         {
-            this.deviceSelect = device => device.Description == this.deviceDescription;
+            this.deviceSelect = d => d.Description == this.deviceDescription && d.FriendlyName == this.deviceFriendlyName;
         }
 
         [TestMethod]
@@ -118,11 +121,20 @@ namespace MediaDevicesUnitTest
             CollectionAssert.AreEquivalent(this.contentLocations, locations, "Locations");
         }
 
+        [TestMethod]
+        [Description("Check persistent unique id functionality.")]
+        public void PersistentUniqueIdTest()
+        {
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
 
-        
+            var path = device.GetDirectoryInfoFromPersistentUniqueId(this.PersistentUniqueId).FullName;
 
-        
+            device.Disconnect();
 
-        
+            Assert.AreEqual(this.PersistentUniqueIdPath, path, "Path");
+        }
     }
 }

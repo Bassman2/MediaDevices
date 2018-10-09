@@ -9,21 +9,24 @@ namespace MediaDevices.Internal
     {
         public static bool HasKeyValue(this IPortableDeviceValues values, PropertyKey findKey)
         {
-            uint num = 0;
-            values?.GetCount(ref num);
-            for (uint i = 0; i < num; i++)
+            //using (new Profiler("HasKeyValue"))
             {
-                PropertyKey key = new PropertyKey();
-                PROPVARIANT val = new PROPVARIANT();
-                values.GetAt(i, ref key, ref val);
-                if (key.fmtid == findKey.fmtid && key.pid == findKey.pid)
+                uint num = 0;
+                values?.GetCount(ref num);
+                for (uint i = 0; i < num; i++)
                 {
-                    PropVariant pval = val;
-                    return pval.variantType != VarType.VT_ERROR;
+                    PropertyKey key = new PropertyKey();
+                    PROPVARIANT val = new PROPVARIANT();
+                    values.GetAt(i, ref key, ref val);
+                    if (key.fmtid == findKey.fmtid && key.pid == findKey.pid)
+                    {
+                        PropVariant pval = val;
+                        return pval.variantType != VarType.VT_ERROR;
+                    }
+
                 }
-                
+                return false;
             }
-            return false;
         }
 
         public static VarType GetVarType(this IPortableDeviceValues values, PropertyKey key)

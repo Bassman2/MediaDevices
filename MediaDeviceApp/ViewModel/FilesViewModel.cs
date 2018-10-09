@@ -61,6 +61,7 @@ namespace MediaDeviceApp.ViewModel
                 this.Name = info.Name;
                 this.FullName = info.FullName;
                 this.Length = info.Length;
+                this.PersistentUniqueId = info.PersistentUniqueId;
                 this.Image = info.Attributes.HasFlag(MediaFileAttributes.Normal) ? fileImage : folderImages;
             }
                         
@@ -68,6 +69,7 @@ namespace MediaDeviceApp.ViewModel
             public string Name { get; set; }
             public string FullName { get; set; }
             public ulong Length { get; set; }
+            public string PersistentUniqueId { get; set; }
             public ImageSource Image { get; private set; } 
         }
 

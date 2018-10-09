@@ -1688,7 +1688,12 @@ namespace MediaDevices
             {
                 Command cmd = Command.Create(WPD.COMMAND_DEVICE_HINTS_GET_CONTENT_LOCATION);
                 cmd.Add(WPD.PROPERTY_DEVICE_HINTS_CONTENT_TYPE, contentType.Guid());
-                cmd.Send(this.device);
+                if (!cmd.Send(this.device))
+                {
+                    cmd.WriteResults();
+                    return new List<string>();
+                }
+                
                 return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => Item.Create(this, c).FullName);
             }
             catch (COMException ex)
@@ -1697,7 +1702,7 @@ namespace MediaDevices
             }
             return null;
         }
-        
+
         //public void Supported(string id)
         //{
         //    var values = (IPortableDeviceValues)new PortableDeviceValues();
@@ -1717,7 +1722,8 @@ namespace MediaDevices
         /// Eject storage
         /// </summary>
         /// <param name="path">Path of storage to eject.</param>
-        public void EjectStorage(string path)
+        /// <returns>true is success and false if not supported.</returns>
+        public bool EjectStorage(string path)
         {
             if (!this.IsConnected)
             {
@@ -1729,17 +1735,14 @@ namespace MediaDevices
             }
 
             Item item = Item.FindFolder(this, path);
-            Eject(item.Id);
-            //Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
-            //cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item.Id);
-            //cmd.Send(this.device);
+            return InternalEject(item.Id);
         }
 
-        internal void Eject(string id)
+        internal bool InternalEject(string id)
         {
             Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
             cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, id);
-            cmd.Send(this.device);
+            return cmd.Send(this.device);
         }
 
         /// <summary>
@@ -1855,7 +1858,7 @@ namespace MediaDevices
 
         internal void CallEvent(IPortableDeviceValues eventParameters)
         {
-            ComTrace.WriteObject(eventParameters);
+            //ComTrace.WriteObject(eventParameters);
             Guid eventGuid;
             eventParameters.GetGuidValue(WPD.EVENT_PARAMETER_EVENT_ID, out eventGuid);
             Events eventEnum = eventGuid.GetEnumFromAttrGuid<Events>();
@@ -2142,7 +2145,7 @@ namespace MediaDevices
         
         internal static string FilterToRegex(string filter)
         {
-            if (filter == "*" || filter == "*.*")
+            if (filter == null || filter == "*" || filter == "*.*")
             {
                 return null;
             }

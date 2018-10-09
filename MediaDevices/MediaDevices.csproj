@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;COMTRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;COMTRACE, PROFILING</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -60,6 +60,7 @@
     <Compile Include="ContentType.cs" />
     <Compile Include="DeviceTransport.cs" />
     <Compile Include="DeviceType.cs" />
+    <Compile Include="Enumerables.cs" />
     <Compile Include="Internal\PropertyKeys.cs" />
     <Compile Include="MediaDriveInfo.cs" />
     <Compile Include="Internal\ComHelper.cs" />

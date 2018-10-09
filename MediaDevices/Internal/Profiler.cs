@@ -8,22 +8,34 @@ namespace MediaDevices.Internal
         private Stopwatch stopwatch;
         private string title;
 
+        
         public Profiler(string title)
         {
-            this.title = title;
-            Trace.WriteLine($"Profiler {this.title} start");
-            this.stopwatch = Stopwatch.StartNew();
+            Start(title);
         }
 
         public void Dispose()
         {
-            this.stopwatch.Stop();
-            Trace.WriteLine($"Profiler {this.title} stop: {this.stopwatch.Elapsed.ToString(@"hh\:mm\:ss\.fffffff").Insert(12, ".")}");
+            Stop();
         }
 
-        public int Res
+        [Conditional("PROFILING")]
+        private void Start(string title)
         {
-            get { return 0; }
+            this.title = title;
+            //Trace.WriteLine($"Profiler {this.title} start");
+            this.stopwatch = Stopwatch.StartNew();
+        }
+
+        [Conditional("PROFILING")]
+        private void Stop()
+        {
+            this.stopwatch.Stop();
+            //Trace.WriteLine($"Profiler {this.title} : {this.stopwatch.Elapsed.ToString(@"hh\:mm\:ss\.fffffff").Insert(12, ".")}");
+
+            double milliseconds = ((double)this.stopwatch.ElapsedTicks / Stopwatch.Frequency) * 1000;
+            //double nanoseconds = (this.stopwatch.ElapsedTicks / Stopwatch.Frequency) * 1000_000_000;
+            Trace.WriteLine($"Profiler {this.title} : {milliseconds} ms");
         }
     }
 }

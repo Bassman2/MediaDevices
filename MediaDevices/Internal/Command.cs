@@ -138,10 +138,17 @@ namespace MediaDevices.Internal
             case HResult.S_OK:
                 return true;
             case HResult.E_NOT_IMPLEMENTED:
+                Debug.WriteLine("Command not implemented!");
                 return false;
             default:
                 throw new Exception($"Error {error:X}");
             }
+        }
+
+        [Conditional("COMTRACE")]
+        public void WriteResults()
+        {
+            ComTrace.WriteObject(this.result);
         }
     }
 }

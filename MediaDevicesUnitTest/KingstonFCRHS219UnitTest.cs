@@ -1,46 +1,45 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MediaDevices;
-using System.Linq;
-using System.Threading;
-using System.IO;
 using System.Collections.Generic;
+using MediaDevices;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class MicrosoftLumia650UnitTest : WritableUnitTest
+    public class KingstonFCRHS219UnitTest : WritableUnitTest
     {
-        public MicrosoftLumia650UnitTest()
+        public KingstonFCRHS219UnitTest()
         {
             // Device Test
-            this.deviceDescription = "Lumia 650 Dual SIM";
-            this.deviceFriendlyName = "Ralf Phone";
-            this.deviceManufacture = "Microsoft";
-            this.deviceFirmwareVersion = "10.0.15254.0";
-            this.deviceModel = "Lumia 650 Dual SIM";
-            this.deviceSerialNumber = "9aaa36ebd8901685d39337ced4b30893";
-            this.deviceDeviceType = DeviceType.Phone;
-            this.deviceTransport = DeviceTransport.USB;
-            this.devicePowerSource = PowerSource.Battery;
+            this.deviceDescription = "FCR-HS219/1     ";
+            this.deviceFriendlyName = "T_ASGAR";
+            this.deviceManufacture = "Kingston";
+            this.deviceFirmwareVersion = "9722";
+            this.deviceModel = "FCR-HS219/1     ";
+            this.deviceSerialNumber = "";
+            this.deviceDeviceType = DeviceType.Generic;
+            this.deviceTransport = DeviceTransport.Unspecified;
+            this.devicePowerSource = PowerSource.External;
 
             // Capability Test
-            this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
+            this.supportedEvents = new List<Events> { Events.ObjectAdded, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
-            this.supportedContents = new List<ContentType> { ContentType.Image };
-            this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage, FunctionalCategory.RenderingInformation };
+            this.supportedContents = new List<ContentType> { ContentType.Unspecified, ContentType.Folder, ContentType.Audio, ContentType.Video, ContentType.Image, ContentType.Contact };
+            this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage };
 
             // ContentLocation Test
-            this.contentLocations = new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
+            this.contentLocations = new List<string>(); // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
             // PersistentUniqueId
-            this.PersistentUniqueId = "{CF527675-97D8-3DEF-0000-000000000000}";
-            this.PersistentUniqueIdPath = @"\Phone\Music\Album";
+            this.PersistentUniqueId = "K%3B%5CTest";
+            this.PersistentUniqueIdPath = @"\K:\Test";
 
-            this.workingFolder = @"\Phone\Documents";
+            // Writable Tests
+            this.workingFolder = @"\K:\Test";
+
 
             // Exists Test
-            //this.existingFile = @"\Phone\Music\Artist\05 - Decoupage.mp3";
+            //this.existingFile = @"\Interner Speicher\Download\14.jpg";
 
             //this.infoDirectoryName = "Pictures";
             //this.infoDirectoryPath = @"\SD card\Pictures";
@@ -78,6 +77,8 @@ namespace MediaDevicesUnitTest
             //this.enumAllItems = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
             //this.enumMaskItems = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
             //this.enumMaskRecursiveItems = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
+
+
         }
     }
 }
