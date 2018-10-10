@@ -19,10 +19,32 @@ namespace MediaDevices.Internal
     [DebuggerDisplay("{this.Type} - {this.Name} - {this.Id}")]
     internal class Item
     {
+        private static IPortableDeviceKeyCollection keyCollection;
+
+        static Item()
+        {
+            // key collection with all used properties
+            keyCollection = (IPortableDeviceKeyCollection)new PortableDeviceTypesLib.PortableDeviceKeyCollection();
+            keyCollection.Add(WPD.OBJECT_CONTENT_TYPE);
+            keyCollection.Add(WPD.OBJECT_NAME);
+            keyCollection.Add(WPD.OBJECT_ORIGINAL_FILE_NAME);
+
+            keyCollection.Add(WPD.OBJECT_HINT_LOCATION_DISPLAY_NAME);
+            keyCollection.Add(WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID);
+            keyCollection.Add(WPD.OBJECT_SIZE);
+            keyCollection.Add(WPD.OBJECT_DATE_CREATED);
+            keyCollection.Add(WPD.OBJECT_DATE_MODIFIED);
+            keyCollection.Add(WPD.OBJECT_DATE_AUTHORED);
+            keyCollection.Add(WPD.OBJECT_CAN_DELETE);
+            keyCollection.Add(WPD.OBJECT_ISSYSTEM);
+            keyCollection.Add(WPD.OBJECT_ISHIDDEN);
+            keyCollection.Add(WPD.OBJECT_IS_DRM_PROTECTED);
+            keyCollection.Add(WPD.OBJECT_PARENT_ID);
+            keyCollection.Add(WPD.OBJECT_PERSISTENT_UNIQUE_ID);
+        }
+
         private MediaDevice device;
-        //private IPortableDeviceProperties deviceProperties;
-        private IPortableDeviceKeyCollection keyCollection;
-        private IPortableDeviceValues values;
+        private string name;
         private string path;
         private Item parent;
 
@@ -30,6 +52,8 @@ namespace MediaDevices.Internal
         private const uint PORTABLE_DEVICE_DELETE_WITH_RECURSION = 1;
 
         internal char DirectorySeparatorChar = '\\';
+
+        private const int numObjectsToRequest = 32;
 
         public const string RootId = "DEVICE";
         
@@ -89,28 +113,13 @@ namespace MediaDevices.Internal
             return mediaObjectId == null ? null : Item.Create(device, mediaObjectId);
         }
 
-        public string Id { get; private set; }
-        public string Name { get; private set; }
-        public string FullName { get; set; }
-        public ItemType Type { get; private set; }
-
-        public bool IsRoot { get { return this.Id == RootId; } }
-
-        public bool IsFile { get { return this.Type == ItemType.File; } }
+        
 
         private Item(MediaDevice device, string id, string path)
         {
             this.device = device;
-            //this.deviceProperties = device.deviceProperties;
             this.Id = id;
             this.path = path;
-
-            using (new Profiler("Item GetSupportedProperties"))
-            {
-                
-                this.device.deviceProperties.GetSupportedProperties(id, out keyCollection);
-            }
-            ComTrace.WriteObject(this.device.deviceProperties, id);
 
             if (id == Item.RootId)
             {
@@ -149,9 +158,6 @@ namespace MediaDevices.Internal
             }
             else
             {
-                
-                this.device.deviceProperties.GetSupportedProperties(id, out keyCollection);
-                ComTrace.WriteObject(this.device.deviceProperties, id);
                 Refresh();
             }
         }
@@ -160,197 +166,149 @@ namespace MediaDevices.Internal
         {
             if (this.Id != Item.RootId)
             {
-                using (new Profiler("Item Refresh"))
+                GetProperties();
+
+                Guid contentType = this.ContentType;
+                if (contentType == WPD.CONTENT_TYPE_FUNCTIONAL_OBJECT)
                 {
-                    this.device.deviceProperties.GetValues(this.Id, this.keyCollection, out this.values);
-                    ComTrace.WriteObject(this.values);
+                    this.Name = this.name;
+                    this.Type = ItemType.Object;
 
-                    Guid contentType = this.ContentType;
-                    if (contentType == WPD.CONTENT_TYPE_FUNCTIONAL_OBJECT)
-                    {
-                        this.Name = this.name;
-                        this.Type = ItemType.Object;
-
-                    }
-                    else if (contentType == WPD.CONTENT_TYPE_FOLDER)
-                    {
-                        this.Name = this.OriginalFileName;
-                        this.Type = ItemType.Folder;
-                    }
-                    else
-                    {
-                        this.Name = this.OriginalFileName;
-                        this.Type = ItemType.File;
-                    }
-                    if (this.path != null) // TODO check if we can remove empty pathes
-                    {
-                        //this.FullName = Path.Combine(this.path, this.Name);
-                        this.FullName = this.path.TrimEnd(DirectorySeparatorChar) + DirectorySeparatorChar + this.Name;
-                    }
                 }
-
-                // TODO test
-                if (this.values.TryGetStringValue(WPD.OBJECT_HINT_LOCATION_DISPLAY_NAME, out string value))
+                else if (contentType == WPD.CONTENT_TYPE_FOLDER)
                 {
-                    Trace.TraceInformation($"Refresh OBJECT_HINT_LOCATION_DISPLAY_NAME = {value}");
+                    this.Name = this.OriginalFileName;
+                    this.Type = ItemType.Folder;
+                }
+                else
+                {
+                    this.Name = this.OriginalFileName;
+                    this.Type = ItemType.File;
+                }
+                if (this.path != null) // TODO check if we can remove empty pathes
+                {
+                    // don't use Path.Combine
+                    this.FullName = this.path.TrimEnd(DirectorySeparatorChar) + DirectorySeparatorChar + this.Name;
+                }
+            }
+        }
+        
+        private void GetProperties()
+        {
+            IPortableDeviceValues values = null;
+            try
+            {
+                // get all predefined values
+                this.device.deviceProperties.GetValues(this.Id, keyCollection, out values);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"{ex.Message} for {this.Id}");
+                return;
+            }
+
+            // read all properties
+            // use a loop to prevent exceptions during calling GetValue for non existing values 
+            uint num = 0;
+            values.GetCount(ref num);
+            for (uint i = 0; i < num; i++)
+            {
+                PropertyKey key = new PropertyKey();
+                PROPVARIANT val = new PROPVARIANT();
+                values.GetAt(i, ref key, ref val);
+
+                if (key.fmtid == WPD.OBJECT_PROPERTIES_V1)
+                {
+                    switch ((ObjectProperties)key.pid)
+                    {
+                    case ObjectProperties.ContentType:
+                        this.ContentType = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.Name:
+                        this.name = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.OriginalFileName:
+                        this.OriginalFileName = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.HintLocationDisplayName:
+                        this.HintLocationName = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.ContainerFunctionalObjectId:
+                        this.ParentContainerId = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.Size:
+                        this.Size = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.DateCreated:
+                        this.DateCreated = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.DateModified:
+                        this.DateModified = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.DateAuthored:
+                        this.DateAuthored = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.CanDelete:
+                        this.CanDelete = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.IsSystem:
+                        this.IsSystem = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.IsHidden:
+                        this.IsHidden = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.IsDrmProtected:
+                        this.IsDRMProtected = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.ParentId:
+                        this.ParentId = PropVariant.FromValue(val);
+                        break;
+
+                    case ObjectProperties.PersistentUniqueId:
+                        this.PersistentUniqueId = PropVariant.FromValue(val);
+                        break;
+                    }
                 }
             }
         }
 
         #region Value Properties
 
-        public Guid ContentType
-        {
-            get
-            {
-                this.values.TryGetGuidValue(WPD.OBJECT_CONTENT_TYPE, out Guid value);
-                return value;
-            }
-        }
+        public string Id { get; private set; }
+        public string Name { get; private set; }
+        public string FullName { get; set; }
+        public ItemType Type { get; private set; }        
+        public Guid ContentType { get; private set; }
+        public string OriginalFileName { get; private set; }
+        public string HintLocationName { get; private set; }
+        public string ParentContainerId { get; private set; }
+        public ulong Size { get; private set; }
+        public DateTime? DateCreated { get; private set; }
+        public DateTime? DateModified { get; private set; }
+        public DateTime? DateAuthored { get; private set; }
+        public bool CanDelete { get; private set; }
+        public bool IsSystem { get; private set; }
+        public bool IsHidden { get; private set; }
+        public bool IsDRMProtected { get; private set; }
+        public string ParentId { get; private set; }
+        public string PersistentUniqueId { get; private set; }
 
-        public string name
-        {
-            get
-            {
-                this.values.TryGetStringValue(WPD.OBJECT_NAME, out string value);
-                return value;
-            }
-        }
+        public bool IsRoot { get { return this.Id == RootId; } }
 
-        // TODO ??? currently not use
-
-        /// <summary>
-        /// Gets the hint-specific name to display to the user instead of the object name, only if an object is a hint location.
-        /// </summary>
-        /// <remarks>
-        /// Drivers can specify location hints for various object types.
-        /// These are preferred storage locations for folders that hold
-        /// a particular object type. An equivalent would be the My Pictures
-        /// folder for image files in Windows. If this property does not exist,
-        /// typically the <see cref="Name"/> is used instead.
-        /// </remarks>
-        public string HintLocationName
-        {
-            get
-            {
-                this.values.TryGetStringValue(WPD.OBJECT_HINT_LOCATION_DISPLAY_NAME, out string value);
-                return value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the object ID of the closest functional object that contains this object.
-        /// </summary>
-        /// <remarks>For example, a file inside a storage functional object will have 
-        /// this property set to the ID of the storage functional object.
-        /// </remarks>
-        public string ParentContainerId
-        {
-            get
-            {
-                this.values.TryGetStringValue(WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID, out string value);
-                return value;
-            }
-        }        
-
-        public string OriginalFileName
-        {
-            get
-            {
-                this.values.TryGetStringValue(WPD.OBJECT_ORIGINAL_FILE_NAME, out string value);
-                return value;
-            }
-        }
-
-        public ulong Size
-        {
-            get
-            {
-                this.values.TryGetUnsignedLargeIntegerValue(WPD.OBJECT_SIZE, out ulong value);
-                return value;
-            }
-        }
-
-        public DateTime? DateCreated
-        {
-            get
-            {
-                this.values.TryGetDateTimeValue(WPD.OBJECT_DATE_CREATED, out DateTime? value);
-                return value;
-            }
-        }
-
-        public DateTime? DateModified
-        {
-            get
-            {
-                this.values.TryGetDateTimeValue(WPD.OBJECT_DATE_MODIFIED, out DateTime? value);
-                return value;
-            }
-        }
-
-        public DateTime? DateAuthored
-        {
-            get
-            {
-                this.values.TryGetDateTimeValue(WPD.OBJECT_DATE_AUTHORED, out DateTime? value);
-                return value;
-            }
-        }
-
-        public bool CanDelete
-        {
-            get
-            {
-                this.values.TryGetBoolValue(WPD.OBJECT_CAN_DELETE, out bool value);
-                return value;
-            }
-        }
-
-        public bool IsSystem
-        {
-            get
-            {
-                this.values.TryGetBoolValue(WPD.OBJECT_ISSYSTEM, out bool value);
-                return value;
-            }
-        }
-
-        public bool IsHidden
-        {
-            get
-            {
-                this.values.TryGetBoolValue(WPD.OBJECT_ISHIDDEN, out bool value);
-                return value;
-            }
-        }
-
-        public bool IsDRMProtected
-        {
-            get
-            {
-                this.values.TryGetBoolValue(WPD.OBJECT_IS_DRM_PROTECTED, out bool value);
-                return value;
-            }
-        }
-
-        public string ParentId
-        {
-            get
-            {
-                this.values.TryGetStringValue(WPD.OBJECT_PARENT_ID, out string value);
-                return value;
-            }
-        }
-
-        public string PersistentUniqueId
-        {
-            get
-            {
-                this.values.TryGetStringValue(WPD.OBJECT_PERSISTENT_UNIQUE_ID, out string value);
-                return value;
-            }
-        }
+        public bool IsFile { get { return this.Type == ItemType.File; } }
 
         public Item Parent
         {
@@ -370,84 +328,157 @@ namespace MediaDevices.Internal
 
         public IEnumerable<Item> GetChildren()
         {
-            this.device.deviceContent.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs objectIds);
-            if (objectIds == null) 
+            this.device.deviceContent.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
+            if (enumerator == null) 
             {
                 Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
                 yield break;
             }
 
             uint fetched = 0;
-            objectIds.Next(1, out string objectId, ref fetched);
+            var objectIds = new string[numObjectsToRequest];
+            enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
             while (fetched > 0)
             {
-                Item item = null;
-
-                try
+                for (int index = 0; index < fetched; index++)
                 {
-                    item = Item.Create(this.device, objectId, this.FullName);
-                }
-                catch (FileNotFoundException)
-                {
-                    // handle system files, that cannot be opened or read.
-                    // Windows sometimes creates a fake files in e.g. System Volume Information.
-                    // Let's handle such situations.
-                }
+                    Item item = null;
 
-                if (item != null)
-                {
-                    yield return item;
-                }
+                    try
+                    {
+                        item = Item.Create(this.device, objectIds[index], this.FullName);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        // handle system files, that cannot be opened or read.
+                        // Windows sometimes creates a fake files in e.g. System Volume Information.
+                        // Let's handle such situations.
+                    }
 
-                objectIds.Next(1, out objectId, ref fetched);
+                    if (item != null)
+                    {
+                        yield return item;
+                    }
+                }
+                enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
             }
+
+            // old version
+
+            //uint fetched = 0;
+            //enumerator.Next(1, out string objectId, ref fetched);
+            //while (fetched > 0)
+            //{
+            //    Item item = null;
+
+            //    try
+            //    {
+            //        item = Item.Create(this.device, objectId, this.FullName);
+            //    }
+            //    catch (FileNotFoundException)
+            //    {
+            //        // handle system files, that cannot be opened or read.
+            //        // Windows sometimes creates a fake files in e.g. System Volume Information.
+            //        // Let's handle such situations.
+            //    }
+
+            //    if (item != null)
+            //    {
+            //        yield return item;
+            //    }
+
+            //    enumerator.Next(1, out objectId, ref fetched);
+            //}
         }
 
         public IEnumerable<Item> GetChildren(string pattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
-            this.device.deviceContent.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs objectIds);
-            if (objectIds == null) 
+            this.device.deviceContent.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
+            if (enumerator == null) 
             {
                 Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
                 yield break; 
             }
 
             uint fetched = 0;
-            objectIds.Next(1, out string objectId, ref fetched);
+            var objectIds = new string[numObjectsToRequest];
+            enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
             while (fetched > 0)
             {
-                Item item = null;
+                for (int index = 0; index < fetched; index++)
+                {
+                    Item item = null;
 
-                try
-                {
-                    item = Item.Create(this.device, objectId, this.FullName);
-                }
-                catch (FileNotFoundException)
-                {
-                    // handle system files, that cannot be opened or read.
-                    // Windows sometimes creates a fake files in e.g. System Volume Information.
-                    // Let's handle such situations.
-                }
-
-                if (item != null)
-                {
-                    if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
+                    try
                     {
-                        yield return item;
+                        item = Item.Create(this.device, objectIds[index], this.FullName);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        // handle system files, that cannot be opened or read.
+                        // Windows sometimes creates a fake files in e.g.System Volume Information.
+                        // Let's handle such situations.
                     }
 
-                    if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
+                    if (item != null)
                     {
-                        var children = item.GetChildren(pattern, searchOption);
-                        foreach (var c in children)
+                        if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
                         {
-                            yield return c;
+                            yield return item;
+                        }
+
+                        if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
+                        {
+                            var children = item.GetChildren(pattern, searchOption);
+                            foreach (var c in children)
+                            {
+                                yield return c;
+                            }
                         }
                     }
                 }
 
-                objectIds.Next(1, out objectId, ref fetched);
+                enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
             }
+
+            // old version
+
+            //uint fetched = 0;
+            //enumerator.Next(1, out string objectId, ref fetched);
+            //while (fetched > 0)
+            //{
+            //    Item item = null;
+
+            //    try
+            //    {
+            //        item = Item.Create(this.device, objectId, this.FullName);
+            //    }
+            //    catch (FileNotFoundException)
+            //    {
+            //        // handle system files, that cannot be opened or read.
+            //        // Windows sometimes creates a fake files in e.g.System Volume Information.
+            //        // Let's handle such situations.
+            //    }
+
+            //    if (item != null)
+            //    {
+            //        if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
+            //        {
+            //            yield return item;
+            //        }
+
+            //        if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
+            //        {
+            //            var children = item.GetChildren(pattern, searchOption);
+            //            foreach (var c in children)
+            //            {
+            //                yield return c;
+            //            }
+            //        }
+            //    }
+
+            //    enumerator.Next(1, out objectId, ref fetched);
+            //}
         }
 
         internal Item CreateSubdirectory(string path)
@@ -609,7 +640,6 @@ namespace MediaDevices.Internal
             IPortableDeviceValues result;
 
             // with OBJECT_NAME does not work for Amazon Kindle Paperwhite
-            //portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, newName);
             portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, newName);
             this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out result);
             ComTrace.WriteObject(result);
@@ -621,39 +651,13 @@ namespace MediaDevices.Internal
                     // id can change on rename (e.g. Amazon Kindle Paperwhite) so find new one
                     var newItem = this.parent.GetChildren().FirstOrDefault(i => device.EqualsName(i.Name, newName));
                     this.Id = newItem.Id;
-
                     
-                    this.device.deviceProperties.GetSupportedProperties(newItem.Id, out keyCollection);
                     Refresh();
                     return true;
                 }
             }
-            //uint num = 0;
-            //result.GetCount(ref num);
-            //if (num == 1)
-            //{
-            //    PropertyKey key = new PropertyKey();
-            //    PROPVARIANT val = new PROPVARIANT();
-            //    result.GetAt(0, ref key, ref val);
-
-            //    if (key.pid == WPD.OBJECT_ID.pid && key.fmtid == WPD.OBJECT_ID.fmtid)
-            //    {
-            //        this.Id = val.ToString();
-            //    }
-            //}
-
-
-            //if (result.TryGetStringValue(WPD.OBJECT_ID, out string id))
-            //{
-            //    this.Id = id;
-            //    
-            //}
-
-            //
             return false;
-
         }
-
 
         #endregion
     }

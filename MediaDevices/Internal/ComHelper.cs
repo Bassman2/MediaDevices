@@ -10,6 +10,7 @@ namespace MediaDevices.Internal
         public static bool HasKeyValue(this IPortableDeviceValues values, PropertyKey findKey)
         {
             //using (new Profiler("HasKeyValue"))
+            try
             {
                 uint num = 0;
                 values?.GetCount(ref num);
@@ -25,8 +26,15 @@ namespace MediaDevices.Internal
                     }
 
                 }
-                return false;
+                
             }
+            catch { }
+            return false;
+        }
+
+        public static bool IsEqual(PropertyKey a, PropertyKey b)
+        {
+            return a.fmtid == b.fmtid && a.pid == b.pid;
         }
 
         public static VarType GetVarType(this IPortableDeviceValues values, PropertyKey key)

@@ -3,7 +3,7 @@ using PropertyKey = PortableDeviceApiLib._tagpropertykey;
 
 namespace MediaDevices.Internal
 {
-    internal class WPD
+    internal static class WPD
     {
 
         //

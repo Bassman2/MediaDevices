@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;COMTRACE, PROFILING</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;noCOMTRACE, noPROFILING</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -32,7 +32,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;noCOMTRACE, noPROFILING</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\MediaDevices.xml</DocumentationFile>
@@ -61,6 +61,7 @@
     <Compile Include="DeviceTransport.cs" />
     <Compile Include="DeviceType.cs" />
     <Compile Include="Enumerables.cs" />
+    <Compile Include="Internal\ObjectProperties.cs" />
     <Compile Include="Internal\PropertyKeys.cs" />
     <Compile Include="MediaDriveInfo.cs" />
     <Compile Include="Internal\ComHelper.cs" />
@@ -71,7 +72,7 @@
     <Compile Include="Events.cs" />
     <Compile Include="FunctionalCategory.cs" />
     <Compile Include="Internal\GuidAttribute.cs" />
-    <Compile Include="HResult.cs" />
+    <Compile Include="Internal\HResult.cs" />
     <Compile Include="Internal\Item.cs" />
     <Compile Include="Internal\ItemType.cs" />
     <Compile Include="Internal\KeyAttribute.cs" />

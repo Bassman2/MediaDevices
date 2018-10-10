@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MediaDevices
+namespace MediaDevices.Internal
 {
     /// <summary>
     /// Media Device HRESULTS
     /// </summary>
-    public enum HResult : uint
+    internal enum HResult : uint
     {
         /// <summary>
         /// OK

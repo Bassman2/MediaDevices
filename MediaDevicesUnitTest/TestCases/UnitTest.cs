@@ -6,6 +6,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Threading;
 using System.Text;
+using System.Diagnostics;
 
 namespace MediaDevicesUnitTest
 {
@@ -13,7 +14,7 @@ namespace MediaDevicesUnitTest
     {
         // Device Select
         protected Func<MediaDevice, bool> deviceSelect;
-        
+
         // Device Test
         protected string deviceDescription;
         protected string deviceFriendlyName;
@@ -106,7 +107,7 @@ namespace MediaDevicesUnitTest
             CollectionAssert.IsSubsetOf(supportedContents, contents, "Contents");
             CollectionAssert.AreEquivalent(functionalCategories, categories, "Categories");
         }
-        
+
         [TestMethod]
         [Description("Check content locations functionality.")]
         public void ContentLocationTest()
@@ -177,12 +178,35 @@ namespace MediaDevicesUnitTest
 
             device.Disconnect();
 
-            
+
             Assert.AreEqual(this.deviceFriendlyName, disconnectedFriendlyName, "disconnectedFriendlyName");
             Assert.AreEqual(this.deviceFriendlyName, connectedFriendlyName, "connectedFriendlyName");
             Assert.AreEqual("DUMMY", dummyFriendlyName, "dummyFriendlyName");
             Assert.AreEqual("DUMMY", disconnectedDummyFriendlyName, "disconnectedDummyFriendlyName");
             Assert.AreEqual("DUMMY", connectedDummyFriendlyName, "connectedDummyFriendlyName");
+        }
+
+        [TestMethod]
+        [Description("Speed test.")]
+        public void SpeedTest()
+        {
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
+
+            var root = device.GetRootDirectory();
+            var stopwatch = Stopwatch.StartNew();
+
+            var list = root.EnumerateFileSystemInfos("*", SearchOption.AllDirectories).ToList();
+
+            stopwatch.Stop();
+
+            device.Disconnect();
+
+            double milliseconds = ((double)stopwatch.ElapsedTicks / Stopwatch.Frequency) * 1000;
+
+            Assert.AreEqual(0.0, milliseconds, "time");
         }
     }
 }

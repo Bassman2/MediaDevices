@@ -2068,8 +2068,9 @@
                                                                                                   46 31 42 42 46 31 39 00 00 )                      // F1BBF19..
   .method public hidebysig newslot abstract virtual 
           instance void  Next([in] uint32 cObjects,
-                              [out] string&  marshal( lpwstr) pObjIDs,
-                              [in][out] uint32& pcFetched) runtime managed internalcall
+                              //[out] string&  marshal( lpwstr) pObjIDs,
+							  [out] string[] marshal( lpwstr[]) pObjIDs,
+							  [in][out] uint32& pcFetched) runtime managed internalcall
   {
   } // end of method IEnumPortableDeviceObjectIDs::Next
 

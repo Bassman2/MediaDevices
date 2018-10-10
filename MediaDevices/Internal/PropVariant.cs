@@ -88,6 +88,11 @@ namespace MediaDevices.Internal
             return (int)this.intValue;
         }
 
+        public ulong ToUlong()
+        {
+            return (ulong)this.longValue;
+        }
+
         public Byte[] ToByteArray()
         {
             // TODO
@@ -175,6 +180,11 @@ namespace MediaDevices.Internal
         public static implicit operator int(PropVariant val)
         {
             return val.ToInt();
+        }
+
+        public static implicit operator ulong(PropVariant val)
+        {
+            return val.ToUlong();
         }
 
         public static implicit operator Byte[](PropVariant val)
