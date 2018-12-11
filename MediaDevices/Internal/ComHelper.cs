@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 using PropertyKey = PortableDeviceApiLib._tagpropertykey;
 using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
@@ -9,26 +10,28 @@ namespace MediaDevices.Internal
     {
         public static bool HasKeyValue(this IPortableDeviceValues values, PropertyKey findKey)
         {
-            //using (new Profiler("HasKeyValue"))
-            try
+            uint num = 0;
+            values?.GetCount(ref num);
+            for (uint i = 0; i < num; i++)
             {
-                uint num = 0;
-                values?.GetCount(ref num);
-                for (uint i = 0; i < num; i++)
+                PropertyKey key = new PropertyKey();
+                PROPVARIANT val = new PROPVARIANT();
+                try
                 {
-                    PropertyKey key = new PropertyKey();
-                    PROPVARIANT val = new PROPVARIANT();
                     values.GetAt(i, ref key, ref val);
                     if (key.fmtid == findKey.fmtid && key.pid == findKey.pid)
                     {
                         PropVariant pval = val;
                         return pval.variantType != VarType.VT_ERROR;
                     }
-
                 }
-                
+                finally
+                {
+                    NativeMethods.PropVariantClear(ref val);
+                }
+
             }
-            catch { }
+            
             return false;
         }
 
@@ -160,6 +163,14 @@ namespace MediaDevices.Internal
             }
             value = null;
             return false;
+        }
+
+        private static class NativeMethods
+        {
+            // http://www.pinvoke.net/default.aspx/iprop/PropVariantClear.html
+            // https://social.msdn.microsoft.com/Forums/windowsserver/en-US/ec242718-8738-4468-ae9d-9734113d2dea/quotipropdllquot-seems-to-be-missing-in-windows-server-2008-and-x64-systems?forum=winserver2008appcompatabilityandcertification
+            [DllImport("ole32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+            static extern public int PropVariantClear(ref PROPVARIANT val);
         }
     }
 }
