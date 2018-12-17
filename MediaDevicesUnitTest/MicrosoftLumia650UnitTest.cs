@@ -13,6 +13,9 @@ namespace MediaDevicesUnitTest
     {
         public MicrosoftLumia650UnitTest()
         {
+            // Find function
+            this.deviceSelect = d => d.Description == this.deviceDescription;
+            
             // Device Test
             this.deviceDescription = "Lumia 650 Dual SIM";
             this.deviceFriendlyName = "Ralf Phone";
@@ -23,6 +26,7 @@ namespace MediaDevicesUnitTest
             this.deviceDeviceType = DeviceType.Phone;
             this.deviceTransport = DeviceTransport.USB;
             this.devicePowerSource = PowerSource.Battery;
+            this.deviceProtocol = "MTP: 1.00";
 
             // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };

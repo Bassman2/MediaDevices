@@ -10,6 +10,9 @@ namespace MediaDevicesUnitTest
     {
         public AppleiPhoneS3UnitTest()
         {
+            // Find function
+            this.deviceSelect = d => d.Description == this.deviceDescription;
+
             // Device Test
             this.deviceDescription = "Apple iPhone";
             this.deviceFriendlyName = "iPhone von Egon";
@@ -20,16 +23,22 @@ namespace MediaDevicesUnitTest
             this.deviceDeviceType = DeviceType.Camera;
             this.deviceTransport = DeviceTransport.USB;
             this.devicePowerSource = PowerSource.Battery;
+            this.deviceProtocol = "PTP: 1.10";
 
             // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image };
+            this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage };
 
             // ContentLocation Test
             this.contentLocations = new List<string> { };
 
-
+            // PersistentUniqueId
+            this.FolderPersistentUniqueId = "{00430045-0049-004D-0100-010000000000}";
+            this.FolderPersistentUniqueIdPath = @"\Internal Storage\DCIM";
+            this.FilePersistentUniqueId = "{00070064-0015-0018-3100-3100D6213600}";
+            this.FilePersistentUniqueIdPath = @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";
 
             // Exists Test
             this.existingFile = @"Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
 using PortableDeviceApiLib;
 using PortableDeviceTypesLib;
@@ -10,7 +7,6 @@ using PropertyKey = PortableDeviceApiLib._tagpropertykey;
 using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
-using System.Runtime.InteropServices;
 
 namespace MediaDevices.Internal
 {

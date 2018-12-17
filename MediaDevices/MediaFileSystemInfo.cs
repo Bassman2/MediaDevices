@@ -1,10 +1,6 @@
 ﻿using MediaDevices.Internal;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaDevices
 {
@@ -33,7 +29,7 @@ namespace MediaDevices
         /// <summary>
         /// Refreshes the state of the object.
         /// </summary>
-        public virtual void Refresh()
+        public void Refresh()
         {
             this.item.Refresh();
         }

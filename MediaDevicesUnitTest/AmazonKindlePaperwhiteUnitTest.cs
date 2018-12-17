@@ -10,16 +10,20 @@ namespace MediaDevicesUnitTest
     {
         public AmazonKindlePaperwhiteUnitTest()
         {
+            // Find function
+            this.deviceSelect = d => d.Manufacturer == this.deviceManufacture;
+            
             // Device Test
             this.deviceDescription = "Internal Storage";
             this.deviceFriendlyName = "KINDLE";
             this.deviceManufacture = "Kindle  ";
             this.deviceFirmwareVersion = "0100";
             this.deviceModel = "Internal Storage";
-            this.deviceSerialNumber = "";
+            this.deviceSerialNumber = "G090G10573570BNQ";
             this.deviceDeviceType = DeviceType.Generic;
             this.deviceTransport = DeviceTransport.Unspecified;
             this.devicePowerSource = PowerSource.External;
+            this.deviceProtocol = "MSC:";
 
             // Capability Test
             this.supportedEvents = new List<Events> { Events.ObjectAdded, Events.ObjectRemoved, Events.ObjectUpdated };
@@ -34,13 +38,13 @@ namespace MediaDevicesUnitTest
             this.contentLocations = new List<string> ();
 
             // PersistentUniqueId
-            this.FolderPersistentUniqueId = "E%3B%5Csystem%5Cstartactions";
-            this.FolderPersistentUniqueIdPath = @"\E:\system\startactions";
-            this.FilePersistentUniqueId = "E%3B%5Csystem%5Cversion.txt";
-            this.FilePersistentUniqueIdPath = @"\E:\system\version.txt";
+            this.FolderPersistentUniqueId = "L%3B%5Csystem%5Cstartactions";
+            this.FolderPersistentUniqueIdPath = @"\L:\system\startactions";
+            this.FilePersistentUniqueId = "L%3B%5Csystem%5Cversion.txt";
+            this.FilePersistentUniqueIdPath = @"\L:\system\version.txt";
 
             // Writable Tests
-            this.workingFolder = @"\E:\documents";
+            this.workingFolder = @"\L:\documents";
 
 
             // Exists Test

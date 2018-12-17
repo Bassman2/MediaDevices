@@ -11,13 +11,13 @@ namespace MediaDevices
         internal MediaFileInfo(MediaDevice device, Item item) : base(device, item)
         { }
 
-        /// <summary>
-        /// Refreshes the state of the object.
-        /// </summary>
-        public override void Refresh()
-        {
-            base.Refresh();
-        }
+        ///// <summary>
+        ///// Refreshes the state of the object.
+        ///// </summary>
+        //public override void Refresh()
+        //{
+        //    base.Refresh();
+        //}
 
         /// <summary>
         /// Gets an instance of the parent directory.

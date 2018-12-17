@@ -12,6 +12,7 @@ using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevic
 using PropertyKey = PortableDeviceApiLib._tagpropertykey;
 using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 using System.Text;
+using System.Threading;
 
 namespace MediaDevices.Internal
 {
@@ -20,6 +21,7 @@ namespace MediaDevices.Internal
     internal class Item
     {
         private static IPortableDeviceKeyCollection keyCollection;
+        private static string[] objectIds = new string[numObjectsToRequest * 2];
 
         static Item()
         {
@@ -335,9 +337,18 @@ namespace MediaDevices.Internal
                 yield break;
             }
 
+#if OPTLOOP
             uint fetched = 0;
-            var objectIds = new string[numObjectsToRequest];
-            enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+            //var objectIds = new string[numObjectsToRequest * 2];
+            try
+            {
+                enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+                throw;
+            }
             while (fetched > 0)
             {
                 for (int index = 0; index < fetched; index++)
@@ -360,35 +371,46 @@ namespace MediaDevices.Internal
                         yield return item;
                     }
                 }
-                enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+                try
+                {
+                    enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceError(ex.ToString());
+                    throw;
+                }
             }
+#else
+
 
             // old version
 
-            //uint fetched = 0;
-            //enumerator.Next(1, out string objectId, ref fetched);
-            //while (fetched > 0)
-            //{
-            //    Item item = null;
+            uint fetched = 0;
+            enumerator.Next(1, out string objectId, ref fetched);
+            while (fetched > 0)
+            {
+                Item item = null;
 
-            //    try
-            //    {
-            //        item = Item.Create(this.device, objectId, this.FullName);
-            //    }
-            //    catch (FileNotFoundException)
-            //    {
-            //        // handle system files, that cannot be opened or read.
-            //        // Windows sometimes creates a fake files in e.g. System Volume Information.
-            //        // Let's handle such situations.
-            //    }
+                try
+                {
+                    item = Item.Create(this.device, objectId, this.FullName);
+                }
+                catch (FileNotFoundException)
+                {
+                    // handle system files, that cannot be opened or read.
+                    // Windows sometimes creates a fake files in e.g. System Volume Information.
+                    // Let's handle such situations.
+                }
 
-            //    if (item != null)
-            //    {
-            //        yield return item;
-            //    }
+                if (item != null)
+                {
+                    yield return item;
+                }
 
-            //    enumerator.Next(1, out objectId, ref fetched);
-            //}
+                enumerator.Next(1, out objectId, ref fetched);
+            }
+#endif
         }
 
         public IEnumerable<Item> GetChildren(string pattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
@@ -400,9 +422,18 @@ namespace MediaDevices.Internal
                 yield break; 
             }
 
+#if OPTLOOP
             uint fetched = 0;
-            var objectIds = new string[numObjectsToRequest];
-            enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+            //var objectIds = new string[numObjectsToRequest * 2];
+            try
+            { 
+                enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+                throw;
+            }
             while (fetched > 0)
             {
                 for (int index = 0; index < fetched; index++)
@@ -438,47 +469,56 @@ namespace MediaDevices.Internal
                     }
                 }
 
-                enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+                try
+                {
+                    enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceError(ex.ToString());
+                    throw;
+                }
             }
-
+#else
             // old version
 
-            //uint fetched = 0;
-            //enumerator.Next(1, out string objectId, ref fetched);
-            //while (fetched > 0)
-            //{
-            //    Item item = null;
+            uint fetched = 0;
+            enumerator.Next(1, out string objectId, ref fetched);
+            while (fetched > 0)
+            {
+                Item item = null;
 
-            //    try
-            //    {
-            //        item = Item.Create(this.device, objectId, this.FullName);
-            //    }
-            //    catch (FileNotFoundException)
-            //    {
-            //        // handle system files, that cannot be opened or read.
-            //        // Windows sometimes creates a fake files in e.g.System Volume Information.
-            //        // Let's handle such situations.
-            //    }
+                try
+                {
+                    item = Item.Create(this.device, objectId, this.FullName);
+                }
+                catch (FileNotFoundException)
+                {
+                    // handle system files, that cannot be opened or read.
+                    // Windows sometimes creates a fake files in e.g.System Volume Information.
+                    // Let's handle such situations.
+                }
 
-            //    if (item != null)
-            //    {
-            //        if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
-            //        {
-            //            yield return item;
-            //        }
+                if (item != null)
+                {
+                    if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
+                    {
+                        yield return item;
+                    }
 
-            //        if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
-            //        {
-            //            var children = item.GetChildren(pattern, searchOption);
-            //            foreach (var c in children)
-            //            {
-            //                yield return c;
-            //            }
-            //        }
-            //    }
+                    if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
+                    {
+                        var children = item.GetChildren(pattern, searchOption);
+                        foreach (var c in children)
+                        {
+                            yield return c;
+                        }
+                    }
+                }
 
-            //    enumerator.Next(1, out objectId, ref fetched);
-            //}
+                enumerator.Next(1, out objectId, ref fetched);
+            }
+#endif
         }
 
         internal Item CreateSubdirectory(string path)
@@ -659,6 +699,6 @@ namespace MediaDevices.Internal
             return false;
         }
 
-        #endregion
+#endregion
     }
 }
