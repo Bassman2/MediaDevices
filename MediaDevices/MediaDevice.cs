@@ -2112,7 +2112,7 @@ namespace MediaDevices
                 return null;
             }
 
-            StringBuilder s = new StringBuilder(Path.GetFileName(filter));
+            StringBuilder s = new StringBuilder(filter);
             s.Replace(".", @"\.");
             s.Replace("+", @"\+");
             s.Replace("$", @"\$");
