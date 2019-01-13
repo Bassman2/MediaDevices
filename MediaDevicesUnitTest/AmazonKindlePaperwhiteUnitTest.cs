@@ -10,9 +10,6 @@ namespace MediaDevicesUnitTest
     {
         public AmazonKindlePaperwhiteUnitTest()
         {
-            // Find function
-            this.deviceSelect = d => d.Manufacturer == this.deviceManufacture;
-            
             // Device Test
             this.deviceDescription = "Internal Storage";
             this.deviceFriendlyName = "KINDLE";

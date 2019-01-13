@@ -19,23 +19,27 @@ namespace MediaDevicesUnitTest
         protected string infoDirectoryPath;
         protected DateTime? infoDirectoryCreationTime;
         protected DateTime? infoDirectoryLastWriteTime;
+        protected DateTime? infoDirectoryAuthoredTime;
 
         // object and root is parent
         protected string infoDirectoryParentName;
         protected string infoDirectoryParentPath;
         protected DateTime? infoDirectoryParentCreationTime;
         protected DateTime? infoDirectoryParentLastWriteTime;
+        protected DateTime? infoDirectoryParentAuthoredTime;
 
         protected string infoFileName;
         protected string infoFilePath;
         protected ulong infoFileLength;
         protected DateTime? infoFileCreationTime;
         protected DateTime? infoFileLastWriteTime;
+        protected DateTime? infoFileAuthoredTime;
 
         protected string infoFileParentName;
         protected string infoFileParentPath;
         protected DateTime? infoFileParentCreationTime;
         protected DateTime? infoFileParentLastWriteTime;
+        protected DateTime? infoFileParentAuthoredTime;
 
         protected string enumDirectory;
         protected string enumFolderMask;
@@ -123,39 +127,15 @@ namespace MediaDevicesUnitTest
             Assert.IsNotNull(device, "Device");
             device.Connect();
 
-            var obj = device.GetFileInfo(this.infoDirectoryParentPath);
-            var folder = device.GetFileInfo(this.infoDirectoryPath);
             var file = device.GetFileInfo(this.infoFilePath);
             var parent = file.Directory;
-
-            Assert.AreEqual(this.infoDirectoryParentName, obj.Name, "obj Name");
-            Assert.AreEqual(this.infoDirectoryParentPath, obj.FullName, "obj FullName");
-            Assert.AreEqual(0ul, obj.Length, "obj Length");
-            Assert.AreEqual(null, obj.CreationTime, "obj CreationTime");
-            Assert.AreEqual(null, obj.LastWriteTime, "obj LastWriteTime");
-            Assert.AreEqual(null, obj.DateAuthored, "obj DateAuthored");
-            Assert.IsTrue(obj.Attributes.HasFlag(MediaFileAttributes.Object), "obj Object");
-            Assert.IsFalse(obj.Attributes.HasFlag(MediaFileAttributes.Hidden), "obj Hidden");
-            Assert.IsFalse(obj.Attributes.HasFlag(MediaFileAttributes.System), "obj System");
-            Assert.IsFalse(obj.Attributes.HasFlag(MediaFileAttributes.DRMProtected), "obj DRMProtected");
-
-            Assert.AreEqual(this.infoDirectoryName, folder.Name, "folder Name");
-            Assert.AreEqual(this.infoDirectoryPath, folder.FullName, "folder FullName");
-            Assert.AreEqual(0ul, folder.Length, "folder Length");
-            Assert.AreEqual(this.infoDirectoryCreationTime, folder.CreationTime, "folder CreationTime");
-            Assert.AreEqual(this.infoDirectoryLastWriteTime, folder.LastWriteTime, "folder LastWriteTime");
-            Assert.AreEqual(null, folder.DateAuthored, "folder DateAuthored");
-            Assert.IsTrue(folder.Attributes.HasFlag(MediaFileAttributes.Directory), "folder Directory");
-            Assert.IsFalse(folder.Attributes.HasFlag(MediaFileAttributes.Hidden), "folder Hidden");
-            Assert.IsFalse(folder.Attributes.HasFlag(MediaFileAttributes.System), "folder System");
-            Assert.IsFalse(folder.Attributes.HasFlag(MediaFileAttributes.DRMProtected), "folder DRMProtected");
 
             Assert.AreEqual(this.infoFileName, file.Name, "file Name");
             Assert.AreEqual(this.infoFilePath, file.FullName, "file FullName");
             Assert.AreEqual(this.infoFileLength, file.Length, "file Length");
             Assert.AreEqual(this.infoFileCreationTime, file.CreationTime, "file CreationTime");
             Assert.AreEqual(this.infoFileLastWriteTime, file.LastWriteTime, "file LastWriteTime");
-            Assert.AreEqual(null, file.DateAuthored, "file DateAuthored");
+            Assert.AreEqual(this.infoFileAuthoredTime, file.DateAuthored, "file DateAuthored");
             Assert.IsTrue(file.Attributes.HasFlag(MediaFileAttributes.Normal), "file Normal");
             Assert.IsFalse(file.Attributes.HasFlag(MediaFileAttributes.Hidden), "file Hidden");
             Assert.IsFalse(file.Attributes.HasFlag(MediaFileAttributes.System), "file System");
@@ -166,7 +146,7 @@ namespace MediaDevicesUnitTest
             Assert.AreEqual(0ul, parent.Length, "parent Length");
             Assert.AreEqual(this.infoFileParentCreationTime, parent.CreationTime, "parent CreationTime");
             Assert.AreEqual(this.infoFileParentLastWriteTime, parent.LastWriteTime, "parent LastWriteTime");
-            Assert.AreEqual(null, parent.DateAuthored, "parent DateAuthored");
+            Assert.AreEqual(this.infoFileParentAuthoredTime, parent.DateAuthored, "parent DateAuthored");
             Assert.IsTrue(parent.Attributes.HasFlag(MediaFileAttributes.Directory), "parent Directory");
             Assert.IsFalse(parent.Attributes.HasFlag(MediaFileAttributes.Hidden), "parent Hidden");
             Assert.IsFalse(parent.Attributes.HasFlag(MediaFileAttributes.System), "parent System");
@@ -204,7 +184,7 @@ namespace MediaDevicesUnitTest
             Assert.AreEqual(0ul, dir.Length, "dir Length");
             Assert.AreEqual(this.infoDirectoryCreationTime, dir.CreationTime, "dir CreationTime");
             Assert.AreEqual(this.infoDirectoryLastWriteTime, dir.LastWriteTime, "dir LastWriteTime");
-            Assert.AreEqual(null, dir.DateAuthored, "dir DateAuthored");
+            Assert.AreEqual(this.infoDirectoryAuthoredTime, dir.DateAuthored, "dir DateAuthored");
             Assert.IsTrue(dir.Attributes.HasFlag(MediaFileAttributes.Directory), "dir Directory");
             Assert.IsFalse(dir.Attributes.HasFlag(MediaFileAttributes.Hidden), "dir Hidden");
             Assert.IsFalse(dir.Attributes.HasFlag(MediaFileAttributes.System), "dir System");
@@ -215,7 +195,7 @@ namespace MediaDevicesUnitTest
             Assert.AreEqual(0ul, parent.Length, "parent Length");
             Assert.AreEqual(this.infoDirectoryParentCreationTime, parent.CreationTime, "parent CreationTime");
             Assert.AreEqual(this.infoDirectoryParentLastWriteTime, parent.LastWriteTime, "parent LastWriteTime");
-            Assert.AreEqual(null, parent.DateAuthored, "parent DateAuthored");
+            Assert.AreEqual(this.infoDirectoryParentAuthoredTime, parent.DateAuthored, "parent DateAuthored");
             Assert.IsTrue(parent.Attributes.HasFlag(MediaFileAttributes.Object), "parent Object");
             Assert.IsFalse(parent.Attributes.HasFlag(MediaFileAttributes.Hidden), "parent Hidden");
             Assert.IsFalse(parent.Attributes.HasFlag(MediaFileAttributes.System), "parent System");

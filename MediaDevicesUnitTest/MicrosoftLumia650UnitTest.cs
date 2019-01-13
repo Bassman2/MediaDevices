@@ -13,9 +13,9 @@ namespace MediaDevicesUnitTest
     {
         public MicrosoftLumia650UnitTest()
         {
-            // Find function
-            this.deviceSelect = d => d.Description == this.deviceDescription;
-            
+            // Device Select
+            this.deviceSelect = device => device.Description == this.deviceDescription;
+
             // Device Test
             this.deviceDescription = "Lumia 650 Dual SIM";
             this.deviceFriendlyName = "Ralf Phone";

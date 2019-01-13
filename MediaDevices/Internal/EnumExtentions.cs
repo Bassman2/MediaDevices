@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Diagnostics;
-using PortableDeviceApiLib;
-using PropertyKey = PortableDeviceApiLib._tagpropertykey;
-using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 
 namespace MediaDevices.Internal
 {
@@ -14,7 +11,7 @@ namespace MediaDevices.Internal
         public static Guid Guid(this Enum e)
         {
             FieldInfo fi = e.GetType().GetField(e.ToString());
-            GuidAttribute attribute = fi.GetCustomAttribute<GuidAttribute>();
+            EnumGuidAttribute attribute = fi.GetCustomAttribute<EnumGuidAttribute>();
             return attribute.Guid;
         }
 
@@ -36,9 +33,9 @@ namespace MediaDevices.Internal
             col.GetCount(ref count);
             for (uint i = 0; i < count; i++)
             {
-                PROPVARIANT val = new PROPVARIANT();
-                col.GetAt(i, ref val);
-                yield return GetEnumFromAttrGuid<TEnum>(PropVariant.FromValue(val));
+                PropVariantFacade val = new PropVariantFacade();
+                col.GetAt(i, ref val.Value);
+                yield return GetEnumFromAttrGuid<TEnum>(val.ToGuid());
             }
         }
 
@@ -61,7 +58,7 @@ namespace MediaDevices.Internal
         {
             T en = Enum.GetValues(typeof(T)).Cast<T>().Where(e =>
             {
-                return e.GetType().GetField(e.ToString()).GetCustomAttribute<GuidAttribute>().Guid == guid;
+                return e.GetType().GetField(e.ToString()).GetCustomAttribute<EnumGuidAttribute>().Guid == guid;
             }).FirstOrDefault();
             if (en.Equals(default(T)))
             {
@@ -76,9 +73,11 @@ namespace MediaDevices.Internal
             col.GetCount(ref count);
             for (uint i = 0; i < count; i++)
             {
-                PROPVARIANT val = new PROPVARIANT();
-                col.GetAt(i, ref val);
-                yield return PropVariant.FromValue(val);
+                using (PropVariantFacade val = new PropVariantFacade())
+                {
+                    col.GetAt(i, ref val.Value);
+                    yield return val.ToGuid();
+                }
             }
         }
 
@@ -88,9 +87,11 @@ namespace MediaDevices.Internal
             col.GetCount(ref count);
             for (uint i = 0; i < count; i++)
             {
-                PROPVARIANT val = new PROPVARIANT();
-                col.GetAt(i, ref val);
-                yield return PropVariant.FromValue(val);
+                using (PropVariantFacade val = new PropVariantFacade())
+                {
+                    col.GetAt(i, ref val.Value);
+                    yield return val.ToString();
+                }
             }
         }
     }

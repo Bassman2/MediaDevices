@@ -1,5 +1,4 @@
 using System;
-using PropertyKey = PortableDeviceApiLib._tagpropertykey;
 
 namespace MediaDevices.Internal
 {

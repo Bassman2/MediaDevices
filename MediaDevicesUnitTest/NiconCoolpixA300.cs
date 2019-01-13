@@ -20,6 +20,7 @@ namespace MediaDevicesUnitTest
             this.deviceDeviceType = DeviceType.Camera;
             this.deviceTransport = DeviceTransport.USB;
             this.devicePowerSource = PowerSource.Battery;
+            this.deviceProtocol = "MTP: 1.00";
 
             // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
@@ -31,36 +32,43 @@ namespace MediaDevicesUnitTest
             this.contentLocations = new List<string> { };
 
             // PersistentUniqueId
-            this.FilePersistentUniqueId = "{00000003-0000-0000-0000-000000000000}";
-            this.FilePersistentUniqueIdPath = @"\A300\DCIM\100NIKON";
+            this.FolderPersistentUniqueId = "{00000003-0000-0000-0000-000000000000}";
+            this.FolderPersistentUniqueIdPath = @"\A300\DCIM\100NIKON";
+            this.FilePersistentUniqueId = "{00000004-0000-0000-0000-000000000000}";
+            this.FilePersistentUniqueIdPath = @"\A300\DCIM\100NIKON\DSCN0005.JPG";
 
             // Exists Test
-            this.existingFile = @"Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";
+            this.existingFile = @"\A300\DCIM\100NIKON\DSCN0005.JPG";
 
 
-
+            // Directory Info Test
             this.infoDirectoryName = "DCIM";
-            this.infoDirectoryPath = @"\Internal Storage\DCIM";
-            this.infoDirectoryCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
-            this.infoDirectoryLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
+            this.infoDirectoryPath = @"\A300\DCIM";
+            this.infoDirectoryCreationTime = new DateTime(0001, 1, 1, 0, 0, 0);
+            this.infoDirectoryLastWriteTime = new DateTime(0001, 1, 1, 0, 0, 0);
+            this.infoDirectoryAuthoredTime = new DateTime(0001, 1, 1, 0, 0, 0);
 
-            this.infoDirectoryParentName = "Internal Storage";
-            this.infoDirectoryParentPath = @"\Internal Storage";
-            this.infoDirectoryParentCreationTime = null;
-            this.infoDirectoryParentLastWriteTime = null;
+            this.infoDirectoryParentName = "A300";
+            this.infoDirectoryParentPath = @"\A300";
+            this.infoDirectoryParentCreationTime = new DateTime(0001, 1, 1, 0, 0, 0);
+            this.infoDirectoryParentLastWriteTime = new DateTime(0001, 1, 1, 0, 0, 0);
+            this.infoDirectoryParentAuthoredTime = new DateTime(0001, 1, 1, 0, 0, 0);
 
-            this.infoFileName = "IMG_0001.JPG";
-            this.infoFilePath = @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";
-            this.infoFileLength = 467430ul;
-            this.infoFileCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
-            this.infoFileLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
+            // File InfoTest
+            this.infoFileName = "DSCN0005.JPG";
+            this.infoFilePath = @"\A300\DCIM\100NIKON\DSCN0005.JPG";
+            this.infoFileLength = 4784013ul;
+            this.infoFileCreationTime = new DateTime(2017, 11, 15, 20, 55, 54); 
+            this.infoFileLastWriteTime = new DateTime(2017, 11, 15, 20, 55, 54);
+            this.infoFileAuthoredTime = new DateTime(0001, 1, 1, 0, 0, 0);
 
-            this.infoFileParentName = "800AAAAA";
-            this.infoFileParentPath = @"\Internal Storage\DCIM\800AAAAA";
-            this.infoFileParentCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
-            this.infoFileParentLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
+            this.infoFileParentName = "100NIKON";
+            this.infoFileParentPath = @"\A300\DCIM\100NIKON";
+            this.infoFileParentCreationTime = new DateTime(0001, 1, 1, 0, 0, 0);
+            this.infoFileParentLastWriteTime = new DateTime(0001, 1, 1, 0, 0, 0);
+            this.infoFileParentAuthoredTime = new DateTime(0001, 1, 1, 0, 0, 0);
 
-            this.enumDirectory = @"\Internal Storage\DCIM\800AAAAA";
+            this.enumDirectory = @"\A300\DCIM\100NIKON";
             this.enumFolderMask = "*";
             this.enumFilesmask = "*_0002*";
             this.enumItemMask = "*_0003*";
@@ -68,13 +76,13 @@ namespace MediaDevicesUnitTest
             this.enumAllFolders = new List<string> { };
             this.enumMaskFolders = new List<string> { };
 
-            this.enumAllFiles = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
-            this.enumMaskFiles = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
-            this.enumMaskRecursiveFiles = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
+            this.enumAllFiles = new List<string> { @"\A300\DCIM\100NIKON\DSCN0005.JPG", @"\A300\DCIM\100NIKON\DSCN0006.JPG", @"\A300\DCIM\100NIKON\DSCN0007.JPG" };
+            this.enumMaskFiles = new List<string> { @"\A300\DCIM\100NIKON\DSCN0005.JPG" };
+            this.enumMaskRecursiveFiles = new List<string> { @"\A300\DCIM\100NIKON\DSCN0005.JPG" };
 
-            this.enumAllItems = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
-            this.enumMaskItems = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
-            this.enumMaskRecursiveItems = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
+            this.enumAllItems = new List<string> { @"\A300\DCIM\100NIKON\DSCN0005.JPG", @"\A300\DCIM\100NIKON\DSCN0006.JPG", @"\A300\DCIM\100NIKON\DSCN0007.JPG" };
+            this.enumMaskItems = new List<string> { @"\A300\DCIM\100NIKON\DSCN0005.JPG" };
+            this.enumMaskRecursiveItems = new List<string> { @"\A300\DCIM\100NIKON\DSCN0005.JPG" };
         }
     }
 }

@@ -2,13 +2,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.ExceptionServices;
-using System.Security;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MediaDevicesUnitTest
 {
@@ -207,22 +205,15 @@ namespace MediaDevicesUnitTest
 
         [TestMethod]
         [Description("Download a file to the target.")]
-        [HandleProcessCorruptedStateExceptions]
-        [SecurityCritical]
         public void DownloadTreeTest()
         {
-            try
-            {
-                string sourceFolder = Path.GetFullPath(@".\..\..\..\TestData\UploadTree");
-                string destFolder = Path.Combine(this.workingFolder, "UploadTree");
-                string downloadFolder = Path.GetFullPath(@".\..\..\..\TestData\DownloadTree");
-
-
                 var devices = MediaDevice.GetDevices();
                 var device = devices.FirstOrDefault(this.deviceSelect);
                 Assert.IsNotNull(device, "Device");
                 device.Connect();
 
+            string sourceFolder = Path.GetFullPath(@".\..\..\..\TestData\UploadTree");
+            string destFolder = Path.Combine(this.workingFolder, "UploadTree");
                 
                 var exists1 = device.DirectoryExists(destFolder);
                 if (exists1)
@@ -230,37 +221,26 @@ namespace MediaDevicesUnitTest
                     device.DeleteDirectory(destFolder, true);
                 }
                 
+
                 device.UploadFolder(sourceFolder, destFolder);
 
+            string downloadFolder = Path.GetFullPath(@".\..\..\..\TestData\DownloadTree");
 
                 if (Directory.Exists(downloadFolder))
                 {
-                    try
-                    {
                         Directory.Delete(downloadFolder, true);
                     }
-                    catch (Exception ex)
-                    {
-                        TestContext.WriteLine(ex.ToString());
-                    }
-                }
 
                 device.DownloadFolder(destFolder, downloadFolder);
 
                 device.Disconnect();
 
                 //Assert.IsTrue(File.Exists(tempFile), "Exists");
-            }
-            catch (Exception ex)
-            {
-                TestContext.WriteLine(ex.ToString());
-            }
+
         }
 
         [TestMethod]
         [Description("Rename a file.")]
-        [HandleProcessCorruptedStateExceptions]
-        [SecurityCritical]
         public void RenameFileTest()
         {
             var devices = MediaDevice.GetDevices();
@@ -304,14 +284,8 @@ namespace MediaDevicesUnitTest
 
         [TestMethod]
         [Description("Rename a folder.")]
-        [HandleProcessCorruptedStateExceptions]
-        [SecurityCritical]
         public void RenameFolderTest()
         {
-            try
-            {
-                TestContext.WriteLine(">>>>>RenameFolderTest<<<<<");
-
                 var devices = MediaDevice.GetDevices();
                 var device = devices.FirstOrDefault(this.deviceSelect);
                 Assert.IsNotNull(device, "Device");
@@ -350,11 +324,6 @@ namespace MediaDevicesUnitTest
                 Assert.IsTrue(exists2, "exists2");
                 Assert.IsFalse(exists3, "exists3");
             }
-            catch (Exception ex)
-            {
-                TestContext.WriteLine(ex.ToString());
-            }
-        }
 
         //[TestMethod]
         //[Description("Roma Test")]
@@ -381,12 +350,8 @@ namespace MediaDevicesUnitTest
 
         [TestMethod]
         [Description("Writable PersistentUniqueId Test")]
-        [HandleProcessCorruptedStateExceptions]
-        [SecurityCritical]
         public void WritablePersistentUniqueIdTest()
         {
-            try
-            {
                 var devices = MediaDevice.GetDevices();
                 var device = devices.FirstOrDefault(this.deviceSelect);
                 Assert.IsNotNull(device, "Device");
@@ -416,11 +381,6 @@ namespace MediaDevicesUnitTest
 
                 Assert.AreEqual("test", text, "text");
             }
-            catch (Exception ex)
-            {
-                TestContext.WriteLine(ex.ToString());
-            }
-        }
 
 
     }

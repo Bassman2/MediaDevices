@@ -1,7 +1,6 @@
 ﻿using System;
-using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
-using PropertyKey = PortableDeviceApiLib._tagpropertykey;
-using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
+using System.Runtime.InteropServices;
+
 
 namespace MediaDevices.Internal
 {
@@ -9,26 +8,22 @@ namespace MediaDevices.Internal
     {
         public static bool HasKeyValue(this IPortableDeviceValues values, PropertyKey findKey)
         {
-            //using (new Profiler("HasKeyValue"))
-            try
+            uint num = 0;
+            values?.GetCount(ref num);
+            for (uint i = 0; i < num; i++)
             {
-                uint num = 0;
-                values?.GetCount(ref num);
-                for (uint i = 0; i < num; i++)
+                PropertyKey key = new PropertyKey();
+                using (PropVariantFacade val = new PropVariantFacade())
                 {
-                    PropertyKey key = new PropertyKey();
-                    PROPVARIANT val = new PROPVARIANT();
-                    values.GetAt(i, ref key, ref val);
+                    values.GetAt(i, ref key, ref val.Value);
                     if (key.fmtid == findKey.fmtid && key.pid == findKey.pid)
                     {
-                        PropVariant pval = val;
-                        return pval.variantType != VarType.VT_ERROR;
+                        
+                        return val.VariantType != PropVariantType.VT_ERROR;
                     }
-
                 }
-                
             }
-            catch { }
+            
             return false;
         }
 
@@ -37,23 +32,25 @@ namespace MediaDevices.Internal
             return a.fmtid == b.fmtid && a.pid == b.pid;
         }
 
-        public static VarType GetVarType(this IPortableDeviceValues values, PropertyKey key)
+        public static PropVariantType GetVarType(this IPortableDeviceValues values, PropertyKey key)
         {
-            PROPVARIANT val;
-            values.GetValue(key, out val);
-            return ((PropVariant)val).variantType;
+            using (PropVariantFacade val = new PropVariantFacade())
+            {
+                values.GetValue(ref key, out val.Value);
+                return val.VariantType;
+            }
         }
 
-        internal static bool TryGetValue(this IPortableDeviceValues values, PropertyKey key, out PropVariant value)
+        internal static bool TryGetValue(this IPortableDeviceValues values, PropertyKey key, out PropVariantFacade value)
         {
             if (values.HasKeyValue(key))
             {
-                PROPVARIANT val;
-                values.GetValue(key, out val);
-                value = (PropVariant)val;
+                PropVariantFacade val = new PropVariantFacade();
+                values.GetValue(ref key, out val.Value);
+                value = val;
                 return true;
             }
-            value = new PropVariant();
+            value = null;
             return false;
         }
 
@@ -61,9 +58,11 @@ namespace MediaDevices.Internal
         {
             if (values.HasKeyValue(key))
             {
-                PROPVARIANT val;
-                values.GetValue(key, out val);
-                value = ((PropVariant)val).ToDate(); 
+                using (PropVariantFacade val = new PropVariantFacade())
+                {
+                    values.GetValue(ref key, out val.Value);
+                    value = val.ToDate();
+                }
                 return true;
             }
             value = null;
@@ -74,7 +73,7 @@ namespace MediaDevices.Internal
         {
             if (values.HasKeyValue(key))
             {
-                values.GetStringValue(key, out value);
+                values.GetStringValue(ref key, out value);
                 return true;
             }
             value = string.Empty;
@@ -85,7 +84,7 @@ namespace MediaDevices.Internal
         {
             if (values.HasKeyValue(key))
             {
-                values.GetGuidValue(key, out value);
+                values.GetGuidValue(ref key, out value);
                 return true;
             }
             value = Guid.Empty;
@@ -97,7 +96,7 @@ namespace MediaDevices.Internal
             if (values.HasKeyValue(key))
             {
                 int val;
-                values.GetBoolValue(key, out val);
+                values.GetBoolValue(ref key, out val);
                 value = val != 0;
                 return true;
             }
@@ -109,7 +108,7 @@ namespace MediaDevices.Internal
         {
             if (values.HasKeyValue(key))
             {
-                values.GetUnsignedIntegerValue(key, out value);
+                values.GetUnsignedIntegerValue(ref key, out value);
                 return true;
             }
             value = 0;
@@ -120,7 +119,7 @@ namespace MediaDevices.Internal
         {
             if (values.HasKeyValue(key))
             {
-                values.GetUnsignedLargeIntegerValue(key, out value);
+                values.GetUnsignedLargeIntegerValue(ref key, out value);
                 return true;
             }
             value = 0;
@@ -131,7 +130,7 @@ namespace MediaDevices.Internal
         {
             if (values.HasKeyValue(key))
             {
-                values.GetSignedIntegerValue(key, out value);
+                values.GetSignedIntegerValue(ref key, out value);
                 return true;
             }
             value = 0;
@@ -142,7 +141,7 @@ namespace MediaDevices.Internal
         {
             if (values.HasKeyValue(key))
             {
-                values.GetIUnknownValue(key, out value);
+                values.GetIUnknownValue(ref key, out value);
                 return true;
             }
             value = null;
@@ -153,13 +152,23 @@ namespace MediaDevices.Internal
         {
             if (values.HasKeyValue(key))
             {
-                PROPVARIANT val;
-                values.GetValue(key, out val);
-                value = ((PropVariant)val).ToByteArray();
+                using (PropVariantFacade val = new PropVariantFacade())
+                {
+                    values.GetValue(ref key, out val.Value);
+                    value = val.ToByteArray();
+                }
                 return true;
             }
             value = null;
             return false;
+        }
+
+        private static class NativeMethods
+        {
+            // http://www.pinvoke.net/default.aspx/iprop/PropVariantClear.html
+            // https://social.msdn.microsoft.com/Forums/windowsserver/en-US/ec242718-8738-4468-ae9d-9734113d2dea/quotipropdllquot-seems-to-be-missing-in-windows-server-2008-and-x64-systems?forum=winserver2008appcompatabilityandcertification
+            [DllImport("ole32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+            static extern public int PropVariantClear(ref PropVariant val);
         }
     }
 }

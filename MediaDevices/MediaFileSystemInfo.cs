@@ -29,7 +29,7 @@ namespace MediaDevices
         /// <summary>
         /// Refreshes the state of the object.
         /// </summary>
-        public void Refresh()
+        public virtual void Refresh()
         {
             this.item.Refresh();
         }

@@ -2,25 +2,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Runtime.ExceptionServices;
-using System.Security;
 
 namespace MediaDevicesUnitTest
 {
     public abstract class UnitTest
     {
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///  Gets or sets the test context which provides information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get { return testContextInstance; }
-            set { testContextInstance = value; }
-        }
-        
         // Device Select
         protected Func<MediaDevice, bool> deviceSelect;
 
@@ -50,6 +39,23 @@ namespace MediaDevicesUnitTest
         protected string FolderPersistentUniqueIdPath;
         protected string FilePersistentUniqueId;
         protected string FilePersistentUniqueIdPath;
+
+        private TestContext testContextInstance;
+
+        /// <summary>
+        /// Gets or sets the test context which provides information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext
+        {
+            get { return testContextInstance; }
+            set { testContextInstance = value; }
+        }
+
+
+        public UnitTest()
+        {
+            this.deviceSelect = d => d.Description == this.deviceDescription && d.FriendlyName == this.deviceFriendlyName;
+        }
 
         [TestMethod]
         [Description("Basic device tests")]
@@ -188,31 +194,39 @@ namespace MediaDevicesUnitTest
             Assert.AreEqual(this.deviceFriendlyName, disconnectedFriendlyName, "disconnectedFriendlyName");
             Assert.AreEqual(this.deviceFriendlyName, connectedFriendlyName, "connectedFriendlyName");
             Assert.AreEqual("DUMMY", dummyFriendlyName, "dummyFriendlyName");
-            // TODO check Assert.AreEqual("DUMMY", disconnectedDummyFriendlyName, "disconnectedDummyFriendlyName");
+            Assert.AreEqual("DUMMY", disconnectedDummyFriendlyName, "disconnectedDummyFriendlyName");
             Assert.AreEqual("DUMMY", connectedDummyFriendlyName, "connectedDummyFriendlyName");
         }
 
-        //[TestMethod]
-        //[Description("Speed test.")]
-        //public void SpeedTest()
-        //{
-        //    var devices = MediaDevice.GetDevices();
-        //    var device = devices.FirstOrDefault(this.deviceSelect);
-        //    Assert.IsNotNull(device, "Device");
-        //    device.Connect();
+        [TestMethod]
+        [Description("Speed test.")]
+        public void SpeedTest()
+        {
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
 
-        //    var root = device.GetRootDirectory();
-        //    var stopwatch = Stopwatch.StartNew();
+            var root = device.GetRootDirectory();
+            var stopwatch = Stopwatch.StartNew();
 
-        //    var list = root.EnumerateFileSystemInfos("*", SearchOption.AllDirectories).ToList();
+            var list = root.EnumerateFileSystemInfos("*", SearchOption.AllDirectories).ToList();
 
-        //    stopwatch.Stop();
+            stopwatch.Stop();
 
-        //    device.Disconnect();
+            device.Disconnect();
 
-        //    double milliseconds = ((double)stopwatch.ElapsedTicks / Stopwatch.Frequency) * 1000;
+            double milliseconds = ((double)stopwatch.ElapsedTicks / Stopwatch.Frequency) * 1000;
 
-        //    Assert.AreEqual(0.0, milliseconds, "time");
-        //}
+            //Assert.AreEqual(0.0, milliseconds, "time");
+        }
+
+        [TestMethod]
+        [Description("Architecture test.")]
+        public void ArchitectureTest()
+        {
+            int size = IntPtr.Size;
+            TestContext.WriteLine($"Pointer size if {size}");
+        }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using MediaDevices.Internal;
-using PortableDeviceApiLib;
-using PortableDeviceTypesLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,9 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using IPortableDeviceKeyCollection = PortableDeviceApiLib.IPortableDeviceKeyCollection;
-using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
-using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 
 namespace MediaDevices
 {
@@ -20,10 +15,11 @@ namespace MediaDevices
     [DebuggerDisplay("{FriendlyName}, {Manufacturer}, {Description}")]
     public sealed class MediaDevice : IDisposable
     {
+        // https://msdn.microsoft.com/en-us/ie/aa645736%28v=vs.94%29?f=255&MSPPError=-2147217396
 
         #region Fields
 
-        internal PortableDeviceApiLib.PortableDevice device;
+        internal IPortableDevice device;
         internal IPortableDeviceContent deviceContent;
         internal IPortableDeviceProperties deviceProperties;
         private IPortableDeviceCapabilities deviceCapabilities;
@@ -86,10 +82,23 @@ namespace MediaDevices
 
         #region static
 
-        private static readonly PortableDeviceManager portableDeviceManager = new PortableDeviceManager();
+        private static readonly IPortableDeviceManager portableDeviceManager;
 
         private static List<MediaDevice> devices;
         private static List<MediaDevice> privateDevices;
+
+        static MediaDevice()
+        {
+            try
+            {
+                PortableDeviceManager inst = new PortableDeviceManager();
+                portableDeviceManager = (IPortableDeviceManager)inst;
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+            }
+        }
 
         /// <summary>
         /// Returns an enumerable collection of currently available portable devices.
@@ -191,12 +200,14 @@ namespace MediaDevices
             this.DeviceId = deviceId;
             this.IsCaseSensitive = false;
 
-            char[] buffer = new char[260];
+            
             uint count = 256;
             try
             {
-                portableDeviceManager.GetDeviceDescription(deviceId, buffer, ref count);
-                this.Description = new string(buffer, 0, (int)count - 1);
+                count = 256;
+                StringBuilder sb = new StringBuilder((int)count);
+                portableDeviceManager.GetDeviceDescription(deviceId, sb, ref count);
+                this.Description = sb.ToString(); //new string(buffer, 0, (int)count - 1);
             }
             catch (COMException ex)
             {
@@ -206,8 +217,9 @@ namespace MediaDevices
             try
             {
                 count = 256;
-                portableDeviceManager.GetDeviceFriendlyName(deviceId, buffer, ref count);
-                this.friendlyName = new string(buffer, 0, (int)count - 1);
+                StringBuilder sb = new StringBuilder((int)count);
+                portableDeviceManager.GetDeviceFriendlyName(deviceId, sb, ref count);
+                this.friendlyName = sb.ToString();
             }
             catch (COMException ex)
             {
@@ -217,8 +229,9 @@ namespace MediaDevices
             try
             {
                 count = 256;
-                portableDeviceManager.GetDeviceManufacturer(deviceId, buffer, ref count);
-                this.Manufacturer = new string(buffer, 0, (int)count - 1);
+                StringBuilder sb = new StringBuilder((int)count);
+                portableDeviceManager.GetDeviceManufacturer(deviceId, sb, ref count);
+                this.Manufacturer = sb.ToString();
             }
             catch (COMException ex)
             {
@@ -227,7 +240,7 @@ namespace MediaDevices
             }
 
             //this.device = new PortableDeviceApiLib.PortableDevice();
-            this.device = new PortableDevice();
+            this.device = (IPortableDevice)new PortableDevice();
         }
 
         /// <summary>
@@ -297,8 +310,8 @@ namespace MediaDevices
                 }
 
                 // set new friendly name
-                IPortableDeviceValues devValues = (IPortableDeviceValues)new PortableDeviceTypesLib.PortableDeviceValues();
-                devValues.SetStringValue(WPD.DEVICE_FRIENDLY_NAME, value);
+                IPortableDeviceValues devValues = (IPortableDeviceValues)new PortableDeviceValues();
+                devValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value);
                 this.deviceProperties.SetValues(Item.RootId, devValues, out devValues);
 
                 // reload device values with new friendly name 
@@ -309,8 +322,9 @@ namespace MediaDevices
                 {
                     char[] buffer = new char[260];
                     uint count = 256;
-                    portableDeviceManager.GetDeviceFriendlyName(this.DeviceId, buffer, ref count);
-                    this.friendlyName = new string(buffer, 0, (int)count - 1);
+                    StringBuilder sb = new StringBuilder((int)count);
+                    portableDeviceManager.GetDeviceFriendlyName(this.DeviceId, sb, ref count);
+                    this.friendlyName = sb.ToString();
                 }
                 catch (COMException ex)
                 {
@@ -1551,8 +1565,11 @@ namespace MediaDevices
 
             try
             {
+                var g = functionalCategory.Guid();
                 IPortableDevicePropVariantCollection objects;
-                this.deviceCapabilities.GetFunctionalObjects(functionalCategory.Guid(), out objects);
+                Guid guid = functionalCategory.Guid();
+                this.deviceCapabilities.GetFunctionalObjects(ref guid, out objects);
+                ComTrace.WriteObject(objects);
                 return objects.ToStrings();
             }
             catch (COMException ex)
@@ -1579,7 +1596,8 @@ namespace MediaDevices
             try
             {
                 IPortableDevicePropVariantCollection types;
-                this.deviceCapabilities.GetSupportedContentTypes(functionalCategory.Guid(), out types);
+                Guid guid = functionalCategory.Guid();
+                this.deviceCapabilities.GetSupportedContentTypes(ref guid, out types);
                 return types.ToEnum<ContentType>();
             }
             catch (COMException ex)
@@ -1822,7 +1840,7 @@ namespace MediaDevices
         {
             //ComTrace.WriteObject(eventParameters);
             Guid eventGuid;
-            eventParameters.GetGuidValue(WPD.EVENT_PARAMETER_EVENT_ID, out eventGuid);
+            eventParameters.GetGuidValue(ref WPD.EVENT_PARAMETER_EVENT_ID, out eventGuid);
             Events eventEnum = eventGuid.GetEnumFromAttrGuid<Events>();
 
             switch (eventEnum)
@@ -1894,16 +1912,16 @@ namespace MediaDevices
             }
 
             IPortableDeviceKeyCollection keys = (IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();
-            keys.Add(WPD.STORAGE_TYPE);
-            keys.Add(WPD.STORAGE_FILE_SYSTEM_TYPE);
-            keys.Add(WPD.STORAGE_CAPACITY);
-            keys.Add(WPD.STORAGE_FREE_SPACE_IN_BYTES);
-            keys.Add(WPD.STORAGE_FREE_SPACE_IN_OBJECTS);
-            keys.Add(WPD.STORAGE_DESCRIPTION);
-            keys.Add(WPD.STORAGE_SERIAL_NUMBER);
-            keys.Add(WPD.STORAGE_MAX_OBJECT_SIZE);
-            keys.Add(WPD.STORAGE_CAPACITY_IN_OBJECTS);
-            keys.Add(WPD.STORAGE_ACCESS_CAPABILITY);
+            keys.Add(ref WPD.STORAGE_TYPE);
+            keys.Add(ref WPD.STORAGE_FILE_SYSTEM_TYPE);
+            keys.Add(ref WPD.STORAGE_CAPACITY);
+            keys.Add(ref WPD.STORAGE_FREE_SPACE_IN_BYTES);
+            keys.Add(ref WPD.STORAGE_FREE_SPACE_IN_OBJECTS);
+            keys.Add(ref WPD.STORAGE_DESCRIPTION);
+            keys.Add(ref WPD.STORAGE_SERIAL_NUMBER);
+            keys.Add(ref WPD.STORAGE_MAX_OBJECT_SIZE);
+            keys.Add(ref WPD.STORAGE_CAPACITY_IN_OBJECTS);
+            keys.Add(ref WPD.STORAGE_ACCESS_CAPABILITY);
 
             try
             {
@@ -2112,7 +2130,7 @@ namespace MediaDevices
                 return null;
             }
 
-            StringBuilder s = new StringBuilder(Path.GetFileName(filter));
+            StringBuilder s = new StringBuilder(filter);
             s.Replace(".", @"\.");
             s.Replace("+", @"\+");
             s.Replace("$", @"\$");

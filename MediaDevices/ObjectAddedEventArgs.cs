@@ -1,7 +1,6 @@
 ﻿using MediaDevices.Internal;
 using System;
 using System.IO;
-using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 
 namespace MediaDevices
 {

@@ -21,10 +21,10 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;noCOMTRACE, noPROFILING, OPTLOOP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;noCOMTRACE, noPROFILING</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -36,24 +36,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\MediaDevices.xml</DocumentationFile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Interop.PortableDeviceApiLib">
-      <HintPath>Interop\Interop.PortableDeviceApiLib.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Interop.PortableDeviceTypesLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>Interop\Interop.PortableDeviceTypesLib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
@@ -61,8 +51,29 @@
     <Compile Include="DeviceTransport.cs" />
     <Compile Include="DeviceType.cs" />
     <Compile Include="Enumerables.cs" />
+    <Compile Include="Internal\IEnumPortableDeviceObjectIDs.cs" />
+    <Compile Include="Internal\IPortableDevice.cs" />
+    <Compile Include="Internal\IPortableDeviceCapabilities.cs" />
+    <Compile Include="Internal\IPortableDeviceContent.cs" />
+    <Compile Include="Internal\IPortableDeviceEventCallback.cs" />
+    <Compile Include="Internal\IPortableDeviceKeyCollection.cs" />
+    <Compile Include="Internal\IPortableDeviceManager.cs" />
+    <Compile Include="Internal\IPortableDeviceProperties.cs" />
+    <Compile Include="Internal\IPortableDevicePropVariantCollection.cs" />
+    <Compile Include="Internal\IPortableDeviceResources.cs" />
+    <Compile Include="Internal\IPortableDeviceValues.cs" />
+    <Compile Include="Internal\IPortableDeviceValuesCollection.cs" />
+    <Compile Include="Internal\IPropertyStore.cs" />
     <Compile Include="Internal\ObjectProperties.cs" />
+    <Compile Include="Internal\PortableDevice.cs" />
+    <Compile Include="Internal\PortableDeviceKeyCollection.cs" />
+    <Compile Include="Internal\PortableDeviceManager.cs" />
+    <Compile Include="Internal\PortableDevicePropVariantCollection.cs" />
+    <Compile Include="Internal\PortableDeviceValues.cs" />
+    <Compile Include="Internal\PropertyKey.cs" />
     <Compile Include="Internal\PropertyKeys.cs" />
+    <Compile Include="Internal\PropVariant.cs" />
+    <Compile Include="Internal\PropVariantData.cs" />
     <Compile Include="MediaDriveInfo.cs" />
     <Compile Include="Internal\ComHelper.cs" />
     <Compile Include="Internal\Command.cs" />
@@ -71,14 +82,14 @@
     <Compile Include="Internal\EventCallback.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="FunctionalCategory.cs" />
-    <Compile Include="Internal\GuidAttribute.cs" />
+    <Compile Include="Internal\EnumGuidAttribute.cs" />
     <Compile Include="Internal\HResult.cs" />
     <Compile Include="Internal\Item.cs" />
     <Compile Include="Internal\ItemType.cs" />
     <Compile Include="Internal\KeyAttribute.cs" />
     <Compile Include="Internal\Profiler.cs" />
     <Compile Include="Internal\SmsMessageType.cs" />
-    <Compile Include="Internal\VarType.cs" />
+    <Compile Include="Internal\PropVariantType.cs" />
     <Compile Include="Internal\WPD.cs" />
     <Compile Include="MediaDevice.cs" />
     <Compile Include="MediaDeviceEventArgs.cs" />
@@ -93,7 +104,7 @@
     <Compile Include="OperationState.cs" />
     <Compile Include="PowerSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Internal\PropVariant.cs" />
+    <Compile Include="Internal\PropVariantFacade.cs" />
     <Compile Include="Internal\StreamWrapper.cs" />
     <Compile Include="StorageAccessCapability.cs" />
     <Compile Include="StorageType.cs" />

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Ralf Beckers")]
 [assembly: AssemblyProduct("MediaDevices")]
-[assembly: AssemblyCopyright("Copyright © Ralf Beckers 2016 - 2018")]
+[assembly: AssemblyCopyright("Copyright © Ralf Beckers 2016 - 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

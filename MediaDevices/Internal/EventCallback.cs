@@ -1,4 +1,4 @@
-﻿using PortableDeviceApiLib;
+using MediaDevices.Internal;
 
 namespace MediaDevices
 {

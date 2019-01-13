@@ -2,6 +2,8 @@
 using MediaDeviceApp.ViewModel;
 using System;
 using System.Diagnostics;
+using System.Runtime.ExceptionServices;
+using System.Security;
 using System.Windows;
 
 namespace MediaDeviceApp
@@ -11,6 +13,8 @@ namespace MediaDeviceApp
     /// </summary>
     public partial class App : Application
     {
+        [HandleProcessCorruptedStateExceptions]
+        [SecurityCritical]
         private void OnApplicationStartup(object sender, StartupEventArgs e)
         {
             AppDomain.CurrentDomain.UnhandledException += (s, a) =>

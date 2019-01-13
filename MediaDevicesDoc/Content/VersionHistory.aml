@@ -6,9 +6,18 @@
 		</introduction>
 
     <section>
-      <title>Version 1.8 was released on xx. xxth, 2018.</title>
+      <title>Version 1.8 was released on Jan. 13th, 2019.</title>
       <content>
         <list class="bullet">
+          <listItem>
+            <para>Additional Fix for 64Bit problem.</para>
+          </listItem>
+          <listItem>
+            <para>Fix for memory leak.</para>
+          </listItem>
+          <listItem>
+            <para>Own written COM wrapper classes.</para>
+          </listItem>
           <listItem>
             <para>GetDirectories, GetFiles and GetFileSystemEntries added for getting arrays.</para>
           </listItem>

@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using PortableDeviceApiLib;
-using PortableDeviceTypesLib;
-using IPortableDeviceKeyCollection = PortableDeviceApiLib.IPortableDeviceKeyCollection;
-using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
-using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
-using PropertyKey = PortableDeviceApiLib._tagpropertykey;
-using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace MediaDevices.Internal
@@ -65,21 +58,21 @@ namespace MediaDevices.Internal
             for (uint i = 0; i < num; i++)
             {
                 PropertyKey key = new PropertyKey();
-                PROPVARIANT val = new PROPVARIANT();
-                values.GetAt(i, ref key, ref val);
+                PropVariantFacade val = new PropVariantFacade();
+                values.GetAt(i, ref key, ref val.Value);
 
                 FieldInfo field = FindPropertyKeyField(key);
-                PropVariant vari = (PropVariant)val;
+                
 
                 string fieldName = field?.Name ?? $"{key.fmtid}, {key.pid}";
 
-                switch ((VarType)vari.variantType)
+                switch (val.VariantType)
                 {
-                case VarType.VT_CLSID:
-                    Trace.WriteLine($"##### {fieldName} = {FindGuidField(vari.ToGuid())?.Name ?? vari.ToString()}");
+                case PropVariantType.VT_CLSID:
+                    Trace.WriteLine($"##### {fieldName} = {FindGuidField(val.ToGuid())?.Name ?? val.ToString()}");
                     break;
                 default:
-                    Trace.WriteLine($"##### {fieldName} = {vari.ToString()}");
+                    Trace.WriteLine($"##### {fieldName} = {val.ToString()}");
                     break;
                 }
             }
@@ -93,10 +86,12 @@ namespace MediaDevices.Internal
             collection.GetCount(ref num);
             for (uint index = 0; index < num; index++)
             {
-                PROPVARIANT val = new PROPVARIANT();
-                collection.GetAt(index, ref val);
+                using (PropVariantFacade val = new PropVariantFacade())
+                {
+                    collection.GetAt(index, ref val.Value);
 
-                Trace.WriteLine($"##### {((PropVariant)val).ToString()}");
+                    Trace.WriteLine($"##### {val.ToString()}");
+                }
             }
         }
 

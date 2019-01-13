@@ -20,6 +20,7 @@ namespace MediaDevicesUnitTest
             this.deviceDeviceType = DeviceType.MediaPlayer;
             this.deviceTransport = DeviceTransport.USB;
             this.devicePowerSource = PowerSource.Battery;
+            this.deviceProtocol = "MTP: 1.00";
 
             // Capability Test
             this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
@@ -33,6 +34,8 @@ namespace MediaDevicesUnitTest
             // PersistentUniqueId
             this.FolderPersistentUniqueId = "{00000027-0001-0001-0000-000000000000}";
             this.FolderPersistentUniqueIdPath = @"\Interner Speicher\Download";
+            this.FilePersistentUniqueId = "{000001A2-0001-0001-0000-000000000000}";
+            this.FilePersistentUniqueIdPath = @"\Interner Speicher\Download\.DS_Store";
 
             // Writable Tests
             this.workingFolder = @"\Interner Speicher\tmp";

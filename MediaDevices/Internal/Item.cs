@@ -1,18 +1,11 @@
-﻿using System.Diagnostics;
-using System;
-using System.IO;
+﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using PortableDeviceApiLib;
-using PortableDeviceTypesLib;
-using IPortableDeviceKeyCollection = PortableDeviceApiLib.IPortableDeviceKeyCollection;
-using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
-using IPortableDevicePropVariantCollection = PortableDeviceApiLib.IPortableDevicePropVariantCollection;
-using PropertyKey = PortableDeviceApiLib._tagpropertykey;
-using PROPVARIANT = PortableDeviceApiLib.tag_inner_PROPVARIANT;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace MediaDevices.Internal
 {
@@ -21,28 +14,27 @@ namespace MediaDevices.Internal
     internal class Item
     {
         private static IPortableDeviceKeyCollection keyCollection;
-        private static string[] objectIds = new string[numObjectsToRequest * 2];
 
         static Item()
         {
             // key collection with all used properties
-            keyCollection = (IPortableDeviceKeyCollection)new PortableDeviceTypesLib.PortableDeviceKeyCollection();
-            keyCollection.Add(WPD.OBJECT_CONTENT_TYPE);
-            keyCollection.Add(WPD.OBJECT_NAME);
-            keyCollection.Add(WPD.OBJECT_ORIGINAL_FILE_NAME);
+            keyCollection = (IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();
+            keyCollection.Add(ref WPD.OBJECT_CONTENT_TYPE);
+            keyCollection.Add(ref WPD.OBJECT_NAME);
+            keyCollection.Add(ref WPD.OBJECT_ORIGINAL_FILE_NAME);
 
-            keyCollection.Add(WPD.OBJECT_HINT_LOCATION_DISPLAY_NAME);
-            keyCollection.Add(WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID);
-            keyCollection.Add(WPD.OBJECT_SIZE);
-            keyCollection.Add(WPD.OBJECT_DATE_CREATED);
-            keyCollection.Add(WPD.OBJECT_DATE_MODIFIED);
-            keyCollection.Add(WPD.OBJECT_DATE_AUTHORED);
-            keyCollection.Add(WPD.OBJECT_CAN_DELETE);
-            keyCollection.Add(WPD.OBJECT_ISSYSTEM);
-            keyCollection.Add(WPD.OBJECT_ISHIDDEN);
-            keyCollection.Add(WPD.OBJECT_IS_DRM_PROTECTED);
-            keyCollection.Add(WPD.OBJECT_PARENT_ID);
-            keyCollection.Add(WPD.OBJECT_PERSISTENT_UNIQUE_ID);
+            keyCollection.Add(ref WPD.OBJECT_HINT_LOCATION_DISPLAY_NAME);
+            keyCollection.Add(ref WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID);
+            keyCollection.Add(ref WPD.OBJECT_SIZE);
+            keyCollection.Add(ref WPD.OBJECT_DATE_CREATED);
+            keyCollection.Add(ref WPD.OBJECT_DATE_MODIFIED);
+            keyCollection.Add(ref WPD.OBJECT_DATE_AUTHORED);
+            keyCollection.Add(ref WPD.OBJECT_CAN_DELETE);
+            keyCollection.Add(ref WPD.OBJECT_ISSYSTEM);
+            keyCollection.Add(ref WPD.OBJECT_ISHIDDEN);
+            keyCollection.Add(ref WPD.OBJECT_IS_DRM_PROTECTED);
+            keyCollection.Add(ref WPD.OBJECT_PARENT_ID);
+            keyCollection.Add(ref WPD.OBJECT_PERSISTENT_UNIQUE_ID);
         }
 
         private MediaDevice device;
@@ -103,10 +95,12 @@ namespace MediaDevices.Internal
         public static Item GetFromPersistentUniqueId(MediaDevice device, string persistentUniqueId)
         {
             // fill collection with id to request
-            var propVariantPUID = PropVariant.StringToPropVariant(persistentUniqueId);
             var collection = (IPortableDevicePropVariantCollection)new PortableDevicePropVariantCollection();
-            collection.Add(ref propVariantPUID);
 
+            using (var propVariantPUID = PropVariantFacade.StringToPropVariant(persistentUniqueId))
+            {
+                collection.Add(ref propVariantPUID.Value);
+            }
             // request id collection           
             device.deviceContent.GetObjectIDsFromPersistentUniqueIDs(collection, out IPortableDevicePropVariantCollection results);
             string mediaObjectId = results.ToStrings().FirstOrDefault();
@@ -216,72 +210,74 @@ namespace MediaDevices.Internal
             for (uint i = 0; i < num; i++)
             {
                 PropertyKey key = new PropertyKey();
-                PROPVARIANT val = new PROPVARIANT();
-                values.GetAt(i, ref key, ref val);
-
-                if (key.fmtid == WPD.OBJECT_PROPERTIES_V1)
+                using (PropVariantFacade val = new PropVariantFacade())
                 {
-                    switch ((ObjectProperties)key.pid)
+                    values.GetAt(i, ref key, ref val.Value);
+
+                    if (key.fmtid == WPD.OBJECT_PROPERTIES_V1)
                     {
-                    case ObjectProperties.ContentType:
-                        this.ContentType = PropVariant.FromValue(val);
-                        break;
+                        switch ((ObjectProperties)key.pid)
+                        {
+                            case ObjectProperties.ContentType:
+                                this.ContentType = val;
+                                break;
 
-                    case ObjectProperties.Name:
-                        this.name = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.Name:
+                                this.name = val;
+                                break;
 
-                    case ObjectProperties.OriginalFileName:
-                        this.OriginalFileName = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.OriginalFileName:
+                                this.OriginalFileName = val;
+                                break;
 
-                    case ObjectProperties.HintLocationDisplayName:
-                        this.HintLocationName = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.HintLocationDisplayName:
+                                this.HintLocationName = val;
+                                break;
 
-                    case ObjectProperties.ContainerFunctionalObjectId:
-                        this.ParentContainerId = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.ContainerFunctionalObjectId:
+                                this.ParentContainerId = val;
+                                break;
 
-                    case ObjectProperties.Size:
-                        this.Size = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.Size:
+                                this.Size = val;
+                                break;
 
-                    case ObjectProperties.DateCreated:
-                        this.DateCreated = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.DateCreated:
+                                this.DateCreated = val;
+                                break;
 
-                    case ObjectProperties.DateModified:
-                        this.DateModified = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.DateModified:
+                                this.DateModified = val;
+                                break;
 
-                    case ObjectProperties.DateAuthored:
-                        this.DateAuthored = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.DateAuthored:
+                                this.DateAuthored = val;
+                                break;
 
-                    case ObjectProperties.CanDelete:
-                        this.CanDelete = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.CanDelete:
+                                this.CanDelete = val;
+                                break;
 
-                    case ObjectProperties.IsSystem:
-                        this.IsSystem = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.IsSystem:
+                                this.IsSystem = val.ToBool();
+                                break;
 
-                    case ObjectProperties.IsHidden:
-                        this.IsHidden = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.IsHidden:
+                                this.IsHidden = val;
+                                break;
 
-                    case ObjectProperties.IsDrmProtected:
-                        this.IsDRMProtected = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.IsDrmProtected:
+                                this.IsDRMProtected = val;
+                                break;
 
-                    case ObjectProperties.ParentId:
-                        this.ParentId = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.ParentId:
+                                this.ParentId = val;
+                                break;
 
-                    case ObjectProperties.PersistentUniqueId:
-                        this.PersistentUniqueId = PropVariant.FromValue(val);
-                        break;
+                            case ObjectProperties.PersistentUniqueId:
+                                this.PersistentUniqueId = val;
+                                break;
+                        }
                     }
                 }
             }
@@ -337,18 +333,9 @@ namespace MediaDevices.Internal
                 yield break;
             }
 
-#if OPTLOOP
             uint fetched = 0;
-            //var objectIds = new string[numObjectsToRequest * 2];
-            try
-            {
+            var objectIds = new string[numObjectsToRequest];
                 enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceError(ex.ToString());
-                throw;
-            }
             while (fetched > 0)
             {
                 for (int index = 0; index < fetched; index++)
@@ -371,46 +358,8 @@ namespace MediaDevices.Internal
                         yield return item;
                     }
                 }
-                try
-                {
                     enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
                 }
-                catch (Exception ex)
-                {
-                    Trace.TraceError(ex.ToString());
-                    throw;
-                }
-            }
-#else
-
-
-            // old version
-
-            uint fetched = 0;
-            enumerator.Next(1, out string objectId, ref fetched);
-            while (fetched > 0)
-            {
-                Item item = null;
-
-                try
-                {
-                    item = Item.Create(this.device, objectId, this.FullName);
-                }
-                catch (FileNotFoundException)
-                {
-                    // handle system files, that cannot be opened or read.
-                    // Windows sometimes creates a fake files in e.g. System Volume Information.
-                    // Let's handle such situations.
-                }
-
-                if (item != null)
-                {
-                    yield return item;
-                }
-
-                enumerator.Next(1, out objectId, ref fetched);
-            }
-#endif
         }
 
         public IEnumerable<Item> GetChildren(string pattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
@@ -422,18 +371,9 @@ namespace MediaDevices.Internal
                 yield break; 
             }
 
-#if OPTLOOP
             uint fetched = 0;
-            //var objectIds = new string[numObjectsToRequest * 2];
-            try
-            { 
-                enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceError(ex.ToString());
-                throw;
-            }
+            var objectIds = new string[numObjectsToRequest];
+            enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
             while (fetched > 0)
             {
                 for (int index = 0; index < fetched; index++)
@@ -468,57 +408,8 @@ namespace MediaDevices.Internal
                         }
                     }
                 }
-
-                try
-                {
-                    enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
-                }
-                catch (Exception ex)
-                {
-                    Trace.TraceError(ex.ToString());
-                    throw;
-                }
+                enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
             }
-#else
-            // old version
-
-            uint fetched = 0;
-            enumerator.Next(1, out string objectId, ref fetched);
-            while (fetched > 0)
-            {
-                Item item = null;
-
-                try
-                {
-                    item = Item.Create(this.device, objectId, this.FullName);
-                }
-                catch (FileNotFoundException)
-                {
-                    // handle system files, that cannot be opened or read.
-                    // Windows sometimes creates a fake files in e.g.System Volume Information.
-                    // Let's handle such situations.
-                }
-
-                if (item != null)
-                {
-                    if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
-                    {
-                        yield return item;
-                    }
-
-                    if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
-                    {
-                        var children = item.GetChildren(pattern, searchOption);
-                        foreach (var c in children)
-                        {
-                            yield return c;
-                        }
-                    }
-                }
-
-                enumerator.Next(1, out objectId, ref fetched);
-            }
-#endif
         }
 
         internal Item CreateSubdirectory(string path)
@@ -569,14 +460,15 @@ namespace MediaDevices.Internal
 
         public void Delete(bool recursive = false)
         {
-            var objectIdCollection = (IPortableDevicePropVariantCollection)new PortableDeviceTypesLib.PortableDevicePropVariantCollection();
+            var objectIdCollection = (IPortableDevicePropVariantCollection)new PortableDevicePropVariantCollection();
 
-            var propVariantValue = PropVariant.StringToPropVariant(this.Id);
-            objectIdCollection.Add(ref propVariantValue);
+            var propVariantValue = PropVariantFacade.StringToPropVariant(this.Id);
+            objectIdCollection.Add(ref propVariantValue.Value);
 
-            IPortableDevicePropVariantCollection results = (PortableDeviceApiLib.IPortableDevicePropVariantCollection) new PortableDevicePropVariantCollection();
+            IPortableDevicePropVariantCollection results = (IPortableDevicePropVariantCollection) new PortableDevicePropVariantCollection();
             // TODO: get the results back and handle failures correctly
-            this.device.deviceContent.Delete(recursive ? PORTABLE_DEVICE_DELETE_WITH_RECURSION : PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, null);
+            
+            this.device.deviceContent.Delete(recursive ? PORTABLE_DEVICE_DELETE_WITH_RECURSION : PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, ref results);
 
             ComTrace.WriteObject(objectIdCollection);
         }
@@ -645,7 +537,7 @@ namespace MediaDevices.Internal
         {
             this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
 
-            PortableDeviceApiLib.IStream wpdStream;
+            IStream wpdStream;
             uint optimalTransferSize = 0;
 
             resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out wpdStream);
@@ -665,7 +557,7 @@ namespace MediaDevices.Internal
 
             uint num = 0u;
             string text = null;
-            this.device.deviceContent.CreateObjectWithPropertiesAndData(portableDeviceValues, out PortableDeviceApiLib.IStream wpdStream, ref num, ref text);
+            this.device.deviceContent.CreateObjectWithPropertiesAndData(portableDeviceValues, out IStream wpdStream, ref num, ref text);
 
             using (StreamWrapper destinationStream = new StreamWrapper(wpdStream))
             {
