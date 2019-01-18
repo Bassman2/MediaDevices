@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediaDevices.Internal;
+using System;
 
 namespace MediaDevices
 {

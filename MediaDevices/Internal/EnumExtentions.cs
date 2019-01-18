@@ -44,7 +44,7 @@ namespace MediaDevices.Internal
             T en = Enum.GetValues(typeof(T)).Cast<T>().Where(e =>
             {
                 KeyAttribute attr = e.GetType().GetField(e.ToString()).GetCustomAttribute<KeyAttribute>();
-                return attr.Guid == key.fmtid && attr.Id == key.pid;
+                return attr.PropertyKey == key;
             }).FirstOrDefault();
             if (en.Equals(default(T)))
             {

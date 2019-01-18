@@ -21,7 +21,7 @@ namespace MediaDevices.Internal
 
         private static FieldInfo FindPropertyKeyField(PropertyKey key)
         {
-            return pkeyFields.SingleOrDefault(i => ((PropertyKey)i.GetValue(null)).pid == key.pid && ((PropertyKey)i.GetValue(null)).fmtid == key.fmtid);
+            return pkeyFields.SingleOrDefault(i => ((PropertyKey)i.GetValue(null)) == key);
         }
         
         private static FieldInfo FindGuidField(Guid guid)

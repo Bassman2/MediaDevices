@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace MediaDevices
+namespace MediaDevices.Internal
 {
     internal class StreamWrapper : Stream
     {

@@ -109,7 +109,7 @@ namespace MediaDevices.Internal
                 PropertyKey k = new PropertyKey();
                 PropVariant v = new PropVariant();
                 this.result.GetAt(i, ref k, ref v);
-                if (key.fmtid == k.fmtid && key.pid == k.pid)
+                if (key == k)
                 {
                     return true;
                 }

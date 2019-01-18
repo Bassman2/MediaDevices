@@ -1,6 +1,6 @@
 using MediaDevices.Internal;
 
-namespace MediaDevices
+namespace MediaDevices.Internal
 {
     internal class EventCallback : IPortableDeviceEventCallback
     {

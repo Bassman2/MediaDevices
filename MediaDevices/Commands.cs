@@ -1,4 +1,6 @@
-﻿namespace MediaDevices
+﻿using MediaDevices.Internal;
+
+namespace MediaDevices
 {
     /// <summary>
     /// Commands for the device

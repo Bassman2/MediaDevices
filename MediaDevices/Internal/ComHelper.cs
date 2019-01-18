@@ -16,7 +16,7 @@ namespace MediaDevices.Internal
                 using (PropVariantFacade val = new PropVariantFacade())
                 {
                     values.GetAt(i, ref key, ref val.Value);
-                    if (key.fmtid == findKey.fmtid && key.pid == findKey.pid)
+                    if (key == findKey)
                     {
                         
                         return val.VariantType != PropVariantType.VT_ERROR;
@@ -25,11 +25,6 @@ namespace MediaDevices.Internal
             }
             
             return false;
-        }
-
-        public static bool IsEqual(PropertyKey a, PropertyKey b)
-        {
-            return a.fmtid == b.fmtid && a.pid == b.pid;
         }
 
         public static PropVariantType GetVarType(this IPortableDeviceValues values, PropertyKey key)

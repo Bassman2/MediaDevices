@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MediaDevices
+namespace MediaDevices.Internal
 {
     internal class KeyAttribute : Attribute
     {
@@ -19,5 +19,7 @@ namespace MediaDevices
         public Guid Guid { get; private set; }
 
         public uint Id { get; private set; }
+
+        public PropertyKey PropertyKey { get { return new PropertyKey() { fmtid = this.Guid, pid = this.Id }; } }
     }
 }
