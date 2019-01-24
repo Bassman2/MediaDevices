@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Management;
 
 namespace MediaDevicesUnitTest
 {
@@ -56,6 +57,29 @@ namespace MediaDevicesUnitTest
         {
             this.deviceSelect = d => d.Description == this.deviceDescription && d.FriendlyName == this.deviceFriendlyName;
         }
+
+        //protected void FindDeviceLetter(string pnpDeviceId)
+        //{
+        //    foreach (ManagementObject device in new ManagementObjectSearcher(@"SELECT * FROM Win32_DiskDrive WHERE InterfaceType LIKE 'USB%'").Get())
+        //    {
+        //        string s1 = ((string)device.GetPropertyValue("DeviceID"));
+        //        string s2 = ((string)device.GetPropertyValue("PNPDeviceID"));
+
+
+        //        foreach (ManagementObject partition in new ManagementObjectSearcher(
+        //            "ASSOCIATORS OF {Win32_DiskDrive.DeviceID='" + device.Properties["DeviceID"].Value
+        //            + "'} WHERE AssocClass = Win32_DiskDriveToDiskPartition").Get())
+        //        {
+        //            foreach (ManagementObject disk in new ManagementObjectSearcher(
+        //                        "ASSOCIATORS OF {Win32_DiskPartition.DeviceID='"
+        //                            + partition["DeviceID"]
+        //                            + "'} WHERE AssocClass = Win32_LogicalDiskToPartition").Get())
+        //            {
+        //                string s3 = ("Drive letter " + disk["Name"]);
+        //            }
+        //        }
+        //    }
+        //}
 
         [TestMethod]
         [Description("Basic device tests")]

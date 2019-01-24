@@ -8,6 +8,8 @@ namespace MediaDevicesUnitTest
     [TestClass]
     public class AmazonKindlePaperwhiteUnitTest : WritableUnitTest
     {
+        private string deviceLetter = "E";
+
         public AmazonKindlePaperwhiteUnitTest()
         {
             // Device Test
@@ -16,7 +18,7 @@ namespace MediaDevicesUnitTest
             this.deviceManufacture = "Kindle  ";
             this.deviceFirmwareVersion = "0100";
             this.deviceModel = "Internal Storage";
-            this.deviceSerialNumber = "G090G10573570BNQ";
+            this.deviceSerialNumber = ""; // G090G10573570BNQ
             this.deviceDeviceType = DeviceType.Generic;
             this.deviceTransport = DeviceTransport.Unspecified;
             this.devicePowerSource = PowerSource.External;
@@ -35,13 +37,13 @@ namespace MediaDevicesUnitTest
             this.contentLocations = new List<string> ();
 
             // PersistentUniqueId
-            this.FolderPersistentUniqueId = "L%3B%5Csystem%5Cstartactions";
-            this.FolderPersistentUniqueIdPath = @"\L:\system\startactions";
-            this.FilePersistentUniqueId = "L%3B%5Csystem%5Cversion.txt";
-            this.FilePersistentUniqueIdPath = @"\L:\system\version.txt";
+            this.FolderPersistentUniqueId = $"{deviceLetter}%3B%5Csystem%5Cstartactions";
+            this.FolderPersistentUniqueIdPath = $@"\{deviceLetter}:\system\startactions";
+            this.FilePersistentUniqueId = $"{deviceLetter}%3B%5Csystem%5Cversion.txt";
+            this.FilePersistentUniqueIdPath = $@"\{deviceLetter}:\system\version.txt";
 
             // Writable Tests
-            this.workingFolder = @"\L:\documents";
+            this.workingFolder = $@"\{deviceLetter}:\documents";
 
 
             // Exists Test
