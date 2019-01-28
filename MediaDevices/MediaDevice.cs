@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -666,14 +667,25 @@ namespace MediaDevices
         /// <summary>
         /// Connect to the portable device.
         /// </summary>
-        public void Connect()
+        public void Connect(MediaDeviceAccess access = MediaDeviceAccess.All)
         {
             if (this.IsConnected)
             {
                 return;
             }
 
+            var assembly = Assembly.GetEntryAssembly();
+            var name = assembly.GetName();
             var clientInfo = (IPortableDeviceValues)new PortableDeviceValues();
+            //if (true)
+            //{
+            //    const uint GENERIC_READ = 0x80000000;
+            //    //const uint GENERIC_WRITE = 0x40000000;
+            clientInfo.SetStringValue(ref WPD.CLIENT_NAME, "MediaDevices");
+
+            clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_DESIRED_ACCESS, (uint)MediaDeviceAccess.Read);
+            //clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_DESIRED_ACCESS, (uint)0);
+            //}
             this.device.Open(this.DeviceId, clientInfo);
             this.device.Capabilities(out this.deviceCapabilities);
             this.device.Content(out this.deviceContent);

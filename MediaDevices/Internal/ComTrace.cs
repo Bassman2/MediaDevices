@@ -61,11 +61,42 @@ namespace MediaDevices.Internal
                 PropVariantFacade val = new PropVariantFacade();
                 values.GetAt(i, ref key, ref val.Value);
 
-                FieldInfo field = FindPropertyKeyField(key);
-                
+                string fieldName = string.Empty;
+                FieldInfo propField = FindPropertyKeyField(key);
+                if (propField != null)
+                {
+                    fieldName = propField.Name;
+                }
+                else
+                {
+                    FieldInfo guidField = FindGuidField(key.fmtid);
+                    if (guidField != null)
+                    {
+                        fieldName = $"{guidField.Name}, {key.pid}";
+                    }
+                    else
+                    {
+                        fieldName = $"{key.fmtid}, {key.pid}";
+                    }
+                }
 
-                string fieldName = field?.Name ?? $"{key.fmtid}, {key.pid}";
 
+                //string fieldName = string.Empty; // field?.Name ?? $"{key.fmtid}, {key.pid}";
+                //if (field?.Name == null)
+                //{ 
+                //    if (key.fmtid == WPD.PROPERTIES_MTP_VENDOR_EXTENDED_DEVICE_PROPS)
+                //    {
+
+                //    }
+                //    else
+                //    {
+                //        fieldName = $"{key.fmtid}, {key.pid}";
+                //    }
+                //}
+                //else
+                //{
+                //    fieldName = field.Name;
+                //}
                 switch (val.VariantType)
                 {
                 case PropVariantType.VT_CLSID:

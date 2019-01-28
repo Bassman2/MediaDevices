@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;noCOMTRACE, noPROFILING</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;COMTRACE, noPROFILING</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -74,6 +74,7 @@
     <Compile Include="Internal\PropertyKeys.cs" />
     <Compile Include="Internal\PropVariant.cs" />
     <Compile Include="Internal\PropVariantData.cs" />
+    <Compile Include="MediaDeviceAccess.cs" />
     <Compile Include="MediaDriveInfo.cs" />
     <Compile Include="Internal\ComHelper.cs" />
     <Compile Include="Internal\Command.cs" />

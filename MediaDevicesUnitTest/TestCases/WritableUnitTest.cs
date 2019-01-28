@@ -286,102 +286,104 @@ namespace MediaDevicesUnitTest
         [Description("Rename a folder.")]
         public void RenameFolderTest()
         {
-                var devices = MediaDevice.GetDevices();
-                var device = devices.FirstOrDefault(this.deviceSelect);
-                Assert.IsNotNull(device, "Device");
-                device.Connect();
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
 
-                string filePath = Path.Combine(this.workingFolder, "RenameFolder");
-                string newName = "NewFolder";
-                string newPath = Path.Combine(this.workingFolder, newName);
-
-
-                if (device.DirectoryExists(filePath))
-                {
-                    device.DeleteDirectory(filePath);
-                }
-
-                if (device.DirectoryExists(newPath))
-                {
-                    device.DeleteDirectory(newPath);
-                }
-
-                device.CreateDirectory(filePath);
-            
-                var exists1 = device.DirectoryExists(filePath);
-
-                device.Rename(filePath, newName);
+            string filePath = Path.Combine(this.workingFolder, "RenameFolder");
+            string newName = "NewFolder";
+            string newPath = Path.Combine(this.workingFolder, newName);
 
 
-                var exists2 = device.DirectoryExists(newPath);
-
-                device.DeleteDirectory(newPath);
-                var exists3 = device.DirectoryExists(newPath);
-
-                device.Disconnect();
-
-                Assert.IsTrue(exists1, "exists1");
-                Assert.IsTrue(exists2, "exists2");
-                Assert.IsFalse(exists3, "exists3");
+            if (device.DirectoryExists(filePath))
+            {
+                device.DeleteDirectory(filePath);
             }
 
-        //[TestMethod]
-        //[Description("Roma Test")]
-        //public void RomaTest()
-        //{
-        //    string res = string.Empty;
+            if (device.DirectoryExists(newPath))
+            {
+                device.DeleteDirectory(newPath);
+            }
 
-        //    var devices = MediaDevice.GetDevices();
-        //    var device = devices.FirstOrDefault(this.deviceSelect);
-        //    Assert.IsNotNull(device, "Device");
-        //    device.Connect();
+            device.CreateDirectory(filePath);
 
-        //    var fI = device.GetFileInfo(@"\SD card\Documents\note.txt");
-        //    using (var stream = fI.OpenText())
-        //    {
-        //        res = stream.ReadToEnd();
-        //    }
+            var exists1 = device.DirectoryExists(filePath);
 
-        //    device.Disconnect();
+            device.Rename(filePath, newName);
 
-        //    Assert.AreEqual("Dies ist ein Test", res, "text");
 
-        //}
+            var exists2 = device.DirectoryExists(newPath);
+
+            device.DeleteDirectory(newPath);
+            var exists3 = device.DirectoryExists(newPath);
+
+            device.Disconnect();
+
+            Assert.IsTrue(exists1, "exists1");
+            Assert.IsTrue(exists2, "exists2");
+            Assert.IsFalse(exists3, "exists3");
+        }
+
+        
 
         [TestMethod]
         [Description("Writable PersistentUniqueId Test")]
         public void WritablePersistentUniqueIdTest()
         {
-                var devices = MediaDevice.GetDevices();
-                var device = devices.FirstOrDefault(this.deviceSelect);
-                Assert.IsNotNull(device, "Device");
-                device.Connect();
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
 
-                UploadTestTree(device);
+            UploadTestTree(device);
 
-                MediaDirectoryInfo dir = device.GetDirectoryInfo(Path.Combine(this.workingFolder, @"UploadTree\Aaa\Abb"));
-                string dirPui = dir.PersistentUniqueId;
-                MediaDirectoryInfo dirGet = device.GetFileSystemInfoFromPersistentUniqueId(dirPui) as MediaDirectoryInfo;
+            MediaDirectoryInfo dir = device.GetDirectoryInfo(Path.Combine(this.workingFolder, @"UploadTree\Aaa\Abb"));
+            string dirPui = dir.PersistentUniqueId;
+            MediaDirectoryInfo dirGet = device.GetFileSystemInfoFromPersistentUniqueId(dirPui) as MediaDirectoryInfo;
 
-                MediaFileInfo file = device.GetFileInfo(Path.Combine(this.workingFolder, @"UploadTree\Aaa\Abb\Acc\Ctest.txt"));
-                string filePui = file.PersistentUniqueId;
-                MediaFileInfo fileGet = device.GetFileSystemInfoFromPersistentUniqueId(filePui) as MediaFileInfo;
+            MediaFileInfo file = device.GetFileInfo(Path.Combine(this.workingFolder, @"UploadTree\Aaa\Abb\Acc\Ctest.txt"));
+            string filePui = file.PersistentUniqueId;
+            MediaFileInfo fileGet = device.GetFileSystemInfoFromPersistentUniqueId(filePui) as MediaFileInfo;
 
-                string tmp = Path.GetTempFileName();
-                device.DownloadFileFromPersistentUniqueId(filePui, tmp);
-                var text = File.ReadAllText(tmp);
+            string tmp = Path.GetTempFileName();
+            device.DownloadFileFromPersistentUniqueId(filePui, tmp);
+            var text = File.ReadAllText(tmp);
 
-                device.Disconnect();            
+            device.Disconnect();
 
-                Assert.IsNotNull(dirPui, "dirPui");
-                Assert.AreEqual(dir, dirGet, "dirGet");
+            Assert.IsNotNull(dirPui, "dirPui");
+            Assert.AreEqual(dir, dirGet, "dirGet");
 
-                Assert.IsNotNull(filePui, "filePui");
-                Assert.AreEqual(file, fileGet, "fileGet");
+            Assert.IsNotNull(filePui, "filePui");
+            Assert.AreEqual(file, fileGet, "fileGet");
 
-                Assert.AreEqual("test", text, "text");
-            }
+            Assert.AreEqual("test", text, "text");
+        }
 
+        [TestMethod]
+        [Description("Creating a new folder.")]
+        public void ReadonlyConnectTest()
+        {
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect(MediaDeviceAccess.Read);
+            var root = device.GetRootDirectory();
+            var list = root.EnumerateFileSystemInfos().ToList();
 
+            string newFolder = Path.Combine(this.workingFolder, "Test");
+            var exists1 = device.DirectoryExists(this.workingFolder);
+            device.CreateDirectory(newFolder);
+            var exists2 = device.DirectoryExists(newFolder);
+            device.DeleteDirectory(newFolder, true);
+            var exists3 = device.DirectoryExists(newFolder);
+
+            device.Disconnect();
+
+            Assert.IsTrue(exists1, "exists1");
+            Assert.IsTrue(exists2, "exists2");
+            Assert.IsFalse(exists3, "exists3");
+        }
     }
 }
