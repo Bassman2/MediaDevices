@@ -75,6 +75,7 @@
     <Compile Include="Internal\PropVariant.cs" />
     <Compile Include="Internal\PropVariantData.cs" />
     <Compile Include="MediaDeviceAccess.cs" />
+    <Compile Include="MediaDeviceShare.cs" />
     <Compile Include="MediaDriveInfo.cs" />
     <Compile Include="Internal\ComHelper.cs" />
     <Compile Include="Internal\Command.cs" />

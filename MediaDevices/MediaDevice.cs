@@ -667,25 +667,31 @@ namespace MediaDevices
         /// <summary>
         /// Connect to the portable device.
         /// </summary>
-        public void Connect(MediaDeviceAccess access = MediaDeviceAccess.All)
+        /// <param name="access">Specifies the desired access the client is requesting to this device.</param>
+        /// <param name="share">Specifies the share mode the client is requesting to this device.</param>
+        public void Connect(MediaDeviceAccess access = MediaDeviceAccess.Default, MediaDeviceShare share = MediaDeviceShare.Default)
         {
             if (this.IsConnected)
             {
                 return;
             }
 
-            var assembly = Assembly.GetEntryAssembly();
-            var name = assembly.GetName();
-            var clientInfo = (IPortableDeviceValues)new PortableDeviceValues();
-            //if (true)
-            //{
-            //    const uint GENERIC_READ = 0x80000000;
-            //    //const uint GENERIC_WRITE = 0x40000000;
-            clientInfo.SetStringValue(ref WPD.CLIENT_NAME, "MediaDevices");
+            // find the app name for client name
+            var appName = Assembly.GetEntryAssembly()?.GetName()?.Name ?? "MediaDevices";
 
-            clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_DESIRED_ACCESS, (uint)MediaDeviceAccess.Read);
-            //clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_DESIRED_ACCESS, (uint)0);
-            //}
+            // set open device parameters
+            var clientInfo = (IPortableDeviceValues)new PortableDeviceValues();
+            clientInfo.SetStringValue(ref WPD.CLIENT_NAME, appName);
+            if (access != MediaDeviceAccess.Default)
+            {
+                clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_DESIRED_ACCESS, (uint)access);
+            }
+            if (share != MediaDeviceShare.Default)
+            {
+                clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_SHARE_MODE, (uint)share);
+            }
+
+            // open device
             this.device.Open(this.DeviceId, clientInfo);
             this.device.Capabilities(out this.deviceCapabilities);
             this.device.Content(out this.deviceContent);

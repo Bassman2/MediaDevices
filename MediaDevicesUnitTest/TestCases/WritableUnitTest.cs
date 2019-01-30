@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MediaDevicesUnitTest
 {
@@ -368,7 +367,7 @@ namespace MediaDevicesUnitTest
             var devices = MediaDevice.GetDevices();
             var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
-            device.Connect(MediaDeviceAccess.Read);
+            device.Connect(MediaDeviceAccess.GenericRead);
             var root = device.GetRootDirectory();
             var list = root.EnumerateFileSystemInfos().ToList();
 
