@@ -47,20 +47,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
+    <Compile Include="CompleteEventArgs.cs" />
     <Compile Include="ContentType.cs" />
     <Compile Include="DeviceTransport.cs" />
     <Compile Include="DeviceType.cs" />
     <Compile Include="Enumerables.cs" />
+    <Compile Include="Internal\EnumPortableDeviceConnectors.cs" />
+    <Compile Include="Internal\IConnectionRequestCallback.cs" />
+    <Compile Include="Internal\IEnumPortableDeviceConnectors.cs" />
     <Compile Include="Internal\IEnumPortableDeviceObjectIDs.cs" />
     <Compile Include="Internal\IPortableDevice.cs" />
     <Compile Include="Internal\IPortableDeviceCapabilities.cs" />
+    <Compile Include="Internal\IPortableDeviceConnector.cs" />
     <Compile Include="Internal\IPortableDeviceContent.cs" />
+    <Compile Include="Internal\IPortableDeviceContent2.cs" />
     <Compile Include="Internal\IPortableDeviceEventCallback.cs" />
     <Compile Include="Internal\IPortableDeviceKeyCollection.cs" />
     <Compile Include="Internal\IPortableDeviceManager.cs" />
     <Compile Include="Internal\IPortableDeviceProperties.cs" />
     <Compile Include="Internal\IPortableDevicePropVariantCollection.cs" />
     <Compile Include="Internal\IPortableDeviceResources.cs" />
+    <Compile Include="Internal\IPortableDeviceService.cs" />
+    <Compile Include="Internal\IPortableDeviceServiceCapabilities.cs" />
+    <Compile Include="Internal\IPortableDeviceServiceManager.cs" />
+    <Compile Include="Internal\IPortableDeviceServiceMethodCallback.cs" />
+    <Compile Include="Internal\IPortableDeviceServiceMethods.cs" />
     <Compile Include="Internal\IPortableDeviceValues.cs" />
     <Compile Include="Internal\IPortableDeviceValuesCollection.cs" />
     <Compile Include="Internal\IPropertyStore.cs" />
@@ -75,6 +86,9 @@
     <Compile Include="Internal\PropVariant.cs" />
     <Compile Include="Internal\PropVariantData.cs" />
     <Compile Include="MediaDeviceAccess.cs" />
+    <Compile Include="MediaDeviceConnector.cs" />
+    <Compile Include="MediaDeviceConnectors.cs" />
+    <Compile Include="MediaDeviceContacts.cs" />
     <Compile Include="MediaDeviceShare.cs" />
     <Compile Include="MediaDriveInfo.cs" />
     <Compile Include="Internal\ComHelper.cs" />

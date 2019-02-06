@@ -74,6 +74,7 @@
     <Compile Include="AmazonKindlePaperwhiteUnitTest.cs" />
     <Compile Include="AmazonFire7UnitTest.cs" />
     <Compile Include="TestCases\WritableUnitTest.cs" />
+    <Compile Include="ConnectorsUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MediaDevices\MediaDevices.csproj">
