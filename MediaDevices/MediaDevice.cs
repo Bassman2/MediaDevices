@@ -1,4 +1,5 @@
 ﻿using MediaDevices.Internal;
+using MediaDevices.WMDM;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -83,7 +84,8 @@ namespace MediaDevices
 
         #region static
 
-        private static readonly IPortableDeviceManager portableDeviceManager;
+        private static readonly IPortableDeviceManager deviceManager;
+        private static readonly IPortableDeviceServiceManager serviceManager;
 
         private static List<MediaDevice> devices;
         private static List<MediaDevice> privateDevices;
@@ -92,13 +94,24 @@ namespace MediaDevices
         {
             try
             {
-                PortableDeviceManager inst = new PortableDeviceManager();
-                portableDeviceManager = (IPortableDeviceManager)inst;
+                deviceManager = (IPortableDeviceManager)new PortableDeviceManager(); 
+                serviceManager = (IPortableDeviceServiceManager)deviceManager;
+
+                //var x = new MediaDevMgr();
+                //var f = new MediaDevMgrClassFactory();
+                //IWMDeviceManager3 devManager = (IWMDeviceManager3)f;
+
+
+                //devManager.GetRevision(out var revision);
+                //devManager.GetDeviceCount(out var count);
+                //devManager.EnumDevices2(out var e);
             }
             catch (Exception ex)
             {
                 Trace.TraceError(ex.ToString());
             }
+
+            // #define WMDM_E_NOTCERTIFIED                     0x80045005L
         }
 
         /// <summary>
@@ -107,11 +120,11 @@ namespace MediaDevices
         /// <returns>>An enumerable collection of portable devices currently available.</returns>
         public static IEnumerable<MediaDevice> GetDevices()
         {
-            portableDeviceManager.RefreshDeviceList();
+            deviceManager.RefreshDeviceList();
 
             // get number of devices
             uint count = 0;
-            portableDeviceManager.GetDevices(null, ref count);
+            deviceManager.GetDevices(null, ref count);
 
             if (count == 0)
             {
@@ -120,7 +133,7 @@ namespace MediaDevices
 
             // get device IDs
             var deviceIds = new string[count];
-            portableDeviceManager.GetDevices(deviceIds, ref count);
+            deviceManager.GetDevices(deviceIds, ref count);
 
             if (devices == null)
             {
@@ -166,11 +179,11 @@ namespace MediaDevices
         /// <returns>>An enumerable collection of private portable devices currently available.</returns>
         public static IEnumerable<MediaDevice> GetPrivateDevices()
         {
-            portableDeviceManager.RefreshDeviceList();
+            deviceManager.RefreshDeviceList();
 
             // get number of devices
             uint count = 0;
-            portableDeviceManager.GetPrivateDevices(null, ref count);
+            deviceManager.GetPrivateDevices(null, ref count);
 
             if (count == 0)
             {
@@ -179,7 +192,7 @@ namespace MediaDevices
 
             // get device IDs
             var deviceIds = new string[count];
-            portableDeviceManager.GetPrivateDevices(deviceIds, ref count);
+            deviceManager.GetPrivateDevices(deviceIds, ref count);
 
             if (privateDevices == null)
             {
@@ -207,7 +220,7 @@ namespace MediaDevices
             {
                 count = 256;
                 StringBuilder sb = new StringBuilder((int)count);
-                portableDeviceManager.GetDeviceDescription(deviceId, sb, ref count);
+                deviceManager.GetDeviceDescription(deviceId, sb, ref count);
                 this.Description = sb.ToString(); //new string(buffer, 0, (int)count - 1);
             }
             catch (COMException ex)
@@ -219,7 +232,7 @@ namespace MediaDevices
             {
                 count = 256;
                 StringBuilder sb = new StringBuilder((int)count);
-                portableDeviceManager.GetDeviceFriendlyName(deviceId, sb, ref count);
+                deviceManager.GetDeviceFriendlyName(deviceId, sb, ref count);
                 this.friendlyName = sb.ToString();
             }
             catch (COMException ex)
@@ -231,7 +244,7 @@ namespace MediaDevices
             {
                 count = 256;
                 StringBuilder sb = new StringBuilder((int)count);
-                portableDeviceManager.GetDeviceManufacturer(deviceId, sb, ref count);
+                deviceManager.GetDeviceManufacturer(deviceId, sb, ref count);
                 this.Manufacturer = sb.ToString();
             }
             catch (COMException ex)
@@ -324,7 +337,7 @@ namespace MediaDevices
                     char[] buffer = new char[260];
                     uint count = 256;
                     StringBuilder sb = new StringBuilder((int)count);
-                    portableDeviceManager.GetDeviceFriendlyName(this.DeviceId, sb, ref count);
+                    deviceManager.GetDeviceFriendlyName(this.DeviceId, sb, ref count);
                     this.friendlyName = sb.ToString();
                 }
                 catch (COMException ex)
@@ -682,6 +695,14 @@ namespace MediaDevices
             // set open device parameters
             var clientInfo = (IPortableDeviceValues)new PortableDeviceValues();
             clientInfo.SetStringValue(ref WPD.CLIENT_NAME, appName);
+
+            clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_MAJOR_VERSION, 1);
+            clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_MINOR_VERSION, 0);
+            clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_REVISION, 0);
+            // Some device drivers need to impersonate the caller in order to function correctly. Since our application does not
+            // need to restrict its identity, specify SECURITY_IMPERSONATION so that we work with all devices.
+            clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_SECURITY_QUALITY_OF_SERVICE, (uint)Security.IMPERSONATION);
+
             if (access != MediaDeviceAccess.Default)
             {
                 clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_DESIRED_ACCESS, (uint)access);
@@ -2129,8 +2150,37 @@ namespace MediaDevices
 
         #endregion
 
+        #region Services
+
+        // private static Guid GUID_DEVINTERFACE_WPD_SERVICECATION = new Guid(0x9EF44F80, 0x3D64, 0x4246, 0xA6, 0xAA, 0x20, 0x6F, 0x32, 0x8D, 0x1E, 0xDC);
+
+        public IEnumerable<MediaDeviceService> GetServices(Services service)
+        {
+            Guid serviceGuid = service.Guid();
+            uint num = 0;
+            serviceManager.GetDeviceServices(this.DeviceId, ref serviceGuid, null, ref num);
+
+            if (num == 0)
+            {
+                return null;
+            }
+            string[] services = new string[num];
+            serviceManager.GetDeviceServices(this.DeviceId, ref serviceGuid, services, ref num);
+
+            switch (service)
+            {
+                case Services.Status:
+                    return services.Select(s => new MediaDeviceStatusService(this, s));
+                default:
+                    return services.Select(s => new MediaDeviceService(this, s));
+            }
+        }
+           
+            
+        #endregion
+
         #region Internal Methods
-        
+
         internal static bool IsPath(string path)
         {
             return !string.IsNullOrWhiteSpace(path) && path.IndexOfAny(Path.GetInvalidPathChars()) < 0;

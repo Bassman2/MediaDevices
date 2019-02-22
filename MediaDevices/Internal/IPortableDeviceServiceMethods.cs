@@ -14,12 +14,12 @@ namespace MediaDevices.Internal
     internal interface IPortableDeviceServiceMethods
     {
         [MethodImpl(MethodImplOptions.InternalCall)]
-        void Invoke([In] ref Guid Method, [In] [MarshalAs(UnmanagedType.Interface)] IPortableDeviceValues pParameters, [In] [Out] [MarshalAs(UnmanagedType.Interface)] ref IPortableDeviceValues ppResults);
+        void Invoke([In] ref Guid Method, [In] [MarshalAs(UnmanagedType.Interface)] ref IPortableDeviceValues pParameters, [In] [Out] [MarshalAs(UnmanagedType.Interface)] ref IPortableDeviceValues ppResults);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        void InvokeAsync([In] ref Guid Method, [In] [MarshalAs(UnmanagedType.Interface)] IPortableDeviceValues pParameters, [In] [MarshalAs(UnmanagedType.Interface)] IPortableDeviceServiceMethodCallback pCallback);
+        void InvokeAsync([In] ref Guid Method, [In] [MarshalAs(UnmanagedType.Interface)] ref IPortableDeviceValues pParameters, [In] [MarshalAs(UnmanagedType.Interface)] IPortableDeviceServiceMethodCallback pCallback);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        void Cancel([In] [MarshalAs(UnmanagedType.Interface)] IPortableDeviceServiceMethodCallback pCallback);
+        void Cancel([In] [MarshalAs(UnmanagedType.Interface)] ref IPortableDeviceServiceMethodCallback pCallback);
     }
 }

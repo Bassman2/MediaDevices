@@ -46,6 +46,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChargingState.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="CompleteEventArgs.cs" />
     <Compile Include="ContentType.cs" />
@@ -80,16 +81,19 @@
     <Compile Include="Internal\PortableDeviceKeyCollection.cs" />
     <Compile Include="Internal\PortableDeviceManager.cs" />
     <Compile Include="Internal\PortableDevicePropVariantCollection.cs" />
+    <Compile Include="Internal\PortableDeviceService.cs" />
     <Compile Include="Internal\PortableDeviceValues.cs" />
     <Compile Include="Internal\PropertyKey.cs" />
     <Compile Include="Internal\PropertyKeys.cs" />
     <Compile Include="Internal\PropVariant.cs" />
     <Compile Include="Internal\PropVariantData.cs" />
+    <Compile Include="Internal\Security.cs" />
     <Compile Include="MediaDeviceAccess.cs" />
     <Compile Include="MediaDeviceConnector.cs" />
     <Compile Include="MediaDeviceConnectors.cs" />
     <Compile Include="MediaDeviceContacts.cs" />
     <Compile Include="MediaDeviceShare.cs" />
+    <Compile Include="MediaDeviceStatusService.cs" />
     <Compile Include="MediaDriveInfo.cs" />
     <Compile Include="Internal\ComHelper.cs" />
     <Compile Include="Internal\Command.cs" />
@@ -122,10 +126,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\PropVariantFacade.cs" />
     <Compile Include="Internal\StreamWrapper.cs" />
+    <Compile Include="MediaDeviceService.cs" />
+    <Compile Include="Roaming.cs" />
+    <Compile Include="Services.cs" />
     <Compile Include="StorageAccessCapability.cs" />
     <Compile Include="StorageType.cs" />
+    <Compile Include="WMDM\IWMDeviceManager.cs" />
+    <Compile Include="WMDM\IWMDeviceManager2.cs" />
+    <Compile Include="WMDM\IWMDeviceManager3.cs" />
+    <Compile Include="WMDM\IWMDMDevice.cs" />
+    <Compile Include="WMDM\IWMDMEnumDevice.cs" />
+    <Compile Include="WMDM\MediaDevMgr.cs" />
+    <Compile Include="WMDM\MediaDevMgrClassFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internal\WPD.ServiceProperties.cs" />
     <None Include="MediaDevicesLicense.txt" />
   </ItemGroup>
   <ItemGroup>

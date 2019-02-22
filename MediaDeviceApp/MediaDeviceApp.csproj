@@ -77,6 +77,8 @@
     <Compile Include="ViewModel\ItemViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RootViewModel.cs" />
+    <Compile Include="ViewModel\ServiceStatusViewModel.cs" />
+    <Compile Include="ViewModel\ServicesViewModel.cs" />
     <Compile Include="ViewModel\SmsViewModel.cs" />
     <Compile Include="ViewModel\StillImageViewModel.cs" />
     <Compile Include="ViewModel\StorageViewModel.cs" />
@@ -105,6 +107,12 @@
     </Compile>
     <Compile Include="View\RootView.xaml.cs">
       <DependentUpon>RootView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ServiceStatusView.xaml.cs">
+      <DependentUpon>ServiceStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ServicesView.xaml.cs">
+      <DependentUpon>ServicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SmsView.xaml.cs">
       <DependentUpon>SmsView.xaml</DependentUpon>
@@ -146,6 +154,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RootView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ServiceStatusView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ServicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

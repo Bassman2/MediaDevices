@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Media Devices App" 
         Height="800" 
-        Width="1024" 
+        Width="1200" 
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" 
         ResizeMode="CanResizeWithGrip"
         UsbChangedCommand="{Binding UsbChangedCommand}">
@@ -86,6 +86,13 @@
             </TabItem>
             <TabItem Header="Vendor" DataContext="{Binding Vendor}">
                 <v:VendorView/>
+            </TabItem>
+            <TabItem Header="Services" DataContext="{Binding Services}">
+                <v:ServicesView/>
+            </TabItem>
+
+            <TabItem Header="Service Status" DataContext="{Binding ServiceStatus}">
+                <v:ServiceStatusView/>
             </TabItem>
         </TabControl>
     </DockPanel>

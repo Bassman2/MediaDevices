@@ -36,6 +36,8 @@ namespace MediaDeviceApp.ViewModel
         public SmsViewModel Sms { get; private set; }
         public ExplorerViewModel Explorer { get; private set; }
         public VendorViewModel Vendor { get; private set; }
+        public ServicesViewModel Services { get; private set; }
+        public ServiceStatusViewModel ServiceStatus { get; private set; }
 
         public MainViewModel()
         {
@@ -55,7 +57,9 @@ namespace MediaDeviceApp.ViewModel
             this.Sms = new SmsViewModel();
             this.Explorer = new ExplorerViewModel();
             this.Vendor = new VendorViewModel();
-            
+            this.Services = new ServicesViewModel();
+            this.ServiceStatus = new ServiceStatusViewModel();
+
             OnRefresh();
         }
         
@@ -154,7 +158,8 @@ namespace MediaDeviceApp.ViewModel
                     this.Sms.Update(this.selectedDevice);
                     this.Explorer.Update(this.selectedDevice);
                     this.Vendor.Update(this.selectedDevice);
-
+                    this.Services.Update(this.selectedDevice);
+                    this.ServiceStatus.Update(this.selectedDevice);
                     //if (selectedDevice.Description != "My Passport 25E2")
                     //{
                     //    var root = selectedDevice.GetRootDirectory();

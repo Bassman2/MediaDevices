@@ -41,7 +41,7 @@ namespace MediaDevices.Internal
 
         void SendCommand(
             [In] uint dwFlags, 
-            [In, MarshalAs(UnmanagedType.Interface)] IPortableDeviceValues pParameters, 
-            [MarshalAs(UnmanagedType.Interface)] out IPortableDeviceValues ppResults);
+            [In, MarshalAs(UnmanagedType.Interface)] ref IPortableDeviceValues pParameters, 
+            [Out, MarshalAs(UnmanagedType.Interface)] out IPortableDeviceValues ppResults);
     }
 }

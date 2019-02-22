@@ -15,6 +15,18 @@ namespace MediaDevices.Internal
             return attribute.Guid;
         }
 
+        public static IEnumerable<PropertyKey> ToEnum(this IPortableDeviceKeyCollection col) 
+        {
+            uint count = 0;
+            col.GetCount(ref count);
+            for (uint i = 0; i < count; i++)
+            {
+                PropertyKey key = new PropertyKey();
+                col.GetAt(i, ref key);
+                yield return key;
+            }
+        }
+
         public static IEnumerable<TEnum> ToEnum<TEnum>(this IPortableDeviceKeyCollection col) where TEnum : struct // enum
         {
             uint count = 0;

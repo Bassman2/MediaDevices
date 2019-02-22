@@ -44,6 +44,17 @@ namespace MediaDevices.Internal
             get { return this.Value.vt; }
         }
 
+        public string ToDebugString()
+        {
+            if (this.Value.vt == PropVariantType.VT_ERROR)
+            {
+                int error = ToError();
+                string name = Enum.GetName(typeof(HResult), error) ?? error.ToString("X");
+                return $"Error: {name}";
+            }
+            return ToString();
+        }
+
         public override string ToString()
         {
             switch (this.Value.vt)
@@ -67,22 +78,29 @@ namespace MediaDevices.Internal
                     return ToBool().ToString();
 
                 case PropVariantType.VT_INT:
+                case PropVariantType.VT_I1:
+                case PropVariantType.VT_I2:
                 case PropVariantType.VT_I4:
                     return ToInt().ToString();
 
+                case PropVariantType.VT_UINT:
+                case PropVariantType.VT_UI1:
+                case PropVariantType.VT_UI2:
                 case PropVariantType.VT_UI4:
                     return ToUInt().ToString();
+
+                case PropVariantType.VT_I8:
+                    return ToLong().ToString();
 
                 case PropVariantType.VT_UI8:
                     return ToUlong().ToString();
 
                 case PropVariantType.VT_ERROR:
-                    int error = ToError();
-                    string name = Enum.GetName(typeof(HResult), error) ?? error.ToString("X");
-                    return $"Error: {name}";
-            }
+                    return "";
 
-            return $"Unknown type {this.Value.vt}"; 
+                default:
+                    return "";
+            }
         }
 
         public int ToInt()
@@ -92,7 +110,10 @@ namespace MediaDevices.Internal
                 return 0;
             }
 
-            if (this.Value.vt != PropVariantType.VT_INT && this.Value.vt != PropVariantType.VT_I4)
+            if (this.Value.vt != PropVariantType.VT_INT
+             && this.Value.vt != PropVariantType.VT_I1
+             && this.Value.vt != PropVariantType.VT_I2
+             && this.Value.vt != PropVariantType.VT_I4)
             {
                 throw new InvalidOperationException($"ToInt does not work for value type {this.Value.vt}");
             }
@@ -107,12 +128,30 @@ namespace MediaDevices.Internal
                 return 0;
             }
 
-            if (this.Value.vt != PropVariantType.VT_UINT && this.Value.vt != PropVariantType.VT_UI4)
+            if (this.Value.vt != PropVariantType.VT_UINT
+             && this.Value.vt != PropVariantType.VT_UI1
+             && this.Value.vt != PropVariantType.VT_UI2
+             && this.Value.vt != PropVariantType.VT_UI4)
             {
                 throw new InvalidOperationException($"ToUInt does not work for value type {this.Value.vt}");
             }
 
             return this.Value.uintVal;
+        }
+
+        public long ToLong()
+        {
+            if (this.Value.vt == PropVariantType.VT_ERROR)
+            {
+                return 0;
+            }
+
+            if (this.Value.vt != PropVariantType.VT_I8)
+            {
+                throw new InvalidOperationException($"ToLong does not work for value type {this.Value.vt}");
+            }
+
+            return this.Value.longVal;
         }
 
         public ulong ToUlong()
@@ -253,6 +292,12 @@ namespace MediaDevices.Internal
         {
             return val.ToInt();
         }
+
+        public static implicit operator byte(PropVariantFacade val)
+        {
+            return (byte)val.ToUInt();
+        }
+
 
         public static implicit operator ulong(PropVariantFacade val)
         {

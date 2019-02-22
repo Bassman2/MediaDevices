@@ -25,7 +25,7 @@ namespace MediaDeviceApp.ViewModel
         public void Update(MediaDevice device)
         {
             this.device = device;
-            this.Drives = device.GetDrives().ToList();
+            this.Drives = device?.GetDrives()?.ToList();
             this.SelectedDrive = this.Drives?.FirstOrDefault();
         }
 

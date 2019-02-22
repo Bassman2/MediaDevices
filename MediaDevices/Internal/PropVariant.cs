@@ -29,6 +29,9 @@ namespace MediaDevices.Internal
         public uint uintVal;
 
         [FieldOffset(8)]
+        public long longVal;
+
+        [FieldOffset(8)]
         public ulong ulongVal;
 
         [FieldOffset(8)]

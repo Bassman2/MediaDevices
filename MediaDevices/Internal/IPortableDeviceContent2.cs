@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace MediaDevices.Internal
 {
+    [ComImport]
     [Guid("9B4ADD96-F6BF-4034-8708-ECA72BF10554")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     internal interface IPortableDeviceContent2 : IPortableDeviceContent

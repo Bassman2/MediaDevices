@@ -12,8 +12,8 @@ namespace MediaDevices.Internal
         [MethodImpl(MethodImplOptions.InternalCall)]
         void Next(
             [In] uint cRequested, 
-            //[MarshalAs(UnmanagedType.Interface)] out IPortableDeviceConnector pConnectors,
-            [In, Out, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Interface)] ref IPortableDeviceConnector[] pPnPDeviceIDs,
+            [Out, MarshalAs(UnmanagedType.Interface)] out IPortableDeviceConnector pConnectors,
+            //[In, Out, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Interface)] ref IPortableDeviceConnector[] pPnPDeviceIDs,
             [In, Out] ref uint pcFetched);
 
         [MethodImpl(MethodImplOptions.InternalCall)]

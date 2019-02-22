@@ -2,7 +2,7 @@ using System;
 
 namespace MediaDevices.Internal
 {
-    internal static class WPD
+    internal static partial class WPD
     {
 
         //

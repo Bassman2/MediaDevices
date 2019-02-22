@@ -11,7 +11,7 @@ namespace MediaDevices
     {
         #region static
 
-        //private static readonly IPortableDeviceServiceManager portableDeviceManager;
+        //private static readonly IPortableDeviceServiceManager deviceManager;
 
 
         //static MediaDeviceContacts()
@@ -19,7 +19,7 @@ namespace MediaDevices
         //    try
         //    {
         //        IPortableDeviceServiceManager inst = new IPortableDeviceServiceManager();
-        //        portableDeviceManager = (IPortableDeviceServiceManager)inst;
+        //        deviceManager = (IPortableDeviceServiceManager)inst;
         //    }
         //    catch (Exception ex)
         //    {

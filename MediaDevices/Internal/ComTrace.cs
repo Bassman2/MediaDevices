@@ -80,30 +80,13 @@ namespace MediaDevices.Internal
                     }
                 }
 
-
-                //string fieldName = string.Empty; // field?.Name ?? $"{key.fmtid}, {key.pid}";
-                //if (field?.Name == null)
-                //{ 
-                //    if (key.fmtid == WPD.PROPERTIES_MTP_VENDOR_EXTENDED_DEVICE_PROPS)
-                //    {
-
-                //    }
-                //    else
-                //    {
-                //        fieldName = $"{key.fmtid}, {key.pid}";
-                //    }
-                //}
-                //else
-                //{
-                //    fieldName = field.Name;
-                //}
                 switch (val.VariantType)
                 {
                 case PropVariantType.VT_CLSID:
                     Trace.WriteLine($"##### {fieldName} = {FindGuidField(val.ToGuid())?.Name ?? val.ToString()}");
                     break;
                 default:
-                    Trace.WriteLine($"##### {fieldName} = {val.ToString()}");
+                    Trace.WriteLine($"##### {fieldName} = {val.ToDebugString()}");
                     break;
                 }
             }
@@ -121,7 +104,7 @@ namespace MediaDevices.Internal
                 {
                     collection.GetAt(index, ref val.Value);
 
-                    Trace.WriteLine($"##### {val.ToString()}");
+                    Trace.WriteLine($"##### {val.ToDebugString()}");
                 }
             }
         }
