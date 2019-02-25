@@ -38,7 +38,7 @@
         <ListBox Grid.Column="1" Grid.Row="5" ItemsSource="{Binding Statuses}" Margin="3"/>
         <Label Grid.Column="0" Grid.Row="6" Content="Hints"/>
         <ListBox Grid.Column="1" Grid.Row="6" ItemsSource="{Binding Hints}" Margin="3"/>
-        <Label Grid.Column="0" Grid.Row="7" Content="DeviceMetadatas"/>
+        <Label Grid.Column="0" Grid.Row="7" Content="Device Metadata"/>
         <ListBox Grid.Column="1" Grid.Row="7" ItemsSource="{Binding DeviceMetadatas}" Margin="3"/>
         <Label Grid.Column="0" Grid.Row="8" Content="Ringtones"/>
         <ListBox Grid.Column="1" Grid.Row="8" ItemsSource="{Binding Ringtones}" Margin="3"/>

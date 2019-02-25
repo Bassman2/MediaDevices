@@ -94,6 +94,9 @@
             <TabItem Header="Service Status" DataContext="{Binding ServiceStatus}">
                 <v:ServiceStatusView/>
             </TabItem>
+            <TabItem Header="Service Metadata" DataContext="{Binding ServiceMetadata}">
+                <v:ServiceMetadataView/>
+            </TabItem>
         </TabControl>
     </DockPanel>
 </UsbMonitorWindow>

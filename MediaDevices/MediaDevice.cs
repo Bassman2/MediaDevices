@@ -2171,6 +2171,10 @@ namespace MediaDevices
             {
                 case Services.Status:
                     return services.Select(s => new MediaDeviceStatusService(this, s));
+                case Services.Hints:
+                    return services.Select(s => new MediaDeviceHintsService(this, s));
+                case Services.Metadata:
+                    return services.Select(s => new MediaDeviceMetadataService(this, s));
                 default:
                     return services.Select(s => new MediaDeviceService(this, s));
             }

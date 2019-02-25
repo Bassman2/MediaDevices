@@ -21,12 +21,14 @@ namespace MediaDevices.Internal
 
         private static FieldInfo FindPropertyKeyField(PropertyKey key)
         {
-            return pkeyFields.SingleOrDefault(i => ((PropertyKey)i.GetValue(null)) == key);
+            //return pkeyFields.SingleOrDefault(i => ((PropertyKey)i.GetValue(null)) == key);
+            return pkeyFields.FirstOrDefault(i => ((PropertyKey)i.GetValue(null)) == key);
         }
-        
+
         private static FieldInfo FindGuidField(Guid guid)
         {
-            return guidFields.SingleOrDefault(i => ((Guid)i.GetValue(null)) == guid);
+            //return guidFields.SingleOrDefault(i => ((Guid)i.GetValue(null)) == guid);
+            return guidFields.FirstOrDefault(i => ((Guid)i.GetValue(null)) == guid);
         }
 
         [Conditional("COMTRACE")]

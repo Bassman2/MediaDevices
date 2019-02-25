@@ -96,6 +96,7 @@ namespace MediaDevices.Internal
                     return ToUlong().ToString();
 
                 case PropVariantType.VT_ERROR:
+                    Debug.WriteLine($"VT_ERROR: 0x{this.Value.errorCode:X}");
                     return "";
 
                 default:
@@ -107,6 +108,7 @@ namespace MediaDevices.Internal
         {
             if (this.Value.vt == PropVariantType.VT_ERROR)
             {
+                Debug.WriteLine($"VT_ERROR: 0x{this.Value.errorCode:X}");
                 return 0;
             }
 
@@ -125,6 +127,7 @@ namespace MediaDevices.Internal
         {
             if (this.Value.vt == PropVariantType.VT_ERROR)
             {
+                Debug.WriteLine($"VT_ERROR: 0x{this.Value.errorCode:X}");
                 return 0;
             }
 
@@ -143,6 +146,7 @@ namespace MediaDevices.Internal
         {
             if (this.Value.vt == PropVariantType.VT_ERROR)
             {
+                Debug.WriteLine($"VT_ERROR: 0x{this.Value.errorCode:X}");
                 return 0;
             }
 
@@ -158,6 +162,7 @@ namespace MediaDevices.Internal
         {
             if (this.Value.vt == PropVariantType.VT_ERROR)
             {
+                Debug.WriteLine($"VT_ERROR: 0x{this.Value.errorCode:X}");
                 return 0;
             }
 
@@ -169,11 +174,11 @@ namespace MediaDevices.Internal
             return this.Value.ulongVal;
         }
 
-
         public DateTime ToDate()
         {
             if (this.Value.vt == PropVariantType.VT_ERROR)
             {
+                Debug.WriteLine($"VT_ERROR: 0x{this.Value.errorCode:X}");
                 return new DateTime();
             }
 
@@ -189,6 +194,7 @@ namespace MediaDevices.Internal
         {
             if (this.Value.vt == PropVariantType.VT_ERROR)
             {
+                Debug.WriteLine($"VT_ERROR: 0x{this.Value.errorCode:X}");
                 return false;
             }
 
@@ -204,6 +210,7 @@ namespace MediaDevices.Internal
         {
             if (this.Value.vt == PropVariantType.VT_ERROR)
             {
+                Debug.WriteLine($"VT_ERROR: 0x{this.Value.errorCode:X}");
                 return new Guid();
             }
 
@@ -219,6 +226,12 @@ namespace MediaDevices.Internal
         [SecurityCritical]
         public byte[] ToByteArray()
         {
+            if (this.Value.vt == PropVariantType.VT_ERROR)
+            {
+                Debug.WriteLine($"VT_ERROR: 0x{this.Value.errorCode:X}");
+                return null;
+            }
+
             if (this.Value.vt != (PropVariantType.VT_VECTOR | PropVariantType.VT_UI1))
             {
                 throw new InvalidOperationException($"ToByteArray does not work for value type {this.Value.vt}");
@@ -297,8 +310,7 @@ namespace MediaDevices.Internal
         {
             return (byte)val.ToUInt();
         }
-
-
+        
         public static implicit operator ulong(PropVariantFacade val)
         {
             return val.ToUlong();

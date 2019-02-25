@@ -92,6 +92,8 @@
     <Compile Include="MediaDeviceConnector.cs" />
     <Compile Include="MediaDeviceConnectors.cs" />
     <Compile Include="MediaDeviceContacts.cs" />
+    <Compile Include="MediaDeviceHintsService.cs" />
+    <Compile Include="MediaDeviceMetadataService.cs" />
     <Compile Include="MediaDeviceShare.cs" />
     <Compile Include="MediaDeviceStatusService.cs" />
     <Compile Include="MediaDriveInfo.cs" />

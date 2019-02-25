@@ -25,7 +25,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.device?.GetServices(Services.All)?.Select(s => s.Name).ToList();
+                return this.device?.GetServices(Services.All)?.Select(s => s.ServiceName).ToList();
             }
         }
 
@@ -33,7 +33,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.device?.GetServices(Services.Contact)?.Select(s => s.Name).ToList();
+                return this.device?.GetServices(Services.Contact)?.Select(s => s.ServiceName).ToList();
             }
         }
 
@@ -41,7 +41,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.device?.GetServices(Services.Calendar)?.Select(s => s.Name).ToList();
+                return this.device?.GetServices(Services.Calendar)?.Select(s => s.ServiceName).ToList();
             }
         }
 
@@ -49,7 +49,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.device?.GetServices(Services.Notes)?.Select(s => s.Name).ToList();
+                return this.device?.GetServices(Services.Notes)?.Select(s => s.ServiceName).ToList();
             }
         }
 
@@ -57,7 +57,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.device?.GetServices(Services.Task)?.Select(s => s.Name).ToList();
+                return this.device?.GetServices(Services.Task)?.Select(s => s.ServiceName).ToList();
             }
         }
 
@@ -65,7 +65,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.device?.GetServices(Services.Status)?.Select(s => s.Name).ToList();
+                return this.device?.GetServices(Services.Status)?.Select(s => s.ServiceName).ToList();
             }
         }
 
@@ -73,7 +73,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.device?.GetServices(Services.Hints)?.Select(s => s.Name).ToList();
+                return this.device?.GetServices(Services.Hints)?.Select(s => s.ServiceName).ToList();
             }
         }
 
@@ -81,7 +81,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.device?.GetServices(Services.DeviceMetadata)?.Select(s => s.Name).ToList();
+                return this.device?.GetServices(Services.Metadata)?.Select(s => s.ServiceName).ToList();
             }
         }
 
@@ -89,7 +89,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.device?.GetServices(Services.Ringtone)?.Select(s => s.Name).ToList();
+                return this.device?.GetServices(Services.Ringtone)?.Select(s => s.ServiceName).ToList();
             }
         }
 
@@ -97,7 +97,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.device?.GetServices(Services.EnumerationSynchronization)?.Select(s => s.Name).ToList();
+                return this.device?.GetServices(Services.EnumerationSynchronization)?.Select(s => s.ServiceName).ToList();
             }
         }
 
@@ -105,7 +105,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                return this.device?.GetServices(Services.AnchorSynchronization)?.Select(s => s.Name).ToList();
+                return this.device?.GetServices(Services.AnchorSynchronization)?.Select(s => s.ServiceName).ToList();
             }
         }
     }

@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="MediaDeviceApp.View.ServiceMetadataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MediaDeviceApp.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="0" Grid.Row="0" Content="Service"/>
+        <ComboBox Grid.Column="1" Grid.Row="0" SelectedItem="{Binding SelectedService}" ItemsSource="{Binding MediaDeviceServices}" DisplayMemberPath="ServiceName"  SelectedIndex="0" Margin="3" />
+
+        <Label Grid.Column="0" Grid.Row="1" Content="Parent Id"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SelectedService.ParentId, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Name"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SelectedService.Name, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="PUOID"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding SelectedService.PUOID, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Object Format"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding SelectedService.ObjectFormat, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="Object Size"/>
+        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding SelectedService.ObjectSize, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="6" Content="Storage ID"/>
+        <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding SelectedService.StorageID, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="7" Content="Language Locale"/>
+        <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding SelectedService.LanguageLocale, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="8" Content="Content ID"/>
+        <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding SelectedService.ContentID, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="9" Content="Default CAB"/>
+        <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding SelectedService.DefaultCAB, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+       
+    </Grid>
+</UserControl>

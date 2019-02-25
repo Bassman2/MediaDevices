@@ -23,12 +23,12 @@ namespace MediaDevices
         {
             this.device = device;
             this.ServiceId = serviceId;
-            this.Name = serviceId.Substring(serviceId.LastIndexOf(@"\") + 1);
+            this.ServiceName = serviceId.Substring(serviceId.LastIndexOf(@"\") + 1);
         }
 
         public string ServiceId { get; private set; }
 
-        public string Name { get; private set; }
+        public string ServiceName { get; private set; }
 
         public string ServiceObjectID { get; private set; }
 

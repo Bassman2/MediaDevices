@@ -39,6 +39,8 @@ namespace MediaDeviceApp.ViewModel
         public ServicesViewModel Services { get; private set; }
         public ServiceStatusViewModel ServiceStatus { get; private set; }
 
+        public ServiceMetadataViewModel ServiceMetadata { get; private set; }
+
         public MainViewModel()
         {
             this.RefreshCommand = new DelegateCommand(OnRefresh);
@@ -59,6 +61,7 @@ namespace MediaDeviceApp.ViewModel
             this.Vendor = new VendorViewModel();
             this.Services = new ServicesViewModel();
             this.ServiceStatus = new ServiceStatusViewModel();
+            this.ServiceMetadata = new ServiceMetadataViewModel();
 
             OnRefresh();
         }
@@ -160,6 +163,7 @@ namespace MediaDeviceApp.ViewModel
                     this.Vendor.Update(this.selectedDevice);
                     this.Services.Update(this.selectedDevice);
                     this.ServiceStatus.Update(this.selectedDevice);
+                    this.ServiceMetadata.Update(this.selectedDevice);
                     //if (selectedDevice.Description != "My Passport 25E2")
                     //{
                     //    var root = selectedDevice.GetRootDirectory();

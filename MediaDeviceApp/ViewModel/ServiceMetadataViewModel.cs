@@ -1,23 +1,26 @@
 ﻿using MediaDeviceApp.Mvvm;
 using MediaDevices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MediaDeviceApp.ViewModel
 {
-    public class ServiceStatusViewModel : BaseViewModel
+    public class ServiceMetadataViewModel : BaseViewModel
     {
         private MediaDevice device;
         private MediaDeviceService selectedService;
 
-        public ServiceStatusViewModel()
+        public ServiceMetadataViewModel()
         { }
 
         public void Update(MediaDevice device)
         {
             this.device = device;
 
-            this.MediaDeviceServices = this.device.GetServices(Services.Status)?.ToList();
+            this.MediaDeviceServices = this.device.GetServices(Services.Metadata)?.ToList();
             NotifyAllPropertiesChanged();
         }
 
@@ -45,6 +48,5 @@ namespace MediaDeviceApp.ViewModel
                 }
             }
         }
-
     }
 }
