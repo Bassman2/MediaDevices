@@ -5,6 +5,12 @@ namespace MediaDevices
     public enum Services
     {
         /// <summary>
+        /// Unknown service
+        /// </summary>
+        [EnumGuid()]
+        Unknown, 
+
+        /// <summary>
         /// All services
         /// </summary>
         [EnumGuid(0x9EF44F80, 0x3D64, 0x4246, 0xA6, 0xAA, 0x20, 0x6F, 0x32, 0x8D, 0x1E, 0xDC)]

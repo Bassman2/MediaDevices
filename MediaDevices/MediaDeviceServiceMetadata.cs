@@ -3,9 +3,9 @@ using System;
 
 namespace MediaDevices
 {
-    public class MediaDeviceMetadataService : MediaDeviceService
+    public class MediaDeviceServiceMetadata : MediaDeviceService
     {
-        internal MediaDeviceMetadataService(MediaDevice device, string serviceId) : base(device, serviceId)
+        internal MediaDeviceServiceMetadata(MediaDevice device, string serviceId) : base(device, serviceId)
         {
 
         }

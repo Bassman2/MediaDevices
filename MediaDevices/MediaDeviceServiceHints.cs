@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MediaDevices
 {
-    public class MediaDeviceHintsService : MediaDeviceService
+    public class MediaDeviceServiceHints : MediaDeviceService
     {
-        internal MediaDeviceHintsService(MediaDevice device, string serviceId) : base(device, serviceId)
+        internal MediaDeviceServiceHints(MediaDevice device, string serviceId) : base(device, serviceId)
         {
 
         }

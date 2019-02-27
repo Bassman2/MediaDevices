@@ -1,10 +1,7 @@
 ﻿using MediaDeviceApp.Mvvm;
 using MediaDevices;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaDeviceApp.ViewModel
 {
@@ -36,15 +33,15 @@ namespace MediaDeviceApp.ViewModel
             {
                 if (this.selectedService != value)
                 {
-                    if (this.selectedService != null)
-                    {
-                        this.selectedService.Close();
-                    }
+                    //if (this.selectedService != null)
+                    //{
+                    //    this.selectedService.Close();
+                    //}
                     this.selectedService = value;
-                    if (this.selectedService != null)
-                    {
-                        this.selectedService.Open();
-                    }
+                    //if (this.selectedService != null)
+                    //{
+                    //    this.selectedService.Open();
+                    //}
                 }
             }
         }

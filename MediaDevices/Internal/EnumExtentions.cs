@@ -51,6 +51,17 @@ namespace MediaDevices.Internal
             }
         }
 
+        public static T GetEnum<T>(this Guid guid) where T : struct
+        {
+            T en = Enum.GetValues(typeof(T)).Cast<T>().Where(e =>
+            {
+                EnumGuidAttribute ea = e.GetType().GetField(e.ToString()).GetCustomAttribute<EnumGuidAttribute>();
+                return ea.Guid == guid;
+            }).FirstOrDefault();
+            return en;
+        }
+
+
         public static T GetEnumFromAttrKey<T>(this PropertyKey key) where T : struct // enum
         {
             T en = Enum.GetValues(typeof(T)).Cast<T>().Where(e =>

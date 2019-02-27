@@ -2167,14 +2167,24 @@ namespace MediaDevices
             string[] services = new string[num];
             serviceManager.GetDeviceServices(this.DeviceId, ref serviceGuid, services, ref num);
 
+            //foreach (var ser in services)
+            //{
+            //    var s = new MediaDeviceStatusService(this, ser);
+            //    s.Open();
+
+            //    var x = s.GetContent().ToArray();
+
+            //    s.Close();
+
+            //}
             switch (service)
             {
                 case Services.Status:
                     return services.Select(s => new MediaDeviceStatusService(this, s));
                 case Services.Hints:
-                    return services.Select(s => new MediaDeviceHintsService(this, s));
+                    return services.Select(s => new MediaDeviceServiceHints(this, s));
                 case Services.Metadata:
-                    return services.Select(s => new MediaDeviceMetadataService(this, s));
+                    return services.Select(s => new MediaDeviceServiceMetadata(this, s));
                 default:
                     return services.Select(s => new MediaDeviceService(this, s));
             }

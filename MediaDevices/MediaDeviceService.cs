@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MediaDevices
@@ -10,7 +11,7 @@ namespace MediaDevices
 
     // C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\propkey.h
 
-    public class MediaDeviceService
+    public class MediaDeviceService : IDisposable
     {
         protected MediaDevice device;
         private IPortableDeviceService service = (IPortableDeviceService)new PortableDeviceService();
@@ -23,19 +24,22 @@ namespace MediaDevices
         {
             this.device = device;
             this.ServiceId = serviceId;
-            this.ServiceName = serviceId.Substring(serviceId.LastIndexOf(@"\") + 1);
-        }
 
-        public string ServiceId { get; private set; }
+            //Match match = Regex.Match(serviceId, @".*#(?<service>\{.*\})\\(?<name>\{.*\})");
+            //if (match.Success)
+            //{
+            //    string service = match.Groups["service"].Value;
+            //    Guid serviceGuid = new Guid(service);
+            //    this.Service = serviceGuid.GetEnum<Services>();
+            //    string serviceName = match.Groups["name"].Value;
+            //    this.ServiceName = $"{this.Service} : {service} : {serviceName}";
+            //}
+            //else
+            //{
+            //    this.ServiceName = "Unknown";
+            //}
+            //this.ServiceName = serviceId.Substring(serviceId.LastIndexOf(@"\") + 1);
 
-        public string ServiceName { get; private set; }
-
-        public string ServiceObjectID { get; private set; }
-
-        public string PnPServiceID { get; private set; }
-
-        public void Open()
-        {
             IPortableDeviceValues values = (IPortableDeviceValues)new PortableDeviceValues();
             this.service.Open(this.ServiceId, values);
 
@@ -45,7 +49,84 @@ namespace MediaDevices
             this.service.GetPnPServiceID(out string pnPServiceID);
             this.PnPServiceID = pnPServiceID;
 
-            Update();
+            this.service.Content(out IPortableDeviceContent2 content);
+            content.Properties(out IPortableDeviceProperties properties);
+
+            properties.GetSupportedProperties(this.ServiceObjectID, out IPortableDeviceKeyCollection keyCol);
+
+            properties.GetValues(this.ServiceObjectID, keyCol, out IPortableDeviceValues deviceValues);
+
+            ComTrace.WriteObject(deviceValues);
+
+            using (PropVariantFacade value = new PropVariantFacade())
+            {
+                deviceValues.GetValue(ref WPD.OBJECT_NAME, out value.Value);
+                this.Name = value;
+            }
+
+            using (PropVariantFacade value = new PropVariantFacade())
+            {
+                deviceValues.GetValue(ref WPD.FUNCTIONAL_OBJECT_CATEGORY, out value.Value);
+                
+                Guid serviceGuid = new Guid((string)value);
+                this.Service = serviceGuid.GetEnum<Services>();
+                this.ServiceName = this.Service != Services.Unknown ? this.Service.ToString() : serviceGuid.ToString();
+            }
+
+            using (PropVariantFacade value = new PropVariantFacade())
+            {
+                deviceValues.GetValue(ref WPD.SERVICE_VERSION, out value.Value);
+                this.ServiceVersion = value;
+            }
+            //Update();
+
+            //var x = GetContent().ToArray();
+        }
+
+        public void Dispose()
+        {
+            if (this.service != null)
+            { 
+                this.service.Close();
+                this.service = null;
+            }
+        }
+
+        public string ServiceId { get; private set; }
+
+        public Services Service { get; private set; }
+
+        public string Name { get; private set; }
+
+        public string ServiceName { get; private set; }
+
+        public string ServiceVersion { get; private set; }
+
+        public string ServiceObjectID { get; private set; }
+
+        public string PnPServiceID { get; private set; }
+
+        public override string ToString()
+        {
+            return $"{this.Name} : {this.ServiceName} : {this.ServiceVersion}";
+        }
+
+        public IEnumerable<MediaDeviceServiceContent> GetContent()
+        {
+            this.service.Content(out IPortableDeviceContent2 content);
+
+            return LoopContent(content, "DEVICE");
+        }
+
+        internal IEnumerable<MediaDeviceServiceContent> LoopContent(IPortableDeviceContent2 content, string objectID)
+        {
+            content.EnumObjects(0, objectID, null, out IEnumPortableDeviceObjectIDs enumerator);
+
+            uint num = 0;
+            string[] objectIdArray = new string[20];
+            enumerator.Next(20, objectIdArray, ref num);
+
+            return objectIdArray.Take((int)num).Select(o => new MediaDeviceServiceContent(this, content, o));
         }
 
         internal IPortableDeviceValues GetProperties(IPortableDeviceKeyCollection keyCol)
@@ -60,11 +141,16 @@ namespace MediaDevices
 
             
         protected virtual void Update()
-        { }
-
-        public void Close()
         {
-            this.service.Close();
+            this.service.Content(out IPortableDeviceContent2 content);
+            content.Properties(out IPortableDeviceProperties properties);
+
+            properties.GetSupportedProperties(this.ServiceObjectID, out IPortableDeviceKeyCollection keyCol);
+
+            properties.GetValues(this.ServiceObjectID, keyCol, out IPortableDeviceValues deviceValues);
+
+            ComTrace.WriteObject(deviceValues);
+
         }
 
         public void Capabilities()
@@ -115,5 +201,7 @@ namespace MediaDevices
 
             this.service.SendCommand(0, ref values, out IPortableDeviceValues results);
         }
+
+        
     }
 }

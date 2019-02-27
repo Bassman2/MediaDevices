@@ -33,15 +33,15 @@ namespace MediaDeviceApp.ViewModel
             {
                 if (this.selectedService != value)
                 {
-                    if (this.selectedService != null)
-                    {
-                        this.selectedService.Close();
-                    }
+                    //if (this.selectedService != null)
+                    //{
+                    //    this.selectedService.Close();
+                    //}
                     this.selectedService = value;
-                    if (this.selectedService != null)
-                    {
-                        this.selectedService.Open();
-                    }
+                    //if (this.selectedService != null)
+                    //{
+                    //    this.selectedService.Open();
+                    //}
                 }
             }
         }
