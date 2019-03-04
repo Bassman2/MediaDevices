@@ -91,7 +91,7 @@ namespace MediaDevices
         /// <summary>
         /// Display name for this object.
         /// </summary>
-        public string Name { get; private set; }
+        public new string Name { get; private set; }
 
         /// <summary>
         /// Persistent object unique ID. This must be a GUID.

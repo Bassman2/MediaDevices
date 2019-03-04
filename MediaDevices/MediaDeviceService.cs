@@ -16,6 +16,7 @@ namespace MediaDevices
         protected MediaDevice device;
         private IPortableDeviceService service = (IPortableDeviceService)new PortableDeviceService();
         //protected IPortableDeviceValues values;
+        internal IPortableDeviceServiceCapabilities capabilities;
 
         private MediaDeviceService()
         { }
@@ -49,6 +50,8 @@ namespace MediaDevices
             this.service.GetPnPServiceID(out string pnPServiceID);
             this.PnPServiceID = pnPServiceID;
 
+            this.service.Capabilities(out capabilities);
+
             this.service.Content(out IPortableDeviceContent2 content);
             content.Properties(out IPortableDeviceProperties properties);
 
@@ -69,8 +72,8 @@ namespace MediaDevices
                 deviceValues.GetValue(ref WPD.FUNCTIONAL_OBJECT_CATEGORY, out value.Value);
                 
                 Guid serviceGuid = new Guid((string)value);
-                this.Service = serviceGuid.GetEnum<Services>();
-                this.ServiceName = this.Service != Services.Unknown ? this.Service.ToString() : serviceGuid.ToString();
+                this.Service = serviceGuid.GetEnum<MediaDeviceServices>();
+                this.ServiceName = this.Service != MediaDeviceServices.Unknown ? this.Service.ToString() : serviceGuid.ToString();
             }
 
             using (PropVariantFacade value = new PropVariantFacade())
@@ -81,6 +84,8 @@ namespace MediaDevices
             //Update();
 
             //var x = GetContent().ToArray();
+
+            
         }
 
         public void Dispose()
@@ -94,7 +99,7 @@ namespace MediaDevices
 
         public string ServiceId { get; private set; }
 
-        public Services Service { get; private set; }
+        public MediaDeviceServices Service { get; private set; }
 
         public string Name { get; private set; }
 
@@ -153,36 +158,46 @@ namespace MediaDevices
 
         }
 
-        public void Capabilities()
-        {
-            this.service.Capabilities(out IPortableDeviceServiceCapabilities capabilities);
-
-            capabilities.GetSupportedMethods(out IPortableDevicePropVariantCollection methods);
-            ComTrace.WriteObject(methods);
-
-            capabilities.GetSupportedCommands(out IPortableDeviceKeyCollection commands);
-            ComTrace.WriteObject(commands);
-
-            capabilities.GetSupportedEvents(out IPortableDevicePropVariantCollection events);
-            ComTrace.WriteObject(events);
-
-            capabilities.GetSupportedFormats(out IPortableDevicePropVariantCollection formats);
-            ComTrace.WriteObject(formats);
-
-            //capabilities.GetInheritedServices(out IPortableDevicePropVariantCollection inhiritedServices);
-            //ComTrace.WriteObject(inhiritedServices);
-        }
-
-        public void Content()
+        public IEnumerable<KeyValuePair<string,string>> GetProperties()
         {
             this.service.Content(out IPortableDeviceContent2 content);
+            content.Properties(out IPortableDeviceProperties properties);
 
-            //content.Properties(out IPortableDeviceProperties properties);
+            properties.GetSupportedProperties(this.ServiceObjectID, out IPortableDeviceKeyCollection keyCol);
 
-            //ComTrace.WriteObject(properties);
+            properties.GetValues(this.ServiceObjectID, keyCol, out IPortableDeviceValues deviceValues);
 
+            return deviceValues.ToKeyValuePair();
         }
 
+        public IEnumerable<Methods> GetSupportedMethods()
+        {
+            capabilities.GetSupportedMethods(out IPortableDevicePropVariantCollection methods);
+            ComTrace.WriteObject(methods);
+            return methods.ToEnum<Methods>();
+        }
+
+        public IEnumerable<Commands> GetSupportedCommands()
+        {
+            capabilities.GetSupportedCommands(out IPortableDeviceKeyCollection commands);
+            ComTrace.WriteObject(commands);
+            return commands.ToEnum<Commands>();
+        }
+
+        public IEnumerable<Events> GetSupportedEvents()
+        {
+            capabilities.GetSupportedEvents(out IPortableDevicePropVariantCollection events);
+            ComTrace.WriteObject(events);
+            return events.ToEnum<Events>();
+        }
+
+        public IEnumerable<Formats> GetSupportedFormats()
+        {
+            capabilities.GetSupportedFormats(out IPortableDevicePropVariantCollection formats);
+            ComTrace.WriteObject(formats);
+            return formats.ToEnum<Formats>();
+        }
+       
         public void CallMethod(Guid method, object[] parameters)
         {
             this.service.Methods(out IPortableDeviceServiceMethods methods);

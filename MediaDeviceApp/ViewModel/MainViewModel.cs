@@ -37,8 +37,8 @@ namespace MediaDeviceApp.ViewModel
         public ExplorerViewModel Explorer { get; private set; }
         public VendorViewModel Vendor { get; private set; }
         public ServicesViewModel Services { get; private set; }
+        public ServiceInfoViewModel ServiceInfo { get; private set; }
         public ServiceStatusViewModel ServiceStatus { get; private set; }
-
         public ServiceMetadataViewModel ServiceMetadata { get; private set; }
 
         public MainViewModel()
@@ -60,6 +60,7 @@ namespace MediaDeviceApp.ViewModel
             this.Explorer = new ExplorerViewModel();
             this.Vendor = new VendorViewModel();
             this.Services = new ServicesViewModel();
+            this.ServiceInfo = new ServiceInfoViewModel();
             this.ServiceStatus = new ServiceStatusViewModel();
             this.ServiceMetadata = new ServiceMetadataViewModel();
 
@@ -162,6 +163,7 @@ namespace MediaDeviceApp.ViewModel
                     this.Explorer.Update(this.selectedDevice);
                     this.Vendor.Update(this.selectedDevice);
                     this.Services.Update(this.selectedDevice);
+                    this.ServiceInfo.Update(this.selectedDevice);
                     this.ServiceStatus.Update(this.selectedDevice);
                     this.ServiceMetadata.Update(this.selectedDevice);
                     //if (selectedDevice.Description != "My Passport 25E2")

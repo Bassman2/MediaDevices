@@ -6,8 +6,55 @@ using System.Reflection;
 
 namespace MediaDevices.Internal
 {
-    internal static class EnumExtentions
+    internal static class ComEnumerable
     {
+        public static IEnumerable<KeyValuePair<string, string>> ToKeyValuePair(this IPortableDeviceValues values)
+        {
+            uint num = 0;
+            values?.GetCount(ref num);
+            for (uint i = 0; i < num; i++)
+            {
+                PropertyKey key = new PropertyKey();
+                using (PropVariantFacade val = new PropVariantFacade())
+                {
+                    values.GetAt(i, ref key, ref val.Value);
+
+
+                    string fieldName = string.Empty;
+                    FieldInfo propField = ComTrace.FindPropertyKeyField(key);
+                    if (propField != null)
+                    {
+                        fieldName = propField.Name;
+                    }
+                    else
+                    {
+                        FieldInfo guidField = ComTrace.FindGuidField(key.fmtid);
+                        if (guidField != null)
+                        {
+                            fieldName = $"{guidField.Name}, {key.pid}";
+                        }
+                        else
+                        {
+                            fieldName = $"{key.fmtid}, {key.pid}";
+                        }
+                    }
+                    string fieldValue = string.Empty;
+                    switch (val.VariantType)
+                    {
+                        case PropVariantType.VT_CLSID:
+                            fieldValue = ComTrace.FindGuidField(val.ToGuid())?.Name ?? val.ToString();
+                            break;
+                        default:
+                            fieldValue = val.ToDebugString();
+                            break;
+                    }
+
+                    yield return new KeyValuePair<string, string>(fieldName, fieldValue);
+                }
+            }
+
+        }
+
         public static Guid Guid(this Enum e)
         {
             FieldInfo fi = e.GetType().GetField(e.ToString());
@@ -45,9 +92,11 @@ namespace MediaDevices.Internal
             col.GetCount(ref count);
             for (uint i = 0; i < count; i++)
             {
-                PropVariantFacade val = new PropVariantFacade();
-                col.GetAt(i, ref val.Value);
-                yield return GetEnumFromAttrGuid<TEnum>(val.ToGuid());
+                using (PropVariantFacade val = new PropVariantFacade())
+                {
+                    col.GetAt(i, ref val.Value);
+                    yield return GetEnumFromAttrGuid<TEnum>(val.ToGuid());
+                }
             }
         }
 

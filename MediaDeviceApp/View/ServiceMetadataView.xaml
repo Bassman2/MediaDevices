@@ -29,7 +29,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Service"/>
-        <ComboBox Grid.Column="1" Grid.Row="0" SelectedItem="{Binding SelectedService}" ItemsSource="{Binding MediaDeviceServices}" DisplayMemberPath="ServiceName"  SelectedIndex="0" Margin="3" />
+        <ComboBox Grid.Column="1" Grid.Row="0" SelectedItem="{Binding SelectedService}" ItemsSource="{Binding Services}" SelectedIndex="0" Margin="3" />
 
         <Label Grid.Column="0" Grid.Row="1" Content="Parent Id"/>
         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SelectedService.ParentId, Mode=OneWay}" IsReadOnly="True" Margin="3"/>

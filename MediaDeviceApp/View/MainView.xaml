@@ -90,7 +90,10 @@
             <TabItem Header="Services" DataContext="{Binding Services}">
                 <v:ServicesView/>
             </TabItem>
-
+            <TabItem Header="Service Infos" DataContext="{Binding ServiceInfo}">
+                <v:ServiceInfoView/>
+            </TabItem>
+            
             <TabItem Header="Service Status" DataContext="{Binding ServiceStatus}">
                 <v:ServiceStatusView/>
             </TabItem>

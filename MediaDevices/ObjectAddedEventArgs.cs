@@ -23,12 +23,12 @@ namespace MediaDevices
             
             if (eventParameters.TryGetGuidValue(WPD.OBJECT_CONTENT_TYPE, out Guid objectContentType))
             { 
-                this.ObjectContentType = EnumExtentions.GetEnumFromAttrGuid<ContentType>(objectContentType); 
+                this.ObjectContentType = ComEnumerable.GetEnumFromAttrGuid<ContentType>(objectContentType); 
             }
             
             if (eventParameters.TryGetGuidValue(WPD.FUNCTIONAL_OBJECT_CATEGORY, out Guid functionalObjectCategory))
             { 
-                this.FunctionalObjectCategory = EnumExtentions.GetEnumFromAttrGuid<FunctionalCategory>(functionalObjectCategory);
+                this.FunctionalObjectCategory = ComEnumerable.GetEnumFromAttrGuid<FunctionalCategory>(functionalObjectCategory);
             }
             
             eventParameters.TryGetStringValue(WPD.OBJECT_ORIGINAL_FILE_NAME, out string objectOriginalFileName);
