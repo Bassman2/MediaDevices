@@ -14,9 +14,10 @@ namespace MediaDevices
     public class MediaDeviceService : IDisposable
     {
         protected MediaDevice device;
-        private IPortableDeviceService service = (IPortableDeviceService)new PortableDeviceService();
+        internal IPortableDeviceService service = (IPortableDeviceService)new PortableDeviceService();
         //protected IPortableDeviceValues values;
         internal IPortableDeviceServiceCapabilities capabilities;
+        internal IPortableDeviceContent2 content;
 
         private MediaDeviceService()
         { }
@@ -52,7 +53,8 @@ namespace MediaDevices
 
             this.service.Capabilities(out capabilities);
 
-            this.service.Content(out IPortableDeviceContent2 content);
+            this.service.Content(out content);
+
             content.Properties(out IPortableDeviceProperties properties);
 
             properties.GetSupportedProperties(this.ServiceObjectID, out IPortableDeviceKeyCollection keyCol);
@@ -81,7 +83,7 @@ namespace MediaDevices
                 deviceValues.GetValue(ref WPD.SERVICE_VERSION, out value.Value);
                 this.ServiceVersion = value;
             }
-            //Update();
+            Update();
 
             //var x = GetContent().ToArray();
 
@@ -118,56 +120,55 @@ namespace MediaDevices
 
         public IEnumerable<MediaDeviceServiceContent> GetContent()
         {
-            this.service.Content(out IPortableDeviceContent2 content);
-
-            return LoopContent(content, "DEVICE");
+            return GetContent("DEVICE");
         }
 
-        internal IEnumerable<MediaDeviceServiceContent> LoopContent(IPortableDeviceContent2 content, string objectID)
+        internal IEnumerable<MediaDeviceServiceContent> GetContent(string objectID)
         {
-            content.EnumObjects(0, objectID, null, out IEnumPortableDeviceObjectIDs enumerator);
+            this.content.EnumObjects(0, objectID, null, out IEnumPortableDeviceObjectIDs enumerator);
 
             uint num = 0;
             string[] objectIdArray = new string[20];
             enumerator.Next(20, objectIdArray, ref num);
 
-            return objectIdArray.Take((int)num).Select(o => new MediaDeviceServiceContent(this, content, o));
+            return objectIdArray.Take((int)num).Select(o => new MediaDeviceServiceContent(this, o));
         }
 
+        internal IEnumerable<KeyValuePair<string, string>> GetAllProperties(string objectID)
+        {
+            this.content.Properties(out IPortableDeviceProperties properties);
+
+            properties.GetSupportedProperties(objectID, out IPortableDeviceKeyCollection keyCol);
+
+            properties.GetValues(objectID, keyCol, out IPortableDeviceValues deviceValues);
+
+            return deviceValues.ToKeyValuePair();
+        }
+               
         internal IPortableDeviceValues GetProperties(IPortableDeviceKeyCollection keyCol)
         {
-            this.service.Content(out IPortableDeviceContent2 content);
-            content.Properties(out IPortableDeviceProperties properties);
+            this.content.Properties(out IPortableDeviceProperties properties);
 
             properties.GetValues(this.ServiceObjectID, keyCol, out IPortableDeviceValues deviceValues);
 
             return deviceValues;
         }
+        
 
-            
         protected virtual void Update()
         {
-            this.service.Content(out IPortableDeviceContent2 content);
-            content.Properties(out IPortableDeviceProperties properties);
+            this.content.Properties(out IPortableDeviceProperties properties);
 
             properties.GetSupportedProperties(this.ServiceObjectID, out IPortableDeviceKeyCollection keyCol);
 
             properties.GetValues(this.ServiceObjectID, keyCol, out IPortableDeviceValues deviceValues);
 
             ComTrace.WriteObject(deviceValues);
-
         }
 
-        public IEnumerable<KeyValuePair<string,string>> GetProperties()
+        public IEnumerable<KeyValuePair<string,string>> GetAllProperties()
         {
-            this.service.Content(out IPortableDeviceContent2 content);
-            content.Properties(out IPortableDeviceProperties properties);
-
-            properties.GetSupportedProperties(this.ServiceObjectID, out IPortableDeviceKeyCollection keyCol);
-
-            properties.GetValues(this.ServiceObjectID, keyCol, out IPortableDeviceValues deviceValues);
-
-            return deviceValues.ToKeyValuePair();
+            return GetAllProperties(this.ServiceObjectID);
         }
 
         public IEnumerable<Methods> GetSupportedMethods()

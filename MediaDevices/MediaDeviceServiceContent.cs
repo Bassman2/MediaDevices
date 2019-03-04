@@ -10,15 +10,13 @@ namespace MediaDevices
     public class MediaDeviceServiceContent
     {
         private MediaDeviceService service;
-        private IPortableDeviceContent2 content;
 
         private MediaDeviceServiceContent()
         { }
 
-        internal MediaDeviceServiceContent(MediaDeviceService service, IPortableDeviceContent2 content, string objectId)
+        internal MediaDeviceServiceContent(MediaDeviceService service, string objectId)
         {
             this.service = service;
-            this.content = content;
             this.ObjectId = objectId;
 
             UpdateProperties();
@@ -26,7 +24,7 @@ namespace MediaDevices
 
         internal virtual void UpdateProperties()
         {
-            content.Properties(out IPortableDeviceProperties properties);
+            this.service.content.Properties(out IPortableDeviceProperties properties);
 
             //IPortableDeviceKeyCollection keyCol = (IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();
 
@@ -55,5 +53,16 @@ namespace MediaDevices
         public string ParentId { get; private set; }
 
         public string Name { get; private set; }
+
+        public IEnumerable<MediaDeviceServiceContent> GetContent()
+        {
+            return this.service.GetContent(this.ObjectId);
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> GetAllProperties()
+        {
+            return this.service.GetAllProperties(this.ObjectId);
+        }
+        
     }
 }

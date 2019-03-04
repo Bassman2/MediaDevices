@@ -13,7 +13,7 @@ namespace MediaDeviceApp.ViewModel
         {
             get
             {
-                var x = this.SelectedService?.GetProperties()?.ToList();
+                var x = this.SelectedService?.GetAllProperties()?.ToList();
                 return x;
             }
         }
@@ -48,6 +48,21 @@ namespace MediaDeviceApp.ViewModel
             {
                 return this.SelectedService?.GetSupportedFormats()?.Select(c => c.ToString()).ToList();
             }
+        }
+
+        public List<ContentViewModel> Contents
+        {
+            get
+            {
+                return this.SelectedService?.GetContent()?.Select(c => new ContentViewModel(c)).ToList();
+            }
+        }
+
+        private ContentViewModel selectedContent;
+        public ContentViewModel SelectedContent
+        {
+            get { return this.selectedContent; }
+            set { this.selectedContent = value; NotifyPropertyChanged(nameof(SelectedContent)); }
         }
     }
 }

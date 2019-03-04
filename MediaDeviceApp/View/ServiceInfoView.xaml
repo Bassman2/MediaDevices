@@ -3,12 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:MediaDeviceApp.ViewModel"
+             xmlns:conv="clr-namespace:MediaDeviceApp.Converter"
              xmlns:local="clr-namespace:MediaDeviceApp.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:DebugConverter x:Key="DebugConverter"/> 
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -51,5 +57,30 @@
 
         <Label Grid.Column="0" Grid.Row="5" Content="Supported Formats"/>
         <ListBox Grid.Column="1" Grid.Row="5" ItemsSource="{Binding SupportedFormats}" Margin="3"/>
+
+        <Label Grid.Column="2" Grid.Row="0" Content="Supported Formats"/>
+        <TreeView Name="tree" Grid.Column="2" Grid.Row="1" Grid.RowSpan="4" ItemsSource="{Binding Contents}" Margin="3">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate ItemsSource="{Binding Contents}" DataType="{x:Type vm:ContentViewModel}" >
+                    <TextBlock Text="{Binding Name}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+
+        <DataGrid Grid.Column="2" Grid.Row="5" 
+                ItemsSource="{Binding ElementName=tree, Path=SelectedItem.Properties, Converter={StaticResource DebugConverter}}" 
+                GridLinesVisibility="None" 
+                AutoGenerateColumns="False" 
+                HeadersVisibility="Column" 
+                CanUserResizeColumns="False"
+                CanUserAddRows="True"
+                CanUserDeleteRows="True"
+                CanUserSortColumns="False"
+                Margin="3">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Path=Key, Mode=OneWay}" Width="*" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Path=Value, Mode=OneWay}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

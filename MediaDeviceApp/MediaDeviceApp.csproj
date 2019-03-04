@@ -63,6 +63,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\DebugConverter.cs" />
     <Compile Include="Mvvm\BaseViewModel.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Mvvm\Enums.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Mvvm\WaitCursor.cs" />
     <Compile Include="ViewModel\CapabilityViewModel.cs" />
     <Compile Include="ViewModel\ContentLocationViewModel.cs" />
+    <Compile Include="ViewModel\ContentViewModel.cs" />
     <Compile Include="ViewModel\DriveViewModel.cs" />
     <Compile Include="ViewModel\FilesViewModel.cs" />
     <Compile Include="ViewModel\ExplorerViewModel.cs" />

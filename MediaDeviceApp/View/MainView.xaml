@@ -93,11 +93,11 @@
             <TabItem Header="Service Infos" DataContext="{Binding ServiceInfo}">
                 <v:ServiceInfoView/>
             </TabItem>
-            
-            <TabItem Header="Service Status" DataContext="{Binding ServiceStatus}">
+
+            <TabItem Header="Status Service" DataContext="{Binding ServiceStatus}">
                 <v:ServiceStatusView/>
             </TabItem>
-            <TabItem Header="Service Metadata" DataContext="{Binding ServiceMetadata}">
+            <TabItem Header="Metadata Service" DataContext="{Binding ServiceMetadata}">
                 <v:ServiceMetadataView/>
             </TabItem>
         </TabControl>
