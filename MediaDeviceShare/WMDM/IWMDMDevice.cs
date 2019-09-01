@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MediaDevices.WMDM
 {
-    public interface IWMDMDevice
+    internal interface IWMDMDevice
     {
     }
 }

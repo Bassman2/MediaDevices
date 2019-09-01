@@ -77,9 +77,9 @@
     <Compile Include="ConnectorsUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MediaDevices\MediaDevices.csproj">
-      <Project>{e5353cb2-1320-4e96-a15e-551ba0b51105}</Project>
-      <Name>MediaDevices</Name>
+    <ProjectReference Include="..\MediaDevicesFramework45\MediaDevicesFramework45.csproj">
+      <Project>{13f50c1b-2abb-4320-a726-e2ce8cb45940}</Project>
+      <Name>MediaDevicesFramework45</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

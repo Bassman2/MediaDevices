@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>8c6734b5-5bbb-413e-a5f2-fc7e6aaffce7</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MediaDevice</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ChargingState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CompleteEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceTransport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enumerables.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formats.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FunctionalCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ComEnumerable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ComHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Command.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ComTrace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\EnumGuidAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\EnumPortableDeviceConnectors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\EventCallback.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IConnectionRequestCallback.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IEnumPortableDeviceConnectors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IEnumPortableDeviceObjectIDs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceCapabilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceConnector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceContent2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceEventCallback.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceKeyCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDevicePropVariantCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceResources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceServiceCapabilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceServiceManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceServiceMethodCallback.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceServiceMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceValues.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceValuesCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IPropertyStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Item.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ItemType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\KeyAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ObjectProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PortableDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PortableDeviceKeyCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PortableDeviceManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PortableDevicePropVariantCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PortableDeviceService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PortableDeviceValues.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Profiler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PropertyKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PropertyKeys.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PropVariant.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PropVariantData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PropVariantFacade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PropVariantType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Security.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\SmsMessageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\StreamWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.ServiceProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceAccess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceConnector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceConnectors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceContacts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceExtentions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceServiceContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceServiceHints.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceServiceMetadata.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceServices.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceShare.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceStatusService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDirectoryInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDriveInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaFileAttributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaFileInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaFileSystemInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaStorageInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Methods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NotConnectedException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectAddedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OperationState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PowerSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Roaming.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StorageAccessCapability.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StorageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WMDM\IWMDeviceManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WMDM\IWMDeviceManager2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WMDM\IWMDeviceManager3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WMDM\IWMDMDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WMDM\IWMDMEnumDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WMDM\MediaDevMgr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WMDM\MediaDevMgrClassFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)MediaDevices.nuspec" />
+    <None Include="$(MSBuildThisFileDirectory)MediaDevicesLicense.txt" />
+  </ItemGroup>
+</Project>

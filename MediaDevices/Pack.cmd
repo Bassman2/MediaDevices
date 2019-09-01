@@ -1,1 +1,0 @@
-nuget pack MediaDevices.csproj -Prop Configuration=Release

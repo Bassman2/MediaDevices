@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>MediaDevices</RootNamespace>
+    <AssemblyName>MediaDevices</AssemblyName>
+  </PropertyGroup>
+
+  <Import Project="..\MediaDeviceShare\MediaDeviceShare.projitems" Label="Shared" />
+
+</Project>
