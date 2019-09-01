@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Explorer</AssemblyName>
+  </PropertyGroup>
+
+  <Import Project="..\ExplorerShare\ExplorerShare.projitems" Label="Shared" />
+
+</Project>
