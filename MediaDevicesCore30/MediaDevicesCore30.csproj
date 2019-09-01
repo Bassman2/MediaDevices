@@ -6,8 +6,6 @@
     <AssemblyName>MediaDevices</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="..\MediaDeviceShare\MediaDeviceShare.projitems" Label="Shared" />
-
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />
 
 </Project>

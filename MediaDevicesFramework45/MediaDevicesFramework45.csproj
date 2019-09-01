@@ -45,6 +45,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <Import Project="..\MediaDeviceShare\MediaDeviceShare.projitems" Label="Shared" />
+  <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

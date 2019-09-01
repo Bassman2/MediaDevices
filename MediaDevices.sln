@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MediaDevicesApp", "MediaDev
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		MediaDeviceShare\MediaDeviceShare.projitems*{13f50c1b-2abb-4320-a726-e2ce8cb45940}*SharedItemsImports = 4
+		MediaDevicesShare\MediaDevicesShare.projitems*{13f50c1b-2abb-4320-a726-e2ce8cb45940}*SharedItemsImports = 4
 		MediaDevicesAppShare\MediaDevicesAppShare.projitems*{5a9b9d55-cc27-4806-8769-3e74cd13b5e6}*SharedItemsImports = 4
 		MediaDevicesShare\MediaDevicesShare.projitems*{8c6734b5-5bbb-413e-a5f2-fc7e6aaffce7}*SharedItemsImports = 13
 		MediaDevicesAppShare\MediaDevicesAppShare.projitems*{c30eb5ab-6dcf-4537-aaf9-5b8a5e425c15}*SharedItemsImports = 13
