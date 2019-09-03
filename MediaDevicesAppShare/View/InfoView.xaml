@@ -78,5 +78,8 @@
         <TextBox Grid.Column="1" Grid.Row="19" Text="{Binding UseDeviceStage, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
         <Label Grid.Column="0" Grid.Row="20" Content="PnP Device ID"/>
         <TextBox Grid.Column="1" Grid.Row="20" Text="{Binding PnPDeviceID, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+
+        <Image Source="/MediaDevicesApp;component/MediaDevicesAppShare/Images/File.png"/>
+
     </Grid>
 </UserControl>

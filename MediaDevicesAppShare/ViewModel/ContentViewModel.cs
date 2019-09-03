@@ -7,7 +7,7 @@ namespace MediaDeviceApp.ViewModel
 {
     public class ContentViewModel : BaseViewModel
     {
-        private MediaDeviceServiceContent content;
+        private readonly MediaDeviceServiceContent content;
 
         public ContentViewModel(MediaDeviceServiceContent content)
         {

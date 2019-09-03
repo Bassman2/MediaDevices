@@ -51,6 +51,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfUsbMonitor, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfUsbMonitor.2.1.0-beta1\lib\net45\WpfUsbMonitor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -70,10 +73,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="WpfUsbMonitor.chm" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -87,6 +92,15 @@
       <Project>{13f50c1b-2abb-4320-a726-e2ce8cb45940}</Project>
       <Name>MediaDevicesFramework45</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UsbMonitorLicense.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\File.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Folder.png" />
   </ItemGroup>
   <Import Project="..\MediaDevicesAppShare\MediaDevicesAppShare.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>bfac062b-2224-48af-b45e-158f8d21927f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MediaDevicesUnitTestShare</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AmazonFire7UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AmazonFire8UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AmazonKindlePaperwhiteUnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppleiPhoneS3UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppleiPodNanoUnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AsusNexus7UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CanonEOS60DUnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CanonPowerShotSX30UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorsUnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HannspreeHSG1351UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KingstonFCRHS219UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MicrosoftLumia650UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MicrosoftLumia950UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MicrosoftVolumeUnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NiconCoolpixA300.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NokiaLumia630UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestCases\ReadonlyUnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestCases\UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestCases\WritableUnitTest.cs" />
+  </ItemGroup>
+</Project>
