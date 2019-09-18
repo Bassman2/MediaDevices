@@ -42,6 +42,12 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
@@ -112,6 +118,7 @@
     <Compile Include="StorageType.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Bassman.snk" />
     <None Include="MediaDevicesLicense.txt" />
   </ItemGroup>
   <ItemGroup>
