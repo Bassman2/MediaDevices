@@ -1,11 +1,6 @@
-version: 1.5.{build}
+version: 1.8.{build}
 image: Visual Studio 2017
 
-
-environment:
-  matrix:
-    #- PlatformToolset: v140
-    - PlatformToolset: v141
 
 platform:
     - Any CPU
@@ -14,18 +9,36 @@ configuration:
     - Release
     - Debug
 
+install:
+    - ps: >-
+        Start-FileDownload 'https://github.com/EWSoftware/SHFB/releases/download/v2019.9.15.0/SHFBInstaller_v2019.9.15.0.zip'
 
+        7z x -y SHFBInstaller_v2019.9.15.0.zip | Out-Null
+
+        Write-Host "Installing MSI..."
+
+        cmd /c start /wait msiexec /i InstallResources\SandcastleHelpFileBuilder.msi /quiet
+
+        Write-Host "Installing VSIX..."
+
+        . "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2015AndLater.vsix
+
+        Write-Host "Sandcastle installed" -ForegroundColor Green
 
 build_script:
+    - set SHFBROOT=C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\
     - cd "%APPVEYOR_BUILD_FOLDER%"
-    - msbuild MediaDevices.sln /m /verbosity:minimal /t:Explorer;MediaDevices;MediaDeviceApp;MediaDevicesUnitTest /p:configuration="%configuration%" /p:platform="%platform%" /p:PlatformToolset="%PlatformToolset%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - msbuild MediaDevices.sln /m /verbosity:minimal /t:restore /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - msbuild MediaDevices.sln /m /verbosity:minimal /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - cd "%APPVEYOR_BUILD_FOLDER%"\MediaDevices
+    - pack.cmd
 
 # after_build:
     # - cd "%APPVEYOR_BUILD_FOLDER%"
     # - ps: >-
         # Push-AppveyorArtifact "MediaDevices\bin\$env:CONFIGURATION\MediaDevices.dll" -FileName MediaDevices.dll
 
-        # if ($($env:APPVEYOR_REPO_TAG) -eq "true" -and $env:CONFIGURATION -eq "Release" -and $env:PLATFORMTOOLSET -eq "v141") {
+        # if ($($env:APPVEYOR_REPO_TAG) -eq "true" -and $env:CONFIGURATION -eq "Release") {
             # $ZipFileName = "MediaDevices_$($env:APPVEYOR_REPO_TAG_NAME).zip"
             # 7z a $ZipFileName MediaDevices\bin\$env:CONFIGURATION\MediaDevices.dll
         # }
@@ -44,5 +57,4 @@ build_script:
     # force_update: true
     # on:
         # appveyor_repo_tag: true
-        # PlatformToolset: v141
         # configuration: Release
