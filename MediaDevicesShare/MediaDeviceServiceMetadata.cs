@@ -3,6 +3,9 @@ using System;
 
 namespace MediaDevices
 {
+    /// <summary>
+    /// Metadata service class
+    /// </summary>
     public class MediaDeviceServiceMetadata : MediaDeviceService
     {
         internal MediaDeviceServiceMetadata(MediaDevice device, string serviceId) : base(device, serviceId)
@@ -10,6 +13,9 @@ namespace MediaDevices
 
         }
 
+        /// <summary>
+        /// Update service 
+        /// </summary>
         protected override void Update()
         {
             IPortableDeviceKeyCollection keyCol = (IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();

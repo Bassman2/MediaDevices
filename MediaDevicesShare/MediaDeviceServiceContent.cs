@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MediaDevices
 {
+    /// <summary>
+    /// Content service class
+    /// </summary>
     public class MediaDeviceServiceContent
     {
         private MediaDeviceService service;
@@ -48,17 +51,34 @@ namespace MediaDevices
 
         }
 
+        /// <summary>
+        /// Object ID of teh content
+        /// </summary>
         public string ObjectId { get; private set; }
 
+        /// <summary>
+        /// Parent ID of the content
+        /// </summary>
         public string ParentId { get; private set; }
 
+        /// <summary>
+        /// Name of the content
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Get the content
+        /// </summary>
+        /// <returns>Content list</returns>
         public IEnumerable<MediaDeviceServiceContent> GetContent()
         {
             return this.service.GetContent(this.ObjectId);
         }
 
+        /// <summary>
+        /// Get all properties of the content
+        /// </summary>
+        /// <returns>List of properties</returns>
         public IEnumerable<KeyValuePair<string, string>> GetAllProperties()
         {
             return this.service.GetAllProperties(this.ObjectId);

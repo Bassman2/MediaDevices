@@ -2154,6 +2154,11 @@ namespace MediaDevices
 
         // private static Guid GUID_DEVINTERFACE_WPD_SERVICECATION = new Guid(0x9EF44F80, 0x3D64, 0x4246, 0xA6, 0xAA, 0x20, 0x6F, 0x32, 0x8D, 0x1E, 0xDC);
 
+        /// <summary>
+        /// Get device services
+        /// </summary>
+        /// <param name="service">Service type</param>
+        /// <returns>List of services</returns>
         public IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices service)
         {
             Guid serviceGuid = service.Guid();

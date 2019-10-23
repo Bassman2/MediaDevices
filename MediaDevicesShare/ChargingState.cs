@@ -1,5 +1,8 @@
 ﻿namespace MediaDevices
 {
+    /// <summary>
+    /// Device charging state
+    /// </summary>
     public enum ChargingState : byte
     {
         /// <summary>

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MediaDevices
 {
+    /// <summary>
+    /// Contacts service
+    /// </summary>
     public class MediaDeviceContacts
     {
         #region static

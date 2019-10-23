@@ -11,9 +11,12 @@ namespace MediaDevices
 
     // C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\propkey.h
 
+    /// <summary>
+    /// MediaDevice service class
+    /// </summary>
     public class MediaDeviceService : IDisposable
     {
-        protected MediaDevice device;
+        internal MediaDevice device;
         internal IPortableDeviceService service = (IPortableDeviceService)new PortableDeviceService();
         //protected IPortableDeviceValues values;
         internal IPortableDeviceServiceCapabilities capabilities;
@@ -90,6 +93,9 @@ namespace MediaDevices
             
         }
 
+        /// <summary>
+        /// Dispose service
+        /// </summary>
         public void Dispose()
         {
             if (this.service != null)
@@ -99,25 +105,54 @@ namespace MediaDevices
             }
         }
 
+        /// <summary>
+        /// ID of the service
+        /// </summary>
         public string ServiceId { get; private set; }
 
+        /// <summary>
+        /// Get services
+        /// </summary>
         public MediaDeviceServices Service { get; private set; }
 
+        /// <summary>
+        /// Name of the service
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Servicename
+        /// </summary>
         public string ServiceName { get; private set; }
 
+        /// <summary>
+        /// Version of the service
+        /// </summary>
         public string ServiceVersion { get; private set; }
 
+        /// <summary>
+        /// OhjectID of the service
+        /// </summary>
         public string ServiceObjectID { get; private set; }
 
+        /// <summary>
+        /// PnP service ID
+        /// </summary>
         public string PnPServiceID { get; private set; }
 
+        /// <summary>
+        /// Info of the service
+        /// </summary>
+        /// <returns>String with the info</returns>
         public override string ToString()
         {
             return $"{this.Name} : {this.ServiceName} : {this.ServiceVersion}";
         }
 
+        /// <summary>
+        /// Get content of the service
+        /// </summary>
+        /// <returns>List of content services</returns>
         public IEnumerable<MediaDeviceServiceContent> GetContent()
         {
             return GetContent("DEVICE");
@@ -154,7 +189,9 @@ namespace MediaDevices
             return deviceValues;
         }
         
-
+        /// <summary>
+        /// Update service
+        /// </summary>
         protected virtual void Update()
         {
             this.content.Properties(out IPortableDeviceProperties properties);
@@ -166,11 +203,19 @@ namespace MediaDevices
             ComTrace.WriteObject(deviceValues);
         }
 
+        /// <summary>
+        /// Get all properties
+        /// </summary>
+        /// <returns>List of properties</returns>
         public IEnumerable<KeyValuePair<string,string>> GetAllProperties()
         {
             return GetAllProperties(this.ServiceObjectID);
         }
 
+        /// <summary>
+        /// Get supported methods
+        /// </summary>
+        /// <returns>List of supported methods</returns>
         public IEnumerable<Methods> GetSupportedMethods()
         {
             capabilities.GetSupportedMethods(out IPortableDevicePropVariantCollection methods);
@@ -178,6 +223,10 @@ namespace MediaDevices
             return methods.ToEnum<Methods>();
         }
 
+        /// <summary>
+        /// Get supported commands
+        /// </summary>
+        /// <returns>List of supported commands</returns>
         public IEnumerable<Commands> GetSupportedCommands()
         {
             capabilities.GetSupportedCommands(out IPortableDeviceKeyCollection commands);
@@ -185,6 +234,10 @@ namespace MediaDevices
             return commands.ToEnum<Commands>();
         }
 
+        /// <summary>
+        /// Get supported events
+        /// </summary>
+        /// <returns>list of supported events</returns>
         public IEnumerable<Events> GetSupportedEvents()
         {
             capabilities.GetSupportedEvents(out IPortableDevicePropVariantCollection events);
@@ -192,6 +245,10 @@ namespace MediaDevices
             return events.ToEnum<Events>();
         }
 
+        /// <summary>
+        /// Get supported formats
+        /// </summary>
+        /// <returns>List of supported formats</returns>
         public IEnumerable<Formats> GetSupportedFormats()
         {
             capabilities.GetSupportedFormats(out IPortableDevicePropVariantCollection formats);
@@ -199,6 +256,11 @@ namespace MediaDevices
             return formats.ToEnum<Formats>();
         }
        
+        /// <summary>
+        /// Call a service method
+        /// </summary>
+        /// <param name="method">Method GUID</param>
+        /// <param name="parameters">Method parameters</param>
         public void CallMethod(Guid method, object[] parameters)
         {
             this.service.Methods(out IPortableDeviceServiceMethods methods);

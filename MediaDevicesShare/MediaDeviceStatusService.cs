@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MediaDevices
 {
+    /// <summary>
+    /// Status service class
+    /// </summary>
     public class MediaDeviceStatusService : MediaDeviceService
     {
         internal MediaDeviceStatusService(MediaDevice device, string serviceId) : base(device, serviceId)
@@ -14,6 +17,9 @@ namespace MediaDevices
 
         }
 
+        /// <summary>
+        /// Update service
+        /// </summary>
         protected override void Update()
         {
             IPortableDeviceKeyCollection keyCol = (IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();

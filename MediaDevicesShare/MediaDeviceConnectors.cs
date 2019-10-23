@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace MediaDevices
 {
+    /// <summary>
+    /// MediaDevice connectors
+    /// </summary>
     public static class MediaDeviceConnectors
     {
 
@@ -19,6 +22,10 @@ namespace MediaDevices
 
         #endregion
 
+        /// <summary>
+        /// Get connextors.
+        /// </summary>
+        /// <returns>List of connectors</returns>
         public static IEnumerable<MediaDeviceConnector> Connectors()
         {
 
