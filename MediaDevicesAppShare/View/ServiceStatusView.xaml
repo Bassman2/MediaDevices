@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="MediaDeviceApp.View.ServiceStatusView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MediaDeviceApp.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="0" Grid.Row="0" Content="Service"/>
+        <ComboBox Grid.Column="1" Grid.Row="0" SelectedItem="{Binding SelectedService}" ItemsSource="{Binding Services}" SelectedIndex="0" Margin="3" />
+
+        <Label Grid.Column="0" Grid.Row="1" Content="Signal Strength"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SelectedService.SignalStrength, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Text Messages"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SelectedService.TextMessages, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="New Pictures"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding SelectedService.NewPictures, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Missed Calls"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding SelectedService.MissedCalls, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="Voice Mail"/>
+        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding SelectedService.VoiceMail, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="6" Content="Network Name"/>
+        <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding SelectedService.NetworkName, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="7" Content="Network Type"/>
+        <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding SelectedService.NetworkType, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="8" Content="Roaming"/>
+        <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding SelectedService.Roaming, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="9" Content="Battery Life"/>
+        <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding SelectedService.BatteryLife, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="10" Content="Charging State"/>
+        <TextBox Grid.Column="1" Grid.Row="10" Text="{Binding SelectedService.ChargingState, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="11" Content="Storage Capacity"/>
+        <TextBox Grid.Column="1" Grid.Row="11" Text="{Binding SelectedService.StorageCapacity, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="12" Content="Storage Free Space"/>
+        <TextBox Grid.Column="1" Grid.Row="12" Text="{Binding SelectedService.StorageFreeSpace, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="13" Content="Internet Connected"/>
+        <TextBox Grid.Column="1" Grid.Row="13" Text="{Binding SelectedService.InternetConnected, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+
+    </Grid>
+</UserControl>

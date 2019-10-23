@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>MediaDevicesApp</AssemblyName>
+    <RootNamespace>MediaDevicesApp</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\MediaDevicesAppShare\MediaDevicesAppShare.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <None Remove="Images\File.png" />
+    <None Remove="Images\Folder.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WpfUsbMonitor" Version="2.1.0-beta1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExplorerCore30\ExplorerCore30.csproj" />
+    <ProjectReference Include="..\MediaDevicesCore30\MediaDevicesCore30.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\File.png" />
+    <Resource Include="Images\Folder.png" />
+  </ItemGroup>
+
+</Project>

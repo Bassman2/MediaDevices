@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="MediaDeviceApp.View.InfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MediaDeviceApp.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="0" Grid.Row="0" Content="Device ID"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding DeviceId, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="1" Content="Description"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Description, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Friendly Name"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FriendlyName}" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Manufacturer"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Manufacturer, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+
+        <Label Grid.Column="0" Grid.Row="4" Content="SyncPartner"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding SyncPartner, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="Firmware Version"/>
+        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding FirmwareVersion, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="6" Content="Power Level"/>
+        <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding PowerLevel, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="7" Content="Power Source"/>
+        <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding PowerSource, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="8" Content="Protocol"/>
+        <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding Protocol, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="9" Content="Model"/>
+        <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding Model, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="10" Content="SerialNumber"/>
+        <TextBox Grid.Column="1" Grid.Row="10" Text="{Binding SerialNumber, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="11" Content="Supports Non Consumable"/>
+        <TextBox Grid.Column="1" Grid.Row="11" Text="{Binding SupportsNonConsumable, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="12" Content="Date Time"/>
+        <TextBox Grid.Column="1" Grid.Row="12" Text="{Binding DateTime, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="13" Content="Supported Formats Are Ordered"/>
+        <TextBox Grid.Column="1" Grid.Row="13" Text="{Binding SupportedFormatsAreOrdered, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="14" Content="Device Type"/>
+        <TextBox Grid.Column="1" Grid.Row="14" Text="{Binding DeviceType, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="15" Content="Network Identifier"/>
+        <TextBox Grid.Column="1" Grid.Row="15" Text="{Binding NetworkIdentifier, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="16" Content="Functional Unique Id"/>
+        <TextBox Grid.Column="1" Grid.Row="16" Text="{Binding FunctionalUniqueId, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="17" Content="Model Unique Id"/>
+        <TextBox Grid.Column="1" Grid.Row="17" Text="{Binding ModelUniqueId, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="18" Content="Transport"/>
+        <TextBox Grid.Column="1" Grid.Row="18" Text="{Binding Transport, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="19" Content="Use Device Stage"/>
+        <TextBox Grid.Column="1" Grid.Row="19" Text="{Binding UseDeviceStage, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="20" Content="PnP Device ID"/>
+        <TextBox Grid.Column="1" Grid.Row="20" Text="{Binding PnPDeviceID, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+
+        <Image Source="/MediaDevicesApp;component/MediaDevicesAppShare/Images/File.png"/>
+
+    </Grid>
+</UserControl>
