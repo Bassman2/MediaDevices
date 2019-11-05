@@ -6,7 +6,7 @@
     <SharedGUID>8c6734b5-5bbb-413e-a5f2-fc7e6aaffce7</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>MediaDevice</Import_RootNamespace>
+    <Import_RootNamespace>MediaDevices</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ChargingState.cs" />
@@ -49,6 +49,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceValues.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceValuesCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\IPropertyStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\IStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ItemType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\KeyAttribute.cs" />
