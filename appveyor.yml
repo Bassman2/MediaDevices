@@ -1,5 +1,5 @@
 version: 1.8.{build}
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 
 platform:
@@ -10,6 +10,15 @@ configuration:
     - Debug
 
 install:
+    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesUnitTestFramework45\packages.config -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
+    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesAppFramework45\packages.config -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
+    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesAppFramework48\packages.config -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
+    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesAppShare\packages.config -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
+
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesFramework45\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesCore30\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesCore20\Bassman.snk
+
     - ps: >-
         Start-FileDownload 'https://github.com/EWSoftware/SHFB/releases/download/v2019.9.15.0/SHFBInstaller_v2019.9.15.0.zip'
 
@@ -21,7 +30,7 @@ install:
 
         Write-Host "Installing VSIX..."
 
-        . "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2015AndLater.vsix
+        . "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2015AndLater.vsix
 
         Write-Host "Sandcastle installed" -ForegroundColor Green
 
@@ -30,8 +39,9 @@ build_script:
     - cd "%APPVEYOR_BUILD_FOLDER%"
     - msbuild MediaDevices.sln /m /verbosity:minimal /t:restore /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
     - msbuild MediaDevices.sln /m /verbosity:minimal /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-    - cd "%APPVEYOR_BUILD_FOLDER%"\MediaDevices
-    - pack.cmd
+    #currently packaging seems to be missing
+    #- cd "%APPVEYOR_BUILD_FOLDER%"\MediaDevices
+    #- pack.cmd
 
 # after_build:
     # - cd "%APPVEYOR_BUILD_FOLDER%"

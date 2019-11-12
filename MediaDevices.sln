@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.152
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "MediaDevicesDoc", "MediaDevicesDoc\MediaDevicesDoc.shfbproj", "{15DBA1E6-2C21-40AC-BD19-67926C3442AC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesCore30", "MediaDevicesCore30\MediaDevicesCore30.csproj", "{39F1C71B-0C48-49E4-A025-B828EB52E7BD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesCore20", "MediaDevicesCore20\MediaDevicesCore20.csproj", "{77400A8D-3C34-4AF2-8773-5BB23AAF0565}"
@@ -45,6 +43,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MediaDevices", "MediaDevice
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{B289D6A2-35CA-48C7-A5AD-609989221D04}"
 EndProject
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "MediaDevicesDoc", "MediaDevicesDoc\MediaDevicesDoc.shfbproj", "{15DBA1E6-2C21-40AC-BD19-67926C3442AC}"
+EndProject
+
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MediaDevicesAppShare\MediaDevicesAppShare.projitems*{0e06cbf7-7842-445d-b90e-1b2dbed6539b}*SharedItemsImports = 4
