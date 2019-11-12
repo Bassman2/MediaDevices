@@ -2,7 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
+//using System.Runtime.InteropServices;
+//using System.Runtime.InteropServices.ComTypes;
 
 namespace MediaDevices.Internal
 {
@@ -78,12 +79,9 @@ namespace MediaDevices.Internal
             get
             {
                 CheckDisposed();
-                System.Runtime.InteropServices.ComTypes.STATSTG stat;
-#if NETCOREAPP
-                this.stream.Stat(out stat, 0);
-#else
-                this.stream.Stat(out stat, 1); //STATFLAG_NONAME
-#endif
+                
+                this.stream.Stat(out STATSTG stat, 1); //STATFLAG_NONAME
+
                 return stat.cbSize;
             }
         }

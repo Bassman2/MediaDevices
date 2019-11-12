@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0E06CBF7-7842-445D-B90E-1B2DBED6539B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MediaDevicesAppFramework48</RootNamespace>
+    <RootNamespace>MediaDevicesApp</RootNamespace>
     <AssemblyName>MediaDevicesAppFramework48</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
