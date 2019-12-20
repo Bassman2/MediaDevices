@@ -150,7 +150,11 @@ namespace MediaDevices.Internal
                 return 0;
             }
 
-            if (this.Value.vt != PropVariantType.VT_I8)
+            if (this.Value.vt != PropVariantType.VT_INT
+             && this.Value.vt != PropVariantType.VT_I1
+             && this.Value.vt != PropVariantType.VT_I2
+             && this.Value.vt != PropVariantType.VT_I4
+             && this.Value.vt != PropVariantType.VT_I8)
             {
                 throw new InvalidOperationException($"ToLong does not work for value type {this.Value.vt}");
             }
@@ -166,7 +170,11 @@ namespace MediaDevices.Internal
                 return 0;
             }
 
-            if (this.Value.vt != PropVariantType.VT_UI8)
+            if (this.Value.vt != PropVariantType.VT_UINT
+             && this.Value.vt != PropVariantType.VT_UI1
+             && this.Value.vt != PropVariantType.VT_UI2
+             && this.Value.vt != PropVariantType.VT_UI4
+             && this.Value.vt != PropVariantType.VT_UI8)
             {
                 throw new InvalidOperationException($"ToUlong does not work for value type {this.Value.vt}");
             }
