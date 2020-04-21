@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>MediaDevices</RootNamespace>
     <AssemblyName>MediaDevices</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />
