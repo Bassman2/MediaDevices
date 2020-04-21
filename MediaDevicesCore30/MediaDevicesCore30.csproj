@@ -7,6 +7,8 @@
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
+    <AssemblyVersion>1.9.0.0</AssemblyVersion>
+    <Version>1.9.0</Version>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />
