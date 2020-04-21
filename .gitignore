@@ -292,3 +292,6 @@ __pycache__/
 
 #Signing
 *.snk
+
+MediaDevicesDoc/Help/
+Generator/
