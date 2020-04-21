@@ -49,7 +49,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceValues.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\IPortableDeviceValuesCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\IPropertyStore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\IStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ItemType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\KeyAttribute.cs" />
