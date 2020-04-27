@@ -103,13 +103,16 @@ namespace MediaDevices.Internal
             }
             // request id collection           
             device.deviceContent.GetObjectIDsFromPersistentUniqueIDs(collection, out IPortableDevicePropVariantCollection results);
+
+            //var s = results.ToStrings().ToArray();
             string mediaObjectId = results.ToStrings().FirstOrDefault();
 
             // return result item
             return mediaObjectId == null ? null : Item.Create(device, mediaObjectId);
+            //return string.IsNullOrEmpty(mediaObjectId) ? null : Item.Create(device, mediaObjectId);
         }
 
-        
+
 
         private Item(MediaDevice device, string id, string path)
         {
@@ -542,7 +545,31 @@ namespace MediaDevices.Internal
 
             resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out wpdStream);
 
-            return new StreamWrapper(wpdStream);
+            return new StreamWrapper(wpdStream, this.Size);
+        }
+
+        internal Stream OpenReadThumbnail()
+        {
+            this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
+
+            IStream wpdStream;
+            uint optimalTransferSize = 0;
+
+            resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out wpdStream);
+
+            return new StreamWrapper(wpdStream, this.Size);
+        }
+
+        internal Stream OpenReadIcon()
+        {
+            this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
+
+            IStream wpdStream;
+            uint optimalTransferSize = 0;
+
+            resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out wpdStream);
+
+            return new StreamWrapper(wpdStream, this.Size);
         }
 
         internal void UploadFile(string fileName, Stream stream)

@@ -21,7 +21,7 @@ namespace MediaDevicesUnitTest
             this.deviceDescription = "SM-A405FN";
             this.deviceFriendlyName = "Galaxy A40";
             this.deviceManufacture = "Samsung Electronics Co., Ltd.";
-            this.deviceFirmwareVersion = "A405FNXXU2ASJ1";
+            this.deviceFirmwareVersion = "A405FNXXU3BTC4";
             this.deviceModel = "SM-A405FN";
             this.deviceSerialNumber = "R58M81NACKB";
             this.deviceDeviceType = DeviceType.MediaPlayer;
@@ -39,10 +39,10 @@ namespace MediaDevicesUnitTest
             this.contentLocations = new List<string> ();
 
             // PersistentUniqueId
-            this.FolderPersistentUniqueId = "{CF527675-97D8-3DEF-0000-000000000000}";
+            this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
             this.FolderPersistentUniqueIdPath = @"\Phone\Music";
-            this.FilePersistentUniqueId = "{FDFF71F3-E0BD-D98E-0000-000000000000}";
-            this.FilePersistentUniqueIdPath = @"\Phone\Videos\desktop.ini";
+            this.FilePersistentUniqueId = "{25606D91-C12C-CF74-93A6-34E88717AD11}"; // "{FDFF71F3-E0BD-D98E-0000-000000000000}";
+            this.FilePersistentUniqueIdPath = @"\Phone\Samsung\Music\Over_the_Horizon.mp3"; // @"\Phone\Videos\desktop.ini"; Directory = "\\Phone\\Samsung\\Music"
 
             this.workingFolder = @"\Card\Test";
 

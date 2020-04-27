@@ -1188,6 +1188,87 @@ namespace MediaDevices
         }
 
         /// <summary>
+        /// Download icon from a file on a portable device to a stream.
+        /// </summary>
+        /// <param name="path">The path to the file.</param>
+        /// <param name="stream">The stream to download to.</param>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public void DownloadIcon(string path, Stream stream)
+        {
+            if (path == null)
+            {
+                throw new ArgumentNullException("path");
+            }
+            if (!IsPath(path))
+            {
+                throw new ArgumentException("path");
+            }
+            if (stream == null)
+            {
+                throw new ArgumentNullException("stream");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            Item item = Item.FindFile(this, path);
+            if (item == null)
+            {
+                throw new FileNotFoundException($"File {path} not found.");
+            }
+
+            using (Stream sourceStream = item.OpenReadIcon())
+            {
+                sourceStream.CopyTo(stream);
+            }
+        }
+
+        /// <summary>
+        /// Download thumbnail from a file on a portable device to a stream.
+        /// </summary>
+        /// <param name="path">The path to the file.</param>
+        /// <param name="stream">The stream to download to.</param>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public void DownloadThumbnail(string path, Stream stream)
+        {
+            if (path == null)
+            {
+                throw new ArgumentNullException("path");
+            }
+            if (!IsPath(path))
+            {
+                throw new ArgumentException("path");
+            }
+            if (stream == null)
+            {
+                throw new ArgumentNullException("stream");
+            }
+            if (!this.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            Item item = Item.FindFile(this, path);
+            if (item == null)
+            {
+                throw new FileNotFoundException($"File {path} not found.");
+            }
+
+            using (Stream sourceStream = item.OpenReadThumbnail())
+            {
+                sourceStream.CopyTo(stream);
+            }
+        }
+        /// <summary>
         /// Upload data from a stream to a file on a portable device.
         /// </summary>
         /// <param name="stream">The stream to upload from.</param>

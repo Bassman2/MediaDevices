@@ -68,7 +68,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PropVariantType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Security.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\SmsMessageType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\STATSTG.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\StreamWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.ServiceProperties.cs" />

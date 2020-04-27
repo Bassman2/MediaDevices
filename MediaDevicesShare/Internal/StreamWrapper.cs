@@ -10,6 +10,7 @@ namespace MediaDevices.Internal
     {
         private IStream stream;
         private IntPtr pLength;
+        private ulong size;
 
         private void CheckDisposed()
         {
@@ -33,7 +34,7 @@ namespace MediaDevices.Internal
             }
         }
 
-        public StreamWrapper(IStream stream)
+        public StreamWrapper(IStream stream, ulong size = 0)
         {
             if (stream == null)
             {
@@ -42,6 +43,7 @@ namespace MediaDevices.Internal
 
             this.stream = stream;
             this.pLength = Marshal.AllocHGlobal(16);
+            this.size = size;
         }
 
         public override bool CanRead
@@ -78,10 +80,30 @@ namespace MediaDevices.Internal
             get
             {
                 CheckDisposed();
-                
-                this.stream.Stat(out System.Runtime.InteropServices.ComTypes.STATSTG stat, 1); //STATFLAG_NONAME
+                return (long)this.size;
 
-                return stat.cbSize;
+                //try
+                //{
+                //    this.stream.Stat(out STATSTG stat, 1); //STATFLAG_NONAME
+                //}
+                //catch (Exception ex)
+                //{
+                //    Trace.WriteLine(ex.ToString());
+                //}
+
+                ////return stat.cbSize;
+
+                //try
+                //{
+                //    this.stream.Seek(0, 2, this.pLength); // 2 = STREAM_SEEK_END
+                //    long length = Marshal.ReadInt64(this.pLength);
+                //    return length;
+                //}
+                //catch (Exception ex)
+                //{
+                //    Trace.WriteLine(ex.ToString());
+                //}
+                //return 0;
             }
         }
 

@@ -53,6 +53,86 @@ namespace MediaDevices
         }
 
         /// <summary>
+        /// Download a icon from a portable device.
+        /// </summary>
+        /// <param name="device">Device class.</param>
+        /// <param name="source">The path to the source.</param>
+        /// <param name="destination">The path to the destination.</param>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public static void DownloadIcon(this MediaDevice device, string source, string destination)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            if (!MediaDevice.IsPath(source))
+            {
+                throw new ArgumentException("source");
+            }
+            if (destination == null)
+            {
+                throw new ArgumentNullException("destination");
+            }
+            if (!MediaDevice.IsPath(destination))
+            {
+                throw new ArgumentException("destination");
+            }
+            if (!device.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            using (FileStream stream = File.Create(destination))
+            {
+                device.DownloadIcon(source, stream);
+            }
+        }
+
+        /// <summary>
+        /// Download a thumbnail from a portable device.
+        /// </summary>
+        /// <param name="device">Device class.</param>
+        /// <param name="source">The path to the source.</param>
+        /// <param name="destination">The path to the destination.</param>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public static void DownloadThumbnail(this MediaDevice device, string source, string destination)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            if (!MediaDevice.IsPath(source))
+            {
+                throw new ArgumentException("source");
+            }
+            if (destination == null)
+            {
+                throw new ArgumentNullException("destination");
+            }
+            if (!MediaDevice.IsPath(destination))
+            {
+                throw new ArgumentException("destination");
+            }
+            if (!device.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+
+            using (FileStream stream = File.Create(destination))
+            {
+                device.DownloadThumbnail(source, stream);
+            }
+        }
+
+        /// <summary>
         /// Upload a file to a portable device.
         /// </summary>
         /// <param name="device">Device class.</param>
