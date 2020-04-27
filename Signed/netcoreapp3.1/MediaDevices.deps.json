@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "MediaDevices/1.9.0": {
+        "runtime": {
+          "MediaDevices.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MediaDevices/1.9.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

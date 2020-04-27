@@ -6,6 +6,20 @@
 		</introduction>
 
     <section>
+      <title>Version 1.9 was released on Apr. 27th, 2020.</title>
+      <content>
+        <list class="bullet">
+          <listItem>
+            <para>Fix the download on core problem.</para>
+          </listItem>
+          <listItem>
+            <para>New features: Downlaad icons and thumbnails.</para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+    
+    <section>
       <title>Version 1.8 was released on Jan. 13th, 2019.</title>
       <content>
         <list class="bullet">
