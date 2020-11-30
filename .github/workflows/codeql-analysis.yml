@@ -1,0 +1,104 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches: [master, ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [master]
+  schedule:
+    - cron: '0 23 * * 6'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        # We must fetch at least the immediate parents so that if this is
+        # a pull request then we can checkout the head.
+        fetch-depth: 2
+
+    # If this run was triggered by a pull request event, then checkout
+    # the head of the pull request instead of the merge commit.
+    - run: git checkout HEAD^2
+      if: ${{ github.event_name == 'pull_request' }}
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      # Override language selection by uncommenting this and choosing your languages
+      # with:
+      #   languages: go, javascript, csharp, python, cpp, java
+
+    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+    # If this step fails, then you should remove it and run the build manually (see below)
+    #- name: Autobuild
+    #  uses: github/codeql-action/autobuild@v1
+
+    # ℹ️ Command-line programs to run using the OS shell.
+    # 📚 https://git.io/JvXDl
+
+    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
+    #    and modify them (or add more) to build your code if your project
+    #    uses a compiled language
+
+    #- run: |
+    #   make bootstrap
+    #   make release
+
+    - name: "Download and install sandcastle"
+      run: |
+           $url = "https://github.com/EWSoftware/SHFB/releases/download/v2020.3.6.0/SHFBInstaller_v2020.3.6.0.zip"
+           $output = "$env:GITHUB_WORKSPACE\SHFBInstaller_v2020.3.6.0.zip"
+           (New-Object System.Net.WebClient).DownloadFile($url, $output)
+           7z x -y SHFBInstaller_v2020.3.6.0.zip | Out-Null
+           Write-Host "Installing MSI..."
+           cmd /c start /wait msiexec /i InstallResources\SandcastleHelpFileBuilder.msi /quiet
+           Write-Host "Installing VSIX..."
+           . "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2017AndLater.vsix
+           Write-Host "Sandcastle installed" -ForegroundColor Green
+      shell: pwsh
+      working-directory: .
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet.exe
+      if: matrix.build_configuration == 'Release'
+      uses: nuget/setup-nuget@v1
+
+    - name: NuGet restore
+      working-directory: .
+      run: |
+           nuget restore MediaDevicesUnitTestFramework45\packages.config -PackagesDirectory packages
+           nuget restore MediaDevicesAppFramework45\packages.config -PackagesDirectory packages
+           nuget restore MediaDevicesAppFramework48\packages.config -PackagesDirectory packages
+           nuget restore MediaDevicesAppShare\packages.config -PackagesDirectory packages
+
+    - name: restore
+      working-directory: .
+      run: msbuild MediaDevices.sln /m /verbosity:minimal /t:restore /p:configuration="Release" /p:platform="Any CPU"
+
+    - name: copy dummy key for signing
+      working-directory: .
+      run: |
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesFramework45\Bassman.snk
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore20\Bassman.snk
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore21\Bassman.snk
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore30\Bassman.snk
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore31\Bassman.snk
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevices50\Bassman.snk
+
+    - name: MSBuild of solution
+      working-directory: .
+      run: |
+           $env:SHFBROOT = "C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\"
+           msbuild MediaDevices.sln /m /verbosity:minimal /p:configuration="Release" /p:platform="Any CPU"
+
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1

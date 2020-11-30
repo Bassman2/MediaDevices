@@ -1,0 +1,83 @@
+name: Continuous Integration
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: windows-2019
+    strategy:
+      max-parallel: 2
+      matrix:
+        build_configuration: [Release, Debug]
+        build_platform: [Any CPU]
+        
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1
+
+    - name: "Download and install sandcastle"
+      run: |
+           $url = "https://github.com/EWSoftware/SHFB/releases/download/v2020.3.6.0/SHFBInstaller_v2020.3.6.0.zip"
+           $output = "$env:GITHUB_WORKSPACE\SHFBInstaller_v2020.3.6.0.zip"
+           (New-Object System.Net.WebClient).DownloadFile($url, $output)
+           7z x -y SHFBInstaller_v2020.3.6.0.zip | Out-Null
+           Write-Host "Installing MSI..."
+           cmd /c start /wait msiexec /i InstallResources\SandcastleHelpFileBuilder.msi /quiet
+           Write-Host "Installing VSIX..."
+           . "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2017AndLater.vsix
+           Write-Host "Sandcastle installed" -ForegroundColor Green
+      shell: pwsh
+      working-directory: .
+
+    - name: Setup NuGet.exe
+      if: matrix.build_configuration == 'Release'
+      uses: nuget/setup-nuget@v1
+
+    - name: NuGet restore
+      working-directory: .
+      run: |
+           nuget restore MediaDevicesUnitTestFramework45\packages.config -PackagesDirectory packages
+           nuget restore MediaDevicesAppFramework45\packages.config -PackagesDirectory packages
+           nuget restore MediaDevicesAppFramework48\packages.config -PackagesDirectory packages
+           nuget restore MediaDevicesAppShare\packages.config -PackagesDirectory packages
+
+    - name: restore
+      working-directory: .
+      run: msbuild MediaDevices.sln /m /verbosity:minimal /t:restore /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}"
+
+    - name: copy dummy key for signing
+      working-directory: .
+      run: |
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesFramework45\Bassman.snk
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore20\Bassman.snk
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore21\Bassman.snk
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore30\Bassman.snk
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore31\Bassman.snk
+           Copy-Item  appveyor_dummy.snk -Destination MediaDevices50\Bassman.snk
+
+
+
+    - name: MSBuild of solution
+      working-directory: .
+      run: |
+           $env:SHFBROOT = "C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\"
+           msbuild MediaDevices.sln /m /verbosity:minimal /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}"
+
+    - name: Build NuGet package
+      if: matrix.build_configuration == 'Release'
+      working-directory: .
+      run: |
+           cd .\Nuget
+           nuget pack MediaDevices.nuspec -properties Configuration=${{ matrix.build_configuration }}
+
+    - name: Archive artifacts
+      if: matrix.build_configuration == 'Release'
+      uses: actions/upload-artifact@v1
+      with:
+          name: MediaDevices.1.9.0.nupkg
+          path: Nuget\MediaDevices.1.9.0.nupkg
+
