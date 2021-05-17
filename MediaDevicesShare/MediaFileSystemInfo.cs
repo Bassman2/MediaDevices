@@ -91,6 +91,10 @@ namespace MediaDevices
             {
                 return this.item.DateCreated;
             }
+            set
+            {
+                this.item.SetDateCreated(value.GetValueOrDefault(DateTime.Now));
+            }
         }
 
         /// <summary>
@@ -102,6 +106,10 @@ namespace MediaDevices
             {
                 return this.item.DateModified;
             }
+            set
+            {
+                this.item.SetDateModified(value.GetValueOrDefault(DateTime.Now));
+            }
         }
 
         /// <summary>
@@ -112,6 +120,10 @@ namespace MediaDevices
             get
             {
                 return this.item.DateAuthored;
+            }
+            set
+            {
+                this.item.SetDateAuthored(value.GetValueOrDefault(DateTime.Now));
             }
         }
 

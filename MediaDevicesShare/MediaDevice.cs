@@ -2179,27 +2179,27 @@ namespace MediaDevices
             return list.Select(p => p.ToInt()); //.ToList();
         }
 
-        /*
-        public IEnumerable<byte> VendorRead(string context, int bytesToRead, byte[] input, out int bytesRead)
-        {
-            Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_READ_DATA);
-            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_CONTEXT, opCode);
-            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_NUM_BYTES_TO_READ, inputParams);
-            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_DATA, inputParams);
-            cmd.Send(this.device);
-            var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
-            return list.Select(p => p.ToInt()).ToList();
-        }
+        
+        //public IEnumerable<byte> VendorRead(string context, int bytesToRead, byte[] input, out int bytesRead)
+        //{
+        //    Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_READ_DATA);
+        //    cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_CONTEXT, opCode);
+        //    cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_NUM_BYTES_TO_READ, inputParams);
+        //    cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_DATA, inputParams);
+        //    cmd.Send(this.device);
+        //    var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
+        //    return list.Select(p => p.ToInt()).ToList();
+        //}
 
-        public int VendorWrite(string context, int bytesToWrite, byte[] buffer )
-        {
-            Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_WRITE_DATA);
-            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_CONTEXT, context);
-            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_NUM_BYTES_TO_WRITE, bytesToWrite);
-            cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_DATA, buffer);
-            cmd.Send(this.device);
-            return cmd.GetInt(WPD.PROPERTY_MTP_EXT_TRANSFER_NUM_BYTES_WRITTEN);
-        }
+        //public int VendorWrite(string context, int bytesToWrite, byte[] buffer )
+        //{
+        //    Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_WRITE_DATA);
+        //    cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_CONTEXT, context);
+        //    cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_NUM_BYTES_TO_WRITE, bytesToWrite);
+        //    cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_DATA, buffer);
+        //    cmd.Send(this.device);
+        //    return cmd.GetInt(WPD.PROPERTY_MTP_EXT_TRANSFER_NUM_BYTES_WRITTEN);
+        //}
 
         public IEnumerable<int> VendorEndTransfer(string context, out int respCode)
         {
@@ -2209,7 +2209,7 @@ namespace MediaDevices
             respCode = cmd.GetInt(WPD.PROPERTY_MTP_EXT_RESPONSE_CODE);
             return cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_RESPONSE_PARAMS).Select(p => p.ToInt());
         }
-        */
+        
 
         /// <summary>
         /// Retrieves the vendor extension description string.

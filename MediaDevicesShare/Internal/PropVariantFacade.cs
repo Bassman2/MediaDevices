@@ -289,6 +289,14 @@ namespace MediaDevices.Internal
             return pv;
         }
 
+        public static PropVariantFacade DateTimeToPropVariant(DateTime value)
+        {
+            PropVariantFacade pv = new PropVariantFacade();
+            pv.Value.vt = PropVariantType.VT_DATE;
+            pv.Value.dateVal = value.ToOADate();
+            return pv;
+        }
+
         public static implicit operator string(PropVariantFacade val)
         {
             return val.ToString();
