@@ -57,6 +57,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTestCore21"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTest50", "MediaDevicesUnitTest50\MediaDevicesUnitTest50.csproj", "{D2BAA763-B535-4DF3-9A53-866347AA6D34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevices60", "MediaDevices60\MediaDevices60.csproj", "{80839F34-A394-4059-AF98-A58D1E20F0F8}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{044118ec-2ff8-4618-afdb-a11f17214363}*SharedItemsImports = 5
@@ -71,6 +73,7 @@ Global
 		ExplorerShare\ExplorerShare.projitems*{4759f9a9-a633-4d6b-873c-ebea8a7bc9c3}*SharedItemsImports = 5
 		MediaDevicesAppShare\MediaDevicesAppShare.projitems*{5a9b9d55-cc27-4806-8769-3e74cd13b5e6}*SharedItemsImports = 4
 		MediaDevicesShare\MediaDevicesShare.projitems*{77400a8d-3c34-4af2-8773-5bb23aaf0565}*SharedItemsImports = 5
+		MediaDevicesShare\MediaDevicesShare.projitems*{80839f34-a394-4059-af98-a58d1e20f0f8}*SharedItemsImports = 5
 		MediaDevicesShare\MediaDevicesShare.projitems*{8c6734b5-5bbb-413e-a5f2-fc7e6aaffce7}*SharedItemsImports = 13
 		MediaDevicesAppShare\MediaDevicesAppShare.projitems*{9dd3e467-5a80-4da6-b257-ac9d1562fb78}*SharedItemsImports = 5
 		MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{bfac062b-2224-48af-b45e-158f8d21927f}*SharedItemsImports = 13
@@ -303,6 +306,18 @@ Global
 		{D2BAA763-B535-4DF3-9A53-866347AA6D34}.Release|x64.Build.0 = Release|Any CPU
 		{D2BAA763-B535-4DF3-9A53-866347AA6D34}.Release|x86.ActiveCfg = Release|Any CPU
 		{D2BAA763-B535-4DF3-9A53-866347AA6D34}.Release|x86.Build.0 = Release|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Debug|x64.Build.0 = Debug|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Debug|x86.Build.0 = Debug|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Release|x64.ActiveCfg = Release|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Release|x64.Build.0 = Release|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Release|x86.ActiveCfg = Release|Any CPU
+		{80839F34-A394-4059-AF98-A58D1E20F0F8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -330,6 +345,7 @@ Global
 		{3E568355-4B11-4725-8646-8485EBB0348A} = {02F542E8-E2BD-4070-812E-646CA9219E52}
 		{06026362-283D-4FE0-B077-67F5882080F5} = {02F542E8-E2BD-4070-812E-646CA9219E52}
 		{D2BAA763-B535-4DF3-9A53-866347AA6D34} = {02F542E8-E2BD-4070-812E-646CA9219E52}
+		{80839F34-A394-4059-AF98-A58D1E20F0F8} = {12682F58-306A-4F67-8850-BF67BDA26D46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4FF47020-DA8D-4683-8E5E-813E06A746AD}
