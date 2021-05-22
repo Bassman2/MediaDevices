@@ -1,5 +1,5 @@
-version: 1.8.{build}
-image: Visual Studio 2019
+version: 1.9.{build}
+image: Visual Studio 2019 Preview
 
 
 platform:
@@ -10,22 +10,21 @@ configuration:
     - Debug
 
 install:
-    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesUnitTestFramework45\packages.config -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
-    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesAppFramework45\packages.config -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
-    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesAppFramework48\packages.config -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
-    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesAppShare\packages.config -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
+    - nuget restore "%APPVEYOR_BUILD_FOLDER%\Demo\Demo .NET Framework 4.5\MediaDevicesAppFramework45\packages.config" -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
+    - nuget restore "%APPVEYOR_BUILD_FOLDER%\Demo\Demo Share\MediaDevicesAppShare\packages.config" -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
+    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\Test\MediaDevicesUnitTestFramework45\packages.config -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
+    - nuget restore MediaDevices.sln
 
-    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesFramework45\Bassman.snk
-    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesCore20\Bassman.snk
-    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesCore21\Bassman.snk
-    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesCore30\Bassman.snk
-    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesCore31\Bassman.snk
-    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevices50\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevicesFramework45\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevicesCore21\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevicesCore31\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevices50\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevices60\Bassman.snk
 
     - ps: >-
-        Start-FileDownload 'https://github.com/EWSoftware/SHFB/releases/download/v2020.3.6.0/SHFBInstaller_v2020.3.6.0.zip'
+        Start-FileDownload 'https://github.com/EWSoftware/SHFB/releases/download/v2021.4.9.0/SHFBInstaller_v2021.4.9.0.zip'
 
-        7z x -y SHFBInstaller_v2020.3.6.0.zip | Out-Null
+        7z x -y SHFBInstaller_v2021.4.9.0.zip | Out-Null
 
         Write-Host "Installing MSI..."
 
@@ -42,9 +41,11 @@ build_script:
     - cd "%APPVEYOR_BUILD_FOLDER%"
     - msbuild MediaDevices.sln /m /verbosity:minimal /t:restore /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
     - msbuild MediaDevices.sln /m /verbosity:minimal /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-    #currently packaging seems to be missing
-    #- cd "%APPVEYOR_BUILD_FOLDER%"\MediaDevices
-    #- pack.cmd
+    - msbuild MediaDevicesPreview.sln /m /verbosity:minimal /t:restore /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - msbuild MediaDevicesPreview.sln /m /verbosity:minimal /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+    - cd "%APPVEYOR_BUILD_FOLDER%"\Nuget
+    - if "%configuration%"=="Release" MediaDevices.cmd
 
 # after_build:
     # - cd "%APPVEYOR_BUILD_FOLDER%"
