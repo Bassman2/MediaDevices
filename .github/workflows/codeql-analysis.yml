@@ -52,10 +52,10 @@ jobs:
 
     - name: "Download and install sandcastle"
       run: |
-           $url = "https://github.com/EWSoftware/SHFB/releases/download/v2020.3.6.0/SHFBInstaller_v2020.3.6.0.zip"
-           $output = "$env:GITHUB_WORKSPACE\SHFBInstaller_v2020.3.6.0.zip"
+           $url = "https://github.com/EWSoftware/SHFB/releases/download/v2021.4.9.0/SHFBInstaller_v2021.4.9.0.zip"
+           $output = "$env:GITHUB_WORKSPACE\SHFBInstaller_v2021.4.9.0.zip"
            (New-Object System.Net.WebClient).DownloadFile($url, $output)
-           7z x -y SHFBInstaller_v2020.3.6.0.zip | Out-Null
+           7z x -y SHFBInstaller_v2021.4.9.0.zip | Out-Null
            Write-Host "Installing MSI..."
            cmd /c start /wait msiexec /i InstallResources\SandcastleHelpFileBuilder.msi /quiet
            Write-Host "Installing VSIX..."
