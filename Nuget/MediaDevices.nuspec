@@ -12,16 +12,18 @@
     <projectUrl>https://github.com/Bassman2/MediaDevices</projectUrl>
     <description>API to communicate with MTP / WPD devices like smart phones, tablets and cameras. Documentation included.</description>
     <releaseNotes>New features and bug fixing.</releaseNotes>
-    <copyright>Copyright 2016 - 2020 (c) by Ralf Beckers</copyright>
+    <copyright>Copyright 2016 - 2021 (c) by Ralf Beckers</copyright>
 	<repository type="Github" url="https://github.com/Bassman2/MediaDevices" />
     <tags>MTP WPD PortableDevice PortableDevices API phone tablet</tags>
 	<dependencies>
       <group targetFramework=".NETFramework4.5" />
 	  <group targetFramework=".NETCoreApp2.0" />
 	  <group targetFramework=".NETCoreApp2.1" />
+	  <group targetFramework=".NETCoreApp2.2" />
 	  <group targetFramework=".NETCoreApp3.0" />
 	  <group targetFramework=".NETCoreApp3.1" />
   	  <group targetFramework=".NET5.0" />
+  	  <group targetFramework=".NET6.0" />
     </dependencies>
   </metadata>
   <files>
@@ -30,8 +32,10 @@
 	<file src="..\MediaDevicesFramework45\bin\Release\**" target="lib/net45" />	
 	<file src="..\MediaDevicesCore20\bin\Release\netcoreapp2.0\**" target="lib/netcoreapp2.0" />
 	<file src="..\MediaDevicesCore21\bin\Release\netcoreapp2.1\**" target="lib/netcoreapp2.1" />
+	<file src="..\MediaDevicesCore21\bin\Release\netcoreapp2.2\**" target="lib/netcoreapp2.2" />
 	<file src="..\MediaDevicesCore30\bin\Release\netcoreapp3.0\**" target="lib/netcoreapp3.0" />
 	<file src="..\MediaDevicesCore31\bin\Release\netcoreapp3.1\**" target="lib/netcoreapp3.1" />
 	<file src="..\MediaDevices50\bin\Release\net5.0\**" target="lib/net5.0" />
+	<file src="..\MediaDevices60\bin\Release\net6.0\**" target="lib/net6.0" />
   </files>
 </package>

@@ -4,6 +4,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
+    <Version>1.9.0</Version>
+    <Authors>Ralf Beckers</Authors>
+    <Company>Ralf Beckers</Company>
+    <Product>MediaDevices</Product>
+    <PackageId>MediaDevices</PackageId>
+    <AssemblyName>MediaDevices</AssemblyName>
+    <RootNamespace>MediaDevices</RootNamespace>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />

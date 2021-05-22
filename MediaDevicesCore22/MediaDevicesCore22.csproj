@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>MediaDevices</AssemblyName>
+    <RootNamespace>MediaDevices</RootNamespace>
+    <Version>1.9.0</Version>
+    <Authors>Ralf Beckers</Authors>
+    <Company>Ralf Beckers</Company>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />
+
+</Project>
