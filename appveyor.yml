@@ -16,13 +16,16 @@ install:
     - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesAppShare\packages.config -PackagesDirectory "%APPVEYOR_BUILD_FOLDER%"\packages
 
     - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesFramework45\Bassman.snk
-    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesCore30\Bassman.snk
     - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesCore20\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesCore21\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesCore30\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesCore31\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\appveyor_dummy.snk "%APPVEYOR_BUILD_FOLDER%"\MediaDevices50\Bassman.snk
 
     - ps: >-
-        Start-FileDownload 'https://github.com/EWSoftware/SHFB/releases/download/v2019.9.15.0/SHFBInstaller_v2019.9.15.0.zip'
+        Start-FileDownload 'https://github.com/EWSoftware/SHFB/releases/download/v2020.3.6.0/SHFBInstaller_v2020.3.6.0.zip'
 
-        7z x -y SHFBInstaller_v2019.9.15.0.zip | Out-Null
+        7z x -y SHFBInstaller_v2020.3.6.0.zip | Out-Null
 
         Write-Host "Installing MSI..."
 
@@ -30,7 +33,7 @@ install:
 
         Write-Host "Installing VSIX..."
 
-        . "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2015AndLater.vsix
+        . "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2017AndLater.vsix
 
         Write-Host "Sandcastle installed" -ForegroundColor Green
 
