@@ -13,7 +13,7 @@
     <RootNamespace>PortableDevicesDoc</RootNamespace>
     <Name>PortableDevicesDoc</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.5</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 4.5.2</FrameworkVersion>
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>MediaDevices</HtmlHelpName>
     <Language>en-US</Language>

@@ -22,8 +22,8 @@
 	  <group targetFramework=".NETCoreApp2.2" />
 	  <group targetFramework=".NETCoreApp3.0" />
 	  <group targetFramework=".NETCoreApp3.1" />
-  	  <group targetFramework=".NET5.0" />
-  	  <group targetFramework=".NET6.0" />
+  	  <group targetFramework=".NET5.0-WINDOWS" />
+  	  <group targetFramework=".NET6.0-WINDOWS" />
     </dependencies>
   </metadata>
   <files>
@@ -32,10 +32,10 @@
 	<file src="..\MediaDevicesFramework45\bin\Release\**" target="lib/net45" />	
 	<file src="..\MediaDevicesCore20\bin\Release\netcoreapp2.0\**" target="lib/netcoreapp2.0" />
 	<file src="..\MediaDevicesCore21\bin\Release\netcoreapp2.1\**" target="lib/netcoreapp2.1" />
-	<file src="..\MediaDevicesCore21\bin\Release\netcoreapp2.2\**" target="lib/netcoreapp2.2" />
+	<file src="..\MediaDevicesCore22\bin\Release\netcoreapp2.2\**" target="lib/netcoreapp2.2" />
 	<file src="..\MediaDevicesCore30\bin\Release\netcoreapp3.0\**" target="lib/netcoreapp3.0" />
 	<file src="..\MediaDevicesCore31\bin\Release\netcoreapp3.1\**" target="lib/netcoreapp3.1" />
-	<file src="..\MediaDevices50\bin\Release\net5.0\**" target="lib/net5.0" />
-	<file src="..\MediaDevices60\bin\Release\net6.0\**" target="lib/net6.0" />
+	<file src="..\MediaDevices50\bin\Release\net5.0\**" target="lib/net5.0-windows" />
+	<file src="..\MediaDevices60\bin\Release\net6.0\**" target="lib/net6.0-windows" />
   </files>
 </package>

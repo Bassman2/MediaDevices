@@ -15,6 +15,9 @@
           <listItem>
             <para>New features: Downlaad icons and thumbnails.</para>
           </listItem>
+          <listItem>
+            <para>New features: Set file times and dates.</para>
+          </listItem>
         </list>
       </content>
     </section>
