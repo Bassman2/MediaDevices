@@ -107,8 +107,4 @@
     <Compile Include="$(MSBuildThisFileDirectory)WMDM\MediaDevMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WMDM\MediaDevMgrClassFactory.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)MediaDevices.nuspec" />
-    <None Include="$(MSBuildThisFileDirectory)MediaDevicesLicense.txt" />
-  </ItemGroup>
 </Project>

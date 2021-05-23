@@ -324,9 +324,11 @@ namespace MediaDevices
                 }
 
                 // set new friendly name
-                IPortableDeviceValues devValues = (IPortableDeviceValues)new PortableDeviceValues();
-                devValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value);
-                this.deviceProperties.SetValues(Item.RootId, devValues, out devValues);
+                IPortableDeviceValues devInValues = (IPortableDeviceValues)new PortableDeviceValues();
+                devInValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value);
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
+                this.deviceProperties.SetValues(Item.RootId, devInValues, out IPortableDeviceValues devValues);
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
                 // reload device values with new friendly name 
                 this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);
@@ -773,11 +775,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -809,11 +811,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -843,11 +845,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -878,11 +880,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -912,11 +914,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -947,11 +949,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -1077,11 +1079,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -1105,11 +1107,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -1137,7 +1139,7 @@ namespace MediaDevices
         {
             if (string.IsNullOrEmpty(path))
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -1160,15 +1162,15 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (stream == null)
             {
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             }
             if (!this.IsConnected)
             {
@@ -1201,15 +1203,15 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (stream == null)
             {
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             }
             if (!this.IsConnected)
             {
@@ -1242,15 +1244,15 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (stream == null)
             {
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             }
             if (!this.IsConnected)
             {
@@ -1282,15 +1284,15 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (stream == null)
             {
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             }
             if (!this.IsConnected)
             {
@@ -1325,11 +1327,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -1352,11 +1354,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -1381,11 +1383,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -1393,13 +1395,13 @@ namespace MediaDevices
             }
             if (string.IsNullOrEmpty(newName))
             {
-                throw new ArgumentNullException("newName");
+                throw new ArgumentNullException(nameof(newName));
             }
 
             Item item = Item.FindItem(this, path);
             if (item == null)
             {
-                throw new FileNotFoundException($"Path {path} not found.");
+                throw new FileNotFoundException($"Path {path} not found.", path);
             }
 
             item.Rename(newName);
@@ -1419,11 +1421,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -1433,7 +1435,7 @@ namespace MediaDevices
             var item = Item.FindItem(this, path);
             if (item == null)
             {
-                throw new FileNotFoundException($"{path} not found.");
+                throw new FileNotFoundException($"{path} not found.", path);
             }
 
             return new MediaFileInfo(this, item);
@@ -1453,11 +1455,11 @@ namespace MediaDevices
         {
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
             if (!IsPath(path))
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException("Invalide path", nameof(path));
             }
             if (!this.IsConnected)
             {
@@ -1510,11 +1512,11 @@ namespace MediaDevices
         {
             if (string.IsNullOrEmpty(persistentUniqueId))
             {
-                throw new ArgumentNullException("persistentUniqueId");
+                throw new ArgumentNullException(nameof(persistentUniqueId));
             }
             if (stream == null)
             {
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             }
             if (!this.IsConnected)
             {
@@ -1539,7 +1541,7 @@ namespace MediaDevices
         {
             if (string.IsNullOrEmpty(persistentUniqueId))
             {
-                throw new ArgumentNullException("persistentUniqueId");
+                throw new ArgumentNullException(nameof(persistentUniqueId));
             }
             if (!this.IsConnected)
             {
@@ -1566,7 +1568,7 @@ namespace MediaDevices
         {
             if (string.IsNullOrEmpty(persistentUniqueId))
             {
-                throw new ArgumentNullException("persistentUniqueId");
+                throw new ArgumentNullException(nameof(persistentUniqueId));
             }
             if (!this.IsConnected)
             {
@@ -1593,7 +1595,7 @@ namespace MediaDevices
         {
             if (string.IsNullOrEmpty(persistentUniqueId))
             {
-                throw new ArgumentNullException("persistentUniqueId");
+                throw new ArgumentNullException(nameof(persistentUniqueId));
             }
             if (!this.IsConnected)
             {
@@ -1634,8 +1636,7 @@ namespace MediaDevices
 
             try
             {
-                IPortableDeviceKeyCollection commands;
-                this.deviceCapabilities.GetSupportedCommands(out commands);
+                this.deviceCapabilities.GetSupportedCommands(out IPortableDeviceKeyCollection commands);
                 return commands.ToEnum<Commands>();
             }
             catch (COMException ex)
@@ -1659,8 +1660,7 @@ namespace MediaDevices
 
             try
             {
-                IPortableDevicePropVariantCollection categories;
-                this.deviceCapabilities.GetFunctionalCategories(out categories);
+                this.deviceCapabilities.GetFunctionalCategories(out IPortableDevicePropVariantCollection categories);
                 return categories.ToEnum<FunctionalCategory>();
             }
             catch (COMException ex)
@@ -1686,9 +1686,8 @@ namespace MediaDevices
             try
             {
                 var g = functionalCategory.Guid();
-                IPortableDevicePropVariantCollection objects;
                 Guid guid = functionalCategory.Guid();
-                this.deviceCapabilities.GetFunctionalObjects(ref guid, out objects);
+                this.deviceCapabilities.GetFunctionalObjects(ref guid, out IPortableDevicePropVariantCollection objects);
                 ComTrace.WriteObject(objects);
                 return objects.ToStrings();
             }
@@ -1715,9 +1714,8 @@ namespace MediaDevices
 
             try
             {
-                IPortableDevicePropVariantCollection types;
                 Guid guid = functionalCategory.Guid();
-                this.deviceCapabilities.GetSupportedContentTypes(ref guid, out types);
+                this.deviceCapabilities.GetSupportedContentTypes(ref guid, out IPortableDevicePropVariantCollection types);
                 return types.ToEnum<ContentType>();
             }
             catch (COMException ex)
@@ -1742,8 +1740,7 @@ namespace MediaDevices
 
             try
             { 
-                IPortableDevicePropVariantCollection events;
-                this.deviceCapabilities.GetSupportedEvents(out events);
+                this.deviceCapabilities.GetSupportedEvents(out IPortableDevicePropVariantCollection events);
                 return events.ToEnum<Events>();
             }
             catch (COMException ex)
@@ -1831,7 +1828,7 @@ namespace MediaDevices
             }
             if (string.IsNullOrEmpty(path))
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
 
             Item item = Item.FindFolder(this, path);
@@ -1857,7 +1854,7 @@ namespace MediaDevices
             }
             if (string.IsNullOrEmpty(path))
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
 
             Item item = Item.FindFolder(this, path);
@@ -1905,7 +1902,7 @@ namespace MediaDevices
             }
             if (string.IsNullOrEmpty(functionalObject))
             {
-                throw new ArgumentNullException("functionalObject");
+                throw new ArgumentNullException(nameof(functionalObject));
             }
             
             Command cmd = Command.Create(WPD.COMMAND_SMS_SEND);
@@ -1948,7 +1945,7 @@ namespace MediaDevices
             }
             if (string.IsNullOrEmpty(functionalObject))
             {
-                throw new ArgumentNullException("functionalObject");
+                throw new ArgumentNullException(nameof(functionalObject));
             }
             
             Command cmd = Command.Create(WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE);
@@ -1959,8 +1956,7 @@ namespace MediaDevices
         internal void CallEvent(IPortableDeviceValues eventParameters)
         {
             //ComTrace.WriteObject(eventParameters);
-            Guid eventGuid;
-            eventParameters.GetGuidValue(ref WPD.EVENT_PARAMETER_EVENT_ID, out eventGuid);
+            eventParameters.GetGuidValue(ref WPD.EVENT_PARAMETER_EVENT_ID, out Guid eventGuid);
             Events eventEnum = eventGuid.GetEnumFromAttrGuid<Events>();
 
             switch (eventEnum)
@@ -2179,7 +2175,7 @@ namespace MediaDevices
             return list.Select(p => p.ToInt()); //.ToList();
         }
 
-        
+
         //public IEnumerable<byte> VendorRead(string context, int bytesToRead, byte[] input, out int bytesRead)
         //{
         //    Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_READ_DATA);
@@ -2201,6 +2197,12 @@ namespace MediaDevices
         //    return cmd.GetInt(WPD.PROPERTY_MTP_EXT_TRANSFER_NUM_BYTES_WRITTEN);
         //}
 
+        /// <summary>
+        /// completes a data transfer and read response from device. The transfer is initiated by VendorExcecuteWrite
+        /// </summary>
+        /// <param name="context">The context idetifier returned in previous calls.</param>
+        /// <param name="respCode">the response code to the vendor operation code.</param>
+        /// <returns>identifying response params if any</returns>
         public IEnumerable<int> VendorEndTransfer(string context, out int respCode)
         {
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_END_DATA_TRANSFER);
@@ -2208,8 +2210,7 @@ namespace MediaDevices
             cmd.Send(this.device);
             respCode = cmd.GetInt(WPD.PROPERTY_MTP_EXT_RESPONSE_CODE);
             return cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_RESPONSE_PARAMS).Select(p => p.ToInt());
-        }
-        
+        }        
 
         /// <summary>
         /// Retrieves the vendor extension description string.
@@ -2263,6 +2264,9 @@ namespace MediaDevices
             //    s.Close();
 
             //}
+            
+            // not supported by old frameworks
+            #pragma warning disable IDE0066
             switch (service)
             {
                 case MediaDeviceServices.Status:

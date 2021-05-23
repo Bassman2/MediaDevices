@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5.0-windows7.0</TargetFramework>
     <AssemblyName>MediaDevices</AssemblyName>
     <RootNamespace>MediaDevices</RootNamespace>
     <SignAssembly>true</SignAssembly>
@@ -10,6 +10,7 @@
     <AssemblyVersion>1.9.0.0</AssemblyVersion>
     <Version>1.9.0</Version>
     <Authors>Ralf Beckers</Authors>
+    <NeutralLanguage>aa</NeutralLanguage>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />

@@ -66,6 +66,9 @@ namespace MediaDevices
 
             ComTrace.WriteObject(deviceValues);
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable IDE0090 // Use 'new(...)'
+
             using (PropVariantFacade value = new PropVariantFacade())
             {
                 deviceValues.GetValue(ref WPD.OBJECT_NAME, out value.Value);
@@ -86,6 +89,10 @@ namespace MediaDevices
                 deviceValues.GetValue(ref WPD.SERVICE_VERSION, out value.Value);
                 this.ServiceVersion = value;
             }
+
+#pragma warning restore IDE0090 // Use 'new(...)'
+#pragma warning restore IDE0079 // Remove unnecessary suppression
+
             Update();
 
             //var x = GetContent().ToArray();
@@ -98,10 +105,23 @@ namespace MediaDevices
         /// </summary>
         public void Dispose()
         {
-            if (this.service != null)
-            { 
-                this.service.Close();
-                this.service = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Dispose service
+        /// </summary>
+        /// <param name="disposing">Disposing flag</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.service != null)
+                {
+                    this.service.Close();
+                    this.service = null;
+                }
             }
         }
 
@@ -261,7 +281,9 @@ namespace MediaDevices
         /// </summary>
         /// <param name="method">Method GUID</param>
         /// <param name="parameters">Method parameters</param>
+#pragma warning disable IDE0060 // Remove unused parameter
         public void CallMethod(Guid method, object[] parameters)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             this.service.Methods(out IPortableDeviceServiceMethods methods);
 
@@ -277,7 +299,9 @@ namespace MediaDevices
             values.SetGuidValue(ref WPD.PROPERTY_COMMON_COMMAND_CATEGORY, ref commandKey.fmtid);
             values.SetUnsignedIntegerValue(ref WPD.PROPERTY_COMMON_COMMAND_ID, commandKey.pid);
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             this.service.SendCommand(0, ref values, out IPortableDeviceValues results);
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
         }
 
         

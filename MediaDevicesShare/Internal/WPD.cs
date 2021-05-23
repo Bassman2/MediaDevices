@@ -1,3 +1,7 @@
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable IDE0090
+#pragma warning restore IDE0079 // Remove unnecessary suppression
+
 using System;
 
 namespace MediaDevices.Internal

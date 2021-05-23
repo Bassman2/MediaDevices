@@ -10,7 +10,7 @@ namespace MediaDevices.Internal
     {
         private IStream stream;
         private IntPtr pLength;
-        private ulong size;
+        private readonly ulong size;
 
         private void CheckDisposed()
         {
@@ -36,12 +36,7 @@ namespace MediaDevices.Internal
 
         public StreamWrapper(IStream stream, ulong size = 0)
         {
-            if (stream == null)
-            {
-                throw new ArgumentNullException("stream");
-            }
-
-            this.stream = stream;
+            this.stream = stream ?? throw new ArgumentNullException(nameof(stream));
             this.pLength = Marshal.AllocHGlobal(16);
             this.size = size;
         }
@@ -125,7 +120,7 @@ namespace MediaDevices.Internal
 
             if (offset < 0 || count < 0 || offset + count > buffer.Length)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(offset));
             }
 
             byte[] localBuffer = buffer;
@@ -160,7 +155,11 @@ namespace MediaDevices.Internal
 
             int dwOrigin;
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable IDE0066 // Convert switch statement to expression
             switch (origin)
+#pragma warning restore IDE0066 // Convert switch statement to expression
+#pragma warning restore IDE0079 // Remove unnecessary suppression
             {
             case SeekOrigin.Begin:
                 dwOrigin = 0;   // STREAM_SEEK_SET
@@ -175,7 +174,7 @@ namespace MediaDevices.Internal
                 break;
 
             default:
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(origin));
             }
 
             try
@@ -203,7 +202,7 @@ namespace MediaDevices.Internal
 
             if (offset < 0 || count < 0 || offset + count > buffer.Length)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(offset));
             }
 
             byte[] localBuffer = buffer;
