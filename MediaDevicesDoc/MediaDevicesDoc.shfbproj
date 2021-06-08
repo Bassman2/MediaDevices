@@ -13,7 +13,7 @@
     <RootNamespace>PortableDevicesDoc</RootNamespace>
     <Name>PortableDevicesDoc</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.5.2</FrameworkVersion>
+    <FrameworkVersion>.NET Core/.NET Standard/.NET 5.0+</FrameworkVersion>
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>MediaDevices</HtmlHelpName>
     <Language>en-US</Language>
@@ -46,7 +46,7 @@
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, ProtectedInternalAsProtected, EditorBrowsableNever, NonBrowsable</VisibleItems>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\MediaDevicesFramework45\MediaDevicesFramework45.csproj" />
+      <DocumentationSource sourceFile="..\MediaDevices50\MediaDevices50.csproj" />
     </DocumentationSources>
     <ProjectSummary>
     </ProjectSummary>

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <Import Project="..\MediaDevicesAppShare\MediaDevicesAppShare.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Explorer60\Explorer60.csproj" />
+    <ProjectReference Include="..\MediaDevices60\MediaDevices60.csproj" />
+  </ItemGroup>
+
+</Project>

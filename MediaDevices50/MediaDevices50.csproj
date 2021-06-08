@@ -13,6 +13,14 @@
     <NeutralLanguage>aa</NeutralLanguage>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Projects\MediaDevices\MediaDevices50\MediaDevices.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Projects\MediaDevices\MediaDevices50\MediaDevices.xml</DocumentationFile>
+  </PropertyGroup>
+
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />
 
 </Project>
