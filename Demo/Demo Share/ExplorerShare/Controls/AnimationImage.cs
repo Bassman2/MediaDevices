@@ -36,7 +36,9 @@ namespace ExplorerCtrl.Controls
         private static readonly DependencyProperty FrameIndexProperty =
             DependencyProperty.Register("FrameIndex", typeof(int), typeof(AnimationImage), new UIPropertyMetadata(0, new PropertyChangedCallback(OnFrameIndexChange)));
 
+#pragma warning disable IDE0051 // Remove unused private members
         private int FrameIndex
+#pragma warning restore IDE0051 // Remove unused private members
         {
             get { return (int)GetValue(FrameIndexProperty); }
             set { SetValue(FrameIndexProperty, value); }
@@ -65,7 +67,9 @@ namespace ExplorerCtrl.Controls
         private void Initialize()
         {
             gifDecoder = new GifBitmapDecoder(new Uri("pack://application:,,," + this.Source), BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+#pragma warning disable IDE0017 // Simplify object initialization
             this.animation = new Int32Animation(0, this.gifDecoder.Frames.Count - 1, new Duration(new TimeSpan(0, 0, 0, this.gifDecoder.Frames.Count / 10, (int)((this.gifDecoder.Frames.Count / 10.0 - this.gifDecoder.Frames.Count / 10) * 1000))));
+#pragma warning restore IDE0017 // Simplify object initialization
             this.animation.RepeatBehavior = RepeatBehavior.Forever;
             base.Source = gifDecoder.Frames[0];
             this.isInitialized = true;

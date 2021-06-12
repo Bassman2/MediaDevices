@@ -94,12 +94,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\File.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Folder.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="UsbMonitorLicense.txt" />
   </ItemGroup>
   <Import Project="..\..\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems" Label="Shared" />

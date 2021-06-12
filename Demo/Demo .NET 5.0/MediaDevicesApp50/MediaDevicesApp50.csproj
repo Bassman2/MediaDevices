@@ -9,12 +9,22 @@
   <Import Project="..\..\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems" Label="Shared" />
 
   <ItemGroup>
+    <None Remove="Images\File.png" />
+    <None Remove="Images\Folder.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="WpfUsbMonitor" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Demo .NET 5.0\Explorer50\Explorer50.csproj" />
     <ProjectReference Include="..\..\..\Src\MediaDevices50\MediaDevices50.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\File.png" />
+    <Resource Include="Images\Folder.png" />
   </ItemGroup>
 
 </Project>

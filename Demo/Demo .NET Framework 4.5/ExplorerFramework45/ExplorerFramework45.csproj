@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>Explorer</RootNamespace>
+    <RootNamespace>ExplorerCtrl</RootNamespace>
     <AssemblyName>Explorer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -70,6 +70,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\..\Demo Share\ExplorerShare\ExplorerShare.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

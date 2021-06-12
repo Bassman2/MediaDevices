@@ -4,7 +4,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <AssemblyName>Explorer</AssemblyName>
-    <RootNamespace>Explorer</RootNamespace>
+    <RootNamespace>ExplorerCtrl</RootNamespace>
   </PropertyGroup>
 
   <Import Project="..\..\Demo Share\ExplorerShare\ExplorerShare.projitems" Label="Shared" />
