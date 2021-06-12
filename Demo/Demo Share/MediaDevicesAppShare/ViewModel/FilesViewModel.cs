@@ -44,8 +44,8 @@ namespace MediaDeviceApp.ViewModel
 
             static Info()
             {
-                fileImage = new BitmapImage(new Uri("pack://application:,,,/MediaDeviceApp;component/Images/File.png"));
-                folderImages = new BitmapImage(new Uri("pack://application:,,,/MediaDeviceApp;component/Images/Folder.png"));
+                fileImage = new BitmapImage(new Uri("pack://application:,,,/File.png"));
+                folderImages = new BitmapImage(new Uri("pack://application:,,,/Folder.png"));
             }
 
             public Info(string fullName)

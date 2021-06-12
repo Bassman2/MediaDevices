@@ -21,8 +21,8 @@ namespace MediaDeviceApp.ViewModel
 
         static ItemViewModel()
         {
-            imgFolder = new BitmapImage(new Uri("pack://application:,,,/Images/Folder.png"));
-            imgFile = new BitmapImage(new Uri("pack://application:,,,/Images/File.png"));
+            imgFolder = new BitmapImage(new Uri("pack://application:,,,/Folder.png"));
+            imgFile = new BitmapImage(new Uri("pack://application:,,,/File.png"));
         }
 
         public ItemViewModel(MediaFileSystemInfo item)

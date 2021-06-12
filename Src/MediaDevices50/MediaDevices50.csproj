@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Projects\MediaDevices\MediaDevices50\MediaDevices.xml</DocumentationFile>
+    <DocumentationFile>C:\Projects\MediaDevices\Src\MediaDevices50\MediaDevices.xml</DocumentationFile>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />

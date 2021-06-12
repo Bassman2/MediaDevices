@@ -23,7 +23,7 @@ namespace MediaDeviceApp.ViewModel
 
         public StillImageViewModel()
         {
-            //this.stillImageSource = new BitmapImage(new Uri("pack://application:,,,/MediaDeviceApp;component/Images/Folder.png"));
+            this.stillImageSource = new BitmapImage(new Uri("pack://application:,,,/Folder.png"));
             this.StillImageCommand = new DelegateCommand(OnStillImageCapture);
         }
 

@@ -4,6 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <AssemblyName>MediaDevicesApp</AssemblyName>
+    <RootNamespace>MediaDevicesApp</RootNamespace>
   </PropertyGroup>
 
   <Import Project="..\..\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems" Label="Shared" />
