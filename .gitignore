@@ -293,4 +293,7 @@ __pycache__/
 #Signing
 *.snk
 
+#Help
+*.chm
+
 Generator/
