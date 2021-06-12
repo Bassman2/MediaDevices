@@ -3,89 +3,96 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.152
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MediaDevicesShare", "MediaDevicesShare\MediaDevicesShare.shproj", "{8C6734B5-5BBB-413E-A5F2-FC7E6AAFFCE7}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MediaDevicesShare", "Src\MediaDevicesShare\MediaDevicesShare.shproj", "{8C6734B5-5BBB-413E-A5F2-FC7E6AAFFCE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesFramework45", "MediaDevicesFramework45\MediaDevicesFramework45.csproj", "{13F50C1B-2ABB-4320-A726-E2CE8CB45940}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesFramework45", "Src\MediaDevicesFramework45\MediaDevicesFramework45.csproj", "{13F50C1B-2ABB-4320-A726-E2CE8CB45940}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MediaDevicesAppShare", "MediaDevicesAppShare\MediaDevicesAppShare.shproj", "{C30EB5AB-6DCF-4537-AAF9-5B8A5E425C15}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MediaDevicesAppShare", "Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.shproj", "{C30EB5AB-6DCF-4537-AAF9-5B8A5E425C15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesAppFramework45", "MediaDevicesAppFramework45\MediaDevicesAppFramework45.csproj", "{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ExplorerShare", "Demo\Demo Share\ExplorerShare\ExplorerShare.shproj", "{E07F1AAE-B9EA-4A87-AC61-D5B71B7C3042}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ExplorerShare", "ExplorerShare\ExplorerShare.shproj", "{E07F1AAE-B9EA-4A87-AC61-D5B71B7C3042}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{EBBE8DFF-10F4-41C1-8456-9188F8038EC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplorerFramework45", "ExplorerFramework45\ExplorerFramework45.csproj", "{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{02F542E8-E2BD-4070-812E-646CA9219E52}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Explorer", "Explorer", "{93E63B01-4A67-436B-9592-83AC3B0D03F5}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MediaDevicesUnitTestShare", "Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.shproj", "{BFAC062B-2224-48AF-B45E-158F8D21927F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MediaDevicesApp", "MediaDevicesApp", "{EBBE8DFF-10F4-41C1-8456-9188F8038EC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesUnitTestFramework45", "Test\MediaDevicesUnitTestFramework45\MediaDevicesUnitTestFramework45.csproj", "{3932248E-FB4C-49F9-BC89-B8103E3ED42F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{02F542E8-E2BD-4070-812E-646CA9219E52}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{12682F58-306A-4F67-8850-BF67BDA26D46}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MediaDevicesUnitTestShare", "MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.shproj", "{BFAC062B-2224-48AF-B45E-158F8D21927F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{B289D6A2-35CA-48C7-A5AD-609989221D04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesUnitTestFramework45", "MediaDevicesUnitTestFramework45\MediaDevicesUnitTestFramework45.csproj", "{3932248E-FB4C-49F9-BC89-B8103E3ED42F}"
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "MediaDevicesDoc", "Doc\MediaDevicesDoc\MediaDevicesDoc.shfbproj", "{15DBA1E6-2C21-40AC-BD19-67926C3442AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesAppFramework48", "MediaDevicesAppFramework48\MediaDevicesAppFramework48.csproj", "{0E06CBF7-7842-445D-B90E-1B2DBED6539B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesCore31", "Src\MediaDevicesCore31\MediaDevicesCore31.csproj", "{088844C9-C8DE-45A6-87CE-EC2AF3E0651F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MediaDevices", "MediaDevices", "{12682F58-306A-4F67-8850-BF67BDA26D46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesCore21", "Src\MediaDevicesCore21\MediaDevicesCore21.csproj", "{BFD71CDA-1494-4F58-A482-43FA255FE227}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{B289D6A2-35CA-48C7-A5AD-609989221D04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevices50", "Src\MediaDevices50\MediaDevices50.csproj", "{F17A64CB-92AB-434E-B03D-A5CA95A3A9DF}"
 EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "MediaDevicesDoc", "MediaDevicesDoc\MediaDevicesDoc.shfbproj", "{15DBA1E6-2C21-40AC-BD19-67926C3442AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTestCore31", "Test\MediaDevicesUnitTestCore31\MediaDevicesUnitTestCore31.csproj", "{3E568355-4B11-4725-8646-8485EBB0348A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesCore31", "MediaDevicesCore31\MediaDevicesCore31.csproj", "{088844C9-C8DE-45A6-87CE-EC2AF3E0651F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTestCore21", "Test\MediaDevicesUnitTestCore21\MediaDevicesUnitTestCore21.csproj", "{06026362-283D-4FE0-B077-67F5882080F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesCore21", "MediaDevicesCore21\MediaDevicesCore21.csproj", "{BFD71CDA-1494-4F58-A482-43FA255FE227}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTest50", "Test\MediaDevicesUnitTest50\MediaDevicesUnitTest50.csproj", "{D2BAA763-B535-4DF3-9A53-866347AA6D34}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevices50", "MediaDevices50\MediaDevices50.csproj", "{F17A64CB-92AB-434E-B03D-A5CA95A3A9DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevices60", "Src\MediaDevices60\MediaDevices60.csproj", "{80839F34-A394-4059-AF98-A58D1E20F0F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTestCore31", "MediaDevicesUnitTestCore31\MediaDevicesUnitTestCore31.csproj", "{3E568355-4B11-4725-8646-8485EBB0348A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTest60", "Test\MediaDevicesUnitTest60\MediaDevicesUnitTest60.csproj", "{C23A9B66-AA03-43A3-8D98-C111D92758CB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTestCore21", "MediaDevicesUnitTestCore21\MediaDevicesUnitTestCore21.csproj", "{06026362-283D-4FE0-B077-67F5882080F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesAppCore31", "Demo\Demo .NET Core 3.1\MediaDevicesAppCore31\MediaDevicesAppCore31.csproj", "{86E3B9C8-CFF8-4F91-8FFD-7CA48FE08142}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTest50", "MediaDevicesUnitTest50\MediaDevicesUnitTest50.csproj", "{D2BAA763-B535-4DF3-9A53-866347AA6D34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesApp50", "Demo\Demo .NET 5.0\MediaDevicesApp50\MediaDevicesApp50.csproj", "{7208A4A3-1BA6-419F-878A-4F4724102D1A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevices60", "MediaDevices60\MediaDevices60.csproj", "{80839F34-A394-4059-AF98-A58D1E20F0F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesApp60", "Demo\Demo .NET 6.0\MediaDevicesApp60\MediaDevicesApp60.csproj", "{A3924547-E9B3-4A13-9272-4145938EAB18}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTest60", "MediaDevicesUnitTest60\MediaDevicesUnitTest60.csproj", "{C23A9B66-AA03-43A3-8D98-C111D92758CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExplorerCore31", "Demo\Demo .NET Core 3.1\ExplorerCore31\ExplorerCore31.csproj", "{1C7C38CD-CFE3-4841-95A2-73BA10DCDB68}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesAppCore31", "MediaDevicesAppCore31\MediaDevicesAppCore31.csproj", "{86E3B9C8-CFF8-4F91-8FFD-7CA48FE08142}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Explorer60", "Demo\Demo .NET 6.0\Explorer60\Explorer60.csproj", "{70B950D6-FEA6-4B12-8A99-B594CF1576E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesApp50", "MediaDevicesApp50\MediaDevicesApp50.csproj", "{7208A4A3-1BA6-419F-878A-4F4724102D1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Explorer50", "Demo\Demo .NET 5.0\Explorer50\Explorer50.csproj", "{D78818CC-4860-4071-AEB8-071167687B40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesApp60", "MediaDevicesApp60\MediaDevicesApp60.csproj", "{A3924547-E9B3-4A13-9272-4145938EAB18}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo .NET 5.0", "Demo .NET 5.0", "{1E283223-B30F-4280-A3E4-D3BD0BCB552B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExplorerCore31", "ExplorerCore31\ExplorerCore31.csproj", "{1C7C38CD-CFE3-4841-95A2-73BA10DCDB68}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo .NET 6.0", "Demo .NET 6.0", "{BBDF8FF9-81AA-460A-B4FD-17AD7B43624F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Explorer60", "Explorer60\Explorer60.csproj", "{70B950D6-FEA6-4B12-8A99-B594CF1576E3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo .NET Core 2.1", "Demo .NET Core 2.1", "{9003A416-2701-422C-A21E-2A23DB4A4661}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Explorer50", "Explorer50\Explorer50.csproj", "{D78818CC-4860-4071-AEB8-071167687B40}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo .NET Core 3.1", "Demo .NET Core 3.1", "{65E14A04-CC0E-4457-8D56-6517580C5BC9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo .NET Framework 4.5", "Demo .NET Framework 4.5", "{FAB159A3-0F12-47B1-BB0C-91246550C348}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo Share", "Demo Share", "{05093302-3683-47D6-B1B6-B7669D8E18EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplorerFramework45", "Demo\Demo .NET Framework 4.5\ExplorerFramework45\ExplorerFramework45.csproj", "{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesAppFramework45", "Demo\Demo .NET Framework 4.5\MediaDevicesAppFramework45\MediaDevicesAppFramework45.csproj", "{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{06026362-283d-4fe0-b077-67f5882080f5}*SharedItemsImports = 5
-		MediaDevicesShare\MediaDevicesShare.projitems*{088844c9-c8de-45a6-87ce-ec2af3e0651f}*SharedItemsImports = 5
-		MediaDevicesAppShare\MediaDevicesAppShare.projitems*{0e06cbf7-7842-445d-b90e-1b2dbed6539b}*SharedItemsImports = 4
-		MediaDevicesShare\MediaDevicesShare.projitems*{13f50c1b-2abb-4320-a726-e2ce8cb45940}*SharedItemsImports = 4
-		ExplorerShare\ExplorerShare.projitems*{1c7c38cd-cfe3-4841-95a2-73ba10dcdb68}*SharedItemsImports = 5
-		MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{3932248e-fb4c-49f9-bc89-b8103e3ed42f}*SharedItemsImports = 4
-		MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{3e568355-4b11-4725-8646-8485ebb0348a}*SharedItemsImports = 5
-		MediaDevicesAppShare\MediaDevicesAppShare.projitems*{5a9b9d55-cc27-4806-8769-3e74cd13b5e6}*SharedItemsImports = 4
-		ExplorerShare\ExplorerShare.projitems*{70b950d6-fea6-4b12-8a99-b594cf1576e3}*SharedItemsImports = 5
-		MediaDevicesAppShare\MediaDevicesAppShare.projitems*{7208a4a3-1ba6-419f-878a-4f4724102d1a}*SharedItemsImports = 5
-		MediaDevicesShare\MediaDevicesShare.projitems*{80839f34-a394-4059-af98-a58d1e20f0f8}*SharedItemsImports = 5
-		MediaDevicesAppShare\MediaDevicesAppShare.projitems*{86e3b9c8-cff8-4f91-8ffd-7ca48fe08142}*SharedItemsImports = 5
-		MediaDevicesShare\MediaDevicesShare.projitems*{8c6734b5-5bbb-413e-a5f2-fc7e6aaffce7}*SharedItemsImports = 13
-		MediaDevicesAppShare\MediaDevicesAppShare.projitems*{a3924547-e9b3-4a13-9272-4145938eab18}*SharedItemsImports = 5
-		MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{bfac062b-2224-48af-b45e-158f8d21927f}*SharedItemsImports = 13
-		MediaDevicesShare\MediaDevicesShare.projitems*{bfd71cda-1494-4f58-a482-43fa255fe227}*SharedItemsImports = 5
-		MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{c23a9b66-aa03-43a3-8d98-c111d92758cb}*SharedItemsImports = 5
-		MediaDevicesAppShare\MediaDevicesAppShare.projitems*{c30eb5ab-6dcf-4537-aaf9-5b8a5e425c15}*SharedItemsImports = 13
-		MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{d2baa763-b535-4df3-9a53-866347aa6d34}*SharedItemsImports = 5
-		ExplorerShare\ExplorerShare.projitems*{d78818cc-4860-4071-aeb8-071167687b40}*SharedItemsImports = 5
-		ExplorerShare\ExplorerShare.projitems*{e07f1aae-b9ea-4a87-ac61-d5b71b7c3042}*SharedItemsImports = 13
-		MediaDevicesShare\MediaDevicesShare.projitems*{f17a64cb-92ab-434e-b03d-a5ca95a3a9df}*SharedItemsImports = 5
-		ExplorerShare\ExplorerShare.projitems*{f37414ef-44a7-4d50-82cf-a56a9a23d5de}*SharedItemsImports = 4
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{06026362-283d-4fe0-b077-67f5882080f5}*SharedItemsImports = 5
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{088844c9-c8de-45a6-87ce-ec2af3e0651f}*SharedItemsImports = 5
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{13f50c1b-2abb-4320-a726-e2ce8cb45940}*SharedItemsImports = 4
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{1c7c38cd-cfe3-4841-95a2-73ba10dcdb68}*SharedItemsImports = 5
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{3932248e-fb4c-49f9-bc89-b8103e3ed42f}*SharedItemsImports = 4
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{3e568355-4b11-4725-8646-8485ebb0348a}*SharedItemsImports = 5
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{5a9b9d55-cc27-4806-8769-3e74cd13b5e6}*SharedItemsImports = 4
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{70b950d6-fea6-4b12-8a99-b594cf1576e3}*SharedItemsImports = 5
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{7208a4a3-1ba6-419f-878a-4f4724102d1a}*SharedItemsImports = 5
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{80839f34-a394-4059-af98-a58d1e20f0f8}*SharedItemsImports = 5
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{86e3b9c8-cff8-4f91-8ffd-7ca48fe08142}*SharedItemsImports = 5
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{8c6734b5-5bbb-413e-a5f2-fc7e6aaffce7}*SharedItemsImports = 13
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{a3924547-e9b3-4a13-9272-4145938eab18}*SharedItemsImports = 5
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{bfac062b-2224-48af-b45e-158f8d21927f}*SharedItemsImports = 13
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{bfd71cda-1494-4f58-a482-43fa255fe227}*SharedItemsImports = 5
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{c23a9b66-aa03-43a3-8d98-c111d92758cb}*SharedItemsImports = 5
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{c30eb5ab-6dcf-4537-aaf9-5b8a5e425c15}*SharedItemsImports = 13
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{d2baa763-b535-4df3-9a53-866347aa6d34}*SharedItemsImports = 5
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{d78818cc-4860-4071-aeb8-071167687b40}*SharedItemsImports = 5
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{e07f1aae-b9ea-4a87-ac61-d5b71b7c3042}*SharedItemsImports = 13
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{f17a64cb-92ab-434e-b03d-a5ca95a3a9df}*SharedItemsImports = 5
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{f37414ef-44a7-4d50-82cf-a56a9a23d5de}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,30 +115,6 @@ Global
 		{13F50C1B-2ABB-4320-A726-E2CE8CB45940}.Release|x64.Build.0 = Release|Any CPU
 		{13F50C1B-2ABB-4320-A726-E2CE8CB45940}.Release|x86.ActiveCfg = Release|Any CPU
 		{13F50C1B-2ABB-4320-A726-E2CE8CB45940}.Release|x86.Build.0 = Release|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|x64.Build.0 = Debug|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|x86.Build.0 = Debug|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|x64.ActiveCfg = Release|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|x64.Build.0 = Release|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|x86.ActiveCfg = Release|Any CPU
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|x86.Build.0 = Release|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|x64.Build.0 = Debug|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|x86.Build.0 = Debug|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|x64.ActiveCfg = Release|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|x64.Build.0 = Release|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|x86.ActiveCfg = Release|Any CPU
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|x86.Build.0 = Release|Any CPU
 		{3932248E-FB4C-49F9-BC89-B8103E3ED42F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3932248E-FB4C-49F9-BC89-B8103E3ED42F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3932248E-FB4C-49F9-BC89-B8103E3ED42F}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -144,18 +127,6 @@ Global
 		{3932248E-FB4C-49F9-BC89-B8103E3ED42F}.Release|x64.Build.0 = Release|Any CPU
 		{3932248E-FB4C-49F9-BC89-B8103E3ED42F}.Release|x86.ActiveCfg = Release|Any CPU
 		{3932248E-FB4C-49F9-BC89-B8103E3ED42F}.Release|x86.Build.0 = Release|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Debug|x64.Build.0 = Debug|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Debug|x86.Build.0 = Debug|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Release|x64.ActiveCfg = Release|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Release|x64.Build.0 = Release|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Release|x86.ActiveCfg = Release|Any CPU
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B}.Release|x86.Build.0 = Release|Any CPU
 		{15DBA1E6-2C21-40AC-BD19-67926C3442AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15DBA1E6-2C21-40AC-BD19-67926C3442AC}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{15DBA1E6-2C21-40AC-BD19-67926C3442AC}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -333,6 +304,30 @@ Global
 		{D78818CC-4860-4071-AEB8-071167687B40}.Release|x64.Build.0 = Release|Any CPU
 		{D78818CC-4860-4071-AEB8-071167687B40}.Release|x86.ActiveCfg = Release|Any CPU
 		{D78818CC-4860-4071-AEB8-071167687B40}.Release|x86.Build.0 = Release|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|x64.Build.0 = Debug|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Debug|x86.Build.0 = Debug|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|x64.ActiveCfg = Release|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|x64.Build.0 = Release|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|x86.ActiveCfg = Release|Any CPU
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE}.Release|x86.Build.0 = Release|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|x64.Build.0 = Debug|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Debug|x86.Build.0 = Debug|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|x64.ActiveCfg = Release|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|x64.Build.0 = Release|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|x86.ActiveCfg = Release|Any CPU
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -340,13 +335,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8C6734B5-5BBB-413E-A5F2-FC7E6AAFFCE7} = {12682F58-306A-4F67-8850-BF67BDA26D46}
 		{13F50C1B-2ABB-4320-A726-E2CE8CB45940} = {12682F58-306A-4F67-8850-BF67BDA26D46}
-		{C30EB5AB-6DCF-4537-AAF9-5B8A5E425C15} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
-		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
-		{E07F1AAE-B9EA-4A87-AC61-D5B71B7C3042} = {93E63B01-4A67-436B-9592-83AC3B0D03F5}
-		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE} = {93E63B01-4A67-436B-9592-83AC3B0D03F5}
+		{C30EB5AB-6DCF-4537-AAF9-5B8A5E425C15} = {05093302-3683-47D6-B1B6-B7669D8E18EE}
+		{E07F1AAE-B9EA-4A87-AC61-D5B71B7C3042} = {05093302-3683-47D6-B1B6-B7669D8E18EE}
 		{BFAC062B-2224-48AF-B45E-158F8D21927F} = {02F542E8-E2BD-4070-812E-646CA9219E52}
 		{3932248E-FB4C-49F9-BC89-B8103E3ED42F} = {02F542E8-E2BD-4070-812E-646CA9219E52}
-		{0E06CBF7-7842-445D-B90E-1B2DBED6539B} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
 		{15DBA1E6-2C21-40AC-BD19-67926C3442AC} = {B289D6A2-35CA-48C7-A5AD-609989221D04}
 		{088844C9-C8DE-45A6-87CE-EC2AF3E0651F} = {12682F58-306A-4F67-8850-BF67BDA26D46}
 		{BFD71CDA-1494-4F58-A482-43FA255FE227} = {12682F58-306A-4F67-8850-BF67BDA26D46}
@@ -356,12 +348,20 @@ Global
 		{D2BAA763-B535-4DF3-9A53-866347AA6D34} = {02F542E8-E2BD-4070-812E-646CA9219E52}
 		{80839F34-A394-4059-AF98-A58D1E20F0F8} = {12682F58-306A-4F67-8850-BF67BDA26D46}
 		{C23A9B66-AA03-43A3-8D98-C111D92758CB} = {02F542E8-E2BD-4070-812E-646CA9219E52}
-		{86E3B9C8-CFF8-4F91-8FFD-7CA48FE08142} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
-		{7208A4A3-1BA6-419F-878A-4F4724102D1A} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
-		{A3924547-E9B3-4A13-9272-4145938EAB18} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
-		{1C7C38CD-CFE3-4841-95A2-73BA10DCDB68} = {93E63B01-4A67-436B-9592-83AC3B0D03F5}
-		{70B950D6-FEA6-4B12-8A99-B594CF1576E3} = {93E63B01-4A67-436B-9592-83AC3B0D03F5}
-		{D78818CC-4860-4071-AEB8-071167687B40} = {93E63B01-4A67-436B-9592-83AC3B0D03F5}
+		{86E3B9C8-CFF8-4F91-8FFD-7CA48FE08142} = {65E14A04-CC0E-4457-8D56-6517580C5BC9}
+		{7208A4A3-1BA6-419F-878A-4F4724102D1A} = {1E283223-B30F-4280-A3E4-D3BD0BCB552B}
+		{A3924547-E9B3-4A13-9272-4145938EAB18} = {BBDF8FF9-81AA-460A-B4FD-17AD7B43624F}
+		{1C7C38CD-CFE3-4841-95A2-73BA10DCDB68} = {65E14A04-CC0E-4457-8D56-6517580C5BC9}
+		{70B950D6-FEA6-4B12-8A99-B594CF1576E3} = {BBDF8FF9-81AA-460A-B4FD-17AD7B43624F}
+		{D78818CC-4860-4071-AEB8-071167687B40} = {1E283223-B30F-4280-A3E4-D3BD0BCB552B}
+		{1E283223-B30F-4280-A3E4-D3BD0BCB552B} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
+		{BBDF8FF9-81AA-460A-B4FD-17AD7B43624F} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
+		{9003A416-2701-422C-A21E-2A23DB4A4661} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
+		{65E14A04-CC0E-4457-8D56-6517580C5BC9} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
+		{FAB159A3-0F12-47B1-BB0C-91246550C348} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
+		{05093302-3683-47D6-B1B6-B7669D8E18EE} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
+		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE} = {FAB159A3-0F12-47B1-BB0C-91246550C348}
+		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6} = {FAB159A3-0F12-47B1-BB0C-91246550C348}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4FF47020-DA8D-4683-8E5E-813E06A746AD}

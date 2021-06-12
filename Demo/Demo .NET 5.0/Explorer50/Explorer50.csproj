@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Explorer</AssemblyName>
+    <RootNamespace>Explorer</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\..\Demo Share\ExplorerShare\ExplorerShare.projitems" Label="Shared" />
+
+</Project>

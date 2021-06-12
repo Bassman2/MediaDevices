@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <Import Project="..\..\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <PackageReference Include="WpfUsbMonitor" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Demo .NET 6.0\Explorer60\Explorer60.csproj" />
+    <ProjectReference Include="..\..\..\Src\MediaDevices60\MediaDevices60.csproj" />
+  </ItemGroup>
+
+</Project>

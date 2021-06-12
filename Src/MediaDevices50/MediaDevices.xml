@@ -1,0 +1,3135 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MediaDevices</name>
+    </assembly>
+    <members>
+        <member name="T:MediaDevices.ChargingState">
+            <summary>
+            Device charging state
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ChargingState.NotCharging">
+            <summary>
+            The battery is not charging. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ChargingState.Charging">
+            <summary>
+            The battery is currently charging.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ChargingState.Unknown">
+            <summary>
+            The charging status is unknown.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.Commands">
+            <summary>
+            Commands for the device
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.Unknown">
+            <summary>
+            Unknown
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ResetDevice">
+            <summary>
+            This command is sent by clients to reset the device. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.GetObjectIdsFromPersistenUniqueIds">
+            <summary>
+            This command is sent when a client wants to get current ObjectIDs representing 
+            objects specified by previously acquired Persistent Unique IDs. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.SaveClientInformation">
+            <summary>
+            This command is sent when a client first connects to a device. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.GetContentLocation">
+            <summary>
+            This command is used to retrieve the ObjectIDs of folders that contain the specified content type
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.StorageFormat">
+            <summary>
+            This command will format the storage. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.StorageEject">
+            <summary>
+            This will eject the storage, if it is a removable store and is capable of being ejected by the device. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.SmsSend">
+            <summary>
+            This command is used to initiate the sending of an SMS message. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.StillImageCaptureInitiate">
+            <summary>
+            Initiates a still image capture. This is processed as a single command i.e. there is no start or stop required. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectEnumerationStartFind">
+            <summary>
+            The driver receives this command when a client wishes to start enumeration.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectEnumerationFindNext">
+            <summary>
+            The driver receives this command when a client wishes to start enumeration.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectEnumerationEndFind">
+            <summary>
+            The driver should destroy any resources associated with this enumeration context.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesGetSupported">
+            <summary>
+            This command is used when the client requests the list of properties supported by the specified object.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesGetAttribute">
+            <summary>
+            This command is used when the client requests the property attributes for the specified object properties.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesGet">
+            <summary>
+            This command is used when the client requests a set of property values for the specified object. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesSet">
+            <summary>
+            This command is used when the client requests to write a set of property values on the specified object. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesGetAll">
+            <summary>
+            This command is used when the client requests all property values for the specified object. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesDelete">
+            <summary>
+            This command is sent when the caller wants to delete properties from the specified object. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesGetSupported">
+            <summary>
+            This command is sent when a client wants to get the list of resources supported on a particular object. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesGetAttributes">
+            <summary>
+            This command is used when the client requests the attributes for the specified object resource.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesOpen">
+            <summary>
+            Dependent on the value of WPD_PROPERTY_OBJECT_RESOURCES_ACCESS_MODE.  
+            STGM_READ will indicate FILE_READ_ACCESS for the command, anything else will indicate (FILE_READ_ACCESS | FILE_WRITE_ACCESS).
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesRead">
+            <summary>
+            This command is sent when a client wants to read the next band of data from a previously opened object resource.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesWrite">
+            <summary>
+            This command is sent when a client wants to write the next band of data to a previously opened object resource. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesClose">
+            <summary>
+            This command is sent when a client is finished transferring data to a previously opened object resource. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesDelete">
+            <summary>
+            This command is sent when the client wants to delete the data associated with the specified resources from the specified object.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesCreateResource">
+            <summary>
+            This command is sent when a client wants to create a new object resource on the device. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesRevert">
+            <summary>
+            This command is sent when a client wants to cancel the resource creation request that is currently still in progress.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesSeek">
+            <summary>
+            This command is sent when a client wants to seek to a specific offset in the data stream.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesCommit">
+            <summary>
+            This command is sent when a client wants to commit changes to a data stream. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectResourcesSeekInUnits">
+            <summary>
+            This command is sent when a client wants to seek to a specific offset in the data stream using alternate units.  
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.CapabilitiesGetSupportedCommands">
+            <summary>
+            Return all commands supported by this driver. This includes custom commands, if any.   
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.CapabilitiesGetCommandOptions">
+            <summary>
+            Returns the supported options for the specified command.  
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.CapabilitiesGetSupportedFunctionalCategories">
+            <summary>
+            This command is used by clients to query the functional categories supported by the driver. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.CapabilitiesGetFunctionalObjects">
+            <summary>
+             Retrieves the ObjectIDs of the objects belonging to the specified functional category. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.CapabilitiesGetSupportedContentTypes">
+            <summary>
+             Retrieves the list of content types supported by this driver for the specified functional category. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.CapabilitiesGetSupportedFormats">
+            <summary>
+             This command is used to query the possible formats supported by the specified content type 
+             (e.g. for image objects, the driver may choose to support JPEG and BMP files).
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.CapabilitiesGetSupportedFormatProperties">
+            <summary>
+             Get the list of properties that an object of the given format supports. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.CapabilitiesGetFixedPropertyAttributes">
+            <summary>
+            Returns the property attributes that are the same for all objects of the given format. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.CapabilitiesGetSupportedEvents">
+            <summary>
+            Return all events supported by this driver. This includes custom events, if any.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.CapabilitiesGetEventOptions">
+            <summary>
+            Return extra information about a specified event, such as whether the event is for notification or action purposes. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectManagementCreateObjectWithPropertiesOnly">
+            <summary>
+            This command is sent when a client wants to create a new object on the device, specified only by properties.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectManagementCreateObjectWithPropertiesAndData">
+            <summary>
+            This command is sent when a client wants to create a new object on the device, specified by properties and data. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectManagementWriteObjectData">
+            <summary>
+            This command is sent when a client wants to write the next band of data to a newly created object or an object being updated. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectManagementCommitObject">
+            <summary>
+            This command is sent when a client has finished sending all the data associated with an object creation or update request,
+            and wishes to ensure that the object is saved to the device. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectManagementRevertObject">
+            <summary>
+            This command is sent when a client wants to cancel the object creation or update request that is currently still in progress.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectManagementDeleteObjects">
+            <summary>
+            This command is sent when the client wishes to remove a set of objects from the device.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectManagementMoveObjects">
+            <summary>
+            This command will move the specified objects to the destination folder. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectManagementCopyObjects">
+            <summary>
+            This command will copy the specified objects to the destination folder. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectManagementUpdateObjectsWithPropertiesAnsData">
+            <summary>
+            This command is sent when a client wants to update the object's data and dependent properties simultaneously. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesBulkGetValuesByObjectListStart">
+            <summary>
+            Initializes the operation to get the property values for all caller-specified objects. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesBulkGetValuesByObjectListNext">
+            <summary>
+            Get the next set of property values. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesBulkGetValuesByObjectListEnd">
+            <summary>
+            Ends the bulk property operation for getting property values by object list. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesBulkGetValuesByObjectFormatStart">
+            <summary>
+            Initializes the operation to get the property values for objects of the specified format 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesBulkGetValuesByObjectFormatNext">
+            <summary>
+            Get the next set of property values. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesBulkGetValuesByObjectFormatEnd">
+            <summary>
+            Ends the bulk property operation for getting property values by object format.  
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesBulkSetValuesByObjectListStart">
+            <summary>
+            Initializes the operation to set the property values for specified objects.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesBulkSetValuesByObjectListNext">
+            <summary>
+            Set the next set of property values. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ObjectPropertiesBulkSetValuesByObjectListEnd">
+            <summary>
+            Ends the bulk property operation for setting property values by object list.  
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.GenerateKeypair">
+            <summary>
+            Initiates the generation of a public/private key pair and returns the public key.   
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.CommitKeypair">
+            <summary>
+            Commits a public/private key pair.  
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.ProcessWirelessProfile">
+            <summary>
+            Initiates the processing of a Wireless Profile file.  
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.MtpExtVendorGetSupportedVendorOpcodes">
+            <summary>
+            Queries for vendor extended operation codes.   
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.MtpExtVendorExecuteCommandWithoutDataPhase">
+            <summary>
+            Sends a MTP command block that no data phase follows.   
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.MtpExtVendorExecuteCommandWithDataToRead">
+            <summary>
+            Sends a MTP command block followed by a data phase with data from Device to Host.   
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.MtpExtVendorExecuteCommandWithDataToWrite">
+            <summary>
+            sends a MTP command block followed by a data phase with data from Host to Device.   
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.MtpExtVendorReadData">
+            <summary>
+            receives a chunk of data from device following WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_READ.   
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.MtpExtVendorWriteData">
+            <summary>
+            sends a chunk of data to device following WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_WRITE.   
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.MtpExtVendorEndDataTransfer">
+            <summary>
+            Completes a data transfer and read response from device. The transfer is initiated by either 
+            WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_READ, or WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_WRITE.   
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Commands.MtpExtVendorGetVendorExtensionDescription">
+            <summary>
+            Retrieves the vendor extension description string (as defined by DeviceInfo dataset).   
+            </summary>
+        </member>
+        <member name="T:MediaDevices.CompleteEventArgs">
+            <summary>
+            Complete event arguments
+            </summary>
+        </member>
+        <member name="P:MediaDevices.CompleteEventArgs.Status">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="T:MediaDevices.ContentType">
+            <summary>
+            Supported content.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Unknown">
+            <summary>
+            Unknown
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.FunctionalObject">
+            <summary>
+            Indicates this object represents a functional object, not content data on the device.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Folder">
+            <summary>
+            Indicates this object is a folder.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Image">
+            <summary>
+            Indicates this object represents image data (e.g. a JPEG file)
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Document">
+            <summary>
+            Indicates this object represents document data (e.g. a MS WORD file, TEXT file, etc.)
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Contact">
+            <summary>
+            Indicates this object represents contact data (e.g. name/number, or a VCARD file)
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.ContactGroup">
+            <summary>
+            Indicates this object represents a group of contacts.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Audio">
+            <summary>
+            Indicates this object represents audio data (e.g. a WMA or MP3 file)
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Video">
+            <summary>
+            Indicates this object represents video data (e.g. a WMV or AVI file)
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Television">
+            <summary>
+            Indicates this object represents a television recording.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Playlist">
+            <summary>
+            Indicates this object represents a playlist.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.MixedContentAlbum">
+            <summary>
+            Indicates this object represents an album, which may contain objects of different content types (typically, MUSIC, IMAGE and VIDEO).
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.AudioAlbum">
+            <summary>
+            Indicates this object represents an audio album.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.ImageAlbum">
+            <summary>
+            Indicates this object represents an image album.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.VideoAlbum">
+            <summary>
+            Indicates this object represents a video album.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Memo">
+            <summary>
+            Indicates this object represents memo data
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.EMail">
+            <summary>
+            Indicates this object represents e-mail data
+            </summary> 
+        </member>
+        <member name="F:MediaDevices.ContentType.Appointment">
+            <summary>
+            Indicates this object represents an appointment in a calendar
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Task">
+            <summary>
+            Indicates this object represents a task for tracking (e.g. a TODO list)
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Program">
+            <summary>
+            Indicates this object represents a file that can be run. This could be a script, executable and so on.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.GenericFile">
+            <summary>
+            Indicates this object represents a file that does not fall into any of the other predefined WPD types for files.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Calendar">
+            <summary>
+            Indicates this object represents a calender
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.GenericMessage">
+            <summary>
+            Indicates this object represents a message (e.g. SMS message, E-Mail message, etc.)
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.NetworkAssociation">
+            <summary>
+            Indicates this object represents an association between a host and a device.     
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Certificate">
+            <summary>
+            Indicates this object represents certificate used for authentication.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.WirelessProfile">
+            <summary>
+            Indicates this object represents wireless network access information.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.MediaCast">
+            <summary>
+            Indicates this object represents a media cast. A media cast object can be though
+            of as a container object that groups related content, similar to how a playlist 
+            groups songs to play. Often, a media cast object is used to group media content 
+            originally published online.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Section">
+            <summary>
+            Indicates this object describes a section of data contained in another object. 
+            The WPD_OBJECT_REFERENCES property indicates which object contains the actual data.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.Unspecified">
+            <summary>
+            Indicates this object doesn't fall into the predefined WPD content types
+            </summary>
+        </member>
+        <member name="F:MediaDevices.ContentType.All">
+            <summary>
+            This content type is only valid as a parameter to API functions and driver commands. 
+            It should not be reported as a supported content type by the driver.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.DeviceTransport">
+            <summary>
+            device transports
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceTransport.NotSupported">
+            <summary>
+            not supportet by driver
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceTransport.Unspecified">
+            <summary>
+            unspecified transport
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceTransport.USB">
+            <summary>
+            USB transport
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceTransport.IP">
+            <summary>
+            IP transport
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceTransport.Bluetooth">
+            <summary>
+            bluetooth transport
+            </summary>
+        </member>
+        <member name="T:MediaDevices.DeviceType">
+            <summary>
+            device types
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceType.Generic">
+            <summary>
+            generic device type
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceType.Camera">
+            <summary>
+            camera device type
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceType.MediaPlayer">
+            <summary>
+            media player device type
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceType.Phone">
+            <summary>
+            phone device type
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceType.Video">
+            <summary>
+            video device type
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceType.PersonalInformationManager">
+            <summary>
+            personal information manager device type
+            </summary>
+        </member>
+        <member name="F:MediaDevices.DeviceType.AudioRecorder">
+            <summary>
+            audio recorder device type
+            </summary>
+        </member>
+        <member name="T:MediaDevices.Enumerables">
+            <summary>
+            Enumerable helper class to catch exceptions during an enumeration
+            </summary>
+        </member>
+        <member name="M:MediaDevices.Enumerables.CatchExceptions``1(System.Collections.Generic.IEnumerable{``0},System.Action{System.Exception})">
+            <summary>
+            Catch exceptions during an enumeration.
+            </summary>
+            <typeparam name="T">Type of the enumeration.</typeparam>
+            <param name="src">Source of the enumeration.</param>
+            <param name="action">Action if an exception occurs.</param>
+            <returns>Result enumeration. </returns>
+            <example>
+            <code>
+            public void Work()
+            {
+                var devices = MediaDevice.GetDevices();
+                using (var device = devices.First(d => d.FriendlyName == "My Cell Phone"))
+                {
+                    device.Connect();
+                
+                    var items = device.EnumerateFileSystemEntries("/").CatchExceptions(HandleException).ToList();
+                
+                    device.Disconnect();
+                }
+            }
+            
+            private void HandleException(Exception ex)
+            {
+                ...
+            }
+            </code>
+            </example>
+        </member>
+        <member name="T:MediaDevices.Events">
+            <summary>
+            Supported events
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Events.Unknown">
+            <summary>
+            Unknown
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Events.Notification">
+            <summary>
+            This GUID is used to identify all WPD driver events to the event sub-system. The driver uses this as the GUID identifier when it queues an event with IWdfDevice::PostEvent(). Applications never use this value.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Events.ObjectAdded">
+            <summary>
+            This event is sent after a new object is available on the device.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Events.ObjectRemoved">
+            <summary>
+            This event is sent after a previously existing object has been removed from the device.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Events.ObjectUpdated">
+            <summary>
+            This event is sent after an object has been updated such that any connected client should refresh its view of that object.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Events.DeviceReset">
+            <summary>
+            This event indicates that the device is about to be reset, and all connected clients should close their connection to the device. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Events.DeviceCapabilitiesUpdated">
+            <summary>
+            This event indicates that the device capabilities have changed. Clients should re-query the device if they have made any decisions based on device capabilities.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Events.StorageFormat">
+            <summary>
+            This event indicates the progress of a format operation on a storage object.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Events.ObjectTransferRequest">
+            <summary>
+            This event is sent to request an application to transfer a particular object from the device.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Events.DeviceRemoved">
+            <summary>
+            This event is sent when a driver for a device is being unloaded. This is typically a result of the device being unplugged.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Events.ServiceMethodComplete">
+            <summary>
+            This event is sent when a driver has completed invoking a service method. This event must be sent even when the method fails.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.Formats">
+            <summary>
+            Formats
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Formats.Unknown">
+            <summary>
+            Unknown format
+            </summary>
+        </member>
+        <member name="T:MediaDevices.FunctionalCategory">
+            <summary>
+            Functional categories
+            </summary>
+        </member>
+        <member name="F:MediaDevices.FunctionalCategory.Unknown">
+            <summary>
+            Unknown
+            </summary>
+        </member>
+        <member name="F:MediaDevices.FunctionalCategory.Device">
+            <summary>
+            Used for the device object, which is always the top-most object of the device. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.FunctionalCategory.Storage">
+            <summary>
+            Indicates this object encapsulates storage functionality on the device 
+            (e.g. memory cards, internal memory)
+            </summary>
+        </member>
+        <member name="F:MediaDevices.FunctionalCategory.StillImageCapture">
+            <summary>
+            Indicates this object encapsulates still image capture functionality on the device 
+            (e.g. camera or camera attachment) 
+            </summary>            
+        </member>
+        <member name="F:MediaDevices.FunctionalCategory.AudioCapture">
+            <summary>
+            Indicates this object encapsulates audio capture functionality on the device 
+            (e.g. voice recorder or other audio recording component) 
+            </summary>               
+        </member>
+        <member name="F:MediaDevices.FunctionalCategory.VideoCapture">
+            <summary>
+            Indicates this object encapsulates video capture functionality on the device 
+            (e.g. video recorder or video recording component) 
+            </summary>                      
+        </member>
+        <member name="F:MediaDevices.FunctionalCategory.SMS">
+            <summary>
+            Indicates this object encapsulates SMS sending functionality on the device 
+            (not the receiving or saved SMS messages since those are represented as content objects on the device)
+            </summary>                     
+        </member>
+        <member name="F:MediaDevices.FunctionalCategory.RenderingInformation">
+            <summary>
+            Indicates this object provides information about the rendering characteristics of the device. 
+            </summary>                            
+        </member>
+        <member name="F:MediaDevices.FunctionalCategory.NetworkConfiguration">
+            <summary>
+            Indicates this object encapsulates network configuration functionality on the device 
+            (e.g. WiFi Profiles, Partnerships). 
+            </summary>                 
+        </member>
+        <member name="F:MediaDevices.FunctionalCategory.All">
+            <summary>
+            This functional category is only valid as a parameter to API functions and driver commands. 
+            It should not be reported as a supported functional category by the driver.
+            </summary>                  
+        </member>
+        <member name="T:MediaDevices.Internal.HResult">
+            <summary>
+            Media Device HRESULTS
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.S_OK">
+            <summary>
+            OK
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_NOT_IMPLEMENTED">
+            <summary>
+            Not implemented
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_ELEMENT_NOT_FOUND">
+            <summary>
+            Element not found
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_DEVICE_ALREADY_OPENED">
+            <summary>
+            The device connection has already been opened by a prior call to IPortableDevice::Open.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_DEVICE_IS_HUNG">
+            <summary>
+            The device will no longer respond to input.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_DEVICE_NOT_OPEN">
+            <summary>
+            The device connection has not yet been opened by a call to IPortableDevice::Open.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_OBJECT_ALREADY_ATTACHED_TO_DEVICE">
+            <summary>
+            The interface object has already been attached to the device interface.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_OBJECT_ALREADY_ATTACHED_TO_SERVICE">
+            <summary>
+            The interface object has already been attached to the IPortableDeviceService interface.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_OBJECT_NOT_ATTACHED_TO_DEVICE">
+            <summary>
+            The interface object has not been attached to the device.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_OBJECT_NOT_ATTACHED_TO_SERVICE">
+            <summary>
+            The interface object has not been attached to the IPortableDeviceService interface. Typically, this is returned if the application tries to access methods of an attached interface, such as IPortableDeviceServiceCapabilities, after IPortableDevice::Close is called.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_OBJECT_NOT_COMMITED">
+            <summary>
+            IStream::Commit was never called when creating an object with data on a device.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_SERVICE_ALREADY_OPENED">
+            <summary>
+            The service connection has already been opened by a prior call to IPortableDevice::Open.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_SERVICE_BAD_PARAMETER_ORDER">
+            <summary>
+            The method parameters for IPortableDeviceServiceMethods::Invoke or IPortableDeviceServiceMethods::InvokeAsync are not set in the correct order.The parameter must be set in the ordering specified by WPD_PARAMETER_ATTRIBUTE_ORDER.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_SERVICE_NOT_OPEN">
+            <summary>
+            The service connection has not yet been opened by a call to IPortableDeviceService::Open.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_SMS_INVALID_RECIPIENT">
+            <summary>
+            The recipient specified for an SMS message is invalid.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_SMS_INVALID_MESSAGE_BODY">
+            <summary>
+            The body of a message specified for an SMS message is invalid.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.E_WPD_SMS_SERVICE_UNAVAILABLE">
+            <summary>
+            The SMS service is unavailable.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.NS_E_DRM_DEBUGGING_NOT_ALLOWED">
+            <summary>
+            You cannot debug when accessing DRM-protected content.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.NS_E_NOT_LICENSED">
+            <summary>
+            The content is not licensed.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.HResult.ERROR_NOT_FOUND">
+            <summary>
+            May be used to indicate that the device supports a property, but that property value is currently empty or uninitialized. 
+            May be used to indicate that the internal context for a long-running operation no longer exists, as the operation has 
+            completed or has been cancelled. Examples of such operations include bulk properties, object enumeration, transfer, 
+            and invoking device service methods. Applications should retry the operation from the beginning. May be used to indicate 
+            that the specified object does not exist. The child object may be outside of the device service hierarchy. 
+            </summary>
+        </member>
+        <member name="M:MediaDevices.Internal.Item.#ctor(MediaDevices.MediaDevice,System.String)">
+            <summary>
+            Special small constructor for GetPath.
+            </summary>
+            <param name="device"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:MediaDevices.Internal.Item.TryHandleNonHierarchicalStorage">
+            <summary>
+            Handles DCF storages specific for Apple iPhones.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.Unknown">
+            <summary>
+            Unknown
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectId">
+            <summary>
+            Uniquely identifies object on the Portable Device. Recommended Device Services Property: PKEY_GenericObj_ObjectID
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectParentId">
+            <summary>
+            Object identifier indicating the parent object. Recommended Device Services Property: PKEY_GenericObj_ParentID
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectName">
+            <summary>
+            The display name for this object. Recommended Device Services Property: PKEY_GenericObj_Name
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectPersistentUniqueId">
+            <summary>
+            Uniquely identifies the object on the Portable Device, similar to WPD_OBJECT_ID, but this ID will not change between sessions.
+            Recommended Device Services Property: PKEY_GenericObj_PersistentUID
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectFormat">
+            <summary>
+            Indicates the format of the object's data.
+            Recommended Device Services Property: PKEY_GenericObj_ObjectFormat
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectContentType">
+            <summary>
+            The abstract type for the object content, indicating the kinds of properties and data that may be supported on the object.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectIsHidden">
+            <summary>
+            Indicates whether the object should be hidden.
+            Recommended Device Services Property: PKEY_GenericObj_Hidden
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectIsSystem">
+            <summary>
+            Indicates whether the object represents system data.
+            Recommended Device Services Property: PKEY_GenericObj_SystemObject
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectSize">
+            <summary>
+            The size of the object data.
+            Recommended Device Services Property: PKEY_GenericObj_ObjectSize
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectOriginalFileName">
+            <summary>
+            Contains the name of the file this object represents.
+            Recommended Device Services Property: PKEY_GenericObj_ObjectFileName
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectNonConsumable">
+            <summary>
+            This property determines whether or not this object is intended to be understood by the device, or whether it has been placed on the device just for storage.
+            Recommended Device Services Property: PKEY_GenericObj_NonConsumable
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectReferences">
+            <summary>
+            IPortableDevicePropVariantCollection of type VT_LPWSTR indicating a list of ObjectIDs.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectKeywords">
+            <summary>
+            String containing a list of keywords associated with this object.
+            Recommended Device Services Property: PKEY_GenericObj_Keywords
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectSyncId">
+            <summary>
+            Opaque string set by client to retain state between sessions without retaining a catalogue of connected device content.
+            Recommended Device Services Property: PKEY_GenericObj_SyncID
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectIsDRMProtected">
+            <summary>
+            Indicates whether the media data is DRM protected.
+            Recommended Device Services Property: PKEY_GenericObj_DRMStatus
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectDateCreated">
+            <summary>
+            Indicates the date and time the object was created on the device.
+            Recommended Device Services Property: PKEY_GenericObj_DateCreated
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectDateModified">
+            <summary>
+            Indicates the date and time the object was modified on the device.
+            Recommended Device Services Property: PKEY_GenericObj_DateModified
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectDateAuthored">
+            <summary>
+            Indicates the date and time the object was authored (e.g. for music, this would be the date the music was recorded).
+            Recommended Device Services Property: PKEY_GenericObj_DateAuthored
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectBackReferences">
+            <summary>
+            IPortableDevicePropVariantCollection of type VT_LPWSTR indicating a list of ObjectIDs.
+            Recommended Device Services Property: PKEY_GenericObj_ReferenceParentID
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectContainerFunctionalObjectId">
+            <summary>
+            Indicates the Object ID of the closest functional object ancestor. For example, objects that represent files/folders under a Storage functional object, will have this property set to the object ID of the storage functional object.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectGenerateThumbnailFromResource">
+            <summary>
+            Indicates whether the thumbnail for this object should be generated from the default resource.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectHintLocationDisplayName">
+            <summary>
+            If this object appears as a hint location, this property indicates the hint-specific name to display instead of the object name.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectCanDelete">
+            <summary>
+            Indicates whether the object can be deleted, or not.
+            Recommended Device Services Property: PKEY_GenericObj_ProtectionStatus
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectLanguageLocal">
+            <summary>
+            Identifies the language of this object. If multiple languages are contained in this object, it should identify the primary language (if any).
+            Recommended Device Services Property: PKEY_GenericObj_LanguageLocale
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.ObjectSupportedUnits">
+            <summary>
+            Indicates the units supported on this object.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.FunctionalObjectCategory">
+            <summary>
+            Indicates the object's functional category.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.StorageType">
+            <summary>
+            Indicates the type of storage e.g. fixed, removable etc.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.StorageFileSystemType">
+            <summary>
+            Indicates the file system type e.g. "FAT32" or "NTFS" or "My Special File System"
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.StorageCapacity">
+            <summary>
+            Indicates the total storage capacity in bytes.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.StorageFreeSpaceInBytes">
+            <summary>
+            Indicates the available space in bytes.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.StorageFreeSpaceInObjects">
+            <summary>
+            Indicates the available space in objects e.g. available slots on a SIM card.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.StorageDescription">
+            <summary>
+            Contains a description of the storage.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.StorageSerialNumber">
+            <summary>
+            Contains the serial number of the storage.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.StorageMaxObjectSize">
+            <summary>
+            Specifies the maximum size of a single object (in bytes) that can be placed on this storage.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.StorageCapacityInObjects">
+            <summary>
+            Indicates the total storage capacity in objects e.g. available slots on a SIM card.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Internal.PropertyKeys.StorageAccessCapability">
+            <summary>
+            This property identifies any write-protection that globally affects this storage. This takes precedence over access specified on individual objects.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.Internal.PropVariantFacade">
+            <summary>
+            
+            </summary>
+            <remarks>
+            The Facade is necessary because structs used in using are readonly and can not be filled with ref or out.
+            </remarks>
+        </member>
+        <member name="T:MediaDevices.MediaDevice">
+            <summary>
+            Represents a portable device.
+            </summary>
+        </member>
+        <member name="E:MediaDevices.MediaDevice.ObjectAdded">
+            <summary>
+            This event is sent after a new object is available on the device.
+            </summary>
+        </member>
+        <member name="E:MediaDevices.MediaDevice.ObjectRemoved">
+            <summary>
+            This event is sent after a previously existing object has been removed from the device.
+            </summary>
+            
+        </member>
+        <member name="E:MediaDevices.MediaDevice.ObjectUpdated">
+            <summary>
+            This event is sent after an object has been updated such that any connected client should refresh its view of that object.
+            </summary>
+        </member>
+        <member name="E:MediaDevices.MediaDevice.DeviceReset">
+            <summary>
+            This event indicates that the device is about to be reset, and all connected clients should close their connection to the device. 
+            </summary>
+        </member>
+        <member name="E:MediaDevices.MediaDevice.DeviceCapabilitiesUpdated">
+            <summary>
+            This event indicates that the device capabilities have changed. Clients should re-query the device if they have made any decisions based on device capabilities.
+            </summary>
+        </member>
+        <member name="E:MediaDevices.MediaDevice.StorageFormat">
+            <summary>
+            This event indicates the progress of a format operation on a storage object.
+            </summary>
+        </member>
+        <member name="E:MediaDevices.MediaDevice.ObjectTransferRequest">
+            <summary>
+            This event is sent to request an application to transfer a particular object from the device.
+            </summary>
+        </member>
+        <member name="E:MediaDevices.MediaDevice.DeviceRemoved">
+            <summary>
+            This event is sent when a driver for a device is being unloaded. This is typically a result of the device being unplugged.
+            </summary>
+        </member>
+        <member name="E:MediaDevices.MediaDevice.ServiceMethodComplete">
+            <summary>
+            This event is sent when a driver has completed invoking a service method. This event must be sent even when the method fails.
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetDevices">
+            <summary>
+            Returns an enumerable collection of currently available portable devices.
+            </summary>
+            <returns>>An enumerable collection of portable devices currently available.</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetPrivateDevices">
+            <summary>
+            Returns an enumerable collection of currently available private portable devices.
+            </summary>
+            <returns>>An enumerable collection of private portable devices currently available.</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.Dispose">
+            <summary>
+            Releases the resources used by the PortableDevices.PortableDevice.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.IsConnected">
+            <summary>
+            Is portable device connected.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.IsCaseSensitive">
+            <summary>
+            Select if path is case sensitive or not. Default is not. 
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.DeviceId">
+            <summary>
+            Device Id of the portable device.
+            </summary>
+            <remarks>Readable when not connected.</remarks>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.Description">
+            <summary>
+            Description of the portable device.
+            </summary>
+            <remarks>Readable when not connected.</remarks>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.FriendlyName">
+            <summary>
+            Friendly name of the portable device.
+            </summary>
+            <remarks>Readable when not connected.</remarks>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected. only for setter</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.Manufacturer">
+            <summary>
+            Manufacturer of the portable device.
+            </summary>
+            <remarks>Readable when not connected.</remarks>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.SyncPartner">
+            <summary>
+            Sync partner of the device.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.FirmwareVersion">
+            <summary>
+            Firmware version of the portable device.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.PowerLevel">
+            <summary>
+            Battery level of the portable device.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.PowerSource">
+            <summary>
+            Power source of the device.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.Protocol">
+            <summary>
+            Protocol of the device.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.Model">
+            <summary>
+            Model of the portable device.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.SerialNumber">
+            <summary>
+            Serial number of the portable device.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.SupportsNonConsumable">
+            <summary>
+            Supports non consumable.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.DateTime">
+            <summary>
+            Date and time of the media device.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.SupportedFormatsAreOrdered">
+            <summary>
+            Supported formats are ordered.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.DeviceType">
+            <summary>
+            Device type of the portable device.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.NetworkIdentifier">
+            <summary>
+            Network Identifier
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.FunctionalUniqueId">
+            <summary>
+            Functional unique id od the media device
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.ModelUniqueId">
+            <summary>
+            Model unique id od the media device
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.Transport">
+            <summary>
+            Device transport.
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.UseDeviceStage">
+            <summary>
+            Use device stage
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="P:MediaDevices.MediaDevice.PnPDeviceID">
+            <summary>
+            PnP device ID
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.Connect(MediaDevices.MediaDeviceAccess,MediaDevices.MediaDeviceShare)">
+            <summary>
+            Connect to the portable device.
+            </summary>
+            <param name="access">Specifies the desired access the client is requesting to this device.</param>
+            <param name="share">Specifies the share mode the client is requesting to this device.</param>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.Disconnect">
+            <summary>
+            Disconnect from the portable device.
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.Cancel">
+            <summary>
+            The Cancel method cancels a pending operation on this device. 
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.EnumerateDirectories(System.String)">
+            <summary>
+            Returns an enumerable collection of directory names in a specified path.
+            </summary>
+            <param name="path">The directory to search.</param>
+            <returns>An enumerable collection of directory names in the directory specified by path.</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.EnumerateDirectories(System.String,System.String,System.IO.SearchOption)">
+            <summary>
+            Returns an enumerable collection of directory information that matches a specified search pattern and search subdirectory option. 
+            </summary>
+            <param name="path">The directory to search in.</param>
+            <param name="searchPattern">The search string to match against the names of directories. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters (see Remarks), but doesn't support regular expressions. The default pattern is "*", which returns all files.</param>
+            <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or all subdirectories. The default value is TopDirectoryOnly.</param>
+            <returns>An enumerable collection of directories that matches searchPattern and searchOption.</returns>
+            <remarks>searchPattern can be a combination of literal and wildcard characters, but doesn't support regular expressions.</remarks>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.EnumerateFiles(System.String)">
+            <summary>
+            Returns an enumerable collection of file names in a specified path.
+            </summary>
+            <param name="path">The directory to search.</param>
+            <returns>An enumerable collection of file names in the directory specified by path.</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.EnumerateFiles(System.String,System.String,System.IO.SearchOption)">
+            <summary>
+            Returns an enumerable collection of file names that match a search pattern in a specified path, and optionally searches subdirectories.
+            </summary>
+            <param name="path">The absolute path to the directory to search. This string is case-sensitive.</param>
+            <param name="searchPattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions.</param>
+            <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.</param>
+            <returns>An enumerable collection of the full names (including paths) for the files in the directory specified by path and that match the specified search pattern and option.</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.EnumerateFileSystemEntries(System.String)">
+            <summary>
+            Returns an enumerable collection of file-system entries in a specified path.
+            </summary>
+            <param name="path">The directory to search.</param>
+            <returns>An enumerable collection of file-system entries in the directory specified by path.</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.EnumerateFileSystemEntries(System.String,System.String,System.IO.SearchOption)">
+            <summary>
+            Returns an enumerable collection of file names and directory names that match a search pattern in a specified path, and optionally searches subdirectories.
+            </summary>
+            <param name="path">The absolute path to the directory to search. This string is case-sensitive.</param>
+            <param name="searchPattern">The search string to match against file-system entries in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions.</param>
+            <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.</param>
+            <returns>An enumerable collection of file-system entries in the directory specified by path and that match the specified search pattern and option.</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetDirectories(System.String)">
+            <summary>
+            Returns an array of directory names in a specified path.
+            </summary>
+            <param name="path">The directory to search.</param>
+            <returns>An array of directory names in the directory specified by path.</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetDirectories(System.String,System.String,System.IO.SearchOption)">
+            <summary>
+            Returns an array of directory information that matches a specified search pattern and search subdirectory option. 
+            </summary>
+            <param name="path">The directory to search in.</param>
+            <param name="searchPattern">The search string to match against the names of directories. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters (see Remarks), but doesn't support regular expressions. The default pattern is "*", which returns all files.</param>
+            <param name="searchOption">One of the values that specifies whether the search operation should include only the current directory or all subdirectories. The default value is TopDirectoryOnly.</param>
+            <returns>An array of directories that matches searchPattern and searchOption.</returns>
+            <remarks>searchPattern can be a combination of literal and wildcard characters, but doesn't support regular expressions.</remarks>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetFiles(System.String)">
+            <summary>
+            Returns an array of file names in a specified path.
+            </summary>
+            <param name="path">The directory to search.</param>
+            <returns>An array of file names in the directory specified by path.</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetFiles(System.String,System.String,System.IO.SearchOption)">
+            <summary>
+            Returns an array of file names that match a search pattern in a specified path, and optionally searches subdirectories.
+            </summary>
+            <param name="path">The absolute path to the directory to search. This string is case-sensitive.</param>
+            <param name="searchPattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions.</param>
+            <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.</param>
+            <returns>An array of the full names (including paths) for the files in the directory specified by path and that match the specified search pattern and option.</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetFileSystemEntries(System.String)">
+            <summary>
+            Returns an array of file-system entries in a specified path.
+            </summary>
+            <param name="path">The directory to search.</param>
+            <returns>An array of file-system entries in the directory specified by path.</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetFileSystemEntries(System.String,System.String,System.IO.SearchOption)">
+            <summary>
+            Returns an array of file names and directory names that match a search pattern in a specified path, and optionally searches subdirectories.
+            </summary>
+            <param name="path">The absolute path to the directory to search. This string is case-sensitive.</param>
+            <param name="searchPattern">The search string to match against file-system entries in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions.</param>
+            <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.</param>
+            <returns>An array of file-system entries in the directory specified by path and that match the specified search pattern and option.</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.CreateDirectory(System.String)">
+            <summary>
+            Creates all directories and subdirectories in the specified path.
+            </summary>
+            <param name="path">The directory path to create.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.DeleteDirectory(System.String,System.Boolean)">
+            <summary>
+            Deletes the specified directory and, if indicated, any subdirectories and files in the directory.
+            </summary>
+            <param name="path">The name of the directory to remove.</param>
+            <param name="recursive">true to remove directories, subdirectories, and files in path; otherwise, false.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.DirectoryExists(System.String)">
+            <summary>
+            Determines whether the given path refers to an existing directory on disk.
+            </summary>
+            <param name="path">The path to test.</param>
+            <returns>true if path refers to an existing directory; otherwise, false.</returns>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.DownloadFile(System.String,System.IO.Stream)">
+            <summary>
+            Download data from a file on a portable device to a stream.
+            </summary>
+            <param name="path">The path to the file.</param>
+            <param name="stream">The stream to download to.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.DownloadIcon(System.String,System.IO.Stream)">
+            <summary>
+            Download icon from a file on a portable device to a stream.
+            </summary>
+            <param name="path">The path to the file.</param>
+            <param name="stream">The stream to download to.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.DownloadThumbnail(System.String,System.IO.Stream)">
+            <summary>
+            Download thumbnail from a file on a portable device to a stream.
+            </summary>
+            <param name="path">The path to the file.</param>
+            <param name="stream">The stream to download to.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.UploadFile(System.IO.Stream,System.String)">
+            <summary>
+            Upload data from a stream to a file on a portable device.
+            </summary>
+            <param name="stream">The stream to upload from.</param>
+            <param name="path">The path to the file.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.FileExists(System.String)">
+            <summary>
+            Determines whether the specified file exists.
+            </summary>
+            <param name="path">The file to check.</param>
+            <returns>true if the  path contains the name of an existing file; otherwise, false.</returns>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.DeleteFile(System.String)">
+            <summary>
+            Deletes the specified file.
+            </summary>
+            <param name="path">The name of the file to be deleted. Wildcard characters are not supported.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.Rename(System.String,System.String)">
+            <summary>
+            Rename a file or folder.
+            </summary>
+            <param name="path">Path to the file or folder to rename.</param>
+            <param name="newName">New name of the file or folder.</param>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetFileInfo(System.String)">
+            <summary>
+            Gets a new instance of the MediaFileInfo class, which acts as a wrapper for a file path.
+            </summary>
+            <param name="path">The fully qualified name of the file, directory or object.</param>
+            <returns>New instance of the MediaFileInfo class</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetDirectoryInfo(System.String)">
+            <summary>
+            Gets a new instance of the MediaDirectoryInfo class, which acts as a wrapper for a directory path.
+            </summary>
+            <param name="path">The fully qualified name of the directory or object.</param>
+            <returns>New instance of the MediaDirectoryInfo class</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetDrives">
+            <summary>
+            Get all drives of the device.
+            </summary>
+            <returns>Array with all drives of the device.</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetRootDirectory">
+            <summary>
+            Gets a new instance of the root MediaDirectoryInfo class, which acts as a wrapper for the root directory path.
+            </summary>
+            <returns>New instance of the root MediaDirectoryInfo class</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.DownloadFileFromPersistentUniqueId(System.String,System.IO.Stream)">
+            <summary>
+            Download data from a file on a portable device to a stream identified by a Persistent Unique Id.
+            </summary>
+            <param name="persistentUniqueId">Persistent Unique Id of the file.</param>
+            <param name="stream">The stream to download to.</param>
+            <exception cref="T:System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException">stream is null.</exception>
+            <exception cref="T:System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.OpenReadFromPersistentUniqueId(System.String)">
+            <summary>
+            Opens a files stream from an Persistent Unique ID to read from.
+            </summary>
+            <param name="persistentUniqueId">Persistent unique ID of the item.</param>
+            <returns>A new read-only FileStream object.</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+            <exception cref="T:System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+            <exception cref="T:System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.OpenTextFromPersistentUniqueId(System.String)">
+            <summary>
+            Opens a stream reader with UTF-8 encoding from an Persistent Unique ID to read from.
+            </summary>
+            <param name="persistentUniqueId">Persistent unique ID of the item.</param>
+            <returns>A new StreamReader object.</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+            <exception cref="T:System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+            <exception cref="T:System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetFileSystemInfoFromPersistentUniqueId(System.String)">
+            <summary>
+            Create a <see cref="T:MediaDevices.MediaFileSystemInfo"/> instance from the Persistent Unique Id.
+            </summary>
+            <param name="persistentUniqueId">Persistent Unique Id of the file or folder.</param>
+            <returns>New instance of the <see cref="T:MediaDevices.MediaFileInfo"/> or <see cref="T:MediaDevices.MediaDirectoryInfo"/> class.</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+            <exception cref="T:System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+            <exception cref="T:System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.SupportedCommands">
+            <summary>
+            Retrieves all commands supported by the device.
+            </summary>
+            <returns>List with supported commands</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.FunctionalCategories">
+            <summary>
+            Retrieves all functional categories by the device.
+            </summary>
+            <returns>List with functional categories</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.FunctionalObjects(MediaDevices.FunctionalCategory)">
+            <summary>
+            Retrieves all functional objects of a functional category by the device.
+            </summary>
+            <param name="functionalCategory">Select functional category</param>
+            <returns>List with functional objects</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.SupportedContentTypes(MediaDevices.FunctionalCategory)">
+            <summary>
+            Get supported content types
+            </summary>
+            <param name="functionalCategory">Select functional category</param>
+            <returns>List with supported content types </returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.SupportedEvents">
+            <summary>
+            Retrieves all events supported by the device.
+            </summary>
+            <returns>List with supported events</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.ResetDevice">
+            <summary>
+            Reset device
+            </summary>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+            <exception cref="T:System.NotSupportedException">not supported by device.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetContentLocations(MediaDevices.ContentType)">
+            <summary>
+            Get content locations
+            </summary>
+            <param name="contentType">Content type to find the locations for.</param>
+            <returns>List with the location paths.</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.EjectStorage(System.String)">
+            <summary>
+            Eject storage
+            </summary>
+            <param name="path">Path of storage to eject.</param>
+            <returns>true is success and false if not supported.</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.FormatStorage(System.String)">
+            <summary>
+            Format storage
+            </summary>
+            <param name="path">Path of storage to format.</param>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.SendTextSMS(System.String,System.String,System.String)">
+            <summary>
+            Send a text SMS
+            </summary>
+            <param name="functionalObject">Functional object of the SMS</param>
+            <param name="recipient">Recipient of the SMS</param>
+            <param name="text">Text of the SMS</param>
+            <returns>true is success; false if not</returns>
+            <example>
+            <code>
+            var devices = MediaDevice.GetDevices();
+            using (var device = devices.First(d => d.FriendlyName == "My Cell Phone"))
+            {
+                device.Connect();
+                if (device.FunctionalCategories().Any(c => c == FunctionalCategory.SMS))
+                {
+                    // get list of available SIM cards
+                    var objects = device.FunctionalObjects(FunctionalCategory.SMS);
+                    device.SendTextSMS(objects.First());
+                }
+                device.Disconnect();
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.StillImageCaptureInitiate(System.String)">
+            <summary>
+            Initiate a still image capturing
+            </summary>
+            <param name="functionalObject">Functional object of the camera</param>
+            <returns>true is success; false if not</returns>
+            <exception cref="T:System.ArgumentNullException">path is null or empty.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+            <example>
+            <code>
+            var devices = MediaDevice.GetDevices();
+            using (var device = devices.First(d => d.FriendlyName == "My Cell Phone"))
+            {
+                device.Connect();
+                if (device.FunctionalCategories().Any(c => c == FunctionalCategory.StillImageCapture))
+                {
+                    // get list of available cameras (front, rear)
+                    var objects = device.FunctionalObjects(FunctionalCategory.StillImageCapture);
+                    device.StillImageCaptureInitiate(objects.First());
+                    // ObjectAdded event call after image create
+                }
+                device.Disconnect();
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetStorageInfo(System.String)">
+            <summary>
+            Get storage informations
+            </summary>
+            <param name="storageObjectId">ID of the storage object</param>
+            <returns>MediaStorageInfo class with storage informations</returns>
+            <exception cref="T:System.ArgumentNullException">path is null or empty.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+            <example>
+            <code>
+            var devices = MediaDevice.GetDevices();
+            using (var device = devices.First(d => d.FriendlyName == "My Cell Phone"))
+            {
+                device.Connect();
+                
+                // get list of available storages (SD-Card, Internal Flash, ...)
+                var objects = device.FunctionalObjects(FunctionalCategory.Storage);
+                MediaStorageInfo info = GetStorageInfo(objects.First());
+                ulong size = info.FreeSpaceInBytes;
+                
+                device.Disconnect();
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.VendorOpcodes">
+            <summary>
+            Queries for vendor extended operation code.
+            </summary>
+            <returns>List of vendor extended operation code.</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.VendorExcecute(System.Int32,System.Collections.Generic.IEnumerable{System.Int32},System.Int32@)">
+            <summary>
+            Execute a vendor command.
+            </summary>
+            <param name="opCode">Operational code of the vendor command.</param>
+            <param name="inputParams">Input parameters.</param>
+            <param name="respCode">Response code</param>
+            <returns>Output parameters</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.VendorExcecuteRead(System.Int32,System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Sends a MTP command block followed by a data phase with data from Device to Host.
+            </summary>
+            <param name="opCode">Operational code of the vendor command.</param>
+            <param name="inputParams">Input parameters.</param>
+            <returns>Returned as a context identifier for subsequent data transfer</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.VendorExcecuteWrite(System.Int32,System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Sends a MTP command block followed by a data phase with data from Host to Device 
+            </summary>
+            <param name="opCode">Operational code of the vendor command.</param>
+            <param name="inputParams">Input parameters.</param>
+            <returns>Returned as a context identifier for subsequent data transfer</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.VendorEndTransfer(System.String,System.Int32@)">
+            <summary>
+            completes a data transfer and read response from device. The transfer is initiated by VendorExcecuteWrite
+            </summary>
+            <param name="context">The context idetifier returned in previous calls.</param>
+            <param name="respCode">the response code to the vendor operation code.</param>
+            <returns>identifying response params if any</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.VendorExtentionDescription">
+            <summary>
+            Retrieves the vendor extension description string.
+            </summary>
+            <returns>Vendor extension description string</returns>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDevice.GetServices(MediaDevices.MediaDeviceServices)">
+            <summary>
+            Get device services
+            </summary>
+            <param name="service">Service type</param>
+            <returns>List of services</returns>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceAccess">
+            <summary>
+            Specifies the desired access the client is requesting to this driver.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceAccess.Default">
+            <summary>
+            Use the default value. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceAccess.GenericAll">
+            <summary>
+            All possible access rights
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceAccess.GenericExcecute">
+            <summary>
+            Execute access
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceAccess.GenericWrite">
+            <summary>
+            Write access
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceAccess.GenericRead">
+            <summary>
+            Read access
+            </summary>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceConnector">
+            <summary>
+            MediaDive connector
+            </summary>
+        </member>
+        <member name="E:MediaDevices.MediaDeviceConnector.Complete">
+            <summary>
+            Event signals if complete
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceConnector.Connect">
+            <summary>
+            Connect to service
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceConnector.Disconnect">
+            <summary>
+            Disconnect from service
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceConnector.OnComplete(System.Int32)">
+            <summary>
+            On completed
+            </summary>
+            <param name="hrStatus">Status</param>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceConnectors">
+            <summary>
+            MediaDevice connectors
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceConnectors.Connectors">
+            <summary>
+            Get connextors.
+            </summary>
+            <returns>List of connectors</returns>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceContacts">
+            <summary>
+            Contacts service
+            </summary>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceEventArgs">
+            <summary>
+            Event argument class for media device events
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceEventArgs.MediaDevice">
+            <summary>
+            Corresponding media device
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceEventArgs.PnpDeviceId">
+            <summary>
+            Indicates the device that originated the event.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceEventArgs.Event">
+            <summary>
+            Indicates the event sent.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceEventArgs.OperationState">
+            <summary>
+            Indicates the current state of the operation (e.g. started, running, stopped etc.).
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceEventArgs.OperationProgress">
+            <summary>
+            Indicates the progress of a currently executing operation. Value is from 0 to 100, with 100 indicating that the operation is complete.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceEventArgs.ObjectParentPersistanceUniqueId">
+            <summary>
+            Uniquely identifies the parent object, similar to WPD_OBJECT_PARENT_ID, but this ID will not change between sessions.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceEventArgs.ObjectCreationCookie">
+            <summary>
+            This is the cookie handed back to a client when it requested an object creation using the IPortableDeviceContent::CreateObjectWithPropertiesAndData method.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceEventArgs.ChildHierarchyChanged">
+            <summary>
+            Indicates that the child hierarchy for the object has changed.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceEventArgs.ServiceMethodContext">
+            <summary>
+            Indicates the service method invocation context.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceExtentions">
+            <summary>
+            MediaDevice extention class
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceExtentions.DownloadFile(MediaDevices.MediaDevice,System.String,System.String)">
+            <summary>
+            Download a file from a portable device.
+            </summary>
+            <param name="device">Device class.</param>
+            <param name="source">The path to the source.</param>
+            <param name="destination">The path to the destination.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceExtentions.DownloadIcon(MediaDevices.MediaDevice,System.String,System.String)">
+            <summary>
+            Download a icon from a portable device.
+            </summary>
+            <param name="device">Device class.</param>
+            <param name="source">The path to the source.</param>
+            <param name="destination">The path to the destination.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceExtentions.DownloadThumbnail(MediaDevices.MediaDevice,System.String,System.String)">
+            <summary>
+            Download a thumbnail from a portable device.
+            </summary>
+            <param name="device">Device class.</param>
+            <param name="source">The path to the source.</param>
+            <param name="destination">The path to the destination.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceExtentions.UploadFile(MediaDevices.MediaDevice,System.String,System.String)">
+            <summary>
+            Upload a file to a portable device.
+            </summary>
+            <param name="device">Device class.</param>
+            <param name="source">The path to the source.</param>
+            <param name="destination">The path to the destination.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceExtentions.DownloadFolder(MediaDevices.MediaDevice,System.String,System.String,System.Boolean)">
+            <summary>
+            Download a file tree from a portable device.
+            </summary>
+            <param name="device">Device class.</param>
+            <param name="source">The path to the source.</param>
+            <param name="destination">The path to the destination.</param>
+            <param name="recursive">Include subdirectories or not</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceExtentions.UploadFolder(MediaDevices.MediaDevice,System.String,System.String,System.Boolean)">
+            <summary>
+            Upload a file tree to a portable device.
+            </summary>
+            <param name="device">Device class.</param>
+            <param name="source">The path to the source.</param>
+            <param name="destination">The path to the destination.</param>
+            <param name="recursive">Include subdirectories or not</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceExtentions.DownloadFileFromPersistentUniqueId(MediaDevices.MediaDevice,System.String,System.String)">
+            <summary>
+            Download a file from a portable device using a Persistent Unique Id.
+            </summary>
+            <param name="device">Device class.</param>
+            <param name="persistentUniqueId">Persistent Unique Id of the source file.</param>
+            <param name="destination">The path to the destination.</param>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceService">
+            <summary>
+            MediaDevice service class
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceService.Dispose">
+            <summary>
+            Dispose service
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceService.Dispose(System.Boolean)">
+            <summary>
+            Dispose service
+            </summary>
+            <param name="disposing">Disposing flag</param>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceService.ServiceId">
+            <summary>
+            ID of the service
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceService.Service">
+            <summary>
+            Get services
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceService.Name">
+            <summary>
+            Name of the service
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceService.ServiceName">
+            <summary>
+            Servicename
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceService.ServiceVersion">
+            <summary>
+            Version of the service
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceService.ServiceObjectID">
+            <summary>
+            OhjectID of the service
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceService.PnPServiceID">
+            <summary>
+            PnP service ID
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceService.ToString">
+            <summary>
+            Info of the service
+            </summary>
+            <returns>String with the info</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceService.GetContent">
+            <summary>
+            Get content of the service
+            </summary>
+            <returns>List of content services</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceService.Update">
+            <summary>
+            Update service
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceService.GetAllProperties">
+            <summary>
+            Get all properties
+            </summary>
+            <returns>List of properties</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceService.GetSupportedMethods">
+            <summary>
+            Get supported methods
+            </summary>
+            <returns>List of supported methods</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceService.GetSupportedCommands">
+            <summary>
+            Get supported commands
+            </summary>
+            <returns>List of supported commands</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceService.GetSupportedEvents">
+            <summary>
+            Get supported events
+            </summary>
+            <returns>list of supported events</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceService.GetSupportedFormats">
+            <summary>
+            Get supported formats
+            </summary>
+            <returns>List of supported formats</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceService.CallMethod(System.Guid,System.Object[])">
+            <summary>
+            Call a service method
+            </summary>
+            <param name="method">Method GUID</param>
+            <param name="parameters">Method parameters</param>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceServiceContent">
+            <summary>
+            Content service class
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceContent.ObjectId">
+            <summary>
+            Object ID of teh content
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceContent.ParentId">
+            <summary>
+            Parent ID of the content
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceContent.Name">
+            <summary>
+            Name of the content
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceServiceContent.GetContent">
+            <summary>
+            Get the content
+            </summary>
+            <returns>Content list</returns>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceServiceContent.GetAllProperties">
+            <summary>
+            Get all properties of the content
+            </summary>
+            <returns>List of properties</returns>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceServiceHints">
+            <summary>
+            Hints Service class
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceServiceHints.Update">
+            <summary>
+            Update service
+            </summary>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceServiceMetadata">
+            <summary>
+            Metadata service class
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceServiceMetadata.Update">
+            <summary>
+            Update service 
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceMetadata.ParentId">
+            <summary>
+            Parent ID.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceMetadata.Name">
+            <summary>
+            Display name for this object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceMetadata.PUOID">
+            <summary>
+            Persistent object unique ID. This must be a GUID.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceMetadata.ObjectFormat">
+            <summary>
+            MTP format code that this object represents.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceMetadata.ObjectSize">
+            <summary>
+            Size of this object in bytes.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceMetadata.StorageID">
+            <summary>
+            Storage ID for this object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceMetadata.LanguageLocale">
+            <summary>
+            Locale of the CAB contents. The locale must be composed of valid RFC4646 subtags (for example, “en-US”).
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceMetadata.ContentID">
+            <summary>
+            ID that uniquely identifies the CAB contents. This ID is a GUID that is assigned by the Windows logo signing process.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceServiceMetadata.DefaultCAB">
+            <summary>
+            Boolean value that indicates whether the object is the default Device Metadata CAB object. The Device Metadata service must have only one object that is marked as default.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceServices">
+            <summary>
+            MediaDevice services
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.Unknown">
+            <summary>
+            Unknown service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.All">
+            <summary>
+            All services
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.Contact">
+            <summary>
+            Contact service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.Calendar">
+            <summary>
+            Calender service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.Notes">
+            <summary>
+            Notes service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.Task">
+            <summary>
+            Task service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.Status">
+            <summary>
+            Status service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.Hints">
+            <summary>
+            Hints service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.Metadata">
+            <summary>
+            Metadata service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.Ringtone">
+            <summary>
+            Ringtone service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.EnumerationSynchronization">
+            <summary>
+            Enumeration Synchronization service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.AnchorSynchronization">
+            <summary>
+            Anchor Synchronization service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.Apps">
+            <summary>
+            Apps service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.Authentication">
+            <summary>
+            Authentication service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.WpdCompanionService">
+            <summary>
+            WPD Companion service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.MediaLibraryService">
+            <summary>
+            Media Library service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.MtpDuDeviceService">
+            <summary>
+            MTP Du Device service
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceServices.StorageInfo">
+            <summary>
+            Storage Info service
+            </summary>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceShare">
+            <summary>
+            Specifies the share mode the client is requesting to this device.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceShare.Default">
+            <summary>
+            Use the default value. 
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceShare.Read">
+            <summary>
+            Enables subsequent open operations on a file or device to request read access. 
+            Otherwise, other processes cannot open the file or device if they request read access.
+            If this flag is not specified, but the file or device has been opened for read access, the function fails.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceShare.Write">
+            <summary>
+            Enables subsequent open operations on a file or device to request write access. 
+            Otherwise, other processes cannot open the file or device if they request write access.
+            If this flag is not specified, but the file or device has been opened for write access or has a file mapping with write access, the function fails.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaDeviceShare.Delete">
+            <summary>
+            Enables subsequent open operations on a file or device to request delete access. 
+            Otherwise, other processes cannot open the file or device if they request delete access.
+            If this flag is not specified, but the file or device has been opened for delete access, the function fails.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.MediaDeviceStatusService">
+            <summary>
+            Status service class
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDeviceStatusService.Update">
+            <summary>
+            Update service
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.SignalStrength">
+            <summary>
+            Signal strength, from 0 to 4.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.TextMessages">
+            <summary>
+            Number of unread text messages.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.NewPictures">
+            <summary>
+            Total number of pictures on the device.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.MissedCalls">
+            <summary>
+            Total number of missed calls on the device.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.VoiceMail">
+            <summary>
+            Total number of new voicemail messages on the device/service. 
+            For devices that have only a binary state, 0 represents no new voicemail messages and 0xFF represents new messages.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.NetworkName">
+            <summary>
+            Human-readable name of the current mobile network (for example, “Microsoft Cellular”).
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.NetworkType">
+            <summary>
+            Type of mobile network that the device is currently using (for example, “E” for EDGE, “U” for UMTS, or “1x” for 1xRTT).
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.Roaming">
+            <summary>
+            Roaming type.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.BatteryLife">
+            <summary>
+            Remaining battery life of the device, as an integer from 0 to 100.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.ChargingState">
+            <summary>
+            Charging state
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.StorageCapacity">
+            <summary>
+            Total usable storage capacity of the device, in bytes, across all storage locations.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.StorageFreeSpace">
+            <summary>
+            Total usable free space on the device, in bytes, across all storage locations.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDeviceStatusService.InternetConnected">
+            <summary>
+            Boolean value that indicates whether the mobile device is connected to an outside data network (such as the Internet).
+            </summary>
+        </member>
+        <member name="T:MediaDevices.MediaDirectoryInfo">
+            <summary>
+            Exposes instance methods for creating, moving, and enumerating through directories and subdirectories. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDirectoryInfo.Refresh">
+            <summary>
+            Refreshes the state of the object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDirectoryInfo.Parent">
+            <summary>
+            Gets the parent directory of a specified subdirectory.
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDirectoryInfo.CreateSubdirectory(System.String)">
+            <summary>
+            Creates a subdirectory or subdirectories on the specified path. The specified path is relative to this instance of the DirectoryInfo class.
+            </summary>
+            <param name="path">The specified path. </param>
+            <returns>The last directory specified in path.</returns>
+            <exception cref="T:System.IO.IOException">path is a file name.</exception>
+            <exception cref="T:System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+            <exception cref="T:System.ArgumentNullException">path is null.</exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDirectoryInfo.EnumerateDirectories">
+            <summary>
+            Returns an enumerable collection of directory information in the current directory.
+            </summary>
+            <returns>An enumerable collection of directories in the current directory.</returns>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDirectoryInfo.EnumerateDirectories(System.String,System.IO.SearchOption)">
+            <summary>
+            Returns an enumerable collection of directory information that matches a specified search pattern and search subdirectory option. 
+            </summary>
+            <param name="searchPattern">The search string to match against the names of directories. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions. The default pattern is "*", which returns all files.</param>
+            <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or all subdirectories. The default value is TopDirectoryOnly.</param>
+            <returns>An enumerable collection of directories that matches searchPattern and searchOption.</returns>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDirectoryInfo.EnumerateFiles">
+            <summary>
+            Returns an enumerable collection of file information in the current directory.
+            </summary>
+            <returns>An enumerable collection of the files in the current directory.</returns>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDirectoryInfo.EnumerateFiles(System.String,System.IO.SearchOption)">
+            <summary>
+            Returns an enumerable collection of file information that matches a specified search pattern and search subdirectory option.
+            </summary>
+            <param name="searchPattern">The search string to match against the names of files. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions. The default pattern is "*", which returns all files.</param>
+            <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or all subdirectories. The default value is TopDirectoryOnly.</param>
+            <returns>An enumerable collection of files that matches searchPattern and searchOption.</returns>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDirectoryInfo.EnumerateFileSystemInfos">
+            <summary>
+            Returns an enumerable collection of file system information in the current directory.
+            </summary>
+            <returns>An enumerable collection of file system information in the current directory. </returns>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaDirectoryInfo.EnumerateFileSystemInfos(System.String,System.IO.SearchOption)">
+            <summary>
+            Returns an enumerable collection of file system information that matches a specified search pattern and search subdirectory option.
+            </summary>
+            <param name="searchPattern">The search string to match against the names of directories. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions. The default pattern is "*", which returns all files.</param>
+            <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or all subdirectories. The default value is TopDirectoryOnly.</param>
+            <returns>An enumerable collection of file system information objects that matches searchPattern and searchOption.</returns>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="T:MediaDevices.MediaDriveInfo">
+            <summary>
+            Provides properties for drives.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDriveInfo.AvailableFreeSpace">
+            <summary>
+            Indicates the available space in bytes.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDriveInfo.DriveFormat">
+            <summary>
+            Format of the drive.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDriveInfo.DriveType">
+            <summary>
+            Type of the drive
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDriveInfo.IsReady">
+            <summary>
+            True is the drive is ready; false if not.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDriveInfo.Name">
+            <summary>
+            Name of the drive
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDriveInfo.RootDirectory">
+            <summary>
+            Get the root directory of the drive.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDriveInfo.TotalFreeSpace">
+            <summary>
+            Gets the total free space of the device in bytes.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDriveInfo.TotalSize">
+            <summary>
+            Gets the total size of the device in bytes.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaDriveInfo.VolumeLabel">
+            <summary>
+            Get the volume lable of the drive.
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDriveInfo.Eject">
+            <summary>
+            Eject the drive.
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaDriveInfo.Format">
+            <summary>
+            Format the drive.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.MediaFileAttributes">
+            <summary>
+            Provides attributes for files, directories and objects.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaFileAttributes.Normal">
+            <summary>
+            The file is a standard file.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaFileAttributes.Directory">
+            <summary>
+            The file is a directory.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaFileAttributes.Object">
+            <summary>
+            The file is a object.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaFileAttributes.CanDelete">
+            <summary>
+            This file can be deleted.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaFileAttributes.System">
+            <summary>
+            The file is a system file. That is, the file is part of the operating system or is used exclusively by the operating system.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaFileAttributes.Hidden">
+            <summary>
+            The file is hidden, and thus is not included in an ordinary directory listing.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaFileAttributes.DRMProtected">
+            <summary>
+            The file is DRM protected.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.MediaFileInfo">
+            <summary>
+            Provides properties for files, directories and objects.
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaFileInfo.Refresh">
+            <summary>
+            Refreshes the state of the object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaFileInfo.Directory">
+            <summary>
+            Gets an instance of the parent directory.
+            </summary>
+        </member>
+        <member name="M:MediaDevices.MediaFileInfo.CopyTo(System.String,System.Boolean)">
+            <summary>
+            Copies an existing file to a new file, allowing the overwriting of the existing file.
+            </summary>
+            <param name="destFileName">The name of the new file to copy to.</param>
+            <param name="overwrite">true to allow an existing file to be overwritten; otherwise, false. </param>
+            <exception cref="T:System.IO.IOException">An error occurs, or the destination file already exists and overwrite is false. </exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaFileInfo.CopyIconTo(System.String,System.Boolean)">
+            <summary>
+            Copies an icon of an existing file to a new file, allowing the overwriting of the existing file.
+            </summary>
+            <param name="destFileName">The name of the new file to copy to.</param>
+            <param name="overwrite">true to allow an existing file to be overwritten; otherwise, false. </param>
+            <exception cref="T:System.IO.IOException">An error occurs, or the destination file already exists and overwrite is false. </exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaFileInfo.CopyThumbnail(System.String,System.Boolean)">
+            <summary>
+            Copies an thumbnail of an existing file to a new file, allowing the overwriting of the existing file.
+            </summary>
+            <param name="destFileName">The name of the new file to copy to.</param>
+            <param name="overwrite">true to allow an existing file to be overwritten; otherwise, false. </param>
+            <exception cref="T:System.IO.IOException">An error occurs, or the destination file already exists and overwrite is false. </exception>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaFileInfo.OpenRead">
+            <summary>
+            Creates a read-only FileStream.
+            </summary>
+            <returns>A new read-only FileStream object.</returns>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaFileInfo.OpenIcon">
+            <summary>
+            Creates a read-only FileStream of the icon.
+            </summary>
+            <returns>A new read-only FileStream object.</returns>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaFileInfo.OpenThumbnail">
+            <summary>
+            Creates a read-only FileStream of the thumbnail.
+            </summary>
+            <returns>A new read-only FileStream object.</returns>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="M:MediaDevices.MediaFileInfo.OpenText">
+            <summary>
+            Creates a StreamReader with UTF8 encoding that reads from an existing text file.
+            </summary>
+            <returns>A new StreamReader with UTF8 encoding.</returns>
+            <exception cref="T:System.IO.DirectoryNotFoundException">path is invalid.</exception>
+            <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
+        </member>
+        <member name="T:MediaDevices.MediaFileSystemInfo">
+            <summary>
+            Provides the base class for both MediaFileInfo and MediaDirectoryInfo objects.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.MediaFileSystemInfo.device">
+             <summary>
+            corresponding MediaDevice instance
+             </summary>
+        </member>
+        <member name="M:MediaDevices.MediaFileSystemInfo.Refresh">
+            <summary>
+            Refreshes the state of the object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaFileSystemInfo.ParentDirectoryInfo">
+            <summary>
+            Gets the parent directory of a specified subdirectory.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaFileSystemInfo.FullName">
+            <summary>
+            Gets the full path of the directory or file.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaFileSystemInfo.Name">
+            <summary>
+            For files, gets the name of the file. For directories, gets the name of the last directory in the hierarchy if a hierarchy exists. Otherwise, the Name property gets the name of the directory.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaFileSystemInfo.Length">
+            <summary>
+            Gets the size, in bytes, of the current file.   
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaFileSystemInfo.CreationTime">
+            <summary>
+            Gets the creation time of the current file or directory.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaFileSystemInfo.LastWriteTime">
+            <summary>
+            Gets the time when the current file or directory was last written to.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaFileSystemInfo.DateAuthored">
+            <summary>
+            Gets the time when the current file was authored.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaFileSystemInfo.Attributes">
+            <summary>
+            Gets the attributes for the current file, directory or object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaFileSystemInfo.Id">
+            <summary>
+            Gets the id of the MTP object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaFileSystemInfo.PersistentUniqueId">
+            <summary>
+            Gets the persistent unique id of the MTP object.
+            </summary>
+            <remarks>
+            A unique cross session object ID, that is not changing when device is disconnected.
+            </remarks>
+        </member>
+        <member name="M:MediaDevices.MediaFileSystemInfo.Rename(System.String)">
+            <summary>
+            Rename the folder of file
+            </summary>
+            <param name="newName">New name of the file or folder.</param>
+        </member>
+        <member name="M:MediaDevices.MediaFileSystemInfo.GetHashCode">
+            <summary>
+            Gets the hash code for the current object.
+            </summary>
+            <returns>A hash code for the current object.</returns>
+        </member>
+        <member name="M:MediaDevices.MediaFileSystemInfo.Equals(System.Object)">
+            <summary>
+            Determines whether the specified object is equal to the current object.
+            </summary>
+            <param name="obj">The object to compare with the current object.</param>
+            <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
+        </member>
+        <member name="T:MediaDevices.MediaStorageInfo">
+            <summary>
+            Storage informations
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaStorageInfo.Type">
+            <summary>
+            Indicates the type of storage e.g. fixed, removable etc.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaStorageInfo.FileSystemType">
+            <summary>
+            Indicates the file system type e.g. "FAT32" or "NTFS" or "My Special File System"
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaStorageInfo.Capacity">
+            <summary>
+            Indicates the total storage capacity in bytes.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaStorageInfo.FreeSpaceInBytes">
+            <summary>
+            Indicates the available space in bytes.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaStorageInfo.FreeSpaceInObjects">
+            <summary>
+            Indicates the available space in objects e.g. available slots on a SIM card.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaStorageInfo.Description">
+            <summary>
+            Contains a description of the storage.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaStorageInfo.SerialNumber">
+            <summary>
+            Contains the serial number of the storage.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaStorageInfo.MaxObjectSize">
+            <summary>
+            Specifies the maximum size of a single object (in bytes) that can be placed on this storage.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaStorageInfo.CapacityInObjects">
+            <summary>
+            Indicates the total storage capacity in objects e.g. available slots on a SIM card.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.MediaStorageInfo.AccessCapability">
+            <summary>
+            This property identifies any write-protection that globally affects this storage. This takes precedence over access specified on individual objects.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.Methods">
+            <summary>
+             Methods
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Methods.Unknown">
+            <summary>
+            Ubknown method
+            </summary>
+        </member>
+        <member name="T:MediaDevices.NotConnectedException">
+            <summary>
+            Represent error that occur if portable device is not connected.
+            </summary>
+        </member>
+        <member name="M:MediaDevices.NotConnectedException.#ctor">
+            <summary>
+            Initializes a new instance of the PortableDevices.NotConnectedException class.
+            </summary>
+        </member>
+        <member name="M:MediaDevices.NotConnectedException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the PortableDevices.NotConnectedException class with a specified error message.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:MediaDevices.NotConnectedException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the PortableDevices.NotConnectedException class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="T:MediaDevices.ObjectAddedEventArgs">
+            <summary>
+            Event argument class for the media device object added event.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.ObjectAddedEventArgs.ObjectId">
+            <summary>
+            Id of the added object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.ObjectAddedEventArgs.ObjectPersistentUniqueId">
+            <summary>
+            Persistent unique id of the added object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.ObjectAddedEventArgs.ObjectName">
+            <summary>
+            Name of the added object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.ObjectAddedEventArgs.ObjectContentType">
+            <summary>
+            Content type of the added object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.ObjectAddedEventArgs.FunctionalObjectCategory">
+            <summary>
+            Functional category of the added object
+            </summary>
+        </member>
+        <member name="P:MediaDevices.ObjectAddedEventArgs.ObjectOriginalFileName">
+            <summary>
+            Original file name of the added object
+            </summary>
+        </member>
+        <member name="P:MediaDevices.ObjectAddedEventArgs.ObjectParentId">
+            <summary>
+            Parent id of the added object.
+            </summary>
+        </member>
+        <member name="P:MediaDevices.ObjectAddedEventArgs.ObjectContainerFuntionalObjectId">
+            <summary>
+            Container functional id of the added object. 
+            </summary>
+        </member>
+        <member name="P:MediaDevices.ObjectAddedEventArgs.ObjectFullFileName">
+            <summary>
+            Full file name of the added object
+            </summary>
+        </member>
+        <member name="P:MediaDevices.ObjectAddedEventArgs.ObjectFileStream">
+            <summary>
+            Read stream of the added object
+            </summary>
+        </member>
+        <member name="T:MediaDevices.OperationState">
+            <summary>
+            Indicates the current state of the operation in progress.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.OperationState.Unspecified">
+            <summary>
+            Unspecified
+            </summary>
+        </member>
+        <member name="F:MediaDevices.OperationState.Started">
+            <summary>
+            Started
+            </summary>
+        </member>
+        <member name="F:MediaDevices.OperationState.Running">
+            <summary>
+            Running
+            </summary>
+        </member>
+        <member name="F:MediaDevices.OperationState.Paused">
+            <summary>
+            Paused
+            </summary>
+        </member>
+        <member name="F:MediaDevices.OperationState.Cancelled">
+            <summary>
+            Cancelled
+            </summary>
+        </member>
+        <member name="F:MediaDevices.OperationState.Finished">
+            <summary>
+            Finished
+            </summary>
+        </member>
+        <member name="F:MediaDevices.OperationState.Aborted">
+            <summary>
+            Aborted
+            </summary>
+        </member>
+        <member name="T:MediaDevices.PowerSource">
+            <summary>
+            Power source of the device
+            </summary>
+        </member>
+        <member name="F:MediaDevices.PowerSource.Unknown">
+            <summary>
+            Device does not report the power source.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.PowerSource.Battery">
+            <summary>
+            The power source of the device is battery.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.PowerSource.External">
+            <summary>
+            The power source of the device is external.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.Roaming">
+            <summary>
+            Roaming values
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Roaming.HomeNetwork">
+            <summary>
+            The mobile device is on its home network.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Roaming.Roaming">
+            <summary>
+            The device is roaming.
+            </summary>
+        </member>
+        <member name="F:MediaDevices.Roaming.Unknown">
+            <summary>
+            The roaming status is unknown.
+            </summary>
+        </member>
+        <member name="T:MediaDevices.StorageAccessCapability">
+            <summary>
+            Storage Access Capability
+            </summary>
+        </member>
+        <member name="F:MediaDevices.StorageAccessCapability.ReadWrite">
+            <summary>
+            Read Write
+            </summary>
+        </member>
+        <member name="F:MediaDevices.StorageAccessCapability.ReadOnlyWithoutObjectDeletion">
+            <summary>
+            Read only without object deletion
+            </summary>
+        </member>
+        <member name="F:MediaDevices.StorageAccessCapability.ReadOnlyWithObjectDeletion">
+            <summary>
+            Read only with object deletion
+            </summary>
+        </member>
+        <member name="T:MediaDevices.StorageType">
+            <summary>
+            Storage type
+            </summary>
+        </member>
+        <member name="F:MediaDevices.StorageType.Undefined">
+            <summary>
+            Undefined
+            </summary>
+        </member>
+        <member name="F:MediaDevices.StorageType.FixedRom">
+            <summary>
+            Fixed ROM
+            </summary>
+        </member>
+        <member name="F:MediaDevices.StorageType.RemovableRom">
+            <summary>
+            Removable ROM
+            </summary>
+        </member>
+        <member name="F:MediaDevices.StorageType.FixedRam">
+            <summary>
+            Fixed RAM
+            </summary>
+        </member>
+        <member name="F:MediaDevices.StorageType.RemovableRam">
+            <summary>
+            RemovableRAM
+            </summary>
+        </member>
+        <member name="M:MediaDevices.WMDM.IWMDeviceManager2.EnumDevices(MediaDevices.WMDM.IWMDMEnumDevice@)">
+            [MethodImpl(MethodImplOptions.InternalCall)]
+        </member>
+        <member name="M:MediaDevices.WMDM.IWMDeviceManager3.EnumDevices(MediaDevices.WMDM.IWMDMEnumDevice@)">
+            [MethodImpl(MethodImplOptions.InternalCall)]
+        </member>
+    </members>
+</doc>
