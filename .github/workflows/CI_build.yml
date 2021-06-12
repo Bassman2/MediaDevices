@@ -34,7 +34,6 @@ jobs:
       working-directory: .
 
     - name: Setup NuGet.exe
-      if: matrix.build_configuration == 'Release'
       uses: nuget/setup-nuget@v1
 
 #    - name: NuGet restore
@@ -56,9 +55,9 @@ jobs:
       working-directory: .
       run: nuget restore MediaDevices.sln
            
-    - name: restore
-      working-directory: .
-      run: msbuild MediaDevices.sln /m /verbosity:minimal /t:restore /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}"
+#    - name: restore
+#      working-directory: .
+#      run: msbuild MediaDevices.sln /m /verbosity:minimal /t:restore /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}"
 
     - name: MSBuild of solution
       working-directory: .
