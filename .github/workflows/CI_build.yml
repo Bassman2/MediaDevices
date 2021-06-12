@@ -37,16 +37,12 @@ jobs:
       if: matrix.build_configuration == 'Release'
       uses: nuget/setup-nuget@v1
 
-    - name: NuGet restore
-      working-directory: .
-      run: |
-           nuget restore Test\MediaDevicesUnitTestFramework45\packages.config -PackagesDirectory packages
-           nuget restore Demo\Demo .NET Framework 4.5\MediaDevicesAppFramework45\packages.config -PackagesDirectory packages
-           nuget restore Demo\Demo Share\MediaDevicesAppShare\packages.config -PackagesDirectory packages
-
-    - name: restore
-      working-directory: .
-      run: msbuild MediaDevices.sln /m /verbosity:minimal /t:restore /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}"
+#    - name: NuGet restore
+#      working-directory: .
+#      run: |
+#           nuget restore Test\MediaDevicesUnitTestFramework45\packages.config -PackagesDirectory packages
+#           nuget restore Demo\Demo .NET Framework 4.5\MediaDevicesAppFramework45\packages.config -PackagesDirectory packages
+#           nuget restore Demo\Demo Share\MediaDevicesAppShare\packages.config -PackagesDirectory packages
 
     - name: copy dummy key for signing
       working-directory: .
@@ -56,7 +52,13 @@ jobs:
            Copy-Item  appveyor_dummy.snk -Destination Src\MediaDevicesCore31\Bassman.snk
            Copy-Item  appveyor_dummy.snk -Destination Src\MediaDevices50\Bassman.snk
 
-
+    - name: restore
+      working-directory: .
+      run: nuget restore MediaDevices.sln
+           
+    - name: restore
+      working-directory: .
+      run: msbuild MediaDevices.sln /m /verbosity:minimal /t:restore /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}"
 
     - name: MSBuild of solution
       working-directory: .
