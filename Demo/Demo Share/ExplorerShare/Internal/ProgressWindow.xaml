@@ -15,7 +15,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ctrl:AnimationImage Grid.Row="0" Source="/Explorer;component/Images/FileCopy.gif" Stretch="None" VerticalAlignment="Bottom" Margin="8,4,8,4"/>
+        <ctrl:AnimationImage Grid.Row="0" Source="/FileCopy.gif" Stretch="None" VerticalAlignment="Bottom" Margin="8,4,8,4"/>
         <ProgressBar Grid.Row="1" x:Name="progressBar" Height="16" Maximum="1" Margin="8,4,8,4"/>
         <TextBlock Grid.Row="2" x:Name="currentFile" Margin="8,4,8,4" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
         <Button Grid.Row="3" Content="Cancel" Width="60" Height="24" Click="OnCancel" VerticalAlignment="Bottom" Margin="8,4,8,8" />
