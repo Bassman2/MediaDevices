@@ -24,6 +24,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{B289D6A2-35CA-48C7-A5AD-609989221D04}"
 EndProject
 Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "MediaDevicesDoc", "Doc\MediaDevicesDoc\MediaDevicesDoc.shfbproj", "{15DBA1E6-2C21-40AC-BD19-67926C3442AC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F17A64CB-92AB-434E-B03D-A5CA95A3A9DF} = {F17A64CB-92AB-434E-B03D-A5CA95A3A9DF}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesCore31", "Src\MediaDevicesCore31\MediaDevicesCore31.csproj", "{088844C9-C8DE-45A6-87CE-EC2AF3E0651F}"
 EndProject
