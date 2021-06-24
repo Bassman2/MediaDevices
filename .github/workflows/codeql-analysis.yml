@@ -40,7 +40,7 @@ jobs:
     #  uses: github/codeql-action/autobuild@v1
 
     # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 https://git.io/JvXDl
+    # �� https://git.io/JvXDl
 
     # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
     #    and modify them (or add more) to build your code if your project
@@ -49,6 +49,9 @@ jobs:
     #- run: |
     #   make bootstrap
     #   make release
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1
 
     - name: "Download and install sandcastle"
       run: |
@@ -64,41 +67,26 @@ jobs:
       shell: pwsh
       working-directory: .
 
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1
-
-    - name: Setup NuGet.exe
-      if: matrix.build_configuration == 'Release'
-      uses: nuget/setup-nuget@v1
-
-    - name: NuGet restore
-      working-directory: .
-      run: |
-           nuget restore MediaDevicesUnitTestFramework45\packages.config -PackagesDirectory packages
-           nuget restore MediaDevicesAppFramework45\packages.config -PackagesDirectory packages
-           nuget restore MediaDevicesAppFramework48\packages.config -PackagesDirectory packages
-           nuget restore MediaDevicesAppShare\packages.config -PackagesDirectory packages
-
-    - name: restore
-      working-directory: .
-      run: msbuild MediaDevices.sln /m /verbosity:minimal /t:restore /p:configuration="Release" /p:platform="Any CPU"
-
     - name: copy dummy key for signing
       working-directory: .
       run: |
-           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesFramework45\Bassman.snk
-           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore20\Bassman.snk
-           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore21\Bassman.snk
-           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore30\Bassman.snk
-           Copy-Item  appveyor_dummy.snk -Destination MediaDevicesCore31\Bassman.snk
-           Copy-Item  appveyor_dummy.snk -Destination MediaDevices50\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevices60\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevices50\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore31\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore21\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework45\Bassman.snk
+
+    - name: restore
+      working-directory: .
+      run: |
+           $env:SHFBROOT="C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\"
+           nuget restore MediaDevices.sln
 
     - name: MSBuild of solution
       working-directory: .
       run: |
            $env:SHFBROOT = "C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\"
-           msbuild MediaDevices.sln /m /verbosity:minimal /p:configuration="Release" /p:platform="Any CPU"
-
+           msbuild MediaDevices.sln /p:configuration="Release" /verbosity:minimal
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
