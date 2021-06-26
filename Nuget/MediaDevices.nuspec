@@ -16,18 +16,18 @@
     <repository type="Github" url="https://github.com/Bassman2/MediaDevices" />
     <tags>MTP WPD PortableDevice PortableDevices API phone tablet</tags>
     <dependencies>
-      <group targetFramework=".NET5.0-WINDOWS" />
+      <group targetFramework=".NET5.0" />
       <group targetFramework=".NETCoreApp3.1" />
       <group targetFramework=".NETCoreApp2.1" />
       <group targetFramework=".NETFramework4.5" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\MediaDevices50\bin\Release\net5.0\**" target="lib/net5.0-windows" />
-    <file src="..\MediaDevicesCore31\bin\Release\netcoreapp3.1\**" target="lib/netcoreapp3.1" />
-    <file src="..\MediaDevicesCore21\bin\Release\netcoreapp2.1\**" target="lib/netcoreapp2.1" />
-    <file src="..\MediaDevicesFramework45\bin\Release\**" target="lib/net45" />	
-    <file src="..\MediaDevicesDoc\Help\MediaDevices.chm" target="content" />
+    <file src="..\Src\MediaDevices50\bin\Release\net5.0\**" target="lib/net5.0" />
+    <file src="..\Src\MediaDevicesCore31\bin\Release\netcoreapp3.1\**" target="lib/netcoreapp3.1" />
+    <file src="..\Src\MediaDevicesCore21\bin\Release\netcoreapp2.1\**" target="lib/netcoreapp2.1" />
+    <file src="..\Src\MediaDevicesFramework45\bin\Release\**" target="lib/net45" />	
+    <file src="..\Doc\MediaDevicesDoc\Help\MediaDevices.chm" target="content" />
     <file src="MediaDevicesLicense.txt" target="content" />
   </files>
 </package>
