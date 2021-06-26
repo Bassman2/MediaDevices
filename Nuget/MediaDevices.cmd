@@ -1,1 +1,1 @@
-nuget pack MediaDevices.nuspec -properties Configuration=Release
+nuget pack MediaDevicesPreview.nuspec -properties Configuration=Release

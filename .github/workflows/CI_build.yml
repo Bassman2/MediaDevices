@@ -48,3 +48,7 @@ jobs:
 
     - name: MSBuild of solution
       run: msbuild MediaDevices.sln /p:configuration="${{ matrix.build_configuration }}" /m /verbosity:minimal
+
+    - name: Nuget pack nuspec
+      working-directory: .\Nuget\
+      run: nuget pack MediaDevices.nuspec -properties Configuration="${{ matrix.build_configuration }}"
