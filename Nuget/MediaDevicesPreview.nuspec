@@ -24,8 +24,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Src\MediaDevices60\bin\Release\net6.0\**" target="lib/net6.0" />
-    <file src="..\Src\MediaDevices50\bin\Release\net5.0\**" target="lib/net5.0" />
+    <file src="..\Src\MediaDevices60\bin\Release\net6.0-windows7.0\**" target="lib/net6.0" />
+    <file src="..\Src\MediaDevices50\bin\Release\net5.0-windows7.0\**" target="lib/net5.0" />
     <file src="..\Src\MediaDevicesCore31\bin\Release\netcoreapp3.1\**" target="lib/netcoreapp3.1" />
     <file src="..\Src\MediaDevicesCore21\bin\Release\netcoreapp2.1\**" target="lib/netcoreapp2.1" />
     <file src="..\Src\MediaDevicesFramework45\bin\Release\**" target="lib/net45" />	
