@@ -4,13 +4,13 @@ on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: windows-2019
     strategy:
       max-parallel: 2
       matrix:
         build_configuration: [Release, Debug]
-        build_platform: [Any CPU]
+    env:
+      SHFBROOT: C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\
         
     steps:
     - name: Checkout repo
@@ -19,7 +19,7 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1
 
-    - name: Setup NuGet.exe
+    - name: Setup NuGet
       uses: nuget/setup-nuget@v1
 
     - name: "Download and install sandcastle"
@@ -34,24 +34,17 @@ jobs:
            . "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2017AndLater.vsix
            Write-Host "Sandcastle installed" -ForegroundColor Green
       shell: pwsh
-      working-directory: .
 
-    - name: copy dummy key for signing
-      working-directory: .
+    - name: Copy dummy key for signing
       run: |
-           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework45\Bassman.snk
-           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore21\Bassman.snk
-           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore31\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevices60\Bassman.snk
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevices50\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore31\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore21\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework45\Bassman.snk
 
-    - name: restore
-      working-directory: .
-      run: |
-           $env:SHFBROOT = "C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\"
-           nuget restore MediaDevices.sln
+    - name: Nuget restore solution
+      run: nuget restore MediaDevices.sln
 
     - name: MSBuild of solution
-      working-directory: .
-      run: |
-           $env:SHFBROOT = "C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\"
-           msbuild MediaDevices.sln /p:configuration="${{ matrix.build_configuration }}" /verbosity:minimal
+      run: msbuild MediaDevices.sln /p:configuration="${{ matrix.build_configuration }}" /m /verbosity:minimal
