@@ -9,8 +9,6 @@ jobs:
       max-parallel: 2
       matrix:
         build_configuration: [Release, Debug]
-    env:
-      SHFBROOT: C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\
         
     steps:
     - name: Checkout repo
@@ -22,18 +20,10 @@ jobs:
     - name: Setup NuGet
       uses: nuget/setup-nuget@v1
 
-    - name: "Download and install sandcastle"
-      run: |
-           $url = "https://github.com/EWSoftware/SHFB/releases/download/v2021.4.9.0/SHFBInstaller_v2021.4.9.0.zip"
-           $output = "$env:GITHUB_WORKSPACE\SHFBInstaller_v2021.4.9.0.zip"
-           (New-Object System.Net.WebClient).DownloadFile($url, $output)
-           7z x -y SHFBInstaller_v2021.4.9.0.zip | Out-Null
-           Write-Host "Installing MSI..."
-           cmd /c start /wait msiexec /i InstallResources\SandcastleHelpFileBuilder.msi /quiet
-           Write-Host "Installing VSIX..."
-           . "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2017AndLater.vsix
-           Write-Host "Sandcastle installed" -ForegroundColor Green
-      shell: pwsh
+    - name: Install SHFB
+      uses: Bassman2/setup-SHFB@v1
+      with:
+        version: v2021.4.9.0
 
     - name: Copy dummy key for signing
       run: |
