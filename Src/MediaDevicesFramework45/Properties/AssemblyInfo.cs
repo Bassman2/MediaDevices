@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MediaDevices")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Media Devices is a API to interact with MTP (Media Transfer Protocol), PTP (Picture Transport Protocol) and MSC (Mass Storage Class) devices like cell phones, tablets and cameras.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Ralf Beckers")]
 [assembly: AssemblyProduct("MediaDevices")]
-[assembly: AssemblyCopyright("Copyright © 2016 - 2020 by Ralf Beckers")]
+[assembly: AssemblyCopyright("Copyright © 2016 - 2021 by Ralf Beckers")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

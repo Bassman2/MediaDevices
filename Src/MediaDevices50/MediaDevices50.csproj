@@ -10,11 +10,25 @@
     <AssemblyVersion>1.9.0.0</AssemblyVersion>
     <Version>1.9.0</Version>
     <Authors>Ralf Beckers</Authors>
-    <NeutralLanguage>aa</NeutralLanguage>
+    <Copyright>Copyright © 2016 - 2021 by Ralf Beckers</Copyright>
+    <Company>Ralf Beckers</Company>
+    <PackageId>MediaDevices</PackageId>
+    <Product>MediaDevices</Product>
+    <Description>Media Devices is a API to interact with MTP (Media Transfer Protocol), PTP (Picture Transport Protocol) and MSC (Mass Storage Class) devices like cell phones, tablets and cameras.</Description>
+    <PackageProjectUrl>https://github.com/Bassman2/MediaDevices</PackageProjectUrl>
+    <PackageIcon></PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/Bassman2/MediaDevices</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>MTP;WPD;Portable Device;Portable Devices API;phone;tablet</PackageTags>
+    <PackageReleaseNotes>Support for .Net 5.0 and 6.0</PackageReleaseNotes>
+    <FileVersion>1.9.0.0</FileVersion>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Projects\MediaDevices\Src\MediaDevices50\MediaDevices.xml</DocumentationFile>
+    <DocumentationFile>MediaDevices.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
