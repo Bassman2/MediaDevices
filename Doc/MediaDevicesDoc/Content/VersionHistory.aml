@@ -6,6 +6,17 @@
 		</introduction>
 
     <section>
+      <title>Version 1.9.1 was released on Sep. 24th, 2021.</title>
+      <content>
+        <list class="bullet">
+          <listItem>
+            <para>Add support for .net 4.0.</para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+    
+    <section>
       <title>Version 1.9 was released on Sep. 24th, 2021.</title>
       <content>
         <list class="bullet">

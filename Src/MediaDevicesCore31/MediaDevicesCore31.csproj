@@ -6,7 +6,7 @@
     <AssemblyName>MediaDevices</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
-    <Version>1.9.0</Version>
+    <Version>1.9.1</Version>
     <PackageId>MediaDevices</PackageId>
     <Company>Ralf Beckers</Company>
     <Authors>Ralf Beckers</Authors>

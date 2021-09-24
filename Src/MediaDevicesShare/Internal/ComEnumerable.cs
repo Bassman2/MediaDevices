@@ -58,7 +58,10 @@ namespace MediaDevices.Internal
         public static Guid Guid(this Enum e)
         {
             FieldInfo fi = e.GetType().GetField(e.ToString());
-            EnumGuidAttribute attribute = fi.GetCustomAttribute<EnumGuidAttribute>();
+
+            // changed for .net framework 4.0
+            // EnumGuidAttribute attribute = fi.GetCustomAttribute<EnumGuidAttribute>();
+            EnumGuidAttribute attribute = Attribute.GetCustomAttribute(fi, typeof(EnumGuidAttribute)) as EnumGuidAttribute;
             return attribute.Guid;
         }
 
@@ -104,7 +107,9 @@ namespace MediaDevices.Internal
         {
             T en = Enum.GetValues(typeof(T)).Cast<T>().Where(e =>
             {
-                EnumGuidAttribute ea = e.GetType().GetField(e.ToString()).GetCustomAttribute<EnumGuidAttribute>();
+                // changed for .net framework 4.0
+                // EnumGuidAttribute ea = e.GetType().GetField(e.ToString()).GetCustomAttribute<EnumGuidAttribute>();
+                EnumGuidAttribute ea = Attribute.GetCustomAttribute(e.GetType().GetField(e.ToString()), typeof(EnumGuidAttribute)) as EnumGuidAttribute;
                 return ea.Guid == guid;
             }).FirstOrDefault();
             return en;
@@ -115,7 +120,9 @@ namespace MediaDevices.Internal
         {
             T en = Enum.GetValues(typeof(T)).Cast<T>().Where(e =>
             {
-                KeyAttribute attr = e.GetType().GetField(e.ToString()).GetCustomAttribute<KeyAttribute>();
+                // changed for .net framework 4.0
+                // KeyAttribute attr = e.GetType().GetField(e.ToString()).GetCustomAttribute<KeyAttribute>();
+                KeyAttribute attr = Attribute.GetCustomAttribute(e.GetType().GetField(e.ToString()), typeof(KeyAttribute)) as KeyAttribute;
                 return attr.PropertyKey == key;
             }).FirstOrDefault();
             if (en.Equals(default(T)))
@@ -130,7 +137,9 @@ namespace MediaDevices.Internal
         {
             T en = Enum.GetValues(typeof(T)).Cast<T>().Where(e =>
             {
-                return e.GetType().GetField(e.ToString()).GetCustomAttribute<EnumGuidAttribute>().Guid == guid;
+                // changed for .net framework 4.0
+                // return e.GetType().GetField(e.ToString()).GetCustomAttribute<EnumGuidAttribute>().Guid == guid;
+                return (Attribute.GetCustomAttribute(e.GetType().GetField(e.ToString()), typeof(EnumGuidAttribute)) as EnumGuidAttribute).Guid == guid;
             }).FirstOrDefault();
             if (en.Equals(default(T)))
             {
