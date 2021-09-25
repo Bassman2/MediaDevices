@@ -75,6 +75,7 @@ jobs:
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore31\Bassman.snk
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore21\Bassman.snk
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework45\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework40\Bassman.snk
 
     - name: restore
       working-directory: .
