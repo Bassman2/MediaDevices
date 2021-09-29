@@ -52,12 +52,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\MediaDevicesFramework45\MediaDevicesFramework45.csproj">
-      <Project>{13f50c1b-2abb-4320-a726-e2ce8cb45940}</Project>
-      <Name>MediaDevicesFramework45</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems" Label="Shared" />
