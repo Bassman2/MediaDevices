@@ -81,11 +81,11 @@ jobs:
 
     - name: restore
       working-directory: .
-      run: nuget restore MediaDevices.sln
+      run: nuget restore MediaDevices19.sln
 
     - name: MSBuild of solution
       working-directory: .
-      run: msbuild MediaDevices.sln /p:configuration="Release" /verbosity:minimal
+      run: msbuild MediaDevices19.sln /p:configuration="Release" /verbosity:minimal
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1

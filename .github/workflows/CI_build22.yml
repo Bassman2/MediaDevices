@@ -39,7 +39,7 @@ jobs:
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework40\Bassman.snk
 
     - name: Nuget restore solution
-      run: nuget restore MediaDevices.sln
+      run: nuget restore MediaDevices22.sln
 
     - name: MSBuild of solution
-      run: msbuild MediaDevices.sln /p:configuration="${{ matrix.build_configuration }}" /m /verbosity:minimal
+      run: msbuild MediaDevices22.sln /p:configuration="${{ matrix.build_configuration }}" /m /verbosity:minimal

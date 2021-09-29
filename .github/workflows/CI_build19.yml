@@ -9,8 +9,6 @@ jobs:
       max-parallel: 2
       matrix:
         build_configuration: [Release, Debug]
-    env:
-      SHFBROOT: C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\
       
     steps:
     - name: Checkout repo
@@ -37,7 +35,7 @@ jobs:
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework40\Bassman.snk
 
     - name: Nuget restore solution
-      run: nuget restore MediaDevices.sln
+      run: nuget restore MediaDevices19.sln
 
     - name: MSBuild of solution
-      run: msbuild MediaDevices.sln /p:configuration="${{ matrix.build_configuration }}" /m /verbosity:minimal
+      run: msbuild MediaDevices19.sln /p:configuration="${{ matrix.build_configuration }}" /m /verbosity:minimal

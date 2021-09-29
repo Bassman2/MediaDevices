@@ -68,10 +68,10 @@ jobs:
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework40\Bassman.snk
 
     - name: restore
-      run: nuget restore MediaDevices.sln
+      run: nuget restore MediaDevices22.sln
 
     - name: MSBuild of solution
-      run: msbuild MediaDevices.sln /p:configuration="Release" /verbosity:minimal
+      run: msbuild MediaDevices22.sln /p:configuration="Release" /verbosity:minimal
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
