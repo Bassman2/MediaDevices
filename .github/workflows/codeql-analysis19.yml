@@ -1,4 +1,4 @@
-name: "CodeQL"
+name: CodeQL 2019
 
 on:
   push:
@@ -12,7 +12,9 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: windows-latest
+    runs-on: windows-2019
+    env:
+      SHFBROOT: C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\
 
     steps:
     - name: Checkout repository
@@ -79,15 +81,11 @@ jobs:
 
     - name: restore
       working-directory: .
-      run: |
-           $env:SHFBROOT="C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\"
-           nuget restore MediaDevices.sln
+      run: nuget restore MediaDevices.sln
 
     - name: MSBuild of solution
       working-directory: .
-      run: |
-           $env:SHFBROOT = "C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\"
-           msbuild MediaDevices.sln /p:configuration="Release" /verbosity:minimal
+      run: msbuild MediaDevices.sln /p:configuration="Release" /verbosity:minimal
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1

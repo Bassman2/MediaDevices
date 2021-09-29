@@ -1,0 +1,45 @@
+name: Continuous Integration 2022
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-2022
+    strategy:
+      max-parallel: 2
+      matrix:
+        build_configuration: [Release, Debug]
+        
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Add msbuild to PATH
+      run: echo "C:\Program Files\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      shell: pwsh
+
+#   - name: Add msbuild to PATH
+#     uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v1
+
+#   - name: Install SHFB
+#     uses: Bassman2/setup-SHFB@v1
+#     with:
+#       version: v2021.4.9.0
+
+    - name: Copy dummy key for signing
+      run: |
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevices60\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevices50\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore31\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore21\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework45\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework40\Bassman.snk
+
+    - name: Nuget restore solution
+      run: nuget restore MediaDevices.sln
+
+    - name: MSBuild of solution
+      run: msbuild MediaDevices.sln /p:configuration="${{ matrix.build_configuration }}" /m /verbosity:minimal
