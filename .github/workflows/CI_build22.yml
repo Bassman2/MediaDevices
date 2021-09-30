@@ -18,10 +18,10 @@ jobs:
 #      run: echo "C:\Program Files\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 #      shell: pwsh
 
-   - name: Add msbuild to PATH
-     uses: microsoft/setup-msbuild@v1.0.3
-     with:
-       vs-prerelease: true 
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.3
+      with:
+        vs-prerelease: true 
 
     - name: Setup NuGet
       uses: nuget/setup-nuget@v1
