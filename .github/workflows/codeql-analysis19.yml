@@ -7,7 +7,7 @@ on:
     # The branches below must be a subset of the branches above
     branches: [master]
   schedule:
-    - cron: '0 23 * * 6'
+    - cron: '0 23 * * 5'
 
 jobs:
   analyze:
@@ -19,13 +19,11 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        # We must fetch at least the immediate parents so that if this is
-        # a pull request then we can checkout the head.
-        fetch-depth: 2
+#      with:
+#        fetch-depth: 2
     
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v1.0.15
 
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.3
@@ -42,10 +40,8 @@ jobs:
            . "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2017AndLater.vsix
            Write-Host "Sandcastle installed" -ForegroundColor Green
       shell: pwsh
-      working-directory: .
 
     - name: copy dummy key for signing
-      working-directory: .
       run: |
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevices60\Bassman.snk
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevices50\Bassman.snk
@@ -55,12 +51,10 @@ jobs:
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework40\Bassman.snk
 
     - name: restore
-      working-directory: .
       run: nuget restore MediaDevices19.sln
 
     - name: MSBuild of solution
-      working-directory: .
       run: msbuild MediaDevices19.sln /p:configuration="Release" /verbosity:minimal
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@v1.0.15
