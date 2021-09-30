@@ -54,6 +54,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Src\MediaDevicesFramework45\MediaDevicesFramework45.csproj">
+      <Project>{13f50c1b-2abb-4320-a726-e2ce8cb45940}</Project>
+      <Name>MediaDevicesFramework45</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems" Label="Shared" />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
