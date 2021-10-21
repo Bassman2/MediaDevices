@@ -184,7 +184,7 @@ namespace MediaDevices.Internal
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(ex.ToString());
+                //Trace.WriteLine(ex.ToString());
             }
             return 0;
         }
