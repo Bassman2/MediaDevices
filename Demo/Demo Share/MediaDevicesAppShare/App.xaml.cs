@@ -13,7 +13,9 @@ namespace MediaDeviceApp
     /// </summary>
     public partial class App : Application
     {
+#if !NETCOREAPP
         [HandleProcessCorruptedStateExceptions]
+#endif
         [SecurityCritical]
         private void OnApplicationStartup(object sender, StartupEventArgs e)
         {

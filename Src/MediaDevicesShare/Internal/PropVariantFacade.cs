@@ -230,7 +230,9 @@ namespace MediaDevices.Internal
             return (Guid)Marshal.PtrToStructure(this.Value.ptrVal, typeof(Guid));
         }
 
+#if !NETCOREAPP
         [HandleProcessCorruptedStateExceptions]
+#endif
         [SecurityCritical]
         public byte[] ToByteArray()
         {

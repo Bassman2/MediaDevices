@@ -73,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplorerFramework45", "Demo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesAppFramework45", "Demo\Demo .NET Framework 4.5\MediaDevicesAppFramework45\MediaDevicesAppFramework45.csproj", "{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesUnitTestFramework48", "Test\MediaDevicesUnitTestFramework48\MediaDevicesUnitTestFramework48.csproj", "{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{06026362-283d-4fe0-b077-67f5882080f5}*SharedItemsImports = 5
@@ -97,6 +99,7 @@ Global
 		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{c30eb5ab-6dcf-4537-aaf9-5b8a5e425c15}*SharedItemsImports = 13
 		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{d2baa763-b535-4df3-9a53-866347aa6d34}*SharedItemsImports = 5
 		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{d78818cc-4860-4071-aeb8-071167687b40}*SharedItemsImports = 5
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{df42db56-0e79-4a44-abc4-ccb147f9c55d}*SharedItemsImports = 4
 		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{e07f1aae-b9ea-4a87-ac61-d5b71b7c3042}*SharedItemsImports = 13
 		Src\MediaDevicesShare\MediaDevicesShare.projitems*{f17a64cb-92ab-434e-b03d-a5ca95a3a9df}*SharedItemsImports = 5
 		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{f37414ef-44a7-4d50-82cf-a56a9a23d5de}*SharedItemsImports = 4
@@ -362,6 +365,18 @@ Global
 		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|x64.Build.0 = Release|Any CPU
 		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|x86.ActiveCfg = Release|Any CPU
 		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6}.Release|x86.Build.0 = Release|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Debug|x64.Build.0 = Debug|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Debug|x86.Build.0 = Debug|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Release|x64.ActiveCfg = Release|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Release|x64.Build.0 = Release|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Release|x86.ActiveCfg = Release|Any CPU
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -398,6 +413,7 @@ Global
 		{9CD6FE05-BE16-4F6D-A5F3-A1E0EA866F29} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
 		{F37414EF-44A7-4D50-82CF-A56A9A23D5DE} = {9CD6FE05-BE16-4F6D-A5F3-A1E0EA866F29}
 		{5A9B9D55-CC27-4806-8769-3E74CD13B5E6} = {9CD6FE05-BE16-4F6D-A5F3-A1E0EA866F29}
+		{DF42DB56-0E79-4A44-ABC4-CCB147F9C55D} = {02F542E8-E2BD-4070-812E-646CA9219E52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4FF47020-DA8D-4683-8E5E-813E06A746AD}
