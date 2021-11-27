@@ -53,7 +53,7 @@ namespace MediaDevices.Internal
         {
             get
             {
-                return true;
+                return false;
             }
         }
 
@@ -76,29 +76,6 @@ namespace MediaDevices.Internal
             {
                 CheckDisposed();
                 return (long)this.size;
-
-                //try
-                //{
-                //    this.stream.Stat(out STATSTG stat, 1); //STATFLAG_NONAME
-                //}
-                //catch (Exception ex)
-                //{
-                //    Trace.WriteLine(ex.ToString());
-                //}
-
-                ////return stat.cbSize;
-
-                //try
-                //{
-                //    this.stream.Seek(0, 2, this.pLength); // 2 = STREAM_SEEK_END
-                //    long length = Marshal.ReadInt64(this.pLength);
-                //    return length;
-                //}
-                //catch (Exception ex)
-                //{
-                //    Trace.WriteLine(ex.ToString());
-                //}
-                //return 0;
             }
         }
 
@@ -151,42 +128,7 @@ namespace MediaDevices.Internal
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            CheckDisposed();
-
-            int dwOrigin;
-
-#pragma warning disable IDE0079 // Remove unnecessary suppression
-#pragma warning disable IDE0066 // Convert switch statement to expression
-            switch (origin)
-#pragma warning restore IDE0066 // Convert switch statement to expression
-#pragma warning restore IDE0079 // Remove unnecessary suppression
-            {
-            case SeekOrigin.Begin:
-                dwOrigin = 0;   // STREAM_SEEK_SET
-                break;
-
-            case SeekOrigin.Current:
-                dwOrigin = 1;   // STREAM_SEEK_CUR
-                break;
-
-            case SeekOrigin.End:
-                dwOrigin = 2;   // STREAM_SEEK_END
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException(nameof(origin));
-            }
-
-            try
-            {
-                this.stream.Seek(offset, dwOrigin, this.pLength);
-                return Marshal.ReadInt64(this.pLength);
-            }
-            catch (Exception ex)
-            {
-                //Trace.WriteLine(ex.ToString());
-            }
-            return 0;
+            throw new NotImplementedException("Seek not implemented");
         }
 
         public override void SetLength(long value)

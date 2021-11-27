@@ -14,7 +14,7 @@ namespace MediaDevicesUnitTest
             this.deviceDescription = "A300";
             this.deviceFriendlyName = "A300";
             this.deviceManufacture = "NIKON";
-            this.deviceFirmwareVersion = "COOLPIX A300 V1.2";
+            this.deviceFirmwareVersion = "COOLPIX A300 V1.4";
             this.deviceModel = "A300";
             this.deviceSerialNumber = "";
             this.deviceDeviceType = DeviceType.Camera;
