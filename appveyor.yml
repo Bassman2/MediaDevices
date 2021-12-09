@@ -1,5 +1,5 @@
 version: 1.9.{build}
-image: Visual Studio 2019 Preview
+image: Visual Studio 2022
 
 
 platform:
@@ -11,9 +11,9 @@ configuration:
 
 install:
     - ps: >-
-        Start-FileDownload 'https://github.com/EWSoftware/SHFB/releases/download/v2021.4.9.0/SHFBInstaller_v2021.4.9.0.zip'
+        Start-FileDownload 'https://github.com/EWSoftware/SHFB/releases/download/v2021.11.7.0/SHFBInstaller_v2021.11.7.0.zip'
 
-        7z x -y SHFBInstaller_v2021.4.9.0.zip | Out-Null
+        7z x -y SHFBInstaller_v2021.11.7.0.zip | Out-Null
 
         Write-Host "Installing MSI..."
 
@@ -21,28 +21,26 @@ install:
 
         Write-Host "Installing VSIX..."
 
-        . "C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2017AndLater.vsix
+        . "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VSIXInstaller.exe" /q /a InstallResources\SHFBVisualStudioPackage_VS2022AndLater.vsix
 
         Write-Host "Sandcastle installed" -ForegroundColor Green
 
     - set SHFBROOT=C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\
 
-    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevices.sln
-    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevicesPreview.sln
+    - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevices22.sln
 
     - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevices60\Bassman.snk
     - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevices50\Bassman.snk
     - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevicesCore31\Bassman.snk
     - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevicesCore21\Bassman.snk
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevicesFramework48\Bassman.snk
     - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevicesFramework45\Bassman.snk
     - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevicesFramework40\Bassman.snk
 
 build_script:
     - cd "%APPVEYOR_BUILD_FOLDER%"
-    - msbuild MediaDevices.sln /m /verbosity:minimal /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-    - msbuild MediaDevicesPreview.sln /m /verbosity:minimal /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - msbuild MediaDevices22.sln /m /verbosity:minimal /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
     - cd "%APPVEYOR_BUILD_FOLDER%"\Nuget
-    - if "%configuration%"=="Release" nuget pack MediaDevices.nuspec -properties Configuration=Release
-    - if "%configuration%"=="Release" nuget pack MediaDevicesPreview.nuspec -properties Configuration=Release
+    - if "%configuration%"=="Release" nuget pack MediaDevices22.nuspec -properties Configuration=Release
 
