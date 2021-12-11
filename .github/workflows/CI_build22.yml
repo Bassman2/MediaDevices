@@ -25,7 +25,7 @@ jobs:
 #   - name: Install SHFB
 #     uses: Bassman2/setup-SHFB@v1
 #     with:
-#       version: v2021.4.9.0
+#       version: v2021.11.7.0
 
     - name: Copy dummy key for signing
       run: |
@@ -33,6 +33,7 @@ jobs:
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevices50\Bassman.snk
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore31\Bassman.snk
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore21\Bassman.snk
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework48\Bassman.snk
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework45\Bassman.snk
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesFramework40\Bassman.snk
 
