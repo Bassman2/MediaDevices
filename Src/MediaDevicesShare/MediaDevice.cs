@@ -697,7 +697,7 @@ namespace MediaDevices
             // set open device parameters
             var clientInfo = (IPortableDeviceValues)new PortableDeviceValues();
             clientInfo.SetStringValue(ref WPD.CLIENT_NAME, appName);
-
+            clientInfo.SetStringValue(ref WPD.CLIENT_EVENT_COOKIE, "{35786D3C-B075-49B9-88DD-029876E11C01}");
             clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_MAJOR_VERSION, 1);
             clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_MINOR_VERSION, 0);
             clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_REVISION, 0);
