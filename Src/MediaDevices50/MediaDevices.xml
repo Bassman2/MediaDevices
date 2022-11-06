@@ -1322,12 +1322,13 @@
             </summary>
             <exception cref="T:MediaDevices.NotConnectedException">device is not connected.</exception>
         </member>
-        <member name="M:MediaDevices.MediaDevice.Connect(MediaDevices.MediaDeviceAccess,MediaDevices.MediaDeviceShare)">
+        <member name="M:MediaDevices.MediaDevice.Connect(MediaDevices.MediaDeviceAccess,MediaDevices.MediaDeviceShare,System.Boolean)">
             <summary>
             Connect to the portable device.
             </summary>
             <param name="access">Specifies the desired access the client is requesting to this device.</param>
             <param name="share">Specifies the share mode the client is requesting to this device.</param>
+            <param name="enableCache">Enable or disable file list cache. Disabled cache is used by Explorer for a better performance.</param>
         </member>
         <member name="M:MediaDevices.MediaDevice.Disconnect">
             <summary>

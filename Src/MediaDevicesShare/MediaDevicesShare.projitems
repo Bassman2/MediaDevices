@@ -69,6 +69,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Security.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\SmsMessageType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\StreamWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.CLSID.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.ServiceProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.cs" />

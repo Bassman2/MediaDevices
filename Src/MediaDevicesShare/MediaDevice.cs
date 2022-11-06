@@ -684,7 +684,8 @@ namespace MediaDevices
         /// </summary>
         /// <param name="access">Specifies the desired access the client is requesting to this device.</param>
         /// <param name="share">Specifies the share mode the client is requesting to this device.</param>
-        public void Connect(MediaDeviceAccess access = MediaDeviceAccess.Default, MediaDeviceShare share = MediaDeviceShare.Default)
+        /// <param name="enableCache">Enable or disable file list cache. Disabled cache is used by Explorer for a better performance.</param>
+        public void Connect(MediaDeviceAccess access = MediaDeviceAccess.Default, MediaDeviceShare share = MediaDeviceShare.Default, bool enableCache = false)
         {
             if (this.IsConnected)
             {
@@ -705,6 +706,7 @@ namespace MediaDevices
             // need to restrict its identity, specify SECURITY_IMPERSONATION so that we work with all devices.
             clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_SECURITY_QUALITY_OF_SERVICE, (uint)Security.IMPERSONATION);
 
+            
             if (access != MediaDeviceAccess.Default)
             {
                 clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_DESIRED_ACCESS, (uint)access);
@@ -712,6 +714,14 @@ namespace MediaDevices
             if (share != MediaDeviceShare.Default)
             {
                 clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_SHARE_MODE, (uint)share);
+            }
+            if (enableCache == false)
+            {
+                // disable file list cache
+                clientInfo.SetGuidValue(ref WPD.CLIENT_EVENT_COOKIE, ref WPD.CLSID_PORTABLE_DEVICES);
+
+                //clientInfo.SetStringValue(ref WPD.CLIENT_EVENT_COOKIE, "{35786D3C-B075-49B9-88DD-029876E11C01}");
+
             }
 
             // open device

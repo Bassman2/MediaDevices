@@ -462,5 +462,40 @@ namespace MediaDevicesUnitTest
             Assert.IsFalse(exists2, "exists2");
             //Assert.IsFalse(exists3, "exists3");
         }
+
+        [TestMethod]
+        [Description("Upload a unix file namne to the target.")]
+        public void UploadUnixFileNameTest()
+        {
+            string workingUnixFolder = Path.Combine(this.workingFolder, "UnixTest");
+
+            var devices = MediaDevice.GetDevices();
+            var device = devices.FirstOrDefault(this.deviceSelect);
+            Assert.IsNotNull(device, "Device");
+            device.Connect();
+
+            string sourceFile = Path.Combine(testDataFolder, "TestFile.txt");
+            string destFile = Path.Combine(workingUnixFolder, @"Test:File.txt");
+
+            var exists1 = device.FileExists(destFile);
+            if (exists1)
+            {
+                device.DeleteFile(destFile);
+            }
+
+            device.UploadFile(sourceFile, destFile);
+
+            var exists = device.FileExists(destFile);
+
+
+            var files = device.GetFiles(workingUnixFolder);
+
+            device.DeleteFile(destFile);
+
+            device.Disconnect();
+
+            Assert.IsTrue(exists, "exists");
+
+        }
     }
 }

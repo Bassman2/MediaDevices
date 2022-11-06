@@ -21,7 +21,7 @@ namespace MediaDevicesUnitTest
             this.deviceDescription = "SM-A405FN";
             this.deviceFriendlyName = "A40 von Ralf";
             this.deviceManufacture = "Samsung Electronics Co., Ltd.";
-            this.deviceFirmwareVersion = "A405FNXXU4CUJ2";
+            this.deviceFirmwareVersion = "A405FNXXU4CUL2";
             this.deviceModel = "SM-A405FN";
             this.deviceSerialNumber = "R58M81NACKB";
             this.deviceDeviceType = DeviceType.MediaPlayer;

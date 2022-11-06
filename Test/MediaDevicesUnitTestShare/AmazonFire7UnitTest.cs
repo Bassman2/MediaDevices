@@ -11,7 +11,7 @@ namespace MediaDevicesUnitTest
         public AmazonFire7UnitTest() 
         {
             // Device Test
-            this.deviceDescription = "Fire";
+            this.deviceDescription = "Fire"; // "MTP-USB-Gerät"; // ;
             this.deviceFriendlyName = "Ralf's Fire 7";
             this.deviceManufacture = "Amazon";
             this.deviceFirmwareVersion = "1.0";
