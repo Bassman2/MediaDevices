@@ -88,37 +88,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplorerFramework48", "Demo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesAppFramework48", "Demo\Demo .NET Framework 4.8\MediaDevicesAppFramework48\MediaDevicesAppFramework48.csproj", "{EBF549FE-2FCA-40E9-8CEC-D2D794515553}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevices70", "Src\MediaDevices70\MediaDevices70.csproj", "{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTest70", "Test\MediaDevicesUnitTest70\MediaDevicesUnitTest70.csproj", "{C0C7F4E4-346C-486D-A099-D312AFE5F84D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo .NET 7.0", "Demo .NET 7.0", "{86826C8D-2374-4EE0-80BC-2FFF3C471F44}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Explorer70", "Demo\Demo .NET 7.0\Explorer70\Explorer70.csproj", "{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesApp70", "Demo\Demo .NET 7.0\MediaDevicesApp70\MediaDevicesApp70.csproj", "{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{06026362-283d-4fe0-b077-67f5882080f5}*SharedItemsImports = 5
-		Src\MediaDevicesShare\MediaDevicesShare.projitems*{088844c9-c8de-45a6-87ce-ec2af3e0651f}*SharedItemsImports = 5
-		Src\MediaDevicesShare\MediaDevicesShare.projitems*{13f50c1b-2abb-4320-a726-e2ce8cb45940}*SharedItemsImports = 4
-		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{18ba46a9-2518-44ca-b1b9-2f44e2e42e41}*SharedItemsImports = 4
-		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{1c7c38cd-cfe3-4841-95a2-73ba10dcdb68}*SharedItemsImports = 5
-		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{3932248e-fb4c-49f9-bc89-b8103e3ed42f}*SharedItemsImports = 4
-		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{3e568355-4b11-4725-8646-8485ebb0348a}*SharedItemsImports = 5
-		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{5a9b9d55-cc27-4806-8769-3e74cd13b5e6}*SharedItemsImports = 4
-		Src\MediaDevicesShare\MediaDevicesShare.projitems*{6004fb9f-b22e-423e-b3c7-cafd3bd5dabb}*SharedItemsImports = 4
-		Src\MediaDevicesShare\MediaDevicesShare.projitems*{6c4b35d8-b492-4bc0-8531-39f1d105b120}*SharedItemsImports = 4
-		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{70b950d6-fea6-4b12-8a99-b594cf1576e3}*SharedItemsImports = 5
-		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{7208a4a3-1ba6-419f-878a-4f4724102d1a}*SharedItemsImports = 5
-		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{7838cef5-ba9b-47b4-8eb1-98f0bccab6b9}*SharedItemsImports = 4
-		Src\MediaDevicesShare\MediaDevicesShare.projitems*{80839f34-a394-4059-af98-a58d1e20f0f8}*SharedItemsImports = 5
-		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{86e3b9c8-cff8-4f91-8ffd-7ca48fe08142}*SharedItemsImports = 5
-		Src\MediaDevicesShare\MediaDevicesShare.projitems*{8c6734b5-5bbb-413e-a5f2-fc7e6aaffce7}*SharedItemsImports = 13
-		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{a3924547-e9b3-4a13-9272-4145938eab18}*SharedItemsImports = 5
-		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{bfac062b-2224-48af-b45e-158f8d21927f}*SharedItemsImports = 13
-		Src\MediaDevicesShare\MediaDevicesShare.projitems*{bfd71cda-1494-4f58-a482-43fa255fe227}*SharedItemsImports = 5
-		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{c23a9b66-aa03-43a3-8d98-c111d92758cb}*SharedItemsImports = 5
-		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{c30eb5ab-6dcf-4537-aaf9-5b8a5e425c15}*SharedItemsImports = 13
-		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{d2baa763-b535-4df3-9a53-866347aa6d34}*SharedItemsImports = 5
-		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{d78818cc-4860-4071-aeb8-071167687b40}*SharedItemsImports = 5
-		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{df42db56-0e79-4a44-abc4-ccb147f9c55d}*SharedItemsImports = 4
-		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{e07f1aae-b9ea-4a87-ac61-d5b71b7c3042}*SharedItemsImports = 13
-		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{ebf549fe-2fca-40e9-8cec-d2d794515553}*SharedItemsImports = 4
-		Src\MediaDevicesShare\MediaDevicesShare.projitems*{f17a64cb-92ab-434e-b03d-a5ca95a3a9df}*SharedItemsImports = 5
-		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{f37414ef-44a7-4d50-82cf-a56a9a23d5de}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -428,6 +408,54 @@ Global
 		{EBF549FE-2FCA-40E9-8CEC-D2D794515553}.Release|x64.Build.0 = Release|Any CPU
 		{EBF549FE-2FCA-40E9-8CEC-D2D794515553}.Release|x86.ActiveCfg = Release|Any CPU
 		{EBF549FE-2FCA-40E9-8CEC-D2D794515553}.Release|x86.Build.0 = Release|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Debug|x64.Build.0 = Debug|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Debug|x86.Build.0 = Debug|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Release|x64.ActiveCfg = Release|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Release|x64.Build.0 = Release|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Release|x86.ActiveCfg = Release|Any CPU
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8}.Release|x86.Build.0 = Release|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Debug|x64.Build.0 = Debug|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Debug|x86.Build.0 = Debug|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Release|x64.ActiveCfg = Release|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Release|x64.Build.0 = Release|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Release|x86.ActiveCfg = Release|Any CPU
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D}.Release|x86.Build.0 = Release|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Debug|x64.Build.0 = Debug|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Debug|x86.Build.0 = Debug|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Release|x64.ActiveCfg = Release|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Release|x64.Build.0 = Release|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Release|x86.ActiveCfg = Release|Any CPU
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9}.Release|x86.Build.0 = Release|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Debug|x64.Build.0 = Debug|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Debug|x86.Build.0 = Debug|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Release|x64.ActiveCfg = Release|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Release|x64.Build.0 = Release|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Release|x86.ActiveCfg = Release|Any CPU
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -470,8 +498,47 @@ Global
 		{0562FC63-146C-4787-913B-E2CDAAB6A93D} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
 		{18BA46A9-2518-44CA-B1B9-2F44E2E42E41} = {0562FC63-146C-4787-913B-E2CDAAB6A93D}
 		{EBF549FE-2FCA-40E9-8CEC-D2D794515553} = {0562FC63-146C-4787-913B-E2CDAAB6A93D}
+		{0D5A6FC7-26EF-430E-9390-F9A02E0475D8} = {12682F58-306A-4F67-8850-BF67BDA26D46}
+		{C0C7F4E4-346C-486D-A099-D312AFE5F84D} = {02F542E8-E2BD-4070-812E-646CA9219E52}
+		{86826C8D-2374-4EE0-80BC-2FFF3C471F44} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
+		{217CCD21-CAB8-4EA2-9AD2-173508A50EB9} = {86826C8D-2374-4EE0-80BC-2FFF3C471F44}
+		{9EF2656F-CEBB-40B9-9DFA-D9279E7BC65B} = {86826C8D-2374-4EE0-80BC-2FFF3C471F44}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4FF47020-DA8D-4683-8E5E-813E06A746AD}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{06026362-283d-4fe0-b077-67f5882080f5}*SharedItemsImports = 5
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{088844c9-c8de-45a6-87ce-ec2af3e0651f}*SharedItemsImports = 5
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{0d5a6fc7-26ef-430e-9390-f9a02e0475d8}*SharedItemsImports = 5
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{13f50c1b-2abb-4320-a726-e2ce8cb45940}*SharedItemsImports = 4
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{18ba46a9-2518-44ca-b1b9-2f44e2e42e41}*SharedItemsImports = 4
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{1c7c38cd-cfe3-4841-95a2-73ba10dcdb68}*SharedItemsImports = 5
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{217ccd21-cab8-4ea2-9ad2-173508a50eb9}*SharedItemsImports = 5
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{3932248e-fb4c-49f9-bc89-b8103e3ed42f}*SharedItemsImports = 4
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{3e568355-4b11-4725-8646-8485ebb0348a}*SharedItemsImports = 5
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{5a9b9d55-cc27-4806-8769-3e74cd13b5e6}*SharedItemsImports = 4
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{6004fb9f-b22e-423e-b3c7-cafd3bd5dabb}*SharedItemsImports = 4
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{6c4b35d8-b492-4bc0-8531-39f1d105b120}*SharedItemsImports = 4
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{70b950d6-fea6-4b12-8a99-b594cf1576e3}*SharedItemsImports = 5
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{7208a4a3-1ba6-419f-878a-4f4724102d1a}*SharedItemsImports = 5
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{7838cef5-ba9b-47b4-8eb1-98f0bccab6b9}*SharedItemsImports = 4
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{80839f34-a394-4059-af98-a58d1e20f0f8}*SharedItemsImports = 5
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{86e3b9c8-cff8-4f91-8ffd-7ca48fe08142}*SharedItemsImports = 5
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{8c6734b5-5bbb-413e-a5f2-fc7e6aaffce7}*SharedItemsImports = 13
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{9ef2656f-cebb-40b9-9dfa-d9279e7bc65b}*SharedItemsImports = 5
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{a3924547-e9b3-4a13-9272-4145938eab18}*SharedItemsImports = 5
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{bfac062b-2224-48af-b45e-158f8d21927f}*SharedItemsImports = 13
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{bfd71cda-1494-4f58-a482-43fa255fe227}*SharedItemsImports = 5
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{c0c7f4e4-346c-486d-a099-d312afe5f84d}*SharedItemsImports = 5
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{c23a9b66-aa03-43a3-8d98-c111d92758cb}*SharedItemsImports = 5
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{c30eb5ab-6dcf-4537-aaf9-5b8a5e425c15}*SharedItemsImports = 13
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{d2baa763-b535-4df3-9a53-866347aa6d34}*SharedItemsImports = 5
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{d78818cc-4860-4071-aeb8-071167687b40}*SharedItemsImports = 5
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{df42db56-0e79-4a44-abc4-ccb147f9c55d}*SharedItemsImports = 4
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{e07f1aae-b9ea-4a87-ac61-d5b71b7c3042}*SharedItemsImports = 13
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{ebf549fe-2fca-40e9-8cec-d2d794515553}*SharedItemsImports = 4
+		Src\MediaDevicesShare\MediaDevicesShare.projitems*{f17a64cb-92ab-434e-b03d-a5ca95a3a9df}*SharedItemsImports = 5
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{f37414ef-44a7-4d50-82cf-a56a9a23d5de}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal

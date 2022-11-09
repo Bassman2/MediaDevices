@@ -29,6 +29,7 @@ jobs:
 
     - name: Copy dummy key for signing
       run: |
+           Copy-Item  DummySignKey.snk -Destination Src\MediaDevices70\Bassman.snk
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevices60\Bassman.snk
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevices50\Bassman.snk
            Copy-Item  DummySignKey.snk -Destination Src\MediaDevicesCore31\Bassman.snk

@@ -29,6 +29,7 @@ install:
 
     - nuget restore "%APPVEYOR_BUILD_FOLDER%"\MediaDevices22.sln
 
+    - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevices70\Bassman.snk
     - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevices60\Bassman.snk
     - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevices50\Bassman.snk
     - copy /y "%APPVEYOR_BUILD_FOLDER%"\DummySignKey.snk "%APPVEYOR_BUILD_FOLDER%"\Src\MediaDevicesCore31\Bassman.snk

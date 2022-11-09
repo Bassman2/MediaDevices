@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>MediaDevicesApp</AssemblyName>
+    <RootNamespace>MediaDevicesApp</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\..\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <PackageReference Include="WpfUsbMonitor" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Src\MediaDevices70\MediaDevices70.csproj" />
+    <ProjectReference Include="..\Explorer70\Explorer70.csproj" />
+  </ItemGroup>
+
+</Project>
