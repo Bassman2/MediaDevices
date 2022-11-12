@@ -21,6 +21,7 @@
       <group targetFramework=".NET5.0" />
       <group targetFramework=".NETCoreApp3.1" />
       <group targetFramework=".NETCoreApp2.1" />
+      <group targetFramework=".NETFramework4.8" />
       <group targetFramework=".NETFramework4.5" />
       <group targetFramework=".NETFramework4.0" />
     </dependencies>
@@ -31,6 +32,7 @@
     <file src="..\Src\MediaDevices50\bin\Release\net5.0-windows7.0\**" target="lib/net5.0" />
     <file src="..\Src\MediaDevicesCore31\bin\Release\netcoreapp3.1\**" target="lib/netcoreapp3.1" />
     <file src="..\Src\MediaDevicesCore21\bin\Release\netcoreapp2.1\**" target="lib/netcoreapp2.1" />
+    <file src="..\Src\MediaDevicesFramework48\bin\Release\**" target="lib/net48" />	
     <file src="..\Src\MediaDevicesFramework45\bin\Release\**" target="lib/net45" />	
     <file src="..\Src\MediaDevicesFramework40\bin\Release\**" target="lib/net40" />	
     <file src="..\Doc\MediaDevicesDoc\Help\MediaDevices.chm" target="content" />
