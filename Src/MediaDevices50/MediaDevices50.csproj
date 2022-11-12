@@ -7,10 +7,10 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
-    <AssemblyVersion>1.9.1.0</AssemblyVersion>
-    <Version>1.9.1</Version>
+    <AssemblyVersion>1.10.0.0</AssemblyVersion>
+    <Version>1.10.0.0</Version>
     <Authors>Ralf Beckers</Authors>
-    <Copyright>Copyright © 2016 - 2021 by Ralf Beckers</Copyright>
+    <Copyright>Copyright © 2016 - 2022 by Ralf Beckers</Copyright>
     <Company>Ralf Beckers</Company>
     <PackageId>MediaDevices</PackageId>
     <Product>MediaDevices</Product>
@@ -21,10 +21,11 @@
     <RepositoryUrl>https://github.com/Bassman2/MediaDevices</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>MTP;WPD;Portable Device;Portable Devices API;phone;tablet</PackageTags>
-    <PackageReleaseNotes>Support for .Net 5.0 and 6.0</PackageReleaseNotes>
-    <FileVersion>1.9.1.0</FileVersion>
+    <PackageReleaseNotes>Support for .Net 5.0 and 7.0</PackageReleaseNotes>
+    <FileVersion>1.10.0.0</FileVersion>
     <AnalysisLevel>latest</AnalysisLevel>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Title>Media Devices</Title>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

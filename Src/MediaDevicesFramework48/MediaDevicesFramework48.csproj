@@ -7,8 +7,8 @@
     <ProjectGuid>{6004FB9F-B22E-423E-B3C7-CAFD3BD5DABB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MediaDevicesFramework48</RootNamespace>
-    <AssemblyName>MediaDevicesFramework48</AssemblyName>
+    <RootNamespace>MediaDevices</RootNamespace>
+    <AssemblyName>MediaDevices</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

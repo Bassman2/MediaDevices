@@ -6,18 +6,20 @@
     <AssemblyName>MediaDevices</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
-    <Version>1.9.1</Version>
+    <Version>1.10.0.0</Version>
     <PackageId>MediaDevices</PackageId>
     <Company>Ralf Beckers</Company>
     <Authors>Ralf Beckers</Authors>
     <Product>MediaDevices</Product>
     <Description>Media Devices is a API to interact with MTP (Media Transfer Protocol), PTP (Picture Transport Protocol) and MSC (Mass Storage Class) devices like cell phones, tablets and cameras.</Description>
-    <Copyright>Copyright © 2016 - 2021 by Ralf Beckers</Copyright>
+    <Copyright>Copyright © 2016 - 2022 by Ralf Beckers</Copyright>
     <PackageProjectUrl>https://github.com/Bassman2/MediaDevices</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Bassman2/MediaDevices</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>MTP;WPD;Portable Device;Portable Devices API;phone;tablet</PackageTags>
     <PackageReleaseNotes>Support for .Net 5.0 and 6.0</PackageReleaseNotes>
+    <Title>Media Devices</Title>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />

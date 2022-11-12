@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows7.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <AssemblyName>MediaDevices</AssemblyName>
@@ -9,7 +9,7 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
     <PackageId>MediaDevices</PackageId>
-    <Version>1.9.0</Version>
+    <Version>1.10.0.0</Version>
     <Authors>Ralf Beckers</Authors>
     <Company>Ralf Beckers</Company>
     <Product>MediaDevices</Product>
@@ -20,6 +20,9 @@
     <RepositoryUrl>https://github.com/Bassman2/MediaDevices</RepositoryUrl>
     <PackageTags>MTP;WPD;Portable Device;Portable Devices API;phone;tablet</PackageTags>
     <PackageReleaseNotes>Support for .Net 5.0 to 7.0</PackageReleaseNotes>
+    <Title>Media Devices</Title>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />

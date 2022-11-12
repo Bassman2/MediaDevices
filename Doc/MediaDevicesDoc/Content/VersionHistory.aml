@@ -5,213 +5,227 @@
 			<para>The topics in this section describe the various changes made to the Media Devices over the life of the project.</para>
 		</introduction>
 
-    <section>
-      <title>Version 1.9.1 was released on Sep. 24th, 2021.</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>Add support for .net 4.0.</para>
-          </listItem>
-        </list>
-      </content>
-    </section>
+		<section>
+			<title>Version 1.10.0 was released on Nov. 12th, 2022.</title>
+			<content>
+				<list class="bullet">
+					<listItem>
+						<para>Add support for .net 7.0.</para>
+					</listItem>
+					<listItem>
+						<para>Add feature switch to disable caching.</para>
+					</listItem>
+				</list>
+			</content>
+		</section>
+		
+        <section>
+          <title>Version 1.9.1 was released on Sep. 24th, 2021.</title>
+          <content>
+            <list class="bullet">
+              <listItem>
+                <para>Add support for .net 4.0.</para>
+              </listItem>
+            </list>
+          </content>
+        </section>
     
-    <section>
-      <title>Version 1.9 was released on Sep. 24th, 2021.</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>Fix the download on core problem.</para>
-          </listItem>
-          <listItem>
-            <para>New features: Downlaad icons and thumbnails.</para>
-          </listItem>
-          <listItem>
-            <para>New features: Set file times and dates.</para>
-          </listItem>
-        </list>
-      </content>
-    </section>
+        <section>
+          <title>Version 1.9 was released on Sep. 24th, 2021.</title>
+          <content>
+            <list class="bullet">
+              <listItem>
+                <para>Fix the download on core problem.</para>
+              </listItem>
+              <listItem>
+                <para>New features: Downlaad icons and thumbnails.</para>
+              </listItem>
+              <listItem>
+                <para>New features: Set file times and dates.</para>
+              </listItem>
+            </list>
+          </content>
+        </section>
     
-    <section>
-      <title>Version 1.8 was released on Jan. 13th, 2019.</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>Additional Fix for 64Bit problem.</para>
-          </listItem>
-          <listItem>
-            <para>Fix for memory leak.</para>
-          </listItem>
-          <listItem>
-            <para>Own written COM wrapper classes.</para>
-          </listItem>
-          <listItem>
-            <para>GetDirectories, GetFiles and GetFileSystemEntries added for getting arrays.</para>
-          </listItem>
-          <listItem>
-            <para>Condition for COM traces.</para>
-          </listItem>
-          <listItem>
-            <para>Support for Persistent Unique Id handling.</para>
-          </listItem>
-          <listItem>
-            <para>Support for HierarchicalStorage.</para>
-          </listItem>
-          <listItem>
-            <para>Smaller fixes.</para>
-          </listItem>
-        </list>
-      </content>
-    </section>
+        <section>
+          <title>Version 1.8 was released on Jan. 13th, 2019.</title>
+          <content>
+            <list class="bullet">
+              <listItem>
+                <para>Additional Fix for 64Bit problem.</para>
+              </listItem>
+              <listItem>
+                <para>Fix for memory leak.</para>
+              </listItem>
+              <listItem>
+                <para>Own written COM wrapper classes.</para>
+              </listItem>
+              <listItem>
+                <para>GetDirectories, GetFiles and GetFileSystemEntries added for getting arrays.</para>
+              </listItem>
+              <listItem>
+                <para>Condition for COM traces.</para>
+              </listItem>
+              <listItem>
+                <para>Support for Persistent Unique Id handling.</para>
+              </listItem>
+              <listItem>
+                <para>Support for HierarchicalStorage.</para>
+              </listItem>
+              <listItem>
+                <para>Smaller fixes.</para>
+              </listItem>
+            </list>
+          </content>
+        </section>
     
-    <section>
-      <title>Version 1.7 was released on Sept. 3th, 2018.</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>Fix for the 64Bit problem.</para>
-          </listItem>
-        </list>
-      </content>
-    </section>
+        <section>
+          <title>Version 1.7 was released on Sept. 3th, 2018.</title>
+          <content>
+            <list class="bullet">
+              <listItem>
+                <para>Fix for the 64Bit problem.</para>
+              </listItem>
+            </list>
+          </content>
+        </section>
     
-    <section>
-      <title>Version 1.6 was released on Feb. 13th, 2018.</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>MediaDriveInfo class added.</para>
-          </listItem>
-          <listItem>
-            <para>Rename added to MediaDevice and MediaFileSystemInfo</para>
-          </listItem>
-        </list>
-      </content>
-    </section>
+        <section>
+          <title>Version 1.6 was released on Feb. 13th, 2018.</title>
+          <content>
+            <list class="bullet">
+              <listItem>
+                <para>MediaDriveInfo class added.</para>
+              </listItem>
+              <listItem>
+                <para>Rename added to MediaDevice and MediaFileSystemInfo</para>
+              </listItem>
+            </list>
+          </content>
+        </section>
     
-    <section>
-      <title>Version 1.5 was released on Dec. 16th, 2017.</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>General tags for speed optimizations</para>
-          </listItem>
-          <listItem>
-            <para>New vendor methods</para>
-          </listItem>
-          <listItem>
-            <para>New ObjectAddedEventArgs</para>
-          </listItem>
-          <listItem>
-            <para>Enumerate methods returns full names instead of single names only.</para>
-          </listItem>
-          <listItem>
-            <para>File and folder comparison are case insensitive by default now. This can be changed with the new IsCaseSensitive property.</para>
-          </listItem>
-          <listItem>
-            <para>Smaller fixes</para>
-          </listItem>
-        </list>
-      </content>
-    </section>
+        <section>
+          <title>Version 1.5 was released on Dec. 16th, 2017.</title>
+          <content>
+            <list class="bullet">
+              <listItem>
+                <para>General tags for speed optimizations</para>
+              </listItem>
+              <listItem>
+                <para>New vendor methods</para>
+              </listItem>
+              <listItem>
+                <para>New ObjectAddedEventArgs</para>
+              </listItem>
+              <listItem>
+                <para>Enumerate methods returns full names instead of single names only.</para>
+              </listItem>
+              <listItem>
+                <para>File and folder comparison are case insensitive by default now. This can be changed with the new IsCaseSensitive property.</para>
+              </listItem>
+              <listItem>
+                <para>Smaller fixes</para>
+              </listItem>
+            </list>
+          </content>
+        </section>
     
-    <section>
-      <title>Version 1.5 beta was released on Nov. 5th, 2017.</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>New methods FunctionalCategories, FunctionalObjects, StillImageCaptureInitiate (untested)</para>
-          </listItem>
-        </list>
-      </content>
-    </section>
+        <section>
+          <title>Version 1.5 beta was released on Nov. 5th, 2017.</title>
+          <content>
+            <list class="bullet">
+              <listItem>
+                <para>New methods FunctionalCategories, FunctionalObjects, StillImageCaptureInitiate (untested)</para>
+              </listItem>
+            </list>
+          </content>
+        </section>
     
-    <section>
-      <title>Version 1.4 was released on Sept. 2nd, 2017.</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>Workaround for the Windows 10 Update 1703 write stream problem</para>
-          </listItem>
-          <listItem>
-            <para>Remove Manufacture. Was duplicate to Manufacturer</para>
-          </listItem>
-          <listItem>
-            <para>Change separator to '\' in result paths.</para>
-          </listItem>
-          <listItem>
-            <para>Add GetRootDirectory.</para>
-          </listItem>
-          <listItem>
-            <para>New extensions methods for copying file and trees.</para>
-          </listItem>
-        </list>
-      </content>
-    </section>
+        <section>
+          <title>Version 1.4 was released on Sept. 2nd, 2017.</title>
+          <content>
+            <list class="bullet">
+              <listItem>
+                <para>Workaround for the Windows 10 Update 1703 write stream problem</para>
+              </listItem>
+              <listItem>
+                <para>Remove Manufacture. Was duplicate to Manufacturer</para>
+              </listItem>
+              <listItem>
+                <para>Change separator to '\' in result paths.</para>
+              </listItem>
+              <listItem>
+                <para>Add GetRootDirectory.</para>
+              </listItem>
+              <listItem>
+                <para>New extensions methods for copying file and trees.</para>
+              </listItem>
+            </list>
+          </content>
+        </section>
     
-    <section>
-      <title>Version 1.3 was released on Jan. 30th, 2017.</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>Add MediaFileInfo and MediaDirectoryInfo classes</para>
-          </listItem>
-          <listItem>
-            <para>Add search pattern methods</para>
-          </listItem>
-        </list>
-      </content>
-    </section>
+        <section>
+          <title>Version 1.3 was released on Jan. 30th, 2017.</title>
+          <content>
+            <list class="bullet">
+              <listItem>
+                <para>Add MediaFileInfo and MediaDirectoryInfo classes</para>
+              </listItem>
+              <listItem>
+                <para>Add search pattern methods</para>
+              </listItem>
+            </list>
+          </content>
+        </section>
     
-    <section>
-      <title>Version 1.2 was released on Nov. 20th, 2016.</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>Add GetFileInfo method</para>
-          </listItem>
-          <listItem>
-            <para>Add Cancel method</para>
-          </listItem>
-          <listItem>
-            <para>Add PnPDeviceID property</para>
-          </listItem>
-          <listItem>
-            <para>Add GetPrivateDevices method</para>
-          </listItem>
-        </list>
-      </content>
-    </section>
-    
-    <section>
-      <title>Version 1.1 was released on Oct. 27th, 2016.</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>Add events</para>
-          </listItem>
-          <listItem>
-            <para>Add set friendly name</para>
-          </listItem>
-          <listItem>
-            <para>Add GetContentLocations</para>
-          </listItem>
-          <listItem>
-            <para>Add ResetDevice</para>
-          </listItem>
-          <listItem>
-            <para>Add SupportedCommands</para>
-          </listItem>
-          <listItem>
-            <para>Add SupportedContentTypes</para>
-          </listItem>
-          <listItem>
-            <para>Add SupportedEvents</para>
-          </listItem>
-        </list>
-      </content>
-    </section>
+        <section>
+          <title>Version 1.2 was released on Nov. 20th, 2016.</title>
+          <content>
+            <list class="bullet">
+              <listItem>
+                <para>Add GetFileInfo method</para>
+              </listItem>
+              <listItem>
+                <para>Add Cancel method</para>
+              </listItem>
+              <listItem>
+                <para>Add PnPDeviceID property</para>
+              </listItem>
+              <listItem>
+                <para>Add GetPrivateDevices method</para>
+              </listItem>
+            </list>
+          </content>
+        </section>
+
+		<section>
+			<title>Version 1.1 was released on Oct. 27th, 2016.</title>
+			<content>
+				<list class="bullet">
+					<listItem>
+						<para>Add events</para>
+					</listItem>
+					<listItem>
+						<para>Add set friendly name</para>
+					</listItem>
+					<listItem>
+						<para>Add GetContentLocations</para>
+					</listItem>
+					<listItem>
+						<para>Add ResetDevice</para>
+					</listItem>
+					<listItem>
+						<para>Add SupportedCommands</para>
+					</listItem>
+					<listItem>
+						<para>Add SupportedContentTypes</para>
+					</listItem>
+					<listItem>
+						<para>Add SupportedEvents</para>
+					</listItem>
+				</list>
+			</content>
+		</section>
     
 		<section>
 			<title>Version 1.0 was released on Sep. 18th, 2016.</title>
