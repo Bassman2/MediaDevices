@@ -18,10 +18,10 @@ namespace MediaDevicesUnitTest
             this.deviceSelect = device => device.Description == this.deviceDescription;
 
             // Device Test
-            this.deviceDescription = "SM-A405FN";
+            this.deviceDescription = "MTP-USB-Gerät"; //"SM -A405FN";
             this.deviceFriendlyName = "A40 von Ralf";
-            this.deviceManufacture = "Samsung Electronics Co., Ltd.";
-            this.deviceFirmwareVersion = "A405FNXXU4CUL2";
+            this.deviceManufacture = "(Standardmäßiges MTP-Gerät)"; //  "Samsung Electronics Co., Ltd.";
+            this.deviceFirmwareVersion = "A405FNXXU4CVK1";
             this.deviceModel = "SM-A405FN";
             this.deviceSerialNumber = "R58M81NACKB";
             this.deviceDeviceType = DeviceType.MediaPlayer;
