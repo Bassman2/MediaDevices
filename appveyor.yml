@@ -1,4 +1,4 @@
-version: 1.9.{build}
+version: 1.10.{build}
 image: Visual Studio 2022
 
 
@@ -11,9 +11,9 @@ configuration:
 
 install:
     - ps: >-
-        Start-FileDownload 'https://github.com/EWSoftware/SHFB/releases/download/v2021.11.7.0/SHFBInstaller_v2021.11.7.0.zip'
+        Start-FileDownload 'https://github.com/EWSoftware/SHFB/releases/download/v2022.12.30.0/SHFBInstaller_2022.12.30.0.zip'
 
-        7z x -y SHFBInstaller_v2021.11.7.0.zip | Out-Null
+        7z x -y SHFBInstaller_2022.12.30.0.zip | Out-Null
 
         Write-Host "Installing MSI..."
 
@@ -43,5 +43,5 @@ build_script:
     - msbuild MediaDevices22.sln /m /verbosity:minimal /p:configuration="%configuration%" /p:platform="%platform%" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
     - cd "%APPVEYOR_BUILD_FOLDER%"\Nuget
-    - if "%configuration%"=="Release" nuget pack MediaDevices22.nuspec -properties Configuration=Release
+    - if "%configuration%"=="Release" nuget pack MediaDevices.nuspec -properties Configuration=Release
 
