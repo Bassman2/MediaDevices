@@ -21,7 +21,7 @@ jobs:
       uses: nuget/setup-nuget@v1
 
     - name: Install SHFB
-      uses: Bassman2/setup-SHFB@v1
+      uses: Bassman2/setup-SHFB@v2
       with:
         version: v2021.11.7.0
 
