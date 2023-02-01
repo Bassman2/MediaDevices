@@ -1,0 +1,52 @@
+name: Continuous Integration
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-2022
+    environment: sign
+    strategy:
+      max-parallel: 2
+      matrix:
+        build_configuration: [Release, Debug]
+      
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1.3
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v1
+
+    - name: Get Signkey 
+      shell: pwsh
+      run: |
+        $signing_keys_payload = [System.Convert]::FromBase64String("${{ secrets.SIGNKEY }}")
+        $currentDirectory = Get-Location
+        $certificatePath = Join-Path -Path $currentDirectory -ChildPath "Bassman.snk"
+        [IO.File]::WriteAllBytes("$certificatePath", $signing_keys_payload)
+        Copy-Item  Bassman.snk -Destination Src\MediaDevices70\Bassman.snk
+        Copy-Item  Bassman.snk -Destination Src\MediaDevices60\Bassman.snk
+        Copy-Item  Bassman.snk -Destination Src\MediaDevices50\Bassman.snk
+        Copy-Item  Bassman.snk -Destination Src\MediaDevicesCore31\Bassman.snk
+        Copy-Item  Bassman.snk -Destination Src\MediaDevicesCore21\Bassman.snk
+        Copy-Item  Bassman.snk -Destination Src\MediaDevicesFramework48\Bassman.snk
+        Copy-Item  Bassman.snk -Destination Src\MediaDevicesFramework45\Bassman.snk
+        Copy-Item  Bassman.snk -Destination Src\MediaDevicesFramework40\Bassman.snk
+        
+    - name: Install SHFB
+      uses: Bassman2/setup-SHFB@v2
+      with:
+        version: 2022.12.30.0
+
+    - name: Nuget restore solution
+      run: nuget restore MediaDevices.sln
+
+    - name: Dotnet restore solution
+      run: dotnet restore MediaDevices.sln
+
+    - name: MSBuild of solution
+      run: msbuild MediaDevices19.sln /p:configuration="${{ matrix.build_configuration }}" /m /verbosity:minimal
