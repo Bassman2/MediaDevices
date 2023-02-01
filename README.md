@@ -4,7 +4,7 @@ Media Devices is a API to interact with MTP (Media Transfer Protocol), PTP (Pict
 
 ## Download
 
-[NuGet Package](https://www.nuget.org/packages/MediaDevices/)
+Future: [NuGet Package](https://www.nuget.org/packages/MediaDevices/)
 
 ## Donate
 
