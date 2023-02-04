@@ -29,21 +29,10 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1.0.15
 
-    - name: Get Signkey 
-      shell: pwsh
-      run: |
-        $signing_keys_payload = [System.Convert]::FromBase64String("${{ secrets.SIGNKEY }}")
-        $currentDirectory = Get-Location
-        $certificatePath = Join-Path -Path $currentDirectory -ChildPath "Bassman.snk"
-        [IO.File]::WriteAllBytes("$certificatePath", $signing_keys_payload)
-        Copy-Item  Bassman.snk -Destination Src\MediaDevices70\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevices60\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevices50\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevicesCore31\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevicesCore21\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevicesFramework48\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevicesFramework45\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevicesFramework40\Bassman.snk
+    - uses: Bassman2/SignKey@v1
+      with:
+        file: Bassman.snk
+        key: ${{ secrets.SIGNKEY }}
 
     - name: restore
       run: nuget restore MediaDevices.sln

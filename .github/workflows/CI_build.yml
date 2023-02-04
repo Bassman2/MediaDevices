@@ -21,24 +21,13 @@ jobs:
     - name: Setup NuGet
       uses: nuget/setup-nuget@v1
 
-    - name: Get Signkey 
-      shell: pwsh
-      run: |
-        $signing_keys_payload = [System.Convert]::FromBase64String("${{ secrets.SIGNKEY }}")
-        $currentDirectory = Get-Location
-        $certificatePath = Join-Path -Path $currentDirectory -ChildPath "Bassman.snk"
-        [IO.File]::WriteAllBytes("$certificatePath", $signing_keys_payload)
-        Copy-Item  Bassman.snk -Destination Src\MediaDevices70\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevices60\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevices50\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevicesCore31\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevicesCore21\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevicesFramework48\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevicesFramework45\Bassman.snk
-        Copy-Item  Bassman.snk -Destination Src\MediaDevicesFramework40\Bassman.snk
+    - uses: Bassman2/SignKey@v1
+      with:
+        file: Bassman.snk
+        key: ${{ secrets.SIGNKEY }}
         
     - name: Install SHFB
-      uses: Bassman2/setup-SHFB@v2
+      uses: Bassman2/setup-SHFB@v1
       with:
         version: 2022.12.30.0
 
@@ -49,4 +38,6 @@ jobs:
       run: dotnet restore MediaDevices.sln
 
     - name: MSBuild of solution
-      run: msbuild MediaDevices19.sln /p:configuration="${{ matrix.build_configuration }}" /m /verbosity:minimal
+      run: msbuild MediaDevices.sln /p:configuration="${{ matrix.build_configuration }}" /m /verbosity:minimal
+      env:
+        SHFBROOT: C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\
