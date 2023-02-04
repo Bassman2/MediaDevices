@@ -29,12 +29,13 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1.0.15
 
-    - uses: Bassman2/SignKey@v1
+    - name: Add SignKeys
+      uses: Bassman2/SignKey@v1
       with:
         file: Bassman.snk
         key: ${{ secrets.SIGNKEY }}
 
-    - name: restore
+    - name: Nuget restore solution
       run: nuget restore MediaDevices.sln
 
     - name: MSBuild of solution
