@@ -47,7 +47,7 @@ jobs:
     - name: MSBuild of solution
       run: msbuild $env:Solution /p:configuration="${{ matrix.build_configuration }}" /verbosity:minimal   
         
-    - name: Nuget pack nuspec
-      if: matrix.build_configuration == 'Release'
-      working-directory: .\Nuget\
-      run: nuget pack $env:NugetSpc -properties Configuration=Release
+#    - name: Nuget pack nuspec
+#      if: matrix.build_configuration == 'Release'
+#      working-directory: .\Nuget\
+#      run: nuget pack $env:NugetSpc -properties Configuration=Release
