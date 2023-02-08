@@ -12,7 +12,7 @@
     <AssemblyName>MediaDevices</AssemblyName>
     <RootNamespace>MediaDevices</RootNamespace>
     <Description>Media Devices is a API to interact with MTP (Media Transfer Protocol), PTP (Picture Transport Protocol) and MSC (Mass Storage Class) devices like cell phones, tablets and cameras.</Description>
-    <Copyright>Copyright © 2016 - 2022 by Ralf Beckers</Copyright>
+    <Copyright>Copyright © 2016 - 2023 by Ralf Beckers</Copyright>
     <PackageProjectUrl>https://github.com/Bassman2/MediaDevices</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Bassman2/MediaDevices</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

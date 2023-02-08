@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Ralf Beckers")]
 [assembly: AssemblyProduct("MediaDevices")]
-[assembly: AssemblyCopyright("Copyright © 2016 - 2022 by Ralf Beckers")]
+[assembly: AssemblyCopyright("Copyright © 2016 - 2023 by Ralf Beckers")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

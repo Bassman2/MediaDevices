@@ -14,7 +14,7 @@
     <Company>Ralf Beckers</Company>
     <Product>MediaDevices</Product>
     <Description>Media Devices is a API to interact with MTP (Media Transfer Protocol), PTP (Picture Transport Protocol) and MSC (Mass Storage Class) devices like cell phones, tablets and cameras.</Description>
-    <Copyright>Copyright © 2016 - 2022 by Ralf Beckers</Copyright>
+    <Copyright>Copyright © 2016 - 2023 by Ralf Beckers</Copyright>
     <PackageProjectUrl>https://github.com/Bassman2/MediaDevices</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Bassman2/MediaDevices</RepositoryUrl>
@@ -23,6 +23,7 @@
     <Title>Media Devices</Title>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />
