@@ -52,8 +52,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfUsbMonitor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=36ac35b4ea7a1f67, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\WpfUsbMonitor.3.0.0\lib\net45\WpfUsbMonitor.dll</HintPath>
+    <Reference Include="WpfUsbMonitor, Version=3.2.0.0, Culture=neutral, PublicKeyToken=36ac35b4ea7a1f67, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WpfUsbMonitor.3.2.1\lib\net48\WpfUsbMonitor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +74,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -83,9 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UsbMonitorLicense.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Src\MediaDevicesFramework48\MediaDevicesFramework48.csproj">

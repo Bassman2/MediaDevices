@@ -1,25 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows7.0</TargetFramework>
-    <SignAssembly>true</SignAssembly>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>MediaDevices</AssemblyName>
+    <RootNamespace>MediaDevices</RootNamespace>
+    <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
+    <PackageId>MediaDevices</PackageId>
     <Version>1.11.0.0</Version>
     <Authors>Ralf Beckers</Authors>
     <Company>Ralf Beckers</Company>
     <Product>MediaDevices</Product>
-    <PackageId>MediaDevices</PackageId>
-    <AssemblyName>MediaDevices</AssemblyName>
-    <RootNamespace>MediaDevices</RootNamespace>
     <Description>Media Devices is a API to interact with MTP (Media Transfer Protocol), PTP (Picture Transport Protocol) and MSC (Mass Storage Class) devices like cell phones, tablets and cameras.</Description>
     <Copyright>Copyright © 2016 - 2023 by Ralf Beckers</Copyright>
     <PackageProjectUrl>https://github.com/Bassman2/MediaDevices</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Bassman2/MediaDevices</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Bassman2/MediaDevices</RepositoryUrl>
     <PackageTags>MTP;WPD;Portable Device;Portable Devices API;phone;tablet</PackageTags>
-    <PackageReleaseNotes>Support for .Net 5.0 and 7.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Support for .Net 5.0 to 8.0</PackageReleaseNotes>
     <Title>Media Devices</Title>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />

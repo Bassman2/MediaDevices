@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>MediaDevicesApp</AssemblyName>
     <RootNamespace>MediaDevicesApp</RootNamespace>
-    <Version>1.10.0.0</Version>
+    <Version>1.11.0.0</Version>
   </PropertyGroup>
 
   <Import Project="..\..\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems" Label="Shared" />
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="WpfUsbMonitor" Version="3.0.0" />
+    <PackageReference Include="WpfUsbMonitor" Version="3.2.1" />
   </ItemGroup>
 
   <ItemGroup>

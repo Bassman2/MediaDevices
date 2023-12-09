@@ -6,7 +6,7 @@
     <RootNamespace>MediaDevices</RootNamespace>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
-    <Version>1.10.0.0</Version>
+    <Version>1.11.0.0</Version>
     <Authors>Ralf Beckers</Authors>
     <Company>Ralf Beckers</Company>
     <PackageId>MediaDevices</PackageId>
@@ -18,10 +18,18 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>MTP;WPD;Portable Device;Portable Devices API;phone;tablet</PackageTags>
     <PackageReleaseNotes>Support for .Net 5.0 and 6.0</PackageReleaseNotes>
-    <AssemblyVersion>1.10.0.0</AssemblyVersion>
-    <FileVersion>1.10.0.0</FileVersion>
+    <AssemblyVersion>1.11.0.0</AssemblyVersion>
+    <FileVersion>1.11.0.0</FileVersion>
     <Title>Media Devices</Title>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;NU1902;NU1903</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;NU1902;NU1903</NoWarn>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />

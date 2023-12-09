@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MediaDevices</id>
-    <version>1.10.2</version>
+    <version>1.11.0</version>
     <title>MediaDevices</title>
     <authors>Ralf Beckers</authors>
     <owners>Ralf Beckers</owners>
@@ -11,12 +11,13 @@
     <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
     <projectUrl>https://github.com/Bassman2/MediaDevices</projectUrl>
     <description>API to communicate with MTP / WPD devices like smart phones, tablets and cameras. Documentation included.</description>
-    <releaseNotes>New features and bug fixing.</releaseNotes>
+    <releaseNotes>Add support for .NET 8.</releaseNotes>
     <copyright>Copyright 2016 - 2023 (c) by Ralf Beckers</copyright>
     <repository type="git" url="https://github.com/Bassman2/MediaDevices" />
     <tags>MTP WPD PortableDevice PortableDevices API phone tablet</tags>
     <readme>docs\README.md</readme>
     <dependencies>
+      <group targetFramework="net8.0-windows7.0" />
       <group targetFramework="net7.0-windows7.0" />
       <group targetFramework="net6.0-windows7.0" />
       <group targetFramework="net5.0-windows7.0" />
@@ -29,6 +30,7 @@
   </metadata>
   
   <files>
+    <file src="..\Src\MediaDevices80\bin\Release\net8.0-windows7.0\**" target="lib/net8.0-windows7.0" />
     <file src="..\Src\MediaDevices70\bin\Release\net7.0-windows7.0\**" target="lib/net7.0-windows7.0" />
     <file src="..\Src\MediaDevices60\bin\Release\net6.0-windows7.0\**" target="lib/net6.0-windows7.0" />
     <file src="..\Src\MediaDevices50\bin\Release\net5.0-windows7.0\**" target="lib/net5.0-windows7.0" />
