@@ -396,7 +396,7 @@ namespace MediaDevices.Internal
 
                     if (item != null)
                     {
-                        if (pattern == null || Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase))
+                        if (pattern == null || (item.Name != null && Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase)))
                         {
                             yield return item;
                         }
