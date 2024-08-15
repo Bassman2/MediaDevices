@@ -41,6 +41,6 @@
     <file src="..\Src\MediaDevicesFramework40\bin\Release\**" target="lib/net40" />	
     <file src="..\Doc\MediaDevicesDoc\Help\MediaDevices.chm" target="content" />
     <file src="..\README.md" target="docs\" />
-    <file src="..\LICENSE" target="content" />
+    <file src="..\LICENSE*" target="content" />
   </files>
 </package>

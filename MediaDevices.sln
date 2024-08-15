@@ -108,8 +108,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesApp80", "Demo\D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaDevicesUnitTest80", "Test\MediaDevicesUnitTest80\MediaDevicesUnitTest80.csproj", "{CC3AD846-E168-4257-BE8F-8BAFE8CBC004}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{8CFFB0A1-8E58-4989-9E04-880C16DA020F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
