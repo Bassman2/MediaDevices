@@ -35,7 +35,7 @@ jobs:
       uses: nuget/setup-nuget@v1
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
 
     - name: Add SignKeys
       uses: Bassman2/SignKey@v1
@@ -56,4 +56,4 @@ jobs:
       run: msbuild $env:Solution /p:configuration="Release" /verbosity:minimal      
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
