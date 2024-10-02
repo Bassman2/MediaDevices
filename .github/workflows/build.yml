@@ -21,10 +21,10 @@ jobs:
       
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Setup DotNet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: | 
           2.1.x
@@ -35,10 +35,10 @@ jobs:
       uses: Bassman2/setup-dotnetfwk@v1
       
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.3
+      uses: microsoft/setup-msbuild@v2
 
     - name: Setup NuGet
-      uses: nuget/setup-nuget@v1
+      uses: nuget/setup-nuget@v2
 
     - name: Add SignKeys
       uses: Bassman2/SignKey@v1
