@@ -32,7 +32,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.3
 
     - name: Setup NuGet
-      uses: nuget/setup-nuget@v1
+      uses: nuget/setup-nuget@v2
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
