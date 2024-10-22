@@ -128,7 +128,8 @@ namespace MediaDevices
 
             if (count == 0)
             {
-                return new List<MediaDevice>();
+               var mediaDevices = new List<MediaDevice>();
+                return mediaDevices;
             }
 
             // get device IDs
@@ -187,7 +188,8 @@ namespace MediaDevices
 
             if (count == 0)
             {
-                return new List<MediaDevice>();
+                var mediaDevices = new List<MediaDevice>();
+                return mediaDevices;
             }
 
             // get device IDs
@@ -219,7 +221,7 @@ namespace MediaDevices
             try
             {
                 count = 256;
-                StringBuilder sb = new StringBuilder((int)count);
+                var sb = new StringBuilder((int)count);
                 deviceManager.GetDeviceDescription(deviceId, sb, ref count);
                 this.Description = sb.ToString(); //new string(buffer, 0, (int)count - 1);
             }
@@ -231,7 +233,7 @@ namespace MediaDevices
             try
             {
                 count = 256;
-                StringBuilder sb = new StringBuilder((int)count);
+                var sb = new StringBuilder((int)count);
                 deviceManager.GetDeviceFriendlyName(deviceId, sb, ref count);
                 this.friendlyName = sb.ToString();
             }
@@ -243,7 +245,7 @@ namespace MediaDevices
             try
             {
                 count = 256;
-                StringBuilder sb = new StringBuilder((int)count);
+                var sb = new StringBuilder((int)count);
                 deviceManager.GetDeviceManufacturer(deviceId, sb, ref count);
                 this.Manufacturer = sb.ToString();
             }
@@ -318,10 +320,7 @@ namespace MediaDevices
             }
             set
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 // set new friendly name
                 IPortableDeviceValues devInValues = (IPortableDeviceValues)new PortableDeviceValues();
@@ -338,7 +337,7 @@ namespace MediaDevices
                 {
                     char[] buffer = new char[260];
                     uint count = 256;
-                    StringBuilder sb = new StringBuilder((int)count);
+                    var sb = new StringBuilder((int)count);
                     deviceManager.GetDeviceFriendlyName(this.DeviceId, sb, ref count);
                     this.friendlyName = sb.ToString();
                 }
@@ -364,10 +363,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryGetStringValue(WPD.DEVICE_SYNC_PARTNER, out string val);
                 return val;
@@ -382,10 +378,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryGetStringValue(WPD.DEVICE_FIRMWARE_VERSION, out string val);
                 return val;
@@ -400,10 +393,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_LEVEL, out int val);
                 return val;
@@ -418,10 +408,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 if (this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE, out int val))
                 {
@@ -442,10 +429,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryGetStringValue(WPD.DEVICE_PROTOCOL, out string val);
                 return val;
@@ -460,10 +444,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryGetStringValue(WPD.DEVICE_MODEL, out string val);
                 return val;
@@ -478,10 +459,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryGetStringValue(WPD.DEVICE_SERIAL_NUMBER, out string val);
                 return val;
@@ -496,10 +474,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 if (this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out bool val))
                 {
@@ -517,10 +492,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryGetDateTimeValue(WPD.DEVICE_DATETIME, out DateTime? val);
                 return val;
@@ -535,10 +507,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 if (this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out bool val))
                 {
@@ -556,10 +525,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TYPE, out int val);
                 return (DeviceType)val;
@@ -574,11 +540,7 @@ namespace MediaDevices
         {
             get
             {
-                
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryGetUnsignedLargeIntegerValue(WPD.DEVICE_NETWORK_IDENTIFIER, out ulong val);
                 return val;
@@ -593,10 +555,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryByteArrayValue(WPD.DEVICE_FUNCTIONAL_UNIQUE_ID, out byte[] val);
                 return val;
@@ -611,10 +570,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryByteArrayValue(WPD.DEVICE_MODEL_UNIQUE_ID, out byte[] value);
                 return value;
@@ -629,10 +585,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TRANSPORT, out int val);
                 return (DeviceTransport)val;
@@ -647,10 +600,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.deviceValues.TryGetUnsignedIntegerValue(WPD.DEVICE_USE_DEVICE_STAGE, out uint val);
                 return (DeviceTransport)val;
@@ -665,10 +615,7 @@ namespace MediaDevices
         {
             get
             {
-                if (!this.IsConnected)
-                {
-                    throw new NotConnectedException("Not connected");
-                }
+                NotConnectedException.ThrowIfNotConnected(this);
 
                 this.device.GetPnPDeviceID(out string pnPDeviceID);
                 return pnPDeviceID;
@@ -731,7 +678,7 @@ namespace MediaDevices
             this.deviceContent.Properties(out this.deviceProperties);
             this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);
 
-            ComTrace.WriteObject(this.deviceValues);
+            ComTrace.WriteObject(this.deviceValues, nameof(Connect));
 
             // advice event handler
             this.eventCallback = new EventCallback(this);
@@ -764,10 +711,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void Cancel()
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
             this.device.Cancel();
         }
         
@@ -783,24 +728,25 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> EnumerateDirectories(string path)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
-            Item item = Item.FindFolder(this, path);
-            if (item == null)
-            {
-                throw new DirectoryNotFoundException($"Director {path} not found.");
-            }
+            Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found."); 
+            //if (item == null)
+            //{
+            //    throw new DirectoryNotFoundException($"Director {path} not found.");
+            //}
+            //_ = item ?? throw new DirectoryNotFoundException($"Director {path} not found.");
             return item.GetChildren().Where(i => i.Type != ItemType.File).Select(i => i.FullName);
         }
 
@@ -819,24 +765,25 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
+
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
-            Item item = Item.FindFolder(this, path);
-            if (item == null)
-            {
-                throw new DirectoryNotFoundException($"Director {path} not found.");
-            }
+            Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+            //if (item == null)
+            //{
+            //    throw new DirectoryNotFoundException($"Director {path} not found.");
+            //}
             return item.GetChildren(FilterToRegex(searchPattern), searchOption).Where(i => i.Type != ItemType.File).Select(i => i.FullName);
         }
 
@@ -853,24 +800,21 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> EnumerateFiles(string path)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
+
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
-            Item item = Item.FindFolder(this, path);
-            if (item == null)
-            {
-                throw new DirectoryNotFoundException($"Director {path} not found.");
-            }
+            Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
             return item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => i.FullName);
         }
 
@@ -888,24 +832,21 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
+
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
-            Item item = Item.FindFolder(this, path);
-            if (item == null)
-            {
-                throw new DirectoryNotFoundException($"Director {path} not found.");
-            }
+            Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
             string pattern = MediaDevice.FilterToRegex(searchPattern);
             return item.GetChildren(pattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.FullName);
         }
@@ -922,24 +863,22 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> EnumerateFileSystemEntries(string path)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
+
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
-            Item item = Item.FindFolder(this, path);
-            if (item == null)
-            {
-                throw new DirectoryNotFoundException($"Director {path} not found.");
-            }
+            Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+            
             return item.GetChildren().Select(i => i.FullName);
         }
 
@@ -957,24 +896,25 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> EnumerateFileSystemEntries(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
+
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
-            Item item = Item.FindFolder(this, path);
-            if (item == null)
-            {
-                throw new DirectoryNotFoundException($"Director {path} not found.");
-            }
+            Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found."); 
+            //if (item == null)
+            //{
+            //    throw new DirectoryNotFoundException($"Director {path} not found.");
+            //}
             
             return item.GetChildren(FilterToRegex(searchPattern), searchOption).Select(i => i.FullName);
         }
@@ -1087,18 +1027,18 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void CreateDirectory(string path)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
             Item.GetRoot(this).CreateSubdirectory(path);
         }
@@ -1115,25 +1055,22 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void DeleteDirectory(string path, bool recursive = false)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
-            Item item = Item.FindFolder(this, path);
-            if (item == null)
-            {
-                throw new DirectoryNotFoundException($"Director {path} not found.");
-            }
 
+            Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+            
             item.Delete(recursive);
         }
 
@@ -1151,10 +1088,8 @@ namespace MediaDevices
             {
                 throw new ArgumentNullException(nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
             return Item.FindFolder(this, path) != null;
         }
 
@@ -1170,28 +1105,28 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void DownloadFile(string path, Stream stream)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
 
-            Item item = Item.FindFile(this, path);
-            if (item == null)
-            {
-                throw new FileNotFoundException($"File {path} not found.");
-            }
+#if !NET
+            _ = stream ?? throw new ArgumentNullException(nameof(stream));
+#else
+            ArgumentNullException.ThrowIfNull(stream, nameof(stream));
+#endif
+
+            NotConnectedException.ThrowIfNotConnected(this);
+
+            Item item = Item.FindFile(this, path) ?? throw new FileNotFoundException($"File {path} not found."); 
+            
             
             using (Stream sourceStream = item.OpenRead())
             {
@@ -1211,29 +1146,28 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void DownloadIcon(string path, Stream stream)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+#if !NET
+            _ = stream ?? throw new ArgumentNullException(nameof(stream));
+#else
+            ArgumentNullException.ThrowIfNull(stream, nameof(stream));
+#endif
 
-            Item item = Item.FindFile(this, path);
-            if (item == null)
-            {
-                throw new FileNotFoundException($"File {path} not found.");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
+
+            Item item = Item.FindFile(this, path) ?? throw new FileNotFoundException($"File {path} not found.");
+            
             using (Stream sourceStream = item.OpenReadIcon())
             {
                 sourceStream.CopyTo(stream);
@@ -1252,28 +1186,31 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void DownloadThumbnail(string path, Stream stream)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+#if !NET
+            _ = stream ?? throw new ArgumentNullException(nameof(stream));
+#else
+            ArgumentNullException.ThrowIfNull(stream, nameof(stream));
+#endif
 
-            Item item = Item.FindFile(this, path);
-            if (item == null)
-            {
-                throw new FileNotFoundException($"File {path} not found.");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
+
+            Item item = Item.FindFile(this, path) ?? throw new FileNotFoundException($"File {path} not found.");
+            //if (item == null)
+            //{
+            //    throw new FileNotFoundException($"File {path} not found.");
+            //}
 
             using (Stream sourceStream = item.OpenReadThumbnail())
             {
@@ -1292,31 +1229,30 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void UploadFile(Stream stream, string path)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+#if !NET
+            _ = stream ?? throw new ArgumentNullException(nameof(stream));
+#else
+            ArgumentNullException.ThrowIfNull(stream, nameof(stream));
+#endif
+
+            NotConnectedException.ThrowIfNotConnected(this);
+
 
             string folder = Path.GetDirectoryName(path);
             string fileName = Path.GetFileName(path);
-            Item item = Item.FindFolder(this, folder);
-            if (item == null)
-            {
-                throw new DirectoryNotFoundException($"Directory {folder} not found.");
-            }
-
+            Item item = Item.FindFolder(this, folder) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
+           
             if (item.GetChildren().Any(i => EqualsName(i.Name, fileName)))
             {
                 throw new IOException($"File {path} already exists");
@@ -1335,18 +1271,19 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public bool FileExists(string path)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
             var objectId = Item.FindFile(this, path);
             return objectId != null;
         }
@@ -1362,24 +1299,25 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void DeleteFile(string path)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
-            Item item = Item.FindFile(this, path); 
-            if (item == null)
-            {
-                throw new FileNotFoundException($"File {path} not found.");
-            }
+
+            Item item = Item.FindFile(this, path) ?? throw new FileNotFoundException($"File {path} not found.");  
+            //if (item == null)
+            //{
+            //    throw new FileNotFoundException($"File {path} not found.");
+            //}
 
             item.Delete();
         }
@@ -1391,29 +1329,26 @@ namespace MediaDevices
         /// <param name="newName">New name of the file or folder.</param>
         public void Rename(string path, string newName)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
             if (string.IsNullOrEmpty(newName))
             {
                 throw new ArgumentNullException(nameof(newName));
             }
 
-            Item item = Item.FindItem(this, path);
-            if (item == null)
-            {
-                throw new FileNotFoundException($"Path {path} not found.", path);
-            }
-
+            Item item = Item.FindItem(this, path) ?? throw new FileNotFoundException($"Path {path} not found.", path);
+            
             item.Rename(newName);
         }
 
@@ -1429,24 +1364,26 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public MediaFileInfo GetFileInfo(string path)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
-            var item = Item.FindItem(this, path);
-            if (item == null)
-            {
-                throw new FileNotFoundException($"{path} not found.", path);
-            }
+
+
+            var item = Item.FindItem(this, path) ?? throw new FileNotFoundException($"{path} not found.", path); 
+            //if (item == null)
+            //{
+            //    throw new FileNotFoundException($"{path} not found.", path);
+            //}
 
             return new MediaFileInfo(this, item);
         }
@@ -1463,25 +1400,21 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public MediaDirectoryInfo GetDirectoryInfo(string path)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+#if !NET
+            _ = path ?? throw new ArgumentNullException(nameof(path));
+#elif NET6_0
+            ArgumentNullException.ThrowIfNull(path, nameof(path));
+#else
+            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+#endif
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
-            var item = Item.FindFolder(this, path);
-            if (item == null)
-            {
-                throw new DirectoryNotFoundException($"{path} not found.");
-            }
 
+            var item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"{path} not found.");
             return new MediaDirectoryInfo(this, item);
         }
 
@@ -1501,10 +1434,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public MediaDirectoryInfo GetRootDirectory()
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
             return new MediaDirectoryInfo(this, Item.GetRoot(this));
         }
 
@@ -1528,10 +1459,8 @@ namespace MediaDevices
             {
                 throw new ArgumentNullException(nameof(stream));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
 
             using (Stream sourceStream = OpenReadFromPersistentUniqueId(persistentUniqueId))
             {
@@ -1553,10 +1482,8 @@ namespace MediaDevices
             {
                 throw new ArgumentNullException(nameof(persistentUniqueId));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
 
             Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
             if (item == null || !item.IsFile)
@@ -1580,10 +1507,8 @@ namespace MediaDevices
             {
                 throw new ArgumentNullException(nameof(persistentUniqueId));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
 
             Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
             if (item == null || !item.IsFile)
@@ -1607,16 +1532,14 @@ namespace MediaDevices
             {
                 throw new ArgumentNullException(nameof(persistentUniqueId));
             }
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
-            Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
-            if (item == null)
-            {
-                throw new FileNotFoundException($"{persistentUniqueId} not found.");
-            }
+
+            Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found."); 
+            //if (item == null)
+            //{
+            //    throw new FileNotFoundException($"{persistentUniqueId} not found.");
+            //}
 
             if (item.IsFile)
             {
@@ -1628,7 +1551,7 @@ namespace MediaDevices
             }
         }
 
-        #endregion
+#endregion
 
         #region Device Capabilities
 
@@ -1639,15 +1562,13 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<Commands> SupportedCommands()
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
 
             try
             {
                 this.deviceCapabilities.GetSupportedCommands(out IPortableDeviceKeyCollection commands);
-                return commands.ToEnum<Commands>();
+                return commands.ToCommands();
             }
             catch (COMException ex)
             {
@@ -1663,15 +1584,13 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<FunctionalCategory> FunctionalCategories()
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
 
             try
             {
                 this.deviceCapabilities.GetFunctionalCategories(out IPortableDevicePropVariantCollection categories);
-                return categories.ToEnum<FunctionalCategory>();
+                return categories.ToFunctionalCategories();
             }
             catch (COMException ex)
             {
@@ -1688,10 +1607,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> FunctionalObjects(FunctionalCategory functionalCategory)
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
 
             try
             {
@@ -1717,16 +1634,14 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<ContentType> SupportedContentTypes(FunctionalCategory functionalCategory)
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
 
             try
             {
                 Guid guid = functionalCategory.Guid();
                 this.deviceCapabilities.GetSupportedContentTypes(ref guid, out IPortableDevicePropVariantCollection types);
-                return types.ToEnum<ContentType>();
+                return types.ToContentTypes();
             }
             catch (COMException ex)
             {
@@ -1743,15 +1658,12 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<Events> SupportedEvents()
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
             try
             { 
                 this.deviceCapabilities.GetSupportedEvents(out IPortableDevicePropVariantCollection events);
-                return events.ToEnum<Events>();
+                return events.ToEvents();
             }
             catch (COMException ex)
             {
@@ -1771,10 +1683,8 @@ namespace MediaDevices
         /// <exception cref="NotSupportedException">not supported by device.</exception>
         public void ResetDevice()
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
             Command.Create(WPD.COMMAND_COMMON_RESET_DEVICE).Send(this.device);
         }
 
@@ -1786,10 +1696,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> GetContentLocations(ContentType contentType)
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
 
             try
             {
@@ -1798,7 +1706,8 @@ namespace MediaDevices
                 if (!cmd.Send(this.device))
                 {
                     cmd.WriteResults();
-                    return new List<string>();
+                    var list = new List<string>();
+                    return list;
                 }
                 
                 return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => Item.Create(this, c).FullName);
@@ -1832,10 +1741,8 @@ namespace MediaDevices
         /// <returns>true is success and false if not supported.</returns>
         public bool EjectStorage(string path)
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
             if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentNullException(nameof(path));
@@ -1858,10 +1765,8 @@ namespace MediaDevices
         /// <param name="path">Path of storage to format.</param>
         public void FormatStorage(string path)
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
             if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentNullException(nameof(path));
@@ -1906,10 +1811,8 @@ namespace MediaDevices
         /// </example>
         public bool SendTextSMS(string functionalObject, string recipient, string text)
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
             if (string.IsNullOrEmpty(functionalObject))
             {
                 throw new ArgumentNullException(nameof(functionalObject));
@@ -1949,10 +1852,8 @@ namespace MediaDevices
         /// </example>
         public bool StillImageCaptureInitiate(string functionalObject)
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
             if (string.IsNullOrEmpty(functionalObject))
             {
                 throw new ArgumentNullException(nameof(functionalObject));
@@ -1967,7 +1868,7 @@ namespace MediaDevices
         {
             //ComTrace.WriteObject(eventParameters);
             eventParameters.GetGuidValue(ref WPD.EVENT_PARAMETER_EVENT_ID, out Guid eventGuid);
-            Events eventEnum = eventGuid.GetEnumFromAttrGuid<Events>();
+            Events eventEnum = eventGuid.GetEvent();
 
             switch (eventEnum)
             {
@@ -2028,10 +1929,8 @@ namespace MediaDevices
         /// </example>
         public MediaStorageInfo GetStorageInfo(string storageObjectId)
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
+
             if (string.IsNullOrEmpty(storageObjectId))
             {
                 throw new ArgumentNullException(nameof(storageObjectId));
@@ -2051,7 +1950,7 @@ namespace MediaDevices
 
             try
             {
-                MediaStorageInfo info = new MediaStorageInfo();
+                var info = new MediaStorageInfo();
 
                 this.deviceProperties.GetSupportedProperties(storageObjectId, out IPortableDeviceKeyCollection ppKeys);
                 ComTrace.WriteObject(ppKeys);
@@ -2107,10 +2006,7 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<int> VendorOpcodes()
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_SUPPORTED_VENDOR_OPCODES);
             cmd.Send(this.device);
@@ -2128,10 +2024,7 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<int> VendorExcecute(int opCode, IEnumerable<int> inputParams, out int respCode)
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE);
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
@@ -2150,10 +2043,7 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<int> VendorExcecuteRead(int opCode, IEnumerable<int> inputParams)
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_READ);
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
@@ -2172,10 +2062,7 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<int> VendorExcecuteWrite(int opCode, IEnumerable<int> inputParams)
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_WRITE);
             cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
@@ -2229,10 +2116,7 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public string VendorExtentionDescription()
         {
-            if (!this.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this);
 
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_VENDOR_EXTENSION_DESCRIPTION);
             cmd.Send(this.device);
@@ -2274,9 +2158,10 @@ namespace MediaDevices
             //    s.Close();
 
             //}
-            
-            // not supported by old frameworks
-            #pragma warning disable IDE0066
+#if NET
+// not supported by old frameworks
+#pragma warning disable IDE0066
+#endif
             switch (service)
             {
                 case MediaDeviceServices.Status:
@@ -2312,7 +2197,7 @@ namespace MediaDevices
                 return null;
             }
 
-            StringBuilder s = new StringBuilder(filter);
+            var s = new StringBuilder(filter);
             s.Replace(".", @"\.");
             s.Replace("+", @"\+");
             s.Replace("$", @"\$");

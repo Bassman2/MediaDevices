@@ -41,10 +41,8 @@ namespace MediaDevices
             {
                 throw new ArgumentException("destination");
             }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(device);
+
 
             using (FileStream stream = File.Create(destination))
             {
@@ -81,10 +79,7 @@ namespace MediaDevices
             {
                 throw new ArgumentException("destination");
             }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(device);
 
             using (FileStream stream = File.Create(destination))
             {
@@ -121,10 +116,7 @@ namespace MediaDevices
             {
                 throw new ArgumentException("destination");
             }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(device);
 
             using (FileStream stream = File.Create(destination))
             {
@@ -161,10 +153,7 @@ namespace MediaDevices
             {
                 throw new ArgumentException("destination");
             }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(device);
 
             using (FileStream stream = File.OpenRead(source))
             {
@@ -202,10 +191,7 @@ namespace MediaDevices
             {
                 throw new ArgumentException("destination");
             }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(device);
 
             if (!Directory.Exists(destination))
             {
@@ -273,10 +259,7 @@ namespace MediaDevices
             {
                 throw new ArgumentException("destination");
             }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(device);
 
             device.CreateDirectory(destination);
 
@@ -339,10 +322,7 @@ namespace MediaDevices
             {
                 throw new ArgumentException("destination");
             }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(device);
 
             using (FileStream stream = File.Create(destination))
             {

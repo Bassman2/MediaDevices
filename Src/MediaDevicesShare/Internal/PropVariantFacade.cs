@@ -30,7 +30,7 @@ namespace MediaDevices.Internal
                 try
                 {
                     // clear propvariant clears also included objects like strings
-                    NativeMethods.PropVariantClear(ref this.Value);
+                    _ = NativeMethods.PropVariantClear(ref this.Value);
                 }
                 catch (Exception ex)
                 {
@@ -227,7 +227,11 @@ namespace MediaDevices.Internal
                 throw new InvalidOperationException($"ToGuid does not work for value type {this.Value.vt}");
             }
 
-            return (Guid)Marshal.PtrToStructure(this.Value.ptrVal, typeof(Guid));
+//#if NETFRAMEWORK
+//            return (Guid)Marshal.PtrToStructure(this.Value.ptrVal, typeof(Guid));
+//#else
+            return Marshal.PtrToStructure<Guid>(this.Value.ptrVal);
+//#endif
         }
 
 #if !NETCOREAPP
@@ -268,7 +272,7 @@ namespace MediaDevices.Internal
 
         public static PropVariantFacade StringToPropVariant(string value)
         {
-            PropVariantFacade pv = new PropVariantFacade();
+            var pv = new PropVariantFacade();
             pv.Value.vt = PropVariantType.VT_LPWSTR;
             // Hack, see GetString
             pv.Value.ptrVal = Marshal.StringToCoTaskMemUni(value);
@@ -285,7 +289,7 @@ namespace MediaDevices.Internal
 
         public static PropVariantFacade IntToPropVariant(int value)
         {
-            PropVariantFacade pv = new PropVariantFacade();
+            var pv = new PropVariantFacade();
             pv.Value.vt = PropVariantType.VT_INT;
             pv.Value.intVal = value;
             return pv;
@@ -293,7 +297,7 @@ namespace MediaDevices.Internal
 
         public static PropVariantFacade DateTimeToPropVariant(DateTime value)
         {
-            PropVariantFacade pv = new PropVariantFacade();
+            var pv = new PropVariantFacade();
             pv.Value.vt = PropVariantType.VT_DATE;
             pv.Value.dateVal = value.ToOADate();
             return pv;

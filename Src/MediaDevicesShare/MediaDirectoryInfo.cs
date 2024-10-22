@@ -53,10 +53,8 @@ namespace MediaDevices
             {
                 throw new ArgumentException("path");
             }
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+            
             Item item = this.item.CreateSubdirectory(path);
             return new MediaDirectoryInfo(this.device, item);
         }
@@ -69,10 +67,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<MediaDirectoryInfo> EnumerateDirectories()
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             return this.item.GetChildren().Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(this.device, i));
         }
 
@@ -86,10 +82,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern), searchOption).Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(this.device, i));
         }
 
@@ -101,10 +95,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<MediaFileInfo> EnumerateFiles()
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             return this.item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(this.device, i));
         }
 
@@ -118,10 +110,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<MediaFileInfo> EnumerateFiles(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern), searchOption).Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(this.device, i));
         }
 
@@ -133,10 +123,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos()
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             return this.item.GetChildren().Select(i => i.Type == ItemType.File ? 
                         (MediaFileSystemInfo)new MediaFileInfo(this.device, i) : 
                         (MediaFileSystemInfo)new MediaDirectoryInfo(this.device, i));
@@ -152,10 +140,7 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
 
             return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern), searchOption).Select(i => i.Type == ItemType.File ?
                         (MediaFileSystemInfo)new MediaFileInfo(this.device, i) :

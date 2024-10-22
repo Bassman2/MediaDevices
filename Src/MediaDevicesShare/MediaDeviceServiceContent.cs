@@ -12,7 +12,7 @@ namespace MediaDevices
     /// </summary>
     public class MediaDeviceServiceContent
     {
-        private MediaDeviceService service;
+        private readonly MediaDeviceService service;
 
         private MediaDeviceServiceContent()
         { }
@@ -35,13 +35,13 @@ namespace MediaDevices
 
             properties.GetValues(this.ObjectId, keyCol, out IPortableDeviceValues deviceValues);
 
-            using (PropVariantFacade value = new PropVariantFacade())
+            using (var value = new PropVariantFacade())
             {
                 deviceValues.GetValue(ref WPD.ParentId, out value.Value);
                 this.ParentId = value;
             }
 
-            using (PropVariantFacade value = new PropVariantFacade())
+            using (var value = new PropVariantFacade())
             {
                 deviceValues.GetValue(ref WPD.Name, out value.Value);
                 this.Name = value;

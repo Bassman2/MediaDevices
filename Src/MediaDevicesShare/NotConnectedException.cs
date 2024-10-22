@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace MediaDevices
@@ -31,5 +33,13 @@ namespace MediaDevices
         public NotConnectedException(string message, Exception innerException) 
             : base(message, innerException)
         { }
+
+        internal static void ThrowIfNotConnected(MediaDevice mediaDevice)
+        {
+            if (!mediaDevice.IsConnected)
+            {
+                throw new NotConnectedException("Not connected");
+            }
+        }
     }
 }

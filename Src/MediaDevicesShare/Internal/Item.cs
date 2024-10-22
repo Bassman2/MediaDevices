@@ -13,7 +13,7 @@ namespace MediaDevices.Internal
     [DebuggerDisplay("{this.Type} - {this.Name} - {this.Id}")]
     internal class Item
     {
-        private static IPortableDeviceKeyCollection keyCollection;
+        private readonly static IPortableDeviceKeyCollection keyCollection;
 
         static Item()
         {
@@ -37,9 +37,9 @@ namespace MediaDevices.Internal
             keyCollection.Add(ref WPD.OBJECT_PERSISTENT_UNIQUE_ID);
         }
 
-        private MediaDevice device;
+        private readonly MediaDevice device;
         private string name;
-        private string path;
+        private readonly string path;
         private Item parent;
 
         private const uint PORTABLE_DEVICE_DELETE_NO_RECURSION = 0;
@@ -194,7 +194,7 @@ namespace MediaDevices.Internal
         
         private void GetProperties()
         {
-            IPortableDeviceValues values = null;
+            IPortableDeviceValues values;
             try
             {
                 // get all predefined values
@@ -212,8 +212,8 @@ namespace MediaDevices.Internal
             values.GetCount(ref num);
             for (uint i = 0; i < num; i++)
             {
-                PropertyKey key = new PropertyKey();
-                using (PropVariantFacade val = new PropVariantFacade())
+                var key = new PropertyKey();
+                using (var val = new PropVariantFacade())
                 {
                     values.GetAt(i, ref key, ref val.Value);
 
@@ -315,15 +315,19 @@ namespace MediaDevices.Internal
         {
             get
             {
+#if !NET
                 if (this.parent == null)
                 {
                     this.parent = string.IsNullOrEmpty(this.ParentId) ? null : new Item(this.device, this.ParentId, Path.GetDirectoryName(Path.GetDirectoryName(this.FullName)));
                 }
+#else
+                this.parent ??= string.IsNullOrEmpty(this.ParentId) ? null : new Item(this.device, this.ParentId, Path.GetDirectoryName(Path.GetDirectoryName(this.FullName)));
+#endif
                 return this.parent;
             }
         }
 
-        #endregion
+#endregion
 
         #region Methods
 
@@ -484,7 +488,7 @@ namespace MediaDevices.Internal
             }
 
             Item item = this;
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             do
             {
                 // ++ TODO
@@ -540,10 +544,9 @@ namespace MediaDevices.Internal
         {
             this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
 
-            IStream wpdStream;
             uint optimalTransferSize = 0;
 
-            resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out wpdStream);
+            resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out IStream wpdStream);
 
             return new StreamWrapper(wpdStream, this.Size);
         }
@@ -552,10 +555,9 @@ namespace MediaDevices.Internal
         {
             this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
 
-            IStream wpdStream;
             uint optimalTransferSize = 0;
 
-            resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out wpdStream);
+            resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out IStream wpdStream);
 
             return new StreamWrapper(wpdStream, this.Size);
         }
@@ -564,10 +566,9 @@ namespace MediaDevices.Internal
         {
             this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
 
-            IStream wpdStream;
             uint optimalTransferSize = 0;
 
-            resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out wpdStream);
+            resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out IStream wpdStream);
 
             return new StreamWrapper(wpdStream, this.Size);
         }
@@ -591,7 +592,7 @@ namespace MediaDevices.Internal
                 string text = null;
                 this.device.deviceContent.CreateObjectWithPropertiesAndData(portableDeviceValues, out IStream wpdStream, ref num, ref text);
 
-                using (StreamWrapper destinationStream = new StreamWrapper(wpdStream))
+                using (var destinationStream = new StreamWrapper(wpdStream))
                 {
                     stream.CopyTo(destinationStream);
                     destinationStream.Flush();
@@ -602,11 +603,10 @@ namespace MediaDevices.Internal
         internal bool Rename(string newName)
         {
             IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
-            IPortableDeviceValues result;
 
             // with OBJECT_NAME does not work for Amazon Kindle Paperwhite
             portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, newName);
-            this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out result);
+            this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
             ComTrace.WriteObject(result);
             
             if (result.TryGetStringValue(WPD.OBJECT_ORIGINAL_FILE_NAME, out string check))
@@ -627,12 +627,11 @@ namespace MediaDevices.Internal
         internal void SetDateCreated(DateTime value)
         {
             IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
-            IPortableDeviceValues result;
 
             using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
             {
                 portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_CREATED, ref val.Value);
-                this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out result);
+                this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
                 ComTrace.WriteObject(result);
             }
 
@@ -642,12 +641,11 @@ namespace MediaDevices.Internal
         internal void SetDateModified(DateTime value)
         {
             IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
-            IPortableDeviceValues result;
 
             using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
             {
                 portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_MODIFIED, ref val.Value);
-                this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out result);
+                this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
                 ComTrace.WriteObject(result);
             }
 
@@ -657,12 +655,11 @@ namespace MediaDevices.Internal
         internal void SetDateAuthored(DateTime value)
         {
             IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
-            IPortableDeviceValues result;
 
             using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
             {
                 portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_AUTHORED, ref val.Value);
-                this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out result);
+                this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
                 ComTrace.WriteObject(result);
             }
 

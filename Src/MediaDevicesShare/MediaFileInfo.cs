@@ -40,10 +40,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void CopyTo(string destFileName, bool overwrite = true)
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             using (FileStream file = File.Open(destFileName, overwrite ? FileMode.Create : FileMode.CreateNew))
             {
                 using (Stream sourceStream = item.OpenRead())
@@ -63,10 +61,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void CopyIconTo(string destFileName, bool overwrite = true)
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             using (FileStream file = File.Open(destFileName, overwrite ? FileMode.Create : FileMode.CreateNew))
             {
                 using (Stream sourceStream = item.OpenReadIcon())
@@ -86,10 +82,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void CopyThumbnail(string destFileName, bool overwrite = true)
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             using (FileStream file = File.Open(destFileName, overwrite ? FileMode.Create : FileMode.CreateNew))
             {
                 using (Stream sourceStream = item.OpenReadThumbnail())
@@ -107,10 +101,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public Stream OpenRead()
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             return this.item.OpenRead();
         }
 
@@ -122,10 +114,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public Stream OpenIcon()
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             return this.item.OpenReadIcon();
         }
 
@@ -137,10 +127,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public Stream OpenThumbnail()
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             return this.item.OpenReadThumbnail();
         }
         /// <summary>
@@ -151,10 +139,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public StreamReader OpenText()
         {
-            if (!this.device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
+            NotConnectedException.ThrowIfNotConnected(this.device);
+
             return new StreamReader(this.item.OpenRead());
         }
     }

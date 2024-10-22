@@ -80,7 +80,8 @@ namespace MediaDevices
                 deviceValues.GetValue(ref WPD.FUNCTIONAL_OBJECT_CATEGORY, out value.Value);
                 
                 Guid serviceGuid = new Guid((string)value);
-                this.Service = serviceGuid.GetEnum<MediaDeviceServices>();
+                //this.Service = serviceGuid.GetEnum<MediaDeviceServices>();
+                this.Service = serviceGuid.GetMediaDeviceServices();
                 this.ServiceName = this.Service != MediaDeviceServices.Unknown ? this.Service.ToString() : serviceGuid.ToString();
             }
 
@@ -240,7 +241,7 @@ namespace MediaDevices
         {
             capabilities.GetSupportedMethods(out IPortableDevicePropVariantCollection methods);
             ComTrace.WriteObject(methods);
-            return methods.ToEnum<Methods>();
+            return methods.ToMethods();
         }
 
         /// <summary>
@@ -251,7 +252,7 @@ namespace MediaDevices
         {
             capabilities.GetSupportedCommands(out IPortableDeviceKeyCollection commands);
             ComTrace.WriteObject(commands);
-            return commands.ToEnum<Commands>();
+            return commands.ToCommands();
         }
 
         /// <summary>
@@ -262,7 +263,7 @@ namespace MediaDevices
         {
             capabilities.GetSupportedEvents(out IPortableDevicePropVariantCollection events);
             ComTrace.WriteObject(events);
-            return events.ToEnum<Events>();
+            return events.ToEvents();
         }
 
         /// <summary>
@@ -273,7 +274,7 @@ namespace MediaDevices
         {
             capabilities.GetSupportedFormats(out IPortableDevicePropVariantCollection formats);
             ComTrace.WriteObject(formats);
-            return formats.ToEnum<Formats>();
+            return formats.ToFormats();
         }
        
         /// <summary>

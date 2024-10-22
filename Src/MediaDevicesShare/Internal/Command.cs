@@ -6,7 +6,7 @@ namespace MediaDevices.Internal
 {
     internal class Command
     {
-        private IPortableDeviceValues values;
+        private readonly IPortableDeviceValues values;
         private IPortableDeviceValues result;
 
         private Command(PropertyKey commandKey)
@@ -65,36 +65,32 @@ namespace MediaDevices.Internal
 
         public Guid GetGuid(PropertyKey key)
         {
-            Guid value;
-            this.result.GetGuidValue(ref key, out value);
+            this.result.GetGuidValue(ref key, out Guid value);
             return value;
         }
 
         public int GetInt(PropertyKey key)
         {
-            int value;
-            this.result.GetSignedIntegerValue(ref key, out value);
+            this.result.GetSignedIntegerValue(ref key, out int value);
             return value;
         }
 
         public string GetString(PropertyKey key)
         {
-            string value;
-            this.result.GetStringValue(ref key, out value);
+            this.result.GetStringValue(ref key, out string value);
             return value;
         }
         
         public IEnumerable<PropVariantFacade> GetPropVariants(PropertyKey key) 
         {
-            object obj = null;
-            this.result.GetIUnknownValue(ref key, out obj);
+            this.result.GetIUnknownValue(ref key, out object obj);
             var col = obj as IPortableDevicePropVariantCollection;
         
             uint count = 0;
             col.GetCount(ref count);
             for (uint i = 0; i < count; i++)
             {
-                PropVariantFacade val = new PropVariantFacade();
+                var val = new PropVariantFacade();
                 col.GetAt(i, ref val.Value);
                 yield return val;
             }
@@ -106,8 +102,8 @@ namespace MediaDevices.Internal
             this.result.GetCount(ref count);
             for (uint i = 0; i < count; i++)
             {
-                PropertyKey k = new PropertyKey();
-                PropVariant v = new PropVariant();
+                var k = new PropertyKey();
+                var v = new PropVariant();
                 this.result.GetAt(i, ref k, ref v);
                 if (key == k)
                 {
@@ -121,8 +117,7 @@ namespace MediaDevices.Internal
         {
             device.SendCommand(0, this.values, out this.result);
 
-            int error = 0;
-            result.GetErrorValue(ref WPD.PROPERTY_COMMON_HRESULT, out error);
+            result.GetErrorValue(ref WPD.PROPERTY_COMMON_HRESULT, out int error);
             switch ((HResult)error)
             {
             case HResult.S_OK:

@@ -74,7 +74,7 @@ namespace MediaDevicesUnitTest
         {
             //if (!this.supEvent) return;
 
-            AutoResetEvent fired = new AutoResetEvent(false);
+            var fired = new AutoResetEvent(false);
 
             var devices = MediaDevice.GetDevices();
             var device = devices.FirstOrDefault(this.deviceSelect);
@@ -88,7 +88,7 @@ namespace MediaDevicesUnitTest
                 device.DeleteFile(filePath);
             }
 
-            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
             {
                 device.UploadFile(stream, filePath);
             }
@@ -141,7 +141,7 @@ namespace MediaDevicesUnitTest
                 device.DeleteFile(filePath);
             }
 
-            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
             {
                 device.UploadFile(stream, filePath);
             }
@@ -339,7 +339,7 @@ namespace MediaDevicesUnitTest
                 device.DeleteFile(newPath);
             }
 
-            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
             {
                 device.UploadFile(stream, filePath);
             }

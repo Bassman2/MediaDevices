@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace MediaDevices.Internal
 {
@@ -10,8 +11,8 @@ namespace MediaDevices.Internal
 
     internal static class ComTrace
     {
-        private static List<FieldInfo> pkeyFields;
-        private static List<FieldInfo> guidFields;
+        private readonly static List<FieldInfo> pkeyFields;
+        private readonly static List<FieldInfo> guidFields;
 
         static ComTrace()
         {
@@ -32,35 +33,31 @@ namespace MediaDevices.Internal
         }
 
         [Conditional("COMTRACE")]
-        public static void WriteObject(IPortableDeviceValues values)
+        public static void WriteObject(IPortableDeviceValues values, [CallerMemberName] string funcName = null)
         {
-            InternalWriteObject(values);
+            InternalWriteObject(values, funcName);
         }
 
         [Conditional("COMTRACE")]
-        public static void WriteObject(IPortableDeviceProperties deviceProperties, string objectId)
+        public static void WriteObject(IPortableDeviceProperties deviceProperties, string objectId, [CallerMemberName] string funcName = null)
         {
-            IPortableDeviceKeyCollection keys;
-            deviceProperties.GetSupportedProperties(objectId, out keys);
+            deviceProperties.GetSupportedProperties(objectId, out IPortableDeviceKeyCollection keys);
+            deviceProperties.GetValues(objectId, keys, out IPortableDeviceValues values);
 
-            IPortableDeviceValues values;
-            deviceProperties.GetValues(objectId, keys, out values);
-
-            InternalWriteObject(values);
+            InternalWriteObject(values, funcName);
         }
 
         [Conditional("COMTRACE")]
-        private static void InternalWriteObject(IPortableDeviceValues values)
+        private static void InternalWriteObject(IPortableDeviceValues values, string funcName)
         {
-            string func = new StackTrace().GetFrame(2).GetMethod().Name;
-            Trace.WriteLine($"############################### {func}");   
+            Trace.WriteLine($"############################### {funcName}");   
             uint num = 0;
 
             values.GetCount(ref num);
             for (uint i = 0; i < num; i++)
             {
-                PropertyKey key = new PropertyKey();
-                PropVariantFacade val = new PropVariantFacade();
+                var key = new PropertyKey();
+                var val = new PropVariantFacade();
                 values.GetAt(i, ref key, ref val.Value);
 
                 string fieldName = string.Empty;
@@ -102,7 +99,7 @@ namespace MediaDevices.Internal
             collection.GetCount(ref num);
             for (uint index = 0; index < num; index++)
             {
-                using (PropVariantFacade val = new PropVariantFacade())
+                using (var val = new PropVariantFacade())
                 {
                     collection.GetAt(index, ref val.Value);
 
@@ -119,10 +116,10 @@ namespace MediaDevices.Internal
             collection.GetCount(ref num);
             for (uint index = 0; index < num; index++)
             {
-                PropertyKey key = new PropertyKey();
+                var key = new PropertyKey();
                 collection.GetAt(index, ref key);
 
-                PropertyKeys propertyKey = key.GetEnumFromAttrKey<PropertyKeys>();
+                PropertyKeys propertyKey = key.GetPropertyKey();
                 Trace.WriteLine($"##### {propertyKey}");
             }
         }
