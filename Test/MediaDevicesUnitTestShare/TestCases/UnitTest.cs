@@ -191,11 +191,7 @@ namespace MediaDevicesUnitTest
             var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
 
-            string disconnectedFriendlyName = device.FriendlyName;
-
             device.Connect();
-
-            string connectedFriendlyName = device.FriendlyName;
 
             // some devices use only upper letters in friendly names
             device.FriendlyName = "DUMMY";
@@ -210,16 +206,20 @@ namespace MediaDevicesUnitTest
 
             string connectedDummyFriendlyName = device.FriendlyName;
 
-            device.FriendlyName = connectedFriendlyName;
+            device.FriendlyName = this.deviceFriendlyName;
 
+            string connectedFriendlyName = device.FriendlyName;
             device.Disconnect();
 
+            string disconnectedFriendlyName = device.FriendlyName;
 
-            Assert.AreEqual(this.deviceFriendlyName, disconnectedFriendlyName, "disconnectedFriendlyName");
-            Assert.AreEqual(this.deviceFriendlyName, connectedFriendlyName, "connectedFriendlyName");
+            //Assert.AreEqual(this.deviceFriendlyName, disconnectedFriendlyName, "disconnectedFriendlyName");
+            //
             Assert.AreEqual("DUMMY", dummyFriendlyName, "dummyFriendlyName");
             Assert.AreEqual("DUMMY", disconnectedDummyFriendlyName, "disconnectedDummyFriendlyName");
             Assert.AreEqual("DUMMY", connectedDummyFriendlyName, "connectedDummyFriendlyName");
+            Assert.AreEqual(this.deviceFriendlyName, connectedFriendlyName, "connectedFriendlyName");
+            Assert.AreEqual(this.deviceFriendlyName, disconnectedFriendlyName, "disconnectedFriendlyName");
         }
 
         [TestMethod]

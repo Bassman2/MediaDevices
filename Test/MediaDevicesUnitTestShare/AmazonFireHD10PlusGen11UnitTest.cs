@@ -5,44 +5,46 @@ using System.Collections.Generic;
 namespace MediaDevicesUnitTest
 {
     [TestClass]
-    public class SamsungA40UnitTest : WritableUnitTest
+    public class AmazonFireHD10PlusGen11UnitTest : WritableUnitTest
     {
-        public SamsungA40UnitTest()
+        public AmazonFireHD10PlusGen11UnitTest()
         {
             // Device Select
             this.deviceSelect = device => device.Description == this.deviceDescription;
 
             // Device Test
-            this.deviceDescription = "SM-A405FN"; 
-            this.deviceFriendlyName = "A40 von Ralf";
-            this.deviceManufacture = "Samsung Electronics Co., Ltd.";
-            this.deviceFirmwareVersion = "A405FNXXU4CWC3";
-            this.deviceModel = "SM-A405FN";
-            this.deviceSerialNumber = "R58M81NACKB";
-            this.deviceDeviceType = DeviceType.MediaPlayer;
+            this.deviceDescription = "Fire";
+            this.deviceFriendlyName = "FireHD10Plus11";
+            this.deviceManufacture = "Amazon";
+            this.deviceFirmwareVersion = "1.0";
+            this.deviceModel = "Fire";
+            this.deviceSerialNumber = "G001MG0613460HLU";
+            this.deviceDeviceType = DeviceType.Generic;
             this.deviceTransport = DeviceTransport.USB;
             this.devicePowerSource = PowerSource.Battery;
             this.deviceProtocol = "MTP: 1.00";
 
             // Capability Test
-            this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded };
+            this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
             this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
             this.supportedContents = new List<ContentType> { ContentType.Image };
-            this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage, FunctionalCategory.RenderingInformation };
+            this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage };
 
             // ContentLocation Test
-            this.contentLocations = new List<string> ();
+            this.contentLocations = new List<string>(); // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
             // PersistentUniqueId
-            this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
-            this.FolderPersistentUniqueIdPath = @"\Phone\Music";
-            this.FilePersistentUniqueId = "{25606D91-C12C-CF74-93A6-34E88717AD11}"; // "{FDFF71F3-E0BD-D98E-0000-000000000000}";
-            this.FilePersistentUniqueIdPath = @"\Phone\Samsung\Music\Over_the_Horizon.mp3"; // @"\Phone\Videos\desktop.ini"; Directory = "\\Phone\\Samsung\\Music"
+            this.FolderPersistentUniqueId = "{00000023-0001-0001-0000-000000000000}";
+            this.FolderPersistentUniqueIdPath = @"\Interner Speicher\Download";
+            this.FilePersistentUniqueId = "{0000002B-0001-0001-0000-000000000000}";
+            this.FilePersistentUniqueIdPath = @"\Interner Speicher\Android\data\com.amazon.ags.app\files\cardcache\version";
 
-            this.workingFolder = @"\Card\Test";
+            // Writable Tests
+            this.workingFolder = @"\Interner Speicher\tmp";
+
 
             // Exists Test
-            //this.existingFile = @"\Phone\Music\Artist\05 - Decoupage.mp3";
+            //this.existingFile = @"\Interner Speicher\Download\14.jpg";
 
             //this.infoDirectoryName = "Pictures";
             //this.infoDirectoryPath = @"\SD card\Pictures";
@@ -80,6 +82,7 @@ namespace MediaDevicesUnitTest
             //this.enumAllItems = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
             //this.enumMaskItems = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
             //this.enumMaskRecursiveItems = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
+
         }
     }
 }
