@@ -1,4 +1,5 @@
-﻿using MediaDevices.Internal;
+﻿using MediaDevices.Compatibility;
+using MediaDevices.Internal;
 using MediaDevices.WMDM;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using static System.Collections.Specialized.BitVector32;
 
 namespace MediaDevices
 {
@@ -28,7 +30,9 @@ namespace MediaDevices
         private IPortableDeviceValues deviceValues;
         private string friendlyName = string.Empty;
         private string eventCookie;
-        private EventCallback eventCallback;        
+        private EventCallback eventCallback;
+        private readonly IPortableDeviceManager deviceManager;
+        private readonly IPortableDeviceServiceManager serviceManager;
 
         #endregion
 
@@ -82,155 +86,33 @@ namespace MediaDevices
 
         #endregion
 
-        #region static
-
-        private static readonly IPortableDeviceManager deviceManager;
-        private static readonly IPortableDeviceServiceManager serviceManager;
-
-        private static List<MediaDevice> devices;
-        private static List<MediaDevice> privateDevices;
-
-        static MediaDevice()
-        {
-            try
-            {
-                deviceManager = STAThread.Run<IPortableDeviceManager>(() => (IPortableDeviceManager)new PortableDeviceManager());
-                //serviceManager = STAThread.Run<IPortableDeviceServiceManager>(() => (IPortableDeviceServiceManager)deviceManager);
-                serviceManager = (IPortableDeviceServiceManager)deviceManager;
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceError(ex.ToString());
-            }
-
-            // #define WMDM_E_NOTCERTIFIED                     0x80045005L
-        }
+        #region static obsolete
 
         /// <summary>
         /// Returns an enumerable collection of currently available portable devices.
         /// </summary>
         /// <returns>>An enumerable collection of portable devices currently available.</returns>
-        public static IEnumerable<MediaDevice> GetDevices()
-        {
-            STAThread.Run(() =>
-            {
-                deviceManager.RefreshDeviceList();
-
-                // get number of devices
-                uint count = 0;
-                deviceManager.GetDevices(null, ref count);
-
-                if (count == 0)
-                {
-#if !NET8_0_OR_GREATER
-                    devices = new List<MediaDevice>();
-#else
-                    devices = [];
-#endif
-                }
-                else
-                {
-                    // get device IDs
-                    var deviceIds = new string[count];
-                    deviceManager.GetDevices(deviceIds, ref count);
-
-                    if (devices == null)
-                    {
-                        devices = deviceIds.Select(d => new MediaDevice(d)).ToList();
-                    }
-                    else
-                    {
-                        UpdateDeviceList(devices, deviceIds);
-                    }
-                }
-            });
-            return devices;
-        }
-
-        private static void UpdateDeviceList(List<MediaDevice> deviceList, string[] deviceIdList)
-        {
-            var idList = deviceIdList.ToList();
-
-            // remove
-            var remove = deviceList.Where(d => !idList.Contains(d.DeviceId)).Select(d => d.DeviceId).ToList();
-            deviceList.RemoveAll(d => remove.Contains(d.DeviceId));
-
-            // add
-            var add = idList.Where(id => !deviceList.Select(d => d.DeviceId).Contains(id)).ToList();
-            deviceList.AddRange(add.Select(id => new MediaDevice(id)));
-        }
-
-        //public static IEnumerable<MediaDevice> GetDevices(FunctionalCategory category)
-        //{
-        //    if (category == FunctionalCategory.All)
-        //    {
-        //        return GetDevices();
-        //    }
-
-        //    var devices = GetDevices();
-
-        //    var dev = devices.FirstOrDefault();
-
-        //    dev.deviceCapabilities
-        //}
-
+        [Obsolete("Obsolete: Use MediaDeviceManager.GetDevices() instead.  ")]
+        public static IEnumerable<MediaDevice> GetDevices() => MediaDeviceManager.Instance.GetDevices();
+               
         /// <summary>
         /// Returns an enumerable collection of currently available private portable devices.
         /// </summary>
         /// <returns>>An enumerable collection of private portable devices currently available.</returns>
-        public static IEnumerable<MediaDevice> GetPrivateDevices()
-        {
-            STAThread.Run(() =>
-            {
-                deviceManager.RefreshDeviceList();
-
-                // get number of devices
-                uint count = 0;
-                deviceManager.GetPrivateDevices(null, ref count);
-
-                if (count == 0)
-                {
-#if !NET8_0_OR_GREATER
-                    privateDevices = new List<MediaDevice>();
-#else
-                    privateDevices = [];
-#endif
-                }
-                else
-                {
-
-                    // get device IDs
-                    var deviceIds = new string[count];
-                    deviceManager.GetPrivateDevices(deviceIds, ref count);
-
-                    if (privateDevices == null)
-                    {
-                        privateDevices = deviceIds.Select(d => new MediaDevice(d)).ToList();
-                    }
-                    else
-                    {
-                        UpdateDeviceList(privateDevices, deviceIds);
-                    }
-                }
-            });
-            return privateDevices;
-        }
-
-#endregion
+        [Obsolete("Obsolete: Use MediaDeviceManager.GetPrivateDevices() instead.")]
+        public static IEnumerable<MediaDevice> GetPrivateDevices() => MediaDeviceManager.Instance.GetDevices(Devices.Private);
+        
+        #endregion
 
         #region constructor
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="deviceId"></param>
-        /// <remarks>Run inside STAThread</remarks>
-        private MediaDevice(string deviceId)
+        internal MediaDevice(string deviceId)
         {
             this.DeviceId = deviceId;
             this.IsCaseSensitive = false;
+            this.deviceManager = MediaDeviceManager.Instance.DeviceManager;
+            this.serviceManager = MediaDeviceManager.Instance.ServiceManager;
 
-            
             uint count = 256;
             try
             {
@@ -318,7 +200,7 @@ namespace MediaDevices
             {
                 if (IsConnected)
                 {
-                    return STAThread.Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val) ? val : this.friendlyName);
+                    return Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val) ? val : this.friendlyName);
                 }
                 else
                 {
@@ -329,7 +211,7 @@ namespace MediaDevices
             {
                 NotConnectedException.ThrowIfNotConnected(this);
 
-                STAThread.Run(() =>
+                Run(() =>
                 {
                     // set new friendly name
                     IPortableDeviceValues devInValues = (IPortableDeviceValues)new PortableDeviceValues();
@@ -374,7 +256,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_SYNC_PARTNER, out string val) ? val : string.Empty);
+                return Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_SYNC_PARTNER, out string val) ? val : string.Empty);
             }
         }
 
@@ -387,7 +269,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_FIRMWARE_VERSION, out string val) ? val : string.Empty);
+                return Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_FIRMWARE_VERSION, out string val) ? val : string.Empty);
             }
         }
 
@@ -400,7 +282,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<int>(() => this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_LEVEL, out int val) ? val : 0);
+                return Run<int>(() => this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_LEVEL, out int val) ? val : 0);
             }
         }
 
@@ -413,7 +295,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<PowerSource>(() => this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE, out int val) ? (PowerSource)val : PowerSource.Unknown);
+                return Run<PowerSource>(() => this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE, out int val) ? (PowerSource)val : PowerSource.Unknown);
             }
         }
 
@@ -426,7 +308,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_PROTOCOL, out string val) ? val : string.Empty);
+                return Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_PROTOCOL, out string val) ? val : string.Empty);
             }
         }
 
@@ -439,7 +321,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_MODEL, out string val) ? val : string.Empty);
+                return Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_MODEL, out string val) ? val : string.Empty);
             }
         }
 
@@ -452,7 +334,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_SERIAL_NUMBER, out string val) ? val : string.Empty);
+                return Run<string>(() => this.deviceValues.TryGetStringValue(WPD.DEVICE_SERIAL_NUMBER, out string val) ? val : string.Empty);
             }
         }
 
@@ -465,7 +347,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<bool?>(() => this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out bool val) ? (bool?)val : null);
+                return Run<bool?>(() => this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out bool val) ? (bool?)val : null);
             }
         }
 
@@ -478,7 +360,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<DateTime?>(() => this.deviceValues.TryGetDateTimeValue(WPD.DEVICE_DATETIME, out DateTime? val) ? val : null);
+                return Run<DateTime?>(() => this.deviceValues.TryGetDateTimeValue(WPD.DEVICE_DATETIME, out DateTime? val) ? val : null);
             }
         }
 
@@ -491,7 +373,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<bool?>(() => this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out bool val) ? (bool?)val : null);
+                return Run<bool?>(() => this.deviceValues.TryGetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out bool val) ? (bool?)val : null);
             }
         }
 
@@ -504,7 +386,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<DeviceType>(() => this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TYPE, out int val) ? (DeviceType)val : DeviceType.Generic);
+                return Run<DeviceType>(() => this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TYPE, out int val) ? (DeviceType)val : DeviceType.Generic);
             }
         }
 
@@ -517,7 +399,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<ulong>(() => this.deviceValues.TryGetUnsignedLargeIntegerValue(WPD.DEVICE_NETWORK_IDENTIFIER, out ulong val) ? val : 0);
+                return Run<ulong>(() => this.deviceValues.TryGetUnsignedLargeIntegerValue(WPD.DEVICE_NETWORK_IDENTIFIER, out ulong val) ? val : 0);
             }
         }
 
@@ -530,7 +412,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<byte[]>(() => this.deviceValues.TryByteArrayValue(WPD.DEVICE_FUNCTIONAL_UNIQUE_ID, out byte[] val) ? val : null);
+                return Run<byte[]>(() => this.deviceValues.TryByteArrayValue(WPD.DEVICE_FUNCTIONAL_UNIQUE_ID, out byte[] val) ? val : null);
             }
         }
 
@@ -543,7 +425,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<byte[]>(() => this.deviceValues.TryByteArrayValue(WPD.DEVICE_MODEL_UNIQUE_ID, out byte[] val) ? val : null);
+                return Run<byte[]>(() => this.deviceValues.TryByteArrayValue(WPD.DEVICE_MODEL_UNIQUE_ID, out byte[] val) ? val : null);
             }
         }
 
@@ -556,7 +438,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<DeviceTransport>(() => this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TRANSPORT, out int val) ? (DeviceTransport)val : DeviceTransport.NotSupported); 
+                return Run<DeviceTransport>(() => this.deviceValues.TryGetSignedIntegerValue(WPD.DEVICE_TRANSPORT, out int val) ? (DeviceTransport)val : DeviceTransport.NotSupported); 
             }
         }
 
@@ -569,7 +451,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<DeviceTransport>(() => this.deviceValues.TryGetUnsignedIntegerValue(WPD.DEVICE_USE_DEVICE_STAGE, out uint val) ? (DeviceTransport)val : DeviceTransport.NotSupported); 
+                return Run<DeviceTransport>(() => this.deviceValues.TryGetUnsignedIntegerValue(WPD.DEVICE_USE_DEVICE_STAGE, out uint val) ? (DeviceTransport)val : DeviceTransport.NotSupported); 
             }
         }
 
@@ -582,7 +464,7 @@ namespace MediaDevices
             get
             {
                 NotConnectedException.ThrowIfNotConnected(this);
-                return STAThread.Run<string>(() => { this.device.GetPnPDeviceID(out string val); return val; }); 
+                return Run<string>(() => { this.device.GetPnPDeviceID(out string val); return val; }); 
             }
         }
 
@@ -603,7 +485,7 @@ namespace MediaDevices
                 return;
             }
 
-            STAThread.Run(() =>
+            Run(() =>
             {
                 // find the app name for client name
                 var appName = Assembly.GetEntryAssembly()?.GetName()?.Name ?? "MediaDevices";
@@ -663,7 +545,7 @@ namespace MediaDevices
                 return;
             }
 
-            STAThread.Run(() =>
+            Run(() =>
             {
                 if (!string.IsNullOrEmpty(this.eventCookie))
                 {
@@ -683,7 +565,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            STAThread.Run(() =>
+            Run(() =>
             {
                 this.device.Cancel();
             });
@@ -714,7 +596,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<string>>(() =>
+            return Run<IEnumerable<string>>(() =>
             {
                 Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
                 //if (item == null)
@@ -741,21 +623,10 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
-#if !NET
-            _ = path ?? throw new ArgumentNullException(nameof(path));
-#elif NET6_0
-            ArgumentNullException.ThrowIfNull(path, nameof(path));
-#else
-            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
-#endif
-
-            if (!IsPath(path))
-            {
-                throw new ArgumentException("Invalide path", nameof(path));
-            }
+            InvalidPathException.ThrowIfPathIsInvalid(path);
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<string>>(() =>
+            return Run<IEnumerable<string>>(() =>
             {
                 Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
                 //if (item == null)
@@ -779,20 +650,14 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public IEnumerable<string> EnumerateFiles(string path)
         {
-#if !NET
-            _ = path ?? throw new ArgumentNullException(nameof(path));
-#elif NET6_0
-            ArgumentNullException.ThrowIfNull(path, nameof(path));
-#else
-            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
-#endif
+            InvalidPathException.ThrowIfPathIsInvalid(path);
 
             if (!IsPath(path))
             {
                 throw new ArgumentException("Invalide path", nameof(path));
             }
             NotConnectedException.ThrowIfNotConnected(this);
-            return STAThread.Run<IEnumerable<string>>(() =>
+            return Run<IEnumerable<string>>(() =>
             {
                 Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
                 return item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => i.FullName);
@@ -827,7 +692,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<string>>(() =>
+            return Run<IEnumerable<string>>(() =>
             {
                 Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
                 string pattern = MediaDevice.FilterToRegex(searchPattern);
@@ -861,7 +726,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<string>>(() =>
+            return Run<IEnumerable<string>>(() =>
             {
                 Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
 
@@ -897,7 +762,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<string>>(() =>
+            return Run<IEnumerable<string>>(() =>
             {
                 Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
                 //if (item == null)
@@ -1030,7 +895,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            STAThread.Run(() => Item.GetRoot(this).CreateSubdirectory(path));
+            Run(() => Item.GetRoot(this).CreateSubdirectory(path));
         }
 
         /// <summary>
@@ -1058,7 +923,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            STAThread.Run(() =>
+            Run(() =>
             {
                 Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
                 item.Delete(recursive);
@@ -1081,7 +946,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<bool>(() => Item.FindFolder(this, path) != null);
+            return Run<bool>(() => Item.FindFolder(this, path) != null);
         }
 
         /// <summary>
@@ -1116,7 +981,7 @@ namespace MediaDevices
 
             NotConnectedException.ThrowIfNotConnected(this);
 
-            STAThread.Run(() =>
+            Run(() =>
             {
                 Item item = Item.FindFile(this, path) ?? throw new FileNotFoundException($"File {path} not found.");
                 using (Stream sourceStream = item.OpenRead())
@@ -1157,7 +1022,7 @@ namespace MediaDevices
 
             NotConnectedException.ThrowIfNotConnected(this);
 
-            STAThread.Run(() =>
+            Run(() =>
             {
                 Item item = Item.FindFile(this, path) ?? throw new FileNotFoundException($"File {path} not found.");
 
@@ -1199,7 +1064,7 @@ namespace MediaDevices
 
             NotConnectedException.ThrowIfNotConnected(this);
 
-            STAThread.Run(() =>
+            Run(() =>
             {
 
                 Item item = Item.FindFile(this, path) ?? throw new FileNotFoundException($"File {path} not found.");
@@ -1245,7 +1110,7 @@ namespace MediaDevices
 
             NotConnectedException.ThrowIfNotConnected(this);
 
-            STAThread.Run(() =>
+            Run(() =>
             {
                 string folder = Path.GetDirectoryName(path);
                 string fileName = Path.GetFileName(path);
@@ -1283,7 +1148,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<bool>(() =>
+            return Run<bool>(() =>
             {
                 var objectId = Item.FindFile(this, path);
                 return objectId != null;
@@ -1314,7 +1179,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            STAThread.Run(() =>
+            Run(() =>
             {
 
                 Item item = Item.FindFile(this, path) ?? throw new FileNotFoundException($"File {path} not found.");
@@ -1352,7 +1217,7 @@ namespace MediaDevices
                 throw new ArgumentNullException(nameof(newName));
             }
 
-            STAThread.Run(() =>
+            Run(() =>
             {
                 Item item = Item.FindItem(this, path) ?? throw new FileNotFoundException($"Path {path} not found.", path);
 
@@ -1385,7 +1250,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<MediaFileInfo>(() =>
+            return Run<MediaFileInfo>(() =>
             {
 
                 var item = Item.FindItem(this, path) ?? throw new FileNotFoundException($"{path} not found.", path);
@@ -1410,20 +1275,10 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public MediaDirectoryInfo GetDirectoryInfo(string path)
         {
-#if !NET
-            _ = path ?? throw new ArgumentNullException(nameof(path));
-#elif NET6_0
-            ArgumentNullException.ThrowIfNull(path, nameof(path));
-#else
-            ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
-#endif
-            if (!IsPath(path))
-            {
-                throw new ArgumentException("Invalide path", nameof(path));
-            }
+            InvalidPathException.ThrowIfPathIsInvalid(path);
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<MediaDirectoryInfo>(() =>
+            return Run<MediaDirectoryInfo>(() =>
             {
                 var item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"{path} not found.");
                 return new MediaDirectoryInfo(this, item);
@@ -1448,7 +1303,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            Item item = STAThread.Run<Item>(() => Item.GetRoot(this));
+            Item item = Run<Item>(() => Item.GetRoot(this));
             return new MediaDirectoryInfo(this, item);
         }
 
@@ -1478,7 +1333,7 @@ namespace MediaDevices
 #endif
             NotConnectedException.ThrowIfNotConnected(this);
 
-            STAThread.Run(() =>
+            Run(() =>
             {
                 using (Stream sourceStream = OpenReadFromPersistentUniqueId(persistentUniqueId))
                 {
@@ -1503,7 +1358,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<Stream>(() =>
+            return Run<Stream>(() =>
             {
                 Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
                 if (item == null || !item.IsFile)
@@ -1530,7 +1385,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<StreamReader>(() =>
+            return Run<StreamReader>(() =>
             {
                 Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
                 if (item == null || !item.IsFile)
@@ -1557,7 +1412,7 @@ namespace MediaDevices
             }
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<MediaFileSystemInfo>(() =>
+            return Run<MediaFileSystemInfo>(() =>
             {
                 Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
                 //if (item == null)
@@ -1589,7 +1444,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<Commands>>(() =>
+            return Run<IEnumerable<Commands>>(() =>
             {
 
                 try
@@ -1614,7 +1469,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<FunctionalCategory>>(() =>
+            return Run<IEnumerable<FunctionalCategory>>(() =>
             {
 
                 try
@@ -1640,7 +1495,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<string>>(() =>
+            return Run<IEnumerable<string>>(() =>
             {
                 try
                 {
@@ -1669,7 +1524,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<ContentType>>(() =>
+            return Run<IEnumerable<ContentType>>(() =>
             {
                 try
                 {
@@ -1695,7 +1550,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<Events>>(() =>
+            return Run<IEnumerable<Events>>(() =>
             {
                 try
                 {
@@ -1723,7 +1578,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            STAThread.Run(() => Command.Create(WPD.COMMAND_COMMON_RESET_DEVICE).Send(this.device));
+            Run(() => Command.Create(WPD.COMMAND_COMMON_RESET_DEVICE).Send(this.device));
         }
 
         /// <summary>
@@ -1736,7 +1591,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<string>>(() =>
+            return Run<IEnumerable<string>>(() =>
             {
                 try
                 {
@@ -1788,7 +1643,7 @@ namespace MediaDevices
                 throw new ArgumentNullException(nameof(path));
             }
 
-            return STAThread.Run<bool>(() =>
+            return Run<bool>(() =>
             {
                 Item item = Item.FindFolder(this, path);
                 return InternalEject(item.Id);
@@ -1815,7 +1670,7 @@ namespace MediaDevices
                 throw new ArgumentNullException(nameof(path));
             }
 
-            STAThread.Run(() =>
+            Run(() =>
             {
                 Item item = Item.FindFolder(this, path);
                 Format(item.Id);
@@ -1864,7 +1719,7 @@ namespace MediaDevices
                 throw new ArgumentNullException(nameof(functionalObject));
             }
 
-            return STAThread.Run<bool>(() =>
+            return Run<bool>(() =>
             {
                 Command cmd = Command.Create(WPD.COMMAND_SMS_SEND);
                 cmd.Add(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
@@ -1908,7 +1763,7 @@ namespace MediaDevices
                 throw new ArgumentNullException(nameof(functionalObject));
             }
 
-            return STAThread.Run<bool>(() =>
+            return Run<bool>(() =>
             {
                 Command cmd = Command.Create(WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE);
                 cmd.Add(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
@@ -1987,7 +1842,7 @@ namespace MediaDevices
             {
                 throw new ArgumentNullException(nameof(storageObjectId));
             }
-            return STAThread.Run<MediaStorageInfo>(() =>
+            return Run<MediaStorageInfo>(() =>
             {
                 IPortableDeviceKeyCollection keys = (IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();
                 keys.Add(ref WPD.STORAGE_TYPE);
@@ -2062,7 +1917,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<int>>(() =>
+            return Run<IEnumerable<int>>(() =>
             {
                 Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_SUPPORTED_VENDOR_OPCODES);
                 cmd.Send(this.device);
@@ -2083,7 +1938,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
             int resp = 0;
-            var list = STAThread.Run<IEnumerable<int>>(() =>
+            var list = Run<IEnumerable<int>>(() =>
             {
                 Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE);
                 cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
@@ -2107,7 +1962,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<int>>(() =>
+            return Run<IEnumerable<int>>(() =>
             {
                 Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_READ);
                 cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
@@ -2129,7 +1984,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<IEnumerable<int>>(() =>
+            return Run<IEnumerable<int>>(() =>
             {
                 Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_WRITE);
                 cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
@@ -2171,7 +2026,7 @@ namespace MediaDevices
         public IEnumerable<int> VendorEndTransfer(string context, out int respCode)
         {
             int resp = 0;
-            var list = STAThread.Run<IEnumerable<int>>(() =>
+            var list = Run<IEnumerable<int>>(() =>
             {
                 Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_END_DATA_TRANSFER);
                 cmd.Add(WPD.PROPERTY_MTP_EXT_TRANSFER_CONTEXT, context);
@@ -2192,7 +2047,7 @@ namespace MediaDevices
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return STAThread.Run<string>(() =>
+            return Run<string>(() =>
             {
                 Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_VENDOR_EXTENSION_DESCRIPTION);
                 cmd.Send(this.device);
@@ -2214,7 +2069,7 @@ namespace MediaDevices
         /// <returns>List of services</returns>
         public IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices service)
         {
-            return STAThread.Run<IEnumerable<MediaDeviceService>>(() =>
+            return Run<IEnumerable<MediaDeviceService>>(() =>
             {
                 Guid serviceGuid = service.Guid();
                 uint num = 0;
@@ -2264,11 +2119,15 @@ namespace MediaDevices
 #endif
             });
         }
-           
-            
-#endregion
+
+
+        #endregion
 
         #region Internal Methods
+
+        private static void Run(Action action) => MediaDeviceManager.Instance.Run(action);
+
+        private static T Run<T>(Func<T> func) => MediaDeviceManager.Instance.Run<T>(func);
 
         internal static bool IsPath(string path)
         {

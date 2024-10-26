@@ -11,7 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AmazonFire7UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AmazonFire8UnitTest.cs" />
-    <Compile Include="..\MediaDevicesUnitTestShare\AmazonFireHD10PlusGen11UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AmazonFireHD10PlusGen11UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AmazonKindlePaperwhiteUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AppleiPhoneS3UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AppleiPodNanoUnitTest.cs" />

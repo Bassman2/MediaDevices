@@ -13,8 +13,10 @@ namespace MediaDevicesConsole80
 
         public void Run()
         {
-            var list = MediaDevice.GetDevices();
-
+            using (var mdm = MediaDeviceManager.Instance)
+            {
+                var list = mdm.GetDevices();
+            }
 
         }
     }

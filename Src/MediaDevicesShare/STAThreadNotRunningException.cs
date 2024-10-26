@@ -4,22 +4,22 @@ using System.Runtime.Serialization;
 namespace MediaDevices
 {
     /// <summary>
-    /// Represent error that occur if portable device is not connected.
+    /// 
     /// </summary>
-    [SerializableAttribute]
-    public class NotConnectedException : Exception, ISerializable
+    public class STAThreadNotRunningException : Exception, ISerializable
     {
         /// <summary>
-        /// Initializes a new instance of the PortableDevices.NotConnectedException class.
+        /// 
         /// </summary>
-        public NotConnectedException()
+        public STAThreadNotRunningException() 
+            : base("STA Thread Not Running")
         { }
 
         /// <summary>
         /// Initializes a new instance of the PortableDevices.NotConnectedException class with a specified error message.
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
-        public NotConnectedException(string message)
+        public STAThreadNotRunningException(string message)
             : base(message)
         { }
 
@@ -28,16 +28,23 @@ namespace MediaDevices
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
         /// <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
-        public NotConnectedException(string message, Exception innerException) 
+        public STAThreadNotRunningException(string message, Exception innerException)
             : base(message, innerException)
         { }
 
-        internal static void ThrowIfNotConnected(MediaDevice mediaDevice)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="isRunning"></param>
+        public static void ThrowIfNotRunning(bool isRunning)
         {
-            if (!mediaDevice.IsConnected)
+            if (!isRunning)
             {
-                throw new NotConnectedException("Not connected");
+                Throw();
             }
         }
+
+        private static void Throw() =>
+            throw new STAThreadNotRunningException();
     }
 }

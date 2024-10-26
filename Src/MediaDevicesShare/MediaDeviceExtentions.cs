@@ -1,4 +1,5 @@
-﻿using MediaDevices.Internal;
+﻿using MediaDevices.Compatibility;
+using MediaDevices.Internal;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,24 +26,9 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public static void DownloadFile(this MediaDevice device, string source, string destination)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
+            InvalidPathException.ThrowIfPathIsInvalid(source);
+            InvalidPathException.ThrowIfPathIsInvalid(destination);
             NotConnectedException.ThrowIfNotConnected(device);
-
 
             using (FileStream stream = File.Create(destination))
             {
@@ -63,22 +49,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public static void DownloadIcon(this MediaDevice device, string source, string destination)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
+            InvalidPathException.ThrowIfPathIsInvalid(source);
+            InvalidPathException.ThrowIfPathIsInvalid(destination);
             NotConnectedException.ThrowIfNotConnected(device);
 
             using (FileStream stream = File.Create(destination))
@@ -100,22 +72,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public static void DownloadThumbnail(this MediaDevice device, string source, string destination)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
+            InvalidPathException.ThrowIfPathIsInvalid(source);
+            InvalidPathException.ThrowIfPathIsInvalid(destination);
             NotConnectedException.ThrowIfNotConnected(device);
 
             using (FileStream stream = File.Create(destination))
@@ -137,22 +95,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public static void UploadFile(this MediaDevice device, string source, string destination)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
+            InvalidPathException.ThrowIfPathIsInvalid(source);
+            InvalidPathException.ThrowIfPathIsInvalid(destination);
             NotConnectedException.ThrowIfNotConnected(device);
 
             using (FileStream stream = File.OpenRead(source))
@@ -175,22 +119,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public static void DownloadFolder(this MediaDevice device, string source, string destination, bool recursive = true)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
+            InvalidPathException.ThrowIfPathIsInvalid(source);
+            InvalidPathException.ThrowIfPathIsInvalid(destination);
             NotConnectedException.ThrowIfNotConnected(device);
 
             if (!Directory.Exists(destination))
@@ -243,29 +173,15 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public static void UploadFolder(this MediaDevice device, string source, string destination, bool recursive = true)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
+            InvalidPathException.ThrowIfPathIsInvalid(source);
+            InvalidPathException.ThrowIfPathIsInvalid(destination);
             NotConnectedException.ThrowIfNotConnected(device);
 
             device.CreateDirectory(destination);
 
             if (recursive)
             {
-                DirectoryInfo di = new DirectoryInfo(source);
+                var di = new DirectoryInfo(source);
                 foreach (var e in di.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
                 {
                     string path = Path.Combine(destination, GetLocalPath(source, e.FullName));
@@ -275,7 +191,7 @@ namespace MediaDevices
                     }
                     else
                     {
-                        FileInfo fi = e as FileInfo;
+                        var fi = e as FileInfo;
                         using (FileStream stream = fi.OpenRead())
                         {
                             device.UploadFile(stream, path);
@@ -285,7 +201,7 @@ namespace MediaDevices
             }
             else
             {
-                DirectoryInfo di = new DirectoryInfo(source);
+                var di = new DirectoryInfo(source);
                 foreach (FileInfo fi in di.EnumerateFiles())
                 {
                     string path = Path.Combine(destination, GetLocalPath(source, fi.FullName));
@@ -310,18 +226,8 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public static void DownloadFileFromPersistentUniqueId(this MediaDevice device, string persistentUniqueId, string destination)
         {
-            if (string.IsNullOrEmpty(persistentUniqueId))
-            {
-                throw new ArgumentNullException("persistentUniqueId");
-            }
-            if (string.IsNullOrEmpty(destination))
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
+            ArgumentExceptionComp.ThrowIfNullOrEmpty(persistentUniqueId);
+            InvalidPathException.ThrowIfPathIsInvalid(destination);
             NotConnectedException.ThrowIfNotConnected(device);
 
             using (FileStream stream = File.Create(destination))
