@@ -132,9 +132,9 @@ namespace MediaDevicesUnitTest
             var contents = device.SupportedContentTypes(FunctionalCategory.All)?.ToList();
             var categories = device.FunctionalCategories()?.ToList();
 
-            var stillImageCaptureObjects = device.FunctionalObjects(FunctionalCategory.StillImageCapture).ToList();
-            var storageObjects = device.FunctionalObjects(FunctionalCategory.Storage).ToList();
-            var smsObjects = device.FunctionalObjects(FunctionalCategory.SMS).ToList();
+            var stillImageCaptureObjects = device.FunctionalObjects(FunctionalCategory.StillImageCapture)?.ToList();
+            var storageObjects = device.FunctionalObjects(FunctionalCategory.Storage)?.ToList();
+            var smsObjects = device.FunctionalObjects(FunctionalCategory.SMS)?.ToList();
 
             device.Disconnect();
 

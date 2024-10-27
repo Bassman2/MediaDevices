@@ -15,6 +15,7 @@ namespace MediaDevices.Internal
         private readonly object runLock = new object();
 #endif
         private readonly Thread thread;
+        private readonly AutoResetEvent startEvent = new AutoResetEvent(false);
         private readonly AutoResetEvent runEvent = new AutoResetEvent(false);
         private readonly AutoResetEvent waitEvent = new AutoResetEvent(false);
         private Action runAction;
@@ -25,9 +26,10 @@ namespace MediaDevices.Internal
         /// </summary>
         public STAThread()
         {
-            thread = new Thread(() => Loop());
-            thread.TrySetApartmentState(ApartmentState.STA);
-            thread.Start();
+            this.thread = new Thread(() => Loop());
+            this.thread.TrySetApartmentState(ApartmentState.STA);
+            this.thread.Start();
+            this.startEvent.WaitOne();
         }
 
         /// <summary>
@@ -66,7 +68,7 @@ namespace MediaDevices.Internal
         private void Loop()
         {
             this.IsRunning = true;
-            Debug.WriteLine("Thread started.");
+            this.startEvent.Set();
             while (this.IsRunning)
             {
                 runEvent.WaitOne();

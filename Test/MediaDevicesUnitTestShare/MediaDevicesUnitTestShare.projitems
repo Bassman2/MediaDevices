@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CanonEOS60DUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CanonPowerShotSX30UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorsUnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GooglePixel6aUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HannspreeHSG1351UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KingstonFCRHS219UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MicrosoftLumia650UnitTest.cs" />

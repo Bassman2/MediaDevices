@@ -1510,7 +1510,7 @@ namespace MediaDevices
                     Trace.WriteLine(ex.ToString());
                 }
                 return null;
-            });
+            })?.ToList();
         }
 
 
