@@ -86,8 +86,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    <Reference Include="System.Buffers, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+      <HintPath>..\..\packages\System.Buffers.4.6.0\lib\net462\System.Buffers.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -129,5 +130,4 @@
   </Target>
   <Import Project="..\..\packages\Microsoft.Testing.Platform.MSBuild.1.4.1\build\netstandard2.0\Microsoft.Testing.Platform.MSBuild.targets" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.4.1\build\netstandard2.0\Microsoft.Testing.Platform.MSBuild.targets')" />
   <Import Project="..\..\packages\MSTest.TestAdapter.3.6.1\build\net462\MSTest.TestAdapter.targets" Condition="Exists('..\..\packages\MSTest.TestAdapter.3.6.1\build\net462\MSTest.TestAdapter.targets')" />
-
 </Project>
