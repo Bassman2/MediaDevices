@@ -15,14 +15,13 @@ jobs:
       Solution: MediaDevices.sln
       NugetSpc: MediaDevices.nuspec
     strategy:
-      max-parallel: 2
       matrix:
         build_configuration: [Release, Debug]
-      
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      
+
     - name: Setup DotNet
       uses: actions/setup-dotnet@v4
       with:
@@ -33,7 +32,7 @@ jobs:
 
     - name: Set DotNetFramework
       uses: Bassman2/setup-dotnetfwk@v1
-      
+
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v2
 
@@ -45,7 +44,7 @@ jobs:
       with:
         file: Bassman.snk
         key: ${{ secrets.SIGNKEY }}
-        
+
     - name: Install SHFB
       uses: Bassman2/setup-SHFB@v1
 
@@ -57,7 +56,7 @@ jobs:
 
     - name: MSBuild of solution
       run: msbuild $env:Solution /p:configuration="${{ matrix.build_configuration }}" /verbosity:minimal   
-        
+
 #    - name: Nuget pack nuspec
 #      if: matrix.build_configuration == 'Release'
 #      working-directory: .\Nuget\
