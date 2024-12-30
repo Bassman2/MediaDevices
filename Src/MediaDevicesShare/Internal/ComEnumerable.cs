@@ -18,7 +18,7 @@ namespace MediaDevices.Internal
                 var key = new PropertyKey();
                 using (var val = new PropVariantFacade()) 
                 {
-                    values.GetAt(i, ref key, ref val.Value);
+                    values?.GetAt(i, ref key, ref val.Value);
 
 
                     string fieldName = string.Empty;
@@ -58,12 +58,10 @@ namespace MediaDevices.Internal
 
         public static Guid Guid(this Enum e)
         {
-            FieldInfo fi = e.GetType().GetField(e.ToString());
+            FieldInfo? fi = e.GetType().GetField(e.ToString());
 
-            // changed for .net framework 4.0
-            // EnumGuidAttribute attribute = fi.GetCustomAttribute<EnumGuidAttribute>();
-            EnumGuidAttribute attribute = Attribute.GetCustomAttribute(fi, typeof(EnumGuidAttribute)) as EnumGuidAttribute;
-            return attribute.Guid;
+            EnumGuidAttribute attribute = fi?.GetCustomAttribute<EnumGuidAttribute>()!;
+            return attribute!.Guid;
         }
 
         //public static IEnumerable<PropertyKey> ToEnum(this IPortableDeviceKeyCollection col) 

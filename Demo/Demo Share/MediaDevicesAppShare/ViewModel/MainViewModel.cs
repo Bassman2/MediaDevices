@@ -13,8 +13,9 @@ using System.Media;
 
 namespace MediaDeviceApp.ViewModel
 {
-    public class MainViewModel : BaseViewModel
+    public sealed class MainViewModel : BaseViewModel, IDisposable
     {
+        private MediaDeviceManager mediaDeviceManager;
         private List<MediaDevice> devices;
         private MediaDevice selectedDevice;
         private bool usePrivateDevices = false;
@@ -43,6 +44,7 @@ namespace MediaDeviceApp.ViewModel
 
         public MainViewModel()
         {
+            this.mediaDeviceManager = MediaDeviceManager.Instance;
             this.RefreshCommand = new DelegateCommand(OnRefresh);
             this.ResetCommand = new DelegateCommand(OnReset);
             this.UsbChangedCommand = new DelegateCommand(OnUsbChanged);
@@ -66,7 +68,16 @@ namespace MediaDeviceApp.ViewModel
 
             OnRefresh();
         }
-        
+
+        public void Dispose()
+        {
+            if (this.mediaDeviceManager != null)
+            {
+                this.mediaDeviceManager.Dispose();
+                this.mediaDeviceManager = null;
+            }
+        }
+
         public bool UsePrivateDevices
         {
             get
@@ -88,11 +99,11 @@ namespace MediaDeviceApp.ViewModel
         {
             if (this.usePrivateDevices)
             {
-                this.Devices = MediaDevice.GetPrivateDevices().ToList();
+                this.Devices = this.mediaDeviceManager.GetDevices(MediaDevices.Devices.Private).ToList();
             }
             else
             {
-                this.Devices = MediaDevice.GetDevices().ToList();
+                this.Devices = this.mediaDeviceManager.GetDevices().ToList();
             }
             if (this.selectedDevice == null)
             {
@@ -105,11 +116,11 @@ namespace MediaDeviceApp.ViewModel
             SystemSounds.Beep.Play();
             if (this.usePrivateDevices)
             {
-                this.Devices = MediaDevice.GetPrivateDevices().ToList();
+                this.Devices = this.mediaDeviceManager.GetDevices(MediaDevices.Devices.Private).ToList();
             }
             else
             {
-                this.Devices = MediaDevice.GetDevices().ToList();
+                this.Devices = this.mediaDeviceManager.GetDevices().ToList();
             }
             if (this.selectedDevice == null)
             {
@@ -191,6 +202,8 @@ namespace MediaDeviceApp.ViewModel
                 }
             }
         }
+
+       
 
         public bool CanReset
         {

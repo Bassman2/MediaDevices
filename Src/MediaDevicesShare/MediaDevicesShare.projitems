@@ -9,8 +9,6 @@
     <Import_RootNamespace>MediaDevices</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Compatibility\ArgumentExceptionComp.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Compatibility\ArgumentNullExceptionComp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ChargingState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Commands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CompleteEventArgs.cs" />
@@ -18,7 +16,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Devices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\DeviceTransport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\DeviceType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enumerables.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Events.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Formats.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\FunctionalCategory.cs" />
@@ -107,6 +104,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StorageAccessCapability.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StorageType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)STAThreadNotRunningException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Usings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WMDM\IWMDeviceManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WMDM\IWMDeviceManager2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WMDM\IWMDeviceManager3.cs" />

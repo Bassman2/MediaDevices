@@ -1,5 +1,4 @@
-﻿using MediaDevices.Compatibility;
-using MediaDevices.Internal;
+﻿using MediaDevices.Internal;
 using MediaDevices.WMDM;
 using System;
 using System.Collections.Generic;
@@ -984,7 +983,7 @@ namespace MediaDevices
             Run(() =>
             {
                 Item item = Item.FindFile(this, path) ?? throw new FileNotFoundException($"File {path} not found.");
-                using (Stream sourceStream = item.OpenRead())
+                using (var sourceStream = item.OpenRead())
                 {
                     sourceStream.CopyTo(stream);
                 }
@@ -1026,7 +1025,7 @@ namespace MediaDevices
             {
                 Item item = Item.FindFile(this, path) ?? throw new FileNotFoundException($"File {path} not found.");
 
-                using (Stream sourceStream = item.OpenReadIcon())
+                using (var sourceStream = item.OpenReadIcon())
                 {
                     sourceStream.CopyTo(stream);
                 }
@@ -1073,7 +1072,7 @@ namespace MediaDevices
                 //    throw new FileNotFoundException($"File {path} not found.");
                 //}
 
-                using (Stream sourceStream = item.OpenReadThumbnail())
+                using (var sourceStream = item.OpenReadThumbnail())
                 {
                     sourceStream.CopyTo(stream);
                 }
@@ -1319,23 +1318,13 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         public void DownloadFileFromPersistentUniqueId(string persistentUniqueId, Stream stream)
         {
-            if (string.IsNullOrEmpty(persistentUniqueId))
-            {
-                throw new ArgumentNullException(nameof(persistentUniqueId));
-            }
-#if !NET
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-#else
+            ArgumentException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
             ArgumentNullException.ThrowIfNull(stream, nameof(stream));
-#endif
             NotConnectedException.ThrowIfNotConnected(this);
 
             Run(() =>
             {
-                using (Stream sourceStream = OpenReadFromPersistentUniqueId(persistentUniqueId))
+                using (var sourceStream = OpenReadFromPersistentUniqueId(persistentUniqueId))
                 {
                     sourceStream.CopyTo(stream);
                 }
@@ -1352,10 +1341,7 @@ namespace MediaDevices
         /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
         public Stream OpenReadFromPersistentUniqueId(string persistentUniqueId)
         {
-            if (string.IsNullOrEmpty(persistentUniqueId))
-            {
-                throw new ArgumentNullException(nameof(persistentUniqueId));
-            }
+            ArgumentException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
             NotConnectedException.ThrowIfNotConnected(this);
 
             return Run<Stream>(() =>
@@ -1379,10 +1365,7 @@ namespace MediaDevices
         /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
         public StreamReader OpenTextFromPersistentUniqueId(string persistentUniqueId)
         {
-            if (string.IsNullOrEmpty(persistentUniqueId))
-            {
-                throw new ArgumentNullException(nameof(persistentUniqueId));
-            }
+            ArgumentException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
             NotConnectedException.ThrowIfNotConnected(this);
 
             return Run<StreamReader>(() =>
@@ -1406,10 +1389,7 @@ namespace MediaDevices
         /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
         public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(string persistentUniqueId)
         {
-            if (string.IsNullOrEmpty(persistentUniqueId))
-            {
-                throw new ArgumentNullException(nameof(persistentUniqueId));
-            }
+            ArgumentException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
             NotConnectedException.ThrowIfNotConnected(this);
 
             return Run<MediaFileSystemInfo>(() =>

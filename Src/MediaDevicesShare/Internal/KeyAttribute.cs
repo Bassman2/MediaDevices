@@ -2,6 +2,7 @@
 
 namespace MediaDevices.Internal
 {
+    [AttributeUsage(AttributeTargets.Field)]
     internal class KeyAttribute : Attribute
     {
         public KeyAttribute()

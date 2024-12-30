@@ -1,6 +1,5 @@
-﻿namespace MediaDevices.WMDM
+﻿namespace MediaDevices.WMDM;
+
+internal interface IWMDMDevice
 {
-    internal interface IWMDMDevice
-    {
-    }
 }

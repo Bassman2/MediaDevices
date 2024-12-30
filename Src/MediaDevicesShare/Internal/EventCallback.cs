@@ -4,7 +4,7 @@ namespace MediaDevices.Internal
 {
     internal class EventCallback : IPortableDeviceEventCallback
     {
-        private MediaDevice device;
+        private readonly MediaDevice device;
 
         public EventCallback(MediaDevice device)
         {

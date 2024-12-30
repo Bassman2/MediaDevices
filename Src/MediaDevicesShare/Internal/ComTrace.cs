@@ -20,16 +20,16 @@ namespace MediaDevices.Internal
             guidFields = typeof(WPD).GetFields().Where(f => f.FieldType == typeof(Guid)).ToList();
         }
 
-        public static FieldInfo FindPropertyKeyField(PropertyKey key)
+        public static FieldInfo? FindPropertyKeyField(PropertyKey key)
         {
             //return pkeyFields.SingleOrDefault(i => ((PropertyKey)i.GetValue(null)) == key);
-            return pkeyFields.FirstOrDefault(i => ((PropertyKey)i.GetValue(null)) == key);
+            return pkeyFields.FirstOrDefault(i => ((PropertyKey?)i.GetValue(null)) == key);
         }
 
-        public static FieldInfo FindGuidField(Guid guid)
+        public static FieldInfo? FindGuidField(Guid guid)
         {
             //return guidFields.SingleOrDefault(i => ((Guid)i.GetValue(null)) == guid);
-            return guidFields.FirstOrDefault(i => ((Guid)i.GetValue(null)) == guid);
+            return guidFields.FirstOrDefault(i => ((Guid?)i.GetValue(null)) == guid);
         }
 
         [Conditional("COMTRACE")]

@@ -123,7 +123,7 @@ namespace MediaDevices.Internal
         /// <param name="action">Action to run in STA thread.</param>
         public void Run(Action action)
         {
-            ArgumentNullExceptionComp.ThrowIfNull(action, nameof(action));
+            ArgumentNullException.ThrowIfNull(action, nameof(action));
             STAThreadNotRunningException.ThrowIfNotRunning(IsRunning);
 
             RunIntern(action);
@@ -137,7 +137,7 @@ namespace MediaDevices.Internal
         /// <returns>Return value of the function.</returns>
         public T Run<T>(Func<T> func)
         {
-            ArgumentNullExceptionComp.ThrowIfNull(func, nameof(func));
+            ArgumentNullException.ThrowIfNull(func, nameof(func));
             STAThreadNotRunningException.ThrowIfNotRunning(IsRunning);
 
             T result = default;

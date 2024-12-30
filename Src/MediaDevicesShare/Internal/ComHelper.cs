@@ -12,8 +12,8 @@ namespace MediaDevices.Internal
             values?.GetCount(ref num);
             for (uint i = 0; i < num; i++)
             {
-                PropertyKey key = new PropertyKey();
-                using (PropVariantFacade val = new PropVariantFacade())
+                var key = new PropertyKey();
+                using (var val = new PropVariantFacade())
                 {
                     values.GetAt(i, ref key, ref val.Value);
                     if (key == findKey)
@@ -29,7 +29,7 @@ namespace MediaDevices.Internal
 
         public static PropVariantType GetVarType(this IPortableDeviceValues values, PropertyKey key)
         {
-            using (PropVariantFacade val = new PropVariantFacade())
+            using (var val = new PropVariantFacade())
             {
                 values.GetValue(ref key, out val.Value);
                 return val.VariantType;
@@ -40,7 +40,7 @@ namespace MediaDevices.Internal
         {
             if (values.HasKeyValue(key))
             {
-                PropVariantFacade val = new PropVariantFacade();
+                var val = new PropVariantFacade();
                 values.GetValue(ref key, out val.Value);
                 value = val;
                 return true;
@@ -53,7 +53,7 @@ namespace MediaDevices.Internal
         {
             if (values.HasKeyValue(key))
             {
-                using (PropVariantFacade val = new PropVariantFacade())
+                using (var val = new PropVariantFacade())
                 {
                     values.GetValue(ref key, out val.Value);
                     value = val.ToDate();
@@ -147,7 +147,7 @@ namespace MediaDevices.Internal
         {
             if (values.HasKeyValue(key))
             {
-                using (PropVariantFacade val = new PropVariantFacade())
+                using (var val = new PropVariantFacade())
                 {
                     values.GetValue(ref key, out val.Value);
                     value = val.ToByteArray();

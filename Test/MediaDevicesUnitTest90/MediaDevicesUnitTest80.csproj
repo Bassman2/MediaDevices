@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
 
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\MediaDevices60\MediaDevices60.csproj" />
+    <ProjectReference Include="..\..\Src\MediaDevices80\MediaDevices80.csproj" />
   </ItemGroup>
 
   <Import Project="..\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems" Label="Shared" />

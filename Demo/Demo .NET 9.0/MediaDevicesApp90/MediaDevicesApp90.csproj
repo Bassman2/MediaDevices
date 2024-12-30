@@ -2,11 +2,12 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <AssemblyName>MediaDevicesApp</AssemblyName>
     <RootNamespace>MediaDevicesApp</RootNamespace>
     <Version>2.0.0.0</Version>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <Import Project="..\..\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems" Label="Shared" />
@@ -16,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Demo .NET 6.0\Explorer60\Explorer60.csproj" />
-    <ProjectReference Include="..\..\..\Src\MediaDevices60\MediaDevices60.csproj" />
+    <ProjectReference Include="..\..\..\Src\MediaDevices80\MediaDevices80.csproj" />
+    <ProjectReference Include="..\Explorer80\Explorer80.csproj" />
   </ItemGroup>
 
 </Project>

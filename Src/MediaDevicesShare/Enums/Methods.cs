@@ -1,18 +1,15 @@
-﻿using MediaDevices.Internal;
+﻿namespace MediaDevices;
 
-namespace MediaDevices
+/// <summary>
+///  Methods
+/// </summary>
+public enum Methods
 {
     /// <summary>
-    ///  Methods
+    /// Ubknown method
     /// </summary>
-    public enum Methods
-    {
-        /// <summary>
-        /// Ubknown method
-        /// </summary>
-        [EnumGuid]
-        Unknown,
+    [EnumGuid]
+    Unknown,
 
-        // to be filled
-    }
+    // to be filled
 }

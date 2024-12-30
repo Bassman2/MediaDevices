@@ -82,10 +82,13 @@ namespace MediaDevicesUnitTest
         //}
 
         [TestMethod]
-        [Description("Basic device tests")]
-        public void DeviceTest()
+        [Description("Deprecated device tests")]
+        public void DeprecatedDeviceTest()
         {
+#pragma warning disable CS0618 // Test obsolete method
             var devices = MediaDevice.GetDevices().ToArray();
+#pragma warning restore CS0618 
+
             var device = devices.FirstOrDefault(this.deviceSelect);
             Assert.IsNotNull(device, "Device");
 
@@ -119,52 +122,105 @@ namespace MediaDevicesUnitTest
         }
 
         [TestMethod]
+        [Description("Basic device tests")]
+        public void DeviceTest()
+        {
+            using (var mdm = MediaDeviceManager.Instance)
+            {
+
+                var devices = mdm.GetDevices().ToArray();
+                var device = devices.FirstOrDefault(this.deviceSelect);
+                Assert.IsNotNull(device, "Device");
+
+                string description = device.Description;
+                string friendlyName = device.FriendlyName;
+                string manufacture = device.Manufacturer;
+
+                device.Connect();
+                string firmwareVersion = device.FirmwareVersion;
+                PowerSource powerSource = device.PowerSource;
+                int powerLevel = device.PowerLevel;
+                string model = device.Model;
+                string serialNumber = device.SerialNumber;
+                DeviceType deviceType = device.DeviceType;
+                DeviceTransport transport = device.Transport;
+                string protocol = device.Protocol;
+                device.Disconnect();
+
+                Assert.AreEqual(this.deviceDescription, description, "Description");
+                Assert.AreEqual(this.deviceFriendlyName, friendlyName, "FriendlyName");
+                Assert.AreEqual(this.deviceManufacture, manufacture, "Manufacture");
+
+                Assert.AreEqual(this.deviceFirmwareVersion, firmwareVersion, "FirmwareVersion");
+                Assert.AreEqual(this.deviceModel, model, "Model");
+                Assert.AreEqual(this.deviceSerialNumber, serialNumber, "SerialNumber");
+                Assert.AreEqual(this.deviceDeviceType, deviceType, "DeviceType");
+                Assert.AreEqual(this.deviceTransport, transport, "Transport");
+                Assert.AreEqual(this.devicePowerSource, powerSource, "PowerSource");
+                Assert.AreEqual(this.deviceProtocol, protocol, "Protocol");
+                Assert.IsTrue(powerLevel > 0, "PowerLevel");
+            }
+        }
+
+        [TestMethod]
         [Description("Check compatibility informations.")]
         public void CapabilityTest()
         {
-            var devices = MediaDevice.GetDevices().ToList();
-            var device = devices.FirstOrDefault(this.deviceSelect);
-            Assert.IsNotNull(device, "Device");
-            device.Connect();
+            using (var mdm = MediaDeviceManager.Instance)
+            {
 
-            var events = device.SupportedEvents()?.ToList();
-            var commands = device.SupportedCommands()?.ToList();
-            var contents = device.SupportedContentTypes(FunctionalCategory.All)?.ToList();
-            var categories = device.FunctionalCategories()?.ToList();
+                var devices = mdm.GetDevices().ToArray();
+                //var devices = MediaDevice.GetDevices().ToList();
+                var device = devices.FirstOrDefault(this.deviceSelect);
+                Assert.IsNotNull(device, "Device");
+                device.Connect();
 
-            var stillImageCaptureObjects = device.FunctionalObjects(FunctionalCategory.StillImageCapture)?.ToList();
-            var storageObjects = device.FunctionalObjects(FunctionalCategory.Storage)?.ToList();
-            var smsObjects = device.FunctionalObjects(FunctionalCategory.SMS)?.ToList();
+                var events = device.SupportedEvents()?.ToList();
+                var commands = device.SupportedCommands()?.ToList();
+                var contents = device.SupportedContentTypes(FunctionalCategory.All)?.ToList();
+                var categories = device.FunctionalCategories()?.ToList();
 
-            device.Disconnect();
+                var stillImageCaptureObjects = device.FunctionalObjects(FunctionalCategory.StillImageCapture)?.ToList();
+                var storageObjects = device.FunctionalObjects(FunctionalCategory.Storage)?.ToList();
+                var smsObjects = device.FunctionalObjects(FunctionalCategory.SMS)?.ToList();
 
-            CollectionAssert.IsSubsetOf(supportedEvents, events, "Events");
-            CollectionAssert.IsSubsetOf(supportedCommands, commands, "Commands");
-            CollectionAssert.IsSubsetOf(supportedContents, contents, "Contents");
-            CollectionAssert.AreEquivalent(functionalCategories, categories, "Categories");
+                device.Disconnect();
+
+                CollectionAssert.IsSubsetOf(supportedEvents, events, "Events");
+                CollectionAssert.IsSubsetOf(supportedCommands, commands, "Commands");
+                CollectionAssert.IsSubsetOf(supportedContents, contents, "Contents");
+                CollectionAssert.AreEquivalent(functionalCategories, categories, "Categories");
+            }
         }
 
         [TestMethod]
         [Description("Check content locations functionality.")]
         public void ContentLocationTest()
         {
-            var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(this.deviceSelect);
-            Assert.IsNotNull(device, "Device");
-            device.Connect();
+            using (var mdm = MediaDeviceManager.Instance)
+            {
 
-            var locations = device.GetContentLocations(ContentType.Image).ToList();
+                var devices = mdm.GetDevices().ToArray();
+                var device = devices.FirstOrDefault(this.deviceSelect);
+                Assert.IsNotNull(device, "Device");
+                device.Connect();
 
-            device.Disconnect();
+                var locations = device.GetContentLocations(ContentType.Image).ToList();
 
-            CollectionAssert.AreEquivalent(this.contentLocations, locations, "Locations");
+                device.Disconnect();
+
+                CollectionAssert.AreEquivalent(this.contentLocations, locations, "Locations");
+            }
         }
 
         [TestMethod]
         [Description("Check persistent unique id functionality.")]
         public void PersistentUniqueIdTest()
         {
-                var devices = MediaDevice.GetDevices();
+            using (var mdm = MediaDeviceManager.Instance)
+            {
+
+                var devices = mdm.GetDevices().ToArray();
                 var device = devices.FirstOrDefault(this.deviceSelect);
                 Assert.IsNotNull(device, "Device");
                 device.Connect();
@@ -181,68 +237,77 @@ namespace MediaDevicesUnitTest
                 Assert.IsNotNull(file, "File");
                 Assert.IsTrue(file.Attributes.HasFlag(MediaFileAttributes.Normal), "file.IsFile");
                 Assert.AreEqual(this.FilePersistentUniqueIdPath, file.FullName, "file.FullName");
+            }
         }
 
         [TestMethod]
         [Description("Check persistent unique id functionality.")]
         public void FriendlyNameTest()
         {
-            var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(this.deviceSelect);
-            Assert.IsNotNull(device, "Device");
+            using (var mdm = MediaDeviceManager.Instance)
+            {
 
-            device.Connect();
+                var devices = mdm.GetDevices().ToArray();
+                var device = devices.FirstOrDefault(this.deviceSelect);
+                Assert.IsNotNull(device, "Device");
 
-            // some devices use only upper letters in friendly names
-            device.FriendlyName = "DUMMY";
+                device.Connect();
 
-            string dummyFriendlyName = device.FriendlyName;
+                // some devices use only upper letters in friendly names
+                device.FriendlyName = "DUMMY";
 
-            device.Disconnect();
+                string dummyFriendlyName = device.FriendlyName;
 
-            string disconnectedDummyFriendlyName = device.FriendlyName;
+                device.Disconnect();
 
-            device.Connect();
+                string disconnectedDummyFriendlyName = device.FriendlyName;
 
-            string connectedDummyFriendlyName = device.FriendlyName;
+                device.Connect();
 
-            device.FriendlyName = this.deviceFriendlyName;
+                string connectedDummyFriendlyName = device.FriendlyName;
 
-            string connectedFriendlyName = device.FriendlyName;
-            device.Disconnect();
+                device.FriendlyName = this.deviceFriendlyName;
 
-            string disconnectedFriendlyName = device.FriendlyName;
+                string connectedFriendlyName = device.FriendlyName;
+                device.Disconnect();
 
-            //Assert.AreEqual(this.deviceFriendlyName, disconnectedFriendlyName, "disconnectedFriendlyName");
-            //
-            Assert.AreEqual("DUMMY", dummyFriendlyName, "dummyFriendlyName");
-            Assert.AreEqual("DUMMY", disconnectedDummyFriendlyName, "disconnectedDummyFriendlyName");
-            Assert.AreEqual("DUMMY", connectedDummyFriendlyName, "connectedDummyFriendlyName");
-            Assert.AreEqual(this.deviceFriendlyName, connectedFriendlyName, "connectedFriendlyName");
-            Assert.AreEqual(this.deviceFriendlyName, disconnectedFriendlyName, "disconnectedFriendlyName");
+                string disconnectedFriendlyName = device.FriendlyName;
+
+                //Assert.AreEqual(this.deviceFriendlyName, disconnectedFriendlyName, "disconnectedFriendlyName");
+                //
+                Assert.AreEqual("DUMMY", dummyFriendlyName, "dummyFriendlyName");
+                Assert.AreEqual("DUMMY", disconnectedDummyFriendlyName, "disconnectedDummyFriendlyName");
+                Assert.AreEqual("DUMMY", connectedDummyFriendlyName, "connectedDummyFriendlyName");
+                Assert.AreEqual(this.deviceFriendlyName, connectedFriendlyName, "connectedFriendlyName");
+                Assert.AreEqual(this.deviceFriendlyName, disconnectedFriendlyName, "disconnectedFriendlyName");
+            }
         }
 
         [TestMethod]
         [Description("Speed test.")]
         public void SpeedTest()
         {
-            var devices = MediaDevice.GetDevices();
-            var device = devices.FirstOrDefault(this.deviceSelect);
-            Assert.IsNotNull(device, "Device");
-            device.Connect();
+            using (var mdm = MediaDeviceManager.Instance)
+            {
 
-            var root = device.GetRootDirectory();
-            var stopwatch = Stopwatch.StartNew();
+                var devices = mdm.GetDevices().ToArray();
+                var device = devices.FirstOrDefault(this.deviceSelect);
+                Assert.IsNotNull(device, "Device");
+                device.Connect();
 
-            var list = root.EnumerateFileSystemInfos("*", SearchOption.AllDirectories).ToList();
+                var root = device.GetRootDirectory();
+                var stopwatch = Stopwatch.StartNew();
 
-            stopwatch.Stop();
+                var list = root.EnumerateFileSystemInfos("*", SearchOption.AllDirectories).ToList();
 
-            device.Disconnect();
+                stopwatch.Stop();
 
-            double milliseconds = ((double)stopwatch.ElapsedTicks / Stopwatch.Frequency) * 1000;
+                device.Disconnect();
 
-            //Assert.AreEqual(0.0, milliseconds, "time");
+                double milliseconds = ((double)stopwatch.ElapsedTicks / Stopwatch.Frequency) * 1000;
+
+                //Assert.AreEqual(0.0, milliseconds, "time");
+            }
         }
 
         [TestMethod]
