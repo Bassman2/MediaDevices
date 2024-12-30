@@ -4,8 +4,6 @@
   <Import Project="..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.5.0\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props" Condition="Exists('..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.5.0\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props')" />
   <Import Project="..\..\packages\Microsoft.Testing.Platform.MSBuild.1.5.0\build\Microsoft.Testing.Platform.MSBuild.props" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.5.0\build\Microsoft.Testing.Platform.MSBuild.props')" />
   <Import Project="..\..\packages\Microsoft.Testing.Platform.1.5.0\build\netstandard2.0\Microsoft.Testing.Platform.props" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.1.5.0\build\netstandard2.0\Microsoft.Testing.Platform.props')" />
-  <Import Project="../../packages/Microsoft.Testing.Platform.MSBuild.1.4.3/build/netstandard2.0/Microsoft.Testing.Platform.MSBuild.props" Condition="Exists('../../packages/Microsoft.Testing.Platform.MSBuild.1.4.3/build/netstandard2.0/Microsoft.Testing.Platform.MSBuild.props')" />
-  <Import Project="../../packages/Microsoft.Testing.Platform.1.4.3/build/netstandard2.0/Microsoft.Testing.Platform.props" Condition="Exists('../../packages/Microsoft.Testing.Platform.1.4.3/build/netstandard2.0/Microsoft.Testing.Platform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -135,8 +133,6 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.1.4.3\build\netstandard2.0\Microsoft.Testing.Platform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.1.4.3\build\netstandard2.0\Microsoft.Testing.Platform.props'))" />
-    <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.4.3\build\netstandard2.0\Microsoft.Testing.Platform.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.MSBuild.1.4.3\build\netstandard2.0\Microsoft.Testing.Platform.MSBuild.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.1.5.0\build\netstandard2.0\Microsoft.Testing.Platform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.1.5.0\build\netstandard2.0\Microsoft.Testing.Platform.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.5.0\build\Microsoft.Testing.Platform.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.MSBuild.1.5.0\build\Microsoft.Testing.Platform.MSBuild.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.5.0\build\Microsoft.Testing.Platform.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.MSBuild.1.5.0\build\Microsoft.Testing.Platform.MSBuild.targets'))" />
