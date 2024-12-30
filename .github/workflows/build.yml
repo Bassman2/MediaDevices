@@ -1,6 +1,6 @@
 name: Continuous Integration
 
-on: 
+on:
   push:
     branches: [main,]
   pull_request:
@@ -25,7 +25,7 @@ jobs:
     - name: Setup DotNet
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: | 
+        dotnet-version: |
           2.1.x
           3.1.x
           5.0.x
@@ -55,7 +55,7 @@ jobs:
       run: dotnet restore $env:Solution
 
     - name: MSBuild of solution
-      run: msbuild $env:Solution /p:configuration="${{ matrix.build_configuration }}" /verbosity:minimal   
+      run: msbuild $env:Solution /p:configuration="${{ matrix.build_configuration }}" /verbosity:minimal
 
 #    - name: Nuget pack nuspec
 #      if: matrix.build_configuration == 'Release'
