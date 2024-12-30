@@ -33,13 +33,13 @@ namespace MediaDevices.Internal
         }
 
         [Conditional("COMTRACE")]
-        public static void WriteObject(IPortableDeviceValues values, [CallerMemberName] string funcName = null)
+        public static void WriteObject(IPortableDeviceValues values, [CallerMemberName] string funcName = "")
         {
             InternalWriteObject(values, funcName);
         }
 
         [Conditional("COMTRACE")]
-        public static void WriteObject(IPortableDeviceProperties deviceProperties, string objectId, [CallerMemberName] string funcName = null)
+        public static void WriteObject(IPortableDeviceProperties deviceProperties, string objectId, [CallerMemberName] string funcName = "")
         {
             deviceProperties.GetSupportedProperties(objectId, out IPortableDeviceKeyCollection keys);
             deviceProperties.GetValues(objectId, keys, out IPortableDeviceValues values);
@@ -61,14 +61,14 @@ namespace MediaDevices.Internal
                 values.GetAt(i, ref key, ref val.Value);
 
                 string fieldName = string.Empty;
-                FieldInfo propField = FindPropertyKeyField(key);
+                FieldInfo? propField = FindPropertyKeyField(key);
                 if (propField != null)
                 {
                     fieldName = propField.Name;
                 }
                 else
                 {
-                    FieldInfo guidField = FindGuidField(key.fmtid);
+                    FieldInfo? guidField = FindGuidField(key.fmtid);
                     if (guidField != null)
                     {
                         fieldName = $"{guidField.Name}, {key.pid}";

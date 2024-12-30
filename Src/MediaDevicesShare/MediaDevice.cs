@@ -1363,14 +1363,14 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
         /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
-        public StreamReader OpenTextFromPersistentUniqueId(string persistentUniqueId)
+        public StreamReader? OpenTextFromPersistentUniqueId(string persistentUniqueId)
         {
             ArgumentException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return Run<StreamReader>(() =>
+            return Run<StreamReader?>(() =>
             {
-                Item item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
+                Item? item = Item.GetFromPersistentUniqueId(this, persistentUniqueId);
                 if (item == null || !item.IsFile)
                 {
                     throw new FileNotFoundException($"{persistentUniqueId} not found.");
@@ -1420,13 +1420,12 @@ namespace MediaDevices
         /// </summary>
         /// <returns>List with supported commands</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public IEnumerable<Commands> SupportedCommands()
+        public IEnumerable<Commands>? SupportedCommands()
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return Run<IEnumerable<Commands>>(() =>
+            return Run<IEnumerable<Commands>?>(() =>
             {
-
                 try
                 {
                     this.deviceCapabilities.GetSupportedCommands(out IPortableDeviceKeyCollection commands);
@@ -1445,13 +1444,12 @@ namespace MediaDevices
         /// </summary>
         /// <returns>List with functional categories</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public IEnumerable<FunctionalCategory> FunctionalCategories()
+        public IEnumerable<FunctionalCategory>? FunctionalCategories()
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return Run<IEnumerable<FunctionalCategory>>(() =>
+            return Run<IEnumerable<FunctionalCategory>?>(() =>
             {
-
                 try
                 {
                     this.deviceCapabilities.GetFunctionalCategories(out IPortableDevicePropVariantCollection categories);
@@ -1471,11 +1469,11 @@ namespace MediaDevices
         /// <param name="functionalCategory">Select functional category</param>
         /// <returns>List with functional objects</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public IEnumerable<string> FunctionalObjects(FunctionalCategory functionalCategory)
+        public IEnumerable<string>? FunctionalObjects(FunctionalCategory functionalCategory)
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return Run<IEnumerable<string>>(() =>
+            return Run<IEnumerable<string>?>(() =>
             {
                 try
                 {
@@ -1500,11 +1498,11 @@ namespace MediaDevices
         /// <param name="functionalCategory">Select functional category</param>
         /// <returns>List with supported content types </returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public IEnumerable<ContentType> SupportedContentTypes(FunctionalCategory functionalCategory)
+        public IEnumerable<ContentType>? SupportedContentTypes(FunctionalCategory functionalCategory)
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return Run<IEnumerable<ContentType>>(() =>
+            return Run<IEnumerable<ContentType>?>(() =>
             {
                 try
                 {
@@ -1526,11 +1524,11 @@ namespace MediaDevices
         /// </summary>
         /// <returns>List with supported events</returns>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public IEnumerable<Events> SupportedEvents()
+        public IEnumerable<Events>? SupportedEvents()
         {
             NotConnectedException.ThrowIfNotConnected(this);
 
-            return Run<IEnumerable<Events>>(() =>
+            return Run<IEnumerable<Events>?>(() =>
             {
                 try
                 {

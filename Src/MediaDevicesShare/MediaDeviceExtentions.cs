@@ -1,4 +1,6 @@
-﻿namespace MediaDevices;
+﻿using System.IO;
+
+namespace MediaDevices;
 
 /// <summary>
 /// MediaDevice extention class
@@ -136,7 +138,7 @@ public static class MediaDeviceExtentions
                 }
                 else
                 {
-                    MediaFileInfo mfi = fsi as MediaFileInfo;
+                    MediaFileInfo mfi = (MediaFileInfo)fsi;
                     mfi.CopyTo(path);
                 }
             }
@@ -184,7 +186,7 @@ public static class MediaDeviceExtentions
                 }
                 else
                 {
-                    var fi = e as FileInfo;
+                    var fi = (FileInfo)e;
                     using (FileStream stream = fi.OpenRead())
                     {
                         device.UploadFile(stream, path);

@@ -12,7 +12,7 @@ namespace MediaDevices.Internal
     /// <remarks>
     /// The Facade is necessary because structs used in using are readonly and can not be filled with ref or out.
     /// </remarks>
-    internal sealed class PropVariantFacade : IDisposable
+    internal sealed partial class PropVariantFacade : IDisposable
     {
         // cannot be a property because it will be filled by reference
         public PropVariant Value;
@@ -30,7 +30,7 @@ namespace MediaDevices.Internal
                 try
                 {
                     // clear propvariant clears also included objects like strings
-                    _ = NativeMethods.PropVariantClear(ref this.Value);
+                    _ = PropVariantClear(ref this.Value);
                 }
                 catch (Exception ex)
                 {
@@ -44,7 +44,7 @@ namespace MediaDevices.Internal
             get { return this.Value.vt; }
         }
 
-        public string ToDebugString()
+        public string? ToDebugString()
         {
             if (this.Value.vt == PropVariantType.VT_ERROR)
             {
@@ -55,7 +55,7 @@ namespace MediaDevices.Internal
             return ToString();
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             switch (this.Value.vt)
             {
@@ -303,7 +303,7 @@ namespace MediaDevices.Internal
             return pv;
         }
 
-        public static implicit operator string(PropVariantFacade val)
+        public static implicit operator string?(PropVariantFacade val)
         {
             return val.ToString();
         }
@@ -343,10 +343,13 @@ namespace MediaDevices.Internal
             return val.ToByteArray();
         }
 
-        private static class NativeMethods
-        {
-            [DllImport("ole32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-            static extern public int PropVariantClear(ref PropVariant val);
-        }
+        [LibraryImport("ole32.dll", SetLastError = true)]
+        public static partial int PropVariantClear(ref PropVariant val);
+
+        //private static partial class NativeMethods
+        //{
+        //    [DllImport("ole32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        //    static extern public int PropVariantClear(ref PropVariant val);
+        //}
     }
 }
