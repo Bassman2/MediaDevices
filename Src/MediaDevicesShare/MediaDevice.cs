@@ -92,14 +92,14 @@ public sealed class MediaDevice : IDisposable
     /// </summary>
     /// <returns>>An enumerable collection of portable devices currently available.</returns>
     [Obsolete("Obsolete: Use MediaDeviceManager.GetDevices() instead.  ")]
-    public static IEnumerable<MediaDevice> GetDevices() => MediaDeviceManager.Instance.GetDevices();
+    public static IEnumerable<MediaDevice>? GetDevices() => MediaDeviceManager.Instance.GetDevices();
            
     /// <summary>
     /// Returns an enumerable collection of currently available private portable devices.
     /// </summary>
     /// <returns>>An enumerable collection of private portable devices currently available.</returns>
     [Obsolete("Obsolete: Use MediaDeviceManager.GetPrivateDevices() instead.")]
-    public static IEnumerable<MediaDevice> GetPrivateDevices() => MediaDeviceManager.Instance.GetDevices(Devices.Private);
+    public static IEnumerable<MediaDevice>? GetPrivateDevices() => MediaDeviceManager.Instance.GetDevices(Devices.Private);
     
     #endregion
 
@@ -109,8 +109,8 @@ public sealed class MediaDevice : IDisposable
     {
         this.DeviceId = deviceId;
         this.IsCaseSensitive = false;
-        this.deviceManager = MediaDeviceManager.Instance.DeviceManager;
-        this.serviceManager = MediaDeviceManager.Instance.ServiceManager;
+        this.deviceManager = MediaDeviceManager.Instance.DeviceManager!;
+        this.serviceManager = MediaDeviceManager.Instance.ServiceManager!;
 
         uint count = 256;
         try
@@ -193,7 +193,7 @@ public sealed class MediaDevice : IDisposable
     /// </summary>
     /// <remarks>Readable when not connected.</remarks>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected. only for setter</exception>
-    public string FriendlyName
+    public string? FriendlyName
     {
         get
         {
@@ -214,7 +214,7 @@ public sealed class MediaDevice : IDisposable
             {
                 // set new friendly name
                 IPortableDeviceValues devInValues = (IPortableDeviceValues)new PortableDeviceValues();
-                devInValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value);
+                devInValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value!);
 //#pragma warning disable IDE0059 // Unnecessary assignment of a value
                 this.deviceProperties!.SetValues(Item.RootId, devInValues, out IPortableDeviceValues devValues);
 //#pragma warning restore IDE0059 // Unnecessary assignment of a value
@@ -250,7 +250,7 @@ public sealed class MediaDevice : IDisposable
     /// Sync partner of the device.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string SyncPartner
+    public string? SyncPartner
     {
         get
         {
@@ -263,7 +263,7 @@ public sealed class MediaDevice : IDisposable
     /// Firmware version of the portable device.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string FirmwareVersion
+    public string? FirmwareVersion
     {
         get
         {
@@ -302,7 +302,7 @@ public sealed class MediaDevice : IDisposable
     /// Protocol of the device.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string Protocol
+    public string? Protocol
     {
         get
         {
@@ -315,7 +315,7 @@ public sealed class MediaDevice : IDisposable
     /// Model of the portable device.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string Model
+    public string? Model
     {
         get
         {
@@ -328,7 +328,7 @@ public sealed class MediaDevice : IDisposable
     /// Serial number of the portable device.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string SerialNumber
+    public string? SerialNumber
     {
         get
         {
@@ -458,7 +458,7 @@ public sealed class MediaDevice : IDisposable
     /// PnP device ID
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string PnPDeviceID
+    public string? PnPDeviceID
     {
         get
         {
@@ -580,7 +580,7 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public IEnumerable<string> EnumerateDirectories(string path)
+    public IEnumerable<string>? EnumerateDirectories(string path)
     {
         ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
 
@@ -615,7 +615,7 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public IEnumerable<string>? EnumerateDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
         InvalidPathException.ThrowIfPathIsInvalid(path);
         NotConnectedException.ThrowIfNotConnected(this);
@@ -627,7 +627,7 @@ public sealed class MediaDevice : IDisposable
             //{
             //    throw new DirectoryNotFoundException($"Director {path} not found.");
             //}
-            return item.GetChildren(FilterToRegex(searchPattern), searchOption).Where(i => i.Type != ItemType.File).Select(i => i.FullName)!;
+            return item.GetChildren(FilterToRegex(searchPattern)!, searchOption).Where(i => i.Type != ItemType.File).Select(i => i.FullName)!;
         });
     }
 
@@ -642,7 +642,7 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public IEnumerable<string> EnumerateFiles(string path)
+    public IEnumerable<string>? EnumerateFiles(string path)
     {
         InvalidPathException.ThrowIfPathIsInvalid(path);
 
@@ -670,7 +670,7 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public IEnumerable<string>? EnumerateFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
         ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
 
@@ -683,7 +683,7 @@ public sealed class MediaDevice : IDisposable
         return Run<IEnumerable<string>>(() =>
         {
             Item item = Item.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
-            string pattern = MediaDevice.FilterToRegex(searchPattern);
+            string pattern = MediaDevice.FilterToRegex(searchPattern)!;
             return item.GetChildren(pattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.FullName)!;
         });
     }
@@ -698,7 +698,7 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public IEnumerable<string> EnumerateFileSystemEntries(string path)
+    public IEnumerable<string>? EnumerateFileSystemEntries(string path)
     {
         ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
 
@@ -728,7 +728,7 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public IEnumerable<string> EnumerateFileSystemEntries(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public IEnumerable<string>? EnumerateFileSystemEntries(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
         ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
 
@@ -746,7 +746,7 @@ public sealed class MediaDevice : IDisposable
             //    throw new DirectoryNotFoundException($"Director {path} not found.");
             //}
 
-            return item.GetChildren(FilterToRegex(searchPattern), searchOption).Select(i => i.FullName)!;
+            return item.GetChildren(FilterToRegex(searchPattern)!, searchOption).Select(i => i.FullName)!;
         });
     }
 
@@ -760,9 +760,9 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string[] GetDirectories(string path)
+    public string[]? GetDirectories(string path)
     {
-        return EnumerateDirectories(path).ToArray();
+        return EnumerateDirectories(path)?.ToArray();
     }
 
     /// <summary>
@@ -778,9 +778,9 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string[] GetDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public string[]? GetDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
-        return EnumerateDirectories(path, searchPattern, searchOption).ToArray();
+        return EnumerateDirectories(path, searchPattern, searchOption)?.ToArray();
     }
 
     /// <summary>
@@ -793,9 +793,9 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string[] GetFiles(string path)
+    public string[]? GetFiles(string path)
     {
-        return EnumerateFiles(path).ToArray();
+        return EnumerateFiles(path)?.ToArray();
     }
 
     /// <summary>
@@ -810,9 +810,9 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string[] GetFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public string[]? GetFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
-        return EnumerateFiles(path, searchPattern, searchOption).ToArray();
+        return EnumerateFiles(path, searchPattern, searchOption)?.ToArray();
     }
 
     /// <summary>
@@ -825,9 +825,9 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string[] GetFileSystemEntries(string path)
+    public string[]? GetFileSystemEntries(string path)
     {
-        return EnumerateFileSystemEntries(path).ToArray();
+        return EnumerateFileSystemEntries(path)?.ToArray();
     }
 
     /// <summary>
@@ -842,9 +842,9 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string[] GetFileSystemEntries(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public string[]? GetFileSystemEntries(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
-        return EnumerateFileSystemEntries(path, searchPattern, searchOption).ToArray();
+        return EnumerateFileSystemEntries(path, searchPattern, searchOption)?.ToArray();
     }
 
     /// <summary>
@@ -969,10 +969,8 @@ public sealed class MediaDevice : IDisposable
         {
             Item item = Item.FindFile(this, path) ?? throw new FileNotFoundException($"File {path} not found.");
 
-            using (var sourceStream = item.OpenReadIcon())
-            {
-                sourceStream.CopyTo(stream);
-            }
+            using var sourceStream = item.OpenReadIcon();
+            sourceStream.CopyTo(stream);
         });
     }
 
@@ -1143,7 +1141,7 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public MediaFileInfo GetFileInfo(string path)
+    public MediaFileInfo? GetFileInfo(string path)
     {
         ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
 
@@ -1176,7 +1174,7 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public MediaDirectoryInfo GetDirectoryInfo(string path)
+    public MediaDirectoryInfo? GetDirectoryInfo(string path)
     {
         InvalidPathException.ThrowIfPathIsInvalid(path);
         NotConnectedException.ThrowIfNotConnected(this);
@@ -1202,12 +1200,12 @@ public sealed class MediaDevice : IDisposable
     /// </summary>
     /// <returns>New instance of the root MediaDirectoryInfo class</returns>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public MediaDirectoryInfo GetRootDirectory()
+    public MediaDirectoryInfo? GetRootDirectory()
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        Item item = Run<Item>(() => Item.GetRoot(this));
-        return new MediaDirectoryInfo(this, item);
+        Item? item = Run<Item>(() => Item.GetRoot(this));
+        return item != null ? new MediaDirectoryInfo(this, item) : null;
     }
 
 
@@ -1228,10 +1226,8 @@ public sealed class MediaDevice : IDisposable
 
         Run(() =>
         {
-            using (var sourceStream = OpenReadFromPersistentUniqueId(persistentUniqueId))
-            {
-                sourceStream.CopyTo(stream);
-            }
+            using var sourceStream = OpenReadFromPersistentUniqueId(persistentUniqueId);
+            sourceStream?.CopyTo(stream);
         });
     }
 
@@ -1243,7 +1239,7 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
     /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
     /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
-    public Stream OpenReadFromPersistentUniqueId(string persistentUniqueId)
+    public Stream? OpenReadFromPersistentUniqueId(string persistentUniqueId)
     {
         ArgumentException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
@@ -1291,7 +1287,7 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
     /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
     /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
-    public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(string persistentUniqueId)
+    public MediaFileSystemInfo? GetFileSystemInfoFromPersistentUniqueId(string persistentUniqueId)
     {
         ArgumentException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
@@ -1795,7 +1791,7 @@ public sealed class MediaDevice : IDisposable
     /// </summary>
     /// <returns>List of vendor extended operation code.</returns>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public IEnumerable<int> VendorOpcodes()
+    public IEnumerable<int>? VendorOpcodes()
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -1816,7 +1812,7 @@ public sealed class MediaDevice : IDisposable
     /// <param name="respCode">Response code</param>
     /// <returns>Output parameters</returns>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public IEnumerable<int> VendorExcecute(int opCode, IEnumerable<int> inputParams, out int respCode)
+    public IEnumerable<int>? VendorExcecute(int opCode, IEnumerable<int> inputParams, out int respCode)
     {
         NotConnectedException.ThrowIfNotConnected(this);
         int resp = 0;
@@ -1840,7 +1836,7 @@ public sealed class MediaDevice : IDisposable
     /// <param name="inputParams">Input parameters.</param>
     /// <returns>Returned as a context identifier for subsequent data transfer</returns>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public IEnumerable<int> VendorExcecuteRead(int opCode, IEnumerable<int> inputParams)
+    public IEnumerable<int>? VendorExcecuteRead(int opCode, IEnumerable<int> inputParams)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -1862,7 +1858,7 @@ public sealed class MediaDevice : IDisposable
     /// <param name="inputParams">Input parameters.</param>
     /// <returns>Returned as a context identifier for subsequent data transfer</returns>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public IEnumerable<int> VendorExcecuteWrite(int opCode, IEnumerable<int> inputParams)
+    public IEnumerable<int>? VendorExcecuteWrite(int opCode, IEnumerable<int> inputParams)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -1905,7 +1901,7 @@ public sealed class MediaDevice : IDisposable
     /// <param name="context">The context idetifier returned in previous calls.</param>
     /// <param name="respCode">the response code to the vendor operation code.</param>
     /// <returns>identifying response params if any</returns>
-    public IEnumerable<int> VendorEndTransfer(string context, out int respCode)
+    public IEnumerable<int>? VendorEndTransfer(string context, out int respCode)
     {
         int resp = 0;
         var list = Run<IEnumerable<int>>(() =>
@@ -1925,7 +1921,7 @@ public sealed class MediaDevice : IDisposable
     /// </summary>
     /// <returns>Vendor extension description string</returns>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public string VendorExtentionDescription()
+    public string? VendorExtentionDescription()
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -1978,19 +1974,7 @@ public sealed class MediaDevice : IDisposable
             //// not supported by old frameworks
             //#pragma warning disable IDE0066
             //#endif
-#if !NET
-            switch (service)
-            {
-            case MediaDeviceServices.Status:
-                return services.Select(s => new MediaDeviceStatusService(this, s));
-            case MediaDeviceServices.Hints:
-                return services.Select(s => new MediaDeviceServiceHints(this, s));
-            case MediaDeviceServices.Metadata:
-                return services.Select(s => new MediaDeviceServiceMetadata(this, s));
-            default:
-                return services.Select(s => new MediaDeviceService(this, s));
-            }
-#else
+
             return service switch
             {
                 MediaDeviceServices.Status => services.Select(s => new MediaDeviceStatusService(this, s)),
@@ -1998,7 +1982,6 @@ public sealed class MediaDevice : IDisposable
                 MediaDeviceServices.Metadata => services.Select(s => new MediaDeviceServiceMetadata(this, s)),
                 _ => services.Select(s => new MediaDeviceService(this, s))
             };
-#endif
         });
     }
 
@@ -2009,7 +1992,7 @@ public sealed class MediaDevice : IDisposable
 
     private static void Run(Action action) => MediaDeviceManager.Instance.Run(action);
 
-    private static T Run<T>(Func<T> func) => MediaDeviceManager.Instance.Run<T>(func);
+    private static T? Run<T>(Func<T> func) => MediaDeviceManager.Instance.Run<T>(func);
 
     internal static bool IsPath(string path)
     {

@@ -519,10 +519,10 @@ internal class Item
         // we need to fetch an object functional container ID. Which is storage for top most
         // directory.
         var drives = this.device.GetDrives();
-        var storageRoot = drives.FirstOrDefault(s => s.RootDirectory.Id == this.ParentContainerId);
+        var storageRoot = drives.FirstOrDefault(s => s.RootDirectory!.Id == this.ParentContainerId);
         if (storageRoot != null)
         {
-            return storageRoot.RootDirectory.item;
+            return storageRoot.RootDirectory!.item;
         }
         
         return null;

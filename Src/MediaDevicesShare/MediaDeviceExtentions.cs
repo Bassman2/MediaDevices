@@ -25,10 +25,8 @@ public static class MediaDeviceExtentions
         InvalidPathException.ThrowIfPathIsInvalid(destination);
         NotConnectedException.ThrowIfNotConnected(device);
 
-        using (FileStream stream = File.Create(destination))
-        {
-            device.DownloadFile(source, stream);
-        }
+        using FileStream stream = File.Create(destination);
+        device.DownloadFile(source, stream);
     }
 
     /// <summary>
@@ -48,10 +46,8 @@ public static class MediaDeviceExtentions
         InvalidPathException.ThrowIfPathIsInvalid(destination);
         NotConnectedException.ThrowIfNotConnected(device);
 
-        using (FileStream stream = File.Create(destination))
-        {
-            device.DownloadIcon(source, stream);
-        }
+        using FileStream stream = File.Create(destination);
+        device.DownloadIcon(source, stream);
     }
 
     /// <summary>
@@ -71,10 +67,8 @@ public static class MediaDeviceExtentions
         InvalidPathException.ThrowIfPathIsInvalid(destination);
         NotConnectedException.ThrowIfNotConnected(device);
 
-        using (FileStream stream = File.Create(destination))
-        {
-            device.DownloadThumbnail(source, stream);
-        }
+        using FileStream stream = File.Create(destination);
+        device.DownloadThumbnail(source, stream);
     }
 
     /// <summary>
@@ -94,10 +88,8 @@ public static class MediaDeviceExtentions
         InvalidPathException.ThrowIfPathIsInvalid(destination);
         NotConnectedException.ThrowIfNotConnected(device);
 
-        using (FileStream stream = File.OpenRead(source))
-        {
-            device.UploadFile(stream, destination);
-        }
+        using FileStream stream = File.OpenRead(source);
+        device.UploadFile(stream, destination);
     }
 
     /// <summary>
@@ -126,7 +118,7 @@ public static class MediaDeviceExtentions
         var dir = device.GetDirectoryInfo(source);
         if (recursive)
         {
-            foreach (MediaFileSystemInfo fsi in dir.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
+            foreach (MediaFileSystemInfo fsi in dir!.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
             {
                 string path = Path.Combine(destination, GetLocalPath(source, fsi.FullName));
                 if (fsi.Attributes.HasFlag(MediaFileAttributes.Directory) || fsi.Attributes.HasFlag(MediaFileAttributes.Object))
@@ -145,7 +137,7 @@ public static class MediaDeviceExtentions
         }
         else
         {
-            foreach (MediaFileInfo mfi in dir.EnumerateFiles())
+            foreach (MediaFileInfo mfi in dir!.EnumerateFiles())
             {
                 string path = Path.Combine(destination, GetLocalPath(source, mfi.FullName));
                 mfi.CopyTo(path);
@@ -187,10 +179,8 @@ public static class MediaDeviceExtentions
                 else
                 {
                     var fi = (FileInfo)e;
-                    using (FileStream stream = fi.OpenRead())
-                    {
-                        device.UploadFile(stream, path);
-                    }
+                    using FileStream stream = fi.OpenRead();
+                    device.UploadFile(stream, path);
                 }
             }
         }
@@ -200,10 +190,8 @@ public static class MediaDeviceExtentions
             foreach (FileInfo fi in di.EnumerateFiles())
             {
                 string path = Path.Combine(destination, GetLocalPath(source, fi.FullName));
-                using (FileStream stream = fi.OpenRead())
-                {
-                    device.UploadFile(stream, path);
-                }
+                using FileStream stream = fi.OpenRead();
+                device.UploadFile(stream, path);
             }
         }
     }
@@ -225,10 +213,8 @@ public static class MediaDeviceExtentions
         InvalidPathException.ThrowIfPathIsInvalid(destination);
         NotConnectedException.ThrowIfNotConnected(device);
 
-        using (FileStream stream = File.Create(destination))
-        {
-            device.DownloadFileFromPersistentUniqueId(persistentUniqueId, stream);
-        }
+        using FileStream stream = File.Create(destination);
+        device.DownloadFileFromPersistentUniqueId(persistentUniqueId, stream);
     }
 
     private static string GetLocalPath(string basePath, string fullPath)

@@ -78,7 +78,7 @@ public class MediaDirectoryInfo : MediaFileSystemInfo
     {
         NotConnectedException.ThrowIfNotConnected(this.device);
 
-        return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern), searchOption).Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(this.device, i));
+        return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern)!, searchOption).Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(this.device, i));
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public class MediaDirectoryInfo : MediaFileSystemInfo
     {
         NotConnectedException.ThrowIfNotConnected(this.device);
 
-        return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern), searchOption).Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(this.device, i));
+        return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern)!, searchOption).Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(this.device, i));
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ public class MediaDirectoryInfo : MediaFileSystemInfo
     {
         NotConnectedException.ThrowIfNotConnected(this.device);
 
-        return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern), searchOption).Select(i => i.Type == ItemType.File ?
+        return this.item.GetChildren(MediaDevice.FilterToRegex(searchPattern)!, searchOption).Select(i => i.Type == ItemType.File ?
                     (MediaFileSystemInfo)new MediaFileInfo(this.device, i) :
                     (MediaFileSystemInfo)new MediaDirectoryInfo(this.device, i));
     }
