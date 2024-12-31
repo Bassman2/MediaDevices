@@ -29,8 +29,8 @@ internal class Item
     }
 
     private readonly MediaDevice device;
-    private string name;
-    private readonly string path;
+    private string? name;
+    private readonly string? path;
     private Item? parent;
 
     private const uint PORTABLE_DEVICE_DELETE_NO_RECURSION = 0;
@@ -47,7 +47,7 @@ internal class Item
         return new Item(device, RootId, @"\");
     }
 
-    public static Item Create(MediaDevice device, string id, string path = null)
+    public static Item Create(MediaDevice device, string id, string path = "")
     {
         return new Item(device, id, path);
     }
@@ -74,7 +74,7 @@ internal class Item
         var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
         foreach (var folder in folders)
         {
-            item = item.GetChildren().FirstOrDefault(i => device.EqualsName(i.Name, folder));
+            item = item.GetChildren().FirstOrDefault(i => device.EqualsName(i.Name!, folder));
             if (item == null)
             {
                 return null;
@@ -92,11 +92,13 @@ internal class Item
         {
             collection.Add(ref propVariantPUID.Value);
         }
+
+        IPortableDevicePropVariantCollection? results = null;
         // request id collection           
-        device.deviceContent.GetObjectIDsFromPersistentUniqueIDs(collection, out IPortableDevicePropVariantCollection results);
+        device.deviceContent?.GetObjectIDsFromPersistentUniqueIDs(collection, out results);
 
         //var s = results.ToStrings().ToArray();
-        string? mediaObjectId = results.ToStrings().FirstOrDefault();
+        string? mediaObjectId = results?.ToStrings().FirstOrDefault();
 
         // return result item
         return mediaObjectId == null ? null : Item.Create(device, mediaObjectId);
@@ -125,7 +127,7 @@ internal class Item
             if (string.IsNullOrEmpty(this.path))
             {
                 string p = GetPath();
-                this.path = Path.GetDirectoryName(p);
+                this.path = Path.GetDirectoryName(p)!;
                 this.FullName = p;
             }
         }
@@ -185,11 +187,11 @@ internal class Item
     
     private void GetProperties()
     {
-        IPortableDeviceValues values;
+        IPortableDeviceValues? values = null;
         try
         {
             // get all predefined values
-            this.device.deviceProperties.GetValues(this.Id, keyCollection, out values);
+            this.device.deviceProperties?.GetValues(this.Id!, keyCollection, out values);
         }
         catch (Exception ex)
         {
@@ -200,13 +202,13 @@ internal class Item
         // read all properties
         // use a loop to prevent exceptions during calling GetValue for non existing values 
         uint num = 0;
-        values.GetCount(ref num);
+        values?.GetCount(ref num);
         for (uint i = 0; i < num; i++)
         {
             var key = new PropertyKey();
             using (var val = new PropVariantFacade())
             {
-                values.GetAt(i, ref key, ref val.Value);
+                values!.GetAt(i, ref key, ref val.Value);
 
                 if (key.fmtid == WPD.OBJECT_PROPERTIES_V1)
                 {
@@ -279,7 +281,7 @@ internal class Item
 
     #region Value Properties
 
-    public string? Id { get; private set; }
+    public string Id { get; private set; }
     public string? Name { get; private set; }
     public string? FullName { get; set; }
     public ItemType Type { get; private set; }        
@@ -317,7 +319,8 @@ internal class Item
 
     public IEnumerable<Item> GetChildren()
     {
-        this.device.deviceContent.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
+        IEnumPortableDeviceObjectIDs? enumerator = null;
+        this.device.deviceContent?.EnumObjects(0, this.Id!, null, out enumerator);
         if (enumerator == null) 
         {
             Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
@@ -326,16 +329,16 @@ internal class Item
 
         uint fetched = 0;
         var objectIds = new string[numObjectsToRequest];
-            enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+        enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
         while (fetched > 0)
         {
             for (int index = 0; index < fetched; index++)
             {
-                Item item = null;
+                Item? item = null;
 
                 try
                 {
-                    item = Item.Create(this.device, objectIds[index], this.FullName);
+                    item = Item.Create(this.device, objectIds[index], this.FullName!);
                 }
                 catch (FileNotFoundException)
                 {
@@ -355,7 +358,8 @@ internal class Item
 
     public IEnumerable<Item> GetChildren(string pattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
-        this.device.deviceContent.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
+        IEnumPortableDeviceObjectIDs? enumerator = null;
+        this.device.deviceContent?.EnumObjects(0, this.Id, null, out enumerator);
         if (enumerator == null) 
         {
             Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
@@ -369,11 +373,11 @@ internal class Item
         {
             for (int index = 0; index < fetched; index++)
             {
-                Item item = null;
+                Item? item = null;
 
                 try
                 {
-                    item = Item.Create(this.device, objectIds[index], this.FullName);
+                    item = Item.Create(this.device, objectIds[index], this.FullName!);
                 }
                 catch (FileNotFoundException)
                 {
@@ -391,7 +395,7 @@ internal class Item
 
                     if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
                     {
-                        var children = item.GetChildren(pattern, searchOption);
+                        var children = item.GetChildren(pattern!, searchOption);
                         foreach (var c in children)
                         {
                             yield return c;
@@ -403,33 +407,33 @@ internal class Item
         }
     }
 
-    internal Item CreateSubdirectory(string path)
+    internal Item? CreateSubdirectory(string path)
     {
-        Item child = null;
+        Item? child = null;
         Item parent = this;
         var folders = path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
         foreach (var folder in folders)
         {
-            child = parent.GetChildren().FirstOrDefault(i => device.EqualsName(i.Name, folder));
+            child = parent.GetChildren().FirstOrDefault(i => device.EqualsName(i.Name!, folder));
             if (child == null)
             {
                 // create a new directory
                 IPortableDeviceValues deviceValues = (IPortableDeviceValues)new PortableDeviceValues();
-                deviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, parent.Id);
+                deviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, parent.Id!);
                 deviceValues.SetStringValue(ref WPD.OBJECT_NAME, folder);
                 deviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, folder);
                 deviceValues.SetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, ref WPD.CONTENT_TYPE_FOLDER);
                 string id = string.Empty;
                 try
                 {
-                    this.device.deviceContent.CreateObjectWithPropertiesOnly(deviceValues, ref id);
+                    this.device.deviceContent!.CreateObjectWithPropertiesOnly(deviceValues, ref id);
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                     return null;
                 }
-                child = Item.Create(this.device, id, parent.FullName);
+                child = Item.Create(this.device, id, parent.FullName!);
             }
             else if (child.Type == ItemType.File)
             {
@@ -453,13 +457,13 @@ internal class Item
     {
         var objectIdCollection = (IPortableDevicePropVariantCollection)new PortableDevicePropVariantCollection();
 
-        var propVariantValue = PropVariantFacade.StringToPropVariant(this.Id);
+        var propVariantValue = PropVariantFacade.StringToPropVariant(this.Id!);
         objectIdCollection.Add(ref propVariantValue.Value);
 
         IPortableDevicePropVariantCollection results = (IPortableDevicePropVariantCollection) new PortableDevicePropVariantCollection();
         // TODO: get the results back and handle failures correctly
         
-        this.device.deviceContent.Delete(recursive ? PORTABLE_DEVICE_DELETE_WITH_RECURSION : PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, ref results);
+        this.device.deviceContent?.Delete(recursive ? PORTABLE_DEVICE_DELETE_WITH_RECURSION : PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, ref results);
 
         ComTrace.WriteObject(objectIdCollection);
     }
@@ -471,7 +475,7 @@ internal class Item
             return @"\";
         }
 
-        Item item = this;
+        Item? item = this;
         var sb = new StringBuilder();
         do
         {
@@ -491,7 +495,7 @@ internal class Item
             sb.Insert(0, item.Name);
             sb.Insert(0, DirectorySeparatorChar);
 
-        } while (!(item = new Item(this.device, item.ParentId)).IsRoot);
+        } while (!(item = new Item(this.device, item!.ParentId!)).IsRoot);
         return sb.ToString();
     }
 
@@ -501,7 +505,7 @@ internal class Item
     /// Handles DCF storages specific for Apple iPhones.
     /// </summary>
     /// <returns></returns>
-    private Item TryHandleNonHierarchicalStorage()
+    private Item? TryHandleNonHierarchicalStorage()
     {
         // EXPLANATION
         // Some MTP compatible devices uses different storage formats that Generic
@@ -526,29 +530,29 @@ internal class Item
 
     internal Stream OpenRead()
     {
-        this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
+        this.device.deviceContent!.Transfer(out IPortableDeviceResources resources);
 
         uint optimalTransferSize = 0;
 
-        resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out IStream wpdStream);
+        resources.GetStream(this.Id!, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out IStream wpdStream);
 
         return new StreamWrapper(wpdStream, this.Size);
     }
 
     internal Stream OpenReadThumbnail()
     {
-        this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
+        this.device.deviceContent!.Transfer(out IPortableDeviceResources resources);
 
         uint optimalTransferSize = 0;
 
-        resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out IStream wpdStream);
+        resources.GetStream(this.Id!, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out IStream wpdStream);
 
         return new StreamWrapper(wpdStream, this.Size);
     }
 
     internal Stream OpenReadIcon()
     {
-        this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
+        this.device.deviceContent!.Transfer(out IPortableDeviceResources resources);
 
         uint optimalTransferSize = 0;
 
@@ -560,28 +564,25 @@ internal class Item
     internal void UploadFile(string fileName, Stream stream)
     {
 
-        IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
+        IPortableDeviceValues portableDeviceValues = (IPortableDeviceValues)new PortableDeviceValues();
 
-        portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, this.Id);
+        portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, this.Id!);
         portableDeviceValues.SetUnsignedLargeIntegerValue(ref WPD.OBJECT_SIZE, (ulong)stream.Length);
         portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, fileName);
         portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, fileName);
         // test
-        using (PropVariantFacade now = PropVariantFacade.DateTimeToPropVariant(DateTime.Now))
-        {
-            portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_CREATED, ref now.Value);
-            portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_MODIFIED, ref now.Value);
+        using PropVariantFacade now = PropVariantFacade.DateTimeToPropVariant(DateTime.Now);
 
-            uint num = 0u;
-            string text = null;
-            this.device.deviceContent.CreateObjectWithPropertiesAndData(portableDeviceValues, out IStream wpdStream, ref num, ref text);
+        portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_CREATED, ref now.Value);
+        portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_MODIFIED, ref now.Value);
 
-            using (var destinationStream = new StreamWrapper(wpdStream))
-            {
-                stream.CopyTo(destinationStream);
-                destinationStream.Flush();
-            }
-        }
+        uint num = 0u;
+        string text = "";
+        this.device.deviceContent!.CreateObjectWithPropertiesAndData(portableDeviceValues, out IStream wpdStream, ref num, ref text);
+
+        using var destinationStream = new StreamWrapper(wpdStream);
+        stream.CopyTo(destinationStream);
+        destinationStream.Flush();
     }
 
     internal bool Rename(string newName)
@@ -590,7 +591,7 @@ internal class Item
 
         // with OBJECT_NAME does not work for Amazon Kindle Paperwhite
         portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, newName);
-        this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
+        this.device.deviceProperties!.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
         ComTrace.WriteObject(result);
         
         if (result.TryGetStringValue(WPD.OBJECT_ORIGINAL_FILE_NAME, out string check))
@@ -598,8 +599,8 @@ internal class Item
             if (check == "Error: S_OK")
             {
                 // id can change on rename (e.g. Amazon Kindle Paperwhite) so find new one
-                var newItem = this.parent.GetChildren().FirstOrDefault(i => device.EqualsName(i.Name, newName));
-                this.Id = newItem?.Id;
+                var newItem = this.parent!.GetChildren().FirstOrDefault(i => device.EqualsName(i.Name!, newName));
+                this.Id = newItem!.Id;
                 
                 Refresh();
                 return true;
@@ -610,12 +611,12 @@ internal class Item
 
     internal void SetDateCreated(DateTime value)
     {
-        IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
+        IPortableDeviceValues portableDeviceValues = (IPortableDeviceValues)new PortableDeviceValues();
 
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_CREATED, ref val.Value);
-            this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
+            this.device.deviceProperties?.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
             ComTrace.WriteObject(result);
         }
 
@@ -624,12 +625,12 @@ internal class Item
 
     internal void SetDateModified(DateTime value)
     {
-        IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
+        IPortableDeviceValues portableDeviceValues = (IPortableDeviceValues)new PortableDeviceValues();
 
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_MODIFIED, ref val.Value);
-            this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
+            this.device.deviceProperties?.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
             ComTrace.WriteObject(result);
         }
 
@@ -638,12 +639,12 @@ internal class Item
     
     internal void SetDateAuthored(DateTime value)
     {
-        IPortableDeviceValues portableDeviceValues = new PortableDeviceValues() as IPortableDeviceValues;
+        IPortableDeviceValues portableDeviceValues = (IPortableDeviceValues)new PortableDeviceValues();
 
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_AUTHORED, ref val.Value);
-            this.device.deviceProperties.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
+            this.device.deviceProperties?.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
             ComTrace.WriteObject(result);
         }
 

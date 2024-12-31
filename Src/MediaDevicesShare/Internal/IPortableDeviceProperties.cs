@@ -18,8 +18,8 @@ namespace MediaDevices.Internal
             [Out, MarshalAs(UnmanagedType.Interface)] out IPortableDeviceValues ppAttributes);
 
         void GetValues(
-            [In, MarshalAs(UnmanagedType.LPWStr)] string pszObjectID,
-            [In, MarshalAs(UnmanagedType.Interface)] IPortableDeviceKeyCollection pKeys,
+            [In, MarshalAs(UnmanagedType.LPWStr)] string? pszObjectID,
+            [In, MarshalAs(UnmanagedType.Interface)] IPortableDeviceKeyCollection? pKeys,
             [Out, MarshalAs(UnmanagedType.Interface)] out IPortableDeviceValues ppValues);
 
         void SetValues(

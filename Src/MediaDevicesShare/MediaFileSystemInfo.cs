@@ -17,7 +17,7 @@ namespace MediaDevices
 
         internal Item item;
 
-        private MediaDirectoryInfo parent;
+        private MediaDirectoryInfo? parent;
 
         internal MediaFileSystemInfo(MediaDevice device, Item item)
         {
@@ -37,7 +37,7 @@ namespace MediaDevices
         /// <summary>
         /// Gets the parent directory of a specified subdirectory.
         /// </summary>
-        protected MediaDirectoryInfo ParentDirectoryInfo
+        protected MediaDirectoryInfo? ParentDirectoryInfo
         {
             get
             { 
@@ -56,7 +56,7 @@ namespace MediaDevices
         {
             get
             {
-                return this.item.FullName;
+                return this.item.FullName!;
             }
         }
 
@@ -67,7 +67,7 @@ namespace MediaDevices
         {
             get
             {
-                return this.item.Name;
+                return this.item.Name!;
             }
         }
 
@@ -176,7 +176,7 @@ namespace MediaDevices
         {
             get
             {
-                return this.item.PersistentUniqueId;
+                return this.item.PersistentUniqueId!;
             }
         }
 
@@ -203,7 +203,7 @@ namespace MediaDevices
         /// </summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return (obj as MediaFileSystemInfo)?.Id == this.Id;
         }

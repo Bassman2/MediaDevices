@@ -238,7 +238,7 @@ namespace MediaDevices.Internal
         [HandleProcessCorruptedStateExceptions]
 #endif
         [SecurityCritical]
-        public byte[] ToByteArray()
+        public byte[]? ToByteArray()
         {
             if (this.Value.vt == PropVariantType.VT_ERROR)
             {
@@ -340,7 +340,7 @@ namespace MediaDevices.Internal
 
         public static implicit operator Byte[] (PropVariantFacade val)
         {
-            return val.ToByteArray();
+            return val.ToByteArray()!;
         }
 
         [LibraryImport("ole32.dll", SetLastError = true)]

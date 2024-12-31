@@ -36,10 +36,10 @@ internal static class ComEnumerable
                 switch (val.VariantType)
                 {
                     case PropVariantType.VT_CLSID:
-                        fieldValue = ComTrace.FindGuidField(val.ToGuid())?.Name ?? val.ToString();
+                        fieldValue = ComTrace.FindGuidField(val.ToGuid())?.Name ?? val.ToString()!;
                         break;
                     default:
-                        fieldValue = val.ToDebugString();
+                        fieldValue = val.ToDebugString()!;
                         break;
                 }
 
@@ -343,7 +343,7 @@ internal static class ComEnumerable
         {
             using var val = new PropVariantFacade();
             col.GetAt(i, ref val.Value);
-            yield return val.ToString();
+            yield return val.ToString()!;
         }
     }
 }

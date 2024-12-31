@@ -84,7 +84,7 @@ public class ObjectAddedEventArgs : MediaDeviceEventArgs
     {
         get
         {
-            return Item.Create(this.MediaDevice, this.ObjectId).FullName;
+            return Item.Create(this.MediaDevice, this.ObjectId).FullName!;
         }
     }
 

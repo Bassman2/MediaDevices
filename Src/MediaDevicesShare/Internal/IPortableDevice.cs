@@ -29,7 +29,7 @@ namespace MediaDevices.Internal
         void Advise(
             [In] uint dwFlags,
             [In, MarshalAs(UnmanagedType.Interface)] IPortableDeviceEventCallback pCallback,
-            [In, MarshalAs(UnmanagedType.Interface)] IPortableDeviceValues pParameters,
+            [In, MarshalAs(UnmanagedType.Interface)] IPortableDeviceValues? pParameters,
             [Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszCookie);
 
         void Unadvise(
