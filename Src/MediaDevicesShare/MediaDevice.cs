@@ -728,7 +728,7 @@ public sealed class MediaDevice : IDisposable
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-    public IEnumerable<string>? EnumerateFileSystemEntries(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public IEnumerable<string>? EnumerateFileSystemEntries(string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
         ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
 
@@ -2004,7 +2004,7 @@ public sealed class MediaDevice : IDisposable
         return this.IsCaseSensitive ? a == b : string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
     }
     
-    internal static string? FilterToRegex(string filter)
+    internal static string? FilterToRegex(string? filter)
     {
         if (filter == null || filter == "*" || filter == "*.*")
         {

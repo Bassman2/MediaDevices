@@ -6,11 +6,12 @@ public class SamsungA40UnitTest : WritableUnitTest
     public SamsungA40UnitTest()
     {
         // Device Select
-        this.deviceSelect = device => device.Description == this.deviceDescription;
+        this.deviceSelect = device => device.FriendlyName == this.deviceFriendlyName;
+        //device => device.Description == this.deviceDescription;
 
         // Device Test
         this.deviceDescription = "SM-A405FN"; 
-        this.deviceFriendlyName = "A40 von Ralf";
+        this.deviceFriendlyName = "Samsung A40";
         this.deviceManufacture = "Samsung Electronics Co., Ltd.";
         this.deviceFirmwareVersion = "A405FNXXU4CWC3";
         this.deviceModel = "SM-A405FN";
@@ -21,13 +22,13 @@ public class SamsungA40UnitTest : WritableUnitTest
         this.deviceProtocol = "MTP: 1.00";
 
         // Capability Test
-        this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded };
-        this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
-        this.supportedContents = new List<ContentType> { ContentType.Image };
-        this.functionalCategories = new List<FunctionalCategory> { FunctionalCategory.Storage, FunctionalCategory.RenderingInformation };
+        this.supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        this.supportedContents = [ContentType.Image];
+        this.functionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
 
         // ContentLocation Test
-        this.contentLocations = new List<string> ();
+        this.contentLocations = [];
 
         // PersistentUniqueId
         this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";

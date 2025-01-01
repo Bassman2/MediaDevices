@@ -6,6 +6,16 @@
     <IsPackable>false</IsPackable>
 
     <Version>2.0.0.0</Version>
+
+    <AssemblyName>MediaDevicesUnitTest</AssemblyName>
+
+    <RootNamespace>MediaDevicesUnitTest</RootNamespace>
+
+    <Nullable>enable</Nullable>
+
+    <PublishTrimmed>False</PublishTrimmed>
+
+    <PublishAot>False</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>

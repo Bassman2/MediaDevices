@@ -1,10 +1,16 @@
-﻿namespace MediaDevices.Internal;
+﻿#undef USE_STA_THREAD
+
+namespace MediaDevices.Internal;
+
+
 
 /// <summary>
 /// 
 /// </summary>
 internal class STAThread : IDisposable
 {
+#if USE_STA_THREAD
+
 #if NET9_0_OR_GREATER
     private readonly Lock runLock = new();
 #else
@@ -140,4 +146,32 @@ internal class STAThread : IDisposable
         RunIntern(() => result = func());
         return result;
     }
+#else
+
+    public void Dispose()
+    { }
+
+
+#pragma warning disable CA1822 // Mark members as static
+
+    public void Close() { }
+
+
+    /// <summary>
+    /// Run action in STA thread
+    /// </summary>
+    /// <param name="action">Action to run in STA thread.</param>
+    public void Run(Action action) => action.Invoke();
+
+    /// <summary>
+    /// Run function in STA thread
+    /// </summary>
+    /// <typeparam name="T">Return type of the function.</typeparam>
+    /// <param name="func">Function to run in STA thread.</param>
+    /// <returns>Return value of the function.</returns>
+    public T? Run<T>(Func<T> func) => func.Invoke();
+    
+#pragma warning restore CA1822 // Mark members as static
+
+#endif
 }
