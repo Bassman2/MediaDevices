@@ -1,17 +1,11 @@
-﻿using System;
-using System.Linq;
-using MediaDevices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿namespace MediaDevicesUnitTest;
 
-namespace MediaDevicesUnitTest
+[TestClass]
+public class ConnectorsUnitTest
 {
-    [TestClass]
-    public class ConnectorsUnitTest
+    [TestMethod]
+    public void ConnectorsTest()
     {
-        [TestMethod]
-        public void ConnectorsTest()
-        {
-            var connectors = MediaDeviceConnectors.Connectors()?.ToList();
-        }
+        var connectors = MediaDeviceConnectors.Connectors()?.ToList();
     }
 }

@@ -31,5 +31,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)TestCases\ReadonlyUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestCases\UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestCases\WritableUnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Usings.cs" />
   </ItemGroup>
 </Project>

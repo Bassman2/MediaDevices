@@ -46,7 +46,7 @@
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, ProtectedInternalAsProtected, EditorBrowsableNever, NonBrowsable</VisibleItems>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\..\Src\MediaDevices70\MediaDevices70.csproj" />
+      <DocumentationSource sourceFile="..\..\Src\MediaDevices90\MediaDevices90.csproj" />
     </DocumentationSources>
     <ProjectSummary>
     </ProjectSummary>

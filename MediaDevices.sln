@@ -39,6 +39,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesConsole80", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevices90", "Src\MediaDevices90\MediaDevices90.csproj", "{E090EC39-8AE4-49AD-945A-4F4B794F365D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesUnitTest90", "Test\MediaDevicesUnitTest90\MediaDevicesUnitTest90.csproj", "{CAC6C68D-F97A-40B3-BEC3-38D749229A38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorer90", "Demo\Demo .NET 9.0\Explorer90\Explorer90.csproj", "{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo .NET 9.0", "Demo .NET 9.0", "{D0043793-3437-49DE-8304-41FFD3B13A0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaDevicesApp90", "Demo\Demo .NET 9.0\MediaDevicesApp90\MediaDevicesApp90.csproj", "{8B61585D-E6F9-4D80-8183-1941D26E3600}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +140,42 @@ Global
 		{E090EC39-8AE4-49AD-945A-4F4B794F365D}.Release|x64.Build.0 = Release|Any CPU
 		{E090EC39-8AE4-49AD-945A-4F4B794F365D}.Release|x86.ActiveCfg = Release|Any CPU
 		{E090EC39-8AE4-49AD-945A-4F4B794F365D}.Release|x86.Build.0 = Release|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Debug|x64.Build.0 = Debug|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Debug|x86.Build.0 = Debug|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Release|x64.ActiveCfg = Release|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Release|x64.Build.0 = Release|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Release|x86.ActiveCfg = Release|Any CPU
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38}.Release|x86.Build.0 = Release|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Debug|x64.Build.0 = Debug|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Debug|x86.Build.0 = Debug|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Release|Any CPU.Build.0 = Release|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Release|x64.ActiveCfg = Release|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Release|x64.Build.0 = Release|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Release|x86.ActiveCfg = Release|Any CPU
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175}.Release|x86.Build.0 = Release|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Debug|x64.Build.0 = Debug|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Debug|x86.Build.0 = Debug|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Release|x64.ActiveCfg = Release|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Release|x64.Build.0 = Release|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Release|x86.ActiveCfg = Release|Any CPU
+		{8B61585D-E6F9-4D80-8183-1941D26E3600}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -150,16 +194,23 @@ Global
 		{CC3AD846-E168-4257-BE8F-8BAFE8CBC004} = {02F542E8-E2BD-4070-812E-646CA9219E52}
 		{25CFCC31-3157-473F-8370-261494E88913} = {DAF25CDA-B775-4A3B-BAE7-D38ADE27558D}
 		{E090EC39-8AE4-49AD-945A-4F4B794F365D} = {12682F58-306A-4F67-8850-BF67BDA26D46}
+		{CAC6C68D-F97A-40B3-BEC3-38D749229A38} = {02F542E8-E2BD-4070-812E-646CA9219E52}
+		{188A98DB-B22F-4C0F-B1D2-D9E0D3829175} = {D0043793-3437-49DE-8304-41FFD3B13A0C}
+		{D0043793-3437-49DE-8304-41FFD3B13A0C} = {EBBE8DFF-10F4-41C1-8456-9188F8038EC0}
+		{8B61585D-E6F9-4D80-8183-1941D26E3600} = {D0043793-3437-49DE-8304-41FFD3B13A0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4FF47020-DA8D-4683-8E5E-813E06A746AD}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{0e9202fb-6021-4acc-bb52-125a90e427ff}*SharedItemsImports = 5
+		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{188a98db-b22f-4c0f-b1d2-d9e0d3829175}*SharedItemsImports = 5
 		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{41618cb3-8c33-4c69-a16a-fbd8fd690ecd}*SharedItemsImports = 5
+		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{8b61585d-e6f9-4d80-8183-1941d26e3600}*SharedItemsImports = 5
 		Src\MediaDevicesShare\MediaDevicesShare.projitems*{8c6734b5-5bbb-413e-a5f2-fc7e6aaffce7}*SharedItemsImports = 13
 		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{bfac062b-2224-48af-b45e-158f8d21927f}*SharedItemsImports = 13
 		Demo\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems*{c30eb5ab-6dcf-4537-aaf9-5b8a5e425c15}*SharedItemsImports = 13
+		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{cac6c68d-f97a-40b3-bec3-38d749229a38}*SharedItemsImports = 5
 		Test\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems*{cc3ad846-e168-4257-be8f-8bafe8cbc004}*SharedItemsImports = 5
 		Src\MediaDevicesShare\MediaDevicesShare.projitems*{de490492-efd3-4b8d-89c3-a2cce579f09a}*SharedItemsImports = 5
 		Demo\Demo Share\ExplorerShare\ExplorerShare.projitems*{e07f1aae-b9ea-4a87-ac61-d5b71b7c3042}*SharedItemsImports = 13
