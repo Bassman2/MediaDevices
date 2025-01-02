@@ -33,20 +33,20 @@ internal partial interface IPortableDeviceManager
 
     void RefreshDeviceList();
 
-    //void GetDeviceFriendlyName(
-    //    [In, MarshalAs(UnmanagedType.LPWStr)] string pszPnPDeviceID,
-    //    [In, Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pDeviceFriendlyName,
-    //    [In, Out] ref uint pcchDeviceFriendlyName);
+    void GetDeviceFriendlyName(
+        string deviceID,
+        nint deviceFriendlyName,
+        ref int deviceFriendlyNameSize);
 
     void GetDeviceDescription(
-        string pszPnPDeviceID,
-        ref StringBuilder pDeviceDescription,
-        ref uint pcchDeviceDescription);
+        string deviceID,
+        nint deviceDescription,
+        ref int deviceDescriptionSize);
 
-    //void GetDeviceManufacturer(
-    //    [In, MarshalAs(UnmanagedType.LPWStr)] string pszPnPDeviceID,
-    //    [In, Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pDeviceManufacturer,
-    //    [In, Out] ref uint pcchDeviceManufacturer);
+    void GetDeviceManufacturer(
+        string deviceID,
+        nint deviceManufacturer,
+        ref int deviceManufacturerSize);
 
     //void GetDeviceProperty(
     //    [In, MarshalAs(UnmanagedType.LPWStr)] string pszPnPDeviceID,
@@ -58,6 +58,8 @@ internal partial interface IPortableDeviceManager
     //void GetPrivateDevices(
     //    [Out, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)] string[]? pPnPDeviceIDs,
     //    [In, Out] ref uint pcPnPDeviceIDs);
+
+    void Release();
 }
 
 //[Guid("a8abc4e9-a84a-47a9-80b3-c5d9b172a961")]

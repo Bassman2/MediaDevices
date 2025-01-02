@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Diagnostics;
 
 [assembly: DisableRuntimeMarshalling]
 
@@ -15,12 +16,21 @@ namespace ComWrappersSourceGenerationConsole
 
         static void Main()
         {
-            new Program().Run();
+            try
+            {
+                new Program().Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Debugger.Break();
+            }
         }
+
+        #region LibraryImport
 
         [PreserveSig, LibraryImport("ole32")]
         public static partial int CoCreateInstance(in Guid rclsid, nint pUnkOuter, int dwClsContext, in Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object ppv);
-
 
         //[LibraryImport("MyComObjectProvider")]
         //private static partial nint GetPointerToComInterface(); // C definition - IUnknown* GetPointerToComInterface();
@@ -35,51 +45,60 @@ namespace ComWrappersSourceGenerationConsole
         //[LibraryImport("ole32")]
         //public static partial int CoRevokeClassObject(uint dwRegister);
 
+        #endregion
+
         public void Run()
         {
             int res = CoCreateInstance(CLSID_PortableDeviceManager, 0, CLSCTX_ALL, typeof(IPortableDeviceManager).GUID, out var factory);
 
             IPortableDeviceManager portableDeviceManager = (IPortableDeviceManager)factory;
-
-            // Use the ComWrappers API to create a Runtime Callable Wrapper to use in managed code
-            //ComWrappers cw = new StrategyBasedComWrappers();
-            //nint ptr = GetPointerToComInterface();
-            //IPortableDeviceManager manager = (IPortableDeviceManager)cw.GetOrCreateObjectForComInstance(ptr, CreateObjectFlags.None);
-            //manager.RefreshDeviceList();
-
-//// Use the system to create a COM Callable Wrapper to pass to unmanaged code
-//ComWrappers cw = new StrategyBasedComWrappers();
-//        Foo foo = new();
-//        nint ptr = cw.GetOrCreateComInterfaceForObject(foo, CreateComInterfaceFlags.None);
-//        GivePointerToComInterface(ptr);
-
-//        IPortableDeviceManager manager = new PortableDeviceManager();
-//            manager.RefreshDeviceList();
-
+            
             uint count = 0;
             portableDeviceManager.GetDevices(null, ref count);
 
+            
             var deviceIds = new string[count];
             portableDeviceManager.GetDevices(deviceIds, ref count);
 
 
             string deviceId = deviceIds[0];
 
-            count = 256;
-            var sb = new StringBuilder((int)count);
+            string? friendlyName = GetDeviceFriendlyName(portableDeviceManager, deviceId);
+            string? description = GetDeviceDescription(portableDeviceManager, deviceId);
+            string? manufacturer = GetDeviceManufacturer(portableDeviceManager, deviceId);
 
-            string desc = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-            portableDeviceManager.GetDeviceDescription(deviceId, ref sb, ref count);
-            string description = sb.ToString(); //new string(buffer, 0, (int)count - 1);
-
-
+            Console.WriteLine(description);
         }
 
-        //[LibraryImport("MyComObjectProvider")]
-        //private static partial nint GetPointerToComInterface(); // C definition - IUnknown* GetPointerToComInterface();
+        private static string? GetDeviceFriendlyName(IPortableDeviceManager portableDeviceManager, string deviceId)
+        {
+            int size = 256;
+            nint mem = Marshal.AllocHGlobal(size);
+            portableDeviceManager.GetDeviceFriendlyName(deviceId, mem, ref size);
+            string? str = Marshal.PtrToStringUni(mem);
+            Marshal.FreeHGlobal(mem);
+            return str;
+        }
 
-        //[LibraryImport("MyComObjectProvider")]
-        //private static partial void GivePointerToComInterface(nint comObject); // C definition - void GivePointerToComInterface(IUnknown* pUnk);
+        private static string? GetDeviceDescription(IPortableDeviceManager portableDeviceManager, string deviceId)
+        {
+            int size = 256;
+            nint mem = Marshal.AllocHGlobal(size);
+            portableDeviceManager.GetDeviceDescription(deviceId, mem, ref size);
+            string? str = Marshal.PtrToStringUni(mem);
+            Marshal.FreeHGlobal(mem);
+            return str;
+        }
+
+        private static string? GetDeviceManufacturer(IPortableDeviceManager portableDeviceManager, string deviceId)
+        {
+            int size = 256;
+            nint mem = Marshal.AllocHGlobal(size);
+            portableDeviceManager.GetDeviceManufacturer(deviceId, mem, ref size);
+            string? str = Marshal.PtrToStringUni(mem);
+            Marshal.FreeHGlobal(mem);
+            return str;
+        }
 
     }
 }
