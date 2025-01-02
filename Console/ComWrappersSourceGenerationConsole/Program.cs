@@ -3,8 +3,8 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Diagnostics;
+using ComWrappersSourceGenerationConsole.Interfaces;
 
-[assembly: DisableRuntimeMarshalling]
 
 namespace ComWrappersSourceGenerationConsole
 {
@@ -32,19 +32,6 @@ namespace ComWrappersSourceGenerationConsole
         [PreserveSig, LibraryImport("ole32")]
         public static partial int CoCreateInstance(in Guid rclsid, nint pUnkOuter, int dwClsContext, in Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object ppv);
 
-        //[LibraryImport("MyComObjectProvider")]
-        //private static partial nint GetPointerToComInterface(); // C definition - IUnknown* GetPointerToComInterface();
-
-        //[LibraryImport("MyComObjectProvider")]
-        //private static partial void GivePointerToComInterface(nint comObject); // C definition - void GivePointerToComInterface(IUnknown* pUnk);
-
-        //// AOT: don't use 'object' for IUnknown parameters
-        //[LibraryImport("ole32")]
-        //public static partial int CoRegisterClassObject(in Guid rclsid, IntPtr pUnk, uint dwClsContext, uint flags, out uint lpdwRegister);
-
-        //[LibraryImport("ole32")]
-        //public static partial int CoRevokeClassObject(uint dwRegister);
-
         #endregion
 
         public void Run()
@@ -52,8 +39,9 @@ namespace ComWrappersSourceGenerationConsole
             int res = CoCreateInstance(CLSID_PortableDeviceManager, 0, CLSCTX_ALL, typeof(IPortableDeviceManager).GUID, out var factory);
 
             IPortableDeviceManager portableDeviceManager = (IPortableDeviceManager)factory;
-            
-            uint count = 0;
+            IPortableDeviceServiceManager portableDeviceServiceManager = (IPortableDeviceServiceManager)portableDeviceManager;
+
+            int count = 0;
             portableDeviceManager.GetDevices(null, ref count);
 
             

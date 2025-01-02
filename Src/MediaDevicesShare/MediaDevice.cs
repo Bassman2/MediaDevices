@@ -1,16 +1,4 @@
-﻿//using MediaDevices.Internal;
-//using MediaDevices.WMDM;
-//using System;
-//using System.Collections.Generic;
-//using System.Diagnostics;
-//using System.IO;
-//using System.Linq;
-//using System.Reflection;
-//using System.Runtime.InteropServices;
-//using System.Text;
-//using static System.Collections.Specialized.BitVector32;
-
-namespace MediaDevices;
+﻿namespace MediaDevices;
 
 /// <summary>
 /// Represents a portable device.
@@ -18,8 +6,6 @@ namespace MediaDevices;
 [DebuggerDisplay("{FriendlyName}, {Manufacturer}, {Description}")]
 public sealed class MediaDevice : IDisposable
 {
-    // https://msdn.microsoft.com/en-us/ie/aa645736%28v=vs.94%29?f=255&MSPPError=-2147217396
-
     #region Fields
 
     internal IPortableDevice device;
@@ -27,7 +13,7 @@ public sealed class MediaDevice : IDisposable
     internal IPortableDeviceProperties? deviceProperties;
     private IPortableDeviceCapabilities? deviceCapabilities;
     private IPortableDeviceValues? deviceValues;
-    private string friendlyName = string.Empty;
+    private string? friendlyName = string.Empty;
     private string? eventCookie;
     private EventCallback? eventCallback;
     private readonly IPortableDeviceManager deviceManager;
@@ -111,45 +97,11 @@ public sealed class MediaDevice : IDisposable
         this.IsCaseSensitive = false;
         this.deviceManager = MediaDeviceManager.Instance.DeviceManager!;
         this.serviceManager = MediaDeviceManager.Instance.ServiceManager!;
-
-        uint count = 256;
-        try
-        {
-            count = 256;
-            var sb = new StringBuilder((int)count);
-            deviceManager.GetDeviceDescription(deviceId, sb, ref count);
-            this.Description = sb.ToString(); //new string(buffer, 0, (int)count - 1);
-        }
-        catch (COMException ex)
-        {
-            Trace.WriteLine(ex.ToString());
-            this.Description = string.Empty;
-        }
-        try
-        {
-            count = 256;
-            var sb = new StringBuilder((int)count);
-            deviceManager.GetDeviceFriendlyName(deviceId, sb, ref count);
-            this.friendlyName = sb.ToString();
-        }
-        catch (COMException ex)
-        {
-            Trace.WriteLine(ex.ToString());
-            this.friendlyName = string.Empty;
-        }
-        try
-        {
-            count = 256;
-            var sb = new StringBuilder((int)count);
-            deviceManager.GetDeviceManufacturer(deviceId, sb, ref count);
-            this.Manufacturer = sb.ToString();
-        }
-        catch (COMException ex)
-        {
-            Trace.WriteLine(ex.ToString());
-            this.Description = string.Empty;
-        }
-
+               
+        this.Description = GetDeviceDescription(deviceManager, deviceId);
+        this.friendlyName = GetDeviceFriendlyName(deviceManager, deviceId);
+        this.Manufacturer = GetDeviceManufacturer(deviceManager, deviceId);
+        
         //this.device = new PortableDeviceApiLib.PortableDevice();
         this.device = (IPortableDevice)new PortableDevice();
     }
@@ -186,7 +138,7 @@ public sealed class MediaDevice : IDisposable
     /// Description of the portable device.
     /// </summary>
     /// <remarks>Readable when not connected.</remarks>
-    public string Description { get; private set; }
+    public string? Description { get; private set; }
 
     /// <summary>
     /// Friendly name of the portable device.
@@ -223,19 +175,21 @@ public sealed class MediaDevice : IDisposable
                 this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);
 
                 // reload disconnected friendly name
-                try
-                {
-                    //char[] buffer = new char[260];
-                    uint count = 256;
-                    var sb = new StringBuilder((int)count);
-                    deviceManager.GetDeviceFriendlyName(this.DeviceId, sb, ref count);
-                    this.friendlyName = sb.ToString();
-                }
-                catch (COMException ex)
-                {
-                    Trace.WriteLine(ex.ToString());
-                    this.friendlyName = string.Empty;
-                }
+                this.friendlyName = GetDeviceFriendlyName(deviceManager, this.DeviceId);
+
+                //try
+                //{
+                //    //char[] buffer = new char[260];
+                //    uint count = 256;
+                //    var sb = new StringBuilder((int)count);
+                //    deviceManager.GetDeviceFriendlyName(this.DeviceId, sb, ref count);
+                //    this.friendlyName = sb.ToString();
+                //}
+                //catch (COMException ex)
+                //{
+                //    Trace.WriteLine(ex.ToString());
+                //    this.friendlyName = string.Empty;
+                //}
             });
         }
     }
@@ -1989,6 +1943,76 @@ public sealed class MediaDevice : IDisposable
     #endregion
 
     #region Internal Methods
+
+    private static string? GetDeviceDescription(IPortableDeviceManager portableDeviceManager, string deviceId)
+    {
+        try
+        {
+            int size = 256;
+            nint mem = Marshal.AllocHGlobal(size);
+            portableDeviceManager.GetDeviceDescription(deviceId, mem, ref size);
+            string? str = Marshal.PtrToStringUni(mem);
+            Marshal.FreeHGlobal(mem);
+            return str;
+
+            //var sb = new StringBuilder((int)size);
+            //deviceManager.GetDeviceDescription(deviceId, sb, ref size);
+            //this.Description = sb.ToString(); 
+        }
+        catch (COMException ex)
+        {
+            Trace.WriteLine(ex.ToString());
+        }
+        return null;
+    }
+
+    private static string? GetDeviceFriendlyName(IPortableDeviceManager portableDeviceManager, string deviceId)
+    {
+        try
+        {
+            int size = 256;
+            nint mem = Marshal.AllocHGlobal(size);
+            portableDeviceManager.GetDeviceFriendlyName(deviceId, mem, ref size);
+            string? str = Marshal.PtrToStringUni(mem);
+            Marshal.FreeHGlobal(mem);
+            return str;
+
+           
+            //var sb = new StringBuilder(size);
+            //deviceManager.GetDeviceFriendlyName(deviceId, sb, ref size);
+            //this.friendlyName = sb.ToString();
+        }
+        catch (COMException ex)
+        {
+            Trace.WriteLine(ex.ToString());
+        }
+        return null;
+    }
+
+    
+
+    private static string? GetDeviceManufacturer(IPortableDeviceManager portableDeviceManager, string deviceId)
+    {
+        try
+        {
+            int size = 256;
+            nint mem = Marshal.AllocHGlobal(size);
+            portableDeviceManager.GetDeviceManufacturer(deviceId, mem, ref size);
+            string? str = Marshal.PtrToStringUni(mem);
+            Marshal.FreeHGlobal(mem);
+            return str;
+
+            //count = 256;
+            //var sb = new StringBuilder((int)count);
+            //deviceManager.GetDeviceManufacturer(deviceId, sb, ref count);
+            //this.Manufacturer = sb.ToString();
+        }
+        catch (COMException ex)
+        {
+            Trace.WriteLine(ex.ToString());
+        }
+        return null;
+    }
 
     private static void Run(Action action) => MediaDeviceManager.Instance.Run(action);
 

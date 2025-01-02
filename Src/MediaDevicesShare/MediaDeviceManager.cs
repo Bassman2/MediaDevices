@@ -3,15 +3,18 @@
 /// <summary>
 /// Represents a portable device manager.
 /// </summary>
-public sealed class MediaDeviceManager : IDisposable
+public sealed partial class MediaDeviceManager : IDisposable
 {
     private static MediaDeviceManager? instance = new();
 
     private readonly STAThread staThread;
-    private readonly IPortableDeviceManager? deviceManager;
-    private readonly IPortableDeviceServiceManager? serviceManager;
+    private IPortableDeviceManager? deviceManager;
+    private IPortableDeviceServiceManager? serviceManager;
     private List<MediaDevice>? devices;
     private List<MediaDevice>? privateDevices;
+
+    private const int CLSCTX_ALL = 23;
+    private static readonly Guid CLSID_PortableDeviceManager = new("0AF10CEC-2ECD-4B92-9581-34F6AE0637F3");
 
     /// <summary>
     /// Singleton instance from MediaDeviceManager.
@@ -21,17 +24,18 @@ public sealed class MediaDeviceManager : IDisposable
     private MediaDeviceManager() 
     {
         this.staThread = new STAThread();
-
-        try
-        {
-            deviceManager = staThread.Run<IPortableDeviceManager>(() => (IPortableDeviceManager)new PortableDeviceManager());
-            //serviceManager = staThread.Run<IPortableDeviceServiceManager>(() => (IPortableDeviceServiceManager)deviceManager);
-            serviceManager = DeviceManager as IPortableDeviceServiceManager;
-        }
-        catch (Exception ex)
-        {
-            Trace.TraceError(ex.ToString());
-        }
+        this.staThread.Run(() => {
+            try
+            {
+                int res = CoCreateInstance(CLSID_PortableDeviceManager, 0, CLSCTX_ALL, typeof(IPortableDeviceManager).GUID, out var factory);
+                this.deviceManager = (IPortableDeviceManager)factory;
+                this.serviceManager = (IPortableDeviceServiceManager)this.deviceManager;
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+            }
+        });
     }
 
     /// <summary>
@@ -49,8 +53,8 @@ public sealed class MediaDeviceManager : IDisposable
     {
         staThread.Run(() =>
         {
-            int r1 = Marshal.ReleaseComObject(ServiceManager!);
-            int r2 = Marshal.ReleaseComObject(DeviceManager!);
+            //int r1 = Marshal.ReleaseComObject(ServiceManager!);
+            //int r2 = Marshal.ReleaseComObject(DeviceManager!);
         });
         staThread.Close();
         staThread.Dispose();
@@ -71,7 +75,7 @@ public sealed class MediaDeviceManager : IDisposable
             deviceManager!.RefreshDeviceList();
 
             // get number of devices
-            uint count = 0;
+            int count = 0;
             deviceManager.GetDevices(null, ref count);
 
             if (count == 0)
@@ -138,4 +142,11 @@ public sealed class MediaDeviceManager : IDisposable
     internal void Run(Action action) => this.staThread.Run(action);
 
     internal T? Run<T>(Func<T> func) => this.staThread.Run<T>(func);
+
+    #region LibraryImport
+
+    [PreserveSig, LibraryImport("ole32")]
+    public static partial int CoCreateInstance(in Guid rclsid, nint pUnkOuter, int dwClsContext, in Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object ppv);
+
+    #endregion
 }
