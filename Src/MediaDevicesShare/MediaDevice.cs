@@ -1193,9 +1193,9 @@ namespace MediaDevices
                 throw new FileNotFoundException($"File {path} not found.");
             }
             
-            using (Stream sourceStream = item.OpenRead())
+            using (Stream sourceStream = item.OpenRead(out var bufferSize))
             {
-                sourceStream.CopyTo(stream);
+                sourceStream.CopyTo(stream, bufferSize);
             }
         }
 
@@ -1234,9 +1234,9 @@ namespace MediaDevices
                 throw new FileNotFoundException($"File {path} not found.");
             }
 
-            using (Stream sourceStream = item.OpenReadIcon())
+            using (Stream sourceStream = item.OpenReadIcon(out var bufferSize))
             {
-                sourceStream.CopyTo(stream);
+                sourceStream.CopyTo(stream, bufferSize);
             }
         }
 
@@ -1275,9 +1275,9 @@ namespace MediaDevices
                 throw new FileNotFoundException($"File {path} not found.");
             }
 
-            using (Stream sourceStream = item.OpenReadThumbnail())
+            using (Stream sourceStream = item.OpenReadThumbnail(out var bufferSize))
             {
-                sourceStream.CopyTo(stream);
+                sourceStream.CopyTo(stream, bufferSize);
             }
         }
         /// <summary>
@@ -1533,9 +1533,9 @@ namespace MediaDevices
                 throw new NotConnectedException("Not connected");
             }
 
-            using (Stream sourceStream = OpenReadFromPersistentUniqueId(persistentUniqueId))
+            using (Stream sourceStream = OpenReadFromPersistentUniqueId(persistentUniqueId, out var bufferSize))
             {
-                sourceStream.CopyTo(stream);
+                sourceStream.CopyTo(stream, bufferSize);
             }
         }
 
@@ -1547,7 +1547,19 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
         /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
-        public Stream OpenReadFromPersistentUniqueId(string persistentUniqueId)
+        public Stream OpenReadFromPersistentUniqueId(string persistentUniqueId) =>
+            OpenReadFromPersistentUniqueId(persistentUniqueId, out _);
+
+        /// <summary>
+        /// Opens a files stream from an Persistent Unique ID to read from.
+        /// </summary>
+        /// <param name="persistentUniqueId">Persistent unique ID of the item.</param>
+        /// <param name="bufferSize">This is the transfer size optimal by the device, which specifies the buffer size for the stream.</param>
+        /// <returns>A new read-only FileStream object.</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+        /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+        public Stream OpenReadFromPersistentUniqueId(string persistentUniqueId, out int bufferSize)
         {
             if (string.IsNullOrEmpty(persistentUniqueId))
             {
@@ -1563,7 +1575,7 @@ namespace MediaDevices
             {
                 throw new FileNotFoundException($"{persistentUniqueId} not found.");
             }
-            return item.OpenRead();
+            return item.OpenRead(out bufferSize);
         }
 
         /// <summary>
@@ -1574,7 +1586,19 @@ namespace MediaDevices
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
         /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
         /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
-        public StreamReader OpenTextFromPersistentUniqueId(string persistentUniqueId)
+        public StreamReader OpenTextFromPersistentUniqueId(string persistentUniqueId) =>
+            OpenTextFromPersistentUniqueId(persistentUniqueId, out _);
+
+        /// <summary>
+        /// Opens a stream reader with UTF-8 encoding from an Persistent Unique ID to read from.
+        /// </summary>
+        /// <param name="persistentUniqueId">Persistent unique ID of the item.</param>
+        /// <param name="bufferSize">This is the transfer size optimal by the device, which specifies the buffer size for the stream.</param>
+        /// <returns>A new StreamReader object.</returns>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+        /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+        public StreamReader OpenTextFromPersistentUniqueId(string persistentUniqueId, out int bufferSize)
         {
             if (string.IsNullOrEmpty(persistentUniqueId))
             {
@@ -1590,7 +1614,10 @@ namespace MediaDevices
             {
                 throw new FileNotFoundException($"{persistentUniqueId} not found.");
             }
-            return item == null ? null : new StreamReader(item.OpenRead());
+
+            bufferSize = 0;
+
+            return item == null ? null : new StreamReader(item.OpenRead(out bufferSize));
         }
 
         /// <summary>

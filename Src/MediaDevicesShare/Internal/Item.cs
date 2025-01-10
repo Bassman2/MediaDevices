@@ -536,7 +536,19 @@ namespace MediaDevices.Internal
             return null;
         }
 
-        internal Stream OpenRead()
+        private static int GetCopyBufferSize(int bufferSize)
+        {
+            const int DefaultCopyBufferSize = 81920;
+
+            if (bufferSize % 4096 != 0)
+            {
+                bufferSize = DefaultCopyBufferSize;
+            }
+
+            return bufferSize;
+        }
+
+        internal Stream OpenRead(out int bufferSize)
         {
             this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
 
@@ -545,10 +557,12 @@ namespace MediaDevices.Internal
 
             resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out wpdStream);
 
+            bufferSize = GetCopyBufferSize((int)optimalTransferSize);
+
             return new StreamWrapper(wpdStream, this.Size);
         }
 
-        internal Stream OpenReadThumbnail()
+        internal Stream OpenReadThumbnail(out int bufferSize)
         {
             this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
 
@@ -557,10 +571,12 @@ namespace MediaDevices.Internal
 
             resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out wpdStream);
 
+            bufferSize = GetCopyBufferSize((int)optimalTransferSize);
+
             return new StreamWrapper(wpdStream, this.Size);
         }
 
-        internal Stream OpenReadIcon()
+        internal Stream OpenReadIcon(out int bufferSize)
         {
             this.device.deviceContent.Transfer(out IPortableDeviceResources resources);
 
@@ -568,6 +584,8 @@ namespace MediaDevices.Internal
             uint optimalTransferSize = 0;
 
             resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out wpdStream);
+
+            bufferSize = GetCopyBufferSize((int)optimalTransferSize);
 
             return new StreamWrapper(wpdStream, this.Size);
         }
@@ -587,13 +605,13 @@ namespace MediaDevices.Internal
                 portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_CREATED, ref now.Value);
                 portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_MODIFIED, ref now.Value);
 
-                uint num = 0u;
+                uint optimalTransferSize = 0u;
                 string text = null;
-                this.device.deviceContent.CreateObjectWithPropertiesAndData(portableDeviceValues, out IStream wpdStream, ref num, ref text);
+                this.device.deviceContent.CreateObjectWithPropertiesAndData(portableDeviceValues, out IStream wpdStream, ref optimalTransferSize, ref text);
 
                 using (StreamWrapper destinationStream = new StreamWrapper(wpdStream))
                 {
-                    stream.CopyTo(destinationStream);
+                    stream.CopyTo(destinationStream, GetCopyBufferSize((int)optimalTransferSize));
                     destinationStream.Flush();
                 }
             }

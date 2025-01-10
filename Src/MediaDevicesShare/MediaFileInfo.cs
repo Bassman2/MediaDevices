@@ -46,9 +46,9 @@ namespace MediaDevices
             }
             using (FileStream file = File.Open(destFileName, overwrite ? FileMode.Create : FileMode.CreateNew))
             {
-                using (Stream sourceStream = item.OpenRead())
+                using (Stream sourceStream = item.OpenRead(out var bufferSize))
                 {
-                    sourceStream.CopyTo(file);
+                    sourceStream.CopyTo(file, bufferSize);
                 }
             }
         }
@@ -69,9 +69,9 @@ namespace MediaDevices
             }
             using (FileStream file = File.Open(destFileName, overwrite ? FileMode.Create : FileMode.CreateNew))
             {
-                using (Stream sourceStream = item.OpenReadIcon())
+                using (Stream sourceStream = item.OpenReadIcon(out var bufferSize))
                 {
-                    sourceStream.CopyTo(file);
+                    sourceStream.CopyTo(file, bufferSize);
                 }
             }
         }
@@ -92,9 +92,9 @@ namespace MediaDevices
             }
             using (FileStream file = File.Open(destFileName, overwrite ? FileMode.Create : FileMode.CreateNew))
             {
-                using (Stream sourceStream = item.OpenReadThumbnail())
+                using (Stream sourceStream = item.OpenReadThumbnail(out var bufferSize))
                 {
-                    sourceStream.CopyTo(file);
+                    sourceStream.CopyTo(file, bufferSize);
                 }
             }
         }
@@ -102,16 +102,17 @@ namespace MediaDevices
         /// <summary>
         /// Creates a read-only FileStream.
         /// </summary>
+        /// <param name="bufferSize">This is the transfer size optimal by the device, which specifies the buffer size for the stream.</param>
         /// <returns>A new read-only FileStream object.</returns>
         /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public Stream OpenRead()
+        public Stream OpenRead(out int bufferSize)
         {
             if (!this.device.IsConnected)
             {
                 throw new NotConnectedException("Not connected");
             }
-            return this.item.OpenRead();
+            return this.item.OpenRead(out bufferSize);
         }
 
         /// <summary>
@@ -120,13 +121,22 @@ namespace MediaDevices
         /// <returns>A new read-only FileStream object.</returns>
         /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public Stream OpenIcon()
+        public Stream OpenIcon() => OpenIcon(out _);
+
+        /// <summary>
+        /// Creates a read-only FileStream of the icon.
+        /// </summary>
+        /// <param name="bufferSize">This is the transfer size optimal by the device, which specifies the buffer size for the stream.</param>
+        /// <returns>A new read-only FileStream object.</returns>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public Stream OpenIcon(out int bufferSize)
         {
             if (!this.device.IsConnected)
             {
                 throw new NotConnectedException("Not connected");
             }
-            return this.item.OpenReadIcon();
+            return this.item.OpenReadIcon(out bufferSize);
         }
 
         /// <summary>
@@ -135,27 +145,46 @@ namespace MediaDevices
         /// <returns>A new read-only FileStream object.</returns>
         /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public Stream OpenThumbnail()
+        public Stream OpenThumbnail() => OpenThumbnail(out _);
+
+        /// <summary>
+        /// Creates a read-only FileStream of the thumbnail.
+        /// </summary>
+        /// <param name="bufferSize">This is the transfer size optimal by the device, which specifies the buffer size for the stream.</param>
+        /// <returns>A new read-only FileStream object.</returns>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public Stream OpenThumbnail(out int bufferSize)
         {
             if (!this.device.IsConnected)
             {
                 throw new NotConnectedException("Not connected");
             }
-            return this.item.OpenReadThumbnail();
+            return this.item.OpenReadThumbnail(out bufferSize);
         }
+
         /// <summary>
         /// Creates a StreamReader with UTF8 encoding that reads from an existing text file.
         /// </summary>
         /// <returns>A new StreamReader with UTF8 encoding.</returns>
         /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
         /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public StreamReader OpenText()
+        public StreamReader OpenText() => OpenText(out _);
+
+        /// <summary>
+        /// Creates a StreamReader with UTF8 encoding that reads from an existing text file.
+        /// </summary>
+        /// <param name="bufferSize">This is the transfer size optimal by the device, which specifies the buffer size for the stream.</param>
+        /// <returns>A new StreamReader with UTF8 encoding.</returns>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
+        public StreamReader OpenText(out int bufferSize)
         {
             if (!this.device.IsConnected)
             {
                 throw new NotConnectedException("Not connected");
             }
-            return new StreamReader(this.item.OpenRead());
+            return new StreamReader(this.item.OpenRead(out bufferSize));
         }
     }
 }

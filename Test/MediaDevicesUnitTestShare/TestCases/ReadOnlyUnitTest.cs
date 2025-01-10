@@ -154,9 +154,9 @@ namespace MediaDevicesUnitTest
 
             using (MemoryStream mem = new MemoryStream())
             {
-                using (Stream stream = file.OpenRead())
+                using (Stream stream = file.OpenRead(out var bufferSize))
                 {
-                    stream.CopyTo(mem);
+                    stream.CopyTo(mem, bufferSize);
                 }
                 Assert.AreEqual(this.infoFileLength, (ulong)mem.Position, "file read size");
             }
