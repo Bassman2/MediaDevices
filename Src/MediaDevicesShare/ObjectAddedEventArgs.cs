@@ -99,7 +99,7 @@ namespace MediaDevices
         {
             get
             {
-                return Item.Create(this.MediaDevice, this.ObjectId).OpenRead();
+                return Item.Create(this.MediaDevice, this.ObjectId).OpenRead(out _);
             }
         }
     }
