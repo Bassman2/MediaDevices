@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.6.2\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props" Condition="Exists('..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.6.2\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props')" />
+  <Import Project="..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.2\build\Microsoft.Testing.Platform.MSBuild.props" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.2\build\Microsoft.Testing.Platform.MSBuild.props')" />
   <Import Project="../../packages/Microsoft.Testing.Platform.1.6.2/build/netstandard2.0/Microsoft.Testing.Platform.props" Condition="Exists('../../packages/Microsoft.Testing.Platform.1.6.2/build/netstandard2.0/Microsoft.Testing.Platform.props')" />
-  <Import Project="..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.6.1\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props" Condition="Exists('..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.6.1\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props')" />
-  <Import Project="..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.1\build\Microsoft.Testing.Platform.MSBuild.props" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.1\build\Microsoft.Testing.Platform.MSBuild.props')" />
-  <Import Project="..\..\packages\Microsoft.Testing.Platform.1.6.1\build\netstandard2.0\Microsoft.Testing.Platform.props" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.1.6.1\build\netstandard2.0\Microsoft.Testing.Platform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -47,18 +46,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Testing.Extensions.MSBuild, Version=1.6.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.1\lib\netstandard2.0\Microsoft.Testing.Extensions.MSBuild.dll</HintPath>
+    <Reference Include="Microsoft.Testing.Extensions.MSBuild, Version=1.6.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.2\lib\netstandard2.0\Microsoft.Testing.Extensions.MSBuild.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Testing.Extensions.Telemetry, Version=1.6.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.6.1\lib\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.dll</HintPath>
+    <Reference Include="Microsoft.Testing.Extensions.Telemetry, Version=1.6.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.6.2\lib\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Testing.Extensions.TrxReport.Abstractions, Version=1.6.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\..\packages\Microsoft.Testing.Extensions.TrxReport.Abstractions.1.6.2\lib\netstandard2.0\Microsoft.Testing.Extensions.TrxReport.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Testing.Extensions.VSTestBridge, Version=1.6.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Testing.Extensions.VSTestBridge.1.6.1\lib\netstandard2.0\Microsoft.Testing.Extensions.VSTestBridge.dll</HintPath>
+    <Reference Include="Microsoft.Testing.Extensions.VSTestBridge, Version=1.6.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Testing.Extensions.VSTestBridge.1.6.2\lib\netstandard2.0\Microsoft.Testing.Extensions.VSTestBridge.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Testing.Platform, Version=1.6.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\..\packages\Microsoft.Testing.Platform.1.6.2\lib\netstandard2.0\Microsoft.Testing.Platform.dll</HintPath>
@@ -77,10 +76,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MSTest.TestFramework.3.8.1\lib\net462\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+      <HintPath>..\..\packages\MSTest.TestFramework.3.8.2\lib\net462\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MSTest.TestFramework.3.8.1\lib\net462\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+      <HintPath>..\..\packages\MSTest.TestFramework.3.8.2\lib\net462\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -134,8 +133,8 @@
     <Content Include="ILLink\ILLink.Descriptors.LibraryBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\packages\MSTest.Analyzers.3.8.1\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\..\packages\MSTest.Analyzers.3.8.1\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
+    <Analyzer Include="..\..\packages\MSTest.Analyzers.3.8.2\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\packages\MSTest.Analyzers.3.8.2\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
   </ItemGroup>
   <Import Project="..\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems" Label="Shared" />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
@@ -144,11 +143,10 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.1.6.1\build\netstandard2.0\Microsoft.Testing.Platform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.1.6.1\build\netstandard2.0\Microsoft.Testing.Platform.props'))" />
-    <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.1\build\Microsoft.Testing.Platform.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.1\build\Microsoft.Testing.Platform.MSBuild.props'))" />
-    <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.1\build\Microsoft.Testing.Platform.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.1\build\Microsoft.Testing.Platform.MSBuild.targets'))" />
-    <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.6.1\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.6.1\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props'))" />
     <Error Condition="!Exists('../../packages/Microsoft.Testing.Platform.1.6.2/build/netstandard2.0/Microsoft.Testing.Platform.props')" Text="$([System.String]::Format('$(ErrorText)', '../../packages/Microsoft.Testing.Platform.1.6.2/build/netstandard2.0/Microsoft.Testing.Platform.props'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.2\build\Microsoft.Testing.Platform.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.2\build\Microsoft.Testing.Platform.MSBuild.props'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.2\build\Microsoft.Testing.Platform.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.2\build\Microsoft.Testing.Platform.MSBuild.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.6.2\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Extensions.Telemetry.1.6.2\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props'))" />
   </Target>
-  <Import Project="..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.1\build\Microsoft.Testing.Platform.MSBuild.targets" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.1\build\Microsoft.Testing.Platform.MSBuild.targets')" />
+  <Import Project="..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.2\build\Microsoft.Testing.Platform.MSBuild.targets" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.1.6.2\build\Microsoft.Testing.Platform.MSBuild.targets')" />
 </Project>
