@@ -52,6 +52,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ItemType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\KeyAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\LibraryImport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ObjectProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PortableDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PortableDeviceKeyCollection.cs" />

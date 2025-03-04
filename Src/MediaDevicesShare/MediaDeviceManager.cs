@@ -23,11 +23,23 @@ public sealed partial class MediaDeviceManager : IDisposable
 
     private MediaDeviceManager() 
     {
-        this.staThread = new STAThread();
-        this.staThread.Run(() => {
+        //Thread thread = new(() =>
+        //this.staThread = new STAThread();
+        //this.staThread.Run(() => 
+        {
             try
             {
-                int res = CoCreateInstance(CLSID_PortableDeviceManager, 0, CLSCTX_ALL, typeof(IPortableDeviceManager).GUID, out var factory);
+                var state = System.Threading.Thread.CurrentThread.GetApartmentState(); // ..SetApartmentState(ApartmentState.STA);
+
+                //bool ret = System.Threading.Thread.CurrentThread.TrySetApartmentState(ApartmentState.STA);
+
+                int init = LibraryImport.CoInitialize(0);
+
+                int res = LibraryImport.CoCreateInstance(CLSID_PortableDeviceManager, 0, CLSCTX_ALL, typeof(IPortableDeviceManager).GUID, out var factory);
+                if (res != 0)
+                {
+                    Trace.TraceError($"CoCreateInstance failed with 0x{res:x}");
+                }
                 this.deviceManager = (IPortableDeviceManager)factory;
                 this.serviceManager = (IPortableDeviceServiceManager)this.deviceManager;
             }
@@ -35,7 +47,13 @@ public sealed partial class MediaDeviceManager : IDisposable
             {
                 Trace.TraceError(ex.ToString());
             }
-        });
+        }
+        //);
+        //thread.Name = "STA-Thread";
+        //var x = thread.TrySetApartmentState(ApartmentState.STA);
+        //var st = thread.GetApartmentState();
+        //thread.Start();
+        //thread.Join();
     }
 
     /// <summary>
@@ -143,10 +161,10 @@ public sealed partial class MediaDeviceManager : IDisposable
 
     internal T? Run<T>(Func<T> func) => this.staThread.Run<T>(func);
 
-    #region LibraryImport
+    //#region LibraryImport
 
-    [PreserveSig, LibraryImport("ole32")]
-    public static partial int CoCreateInstance(in Guid rclsid, nint pUnkOuter, int dwClsContext, in Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object ppv);
+    //[PreserveSig, LibraryImport("ole32")]
+    //public static partial int CoCreateInstance(in Guid rclsid, nint pUnkOuter, int dwClsContext, in Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object ppv);
 
-    #endregion
+    //#endregion
 }

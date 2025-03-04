@@ -36,6 +36,9 @@ namespace ComWrappersSourceGenerationConsole
 
         public void Run()
         {
+
+            var state = System.Threading.Thread.CurrentThread.GetApartmentState(); // ..SetApartmentState(ApartmentState.STA);
+
             int res = CoCreateInstance(CLSID_PortableDeviceManager, 0, CLSCTX_ALL, typeof(IPortableDeviceManager).GUID, out var factory);
 
             IPortableDeviceManager portableDeviceManager = (IPortableDeviceManager)factory;

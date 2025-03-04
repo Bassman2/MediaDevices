@@ -114,6 +114,7 @@ public abstract class UnitTest
 
     [TestMethod]
     [Description("Basic device tests")]
+    [STAThread]
     public void DeviceTest()
     {
         using var mdm = MediaDeviceManager.Instance;

@@ -16,14 +16,18 @@
     <PublishTrimmed>False</PublishTrimmed>
 
     <PublishAot>False</PublishAot>
+
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>$(DefineConstants);COM_WRAPPER_CODE_GENERATION</DefineConstants>
+    <IsPublishable>False</IsPublishable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>$(DefineConstants);COM_WRAPPER_CODE_GENERATION</DefineConstants>
+    <IsPublishable>False</IsPublishable>
   </PropertyGroup>
 
   <ItemGroup>

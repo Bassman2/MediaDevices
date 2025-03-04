@@ -151,7 +151,7 @@ public sealed class MediaDevice : IDisposable
         {
             if (IsConnected)
             {
-                return Run<string>(() => this.deviceValues!.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val) ? val : this.friendlyName);
+                return Run<string?>(() => this.deviceValues!.TryGetStringValue(WPD.DEVICE_FRIENDLY_NAME, out string val) ? val : this.friendlyName);
             }
             else
             {
