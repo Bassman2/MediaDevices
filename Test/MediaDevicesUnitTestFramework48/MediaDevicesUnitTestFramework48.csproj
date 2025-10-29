@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.props" Condition="Exists('..\..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.props')" />
+  <Import Project="..\..\packages\MSTest.TestAdapter.4.0.1\build\net462\MSTest.TestAdapter.props" Condition="Exists('..\..\packages\MSTest.TestAdapter.4.0.1\build\net462\MSTest.TestAdapter.props')" />
   <Import Project="..\..\packages\Microsoft.Testing.Platform.MSBuild.2.0.1\build\Microsoft.Testing.Platform.MSBuild.props" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.2.0.1\build\Microsoft.Testing.Platform.MSBuild.props')" />
   <Import Project="..\..\packages\Microsoft.Testing.Extensions.Telemetry.2.0.1\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props" Condition="Exists('..\..\packages\Microsoft.Testing.Extensions.Telemetry.2.0.1\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props')" />
   <Import Project="..\..\packages\Microsoft.Testing.Platform.2.0.1\build\netstandard2.0\Microsoft.Testing.Platform.props" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.2.0.1\build\netstandard2.0\Microsoft.Testing.Platform.props')" />
@@ -102,8 +102,8 @@
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=9.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Diagnostics.DiagnosticSource.9.0.9\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+      <HintPath>..\..\packages\System.Diagnostics.DiagnosticSource.9.0.10\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
@@ -116,7 +116,7 @@
       <HintPath>..\..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Reflection.Metadata, Version=9.0.0.9, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Reflection.Metadata.9.0.9\lib\net462\System.Reflection.Metadata.dll</HintPath>
+      <HintPath>..\..\packages\System.Reflection.Metadata.9.0.10\lib\net462\System.Reflection.Metadata.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime" />
@@ -148,8 +148,8 @@
     <Content Include="ILLink\ILLink.Descriptors.LibraryBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\packages\MSTest.Analyzers.3.10.4\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\..\packages\MSTest.Analyzers.3.10.4\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
+    <Analyzer Include="..\..\packages\MSTest.Analyzers.4.0.1\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\packages\MSTest.Analyzers.4.0.1\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
   </ItemGroup>
   <Import Project="..\MediaDevicesUnitTestShare\MediaDevicesUnitTestShare.projitems" Label="Shared" />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
@@ -163,12 +163,12 @@
     <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Extensions.Telemetry.2.0.1\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Extensions.Telemetry.2.0.1\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.2.0.1\build\Microsoft.Testing.Platform.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.MSBuild.2.0.1\build\Microsoft.Testing.Platform.MSBuild.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.2.0.1\build\Microsoft.Testing.Platform.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Testing.Platform.MSBuild.2.0.1\build\Microsoft.Testing.Platform.MSBuild.targets'))" />
-    <Error Condition="!Exists('..\..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.props'))" />
-    <Error Condition="!Exists('..\..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.targets'))" />
     <Error Condition="!Exists('..\..\packages\MSTest.TestFramework.4.0.1\build\net462\MSTest.TestFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSTest.TestFramework.4.0.1\build\net462\MSTest.TestFramework.targets'))" />
+    <Error Condition="!Exists('..\..\packages\MSTest.TestAdapter.4.0.1\build\net462\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSTest.TestAdapter.4.0.1\build\net462\MSTest.TestAdapter.props'))" />
+    <Error Condition="!Exists('..\..\packages\MSTest.TestAdapter.4.0.1\build\net462\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSTest.TestAdapter.4.0.1\build\net462\MSTest.TestAdapter.targets'))" />
   </Target>
   <Import Project="..\..\packages\Microsoft.Testing.Platform.2.0.1\build\netstandard2.0\Microsoft.Testing.Platform.targets" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.2.0.1\build\netstandard2.0\Microsoft.Testing.Platform.targets')" />
   <Import Project="..\..\packages\Microsoft.Testing.Platform.MSBuild.2.0.1\build\Microsoft.Testing.Platform.MSBuild.targets" Condition="Exists('..\..\packages\Microsoft.Testing.Platform.MSBuild.2.0.1\build\Microsoft.Testing.Platform.MSBuild.targets')" />
-  <Import Project="..\..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.targets" Condition="Exists('..\..\packages\MSTest.TestAdapter.3.11.0\build\net462\MSTest.TestAdapter.targets')" />
   <Import Project="..\..\packages\MSTest.TestFramework.4.0.1\build\net462\MSTest.TestFramework.targets" Condition="Exists('..\..\packages\MSTest.TestFramework.4.0.1\build\net462\MSTest.TestFramework.targets')" />
+  <Import Project="..\..\packages\MSTest.TestAdapter.4.0.1\build\net462\MSTest.TestAdapter.targets" Condition="Exists('..\..\packages\MSTest.TestAdapter.4.0.1\build\net462\MSTest.TestAdapter.targets')" />
 </Project>
