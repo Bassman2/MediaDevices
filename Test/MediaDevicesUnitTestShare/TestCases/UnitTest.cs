@@ -115,7 +115,7 @@ namespace MediaDevicesUnitTest
             Assert.AreEqual(this.deviceTransport, transport, "Transport");
             Assert.AreEqual(this.devicePowerSource, powerSource, "PowerSource");
             Assert.AreEqual(this.deviceProtocol, protocol, "Protocol");
-            Assert.IsTrue(powerLevel > 0, "PowerLevel");
+            Assert.IsGreaterThan(0, powerLevel, "PowerLevel");
         }
 
         [TestMethod]
