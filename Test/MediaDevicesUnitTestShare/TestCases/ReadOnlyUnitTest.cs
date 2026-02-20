@@ -111,7 +111,7 @@ namespace MediaDevicesUnitTest
 
             device.Disconnect();
 
-            Assert.IsTrue(position > 0, "Position");
+            Assert.IsGreaterThan(0, position, "Position");
             Assert.IsTrue(File.Exists(tempFile), "Exists");
 
         }
@@ -204,9 +204,9 @@ namespace MediaDevicesUnitTest
             Assert.AreEqual(@"\", root.Name, "root Name");
             Assert.AreEqual(@"\", root.FullName, "root FullName");
             Assert.AreEqual(0ul, root.Length, "root Length");
-            Assert.AreEqual(null, root.CreationTime, "root CreationTime");
-            Assert.AreEqual(null, root.LastWriteTime, "root LastWriteTime");
-            Assert.AreEqual(null, root.DateAuthored, "root DateAuthored");
+            Assert.IsNull(root.CreationTime, "root CreationTime");
+            Assert.IsNull(root.LastWriteTime, "root LastWriteTime");
+            Assert.IsNull(root.DateAuthored, "root DateAuthored");
             Assert.IsTrue(root.Attributes.HasFlag(MediaFileAttributes.Object), "root Object");
             Assert.IsFalse(root.Attributes.HasFlag(MediaFileAttributes.Hidden), "root Hidden");
             Assert.IsFalse(root.Attributes.HasFlag(MediaFileAttributes.System), "root System");

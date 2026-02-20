@@ -228,7 +228,7 @@ namespace MediaDevicesUnitTest
 
             Assert.IsTrue(exists1);
             Assert.IsTrue(File.Exists(filePath), "Exists");
-            Assert.IsTrue(new FileInfo(filePath).Length > 100, "Length");
+            Assert.IsGreaterThan(100, new FileInfo(filePath).Length, "Length");
 
         }
 
@@ -252,7 +252,7 @@ namespace MediaDevicesUnitTest
 
             Assert.IsTrue(exists1);
             Assert.IsTrue(File.Exists(filePath), "Exists");
-            Assert.IsTrue(new FileInfo(filePath).Length > 100, "Length");
+            Assert.IsGreaterThan(100, new FileInfo(filePath).Length, "Length");
 
         }
 
@@ -276,7 +276,7 @@ namespace MediaDevicesUnitTest
 
             Assert.IsTrue(exists1);
             Assert.IsTrue(File.Exists(filePath), "Exists");
-            Assert.IsTrue(new FileInfo(filePath).Length > 100, "Length");
+            Assert.IsGreaterThan(100, new FileInfo(filePath).Length, "Length");
 
         }
 
