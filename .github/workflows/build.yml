@@ -38,7 +38,7 @@ jobs:
       uses: microsoft/setup-msbuild@v3
 
     - name: Setup NuGet
-      uses: nuget/setup-nuget@v3
+      uses: nuget/setup-nuget@v4
 
     - name: Add SignKeys
       uses: Bassman2/SignKey@v1
