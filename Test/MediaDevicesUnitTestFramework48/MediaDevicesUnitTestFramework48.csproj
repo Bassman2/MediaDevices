@@ -83,8 +83,8 @@
       <HintPath>..\..\packages\Microsoft.Extensions.Diagnostics.Abstractions.10.0.7\lib\net462\Microsoft.Extensions.Diagnostics.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=10.0.0.6, Culture=neutral, PublicKeyToken=adb9793829ddae60">
-      <HintPath>..\..\packages\Microsoft.Extensions.FileProviders.Abstractions.10.0.6\lib\net462\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=10.0.0.7, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\..\packages\Microsoft.Extensions.FileProviders.Abstractions.10.0.7\lib\net462\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=10.0.0.6, Culture=neutral, PublicKeyToken=adb9793829ddae60">
