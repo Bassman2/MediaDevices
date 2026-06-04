@@ -163,7 +163,7 @@
       <HintPath>..\..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.ClientModel, Version=1.12.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8">
+    <Reference Include="System.ClientModel, Version=1.13.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8">
       <HintPath>..\..\packages\System.ClientModel.1.13.0\lib\netstandard2.0\System.ClientModel.dll</HintPath>
       <Private>True</Private>
     </Reference>
