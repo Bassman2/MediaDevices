@@ -12,7 +12,7 @@
   <Import Project="..\..\Demo Share\MediaDevicesAppShare\MediaDevicesAppShare.projitems" Label="Shared" />
 
   <ItemGroup>
-    <PackageReference Include="WpfUsbMonitor" Version="3.2.1" />
+    <PackageReference Include="WpfUsbMonitor" Version="3.4.0" />
   </ItemGroup>
 
   <ItemGroup>
