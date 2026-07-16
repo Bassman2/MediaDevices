@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-2022
     environment: sign
     env:
-      Solution: MediaDevices.sln
+      Solution: MediaDevices.slnx
       NugetSpc: MediaDevices.nuspec
     strategy:
       fail-fast: false
