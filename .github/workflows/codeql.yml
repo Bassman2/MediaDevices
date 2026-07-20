@@ -14,7 +14,7 @@ jobs:
     runs-on: windows-2022
     environment: sign
     env:
-      Solution: MediaDevices.sln
+      Solution: MediaDevices.slnx
 
     steps:
     - name: Checkout
@@ -23,7 +23,7 @@ jobs:
     - name: Setup DotNet
       uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: | 
+        dotnet-version: |
           2.1.x
           3.1.x
           5.0.x
@@ -53,7 +53,7 @@ jobs:
       run: dotnet restore $env:Solution
 
     - name: MSBuild of solution
-      run: msbuild $env:Solution /p:configuration="Release" /verbosity:minimal      
+      run: msbuild $env:Solution /p:configuration="Release" /verbosity:minimal
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
