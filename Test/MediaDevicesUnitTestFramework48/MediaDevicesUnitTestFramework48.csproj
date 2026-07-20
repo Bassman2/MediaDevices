@@ -158,11 +158,13 @@
     <Reference Include="OpenTelemetry.Extensions.Hosting, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7bd6737fe5b67e3c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\OpenTelemetry.Extensions.Hosting.1.17.0\lib\net462\OpenTelemetry.Extensions.Hosting.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTelemetry.PersistentStorage.Abstractions, Version=1.1.0.1067, Culture=neutral, PublicKeyToken=7bd6737fe5b67e3c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OpenTelemetry.PersistentStorage.Abstractions.1.1.0\lib\net462\OpenTelemetry.PersistentStorage.Abstractions.dll</HintPath>
+    <Reference Include="OpenTelemetry.PersistentStorage.Abstractions, Version=1.1.1.1228, Culture=neutral, PublicKeyToken=7bd6737fe5b67e3c">
+      <HintPath>..\..\packages\OpenTelemetry.PersistentStorage.Abstractions.1.1.1\lib\net462\OpenTelemetry.PersistentStorage.Abstractions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="OpenTelemetry.PersistentStorage.FileSystem, Version=1.1.0.1067, Culture=neutral, PublicKeyToken=7bd6737fe5b67e3c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OpenTelemetry.PersistentStorage.FileSystem.1.1.0\lib\net462\OpenTelemetry.PersistentStorage.FileSystem.dll</HintPath>
+    <Reference Include="OpenTelemetry.PersistentStorage.FileSystem, Version=1.1.1.1228, Culture=neutral, PublicKeyToken=7bd6737fe5b67e3c">
+      <HintPath>..\..\packages\OpenTelemetry.PersistentStorage.FileSystem.1.1.1\lib\net462\OpenTelemetry.PersistentStorage.FileSystem.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
