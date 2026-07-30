@@ -55,8 +55,6 @@ public sealed partial class MediaDevice : IDisposable
 
     #endregion
 
-    
-
     #region static
 
     /*
@@ -200,12 +198,9 @@ public sealed partial class MediaDevice : IDisposable
         this.description = MainWorker.GetDeviceDescription(deviceManager, deviceId) ?? string.Empty;
         this.friendlyName = MainWorker.GetDeviceFriendlyName(deviceManager, deviceId) ?? string.Empty;
         this.manufacturer = MainWorker.GetDeviceManufacturer(deviceManager, deviceId) ?? string.Empty;
-        
-        //this.device = ComHelper.CreateInstance<IPortableDevice>(ref CLSID.PortableDevice);
 
         int err = ComHelper.CreateInstance<IPortableDevice>(ref CLSID.PortableDevice, out this.device);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice));
-
     }
 
     public void Dispose()
@@ -248,50 +243,16 @@ public sealed partial class MediaDevice : IDisposable
         mainWorker.Cancel(this);
     }
 
-    // private static Guid GUID_DEVINTERFACE_WPD_SERVICECATION = new Guid(0x9EF44F80, 0x3D64, 0x4246, 0xA6, 0xAA, 0x20, 0x6F, 0x32, 0x8D, 0x1E, 0xDC);
-
     /// <summary>
     /// Get mediaDevice services
     /// </summary>
     /// <param name="service">Service type</param>
     /// <returns>List of services</returns>
     public IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices serviceType)
-        => mainWorker.GetServices(this, serviceType);
-
-
-    #endregion
-
-    #region Internal Methods
-
-    //internal static bool IsPath(string path)
-    //{
-    //    return !string.IsNullOrWhiteSpace(path) && path.IndexOfAny(Path.GetInvalidPathChars()) < 0;
-    //}
-
-    //internal bool EqualsName(string a, string b)
-    //{
-    //    return this.IsCaseSensitive ? a == b : string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
-    //}
-
-    //internal static string? FilterToRegex(string? filter)
-    //{
-    //    if (filter == null || filter == "*" || filter == "*.*")
-    //    {
-    //        return null;
-    //    }
-
-    //    StringBuilder s = new(filter);
-    //    s.Replace(".", @"\.");
-    //    s.Replace("+", @"\+");
-    //    s.Replace("$", @"\$");
-    //    s.Replace("(", @"\(");
-    //    s.Replace(")", @"\)");
-    //    s.Replace("[", @"\[");
-    //    s.Replace("]", @"\]");
-    //    s.Replace("?", ".?");
-    //    s.Replace("*", ".*");
-    //    return s.ToString();
-    //}
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+        return mainWorker.GetServices(this, serviceType);
+    }
 
     #endregion
 }

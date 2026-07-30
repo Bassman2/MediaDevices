@@ -13,7 +13,7 @@ internal partial class MainWorker : ThreadSafeWorker
         Invoke(() =>
         {
             int err = ComHelper.CreateInstance<IPortableDeviceManager>(ref CLSID.PortableDeviceManager, out IPortableDeviceManager? deviceManager);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceManager", "CoCreateInstance");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager));
 
             intDeviceManager = deviceManager!;
             intServiceManager = (IPortableDeviceServiceManager)intDeviceManager;
@@ -29,12 +29,12 @@ internal partial class MainWorker : ThreadSafeWorker
         return InvokeEnumerable(() =>
         {
             int err = deviceManager.RefreshDeviceList();
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceManager", "RefreshDeviceList");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager), nameof(IPortableDeviceManager.RefreshDeviceList));
 
             // get number of devices
             int count = 0;
             err = deviceManager.GetDevices(null, ref count);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceManager", "GetDevices");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager), nameof(IPortableDeviceManager.GetDevices));
 
             if (count == 0)
             {
@@ -45,7 +45,7 @@ internal partial class MainWorker : ThreadSafeWorker
                 // get mediaDevice IDs
                 var deviceIds = new string[count];
                 err = deviceManager.GetDevices(deviceIds, ref count);
-                MediaDeviceException.ThrowIfComError(err, "IPortableDeviceManager", "GetDevices");
+                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager), nameof(IPortableDeviceManager.GetDevices));
                 return deviceIds.Select(d => CreateMediaDevice(d));
             }
         });
@@ -56,12 +56,12 @@ internal partial class MainWorker : ThreadSafeWorker
         return InvokeEnumerable(() =>
         {
             int err = deviceManager.RefreshDeviceList();
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceManager", "RefreshDeviceList");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager), nameof(IPortableDeviceManager.RefreshDeviceList));
 
             // get number of devices
             int count = 0;
             err = deviceManager.GetPrivateDevices(null, ref count);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceManager", "GetPrivateDevices");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager), nameof(IPortableDeviceManager.GetPrivateDevices));
 
             if (count == 0)
             {
@@ -72,7 +72,7 @@ internal partial class MainWorker : ThreadSafeWorker
                 // get mediaDevice IDs
                 var deviceIds = new string[count];
                 err = deviceManager.GetPrivateDevices(deviceIds, ref count);
-                MediaDeviceException.ThrowIfComError(err, "IPortableDeviceManager", "GetPrivateDevices");
+                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager), nameof(IPortableDeviceManager.GetPrivateDevices));
                 return  deviceIds.Select(d => CreateMediaDevice(d));
             }
         });
@@ -94,33 +94,33 @@ internal partial class MainWorker : ThreadSafeWorker
             // set open mediaDevice parameters
             // TODO
             int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var clientInfo);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "CoCreateInstance");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
 
             //IPortableDeviceValues clientInfo = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
             //(IPortableDeviceValues) new PortableDeviceValues();
             err = clientInfo.SetStringValue(ref WPD.CLIENT_NAME, appName);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "SetStringValue CLIENT_NAME");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "CLIENT_NAME");
 
             err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_MAJOR_VERSION, 1);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "SetUnsignedIntegerValue CLIENT_MAJOR_VERSION");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_MAJOR_VERSION");
             err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_MINOR_VERSION, 0);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "SetUnsignedIntegerValue CLIENT_MINOR_VERSION");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_MINOR_VERSION");
             err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_REVISION, 0);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "SetUnsignedIntegerValue CLIENT_REVISION");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_REVISION");
             // Some mediaDevice drivers need to impersonate the caller in order to function correctly. Since our application does not
             // need to restrict its identity, specify SECURITY_IMPERSONATION so that we work with all devices.
             err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_SECURITY_QUALITY_OF_SERVICE, (uint)Security.IMPERSONATION);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "SetUnsignedIntegerValue CLIENT_SECURITY_QUALITY_OF_SERVICE");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_SECURITY_QUALITY_OF_SERVICE");
 
             if (access != MediaDeviceAccess.Default)
             {
                 err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_DESIRED_ACCESS, (uint)access);
-                MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "SetUnsignedIntegerValue CLIENT_DESIRED_ACCESS");
+                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_DESIRED_ACCESS");
             }
             if (share != MediaDeviceShare.Default)
             {
                 err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_SHARE_MODE, (uint)share);
-                MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "SetUnsignedIntegerValue CLIENT_SHARE_MODE");
+                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_SHARE_MODE");
             }
 
             // TODO
@@ -138,15 +138,15 @@ internal partial class MainWorker : ThreadSafeWorker
 
             // open mediaDevice
             err = mediaDevice.device.Open(deviceId, clientInfo);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDevice", "Open");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Open));
             err = mediaDevice.device.Capabilities(out mediaDevice.deviceCapabilities);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDevice", "Capabilities");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Capabilities));
             err = mediaDevice.device.Content(out mediaDevice.deviceContent);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDevice", "Content");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Content));
             err = mediaDevice.deviceContent.Properties(out mediaDevice.deviceProperties);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceProperties", "Properties");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.Properties));
             err = mediaDevice.deviceProperties.GetValues(Item.RootId, null, out mediaDevice.deviceValues);
-            MediaDeviceException.ThrowIfComError(err, "IPortableDeviceProperties", "GetValues");
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
             //ComTrace.WriteObject(this.deviceValues);
 

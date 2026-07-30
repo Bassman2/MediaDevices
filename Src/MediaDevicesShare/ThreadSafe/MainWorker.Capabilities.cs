@@ -59,8 +59,8 @@ partial class MainWorker
         //return objects.ToStrings();
 
         uint count = 0;
-        int error = objects.GetCount(ref count);
-        MediaDeviceException.ThrowIfComError(error, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
+        err = objects.GetCount(ref count);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
         for (uint i = 0; i < count; i++)
         {
             using PropVariantFacade val = new();

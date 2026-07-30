@@ -11,10 +11,10 @@ internal class Command
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
 
         err = this.values.SetGuidValue(ref WPD.PROPERTY_COMMON_COMMAND_CATEGORY, ref commandKey.fmtid);
-        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetGuidValue", "PROPERTY_COMMON_COMMAND_CATEGORY");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetGuidValue), "PROPERTY_COMMON_COMMAND_CATEGORY");
 
         err = this.values.SetUnsignedIntegerValue(ref WPD.PROPERTY_COMMON_COMMAND_ID, commandKey.pid);
-        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetUnsignedIntegerValue", "PROPERTY_COMMON_COMMAND_ID");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "PROPERTY_COMMON_COMMAND_ID");
     }
 
     public static Command Create(PropertyKey commandKey)
@@ -25,32 +25,32 @@ internal class Command
     public void Add(PropertyKey key, Guid value)
     {
         int err = this.values.SetGuidValue(ref key, ref value);
-        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetGuidValue", "TODO");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetGuidValue), "TODO");
     }
 
     public void Add(PropertyKey key, int value)
     {
         int err = this.values.SetSignedIntegerValue(ref key, value);
-        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetSignedIntegerValue", "TODO");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetSignedIntegerValue), "TODO");
 
     }
 
     public void Add(PropertyKey key, uint value)
     {
         int err = this.values.SetUnsignedIntegerValue(ref key, value);
-        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetUnsignedIntegerValue", "TODO");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "TODO");
     }
 
     public void Add(PropertyKey key, IPortableDevicePropVariantCollection value)
     {
         int err = this.values.SetIPortableDevicePropVariantCollectionValue(ref key, value);
-        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetIPortableDevicePropVariantCollectionValue", "TODO");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetIPortableDevicePropVariantCollectionValue), "TODO");
     }
 
     public void Add(PropertyKey key, IEnumerable<int> values)
     {
         int err = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>(ref CLSID.PortableDevicePropVariantCollection, out var col);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDevicePropVariantCollection", "CoCreateInstance");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection));
 
         foreach (var value in values)
         {

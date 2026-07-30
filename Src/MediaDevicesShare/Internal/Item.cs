@@ -121,8 +121,8 @@ internal class Item
         //string? mediaObjectId = results.ToStrings().FirstOrDefault();
 
         uint count = 0;
-        int error = results.GetCount(ref count);
-        MediaDeviceException.ThrowIfComError(error, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
+        err = results.GetCount(ref count);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
         if (count == 0)
         {
             return null;
@@ -228,7 +228,7 @@ internal class Item
         //var keyCollection = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection);
 
         int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keyCollection);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceKeyCollection");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
 
 
         keyCollection.Add(ref WPD.OBJECT_CONTENT_TYPE);
@@ -393,7 +393,7 @@ internal class Item
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         int err = this.mediaDevice!.deviceContent!.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceContent", "EnumObjects");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
         if (enumerator == null) 
         {
             Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
@@ -404,7 +404,7 @@ internal class Item
         uint fetched = 0;
         var objectIds = new string[numObjectsToRequest];
         err = enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
-        MediaDeviceException.ThrowIfComError(err, "IEnumPortableDeviceObjectIDs", "Next");
+        MediaDeviceException.ThrowIfComError(err, nameof(IEnumPortableDeviceObjectIDs), nameof(IEnumPortableDeviceObjectIDs.Next));
         while (fetched > 0)
         {
             for (int index = 0; index < fetched; index++)
@@ -441,7 +441,8 @@ internal class Item
 
         var regexPattern = FilterToRegex(searchPattern);
 
-        this.mediaDevice!.deviceContent!.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
+        int err = this.mediaDevice!.deviceContent!.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
         if (enumerator == null) 
         {
             Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
@@ -450,7 +451,9 @@ internal class Item
 
         uint fetched = 0;
         var objectIds = new string[numObjectsToRequest];
-        enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+        err = enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+        MediaDeviceException.ThrowIfComError(err, nameof(IEnumPortableDeviceObjectIDs), nameof(IEnumPortableDeviceObjectIDs.Next));
+
         while (fetched > 0)
         {
             for (int index = 0; index < fetched; index++)
@@ -656,7 +659,7 @@ internal class Item
         uint optimalTransferSize = 0;
 
         int err = resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out var res); // IStream wpdStream);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceResources", "GetStream");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
         IStream wpdStream = (IStream)res;
         return new StreamWrapper(wpdStream, this.Size);
@@ -671,10 +674,10 @@ internal class Item
         uint optimalTransferSize = 0;
 
         int err = resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out var res);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceResources", "GetStream");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
         IStream wpdStream = (IStream)res;
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceResources", "GetStream");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
         return new StreamWrapper(wpdStream, this.Size);
     }
