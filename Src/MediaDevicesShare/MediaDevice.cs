@@ -223,93 +223,10 @@ public sealed partial class MediaDevice : IDisposable
     /// <param name="access">Specifies the desired access the client is requesting to this mediaDevice.</param>
     /// <param name="share">Specifies the share mode the client is requesting to this mediaDevice.</param>
     /// <param name="enableCache">Enable or disable file list cache. Disabled cache is used by Explorer for a better performance.</param>
-    public void Connect(MediaDeviceAccess access = MediaDeviceAccess.Default, MediaDeviceShare share = MediaDeviceShare.Default, bool enableCache = false)
+    public void Connect(MediaDeviceAccess access = MediaDeviceAccess.Default, MediaDeviceShare share = MediaDeviceShare.Default, bool enableCache = true)
     {
-        if (this.IsConnected)
-        {
-            return;
-        }
-
+        if (this.IsConnected) return;
         mainWorker.Connect(this, this.DeviceId, access, share, enableCache);
-
-        /*
-        // find the app name for client name
-        var appName = AppDomain.CurrentDomain.FriendlyName; 
-
-        // set open mediaDevice parameters
-        // TODO
-        int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var clientInfo);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
-
-        err = clientInfo.SetStringValue(ref WPD.CLIENT_NAME, appName);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "CLIENT_NAME");
-
-        err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_MAJOR_VERSION, 1);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_MAJOR_VERSION");
-
-        err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_MINOR_VERSION, 0);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_MINOR_VERSION");
-
-        err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_REVISION, 0);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_REVISION");
-
-        // Some mediaDevice drivers need to impersonate the caller in order to function correctly. Since our application does not
-        // need to restrict its identity, specify SECURITY_IMPERSONATION so that we work with all devices.
-        err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_SECURITY_QUALITY_OF_SERVICE, (uint)Security.IMPERSONATION);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_SECURITY_QUALITY_OF_SERVICE");
-
-        if (access != MediaDeviceAccess.Default)
-        {
-            err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_DESIRED_ACCESS, (uint)access);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_DESIRED_ACCESS");
-        }
-        if (share != MediaDeviceShare.Default)
-        {
-            err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_SHARE_MODE, (uint)share);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_SHARE_MODE");
-        }
-
-        // TODO
-        if (enableCache == false)
-        {
-            // disable file list cache
-            //err = clientInfo.SetGuidValue(ref WPD.CLIENT_EVENT_COOKIE, ref WPD.CLSID_PORTABLE_DEVICES);
-            //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetGuidValue), "CLSID_PORTABLE_DEVICES");
-            //err = clientInfo.SetStringValue(ref WPD.CLIENT_EVENT_COOKIE, "{35786D3C-B075-49B9-88DD-029876E11C01}");
-            //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "CLIENT_EVENT_COOKIE");
-        }
-
-        // open mediaDevice
-        err = this.device.Open(this.DeviceId, clientInfo);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDevice", "Open");
-
-        // get IPortableDeviceContent instance
-        err = this.device.Content(out this.deviceContent);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDevice", "Content");
-
-        // get IPortableDeviceProperties instance
-        err = this.deviceContent.Properties(out this.deviceProperties);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceProperties", "Properties");
-
-        // get IPortableDeviceValues instance
-        err = this.deviceProperties.GetValues(Item.RootId, null, out this.deviceValues);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceProperties", "GetValues");
-
-        // get IPortableDeviceCapabilities instance
-        err = this.device.Capabilities(out this.deviceCapabilities);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDevice", "Capabilities");
-        
-        ComTrace.WriteObject(this.deviceValues);
-
-        // TODO
-        // advice event handler
-        this.eventCallback = new EventCallback(this);
-        //err = this.mediaDevice.Advise(0, this.eventCallback, null, out var eventCookie);
-        //MediaDeviceException.ThrowIfComError(err, "IPortableDevice", "Advise");
-        //this.eventCookie = eventCookie;
-        
-        this.IsConnected = true;
-        */
     }
 
     /// <summary>
@@ -317,18 +234,8 @@ public sealed partial class MediaDevice : IDisposable
     /// </summary>
     public void Disconnect()
     {
-        if (!this.IsConnected)
-        {
-            return;
-        }
+        if (!this.IsConnected) return;
         mainWorker.Disconnect(this);
-        //if (!string.IsNullOrEmpty(this.eventCookie))
-        //{
-        //    this.device.Unadvise(this.eventCookie);
-        //    this.eventCookie = null;
-        //}
-        //this.device.Close();
-        //this.IsConnected = false;
     }
 
     /// <summary>
@@ -337,10 +244,7 @@ public sealed partial class MediaDevice : IDisposable
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void Cancel()
     {
-        if (!this.IsConnected)
-        {
-            throw new NotConnectedException("Not connected");
-        }
+        NotConnectedException.ThrowIfNotConnected(this);
         mainWorker.Cancel(this);
     }
 
@@ -364,30 +268,30 @@ public sealed partial class MediaDevice : IDisposable
     //    return !string.IsNullOrWhiteSpace(path) && path.IndexOfAny(Path.GetInvalidPathChars()) < 0;
     //}
 
-    internal bool EqualsName(string a, string b)
-    {
-        return this.IsCaseSensitive ? a == b : string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
-    }
+    //internal bool EqualsName(string a, string b)
+    //{
+    //    return this.IsCaseSensitive ? a == b : string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+    //}
 
-    internal static string? FilterToRegex(string? filter)
-    {
-        if (filter == null || filter == "*" || filter == "*.*")
-        {
-            return null;
-        }
+    //internal static string? FilterToRegex(string? filter)
+    //{
+    //    if (filter == null || filter == "*" || filter == "*.*")
+    //    {
+    //        return null;
+    //    }
 
-        StringBuilder s = new(filter);
-        s.Replace(".", @"\.");
-        s.Replace("+", @"\+");
-        s.Replace("$", @"\$");
-        s.Replace("(", @"\(");
-        s.Replace(")", @"\)");
-        s.Replace("[", @"\[");
-        s.Replace("]", @"\]");
-        s.Replace("?", ".?");
-        s.Replace("*", ".*");
-        return s.ToString();
-    }
+    //    StringBuilder s = new(filter);
+    //    s.Replace(".", @"\.");
+    //    s.Replace("+", @"\+");
+    //    s.Replace("$", @"\$");
+    //    s.Replace("(", @"\(");
+    //    s.Replace(")", @"\)");
+    //    s.Replace("[", @"\[");
+    //    s.Replace("]", @"\]");
+    //    s.Replace("?", ".?");
+    //    s.Replace("*", ".*");
+    //    return s.ToString();
+    //}
 
     #endregion
 }

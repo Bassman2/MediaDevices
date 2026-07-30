@@ -90,7 +90,7 @@ internal class Item
         var folders = path.Split([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries);
         foreach (var folder in folders)
         {
-            item = item.GetChildren().FirstOrDefault(i => device.EqualsName(i.Name, folder));
+            item = item.GetChildren().FirstOrDefault(i => EqualsName(i.Name, folder, device.IsCaseSensitive));
             if (item == null)
             {
                 return null;
@@ -435,9 +435,11 @@ internal class Item
         }
     }
 
-    public IEnumerable<Item> GetChildren(string? pattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public IEnumerable<Item> GetChildren(string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
+
+        var regexPattern = FilterToRegex(searchPattern);
 
         this.mediaDevice!.deviceContent!.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
         if (enumerator == null) 
@@ -468,14 +470,14 @@ internal class Item
 
                 if (item != null)
                 {
-                    if (pattern == null || (item.Name != null && Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase)))
+                    if (regexPattern == null || (item.Name != null && Regex.IsMatch(item.Name, regexPattern, RegexOptions.IgnoreCase)))
                     {
                         yield return item;
                     }
 
                     if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
                     {
-                        var children = item.GetChildren(pattern!, searchOption);
+                        var children = item.GetChildren(searchPattern, searchOption);
                         foreach (var c in children)
                         {
                             yield return c;
@@ -496,7 +498,7 @@ internal class Item
         var folders = path.Split([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries);
         foreach (var folder in folders)
         {
-            child = parent.GetChildren().FirstOrDefault(i => mediaDevice!.EqualsName(i.Name, folder));
+            child = parent.GetChildren().FirstOrDefault(i => EqualsName(i.Name, folder, mediaDevice.IsCaseSensitive));
             if (child == null)
             {
                 // create a new directory
@@ -741,7 +743,7 @@ internal class Item
             if (check == "Error: S_OK")
             {
                 // id can change on rename (e.g. Amazon Kindle Paperwhite) so find new one
-                var newItem = this.parent!.GetChildren().FirstOrDefault(i => mediaDevice.EqualsName(i.Name, newName));
+                var newItem = this.parent!.GetChildren().FirstOrDefault(i => EqualsName(i.Name, newName, mediaDevice.IsCaseSensitive));
                 this.Id = newItem!.Id;
                 
                 Refresh();
@@ -810,6 +812,35 @@ internal class Item
         }
 
         Refresh();
+    }
+
+    #endregion
+
+    #region private
+
+    private static bool EqualsName(string a, string b, bool isCaseSensitive)
+    {
+        return isCaseSensitive ? a == b : string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string? FilterToRegex(string? filter)
+    {
+        if (filter == null || filter == "*" || filter == "*.*")
+        {
+            return null;
+        }
+
+        StringBuilder s = new(filter);
+        s.Replace(".", @"\.");
+        s.Replace("+", @"\+");
+        s.Replace("$", @"\$");
+        s.Replace("(", @"\(");
+        s.Replace(")", @"\)");
+        s.Replace("[", @"\[");
+        s.Replace("]", @"\]");
+        s.Replace("?", ".?");
+        s.Replace("*", ".*");
+        return s.ToString();
     }
 
     #endregion

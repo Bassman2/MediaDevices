@@ -84,7 +84,7 @@ internal partial class MainWorker : ThreadSafeWorker
         return new MediaDevice(deviceId, this, deviceManager, serviceManager);
     }
 
-    public void Connect(MediaDevice mediaDevice, string deviceId, MediaDeviceAccess access = MediaDeviceAccess.Default, MediaDeviceShare share = MediaDeviceShare.Default, bool enableCache = false)
+    public void Connect(MediaDevice mediaDevice, string deviceId, MediaDeviceAccess access, MediaDeviceShare share, bool enableCache)
     {
         Invoke(() =>
         {
@@ -131,6 +131,9 @@ internal partial class MainWorker : ThreadSafeWorker
                 //MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "SetGuidValue");
                 //err = clientInfo.SetStringValue(ref WPD.CLIENT_EVENT_COOKIE, "{35786D3C-B075-49B9-88DD-029876E11C01}");
                 //MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "SetStringValue CLIENT_EVENT_COOKIE");
+
+                err = clientInfo.SetGuidValue(ref WPD.CLIENT_EVENT_COOKIE, ref CLSID.NamespaceExtention);
+                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetGuidValue), "NamespaceExtention");
             }
 
             // open mediaDevice
