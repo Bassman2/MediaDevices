@@ -38,9 +38,6 @@ jobs:
         file: Bassman.snk
         key: ${{ secrets.SIGNKEY }}
 
-    - name: Install SHFB
-      uses: Bassman2/setup-SHFB@v1
-
     - name: Nuget restore dependencies
       run: nuget restore $env:Solution
 
