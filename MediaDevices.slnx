@@ -1,7 +1,7 @@
 <Solution>
   <Folder Name="/Demo/" />
   <Folder Name="/Generator/">
-    <Project Path="../GeneratorLibrary/GeneratorLibraryShare/GeneratorLibraryShare.shproj" Id="dca7dd44-310c-48bd-bc75-c4203d5c3200" />
+    <Project Path="Generator/GeneratorLibraryShare/GeneratorLibraryShare.shproj" Id="dca7dd44-310c-48bd-bc75-c4203d5c3200" />
     <Project Path="Generator/FindGenerator/FindGenerator.csproj" />
     <Project Path="Generator/WPDGenerator/WPDGenerator.csproj" Id="1b2bfb76-e9d1-43ec-87c0-3e894c81c24f" />
   </Folder>
