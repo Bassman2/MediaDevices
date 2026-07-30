@@ -20,7 +20,7 @@ Future: [NuGet Package](https://www.nuget.org/packages/MediaDevices/)
 
 ## Documentation
 
-
+[Pages](https://bassman2.github.io/MediaDevices/)
 
 ## Donate
 
