@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: windows-2022
+    runs-on: windows-latest
     environment: sign
     env:
       Solution: MediaDevices.slnx
@@ -22,14 +22,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v7
-
-    - name: Setup DotNet
-      uses: actions/setup-dotnet@v6
-      with:
-        dotnet-version: |
-          2.1.x
-          3.1.x
-          5.0.x
 
     - name: Set DotNetFramework
       uses: Bassman2/setup-dotnetfwk@v1
