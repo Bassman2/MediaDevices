@@ -26,25 +26,22 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-#    - name: Checkout
-#      uses: actions/checkout@v3
-      
     - name: Checkout Main
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         path: main
         
     - name: Checkout MediaDevices
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         repository: Bassman2/MediaDevices
         path: MediaDevices  
       
       
-    - name: Dotnet Setup
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 10.x
+    #- name: Dotnet Setup
+    #  uses: actions/setup-dotnet@v3
+    #  with:
+    #    dotnet-version: 10.x
 
     - run: dotnet tool update -g docfx
     - run: docfx main/DocFx/docfx.json
