@@ -1,144 +1,153 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿namespace MediaDevices.Internal;
 
-namespace MediaDevices.Internal
+internal class Command
 {
-    internal class Command
+    private readonly IPortableDeviceValues values;
+    private IPortableDeviceValues? result;
+
+    private Command(PropertyKey commandKey)
     {
-        private IPortableDeviceValues values;
-        private IPortableDeviceValues result;
+        int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out values);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
 
-        private Command(PropertyKey commandKey)
+        err = this.values.SetGuidValue(ref WPD.PROPERTY_COMMON_COMMAND_CATEGORY, ref commandKey.fmtid);
+        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetGuidValue", "PROPERTY_COMMON_COMMAND_CATEGORY");
+
+        err = this.values.SetUnsignedIntegerValue(ref WPD.PROPERTY_COMMON_COMMAND_ID, commandKey.pid);
+        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetUnsignedIntegerValue", "PROPERTY_COMMON_COMMAND_ID");
+    }
+
+    public static Command Create(PropertyKey commandKey)
+    {
+        return new Command(commandKey);
+    }
+
+    public void Add(PropertyKey key, Guid value)
+    {
+        int err = this.values.SetGuidValue(ref key, ref value);
+        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetGuidValue", "TODO");
+    }
+
+    public void Add(PropertyKey key, int value)
+    {
+        int err = this.values.SetSignedIntegerValue(ref key, value);
+        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetSignedIntegerValue", "TODO");
+
+    }
+
+    public void Add(PropertyKey key, uint value)
+    {
+        int err = this.values.SetUnsignedIntegerValue(ref key, value);
+        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetUnsignedIntegerValue", "TODO");
+    }
+
+    public void Add(PropertyKey key, IPortableDevicePropVariantCollection value)
+    {
+        int err = this.values.SetIPortableDevicePropVariantCollectionValue(ref key, value);
+        MediaDeviceException.ThrowIfComError(err, "PortableDeviceValues", "SetIPortableDevicePropVariantCollectionValue", "TODO");
+    }
+
+    public void Add(PropertyKey key, IEnumerable<int> values)
+    {
+        int err = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>(ref CLSID.PortableDevicePropVariantCollection, out var col);
+        MediaDeviceException.ThrowIfComError(err, "IPortableDevicePropVariantCollection", "CoCreateInstance");
+
+        foreach (var value in values)
         {
-            this.values = (IPortableDeviceValues)new PortableDeviceValues();
-            this.values.SetGuidValue(ref WPD.PROPERTY_COMMON_COMMAND_CATEGORY, ref commandKey.fmtid);
-            this.values.SetUnsignedIntegerValue(ref WPD.PROPERTY_COMMON_COMMAND_ID, commandKey.pid);
+            var var = PropVariantFacade.IntToPropVariant(value);
+            col.Add(ref var.Value);
         }
+        err = this.values.SetIPortableDevicePropVariantCollectionValue(ref key, col);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetIPortableDevicePropVariantCollectionValue));
+    }
 
-        public static Command Create(PropertyKey commandKey)
-        {
-            return new Command(commandKey);
-        }
+    public void Add(PropertyKey key, string value)
+    {
+        int err = this.values.SetStringValue(ref key, value);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "TODO");
+    }
 
-        public void Add(PropertyKey key, Guid value)
-        {
-            this.values.SetGuidValue(ref key, ref value);
-        }
+    //public void Add(PropertyKey key, byte[] buffer, int size)
+    //{
+    //    Marshal..
+    //    this.values.SetBufferValue(key, ref buffer, (uint)size);
+    //}
 
-        public void Add(PropertyKey key, int value)
-        {
-            this.values.SetSignedIntegerValue(ref key, value);
-        }
+    public Guid GetGuid(PropertyKey key)
+    {
+        this.result!.GetGuidValue(ref key, out Guid value);
+        return value;
+    }
 
-        public void Add(PropertyKey key, uint value)
-        {
-            this.values.SetUnsignedIntegerValue(ref key, value);
-        }
+    public int GetInt(PropertyKey key)
+    {
+        this.result!.GetSignedIntegerValue(ref key, out int value);
+        return value;
+    }
 
-        public void Add(PropertyKey key, IPortableDevicePropVariantCollection value)
+    public string GetString(PropertyKey key)
+    {
+        this.result!.GetStringValue(ref key, out string value);
+        return value;
+    }
+    
+    public IEnumerable<PropVariantFacade> GetPropVariants(PropertyKey key) 
+    {
+        this.result!.GetIUnknownValue(ref key, out object? obj);
+        var col = obj as IPortableDevicePropVariantCollection;
+    
+        uint count = 0;
+        col!.GetCount(ref count);
+        for (uint i = 0; i < count; i++)
         {
-            this.values.SetIPortableDevicePropVariantCollectionValue(ref key, value);
-        }
-        
-        public void Add(PropertyKey key, IEnumerable<int> values)
-        {
-            IPortableDevicePropVariantCollection col = (IPortableDevicePropVariantCollection) new PortableDevicePropVariantCollection();
-            foreach (var value in values)
-            {
-                var var = PropVariantFacade.IntToPropVariant(value);
-                col.Add(ref var.Value);
-            }
-            this.values.SetIPortableDevicePropVariantCollectionValue(ref key, col);
-        }
-
-        public void Add(PropertyKey key, string value)
-        {
-            this.values.SetStringValue(ref key, value);
-        }
-
-        //public void Add(PropertyKey key, byte[] buffer, int size)
-        //{
-        //    Marshal..
-        //    this.values.SetBufferValue(key, ref buffer, (uint)size);
-        //}
-
-        public Guid GetGuid(PropertyKey key)
-        {
-            Guid value;
-            this.result.GetGuidValue(ref key, out value);
-            return value;
-        }
-
-        public int GetInt(PropertyKey key)
-        {
-            int value;
-            this.result.GetSignedIntegerValue(ref key, out value);
-            return value;
-        }
-
-        public string GetString(PropertyKey key)
-        {
-            string value;
-            this.result.GetStringValue(ref key, out value);
-            return value;
-        }
-        
-        public IEnumerable<PropVariantFacade> GetPropVariants(PropertyKey key) 
-        {
-            object obj = null;
-            this.result.GetIUnknownValue(ref key, out obj);
-            var col = obj as IPortableDevicePropVariantCollection;
-        
-            uint count = 0;
-            col.GetCount(ref count);
-            for (uint i = 0; i < count; i++)
-            {
-                PropVariantFacade val = new PropVariantFacade();
-                col.GetAt(i, ref val.Value);
-                yield return val;
-            }
-        }
-
-        public bool Has(PropertyKey key)
-        {
-            uint count = 0;
-            this.result.GetCount(ref count);
-            for (uint i = 0; i < count; i++)
-            {
-                PropertyKey k = new PropertyKey();
-                PropVariant v = new PropVariant();
-                this.result.GetAt(i, ref k, ref v);
-                if (key == k)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool Send(IPortableDevice device)
-        {
-            device.SendCommand(0, this.values, out this.result);
-
-            int error = 0;
-            result.GetErrorValue(ref WPD.PROPERTY_COMMON_HRESULT, out error);
-            switch ((HResult)error)
-            {
-            case HResult.S_OK:
-                return true;
-            case HResult.E_NOT_IMPLEMENTED:
-                Debug.WriteLine("Command not implemented!");
-                return false;
-            default:
-                throw new Exception($"Error {error:X}");
-            }
-        }
-
-        [Conditional("COMTRACE")]
-        public void WriteResults()
-        {
-            ComTrace.WriteObject(this.result);
+            var val = new PropVariantFacade();
+            col.GetAt(i, ref val.Value);
+            yield return val;
         }
     }
+
+    public bool Has(PropertyKey key)
+    {
+        uint count = 0;
+        this.result!.GetCount(ref count);
+        for (uint i = 0; i < count; i++)
+        {
+            var k = new PropertyKey();
+            var v = new PropVariant();
+            this.result!.GetAt(i, ref k, ref v);
+            if (key == k)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool Send(IPortableDevice device)
+    {
+        int err = device.SendCommand(0, this.values, out this.result);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.SendCommand));
+
+        err = result.GetErrorValue(ref WPD.PROPERTY_COMMON_HRESULT, out int error);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetErrorValue));
+
+        //ComTrace.WriteObject(this.result!);
+
+        switch ((HResult)error)
+        {
+        case HResult.S_OK:
+            return true;
+        case HResult.E_NOT_IMPLEMENTED:
+            Debug.WriteLine("Command not implemented!");
+            return false;
+        default:
+            throw new Exception($"Error {error:X}");
+        }
+    }
+
+    ////[Conditional("COMTRACE")]
+    //public void WriteResults()
+    //{
+    //    ComTrace.WriteObject(this.result!);
+    //}
 }

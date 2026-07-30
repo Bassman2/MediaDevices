@@ -1,48 +1,20 @@
 <Solution>
-  <Configurations>
-    <Platform Name="Any CPU" />
-    <Platform Name="x64" />
-    <Platform Name="x86" />
-  </Configurations>
   <Folder Name="/Demo/" />
-  <Folder Name="/Demo/Demo .NET 6.0/">
-    <Project Path="Demo/Demo .NET 6.0/Explorer60/Explorer60.csproj" />
-    <Project Path="Demo/Demo .NET 6.0/MediaDevicesApp60/MediaDevicesApp60.csproj" />
-  </Folder>
-  <Folder Name="/Demo/Demo .NET 7.0/">
-    <Project Path="Demo/Demo .NET 7.0/Explorer70/Explorer70.csproj" />
-    <Project Path="Demo/Demo .NET 7.0/MediaDevicesApp70/MediaDevicesApp70.csproj" />
-  </Folder>
-  <Folder Name="/Demo/Demo .NET 8.0/">
-    <Project Path="Demo/Demo .NET 8.0/Explorer80/Explorer80.csproj" />
-    <Project Path="Demo/Demo .NET 8.0/MediaDevicesApp80/MediaDevicesApp80.csproj" />
-  </Folder>
-  <Folder Name="/Demo/Demo .NET Framework 4.8/">
-    <Project Path="Demo/Demo .NET Framework 4.8/ExplorerFramework48/ExplorerFramework48.csproj" Id="18ba46a9-2518-44ca-b1b9-2f44e2e42e41" />
-    <Project Path="Demo/Demo .NET Framework 4.8/MediaDevicesAppFramework48/MediaDevicesAppFramework48.csproj" Id="ebf549fe-2fca-40e9-8cec-d2d794515553" />
-  </Folder>
-  <Folder Name="/Demo/Demo Share/">
-    <Project Path="Demo/Demo Share/ExplorerShare/ExplorerShare.shproj" />
-    <Project Path="Demo/Demo Share/MediaDevicesAppShare/MediaDevicesAppShare.shproj" />
-  </Folder>
-  <Folder Name="/Doc/">
-    <Project Path="Doc/MediaDevicesDoc/MediaDevicesDoc.shfbproj" Type="7cf6df6d-3b04-46f8-a40b-537d21bca0b4">
-      <BuildDependency Project="Src/MediaDevices70/MediaDevices70.csproj" />
-      <Platform Project="AnyCPU" />
-    </Project>
+  <Folder Name="/Generator/">
+    <Project Path="../GeneratorLibrary/GeneratorLibraryShare/GeneratorLibraryShare.shproj" Id="dca7dd44-310c-48bd-bc75-c4203d5c3200" />
+    <Project Path="Generator/FindGenerator/FindGenerator.csproj" />
+    <Project Path="Generator/WPDGenerator/WPDGenerator.csproj" Id="1b2bfb76-e9d1-43ec-87c0-3e894c81c24f" />
   </Folder>
   <Folder Name="/Src/">
-    <Project Path="Src/MediaDevices60/MediaDevices60.csproj" />
-    <Project Path="Src/MediaDevices70/MediaDevices70.csproj" />
+    <Project Path="Src/MediaDevices100/MediaDevices100.csproj" />
     <Project Path="Src/MediaDevices80/MediaDevices80.csproj" />
-    <Project Path="Src/MediaDevicesFramework48/MediaDevicesFramework48.csproj" Id="6004fb9f-b22e-423e-b3c7-cafd3bd5dabb" />
+    <Project Path="Src/MediaDevices90/MediaDevices90.csproj" />
     <Project Path="Src/MediaDevicesShare/MediaDevicesShare.shproj" />
   </Folder>
   <Folder Name="/Test/">
-    <Project Path="Test/MediaDevicesUnitTest60/MediaDevicesUnitTest60.csproj" />
-    <Project Path="Test/MediaDevicesUnitTest70/MediaDevicesUnitTest70.csproj" />
+    <Project Path="Test/MediaDevicesUnitTest100/MediaDevicesUnitTest100.csproj" />
     <Project Path="Test/MediaDevicesUnitTest80/MediaDevicesUnitTest80.csproj" />
-    <Project Path="Test/MediaDevicesUnitTestFramework48/MediaDevicesUnitTestFramework48.csproj" />
+    <Project Path="Test/MediaDevicesUnitTest90/MediaDevicesUnitTest90.csproj" />
     <Project Path="Test/MediaDevicesUnitTestShare/MediaDevicesUnitTestShare.shproj" />
   </Folder>
 </Solution>

@@ -1,211 +1,164 @@
-﻿using MediaDevices.Internal;
-using System;
-using System.Diagnostics;
+﻿namespace MediaDevices;
 
-namespace MediaDevices
+/// <summary>
+/// Provides the base class for both MediaFileInfo and MediaDirectoryInfo objects.
+/// </summary>
+[DebuggerDisplay("{FullName}")]
+public abstract class MediaFileSystemInfo
 {
     /// <summary>
-    /// Provides the base class for both MediaFileInfo and MediaDirectoryInfo objects.
+    ///corresponding MediaDevice instance
     /// </summary>
-    [DebuggerDisplay("{FullName}")]
-    public abstract class MediaFileSystemInfo
+    protected MediaDevice mediaDevice;
+    internal MainWorker mainWorker;
+    internal Item item;
+
+    //private MediaDirectoryInfo? parent;
+
+    internal MediaFileSystemInfo(MediaDevice device, Item item)
     {
-        /// <summary>
-        ///corresponding MediaDevice instance
-        /// </summary>
-        protected MediaDevice device;
+        ThreadSafeWorkerException.ThrowIfNotInside();
 
-        internal Item item;
+        this.mediaDevice = device;
+        this.mainWorker = device.mainWorker;
+        this.item = item;
 
-        private MediaDirectoryInfo parent;
+        item.Refresh();
+    }
 
-        internal MediaFileSystemInfo(MediaDevice device, Item item)
+    /// <summary>
+    /// Refreshes the state of the object.
+    /// </summary>
+    public virtual void Refresh()
+    {
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        mainWorker.Refresh(this.item);
+    }
+
+    /// <summary>
+    /// Gets the parent directory of a specified subdirectory.
+    /// </summary>
+    protected MediaDirectoryInfo? ParentDirectoryInfo
+    {
+        get
         {
-            this.device = device;
-            this.item = item;
-            Refresh();
+            NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+            return mainWorker.GetParent(mediaDevice, this.item);
         }
+    }
 
-        /// <summary>
-        /// Refreshes the state of the object.
-        /// </summary>
-        public virtual void Refresh()
+    /// <summary>
+    /// Gets the full path of the directory or file.
+    /// </summary>
+    public string FullName => this.item.FullName;
+
+    /// <summary>
+    /// For files, gets the name of the file. For directories, gets the name of the last directory in the hierarchy if a hierarchy exists. Otherwise, the Name property gets the name of the directory.
+    /// </summary>
+    public string Name => this.item.Name;
+
+    /// <summary>
+    /// Gets the size, in bytes, of the current file.   
+    /// </summary>
+    public ulong Length => this.item.Size;
+
+    /// <summary>
+    /// Gets the creation time of the current file or directory.
+    /// </summary>
+    public DateTime? CreationTime
+    {
+        get => this.item.DateCreated;
+        set
         {
-            this.item.Refresh();
+            NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+            mainWorker.SetCreationTime(this.item, value);
         }
+    }
 
-        /// <summary>
-        /// Gets the parent directory of a specified subdirectory.
-        /// </summary>
-        protected MediaDirectoryInfo ParentDirectoryInfo
+    /// <summary>
+    /// Gets the time when the current file or directory was last written to.
+    /// </summary>
+    public DateTime? LastWriteTime
+    {
+        get => this.item.DateModified;
+        set
         {
-            get
-            { 
-                if (this.parent == null && this.item.Parent != null)
-                {
-                    this.parent = new MediaDirectoryInfo(this.device, this.item.Parent);
-                }
-                return this.parent;
-            }
+            NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+            mainWorker.SetLastWriteTime(item, value);
         }
+    }
 
-        /// <summary>
-        /// Gets the full path of the directory or file.
-        /// </summary>
-        public string FullName
+    /// <summary>
+    /// Gets the time when the current file was authored.
+    /// </summary>
+    public DateTime? DateAuthored
+    {
+        get => this.item.DateAuthored;
+        set
         {
-            get
+            NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+            mainWorker.SetDateAuthored(item, value);
+        }
+    }
+
+    /// <summary>
+    /// Gets the attributes for the current file, directory or object.
+    /// </summary>
+    public MediaFileAttributes Attributes
+    {
+        get
+        {
+            MediaFileAttributes attributes = this.item.Type switch
             {
-                return this.item.FullName;
-            }
+                ItemType.File => MediaFileAttributes.Normal,
+                ItemType.Folder => MediaFileAttributes.Directory,
+                _ => MediaFileAttributes.Object
+            };
+            attributes |= this.item.CanDelete ? MediaFileAttributes.CanDelete : 0;
+            attributes |= this.item.IsSystem ? MediaFileAttributes.System : 0;
+            attributes |= this.item.IsHidden ? MediaFileAttributes.Hidden : 0;
+            attributes |= this.item.IsDRMProtected ? MediaFileAttributes.DRMProtected : 0;
+            return attributes; 
         }
+    }
 
-        /// <summary>
-        /// For files, gets the name of the file. For directories, gets the name of the last directory in the hierarchy if a hierarchy exists. Otherwise, the Name property gets the name of the directory.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.item.Name;
-            }
-        }
+    /// <summary>
+    /// Gets the id of the MTP object.
+    /// </summary>
+    public string Id => this.item.Id;
 
-        /// <summary>
-        /// Gets the size, in bytes, of the current file.   
-        /// </summary>
-        public ulong Length
-        {
-            get
-            {
-                return this.item.Size;
-            }
-        }
+    /// <summary>
+    /// Gets the persistent unique id of the MTP object.
+    /// </summary>
+    /// <remarks>
+    /// A unique cross session object ID, that is not changing when mediaDevice is disconnected.
+    /// </remarks>
+    public string PersistentUniqueId => this.item.PersistentUniqueId;
+        
+    /// <summary>
+    /// Rename the folder of file
+    /// </summary>
+    /// <param name="newName">New name of the file or folder.</param>
+    public void Rename(string newName)
+    {
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        ArgumentException.ThrowIfNullOrWhiteSpace(newName, nameof(newName));
+        mainWorker.Rename(this.item, newName);
+    }
 
-        /// <summary>
-        /// Gets the creation time of the current file or directory.
-        /// </summary>
-        public DateTime? CreationTime
-        {
-            get
-            {
-                return this.item.DateCreated;
-            }
-            set
-            {
-                this.item.SetDateCreated(value.GetValueOrDefault(DateTime.Now));
-            }
-        }
+    /// <summary>
+    /// Gets the hash code for the current object.
+    /// </summary>
+    /// <returns>A hash code for the current object.</returns>
+    public override int GetHashCode() => this.item.Id.GetHashCode();
 
-        /// <summary>
-        /// Gets the time when the current file or directory was last written to.
-        /// </summary>
-        public DateTime? LastWriteTime
-        {
-            get
-            {
-                return this.item.DateModified;
-            }
-            set
-            {
-                this.item.SetDateModified(value.GetValueOrDefault(DateTime.Now));
-            }
-        }
-
-        /// <summary>
-        /// Gets the time when the current file was authored.
-        /// </summary>
-        public DateTime? DateAuthored
-        {
-            get
-            {
-                return this.item.DateAuthored;
-            }
-            set
-            {
-                this.item.SetDateAuthored(value.GetValueOrDefault(DateTime.Now));
-            }
-        }
-
-        /// <summary>
-        /// Gets the attributes for the current file, directory or object.
-        /// </summary>
-        public MediaFileAttributes Attributes
-        {
-            get
-            {
-                MediaFileAttributes attributes = MediaFileAttributes.Normal;
-                switch (this.item.Type)
-                {
-                case ItemType.File:
-                    attributes = MediaFileAttributes.Normal;
-                    break;
-                case ItemType.Folder:
-                    attributes = MediaFileAttributes.Directory;
-                    break;
-                case ItemType.Object:
-                    attributes = MediaFileAttributes.Object;
-                    break;
-                }
-                attributes |= this.item.CanDelete ? MediaFileAttributes.CanDelete : 0;
-                attributes |= this.item.IsSystem ? MediaFileAttributes.System : 0;
-                attributes |= this.item.IsHidden ? MediaFileAttributes.Hidden : 0;
-                attributes |= this.item.IsDRMProtected ? MediaFileAttributes.DRMProtected : 0;
-                return attributes; 
-            }
-        }
-
-        /// <summary>
-        /// Gets the id of the MTP object.
-        /// </summary>
-        public string Id
-        {
-            get
-            {
-                return this.item.Id;
-            }
-        }
-
-        /// <summary>
-        /// Gets the persistent unique id of the MTP object.
-        /// </summary>
-        /// <remarks>
-        /// A unique cross session object ID, that is not changing when device is disconnected.
-        /// </remarks>
-        public string PersistentUniqueId
-        {
-            get
-            {
-                return this.item.PersistentUniqueId;
-            }
-        }
-
-        /// <summary>
-        /// Rename the folder of file
-        /// </summary>
-        /// <param name="newName">New name of the file or folder.</param>
-        public void Rename(string newName)
-        {
-            this.item.Rename(newName);
-        }
-
-        /// <summary>
-        /// Gets the hash code for the current object.
-        /// </summary>
-        /// <returns>A hash code for the current object.</returns>
-        public override int GetHashCode()
-        {
-            return this.Id.GetHashCode();
-        }
-
-        /// <summary>
-        /// Determines whether the specified object is equal to the current object.
-        /// </summary>
-        /// <param name="obj">The object to compare with the current object.</param>
-        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
-        public override bool Equals(object obj)
-        {
-            return (obj as MediaFileSystemInfo)?.Id == this.Id;
-        }
+    /// <summary>
+    /// Determines whether the specified object is equal to the current object.
+    /// </summary>
+    /// <param name="obj">The object to compare with the current object.</param>
+    /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
+    public override bool Equals(object? obj)
+    {
+        return obj is MediaFileSystemInfo mfsi && mfsi.Id == this.Id;
     }
 }

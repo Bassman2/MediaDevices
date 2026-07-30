@@ -1,14 +1,10 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace MediaDevices.Internal;
 
-namespace MediaDevices.Internal
+[ComConversionLoss]
+internal struct PropVariantData
 {
-    [ComConversionLoss]
-    internal struct PropVariantData
-    {
-        public uint cData;
+    public uint cData;
 
-        [ComConversionLoss]
-        public IntPtr pData;
-    }
+    [ComConversionLoss]
+    public IntPtr pData;
 }

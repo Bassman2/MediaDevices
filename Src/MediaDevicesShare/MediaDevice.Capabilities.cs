@@ -1,0 +1,66 @@
+﻿namespace MediaDevices;
+
+partial class MediaDevice
+{
+    /// <summary>
+    /// Retrieves all commands supported by the mediaDevice.
+    /// </summary>
+    /// <returns>List with supported commands</returns>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public IEnumerable<Commands>? SupportedCommands()
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.SupportedCommands(this.deviceCapabilities!);
+    }
+
+    /// <summary>
+    /// Retrieves all functional categories by the mediaDevice.
+    /// </summary>
+    /// <returns>List with functional categories</returns>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public IEnumerable<FunctionalCategory>? FunctionalCategories()
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.FunctionalCategories(this.deviceCapabilities!);
+    }
+
+    /// <summary>
+    /// Retrieves all functional objects of a functional category by the mediaDevice.
+    /// </summary>
+    /// <param name="functionalCategory">Select functional category</param>
+    /// <returns>List with functional objects</returns>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public IEnumerable<string>? FunctionalObjects(FunctionalCategory functionalCategory)
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.FunctionalObjects(this.deviceCapabilities!, functionalCategory);
+    }
+
+    /// <summary>
+    /// Get supported content types
+    /// </summary>
+    /// <param name="functionalCategory">Select functional category</param>
+    /// <returns>List with supported content types </returns>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public IEnumerable<ContentType>? SupportedContentTypes(FunctionalCategory functionalCategory)
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.SupportedContentTypes(this.deviceCapabilities!, functionalCategory);
+    }
+
+    /// <summary>
+    /// Retrieves all events supported by the mediaDevice.
+    /// </summary>
+    /// <returns>List with supported events</returns>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public IEnumerable<Events>? SupportedEvents()
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.SupportedEvents(this.deviceCapabilities!);
+    }
+}
