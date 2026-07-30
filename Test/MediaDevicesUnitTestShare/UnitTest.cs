@@ -300,7 +300,7 @@ public abstract class UnitTest
         
     [TestMethod]
     [Description("Drives test.")]
-    public void DrivesTest()
+    public void DeviceDrivesTest()
     {
         var device = GetDevice();
         device.Connect();
@@ -309,6 +309,23 @@ public abstract class UnitTest
 
         List<string> volumeLabels = drives?.Select(d => d.VolumeLabel ?? "").ToList() ?? [];
         
+        device.Disconnect();
+
+        Assert.AreSequenceEqual(this.drives, volumeLabels, SequenceOrder.InAnyOrder, nameof(volumeLabels));
+    }
+
+    [TestMethod]
+    [Description("Disable cache test.")]
+    public void DeviceDisableCacheTest()
+    {
+        var device = GetDevice();
+        //device.Connect(enableCache: false);
+        device.Connect( MediaDeviceAccess.Default, MediaDeviceShare.Default, false);
+
+        var drives = device.GetDrives().ToList();
+
+        List<string> volumeLabels = drives?.Select(d => d.VolumeLabel ?? "").ToList() ?? [];
+
         device.Disconnect();
 
         Assert.AreSequenceEqual(this.drives, volumeLabels, SequenceOrder.InAnyOrder, nameof(volumeLabels));

@@ -122,16 +122,10 @@ internal partial class MainWorker : ThreadSafeWorker
                 err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_SHARE_MODE, (uint)share);
                 MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetUnsignedIntegerValue), "CLIENT_SHARE_MODE");
             }
-
-            // TODO
+                        
             if (enableCache == false)
             {
                 // disable file list cache
-                //err = clientInfo.SetGuidValue(ref WPD.CLIENT_EVENT_COOKIE, ref WPD.CLSID_PORTABLE_DEVICES);
-                //MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "SetGuidValue");
-                //err = clientInfo.SetStringValue(ref WPD.CLIENT_EVENT_COOKIE, "{35786D3C-B075-49B9-88DD-029876E11C01}");
-                //MediaDeviceException.ThrowIfComError(err, "IPortableDeviceValues", "SetStringValue CLIENT_EVENT_COOKIE");
-
                 err = clientInfo.SetGuidValue(ref WPD.CLIENT_EVENT_COOKIE, ref CLSID.NamespaceExtention);
                 MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetGuidValue), "NamespaceExtention");
             }
@@ -150,13 +144,12 @@ internal partial class MainWorker : ThreadSafeWorker
 
             //ComTrace.WriteObject(this.deviceValues);
 
-            //// TODO
-            //// advice event handler
+            // TODO
+            // advice event handler
             mediaDevice.eventCallback = new EventCallback(mediaDevice);
             err = mediaDevice.device.Advise(0, mediaDevice.eventCallback, null, out mediaDevice.eventCookie);
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Advise));
             
-            ///
             mediaDevice.IsConnected = true;
         });
     }

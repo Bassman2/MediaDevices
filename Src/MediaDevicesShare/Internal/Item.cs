@@ -442,7 +442,7 @@ internal class Item
         var regexPattern = FilterToRegex(searchPattern);
 
         int err = this.mediaDevice!.deviceContent!.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
         if (enumerator == null) 
         {
             Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
