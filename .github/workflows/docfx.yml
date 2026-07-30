@@ -26,35 +26,29 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-#    - name: Checkout
-#      uses: actions/checkout@v3
-      
     - name: Checkout Main
-      uses: actions/checkout@v4
-      with:
-        path: main
-        
-    - name: Checkout MediaDevices
-      uses: actions/checkout@v4
-      with:
-        repository: Bassman2/MediaDevices
-        path: MediaDevices  
-      
+      uses: actions/checkout@v7
       
     - name: Dotnet Setup
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v6
       with:
         dotnet-version: 10.x
 
+    - name: Add SignKeys
+      uses: Bassman2/SignKey@v1
+      with:
+        file: Bassman.snk
+        key: ${{ secrets.SIGNKEY }}
+        
     - run: dotnet tool update -g docfx
-    - run: docfx main/DocFx/docfx.json
+    - run: docfx DocFx/docfx.json
 
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v5
       with:
         # Upload entire repository
-        path: 'main/docs'
+        path: 'docs'
         
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v5
