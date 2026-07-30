@@ -1,0 +1,40 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../Src/MediaDevices100",
+          "files": [ "**/*.csproj" ]
+        }
+      ],
+      "dest": "reference"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [ "**/*.{md,yml}" ]        
+      }
+    ],
+    "resource": [
+      {
+        "files": [ "images/**" ]
+      }
+    ],
+    "output": "../docs",
+    "template": [
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+	  "_appLogoPath": "images/bassman.svg",
+	  "_appFaviconPath": "images/bassman.ico",
+      "_appName": "MediaDevices",
+      "_appTitle": "MediaDevices",
+	  "_appFooter": "Copyright 2025 - 2026 © by Ralf Beckers",
+      "_enableSearch": true,
+      "pdf": false
+    }
+  }
+}
