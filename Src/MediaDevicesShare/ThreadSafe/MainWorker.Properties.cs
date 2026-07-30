@@ -37,7 +37,7 @@ partial class MainWorker
         int size = 256;
         nint mem = Marshal.AllocHGlobal(size);
         int err = portableDeviceManager.GetDeviceFriendlyName(deviceId, mem, ref size);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceManager", "GetDeviceFriendlyName");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager), nameof(IPortableDeviceManager.GetDeviceFriendlyName));
         string? str = Marshal.PtrToStringUni(mem);
         Marshal.FreeHGlobal(mem);
         return str;
@@ -51,7 +51,7 @@ partial class MainWorker
         int size = 256;
         nint mem = Marshal.AllocHGlobal(size);
         int err = portableDeviceManager.GetDeviceDescription(deviceId, mem, ref size);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceManager", "GetDeviceDescription");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager), nameof(IPortableDeviceManager.GetDeviceDescription));
         string? str = Marshal.PtrToStringUni(mem);
         Marshal.FreeHGlobal(mem);
         return str;
@@ -65,7 +65,7 @@ partial class MainWorker
         int size = 256;
         nint mem = Marshal.AllocHGlobal(size);
         int err = portableDeviceManager.GetDeviceManufacturer(deviceId, mem, ref size);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceManager", "GetDeviceManufacturer");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager), nameof(IPortableDeviceManager.GetDeviceManufacturer));
         string? str = Marshal.PtrToStringUni(mem);
         Marshal.FreeHGlobal(mem);
         return str;

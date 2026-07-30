@@ -18,7 +18,7 @@ partial class MainWorker
         return InvokeEnumerable(() =>
         {
             Item item = Item.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
-            return item.GetChildren(FilterToRegex(searchPattern)!, searchOption).Where(i => i.Type != ItemType.File).Select(i => i.FullName);
+            return item.GetChildren(searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => i.FullName);
         });
     }
 
@@ -36,8 +36,7 @@ partial class MainWorker
         return InvokeEnumerable(() =>
         {
             Item item = Item.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
-            string? pattern = MediaDevice.FilterToRegex(searchPattern);
-            return item.GetChildren(pattern!, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.FullName);
+            return item.GetChildren(searchPattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.FullName);
         });
     }
 
@@ -55,7 +54,7 @@ partial class MainWorker
         return InvokeEnumerable(() =>
         {
             Item item = Item.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
-            return item.GetChildren(FilterToRegex(searchPattern), searchOption).Select(i => i.FullName);
+            return item.GetChildren(searchPattern, searchOption).Select(i => i.FullName);
         });
     }
 
@@ -304,7 +303,7 @@ partial class MainWorker
     {
         return InvokeEnumerable(() =>
         {
-            return item.GetChildren(MediaDevice.FilterToRegex(searchPattern) ?? "", searchOption).Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(mediaDevice, i));
+            return item.GetChildren(searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(mediaDevice, i));
         });
     }
 
@@ -320,7 +319,7 @@ partial class MainWorker
     {
         return InvokeEnumerable(() =>
         {
-            return item.GetChildren(MediaDevice.FilterToRegex(searchPattern) ?? "", searchOption).Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(mediaDevice, i));
+            return item.GetChildren(searchPattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(mediaDevice, i));
         });
     }
 
@@ -338,7 +337,7 @@ partial class MainWorker
     {
         return InvokeEnumerable(() =>
         {
-            return item.GetChildren(MediaDevice.FilterToRegex(searchPattern) ?? "", searchOption).Select(i => i.Type == ItemType.File ?
+            return item.GetChildren(searchPattern, searchOption).Select(i => i.Type == ItemType.File ?
                     (MediaFileSystemInfo)new MediaFileInfo(mediaDevice, i) :
                     (MediaFileSystemInfo)new MediaDirectoryInfo(mediaDevice, i));
         });

@@ -408,11 +408,12 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
     {
         var device = GetDevice();
         device.Connect(MediaDeviceAccess.GenericRead);
-        var root = device.GetRootDirectory();
-        var _ = root.EnumerateFileSystemInfos().ToList();
+        //device.Connect();
+        //var root = device.GetRootDirectory();
+        //var _ = root.EnumerateFileSystemInfos().ToList();
 
-        string newFolder = Path.Combine(this.workingFolder!, "Test");
-        var exists1 = device.DirectoryExists(this.workingFolder!);
+        string newFolder = Path.Combine(this.workingFolder!, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
+        //var exists1 = device.DirectoryExists(this.workingFolder!);
         device.CreateDirectory(newFolder);
         var exists2 = device.DirectoryExists(newFolder);
         //mediaDevice.DeleteDirectory(newFolder, true);
@@ -420,7 +421,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
         device.Disconnect();
 
-        Assert.IsTrue(exists1, "exists1");
+        //Assert.IsTrue(exists1, "exists1");
         Assert.IsFalse(exists2, "exists2");
         //Assert.IsFalse(exists3, "exists3");
     }

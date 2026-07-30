@@ -90,7 +90,7 @@ internal class Item
         var folders = path.Split([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries);
         foreach (var folder in folders)
         {
-            item = item.GetChildren().FirstOrDefault(i => device.EqualsName(i.Name, folder));
+            item = item.GetChildren().FirstOrDefault(i => EqualsName(i.Name, folder, device.IsCaseSensitive));
             if (item == null)
             {
                 return null;
@@ -121,8 +121,8 @@ internal class Item
         //string? mediaObjectId = results.ToStrings().FirstOrDefault();
 
         uint count = 0;
-        int error = results.GetCount(ref count);
-        MediaDeviceException.ThrowIfComError(error, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
+        err = results.GetCount(ref count);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
         if (count == 0)
         {
             return null;
@@ -228,7 +228,7 @@ internal class Item
         //var keyCollection = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection);
 
         int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keyCollection);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceKeyCollection");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
 
 
         keyCollection.Add(ref WPD.OBJECT_CONTENT_TYPE);
@@ -393,7 +393,7 @@ internal class Item
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         int err = this.mediaDevice!.deviceContent!.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceContent", "EnumObjects");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
         if (enumerator == null) 
         {
             Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
@@ -404,7 +404,7 @@ internal class Item
         uint fetched = 0;
         var objectIds = new string[numObjectsToRequest];
         err = enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
-        MediaDeviceException.ThrowIfComError(err, "IEnumPortableDeviceObjectIDs", "Next");
+        MediaDeviceException.ThrowIfComError(err, nameof(IEnumPortableDeviceObjectIDs), nameof(IEnumPortableDeviceObjectIDs.Next));
         while (fetched > 0)
         {
             for (int index = 0; index < fetched; index++)
@@ -435,11 +435,14 @@ internal class Item
         }
     }
 
-    public IEnumerable<Item> GetChildren(string? pattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public IEnumerable<Item> GetChildren(string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        this.mediaDevice!.deviceContent!.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
+        var regexPattern = FilterToRegex(searchPattern);
+
+        int err = this.mediaDevice!.deviceContent!.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
         if (enumerator == null) 
         {
             Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
@@ -448,7 +451,9 @@ internal class Item
 
         uint fetched = 0;
         var objectIds = new string[numObjectsToRequest];
-        enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+        err = enumerator.Next(numObjectsToRequest, objectIds, ref fetched);
+        MediaDeviceException.ThrowIfComError(err, nameof(IEnumPortableDeviceObjectIDs), nameof(IEnumPortableDeviceObjectIDs.Next));
+
         while (fetched > 0)
         {
             for (int index = 0; index < fetched; index++)
@@ -468,14 +473,14 @@ internal class Item
 
                 if (item != null)
                 {
-                    if (pattern == null || (item.Name != null && Regex.IsMatch(item.Name, pattern, RegexOptions.IgnoreCase)))
+                    if (regexPattern == null || (item.Name != null && Regex.IsMatch(item.Name, regexPattern, RegexOptions.IgnoreCase)))
                     {
                         yield return item;
                     }
 
                     if (searchOption == SearchOption.AllDirectories && item.Type != ItemType.File)
                     {
-                        var children = item.GetChildren(pattern!, searchOption);
+                        var children = item.GetChildren(searchPattern, searchOption);
                         foreach (var c in children)
                         {
                             yield return c;
@@ -496,7 +501,7 @@ internal class Item
         var folders = path.Split([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries);
         foreach (var folder in folders)
         {
-            child = parent.GetChildren().FirstOrDefault(i => mediaDevice!.EqualsName(i.Name, folder));
+            child = parent.GetChildren().FirstOrDefault(i => EqualsName(i.Name, folder, mediaDevice.IsCaseSensitive));
             if (child == null)
             {
                 // create a new directory
@@ -654,7 +659,7 @@ internal class Item
         uint optimalTransferSize = 0;
 
         int err = resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out var res); // IStream wpdStream);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceResources", "GetStream");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
         IStream wpdStream = (IStream)res;
         return new StreamWrapper(wpdStream, this.Size);
@@ -669,10 +674,10 @@ internal class Item
         uint optimalTransferSize = 0;
 
         int err = resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out var res);
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceResources", "GetStream");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
         IStream wpdStream = (IStream)res;
-        MediaDeviceException.ThrowIfComError(err, "IPortableDeviceResources", "GetStream");
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
         return new StreamWrapper(wpdStream, this.Size);
     }
@@ -741,7 +746,7 @@ internal class Item
             if (check == "Error: S_OK")
             {
                 // id can change on rename (e.g. Amazon Kindle Paperwhite) so find new one
-                var newItem = this.parent!.GetChildren().FirstOrDefault(i => mediaDevice.EqualsName(i.Name, newName));
+                var newItem = this.parent!.GetChildren().FirstOrDefault(i => EqualsName(i.Name, newName, mediaDevice.IsCaseSensitive));
                 this.Id = newItem!.Id;
                 
                 Refresh();
@@ -810,6 +815,35 @@ internal class Item
         }
 
         Refresh();
+    }
+
+    #endregion
+
+    #region private
+
+    private static bool EqualsName(string a, string b, bool isCaseSensitive)
+    {
+        return isCaseSensitive ? a == b : string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string? FilterToRegex(string? filter)
+    {
+        if (filter == null || filter == "*" || filter == "*.*")
+        {
+            return null;
+        }
+
+        StringBuilder s = new(filter);
+        s.Replace(".", @"\.");
+        s.Replace("+", @"\+");
+        s.Replace("$", @"\$");
+        s.Replace("(", @"\(");
+        s.Replace(")", @"\)");
+        s.Replace("[", @"\[");
+        s.Replace("]", @"\]");
+        s.Replace("?", ".?");
+        s.Replace("*", ".*");
+        return s.ToString();
     }
 
     #endregion
