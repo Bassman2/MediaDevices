@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Events.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Formats.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\FunctionalCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ThreadSafeWorkerException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ComHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Command.cs" />
@@ -114,7 +115,6 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Enums\" />
     <Folder Include="$(MSBuildThisFileDirectory)Internal\Enums\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Exceptions\" />
     <Folder Include="$(MSBuildThisFileDirectory)EventArg\" />
   </ItemGroup>
 </Project>
