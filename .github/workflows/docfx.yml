@@ -28,29 +28,20 @@ jobs:
     steps:
     - name: Checkout Main
       uses: actions/checkout@v7
-      with:
-        path: main
-        
-    - name: Checkout MediaDevices
-      uses: actions/checkout@v7
-      with:
-        repository: Bassman2/MediaDevices
-        path: MediaDevices  
       
-      
-    #- name: Dotnet Setup
-    #  uses: actions/setup-dotnet@v3
-    #  with:
-    #    dotnet-version: 10.x
+    - name: Dotnet Setup
+      uses: actions/setup-dotnet@v7
+      with:
+        dotnet-version: 10.x
 
     - run: dotnet tool update -g docfx
-    - run: docfx main/DocFx/docfx.json
+    - run: docfx DocFx/docfx.json
 
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       with:
         # Upload entire repository
-        path: 'main/docs'
+        path: 'docs'
         
     - name: Deploy to GitHub Pages
       id: deployment
