@@ -1,31 +1,30 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
     <AssemblyName>MediaDevices</AssemblyName>
     <RootNamespace>MediaDevices</RootNamespace>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Version>2.0.0.0</Version>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
-    <PackageId>MediaDevices</PackageId>
-    <Version>1.11.0.0</Version>
-    <Authors>Ralf Beckers</Authors>
-    <Company>Ralf Beckers</Company>
-    <Product>MediaDevices</Product>
-    <Description>Media Devices is a API to interact with MTP (Media Transfer Protocol), PTP (Picture Transport Protocol) and MSC (Mass Storage Class) devices like cell phones, tablets and cameras.</Description>
-    <Copyright>Copyright © 2016 - 2023 by Ralf Beckers</Copyright>
-    <PackageProjectUrl>https://github.com/Bassman2/MediaDevices</PackageProjectUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/Bassman2/MediaDevices</RepositoryUrl>
-    <PackageTags>MTP;WPD;Portable Device;Portable Devices API;phone;tablet</PackageTags>
-    <PackageReleaseNotes>Support for .Net 5.0 to 8.0</PackageReleaseNotes>
-    <Title>Media Devices</Title>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+    <IsAotCompatible>True</IsAotCompatible>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+    <IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />
 
+	<ItemGroup>
+		<ProjectReference Include="..\..\Generator\FindGenerator\FindGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+	</ItemGroup>
 </Project>

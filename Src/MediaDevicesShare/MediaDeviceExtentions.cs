@@ -1,362 +1,237 @@
-﻿using MediaDevices.Internal;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿namespace MediaDevices;
 
-namespace MediaDevices
+/// <summary>
+/// MediaDevice extention class
+/// </summary>
+public static class MediaDeviceExtentions
 {
+
     /// <summary>
-    /// MediaDevice extention class
+    /// Download a file from a portable mediaDevice.
     /// </summary>
-    public static class MediaDeviceExtentions
+    /// <param name="device">Device class.</param>
+    /// <param name="source">The path to the source.</param>
+    /// <param name="destination">The path to the destination.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public static void DownloadFile(this MediaDevice device, string source, string destination)
     {
+        ArgumentPathException.ThrowIfNullOrNotPath(source);
+        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        NotConnectedException.ThrowIfNotConnected(device);
 
-        /// <summary>
-        /// Download a file from a portable device.
-        /// </summary>
-        /// <param name="device">Device class.</param>
-        /// <param name="source">The path to the source.</param>
-        /// <param name="destination">The path to the destination.</param>
-        /// <exception cref="System.IO.IOException">path is a file name.</exception>
-        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
-        /// <exception cref="System.ArgumentNullException">path is null.</exception>
-        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
-        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public static void DownloadFile(this MediaDevice device, string source, string destination)
+        using FileStream stream = File.Create(destination);
+        device.DownloadFile(source, stream);
+    }
+
+    /// <summary>
+    /// Download a icon from a portable mediaDevice.
+    /// </summary>
+    /// <param name="device">Device class.</param>
+    /// <param name="source">The path to the source.</param>
+    /// <param name="destination">The path to the destination.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public static void DownloadIcon(this MediaDevice device, string source, string destination)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(source);
+        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        NotConnectedException.ThrowIfNotConnected(device);
+
+        using FileStream stream = File.Create(destination);
+        device.DownloadIcon(source, stream);
+    }
+
+    /// <summary>
+    /// Download a thumbnail from a portable mediaDevice.
+    /// </summary>
+    /// <param name="device">Device class.</param>
+    /// <param name="source">The path to the source.</param>
+    /// <param name="destination">The path to the destination.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public static void DownloadThumbnail(this MediaDevice device, string source, string destination)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(source);
+        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        NotConnectedException.ThrowIfNotConnected(device);
+
+        using FileStream stream = File.Create(destination); 
+        device.DownloadThumbnail(source, stream);
+    }
+
+    ///// <summary>
+    ///// Upload a file to a portable mediaDevice.
+    ///// </summary>
+    ///// <param name="device">Device class.</param>
+    ///// <param name="source">The path to the source.</param>
+    ///// <param name="destination">The path to the destination.</param>
+    ///// <exception cref="System.IO.IOException">path is a file name.</exception>
+    ///// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    ///// <exception cref="System.ArgumentNullException">path is null.</exception>
+    ///// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    ///// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    //public static void UploadFile(this MediaDevice device, string source, string destination)
+    //{
+    //    ArgumentPathException.ThrowIfNullOrNotPath(source);
+    //    ArgumentPathException.ThrowIfNullOrNotPath(destination);
+    //    NotConnectedException.ThrowIfNotConnected(device);
+
+    //    using FileStream stream = File.OpenRead(source);
+    //    device.UploadFile(stream, destination);
+    //}
+
+    /// <summary>
+    /// Download a file tree from a portable mediaDevice.
+    /// </summary>
+    /// <param name="device">Device class.</param>
+    /// <param name="source">The path to the source.</param>
+    /// <param name="destination">The path to the destination.</param>
+    /// <param name="recursive">Include subdirectories or not</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public static void DownloadFolder(this MediaDevice device, string source, string destination, bool recursive = true)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(source);
+        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        NotConnectedException.ThrowIfNotConnected(device);
+       
+        if (!Directory.Exists(destination))
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
-
-            using (FileStream stream = File.Create(destination))
-            {
-                device.DownloadFile(source, stream);
-            }
+            Directory.CreateDirectory(destination);
         }
 
-        /// <summary>
-        /// Download a icon from a portable device.
-        /// </summary>
-        /// <param name="device">Device class.</param>
-        /// <param name="source">The path to the source.</param>
-        /// <param name="destination">The path to the destination.</param>
-        /// <exception cref="System.IO.IOException">path is a file name.</exception>
-        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
-        /// <exception cref="System.ArgumentNullException">path is null.</exception>
-        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
-        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public static void DownloadIcon(this MediaDevice device, string source, string destination)
+        var dir = device.GetDirectoryInfo(source);
+        if (recursive)
         {
-            if (source == null)
+            foreach (MediaFileSystemInfo fsi in dir.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
             {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
-
-            using (FileStream stream = File.Create(destination))
-            {
-                device.DownloadIcon(source, stream);
-            }
-        }
-
-        /// <summary>
-        /// Download a thumbnail from a portable device.
-        /// </summary>
-        /// <param name="device">Device class.</param>
-        /// <param name="source">The path to the source.</param>
-        /// <param name="destination">The path to the destination.</param>
-        /// <exception cref="System.IO.IOException">path is a file name.</exception>
-        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
-        /// <exception cref="System.ArgumentNullException">path is null.</exception>
-        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
-        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public static void DownloadThumbnail(this MediaDevice device, string source, string destination)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
-
-            using (FileStream stream = File.Create(destination))
-            {
-                device.DownloadThumbnail(source, stream);
-            }
-        }
-
-        /// <summary>
-        /// Upload a file to a portable device.
-        /// </summary>
-        /// <param name="device">Device class.</param>
-        /// <param name="source">The path to the source.</param>
-        /// <param name="destination">The path to the destination.</param>
-        /// <exception cref="System.IO.IOException">path is a file name.</exception>
-        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
-        /// <exception cref="System.ArgumentNullException">path is null.</exception>
-        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
-        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public static void UploadFile(this MediaDevice device, string source, string destination)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
-
-            using (FileStream stream = File.OpenRead(source))
-            {
-                device.UploadFile(stream, destination);
-            }
-        }
-
-        /// <summary>
-        /// Download a file tree from a portable device.
-        /// </summary>
-        /// <param name="device">Device class.</param>
-        /// <param name="source">The path to the source.</param>
-        /// <param name="destination">The path to the destination.</param>
-        /// <param name="recursive">Include subdirectories or not</param>
-        /// <exception cref="System.IO.IOException">path is a file name.</exception>
-        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
-        /// <exception cref="System.ArgumentNullException">path is null.</exception>
-        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
-        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public static void DownloadFolder(this MediaDevice device, string source, string destination, bool recursive = true)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
-
-            if (!Directory.Exists(destination))
-            {
-                Directory.CreateDirectory(destination);
-            }
-
-            var dir = device.GetDirectoryInfo(source);
-            if (recursive)
-            {
-                foreach (MediaFileSystemInfo fsi in dir.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
+                string path = Path.Combine(destination, GetLocalPath(source, fsi.FullName));
+                if (fsi.Attributes.HasFlag(MediaFileAttributes.Directory) || fsi.Attributes.HasFlag(MediaFileAttributes.Object))
                 {
-                    string path = Path.Combine(destination, GetLocalPath(source, fsi.FullName));
-                    if (fsi.Attributes.HasFlag(MediaFileAttributes.Directory) || fsi.Attributes.HasFlag(MediaFileAttributes.Object))
+                    if (!Directory.Exists(path))
                     {
-                        if (!Directory.Exists(path))
-                        {
-                            Directory.CreateDirectory(path);
-                        }
-                    }
-                    else
-                    {
-                        MediaFileInfo mfi = fsi as MediaFileInfo;
-                        mfi.CopyTo(path);
+                        Directory.CreateDirectory(path);
                     }
                 }
-            }
-            else
-            {
-                foreach (MediaFileInfo mfi in dir.EnumerateFiles())
+                else
                 {
-                    string path = Path.Combine(destination, GetLocalPath(source, mfi.FullName));
+                    MediaFileInfo? mfi = fsi as MediaFileInfo;
+                    try
+                    {
+                        mfi!.CopyTo(path);
+                    }
+                    catch (Exception)
+                    { }
+                }
+            }
+        }
+        else
+        {
+            foreach (MediaFileInfo mfi in dir.EnumerateFiles())
+            {
+                string path = Path.Combine(destination, GetLocalPath(source, mfi.FullName));
+                try
+                {
                     mfi.CopyTo(path);
                 }
+                catch (Exception)
+                { }
             }
-
         }
+    }
 
-        /// <summary>
-        /// Upload a file tree to a portable device.
-        /// </summary>
-        /// <param name="device">Device class.</param>
-        /// <param name="source">The path to the source.</param>
-        /// <param name="destination">The path to the destination.</param>
-        /// <param name="recursive">Include subdirectories or not</param>
-        /// <exception cref="System.IO.IOException">path is a file name.</exception>
-        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
-        /// <exception cref="System.ArgumentNullException">path is null.</exception>
-        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
-        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public static void UploadFolder(this MediaDevice device, string source, string destination, bool recursive = true)
+    /// <summary>
+    /// Upload a file tree to a portable mediaDevice.
+    /// </summary>
+    /// <param name="device">Device class.</param>
+    /// <param name="source">The path to the source.</param>
+    /// <param name="destination">The path to the destination.</param>
+    /// <param name="recursive">Include subdirectories or not</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public static void UploadFolder(this MediaDevice device, string source, string destination, bool recursive = true)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(source);
+        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        NotConnectedException.ThrowIfNotConnected(device);
+        
+        device.CreateDirectory(destination);
+
+        if (recursive)
         {
-            if (source == null)
+            var di = new DirectoryInfo(source);
+            foreach (var e in di.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
             {
-                throw new ArgumentNullException("source");
-            }
-            if (!MediaDevice.IsPath(source))
-            {
-                throw new ArgumentException("source");
-            }
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
-
-            device.CreateDirectory(destination);
-
-            if (recursive)
-            {
-                DirectoryInfo di = new DirectoryInfo(source);
-                foreach (var e in di.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
+                string path = Path.Combine(destination, GetLocalPath(source, e.FullName));
+                if (e.Attributes.HasFlag(FileAttributes.Directory))
                 {
-                    string path = Path.Combine(destination, GetLocalPath(source, e.FullName));
-                    if (e.Attributes.HasFlag(FileAttributes.Directory))
-                    {
-                        device.CreateDirectory(path);
-                    }
-                    else
-                    {
-                        FileInfo fi = e as FileInfo;
-                        using (FileStream stream = fi.OpenRead())
-                        {
-                            device.UploadFile(stream, path);
-                        }
-                    }
+                    device.CreateDirectory(path);
                 }
-            }
-            else
-            {
-                DirectoryInfo di = new DirectoryInfo(source);
-                foreach (FileInfo fi in di.EnumerateFiles())
+                else
                 {
-                    string path = Path.Combine(destination, GetLocalPath(source, fi.FullName));
-                    using (FileStream stream = fi.OpenRead())
-                    {
-                        device.UploadFile(stream, path);
-                    }
+                    FileInfo? fi = e as FileInfo;
+                    using FileStream stream = fi!.OpenRead();
+                    device.UploadFile(stream, path);
                 }
             }
         }
-
-        /// <summary>
-        /// Download a file from a portable device using a Persistent Unique Id.
-        /// </summary>
-        /// <param name="device">Device class.</param>
-        /// <param name="persistentUniqueId">Persistent Unique Id of the source file.</param>
-        /// <param name="destination">The path to the destination.</param>
-        /// <exception cref="System.IO.IOException">path is a file name.</exception>
-        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
-        /// <exception cref="System.ArgumentNullException">path is null.</exception>
-        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
-        /// <exception cref="MediaDevices.NotConnectedException">device is not connected.</exception>
-        public static void DownloadFileFromPersistentUniqueId(this MediaDevice device, string persistentUniqueId, string destination)
+        else
         {
-            if (string.IsNullOrEmpty(persistentUniqueId))
+            var di = new DirectoryInfo(source);
+            foreach (FileInfo fi in di.EnumerateFiles())
             {
-                throw new ArgumentNullException("persistentUniqueId");
-            }
-            if (string.IsNullOrEmpty(destination))
-            {
-                throw new ArgumentNullException("destination");
-            }
-            if (!MediaDevice.IsPath(destination))
-            {
-                throw new ArgumentException("destination");
-            }
-            if (!device.IsConnected)
-            {
-                throw new NotConnectedException("Not connected");
-            }
-
-            using (FileStream stream = File.Create(destination))
-            {
-                device.DownloadFileFromPersistentUniqueId(persistentUniqueId, stream);
+                string path = Path.Combine(destination, GetLocalPath(source, fi.FullName));
+                using FileStream stream = fi.OpenRead();
+                device.UploadFile(stream, path);
             }
         }
+    }
 
-        private static string GetLocalPath(string basePath, string fullPath)
+    /// <summary>
+    /// Download a file from a portable mediaDevice using a Persistent Unique Id.
+    /// </summary>
+    /// <param name="device">Device class.</param>
+    /// <param name="persistentUniqueId">Persistent Unique Id of the source file.</param>
+    /// <param name="destination">The path to the destination.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public static void DownloadFileFromPersistentUniqueId(this MediaDevice device, string persistentUniqueId, string destination)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
+        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        NotConnectedException.ThrowIfNotConnected(device);
+
+        using FileStream stream = File.Create(destination);
+        device.DownloadFileFromPersistentUniqueId(persistentUniqueId, stream);
+    }
+
+    private static string GetLocalPath(string basePath, string fullPath)
+    {
+        if (!fullPath.StartsWith(basePath))
         {
-            if (!fullPath.StartsWith(basePath))
-            {
-                throw new ArgumentException($"{basePath} is not the base path of {fullPath}!");
-            }
-            return fullPath.Remove(0, basePath.Length).TrimStart('\\', '/');
+            throw new ArgumentException($"{basePath} is not the base path of {fullPath}!");
         }
+        return fullPath[basePath.Length..].TrimStart('\\', '/');
+        //return fullPath.Remove(0, basePath.Length).TrimStart('\\', '/');
+
     }
 }

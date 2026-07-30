@@ -1,0 +1,519 @@
+﻿namespace MediaDevices;
+
+partial class MediaDevice
+{
+    /// <summary>
+    /// Returns an enumerable collection of directory names in a specified path.
+    /// </summary>
+    /// <param name="path">The directory to search.</param>
+    /// <returns>An enumerable collection of directory names in the directory specified by path.</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public IEnumerable<string> EnumerateDirectories(string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.EnumerateDirectories(this, path);
+    }
+
+    /// <summary>
+    /// Returns an enumerable collection of directory information that matches a specified search pattern and search subdirectory option. 
+    /// </summary>
+    /// <param name="path">The directory to search in.</param>
+    /// <param name="searchPattern">The search string to match against the names of directories. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters (see Remarks), but doesn't support regular expressions. The default pattern is "*", which returns all files.</param>
+    /// <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or all subdirectories. The default value is TopDirectoryOnly.</param>
+    /// <returns>An enumerable collection of directories that matches searchPattern and searchOption.</returns>
+    /// <remarks>searchPattern can be a combination of literal and wildcard characters, but doesn't support regular expressions.</remarks>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.EnumerateDirectories(this, path, searchPattern, searchOption);
+    }
+
+
+    /// <summary>
+    /// Returns an enumerable collection of file names in a specified path.
+    /// </summary>
+    /// <param name="path">The directory to search.</param>
+    /// <returns>An enumerable collection of file names in the directory specified by path.</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public IEnumerable<string> EnumerateFiles(string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.EnumerateFiles(this, path);
+    }
+
+    /// <summary>
+    /// Returns an enumerable collection of file names that match a search pattern in a specified path, and optionally searches subdirectories.
+    /// </summary>
+    /// <param name="path">The absolute path to the directory to search. This string is case-sensitive.</param>
+    /// <param name="searchPattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions.</param>
+    /// <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.</param>
+    /// <returns>An enumerable collection of the full names (including paths) for the files in the directory specified by path and that match the specified search pattern and option.</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.EnumerateFiles(this, path, searchPattern, searchOption);
+    }
+
+    /// <summary>
+    /// Returns an enumerable collection of file-system entries in a specified path.
+    /// </summary>
+    /// <param name="path">The directory to search.</param>
+    /// <returns>An enumerable collection of file-system entries in the directory specified by path.</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public IEnumerable<string> EnumerateFileSystemEntries(string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.EnumerateFileSystemEntries(this, path);
+    }
+
+    /// <summary>
+    /// Returns an enumerable collection of file names and directory names that match a search pattern in a specified path, and optionally searches subdirectories.
+    /// </summary>
+    /// <param name="path">The absolute path to the directory to search. This string is case-sensitive.</param>
+    /// <param name="searchPattern">The search string to match against file-system entries in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions.</param>
+    /// <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.</param>
+    /// <returns>An enumerable collection of file-system entries in the directory specified by path and that match the specified search pattern and option.</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public IEnumerable<string> EnumerateFileSystemEntries(string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.EnumerateFileSystemEntries(this, path, searchPattern, searchOption);
+    }
+
+    /// <summary>
+    /// Returns an array of directory names in a specified path.
+    /// </summary>
+    /// <param name="path">The directory to search.</param>
+    /// <returns>An array of directory names in the directory specified by path.</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public string[] GetDirectories(string path) 
+        => [.. EnumerateDirectories(path)];
+
+    /// <summary>
+    /// Returns an array of directory information that matches a specified search pattern and search subdirectory option. 
+    /// </summary>
+    /// <param name="path">The directory to search in.</param>
+    /// <param name="searchPattern">The search string to match against the names of directories. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters (see Remarks), but doesn't support regular expressions. The default pattern is "*", which returns all files.</param>
+    /// <param name="searchOption">One of the values that specifies whether the search operation should include only the current directory or all subdirectories. The default value is TopDirectoryOnly.</param>
+    /// <returns>An array of directories that matches searchPattern and searchOption.</returns>
+    /// <remarks>searchPattern can be a combination of literal and wildcard characters, but doesn't support regular expressions.</remarks>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public string[] GetDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        => [.. EnumerateDirectories(path, searchPattern, searchOption)];
+    
+    /// <summary>
+    /// Returns an array of file names in a specified path.
+    /// </summary>
+    /// <param name="path">The directory to search.</param>
+    /// <returns>An array of file names in the directory specified by path.</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public string[] GetFiles(string path)
+        => [.. EnumerateFiles(path)];
+    
+    /// <summary>
+    /// Returns an array of file names that match a search pattern in a specified path, and optionally searches subdirectories.
+    /// </summary>
+    /// <param name="path">The absolute path to the directory to search. This string is case-sensitive.</param>
+    /// <param name="searchPattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions.</param>
+    /// <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.</param>
+    /// <returns>An array of the full names (including paths) for the files in the directory specified by path and that match the specified search pattern and option.</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public string[] GetFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        => [.. EnumerateFiles(path, searchPattern, searchOption)];
+    
+
+    /// <summary>
+    /// Returns an array of file-system entries in a specified path.
+    /// </summary>
+    /// <param name="path">The directory to search.</param>
+    /// <returns>An array of file-system entries in the directory specified by path.</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public string[] GetFileSystemEntries(string path)
+        => [.. EnumerateFileSystemEntries(path)];
+    
+
+    /// <summary>
+    /// Returns an array of file names and directory names that match a search pattern in a specified path, and optionally searches subdirectories.
+    /// </summary>
+    /// <param name="path">The absolute path to the directory to search. This string is case-sensitive.</param>
+    /// <param name="searchPattern">The search string to match against file-system entries in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but doesn't support regular expressions.</param>
+    /// <param name="searchOption">One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.</param>
+    /// <returns>An array of file-system entries in the directory specified by path and that match the specified search pattern and option.</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public string[] GetFileSystemEntries(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        => [.. EnumerateFileSystemEntries(path, searchPattern, searchOption)];
+    
+
+    /// <summary>
+    /// Creates all directories and subdirectories in the specified path.
+    /// </summary>
+    /// <param name="path">The directory path to create.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public void CreateDirectory(string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        mainWorker.CreateDirectory(this, path);
+    }
+
+    /// <summary>
+    /// Deletes the specified directory and, if indicated, any subdirectories and files in the directory.
+    /// </summary>
+    /// <param name="path">The name of the directory to remove.</param>
+    /// <param name="recursive">true to remove directories, subdirectories, and files in path; otherwise, false.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public void DeleteDirectory(string path, bool recursive = false)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        mainWorker.DeleteDirectory(this, path, recursive);
+    }
+
+    /// <summary>
+    /// Determines whether the given path refers to an existing directory on disk.
+    /// </summary>
+    /// <param name="path">The path to test.</param>
+    /// <returns>true if path refers to an existing directory; otherwise, false.</returns>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public bool DirectoryExists(string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.DirectoryExists(this, path);
+    }
+
+    /// <summary>
+    /// Download data from a file on a portable mediaDevice to a stream.
+    /// </summary>
+    /// <param name="path">The path to the file.</param>
+    /// <param name="stream">The stream to download to.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public void DownloadFile(string path, Stream stream)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        ArgumentNullException.ThrowIfNull(stream);
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        mainWorker.DownloadFile(this, path, stream);
+    }
+
+    /// <summary>
+    /// Download icon from a file on a portable mediaDevice to a stream.
+    /// </summary>
+    /// <param name="path">The path to the file.</param>
+    /// <param name="stream">The stream to download to.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public void DownloadIcon(string path, Stream stream)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        ArgumentNullException.ThrowIfNull(stream);
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        mainWorker.DownloadIcon(this, path, stream);
+    }
+
+    /// <summary>
+    /// Download thumbnail from a file on a portable mediaDevice to a stream.
+    /// </summary>
+    /// <param name="path">The path to the file.</param>
+    /// <param name="stream">The stream to download to.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public void DownloadThumbnail(string path, Stream stream)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        ArgumentNullException.ThrowIfNull(stream);
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        mainWorker.DownloadThumbnail(this, path, stream);
+    }
+
+    /// <summary>
+    /// Upload data from a stream to a file on a portable mediaDevice.
+    /// </summary>
+    /// <param name="stream">The stream to upload from.</param>
+    /// <param name="path">The path to the file.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public void UploadFile(Stream stream, string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        ArgumentNullException.ThrowIfNull(stream);
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        mainWorker.UploadFile(this, stream, path);
+    }
+
+    public void UploadFile(string source, string destination)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(source);
+        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        using FileStream stream = File.OpenRead(source);
+        mainWorker.UploadFile(this, stream, destination);
+    }
+
+
+    /// <summary>
+    /// Determines whether the specified file exists.
+    /// </summary>
+    /// <param name="path">The file to check.</param>
+    /// <returns>true if the  path contains the name of an existing file; otherwise, false.</returns>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public bool FileExists(string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.FileExists(this, path);
+    }
+
+    /// <summary>
+    /// Deletes the specified file.
+    /// </summary>
+    /// <param name="path">The name of the file to be deleted. Wildcard characters are not supported.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public void DeleteFile(string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        mainWorker.DeleteFile(this, path);
+    }
+
+    /// <summary>
+    /// Rename a file or folder.
+    /// </summary>
+    /// <param name="path">Path to the file or folder to rename.</param>
+    /// <param name="newName">New name of the file or folder.</param>
+    public void Rename(string path, string newName)
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        ArgumentPathException.ThrowIfNullOrNotPath(newName, nameof(newName));
+
+        mainWorker.Rename(this, path, newName);
+    }
+
+    /// <summary>
+    /// Gets a new instance of the MediaFileInfo class, which acts as a wrapper for a file path.
+    /// </summary>
+    /// <param name="path">The fully qualified name of the file, directory or object.</param>
+    /// <returns>New instance of the MediaFileInfo class</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public MediaFileInfo GetFileInfo(string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+         return mainWorker.GetFileInfo(this, path);
+    }
+
+    /// <summary>
+    /// Gets a new instance of the MediaDirectoryInfo class, which acts as a wrapper for a directory path.
+    /// </summary>
+    /// <param name="path">The fully qualified name of the directory or object.</param>
+    /// <returns>New instance of the MediaDirectoryInfo class</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public MediaDirectoryInfo GetDirectoryInfo(string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.GetDirectoryInfo(this, path);
+    }
+
+    /// <summary>
+    /// Get all drives of the mediaDevice.
+    /// </summary>
+    /// <returns>Array with all drives of the mediaDevice.</returns>
+    public IEnumerable<MediaDriveInfo> GetDrives()
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.GetDrives(this);
+    }
+
+    /// <summary>
+    /// Gets a new instance of the root MediaDirectoryInfo class, which acts as a wrapper for the root directory path.
+    /// </summary>
+    /// <returns>New instance of the root MediaDirectoryInfo class</returns>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public MediaDirectoryInfo GetRootDirectory()
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.GetRootDirectory(this);
+    }
+
+
+    /// <summary>
+    /// Download data from a file on a portable mediaDevice to a stream identified by a Persistent Unique Id.
+    /// </summary>
+    /// <param name="persistentUniqueId">Persistent Unique Id of the file.</param>
+    /// <param name="stream">The stream to download to.</param>
+    /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+    /// <exception cref="System.ArgumentNullException">stream is null.</exception>
+    /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public void DownloadFileFromPersistentUniqueId(string persistentUniqueId, Stream stream)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
+        ArgumentNullException.ThrowIfNull(stream, nameof(stream));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+         mainWorker.DownloadFileFromPersistentUniqueId(this, persistentUniqueId, stream);
+    }
+
+    /// <summary>
+    /// Opens a files stream from an Persistent Unique ID to read from.
+    /// </summary>
+    /// <param name="persistentUniqueId">Persistent unique ID of the item.</param>
+    /// <returns>A new read-only FileStream object.</returns>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+    /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+    public Stream OpenReadFromPersistentUniqueId(string persistentUniqueId)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.OpenReadFromPersistentUniqueId(this, persistentUniqueId);
+    }
+
+    /// <summary>
+    /// Opens a stream reader with UTF-8 encoding from an Persistent Unique ID to read from.
+    /// </summary>
+    /// <param name="persistentUniqueId">Persistent unique ID of the item.</param>
+    /// <returns>A new StreamReader object.</returns>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+    /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+    public StreamReader? OpenTextFromPersistentUniqueId(string persistentUniqueId)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.OpenTextFromPersistentUniqueId(this, persistentUniqueId);
+    }
+
+    /// <summary>
+    /// Create a <see cref="MediaFileSystemInfo"/> instance from the Persistent Unique Id.
+    /// </summary>
+    /// <param name="persistentUniqueId">Persistent Unique Id of the file or folder.</param>
+    /// <returns>New instance of the <see cref="MediaFileInfo"/> or <see cref="MediaDirectoryInfo"/> class.</returns>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+    /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+    public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(string persistentUniqueId)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.GetFileSystemInfoFromPersistentUniqueId(this, persistentUniqueId); 
+    }
+}

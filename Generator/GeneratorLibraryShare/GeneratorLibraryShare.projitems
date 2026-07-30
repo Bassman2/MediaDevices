@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>dca7dd44-310c-48bd-bc75-c4203d5c3200</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>GeneratorLibrary</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Attribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BaseAttributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Class.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConstructorArgument.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Field.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NamedArgument.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Property.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeSym.cs" />
+  </ItemGroup>
+</Project>
