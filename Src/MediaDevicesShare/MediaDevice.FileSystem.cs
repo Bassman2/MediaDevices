@@ -2,6 +2,8 @@
 
 partial class MediaDevice
 {
+    #region path based
+
     /// <summary>
     /// Returns an enumerable collection of directory names in a specified path.
     /// </summary>
@@ -204,7 +206,22 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public string[] GetFileSystemEntries(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         => [.. EnumerateFileSystemEntries(path, searchPattern, searchOption)];
-    
+
+    /// <summary>
+    /// Determines whether the given path refers to an existing directory on disk.
+    /// </summary>
+    /// <param name="path">The path to test.</param>
+    /// <returns>true if path refers to an existing directory; otherwise, false.</returns>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public bool DirectoryExists(string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.DirectoryExists(this, path);
+    }
 
     /// <summary>
     /// Creates all directories and subdirectories in the specified path.
@@ -240,22 +257,57 @@ partial class MediaDevice
 
         mainWorker.DeleteDirectory(this, path, recursive);
     }
-
+    
     /// <summary>
-    /// Determines whether the given path refers to an existing directory on disk.
+    /// Determines whether the specified file exists.
     /// </summary>
-    /// <param name="path">The path to test.</param>
-    /// <returns>true if path refers to an existing directory; otherwise, false.</returns>
+    /// <param name="path">The file to check.</param>
+    /// <returns>true if the  path contains the name of an existing file; otherwise, false.</returns>
     /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public bool DirectoryExists(string path)
+    public bool FileExists(string path)
     {
         ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.DirectoryExists(this, path);
+        return mainWorker.FileExists(this, path);
     }
+
+    /// <summary>
+    /// Deletes the specified file.
+    /// </summary>
+    /// <param name="path">The name of the file to be deleted. Wildcard characters are not supported.</param>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public void DeleteFile(string path)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        mainWorker.DeleteFile(this, path);
+    }
+
+    /// <summary>
+    /// Rename a file or folder.
+    /// </summary>
+    /// <param name="path">Path to the file or folder to rename.</param>
+    /// <param name="newName">New name of the file or folder.</param>
+    public void Rename(string path, string newName)
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        ArgumentPathException.ThrowIfNullOrNotPath(newName, nameof(newName));
+
+        mainWorker.Rename(this, path, newName);
+    }
+
+    #endregion
+
+    #region Download and Upload path based
 
     /// <summary>
     /// Download data from a file on a portable mediaDevice to a stream.
@@ -344,52 +396,9 @@ partial class MediaDevice
     }
 
 
-    /// <summary>
-    /// Determines whether the specified file exists.
-    /// </summary>
-    /// <param name="path">The file to check.</param>
-    /// <returns>true if the  path contains the name of an existing file; otherwise, false.</returns>
-    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
-    /// <exception cref="System.ArgumentNullException">path is null.</exception>
-    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public bool FileExists(string path)
-    {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
-        NotConnectedException.ThrowIfNotConnected(this);
+    #endregion
 
-        return mainWorker.FileExists(this, path);
-    }
-
-    /// <summary>
-    /// Deletes the specified file.
-    /// </summary>
-    /// <param name="path">The name of the file to be deleted. Wildcard characters are not supported.</param>
-    /// <exception cref="System.IO.IOException">path is a file name.</exception>
-    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
-    /// <exception cref="System.ArgumentNullException">path is null.</exception>
-    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
-    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public void DeleteFile(string path)
-    {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
-        NotConnectedException.ThrowIfNotConnected(this);
-
-        mainWorker.DeleteFile(this, path);
-    }
-
-    /// <summary>
-    /// Rename a file or folder.
-    /// </summary>
-    /// <param name="path">Path to the file or folder to rename.</param>
-    /// <param name="newName">New name of the file or folder.</param>
-    public void Rename(string path, string newName)
-    {
-        NotConnectedException.ThrowIfNotConnected(this);
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
-        ArgumentPathException.ThrowIfNullOrNotPath(newName, nameof(newName));
-
-        mainWorker.Rename(this, path, newName);
-    }
+    #region MediaFileInfo, MediaDirectoryInfo, MediaDriveInfo and MediaFileSystemInfo based 
 
     /// <summary>
     /// Gets a new instance of the MediaFileInfo class, which acts as a wrapper for a file path.
@@ -450,23 +459,49 @@ partial class MediaDevice
         return mainWorker.GetRootDirectory(this);
     }
 
+    #endregion
+
+    #region PersistentUniqueId
+
+    public string GetPathFromPersistentUniqueId(string persistentUniqueId)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.GetPathFromPersistentUniqueId(this, persistentUniqueId);
+    }
 
     /// <summary>
-    /// Download data from a file on a portable mediaDevice to a stream identified by a Persistent Unique Id.
+    /// Create a <see cref="MediaFileSystemInfo"/> instance from the Persistent Unique Id.
+    /// </summary>
+    /// <param name="persistentUniqueId">Persistent Unique Id of the file or folder.</param>
+    /// <returns>New instance of the <see cref="MediaFileInfo"/> or <see cref="MediaDirectoryInfo"/> class.</returns>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
+    /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
+    public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(string persistentUniqueId)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.GetFileSystemInfoFromPersistentUniqueId(this, persistentUniqueId);
+    }
+
+    /// <summary>
+    /// Download data from a file on a portable mediaDevice to a file identified by a Persistent Unique Id.
     /// </summary>
     /// <param name="persistentUniqueId">Persistent Unique Id of the file.</param>
-    /// <param name="stream">The stream to download to.</param>
+    /// <param name="destination">The file to download to.</param>
     /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
     /// <exception cref="System.ArgumentNullException">stream is null.</exception>
     /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public void DownloadFileFromPersistentUniqueId(string persistentUniqueId, Stream stream)
+    public void DownloadFileFromPersistentUniqueId(string persistentUniqueId, string destination)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
-        ArgumentNullException.ThrowIfNull(stream, nameof(stream));
         NotConnectedException.ThrowIfNotConnected(this);
-
-         mainWorker.DownloadFileFromPersistentUniqueId(this, persistentUniqueId, stream);
+        
+        mainWorker.DownloadFileFromPersistentUniqueId(this, persistentUniqueId, destination);
     }
 
     /// <summary>
@@ -500,20 +535,6 @@ partial class MediaDevice
 
         return mainWorker.OpenTextFromPersistentUniqueId(this, persistentUniqueId);
     }
-
-    /// <summary>
-    /// Create a <see cref="MediaFileSystemInfo"/> instance from the Persistent Unique Id.
-    /// </summary>
-    /// <param name="persistentUniqueId">Persistent Unique Id of the file or folder.</param>
-    /// <returns>New instance of the <see cref="MediaFileInfo"/> or <see cref="MediaDirectoryInfo"/> class.</returns>
-    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    /// <exception cref="System.ArgumentNullException">persistentUniqueId is null or empty.</exception>
-    /// <exception cref="System.IO.FileNotFoundException">persistentUniqueId not found.</exception>
-    public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(string persistentUniqueId)
-    {
-        ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
-        NotConnectedException.ThrowIfNotConnected(this);
-
-        return mainWorker.GetFileSystemInfoFromPersistentUniqueId(this, persistentUniqueId); 
-    }
+    
+    #endregion
 }

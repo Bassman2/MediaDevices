@@ -2,7 +2,7 @@
 
 partial class MainWorker
 {
-    #region MediaDevice
+    #region MediaDevice: path based
 
     public IEnumerable<string> EnumerateDirectories(MediaDevice mediaDevice, string path)
     {
@@ -150,6 +150,11 @@ partial class MainWorker
         });
     }
 
+    #endregion
+
+    #region MediaDevice: MediaFileInfo, MediaDirectoryInfo, MediaDriveInfo and MediaFileSystemInfo based 
+
+
     public MediaFileInfo GetFileInfo(MediaDevice mediaDevice, string path)
     {
         return Invoke(() =>
@@ -212,6 +217,43 @@ partial class MainWorker
         });
     }
 
+    #endregion
+
+    #region MediDevice: PersistentUniqueId
+
+    public string GetPathFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
+    {
+        return Invoke(() =>
+        {
+            Item item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
+            return item.GetPath();
+        });
+    }
+
+    public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
+    {
+        return Invoke(() =>
+        {
+            Item item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
+            return (MediaFileSystemInfo)(item.IsFile ? new MediaFileInfo(mediaDevice, item) : new MediaDirectoryInfo(mediaDevice, item));
+        });
+    }
+
+    public void DownloadFileFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId, string destination)
+    {
+        Invoke(() =>
+        {
+            Item? item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
+            if (item == null || !item.IsFile)
+            {
+                throw new FileNotFoundException($"{persistentUniqueId} not found.");
+            }
+            using var reader = item.OpenRead();
+            using var writer = File.Create(destination);
+            reader.CopyTo(writer);
+        });
+    }
+
     public Stream OpenReadFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
     {
         return Invoke(() =>
@@ -226,28 +268,20 @@ partial class MainWorker
         });
     }
 
-    public StreamReader? OpenTextFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
+    public StreamReader OpenTextFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
     {
         return Invoke(() =>
         {
-
             Item? item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
             if (item == null || !item.IsFile)
             {
                 throw new FileNotFoundException($"{persistentUniqueId} not found.");
             }
-            return item == null ? null : new StreamReader(item.OpenRead());
+            return new StreamReader(item.OpenRead());
         });
     }
 
-    public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
-    {
-        return Invoke(() =>
-        {
-            Item item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
-            return (MediaFileSystemInfo)(item.IsFile ? new MediaFileInfo(mediaDevice, item) : new MediaDirectoryInfo(mediaDevice, item));
-        });
-    }
+    
 
     #endregion
 

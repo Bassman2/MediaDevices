@@ -406,24 +406,23 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
     [Description("Creating a new folder.")]
     public void WritableReadonlyConnectTest()
     {
+        string newFolder1 = Path.Combine(this.workingFolder!, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
+        string newFolder2 = Path.Combine(this.workingFolder!, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
+
         var device = GetDevice();
-        device.Connect(MediaDeviceAccess.GenericRead);
-        //device.Connect();
-        //var root = device.GetRootDirectory();
-        //var _ = root.EnumerateFileSystemInfos().ToList();
 
-        string newFolder = Path.Combine(this.workingFolder!, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
-        //var exists1 = device.DirectoryExists(this.workingFolder!);
-        device.CreateDirectory(newFolder);
-        var exists2 = device.DirectoryExists(newFolder);
-        //mediaDevice.DeleteDirectory(newFolder, true);
-        //var exists3 = mediaDevice.DirectoryExists(newFolder);
-
+        device.Connect();
+        device.CreateDirectory(newFolder1);
+        var exists1 = device.DirectoryExists(newFolder1);
         device.Disconnect();
 
-        //Assert.IsTrue(exists1, "exists1");
+        device.Connect(MediaDeviceAccess.GenericRead);
+        device.CreateDirectory(newFolder2);
+        var exists2 = device.DirectoryExists(newFolder2);
+        device.Disconnect();
+
+        Assert.IsTrue(exists1, "exists1");
         Assert.IsFalse(exists2, "exists2");
-        //Assert.IsFalse(exists3, "exists3");
     }
 
     [TestMethod]
