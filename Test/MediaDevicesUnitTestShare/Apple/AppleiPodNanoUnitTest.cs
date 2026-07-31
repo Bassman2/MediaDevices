@@ -26,7 +26,7 @@ public class AppleiPodNanoUnitTest : ReadonlyUnitTest
         this.contentLocations = [""];
 
         // Exists Test
-        this.readonlyTestFilePath = @"Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";
+        this.readonlyFilePath = @"Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";
 
         
 
@@ -43,29 +43,29 @@ public class AppleiPodNanoUnitTest : ReadonlyUnitTest
         //this.infoDirectoryParentLastWriteTime = null;
 
         //this.infoFilePath = @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";
-        this.readonlyTestFileLength = 467430ul;
-        this.readonlyTestFileCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
-        this.readonlyTestFileLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
+        this.readonlyFileLength = 467430ul;
+        this.readonlyFileCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
+        this.readonlyFileLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
 
         //this.infoFileParentName = "800AAAAA";
         //this.infoFileParentPath = @"\Internal Storage\DCIM\800AAAAA";
-        this.readonlyTestFolderCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
-        this.readonlyTestFolderLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
+        this.readonlyFolderCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
+        this.readonlyFolderLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
 
-        this.readonlyTestEnumPath = @"\Internal Storage\DCIM\800AAAAA";
-        this.readonlyTestEnumFolderSearchPattern = "*";
-        this.readonlyTestEnumFileSearchPattern = "*_0002*";
-        this.readonlyTestEnumItemSearchPattern = "*_0003*";
+        this.readonlyEnumPath = @"\Internal Storage\DCIM\800AAAAA";
+        this.readonlyEnumFolderSearchPattern = "*";
+        this.readonlyEnumFileSearchPattern = "*_0002*";
+        this.readonlyEnumItemSearchPattern = "*_0003*";
 
-        this.readonlyTestEnumFoldersAll = [];
-        this.readonlyTestEnumFoldersSearchPattern = [];
+        this.readonlyEnumFoldersAll = [];
+        this.readonlyEnumFoldersSearchPattern = [];
 
-        this.readonlyTestEnumFilesAll = [@"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
-        this.readonlyTestEnumFilesSearchPattern = [@"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG"];
-        this.readonlyTestEnumFilesSearchPatternRecursive = [@"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG"];
+        this.readonlyEnumFilesAll = [@"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
+        this.readonlyEnumFilesSearchPattern = [@"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG"];
+        this.readonlyEnumFilesSearchPatternRecursive = [@"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG"];
 
-        this.readonlyTestEnumItemsAll = [@"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
-        this.readonlyTestEnumItemsSearchPattern = [@"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
-        this.readonlyTestEnumItemsSearchPatternRecursive = [@"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
+        this.readonlyEnumItemsAll = [@"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
+        this.readonlyEnumItemsSearchPattern = [@"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
+        this.readonlyEnumItemsSearchPatternRecursive = [@"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
     }
 }

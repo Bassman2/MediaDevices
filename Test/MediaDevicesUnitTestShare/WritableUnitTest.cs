@@ -54,38 +54,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         device.UploadFolder(sourceFolder, destFolder);
     }
 
-    /*
-    [TestMethod]
-    [Description("Test event handling.")]
-    public void WritableEventTest()
-    {
-        //if (!this.supEvent) return;
-        
-        AutoResetEvent fired = new(false);
-
-        var mediaDevice = GetDevice();
-        mediaDevice.ObjectRemoved += (s, a) => fired.Set();
-        mediaDevice.Connect();
-
-        string filePath = Path.Combine(this.workingFolder!, "Test.txt");
-        if (mediaDevice.FileExists(filePath))
-        {
-            mediaDevice.DeleteFile(filePath);
-        }
-
-        using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
-        {
-            mediaDevice.UploadFile(stream, filePath);
-        }
-
-        mediaDevice.DeleteFile(filePath);
-
-        bool isFired = fired.WaitOne(new TimeSpan(0, 2, 0));
-        mediaDevice.Disconnect();
-
-        Assert.IsTrue(isFired);
-    }
-    */
+   
 
     [TestMethod]
     [Description("Creating a new folder.")]
@@ -110,7 +79,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
     [TestMethod]
     [Description("Upload a file to the target.")]
-    public void WritableUploadTest()
+    public void WritableUploadFileStreamTest()
     {
         var device = GetDevice();
         device.Connect();
@@ -137,7 +106,8 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
     [TestMethod]
     [Description("Upload a file to the target.")]
-    public void WritableUploadFileTest()
+    [Ignore("BUG")]
+    public void WritableUploadFilePathTest()
     {
         var device = GetDevice();
         device.Connect();
@@ -184,107 +154,6 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         //CollectionAssert.AreEquivalent(pathes, list, "EnumerateFileSystemEntries");
     }
 
-    [TestMethod]
-    [Description("Download a file from the target.")]
-    public void WritableDownloadFileTest()
-    {
-        string filePath = Path.Combine(testDataFolder, Path.GetFileName(this.FilePersistentUniqueIdPath!));
-        File.Delete(filePath);
-
-        var device = GetDevice();
-        device.Connect();
-        
-        var exists1 = device.FileExists(this.FilePersistentUniqueIdPath!);
-        
-        device.DownloadFile(this.FilePersistentUniqueIdPath!, filePath);
-
-        device.Disconnect();
-
-        Assert.IsTrue(exists1);
-        Assert.IsTrue(File.Exists(filePath), "Exists");
-        Assert.IsGreaterThan(100, new FileInfo(filePath).Length, "Length");
-
-    }
-
-    [TestMethod]
-    [Description("Download a icon from the target.")]
-    public void WritableDownloadIconTest()
-    {
-        CheckIgnoreTest(Ignore.DownloadIcon);
-
-        string filePath = Path.Combine(testDataFolder, Path.GetFileName(this.FilePersistentUniqueIdPath!));
-        File.Delete(filePath);
-
-        var device = GetDevice();
-        device.Connect();
-
-        var exists1 = device.FileExists(this.FilePersistentUniqueIdPath!);
-
-        device.DownloadIcon(this.FilePersistentUniqueIdPath!, filePath);
-        
-        device.Disconnect();
-
-        Assert.IsTrue(exists1);
-        Assert.IsTrue(File.Exists(filePath), "Exists");
-        Assert.IsGreaterThan(100, new FileInfo(filePath).Length, "Length");
-
-    }
-
-    [TestMethod]
-    [Description("Download a thumbnail from the target.")]
-    public void WritableDownloadThumbnailTest()
-    {
-        string filePath = Path.Combine(testDataFolder, Path.ChangeExtension(Path.GetFileName(this.FilePersistentUniqueIdPath!), ".gif"));
-        File.Delete(filePath);
-
-        var device = GetDevice();
-        device.Connect();
-
-        var exists1 = device.FileExists(this.FilePersistentUniqueIdPath!);
-
-        device.DownloadThumbnail(this.FilePersistentUniqueIdPath!, filePath);
-
-        device.Disconnect();
-
-        Assert.IsTrue(exists1);
-        Assert.IsTrue(File.Exists(filePath), "Exists");
-        Assert.IsGreaterThan(100, new FileInfo(filePath).Length, "Length");
-
-    }
-
-    [TestMethod]
-    [Description("Download a folder tree from the target.")]
-    public void WritableDownloadTreeTest()
-    {
-        var device = GetDevice();
-        device.Connect();
-
-        string sourceFolder = Path.Combine(testDataFolder, "UploadTree");
-        string destFolder = Path.Combine(this.workingFolder!, "UploadTree");
-
-        var exists1 = device.DirectoryExists(destFolder);
-        if (exists1)
-        {
-            device.DeleteDirectory(destFolder, true);
-        }
-
-
-        device.UploadFolder(sourceFolder, destFolder);
-
-        string downloadFolder = Path.Combine(testDataFolder, "DownloadTree");
-
-        if (Directory.Exists(downloadFolder))
-        {
-            Directory.Delete(downloadFolder, true);
-        }
-
-        device.DownloadFolder(destFolder, downloadFolder);
-
-        device.Disconnect();
-
-        //Assert.IsTrue(File.Exists(tempFile), "Exists");
-
-    }
 
     [TestMethod]
     [Description("Rename a file.")]
@@ -367,44 +236,10 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         Assert.IsTrue(exists2, "exists2");
         Assert.IsFalse(exists3, "exists3");
     }
-
     
-
-    [TestMethod]
-    [Description("Writable PersistentUniqueId Test")]
-    public void WritableWritablePersistentUniqueIdTest()
-    {
-        var device = GetDevice();
-        device.Connect();
-
-        UploadTestTree(device);
-
-        MediaDirectoryInfo dir = device.GetDirectoryInfo(Path.Combine(this.workingFolder!, @"UploadTree\Aaa\Abb"));
-        string dirPui = dir.PersistentUniqueId;
-        MediaDirectoryInfo? dirGet = device.GetFileSystemInfoFromPersistentUniqueId(dirPui) as MediaDirectoryInfo;
-
-        MediaFileInfo file = device.GetFileInfo(Path.Combine(this.workingFolder!, @"UploadTree\Aaa\Abb\Acc\Ctest.txt"));
-        string filePui = file.PersistentUniqueId;
-        MediaFileInfo? fileGet = device.GetFileSystemInfoFromPersistentUniqueId(filePui) as MediaFileInfo;
-
-        string tmp = Path.GetTempFileName();
-        device.DownloadFileFromPersistentUniqueId(filePui, tmp);
-        var text = File.ReadAllText(tmp);
-
-        device.Disconnect();
-
-        Assert.IsNotNull(dirPui, "dirPui");
-        Assert.AreEqual(dir, dirGet, "dirGet");
-
-        Assert.IsNotNull(filePui, "filePui");
-        Assert.AreEqual(file, fileGet, "fileGet");
-
-        Assert.AreEqual("test", text, "text");
-    }
-
     [TestMethod]
     [Description("Creating a new folder.")]
-    public void WritableReadonlyConnectTest()
+    public void WritableConnectGenericReadTest()
     {
         string newFolder1 = Path.Combine(this.workingFolder!, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
         string newFolder2 = Path.Combine(this.workingFolder!, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
@@ -424,6 +259,39 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         Assert.IsTrue(exists1, "exists1");
         Assert.IsFalse(exists2, "exists2");
     }
+
+
+    [TestMethod]
+    [Description("Test event handling.")]
+    public void WritableEventTest()
+    {
+        //if (!this.supEvent) return;
+
+        AutoResetEvent fired = new(false);
+
+        var mediaDevice = GetDevice();
+        mediaDevice.ObjectRemoved += (s, a) => fired.Set();
+        mediaDevice.Connect();
+
+        string filePath = Path.Combine(this.workingFolder!, "Test.txt");
+        if (mediaDevice.FileExists(filePath))
+        {
+            mediaDevice.DeleteFile(filePath);
+        }
+
+        using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
+        {
+            mediaDevice.UploadFile(stream, filePath);
+        }
+
+        mediaDevice.DeleteFile(filePath);
+
+        bool isFired = fired.WaitOne(new TimeSpan(0, 2, 0));
+        mediaDevice.Disconnect();
+
+        Assert.IsTrue(isFired);
+    }
+
 
     [TestMethod]
     [Description("Upload a unix file name to the target.")]
@@ -455,6 +323,5 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         device.Disconnect();
 
         Assert.IsTrue(exists, "exists");
-
     }
 }

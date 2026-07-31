@@ -41,10 +41,10 @@ public abstract class UnitTest
     protected List<string>? contentLocations = [];
 
     // PersistentUniqueId
-    protected string? FolderPersistentUniqueId;
-    protected string? FolderPersistentUniqueIdPath;
-    protected string? FilePersistentUniqueId;
-    protected string? FilePersistentUniqueIdPath;
+    //protected string? FolderPersistentUniqueId;
+    //protected string? FolderPersistentUniqueIdPath;
+    //protected string? FilePersistentUniqueId;
+    //protected string? FilePersistentUniqueIdPath;
 
     protected List<string> drives = [];
 

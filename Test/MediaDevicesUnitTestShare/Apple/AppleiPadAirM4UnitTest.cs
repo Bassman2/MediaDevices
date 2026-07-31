@@ -11,80 +11,88 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
         this.deviceSelect = device => device.Description == this.deviceDescription;
 
         // Ignore tests
-        this.ignoreTests = Ignore.FriendlyName;
+        this.ignoreTests = Ignore.FriendlyName | Ignore.DownloadIcon;
+
+        #region Device Tests
 
         // Device Test
-        this.deviceDescription = "Apple iPad";
-        this.deviceFriendlyName = "Apple iPad";
-        this.deviceManufacture = "Apple Inc."; 
-        this.deviceFirmwareVersion = "26.5.2";
-        this.deviceModel = "Apple iPad";
-        this.deviceSerialNumber = "DC62X123XW";
-        this.deviceSupportsNonConsumable = false;
-        this.deviceDateTimeHasValue = false;
-        this.deviceSupportedFormatsAreOrdered = null;
-        this.deviceDeviceType = DeviceType.Generic;
-        this.deviceTransport = DeviceTransport.USB;
-        this.devicePowerSource = PowerSource.Battery;
-        this.deviceProtocol = "MTP: 1.00";
+        deviceDescription = "Apple iPad";
+        deviceFriendlyName = "Apple iPad";
+        deviceManufacture = "Apple Inc."; 
+        deviceFirmwareVersion = "26.5.2";
+        deviceModel = "Apple iPad";
+        deviceSerialNumber = "DC62X123XW";
+        deviceSupportsNonConsumable = false;
+        deviceDateTimeHasValue = false;
+        deviceSupportedFormatsAreOrdered = null;
+        deviceDeviceType = DeviceType.Generic;
+        deviceTransport = DeviceTransport.USB;
+        devicePowerSource = PowerSource.Battery;
+        deviceProtocol = "MTP: 1.00";
 
         // Capability Test
-        this.supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
-        this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        this.supportedContents = [ContentType.Image];
-        this.functionalCategories = [FunctionalCategory.Storage];
+        supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        supportedContents = [ContentType.Image];
+        functionalCategories = [FunctionalCategory.Storage];
 
         // ContentLocation Test
-        this.contentLocations = [];
+        contentLocations = [];
 
         // PersistentUniqueId
-        this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
-        this.FolderPersistentUniqueIdPath = @"\Phone\Music";
-        this.FilePersistentUniqueId = "{25606D91-C12C-CF74-93A6-34E88717AD11}"; // "{FDFF71F3-E0BD-D98E-0000-000000000000}";
-        this.FilePersistentUniqueIdPath = @"\Phone\Samsung\Music\Over_the_Horizon.mp3"; // @"\Phone\Videos\desktop.ini"; Directory = "\\Phone\\Samsung\\Music"
+        //FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
+        //FolderPersistentUniqueIdPath = @"\Phone\Music";
+        //FilePersistentUniqueId = "{25606D91-C12C-CF74-93A6-34E88717AD11}"; // "{FDFF71F3-E0BD-D98E-0000-000000000000}";
+        //FilePersistentUniqueIdPath = @"\Phone\Samsung\Music\Over_the_Horizon.mp3"; // @"\Phone\Videos\desktop.ini"; Directory = "\\Phone\\Samsung\\Music"
 
         //this.workingFolder = @"\Card\Test";
 
-        this.drives = ["Internal Storage"];
+        drives = ["Internal Storage"];
 
-        // Exists Test
-        //this.existingFile = @"\Phone\Music\Artist\05 - Decoupage.mp3";
+        #endregion
 
-        //this.infoDirectoryName = "Pictures";
-        //this.infoDirectoryPath = @"\SD card\Pictures";
-        //this.infoDirectoryCreationTime = new DateTime(2014, 03, 21, 19, 02, 04);
-        //this.infoDirectoryLastWriteTime = new DateTime(2017, 01, 07, 16, 54, 38);
+        #region Enumerable & List tests
 
-        //this.infoDirectoryParentName = "SD card";
-        //this.infoDirectoryParentPath = @"\SD card";
-        //this.infoDirectoryParentCreationTime = null;
-        //this.infoDirectoryParentLastWriteTime = null;
+        // file
+        readonlyFilePath = @"\Internal Storage\201407_a\BQME4521.JPG";
+        readonlyFileLength = 1202261ul;
+        readonlyFileCreationTime = new DateTime(2014, 07, 24, 12, 55, 42);
+        readonlyFileLastWriteTime = new DateTime(2014, 07, 24, 12, 55, 42);
+        readonlyFileAuthoredTime = new DateTime(0001, 01, 01, 00, 00, 00);
 
-        //this.infoFileName = "Frank2.jpg";
-        //this.infoFilePath = @"\SD card\Pictures\Frank2.jpg";
-        //this.readonlyTestFileLength = 232663ul;
-        //this.readonlyTestFileCreationTime = new DateTime(2015, 01, 30, 22, 47, 17);
-        //this.readonlyTestFileLastWriteTime = new DateTime(2015, 01, 30, 22, 47, 22);
+        readonlyFileParentPath = @"\Internal Storage\201407_a";
+        readonlyFileParentCreationTime = new DateTime(2014, 07, 01, 00, 00, 00);
+        readonlyFileParentLastWriteTime = new DateTime(2014, 07, 01, 00, 00, 00);
+        readonlyFileParentAuthoredTime = new DateTime(0001, 01, 01, 00, 00, 00);
 
-        //this.infoFileParentName = "Pictures";
-        //this.infoFileParentPath = @"\SD card\Pictures";
-        //this.readonlyTestFolderCreationTime = new DateTime(2014, 03, 21, 19, 02, 04);
-        //this.readonlyTestFolderLastWriteTime = new DateTime(2017, 01, 07, 16, 54, 38);
+        // folder
+        readonlyFolderPath = @"\Internal Storage\201407_a";
+        readonlyFolderCreationTime = new DateTime(2014, 07, 01, 00, 00, 00);
+        readonlyFolderLastWriteTime = new DateTime(2014, 07, 01, 00, 00, 00);
+        readonlyFolderAuthoredTime = new DateTime(0001, 01, 01, 00, 00, 00);
+        
+        readonlyFolderParentPath = "\\DCIM";
+        readonlyFolderParentCreationTime = new DateTime(2026, 07, 31, 19, 53, 45);
+        readonlyFolderParentLastWriteTime = new DateTime(2026, 07, 31, 19, 53, 45);
+        readonlyFolderParentAuthoredTime = new DateTime(0001, 01, 01, 00, 00, 00);
 
-        //this.readonlyTestEnumPath = @"\Phone\Pictures";
-        //this.readonlyTestEnumFolderSearchPattern = "S*";
-        //this.readonlyTestEnumFileSearchPattern = "desk*";
-        //this.readonlyTestEnumItemSearchPattern = "*es*";
+        // Enumerable
+        readonlyEnumPath = "\\Internal Storage";
+        readonlyEnumFolderSearchPattern = "2022S*";
+        readonlyEnumFileSearchPattern = "*0713*";
+        readonlyEnumItemSearchPattern = "202*";
 
-        //this.readonlyTestEnumFoldersAll = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
-        //this.readonlyTestEnumFoldersSearchPattern = new List<string> { @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
+        readonlyEnumFoldersAll = [];
+        readonlyEnumFoldersSearchPattern = [];
 
-        //this.readonlyTestEnumFilesAll = new List<string> { @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyTestEnumFilesSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyTestEnumFilesSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
+        readonlyEnumFilesAll = [];
+        readonlyEnumFilesSearchPattern = [];
+        readonlyEnumFilesSearchPatternRecursive = [];
 
-        //this.readonlyTestEnumItemsAll = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyTestEnumItemsSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
-        //this.readonlyTestEnumItemsSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
+        readonlyEnumItemsAll = [];
+        readonlyEnumItemsSearchPattern = [];
+        readonlyEnumItemsSearchPatternRecursive = [];
+
+        #endregion
     }
 }

@@ -319,13 +319,22 @@ partial class MediaDevice
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public void DownloadFile(string path, Stream stream)
+    public void DownloadFile(string source, Stream stream)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.DownloadFile(this, path, stream);
+        mainWorker.DownloadFile(this, source, stream);
+    }
+
+    public void DownloadFile(string source, string destination)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
+        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        mainWorker.DownloadFile(this, source, destination);
     }
 
     /// <summary>
@@ -338,13 +347,22 @@ partial class MediaDevice
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public void DownloadIcon(string path, Stream stream)
+    public void DownloadIcon(string source, Stream stream)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.DownloadIcon(this, path, stream);
+        mainWorker.DownloadIcon(this, source, stream);
+    }
+
+    public void DownloadIcon(string source, string destination)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
+        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        mainWorker.DownloadIcon(this, source, destination);
     }
 
     /// <summary>
@@ -357,14 +375,35 @@ partial class MediaDevice
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public void DownloadThumbnail(string path, Stream stream)
+    public void DownloadThumbnail(string source, Stream stream)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.DownloadThumbnail(this, path, stream);
+        mainWorker.DownloadThumbnail(this, source, stream);
     }
+
+    public void DownloadThumbnail(string source, string destination)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
+        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        mainWorker.DownloadThumbnail(this, source, destination);
+    }
+
+    public void DownloadFolder(string source, string destination, bool recursive = true, bool ignoreExceptions = true)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(source);
+        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        NotConnectedException.ThrowIfNotConnected(this);
+
+
+        Directory.CreateDirectory(destination);
+        mainWorker.DownloadFolder(this, source, destination, recursive, ignoreExceptions);
+    }
+
 
     /// <summary>
     /// Upload data from a stream to a file on a portable mediaDevice.
@@ -395,21 +434,31 @@ partial class MediaDevice
         mainWorker.UploadFile(this, stream, destination);
     }
 
+    public void UploadFolder(string source, string destination, bool recursive = true, bool ignoreExceptions = true)
+    {
+        ArgumentPathException.ThrowIfNullOrNotPath(source);
+        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        Directory.CreateDirectory(destination);
+        mainWorker.UploadFolder(this, source, destination, recursive, ignoreExceptions);
+    }
+
 
     #endregion
 
-    #region MediaFileInfo, MediaDirectoryInfo, MediaDriveInfo and MediaFileSystemInfo based 
+        #region MediaFileInfo, MediaDirectoryInfo, MediaDriveInfo and MediaFileSystemInfo based 
 
-    /// <summary>
-    /// Gets a new instance of the MediaFileInfo class, which acts as a wrapper for a file path.
-    /// </summary>
-    /// <param name="path">The fully qualified name of the file, directory or object.</param>
-    /// <returns>New instance of the MediaFileInfo class</returns>
-    /// <exception cref="System.IO.IOException">path is a file name.</exception>
-    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
-    /// <exception cref="System.ArgumentNullException">path is null.</exception>
-    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
-    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+        /// <summary>
+        /// Gets a new instance of the MediaFileInfo class, which acts as a wrapper for a file path.
+        /// </summary>
+        /// <param name="path">The fully qualified name of the file, directory or object.</param>
+        /// <returns>New instance of the MediaFileInfo class</returns>
+        /// <exception cref="System.IO.IOException">path is a file name.</exception>
+        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+        /// <exception cref="System.ArgumentNullException">path is null.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+        /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public MediaFileInfo GetFileInfo(string path)
     {
         ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));

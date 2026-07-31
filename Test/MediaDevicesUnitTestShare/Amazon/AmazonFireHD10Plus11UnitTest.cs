@@ -27,10 +27,10 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         this.contentLocations = []; // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
         // PersistentUniqueId
-        this.FolderPersistentUniqueId = "{00000023-0001-0001-0000-000000000000}";
-        this.FolderPersistentUniqueIdPath = @"\Interner Speicher\Download";
-        this.FilePersistentUniqueId = "{0000002B-0001-0001-0000-000000000000}";
-        this.FilePersistentUniqueIdPath = @"\Interner Speicher\Android\data\com.amazon.ags.app\files\cardcache\version";
+        //this.FolderPersistentUniqueId = "{00000023-0001-0001-0000-000000000000}";
+        //this.FolderPersistentUniqueIdPath = @"\Interner Speicher\Download";
+        //this.FilePersistentUniqueId = "{0000002B-0001-0001-0000-000000000000}";
+        //this.FilePersistentUniqueIdPath = @"\Interner Speicher\Android\data\com.amazon.ags.app\files\cardcache\version";
 
         // DriveTest
 
@@ -55,30 +55,30 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
 
         //this.infoFileName = "Frank2.jpg";
         //this.infoFilePath = @"\SD card\Pictures\Frank2.jpg";
-        //this.readonlyTestFileLength = 232663ul;
-        //this.readonlyTestFileCreationTime = new DateTime(2015, 01, 30, 22, 47, 17);
-        //this.readonlyTestFileLastWriteTime = new DateTime(2015, 01, 30, 22, 47, 22);
+        //this.readonlyFileLength = 232663ul;
+        //this.readonlyFileCreationTime = new DateTime(2015, 01, 30, 22, 47, 17);
+        //this.readonlyFileLastWriteTime = new DateTime(2015, 01, 30, 22, 47, 22);
 
         //this.infoFileParentName = "Pictures";
         //this.infoFileParentPath = @"\SD card\Pictures";
-        //this.readonlyTestFolderCreationTime = new DateTime(2014, 03, 21, 19, 02, 04);
-        //this.readonlyTestFolderLastWriteTime = new DateTime(2017, 01, 07, 16, 54, 38);
+        //this.readonlyFolderCreationTime = new DateTime(2014, 03, 21, 19, 02, 04);
+        //this.readonlyFolderLastWriteTime = new DateTime(2017, 01, 07, 16, 54, 38);
 
-        //this.readonlyTestEnumPath = @"\Phone\Pictures";
-        //this.readonlyTestEnumFolderSearchPattern = "S*";
-        //this.readonlyTestEnumFileSearchPattern = "desk*";
-        //this.readonlyTestEnumItemSearchPattern = "*es*";
+        //this.readonlyEnumPath = @"\Phone\Pictures";
+        //this.readonlyEnumFolderSearchPattern = "S*";
+        //this.readonlyEnumFileSearchPattern = "desk*";
+        //this.readonlyEnumItemSearchPattern = "*es*";
 
-        //this.readonlyTestEnumFoldersAll = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
-        //this.readonlyTestEnumFoldersSearchPattern = new List<string> { @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
+        //this.readonlyEnumFoldersAll = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
+        //this.readonlyEnumFoldersSearchPattern = new List<string> { @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
 
-        //this.readonlyTestEnumFilesAll = new List<string> { @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyTestEnumFilesSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyTestEnumFilesSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
+        //this.readonlyEnumFilesAll = new List<string> { @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
+        //this.readonlyEnumFilesSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini" };
+        //this.readonlyEnumFilesSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
 
-        //this.readonlyTestEnumItemsAll = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyTestEnumItemsSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
-        //this.readonlyTestEnumItemsSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
+        //this.readonlyEnumItemsAll = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
+        //this.readonlyEnumItemsSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
+        //this.readonlyEnumItemsSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
 
     }
 }

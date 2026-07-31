@@ -35,33 +35,33 @@ public class SamsungA40UnitTest : WritableUnitTest
         #region Readonly Tests
 
         // file
-        this.readonlyTestFilePath = @"\Phone\Pictures\My_Test_Pictures\Sundown.jpg";
-        this.readonlyTestFileLength = 3675020ul;
-        this.readonlyTestFileCreationTime = new DateTime(2026, 07, 23, 17, 20, 41);
-        this.readonlyTestFileLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
-        this.readonlyTestFileAuthoredTime = new DateTime(2024, 06, 25, 21, 53, 17);
-        this.readonlyTestFileAttributes = MediaFileAttributes.Normal | MediaFileAttributes.CanDelete;
+        this.readonlyFilePath = @"\Phone\Pictures\My_Test_Pictures\Sundown.jpg";
+        this.readonlyFileLength = 3675020ul;
+        this.readonlyFileCreationTime = new DateTime(2026, 07, 23, 17, 20, 41);
+        this.readonlyFileLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        this.readonlyFileAuthoredTime = new DateTime(2024, 06, 25, 21, 53, 17);
+        this.readonlyFileAttributes = MediaFileAttributes.Normal | MediaFileAttributes.CanDelete;
 
         // folder of file
-        this.readonlyTestFolderPath = @"\Phone\Pictures\My_Test_Pictures";
-        this.readonlyTestFolderCreationTime = new DateTime(2026, 07, 23, 17, 20, 33);
-        this.readonlyTestFolderLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
-        this.readonlyTestFolderAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
+        this.readonlyFolderPath = @"\Phone\Pictures\My_Test_Pictures";
+        this.readonlyFolderCreationTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        this.readonlyFolderLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        this.readonlyFolderAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
         // parent of folder
-        this.readonlyTestParentPath = @"\Phone\Pictures";
-        this.readonlyTestParentCreationTime = new DateTime(2026, 07, 23, 19, 06, 10);
-        this.readonlyTestParentLastWriteTime = new DateTime(2026, 07, 23, 19, 06, 10);
-        this.readonlyTestParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
+        this.readonlyFolderParentPath = @"\Phone\Pictures";
+        this.readonlyFolderParentCreationTime = new DateTime(2026, 07, 23, 19, 06, 10);
+        this.readonlyFolderParentLastWriteTime = new DateTime(2026, 07, 23, 19, 06, 10);
+        this.readonlyFolderParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
         
         // Enum
-        this.readonlyTestEnumPath = @"Phone\Pictures\My_EnumTest";
-        this.readonlyTestEnumFolderSearchPattern = "S*";
-        this.readonlyTestEnumFileSearchPattern = "desc*";
-        this.readonlyTestEnumItemSearchPattern = "*es*";
+        this.readonlyEnumPath = @"Phone\Pictures\My_EnumTest";
+        this.readonlyEnumFolderSearchPattern = "S*";
+        this.readonlyEnumFileSearchPattern = "desc*";
+        this.readonlyEnumItemSearchPattern = "*es*";
 
         // ReadonlyDirectoryInfoEnumDirectoriesTest
-        this.readonlyTestEnumFoldersAll = [
+        this.readonlyEnumFoldersAll = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001", 
             "\\Phone\\Pictures\\My_EnumTest\\A0001",
@@ -69,7 +69,7 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\_S1002",
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0",
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        this.readonlyTestEnumFoldersAllRecursive = [
+        this.readonlyEnumFoldersAllRecursive = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001", 
             "\\Phone\\Pictures\\My_EnumTest\\A0001", 
@@ -78,13 +78,13 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0",
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        this.readonlyTestEnumFoldersSearchPattern = [
+        this.readonlyEnumFoldersSearchPattern = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001", 
             "\\Phone\\Pictures\\My_EnumTest\\_S1002", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        this.readonlyTestEnumFoldersSearchPatternRecursive = [
+        this.readonlyEnumFoldersSearchPatternRecursive = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001", 
             "\\Phone\\Pictures\\My_EnumTest\\_S1002", 
@@ -93,12 +93,12 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
 
         // ReadonlyDirectoryInfoEnumFilesTest
-        this.readonlyTestEnumFilesAll = [
+        this.readonlyEnumFilesAll = [
             "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt",
             "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt",
             "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt",
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt"];
-        this.readonlyTestEnumFilesAllRecursive = [
+        this.readonlyEnumFilesAllRecursive = [
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0003.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\_desc_0004.txt",
@@ -115,12 +115,12 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt"];
-        this.readonlyTestEnumFilesSearchPattern = [
+        this.readonlyEnumFilesSearchPattern = [
             "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt",
             "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt",
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt"];
-        this.readonlyTestEnumFilesSearchPatternRecursive = [
+        this.readonlyEnumFilesSearchPatternRecursive = [
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt",
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0003.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\_desc_0004.txt",
@@ -139,7 +139,7 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt"];
 
         // ReadonlyDirectoryInfoEnumItemsTest
-        this.readonlyTestEnumItemsAll = [
+        this.readonlyEnumItemsAll = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000",
             "\\Phone\\Pictures\\My_EnumTest\\S1001", 
             "\\Phone\\Pictures\\My_EnumTest\\A0001", 
@@ -151,7 +151,7 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        this.readonlyTestEnumItemsAllRecursive = [
+        this.readonlyEnumItemsAllRecursive = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001",
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt",
@@ -176,14 +176,14 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt",
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        this.readonlyTestEnumItemsSearchPattern = [
+        this.readonlyEnumItemsSearchPattern = [
             "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt",
             "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt",
             "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt",
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt",
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        this.readonlyTestEnumItemsSearchPatternRecursive = [
+        this.readonlyEnumItemsSearchPatternRecursive = [
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0003.txt",
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\_desc_0004.txt",
@@ -205,10 +205,10 @@ public class SamsungA40UnitTest : WritableUnitTest
 
 
         // FileSystem PersistentUniqueId
-        this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
-        this.FolderPersistentUniqueIdPath = @"\Phone\Music";
-        this.FilePersistentUniqueId = "{25606D91-C12C-CF74-93A6-34E88717AD11}"; // "{FDFF71F3-E0BD-D98E-0000-000000000000}";
-        this.FilePersistentUniqueIdPath = @"\Phone\Samsung\Music\Over_the_Horizon.mp3"; // @"\Phone\Videos\desktop.ini"; Directory = "\\Phone\\Samsung\\Music"
+        //this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
+        //this.FolderPersistentUniqueIdPath = @"\Phone\Music";
+        //this.FilePersistentUniqueId = "{25606D91-C12C-CF74-93A6-34E88717AD11}"; // "{FDFF71F3-E0BD-D98E-0000-000000000000}";
+        //this.FilePersistentUniqueIdPath = @"\Phone\Samsung\Music\Over_the_Horizon.mp3"; // @"\Phone\Videos\desktop.ini"; Directory = "\\Phone\\Samsung\\Music"
 
         #endregion
 
