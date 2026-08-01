@@ -56,7 +56,7 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
         #region Enumerable & List tests
 
         readonlyFileDownloadIcon = false;
-        readonlyFileDownloadThumbnail = false;
+        readonlyFileDownloadThumbnail = true;
 
         // file
         readonlyFilePath = @"\Internal Storage\201407_a\BQME4521.JPG";

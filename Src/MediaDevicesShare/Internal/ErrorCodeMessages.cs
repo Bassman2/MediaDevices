@@ -1,6 +1,6 @@
 ﻿namespace MediaDevices.Internal;
 
-internal static class ErrorCodes
+internal static class ErrorCodeMessages
 {
     public static string GetErrorMessage(int errorCode)
     {

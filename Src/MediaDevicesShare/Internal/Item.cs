@@ -267,7 +267,7 @@ internal class Item
         err = values.GetCount(ref num);
         if (err < 0)
         {
-            Trace.TraceError($"COM Error: {ErrorCodes.GetErrorMessage(err)}");
+            Trace.TraceError($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
             return;
         }
         for (uint i = 0; i < num; i++)
@@ -277,7 +277,7 @@ internal class Item
             err = values.GetAt(i, ref val.Key, ref val.Value);
             if (err < 0)
             {
-                Trace.TraceError($"COM Error: {ErrorCodes.GetErrorMessage(err)}");
+                Trace.TraceError($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
                 continue;
             }
             if (val.Key.fmtid == WPD.OBJECT_PROPERTIES_V1)
@@ -659,6 +659,10 @@ internal class Item
         uint optimalTransferSize = 0;
 
         int err = resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out var res); // IStream wpdStream);
+        if (err == (int)ErrorCodes.ResourceNotAvailable)
+        {
+            throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading thumbnails.");
+        }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
         IStream wpdStream = (IStream)res;
@@ -674,6 +678,10 @@ internal class Item
         uint optimalTransferSize = 0;
 
         int err = resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out var res);
+        if (err == (int)ErrorCodes.ResourceNotAvailable)
+        {
+            throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading icons.");
+        }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
         IStream wpdStream = (IStream)res;

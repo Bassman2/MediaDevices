@@ -27,7 +27,7 @@ internal sealed partial class PropVariantFacade : IDisposable
             int err = ComHelper.NativeMethods.PropVariantClear(ref this.Value);
             if (err < 0)
             {
-                Trace.TraceError($"COM Error: {ErrorCodes.GetErrorMessage(err)}");
+                Trace.TraceError($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
             }
         }
     }

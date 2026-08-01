@@ -24,7 +24,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Command.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ComTrace.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\EnumGuidAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\ErrorCodes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\ErrorCodes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ErrorCodeMessages.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\EventCallback.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\HResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IConnectionRequestCallback.cs" />
@@ -114,7 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Enums\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Internal\Enums\" />
     <Folder Include="$(MSBuildThisFileDirectory)EventArg\" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ public abstract class ReadonlyUnitTest : UnitTest
     }
 
     // file
-    protected string? readonlyFilePath;
+    protected string readonlyFilePath = string.Empty;
     protected ulong readonlyFileLength;
     protected DateTime? readonlyFileCreationTime;
     protected DateTime? readonlyFileLastWriteTime;
@@ -195,8 +195,7 @@ public abstract class ReadonlyUnitTest : UnitTest
         }
         else
         {
-            Assert.ThrowsExactly<FileNotFoundException>(() =>
-                device.DownloadIcon(readonlyFilePath!, tempFile));
+            Assert.ThrowsExactly<NotSupportedException>(() => device.DownloadIcon(readonlyFilePath!, tempFile));
         }
         device.Disconnect();
     }
@@ -221,8 +220,7 @@ public abstract class ReadonlyUnitTest : UnitTest
         }
         else
         {
-            Assert.ThrowsExactly<FileNotFoundException>(() =>
-                device.DownloadThumbnail(readonlyFilePath!, tempFile)); 
+            Assert.ThrowsExactly<NotSupportedException>(() => device.DownloadThumbnail(readonlyFilePath!, tempFile)); 
         }   
         device.Disconnect();
     }
