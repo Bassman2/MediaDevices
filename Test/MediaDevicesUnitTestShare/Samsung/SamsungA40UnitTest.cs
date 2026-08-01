@@ -25,10 +25,10 @@ public class SamsungA40UnitTest : WritableUnitTest
         this.deviceDeviceType = DeviceType.MediaPlayer;
         this.deviceDateTimeHasValue = false;
         
-        //  Device Capability Test
-        this.functionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
+        this.deviceFunctionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
 
-        // Device Content Location Test
+        this.deviceDrives = ["Phone", "Card"];
+        
 
         #endregion
 
@@ -108,7 +108,7 @@ public class SamsungA40UnitTest : WritableUnitTest
         
 
         // ReadonlyDirectoryInfoEnumItemsTest
-        this.readonlyEnumItems = [
+        readonlyEnumItems = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000",
             "\\Phone\\Pictures\\My_EnumTest\\S1001", 
             "\\Phone\\Pictures\\My_EnumTest\\A0001", 
@@ -120,7 +120,7 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        this.readonlyEnumItemsRecursive = [
+        readonlyEnumItemsRecursive = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001",
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt",
@@ -145,14 +145,14 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt",
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        this.readonlyEnumItemsSearchPattern = [
+        readonlyEnumItemsSearchPattern = [
             "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt",
             "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt",
             "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt",
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt",
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        this.readonlyEnumItemsSearchPatternRecursive = [
+        readonlyEnumItemsSearchPatternRecursive = [
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0003.txt",
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\_desc_0004.txt",
@@ -171,21 +171,14 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-
-
-        // FileSystem PersistentUniqueId
-        //this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
-        //this.FolderPersistentUniqueIdPath = @"\Phone\Music";
-        //this.FilePersistentUniqueId = "{25606D91-C12C-CF74-93A6-34E88717AD11}"; // "{FDFF71F3-E0BD-D98E-0000-000000000000}";
-        //this.FilePersistentUniqueIdPath = @"\Phone\Samsung\Music\Over_the_Horizon.mp3"; // @"\Phone\Videos\desktop.ini"; Directory = "\\Phone\\Samsung\\Music"
-
+       
         #endregion
 
         #region Writeable Tests
 
-        this.workingFolder = @"\Card\Test";
+        workingFolder = @"\Card\Test";
 
-        this.drives = ["Phone", "Card"];
+        
 
         #endregion
 

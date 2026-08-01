@@ -22,13 +22,13 @@ public class MicrosoftLumia650UnitTest : WritableUnitTest
         this.deviceProtocol = "MTP: 1.00";
 
         // Capability Test
-        this.supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
-        this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        this.supportedContents = [ContentType.Image];
-        this.functionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
+        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
+        this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        this.deviceSupportedContents = [ContentType.Image];
+        this.deviceFunctionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
 
         // ContentLocation Test
-        this.contentLocations = [@"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures"];
+        this.deviceContentLocationsImages = [@"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures"];
 
         // PersistentUniqueId
         //this.FolderPersistentUniqueId = "{CF527675-97D8-3DEF-0000-000000000000}";

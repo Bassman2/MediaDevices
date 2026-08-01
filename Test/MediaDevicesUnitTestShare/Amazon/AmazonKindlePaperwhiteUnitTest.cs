@@ -21,16 +21,16 @@ public class AmazonKindlePaperwhiteUnitTest : WritableUnitTest
         this.deviceProtocol = "MSC:";
 
         // Capability Test
-        this.supportedEvents = [Events.ObjectAdded, Events.ObjectRemoved, Events.ObjectUpdated];
-        this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectEnumerationFindNext, Commands.ObjectEnumerationEndFind,
+        this.deviceSupportedEvents = [Events.ObjectAdded, Events.ObjectRemoved, Events.ObjectUpdated];
+        this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectEnumerationFindNext, Commands.ObjectEnumerationEndFind,
             Commands.ObjectManagementDeleteObjects, Commands.ObjectManagementCreateObjectWithPropertiesOnly, Commands.ObjectManagementCreateObjectWithPropertiesAndData,
             Commands.ObjectManagementWriteObjectData, Commands.ObjectManagementCommitObject, Commands.ObjectManagementRevertObject
         ];
-        this.supportedContents = [ContentType.Unspecified, ContentType.Folder, ContentType.Audio, ContentType.Video, ContentType.Image, ContentType.Contact];
-        this.functionalCategories = [FunctionalCategory.Storage];
+        this.deviceSupportedContents = [ContentType.Unspecified, ContentType.Folder, ContentType.Audio, ContentType.Video, ContentType.Image, ContentType.Contact];
+        this.deviceFunctionalCategories = [FunctionalCategory.Storage];
 
         // ContentLocation Test
-        this.contentLocations = [];
+        this.deviceContentLocationsImages = [];
 
         // PersistentUniqueId
         //this.FolderPersistentUniqueId = $"{deviceLetter}%3B%5Csystem%5Cstartactions";

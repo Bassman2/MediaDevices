@@ -22,13 +22,13 @@ public class GooglePixel6aUnitTest : WritableUnitTest
         //this.deviceProtocol = "MTP: 1.00";
 
         // Capability Test
-        //this.supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
-        //this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        //this.supportedContents = [ContentType.Image];
-        //this.functionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
+        //this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        //this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        //this.deviceSupportedContents = [ContentType.Image];
+        //this.deviceFunctionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
 
         // ContentLocation Test
-        this.contentLocations = [];
+        this.deviceContentLocationsImages = [];
 
         // PersistentUniqueId
         //this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
@@ -39,7 +39,7 @@ public class GooglePixel6aUnitTest : WritableUnitTest
         this.workingFolder = @"\Card\Test";
 
         // DrivesTest
-        this.drives = ["Interner gemeinsamer Speicher"];
+        this.deviceDrives = ["Interner gemeinsamer Speicher"];
 
         // Exists Test
         //this.existingFile = @"\Phone\Music\Artist\05 - Decoupage.mp3";

@@ -1,4 +1,6 @@
-﻿namespace MediaDevicesUnitTest;
+﻿using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
+
+namespace MediaDevicesUnitTest;
 
 public abstract class UnitTest
 {
@@ -30,26 +32,22 @@ public abstract class UnitTest
     // ModelUniqueId
     protected DeviceTransport deviceTransport = DeviceTransport.USB;
     protected DeviceTransport? deviceUseDeviceStage;
+    protected List<string> deviceDrives = [];
+    // content locations
+    protected List<string> deviceContentLocationsImages = [];
+    protected List<string> deviceContentLocationsVideos = [];
+    protected List<string> deviceContentLocationsAudios = [];
+    protected List<string> deviceContentLocationsContacts = [];
+    protected List<string> deviceContentLocationsCalendars = [];
+    protected List<string> deviceContentLocationsAll = [];
 
     // Capability Test
-    protected List<Events>? supportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
-    protected List<Commands>? supportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
-    protected List<ContentType>? supportedContents = [ ContentType.Image ];
-    protected List<FunctionalCategory>? functionalCategories = [ FunctionalCategory.Storage ];
-
-    // ContentLocation Test
-    protected List<string>? contentLocations = [];
-
-    // PersistentUniqueId
-    //protected string? FolderPersistentUniqueId;
-    //protected string? FolderPersistentUniqueIdPath;
-    //protected string? FilePersistentUniqueId;
-    //protected string? FilePersistentUniqueIdPath;
-
-    protected List<string> drives = [];
+    protected List<Events>? deviceSupportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
+    protected List<Commands>? deviceSupportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
+    protected List<ContentType>? deviceSupportedContents = [ ContentType.Image ];
+    protected List<FunctionalCategory>? deviceFunctionalCategories = [ FunctionalCategory.Storage ];
 
     
-
     //public TestContext TestContext { get; set; }
 
     ///// <summary>
@@ -230,10 +228,10 @@ public abstract class UnitTest
         Assert.IsNotNull(storageObjects, "storageObjects");
         Assert.IsNotNull(smsObjects, "smsObjects");
 
-        CollectionAssert.IsSubsetOf(supportedEvents, events, "Events");
-        CollectionAssert.IsSubsetOf(supportedCommands, commands, "Commands");
-        CollectionAssert.IsSubsetOf(supportedContents, contents, "Contents");
-        Assert.AreSequenceEqual(functionalCategories, categories, SequenceOrder.InAnyOrder, "Categories");
+        CollectionAssert.IsSubsetOf(deviceSupportedEvents, events, "Events");
+        CollectionAssert.IsSubsetOf(deviceSupportedCommands, commands, "Commands");
+        CollectionAssert.IsSubsetOf(deviceSupportedContents, contents, "Contents");
+        Assert.AreSequenceEqual(deviceFunctionalCategories, categories, SequenceOrder.InAnyOrder, "Categories");
     }
 
 
@@ -244,19 +242,21 @@ public abstract class UnitTest
     {
         var device = GetDevice();
         device.Connect();
-
-        var locations = device.GetContentLocations(ContentType.Image)?.ToList() ?? [];
-
-        //var all = mediaDevice.GetContentLocations(ContentType.All)?.ToList() ?? [];
-
+        var images = device.GetContentLocations(ContentType.Image)?.ToList() ?? [];
+        var videos = device.GetContentLocations(ContentType.Video)?.ToList() ?? [];
+        var audios = device.GetContentLocations(ContentType.Audio)?.ToList() ?? [];
+        var contacts = device.GetContentLocations(ContentType.Contact)?.ToList() ?? [];
+        var calendars = device.GetContentLocations(ContentType.Calendar)?.ToList() ?? [];
+        var all = device.GetContentLocations(ContentType.All)?.ToList() ?? [];
         device.Disconnect();
 
-        Assert.AreSequenceEqual(this.contentLocations, locations, SequenceOrder.InAnyOrder, "Locations");
+        Assert.AreSequenceEqual(this.deviceContentLocationsImages, images, SequenceOrder.InAnyOrder, nameof(deviceContentLocationsImages));
+        Assert.AreSequenceEqual(this.deviceContentLocationsVideos, videos, SequenceOrder.InAnyOrder, nameof(deviceContentLocationsVideos));
+        Assert.AreSequenceEqual(this.deviceContentLocationsAudios, audios, SequenceOrder.InAnyOrder, nameof(deviceContentLocationsAudios));
+        Assert.AreSequenceEqual(this.deviceContentLocationsContacts, contacts, SequenceOrder.InAnyOrder, nameof(deviceContentLocationsContacts));
+        Assert.AreSequenceEqual(this.deviceContentLocationsCalendars, calendars, SequenceOrder.InAnyOrder, nameof(deviceContentLocationsCalendars));
+        Assert.AreSequenceEqual(this.deviceContentLocationsAll, all, SequenceOrder.InAnyOrder, nameof(deviceContentLocationsAll));
     }
-
-
-
-   
 
     [TestMethod]
     //[IgnoreFeature(IgnoreFeatures.FriendlyName)]
@@ -311,7 +311,7 @@ public abstract class UnitTest
         
         device.Disconnect();
 
-        Assert.AreSequenceEqual(this.drives, volumeLabels, SequenceOrder.InAnyOrder, nameof(volumeLabels));
+        Assert.AreSequenceEqual(this.deviceDrives, volumeLabels, SequenceOrder.InAnyOrder, nameof(volumeLabels));
     }
 
     [TestMethod]
@@ -328,7 +328,7 @@ public abstract class UnitTest
 
         device.Disconnect();
 
-        Assert.AreSequenceEqual(this.drives, volumeLabels, SequenceOrder.InAnyOrder, nameof(volumeLabels));
+        Assert.AreSequenceEqual(this.deviceDrives, volumeLabels, SequenceOrder.InAnyOrder, nameof(volumeLabels));
     }
 
     #endregion

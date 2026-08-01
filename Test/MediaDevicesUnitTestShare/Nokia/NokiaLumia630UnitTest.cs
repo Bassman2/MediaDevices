@@ -21,12 +21,12 @@ public class NokiaLumia630UnitTest : WritableUnitTest
         this.devicePowerSource = PowerSource.External;
 
         // Capability Test
-        this.supportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
-        this.supportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
-        this.supportedContents = [ ContentType.Image ];
+        this.deviceSupportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
+        this.deviceSupportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
+        this.deviceSupportedContents = [ ContentType.Image ];
 
         // ContentLocation Test
-        this.contentLocations = [ @"\SD card\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" ];
+        this.deviceContentLocationsImages = [ @"\SD card\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" ];
 
         this.workingFolder = @"\Phone\Documents";
 

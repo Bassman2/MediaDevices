@@ -18,12 +18,12 @@ public class AppleiPodNanoUnitTest : ReadonlyUnitTest
         this.devicePowerSource = PowerSource.Battery;
 
         // Capability Test
-        this.supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated] ;
-        this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        this.supportedContents = [ContentType.Image];
+        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated] ;
+        this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        this.deviceSupportedContents = [ContentType.Image];
 
         // ContentLocation Test
-        this.contentLocations = [""];
+        this.deviceContentLocationsImages = [""];
 
         // Exists Test
         this.readonlyFilePath = @"Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";

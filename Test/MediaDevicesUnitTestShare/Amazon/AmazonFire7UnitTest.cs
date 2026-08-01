@@ -19,13 +19,13 @@ public class AmazonFire7UnitTest : WritableUnitTest
         this.deviceProtocol = "MTP: 1.00";
 
         // Capability Test
-        this.supportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
-        this.supportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
-        this.supportedContents = [ ContentType.Image ];
-        this.functionalCategories = [ FunctionalCategory.Storage ];
+        this.deviceSupportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
+        this.deviceSupportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
+        this.deviceSupportedContents = [ ContentType.Image ];
+        this.deviceFunctionalCategories = [ FunctionalCategory.Storage ];
 
         // ContentLocation Test
-        this.contentLocations = []; // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
+        this.deviceContentLocationsImages = []; // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
         // PersistentUniqueId
         //this.FolderPersistentUniqueId = "{00000027-0001-0001-0000-000000000000}";

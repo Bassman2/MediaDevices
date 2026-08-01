@@ -33,13 +33,13 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
         deviceProtocol = "MTP: 1.00";
 
         // Capability Test
-        supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
-        supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        supportedContents = [ContentType.Image];
-        functionalCategories = [FunctionalCategory.Storage];
+        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        deviceSupportedContents = [ContentType.Image];
+        deviceFunctionalCategories = [FunctionalCategory.Storage];
 
         // ContentLocation Test
-        contentLocations = [];
+        deviceContentLocationsImages = [];
 
         // PersistentUniqueId
         //FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
@@ -49,7 +49,7 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
 
         //this.workingFolder = @"\Card\Test";
 
-        drives = ["Internal Storage"];
+        deviceDrives = ["Internal Storage"];
 
         #endregion
 

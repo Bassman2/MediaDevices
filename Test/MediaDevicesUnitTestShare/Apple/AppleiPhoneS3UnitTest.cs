@@ -22,13 +22,13 @@ public class AppleiPhoneS3UnitTest : ReadonlyUnitTest
         this.deviceProtocol = "PTP: 1.10";
 
         // Capability Test
-        this.supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
-        this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        this.supportedContents = [ContentType.Image];
-        this.functionalCategories = [FunctionalCategory.Storage];
+        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
+        this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        this.deviceSupportedContents = [ContentType.Image];
+        this.deviceFunctionalCategories = [FunctionalCategory.Storage];
 
         // ContentLocation Test
-        this.contentLocations = [];
+        this.deviceContentLocationsImages = [];
 
         // PersistentUniqueId
         //this.FolderPersistentUniqueId = "{00430045-0049-004D-0100-010000000000}";

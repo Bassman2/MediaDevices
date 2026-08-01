@@ -18,13 +18,13 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         //this.devicePowerSource = PowerSource.Battery;
 
         // Capability Test
-        //this.supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
-        //this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        //this.supportedContents = [ContentType.Image];
-        //this.functionalCategories = [FunctionalCategory.Storage];
+        //this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
+        //this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        //this.deviceSupportedContents = [ContentType.Image];
+        //this.deviceFunctionalCategories = [FunctionalCategory.Storage];
 
         // ContentLocation Test
-        this.contentLocations = []; // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
+        this.deviceContentLocationsImages = []; // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
 
         // PersistentUniqueId
         //this.FolderPersistentUniqueId = "{00000023-0001-0001-0000-000000000000}";
@@ -34,7 +34,7 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
 
         // DriveTest
 
-        this.drives = ["Speichergerät"];
+        this.deviceDrives = ["Speichergerät"];
 
         // Writable Tests
         this.workingFolder = @"\Interner Speicher\tmp";

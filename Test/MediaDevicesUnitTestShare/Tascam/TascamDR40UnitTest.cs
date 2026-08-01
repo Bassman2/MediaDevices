@@ -26,13 +26,13 @@ public class TascamDR40UnitTest : WritableUnitTest
         this.deviceProtocol = "MSC:";
 
         //// Capability Test
-        this.supportedEvents = [Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
-        //this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        //this.supportedContents = [ContentType.Image];
-        this.functionalCategories = [FunctionalCategory.Storage];
+        this.deviceSupportedEvents = [Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        //this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        //this.deviceSupportedContents = [ContentType.Image];
+        this.deviceFunctionalCategories = [FunctionalCategory.Storage];
 
         // ContentLocation Test
-        this.contentLocations = [];
+        this.deviceContentLocationsImages = [];
 
         // PersistentUniqueId
         //this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
@@ -42,7 +42,7 @@ public class TascamDR40UnitTest : WritableUnitTest
 
         this.workingFolder = @"\Card\Test";
 
-        this.drives = [""];
+        this.deviceDrives = [""];
 
 
 

@@ -21,17 +21,17 @@ public class AppleiPhone17ProUnitTest : ReadonlyUnitTest
         this.devicePowerSource = PowerSource.Battery;
         this.deviceProtocol = "MTP: 1.00";
         // Capability Test
-        this.supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
-        this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        this.supportedContents = [
+        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        this.deviceSupportedContents = [
             ContentType.Image,
             ContentType.Audio,
             ContentType.Video,
             ContentType.Unspecified,
             ContentType.Folder];
-        this.functionalCategories = [
+        this.deviceFunctionalCategories = [
             FunctionalCategory.Storage];
         // ContentLocation Test
-        this.contentLocations = [];
+        this.deviceContentLocationsImages = [];
     }
 }

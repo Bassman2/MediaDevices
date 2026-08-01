@@ -18,13 +18,13 @@ public class KingstonFCRHS219UnitTest : WritableUnitTest
         this.devicePowerSource = PowerSource.External;
 
         // Capability Test
-        this.supportedEvents = [ Events.ObjectAdded, Events.ObjectRemoved, Events.ObjectUpdated ];
-        this.supportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
-        this.supportedContents = [ ContentType.Unspecified, ContentType.Folder, ContentType.Audio, ContentType.Video, ContentType.Image, ContentType.Contact ];
-        this.functionalCategories = [ FunctionalCategory.Storage ];
+        this.deviceSupportedEvents = [ Events.ObjectAdded, Events.ObjectRemoved, Events.ObjectUpdated ];
+        this.deviceSupportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
+        this.deviceSupportedContents = [ ContentType.Unspecified, ContentType.Folder, ContentType.Audio, ContentType.Video, ContentType.Image, ContentType.Contact ];
+        this.deviceFunctionalCategories = [ FunctionalCategory.Storage ];
 
         // ContentLocation Test
-        this.contentLocations = []; // [ @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" ];
+        this.deviceContentLocationsImages = []; // [ @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" ];
 
         // PersistentUniqueId
         //this.FolderPersistentUniqueId = "K%3B%5CTest";

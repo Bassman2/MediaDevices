@@ -19,13 +19,13 @@ public class NiconCoolpixA300 : ReadonlyUnitTest
         this.deviceProtocol = "MTP: 1.00";
 
         // Capability Test
-        this.supportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
-        this.supportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
-        this.supportedContents = [ ContentType.Image ];
-        this.functionalCategories = [ FunctionalCategory.Storage, FunctionalCategory.StillImageCapture ];
+        this.deviceSupportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
+        this.deviceSupportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
+        this.deviceSupportedContents = [ ContentType.Image ];
+        this.deviceFunctionalCategories = [ FunctionalCategory.Storage, FunctionalCategory.StillImageCapture ];
 
         // ContentLocation Test
-        this.contentLocations = [];
+        this.deviceContentLocationsImages = [];
 
         // PersistentUniqueId
         //this.FolderPersistentUniqueId = "{00000003-0000-0000-0000-000000000000}";

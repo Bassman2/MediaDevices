@@ -23,12 +23,12 @@ public class HannspreeHSG1351UnitTest : WritableUnitTest
         this.devicePowerSource = PowerSource.Battery;
 
         // Capability Test
-        this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
-        this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
-        this.supportedContents = new List<ContentType> { ContentType.Image };
+        this.deviceSupportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
+        this.deviceSupportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
+        this.deviceSupportedContents = new List<ContentType> { ContentType.Image };
 
         // ContentLocation Test
-        this.contentLocations = new List<string> { "" };
+        this.deviceContentLocationsImages = new List<string> { "" };
 
 
         this.workingFolder = @"\SD\DCIM\100CANON";

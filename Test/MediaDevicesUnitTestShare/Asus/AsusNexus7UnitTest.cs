@@ -18,12 +18,12 @@ public class Nexus7UnitTest : WritableUnitTest
         this.devicePowerSource = PowerSource.Battery;
 
         // Capability Test
-        this.supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
-        this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        this.supportedContents = [ContentType.Image, ContentType.Audio, ContentType.Playlist, ContentType.Video, ContentType.Document, ContentType.Unspecified, ContentType.Folder];
+        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        this.deviceSupportedContents = [ContentType.Image, ContentType.Audio, ContentType.Playlist, ContentType.Video, ContentType.Document, ContentType.Unspecified, ContentType.Folder];
 
         // ContentLocation Test
-        this.contentLocations = [@"\SD card\Pictures", @"\Phone\Pictures", @"\SD card\Pictures"];
+        this.deviceContentLocationsImages = [@"\SD card\Pictures", @"\Phone\Pictures", @"\SD card\Pictures"];
 
 
         this.workingFolder = @"\Internal storage\Download";
