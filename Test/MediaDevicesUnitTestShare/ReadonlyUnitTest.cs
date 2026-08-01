@@ -112,22 +112,22 @@ public abstract class ReadonlyUnitTest : UnitTest
         var parent = file.Directory;
 
         // file asserts
-        Assert.AreEqual(Path.GetFileName(readonlyFilePath), file.Name, "File Name");
-        Assert.AreEqual(readonlyFilePath, file.FullName, "File FullName");
-        Assert.AreEqual(readonlyFileLength, file.Length, "File Length");
-        Assert.AreEqual(readonlyFileCreationTime, file.CreationTime, "File CreationTime");
-        Assert.AreEqual(readonlyFileLastWriteTime, file.LastWriteTime, "File LastWriteTime");
-        Assert.AreEqual(readonlyFileAuthoredTime, file.DateAuthored, "File DateAuthored");
-        Assert.AreEqual(readonlyFileAttributes, file.Attributes, "File Attributes");
+        Assert.AreEqual(Path.GetFileName(readonlyFilePath), file.Name, "readonlyFileName");
+        Assert.AreEqual(readonlyFilePath, file.FullName, nameof(readonlyFilePath));
+        Assert.AreEqual(readonlyFileLength, file.Length, nameof(readonlyFileLength));
+        Assert.AreEqual(readonlyFileCreationTime, file.CreationTime, nameof(readonlyFileCreationTime));
+        Assert.AreEqual(readonlyFileLastWriteTime, file.LastWriteTime, nameof(readonlyFileLastWriteTime));
+        Assert.AreEqual(readonlyFileAuthoredTime, file.DateAuthored, nameof(readonlyFileAuthoredTime));
+        Assert.AreEqual(readonlyFileAttributes, file.Attributes, nameof(readonlyFileAttributes));
 
         // folderParent folderParent asserts
-        Assert.AreEqual(Path.GetFileName(readonlyFileParentPath), parent!.Name, "File Parent Name");
-        Assert.AreEqual(readonlyFileParentPath, parent.FullName, "File Parent FullName");
-        Assert.AreEqual(0ul, parent.Length, "File Parent Length");
-        Assert.AreEqual(readonlyFileParentCreationTime, parent.CreationTime, "File Parent CreationTime");
-        Assert.AreEqual(readonlyFileParentLastWriteTime, parent.LastWriteTime, "File Parent LastWriteTime");
-        Assert.AreEqual(readonlyFileParentAuthoredTime, parent.DateAuthored, "File Parent DateAuthored");
-        Assert.AreEqual(readonlyFileParentAttributes, parent.Attributes, "File Parent Attributes");
+        Assert.AreEqual(Path.GetFileName(readonlyFileParentPath), parent!.Name, "readonlyFileParentName");
+        Assert.AreEqual(readonlyFileParentPath, parent.FullName, nameof(readonlyFileParentPath));
+        Assert.AreEqual(0ul, parent.Length, "Folder 0 length");
+        Assert.AreEqual(readonlyFileParentCreationTime, parent.CreationTime, nameof(readonlyFileParentCreationTime));
+        Assert.AreEqual(readonlyFileParentLastWriteTime, parent.LastWriteTime, nameof(readonlyFileParentLastWriteTime));
+        Assert.AreEqual(readonlyFileParentAuthoredTime, parent.DateAuthored, nameof(readonlyFileParentAuthoredTime));
+        Assert.AreEqual(readonlyFileParentAttributes, parent.Attributes, nameof(readonlyFileParentAttributes));
 
         device.Disconnect();
     }
