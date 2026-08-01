@@ -68,8 +68,16 @@ internal class ThreadSafeWorker : IDisposable
         ready.WaitOne();
         if (error != null)
         {
-            //throw error;
-            throw new AggregateException(exceptionInside, error);
+            if (error is FileNotFoundException || 
+                error is DirectoryNotFoundException || 
+                error is NotSupportedException)
+            {
+                throw error;
+            }
+            else
+            {
+                throw new AggregateException(exceptionInside, error);
+            }
         }
     }
 
@@ -103,12 +111,20 @@ internal class ThreadSafeWorker : IDisposable
         ready.WaitOne();
         if (error != null)
         {
-            //throw error;
-            throw new AggregateException(exceptionInside, error);
+            if (error is FileNotFoundException || 
+                error is DirectoryNotFoundException || 
+                error is NotSupportedException)
+            {
+                throw error;
+            }
+            else
+            {
+                throw new AggregateException(exceptionInside, error);
+            }
         }
         return result!;
     }
-
+    
     #region Enumerable
 
     public IEnumerable<T> InvokeEnumerable<T>(

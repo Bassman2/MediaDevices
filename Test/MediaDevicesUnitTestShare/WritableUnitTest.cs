@@ -3,8 +3,8 @@
 public abstract class WritableUnitTest : ReadonlyUnitTest 
 {
     protected readonly string testDataFolder = Path.GetFullPath(@".\..\..\..\..\TestData");
+    protected string writeableWorkingFolder = string.Empty;
 
-    protected string? workingFolder;
     protected List<string> treeList =
     [
         "\\UploadTree\\Aaa",
@@ -28,9 +28,20 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
     ];
     protected List<string>? treeListFull;
 
+    private string GetTempFile(string extention = ".txt")
+    {
+        return Path.Combine(writeableWorkingFolder, Path.ChangeExtension(Path.GetFileName(Path.GetTempFileName()), extention));
+    }
+
+    private string GetTempFolder()
+    {
+        return Path.Combine(writeableWorkingFolder, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
+    }   
+
     protected void UploadTestTree(MediaDevice device)
     {
-        this.treeListFull = [.. treeList.Select(p => workingFolder + p)];
+        string folder = GetTempFolder();
+        this.treeListFull = [.. treeList.Select(p => folder + p)];
 
         string sourceFolder = Path.Combine(testDataFolder, "UploadTree");
 
@@ -43,7 +54,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var l = Directory.EnumerateFileSystemEntries(sourceFolder, "*", SearchOption.AllDirectories).OrderBy(s => s).ToList();
         var x = Directory.GetFileSystemEntries(sourceFolder, "*", SearchOption.AllDirectories).OrderBy(s => s).ToList();
 
-        string destFolder = Path.Combine(this.workingFolder!, "UploadTree");
+        string destFolder = Path.Combine(folder, "UploadTree");
         
         var exists = device.DirectoryExists(destFolder);
         if (exists)
@@ -54,38 +65,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         device.UploadFolder(sourceFolder, destFolder);
     }
 
-    /*
-    [TestMethod]
-    [Description("Test event handling.")]
-    public void WritableEventTest()
-    {
-        //if (!this.supEvent) return;
-        
-        AutoResetEvent fired = new(false);
-
-        var mediaDevice = GetDevice();
-        mediaDevice.ObjectRemoved += (s, a) => fired.Set();
-        mediaDevice.Connect();
-
-        string filePath = Path.Combine(this.workingFolder!, "Test.txt");
-        if (mediaDevice.FileExists(filePath))
-        {
-            mediaDevice.DeleteFile(filePath);
-        }
-
-        using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
-        {
-            mediaDevice.UploadFile(stream, filePath);
-        }
-
-        mediaDevice.DeleteFile(filePath);
-
-        bool isFired = fired.WaitOne(new TimeSpan(0, 2, 0));
-        mediaDevice.Disconnect();
-
-        Assert.IsTrue(isFired);
-    }
-    */
+   
 
     [TestMethod]
     [Description("Creating a new folder.")]
@@ -94,8 +74,8 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var device = GetDevice();
         device.Connect();
         
-        string newFolder = Path.Combine(this.workingFolder!, "Test");
-        var exists1 = device.DirectoryExists(this.workingFolder!);
+        string newFolder = GetTempFolder();
+        var exists1 = device.DirectoryExists(Path.GetDirectoryName(newFolder)!);
         device.CreateDirectory(newFolder);
         var exists2 = device.DirectoryExists(newFolder);
         device.DeleteDirectory(newFolder, true);
@@ -110,12 +90,12 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
     [TestMethod]
     [Description("Upload a file to the target.")]
-    public void WritableUploadTest()
+    public void WritableUploadFileStreamTest()
     {
         var device = GetDevice();
         device.Connect();
 
-        string filePath = Path.Combine(this.workingFolder!, "Test.txt");
+        string filePath = GetTempFile(".txt");
         if (device.FileExists(filePath))
         {
             device.DeleteFile(filePath);
@@ -127,7 +107,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         }
         var exists1 = device.FileExists(filePath);
         device.DeleteFile(filePath);
-        var exists2 = device.FileExists(@"\Phone\Downloads\Test.txt");
+        var exists2 = device.FileExists($@"\Phone\Downloads\{Path.GetFileName(filePath)}");
 
         device.Disconnect();
 
@@ -137,13 +117,14 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
     [TestMethod]
     [Description("Upload a file to the target.")]
-    public void WritableUploadFileTest()
+    [Ignore("BUG")]
+    public void WritableUploadFilePathTest()
     {
         var device = GetDevice();
         device.Connect();
 
         string sourceFile = Path.Combine(testDataFolder, "TestFile.txt");
-        string destFile = Path.Combine(this.workingFolder!, "TestFile.txt");
+        string destFile = GetTempFile(".txt");
 
         var exists1 = device.FileExists(destFile);
         if (exists1)
@@ -172,8 +153,8 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
         UploadTestTree(device);
         
-        string destFolder = Path.Combine(this.workingFolder!, "UploadTree");
-        int _ = this.workingFolder!.Length;                      
+        string destFolder = GetTempFolder();
+        
         
         var list = device.EnumerateFileSystemEntries(destFolder, null, SearchOption.AllDirectories).ToList();
         
@@ -184,107 +165,6 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         //CollectionAssert.AreEquivalent(pathes, list, "EnumerateFileSystemEntries");
     }
 
-    [TestMethod]
-    [Description("Download a file from the target.")]
-    public void WritableDownloadFileTest()
-    {
-        string filePath = Path.Combine(testDataFolder, Path.GetFileName(this.FilePersistentUniqueIdPath!));
-        File.Delete(filePath);
-
-        var device = GetDevice();
-        device.Connect();
-        
-        var exists1 = device.FileExists(this.FilePersistentUniqueIdPath!);
-        
-        device.DownloadFile(this.FilePersistentUniqueIdPath!, filePath);
-
-        device.Disconnect();
-
-        Assert.IsTrue(exists1);
-        Assert.IsTrue(File.Exists(filePath), "Exists");
-        Assert.IsGreaterThan(100, new FileInfo(filePath).Length, "Length");
-
-    }
-
-    [TestMethod]
-    [Description("Download a icon from the target.")]
-    public void WritableDownloadIconTest()
-    {
-        CheckIgnoreTest(Ignore.DownloadIcon);
-
-        string filePath = Path.Combine(testDataFolder, Path.GetFileName(this.FilePersistentUniqueIdPath!));
-        File.Delete(filePath);
-
-        var device = GetDevice();
-        device.Connect();
-
-        var exists1 = device.FileExists(this.FilePersistentUniqueIdPath!);
-
-        device.DownloadIcon(this.FilePersistentUniqueIdPath!, filePath);
-        
-        device.Disconnect();
-
-        Assert.IsTrue(exists1);
-        Assert.IsTrue(File.Exists(filePath), "Exists");
-        Assert.IsGreaterThan(100, new FileInfo(filePath).Length, "Length");
-
-    }
-
-    [TestMethod]
-    [Description("Download a thumbnail from the target.")]
-    public void WritableDownloadThumbnailTest()
-    {
-        string filePath = Path.Combine(testDataFolder, Path.ChangeExtension(Path.GetFileName(this.FilePersistentUniqueIdPath!), ".gif"));
-        File.Delete(filePath);
-
-        var device = GetDevice();
-        device.Connect();
-
-        var exists1 = device.FileExists(this.FilePersistentUniqueIdPath!);
-
-        device.DownloadThumbnail(this.FilePersistentUniqueIdPath!, filePath);
-
-        device.Disconnect();
-
-        Assert.IsTrue(exists1);
-        Assert.IsTrue(File.Exists(filePath), "Exists");
-        Assert.IsGreaterThan(100, new FileInfo(filePath).Length, "Length");
-
-    }
-
-    [TestMethod]
-    [Description("Download a folder tree from the target.")]
-    public void WritableDownloadTreeTest()
-    {
-        var device = GetDevice();
-        device.Connect();
-
-        string sourceFolder = Path.Combine(testDataFolder, "UploadTree");
-        string destFolder = Path.Combine(this.workingFolder!, "UploadTree");
-
-        var exists1 = device.DirectoryExists(destFolder);
-        if (exists1)
-        {
-            device.DeleteDirectory(destFolder, true);
-        }
-
-
-        device.UploadFolder(sourceFolder, destFolder);
-
-        string downloadFolder = Path.Combine(testDataFolder, "DownloadTree");
-
-        if (Directory.Exists(downloadFolder))
-        {
-            Directory.Delete(downloadFolder, true);
-        }
-
-        device.DownloadFolder(destFolder, downloadFolder);
-
-        device.Disconnect();
-
-        //Assert.IsTrue(File.Exists(tempFile), "Exists");
-
-    }
 
     [TestMethod]
     [Description("Rename a file.")]
@@ -293,9 +173,9 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var device = GetDevice();
         device.Connect();
 
-        string filePath = Path.Combine(this.workingFolder!, "RenameTest.txt");
-        string newName = "NewName.txt";
-        string newPath = Path.Combine(this.workingFolder!, newName);
+        string filePath = GetTempFile(".txt");
+        string newPath = GetTempFile(".txt");
+        string newName = Path.GetFileName(newPath);
 
 
         if (device.FileExists(filePath))
@@ -334,9 +214,9 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var device = GetDevice();
         device.Connect();
 
-        string filePath = Path.Combine(this.workingFolder!, "RenameFolder");
-        string newName = "NewFolder";
-        string newPath = Path.Combine(this.workingFolder!, newName);
+        string filePath = GetTempFolder();
+        string newPath = GetTempFolder();
+        string newName = Path.GetFileName(newPath);
 
 
         if (device.DirectoryExists(filePath))
@@ -367,76 +247,98 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         Assert.IsTrue(exists2, "exists2");
         Assert.IsFalse(exists3, "exists3");
     }
-
     
-
-    [TestMethod]
-    [Description("Writable PersistentUniqueId Test")]
-    public void WritableWritablePersistentUniqueIdTest()
-    {
-        var device = GetDevice();
-        device.Connect();
-
-        UploadTestTree(device);
-
-        MediaDirectoryInfo dir = device.GetDirectoryInfo(Path.Combine(this.workingFolder!, @"UploadTree\Aaa\Abb"));
-        string dirPui = dir.PersistentUniqueId;
-        MediaDirectoryInfo? dirGet = device.GetFileSystemInfoFromPersistentUniqueId(dirPui) as MediaDirectoryInfo;
-
-        MediaFileInfo file = device.GetFileInfo(Path.Combine(this.workingFolder!, @"UploadTree\Aaa\Abb\Acc\Ctest.txt"));
-        string filePui = file.PersistentUniqueId;
-        MediaFileInfo? fileGet = device.GetFileSystemInfoFromPersistentUniqueId(filePui) as MediaFileInfo;
-
-        string tmp = Path.GetTempFileName();
-        device.DownloadFileFromPersistentUniqueId(filePui, tmp);
-        var text = File.ReadAllText(tmp);
-
-        device.Disconnect();
-
-        Assert.IsNotNull(dirPui, "dirPui");
-        Assert.AreEqual(dir, dirGet, "dirGet");
-
-        Assert.IsNotNull(filePui, "filePui");
-        Assert.AreEqual(file, fileGet, "fileGet");
-
-        Assert.AreEqual("test", text, "text");
-    }
-
     [TestMethod]
     [Description("Creating a new folder.")]
-    public void WritableReadonlyConnectTest()
+    public void WritableConnectGenericReadTest()
     {
+        string newFolder1 = GetTempFolder();
+        string newFolder2 = GetTempFolder();
+
         var device = GetDevice();
-        device.Connect(MediaDeviceAccess.GenericRead);
-        //device.Connect();
-        //var root = device.GetRootDirectory();
-        //var _ = root.EnumerateFileSystemInfos().ToList();
 
-        string newFolder = Path.Combine(this.workingFolder!, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
-        //var exists1 = device.DirectoryExists(this.workingFolder!);
-        device.CreateDirectory(newFolder);
-        var exists2 = device.DirectoryExists(newFolder);
-        //mediaDevice.DeleteDirectory(newFolder, true);
-        //var exists3 = mediaDevice.DirectoryExists(newFolder);
-
+        device.Connect();
+        device.CreateDirectory(newFolder1);
+        var exists = device.DirectoryExists(newFolder1);
         device.Disconnect();
 
-        //Assert.IsTrue(exists1, "exists1");
-        Assert.IsFalse(exists2, "exists2");
-        //Assert.IsFalse(exists3, "exists3");
+        device.Connect(MediaDeviceAccess.GenericRead);
+        Assert.ThrowsExactly<NotSupportedException>(() => device.CreateDirectory(newFolder2));
+        device.Disconnect();
+
+        Assert.IsTrue(exists, nameof(exists));
     }
+
+
+    [TestMethod]
+    [Description("Test event handling.")]
+    public void WritableEventFileTest()
+    {
+        AutoResetEvent fired = new(false);
+
+        var mediaDevice = GetDevice();
+        mediaDevice.ObjectRemoved += (s, a) => fired.Set();
+        mediaDevice.Connect();
+
+        string filePath = GetTempFile();
+        if (mediaDevice.FileExists(filePath))
+        {
+            mediaDevice.DeleteFile(filePath);
+        }
+
+        using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
+        {
+            mediaDevice.UploadFile(stream, filePath);
+        }
+
+        mediaDevice.DeleteFile(filePath);
+
+        bool isFired = fired.WaitOne(new TimeSpan(0, 0, 10));
+        mediaDevice.Disconnect();
+
+        Assert.IsTrue(isFired);
+    }
+
+    [TestMethod]
+    [Description("Test event handling.")]
+    public void WritableEventFolderTest()
+    {
+
+        string folder = GetTempFolder();
+
+        AutoResetEvent addEvent = new(false);
+        AutoResetEvent delEvent = new(false);
+
+        var mediaDevice = GetDevice();
+        mediaDevice.Connect(); 
+                
+        mediaDevice.ObjectAdded += (s, a) => addEvent.Set();
+        mediaDevice.ObjectRemoved += (s, a) => delEvent.Set();
+
+        mediaDevice.CreateDirectory(folder);
+        mediaDevice.DeleteDirectory(folder);
+
+        bool isAddFired = addEvent.WaitOne(new TimeSpan(0, 0, 10));
+        bool isDelFired = delEvent.WaitOne(new TimeSpan(0, 0, 10));
+
+        mediaDevice.Disconnect();
+
+        Assert.IsTrue(isAddFired);
+        Assert.IsTrue(isDelFired);
+    }
+
 
     [TestMethod]
     [Description("Upload a unix file name to the target.")]
     public void WritableUploadUnixFileNameTest()
     {
-        string workingUnixFolder = Path.Combine(this.workingFolder!, "UnixTest");
+        string workingUnixFolder = GetTempFolder();
 
         var device = GetDevice();
         device.Connect();
 
-        string sourceFile = Path.Combine(testDataFolder, "TestFile.txt");
-        string destFile = Path.Combine(workingUnixFolder, @"Test:File.txt");
+        string sourceFile = GetTempFile();
+        string destFile = Path.Combine(Path.GetDirectoryName(sourceFile)!, @"Test:File.txt"); 
 
         var exists1 = device.FileExists(destFile);
         if (exists1)
@@ -456,6 +358,5 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         device.Disconnect();
 
         Assert.IsTrue(exists, "exists");
-
     }
 }

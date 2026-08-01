@@ -4,7 +4,7 @@ partial class MainWorker
 {
     public void ResetDevice(MediaDevice mediaDevice)
     {
-        Invoke(() => Command.Create(WPD.COMMAND_COMMON_RESET_DEVICE).Send(mediaDevice.device));
+        Invoke(() => Command.Create(WPD.COMMAND_COMMON_RESET_DEVICE).Send(mediaDevice.device!));
     }
 
     public IEnumerable<string> GetContentLocations(MediaDevice mediaDevice, ContentType contentType)
@@ -13,7 +13,7 @@ partial class MainWorker
         {
             Command cmd = Command.Create(WPD.COMMAND_DEVICE_HINTS_GET_CONTENT_LOCATION);
             cmd.Add(WPD.PROPERTY_DEVICE_HINTS_CONTENT_TYPE, contentType.GetGuid());
-            if (!cmd.Send(mediaDevice.device))
+            if (!cmd.Send(mediaDevice.device!))
             {
                 return Enumerable.Empty<string>();
             }
@@ -47,7 +47,7 @@ partial class MainWorker
             Item? item = Item.FindFolder(mediaDevice, path);
             Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
             cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item!.Id);
-            return cmd.Send(mediaDevice.device);
+            return cmd.Send(mediaDevice.device!);
         });
     }
 
@@ -57,7 +57,7 @@ partial class MainWorker
         {
             Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
             cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, id);
-            return cmd.Send(mediaDevice.device);
+            return cmd.Send(mediaDevice.device!);
         });
     }
 
@@ -68,7 +68,7 @@ partial class MainWorker
             Item? item = Item.FindFolder(mediaDevice, path);
             Command cmd = Command.Create(WPD.COMMAND_STORAGE_FORMAT);
             cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item!.Id);
-            cmd.Send(mediaDevice.device);
+            cmd.Send(mediaDevice.device!);
 
         });
     }
@@ -79,7 +79,7 @@ partial class MainWorker
         {
             Command cmd = Command.Create(WPD.COMMAND_STORAGE_FORMAT);
             cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, id);
-            cmd.Send(mediaDevice.device);
+            cmd.Send(mediaDevice.device!);
         });
     }
 
@@ -92,7 +92,7 @@ partial class MainWorker
             cmd.Add(WPD.PROPERTY_SMS_RECIPIENT, recipient);
             cmd.Add(WPD.PROPERTY_SMS_MESSAGE_TYPE, (uint)SmsMessageType.Text);
             cmd.Add(WPD.PROPERTY_SMS_TEXT_MESSAGE, text);
-            return cmd.Send(mediaDevice.device);
+            return cmd.Send(mediaDevice.device!);
         });
     }
 
@@ -102,7 +102,7 @@ partial class MainWorker
         {
             Command cmd = Command.Create(WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE);
             cmd.Add(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
-            return cmd.Send(mediaDevice.device);
+            return cmd.Send(mediaDevice.device!);
         });
     }
 

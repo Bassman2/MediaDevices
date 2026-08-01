@@ -13,7 +13,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorOpcodes(this.device);
+        return mainWorker.VendorOpcodes(this.device!);
         
     }
 
@@ -29,7 +29,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorExcecute(this.device, opCode, inputParams, out respCode);
+        return mainWorker.VendorExcecute(this.device!, opCode, inputParams, out respCode);
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorExcecuteRead(this.device, opCode, inputParams);
+        return mainWorker.VendorExcecuteRead(this.device!, opCode, inputParams);
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorExcecuteWrite(this.device, opCode, inputParams);
+        return mainWorker.VendorExcecuteWrite(this.device!, opCode, inputParams);
     }
 
 
@@ -85,7 +85,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorEndTransfer(this.device, context, out respCode);
+        return mainWorker.VendorEndTransfer(this.device!, context, out respCode);
     }
 
     /// <summary>
@@ -97,6 +97,6 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorExtentionDescription(this.device);
+        return mainWorker.VendorExtentionDescription(this.device!);
     }
 }

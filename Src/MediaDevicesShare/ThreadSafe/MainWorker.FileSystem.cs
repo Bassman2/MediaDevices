@@ -2,7 +2,7 @@
 
 partial class MainWorker
 {
-    #region MediaDevice
+    #region MediaDevice: path based
 
     public IEnumerable<string> EnumerateDirectories(MediaDevice mediaDevice, string path)
     {
@@ -58,12 +58,14 @@ partial class MainWorker
         });
     }
 
+    public bool DirectoryExists(MediaDevice mediaDevice, string path)
+    {
+        return Invoke(() => Item.FindFolder(mediaDevice, path) != null);
+    }
+
     public void CreateDirectory(MediaDevice mediaDevice, string path)
     {
-        Invoke(() =>
-        {
-            Item.GetRoot(mediaDevice).CreateSubdirectory(path);
-        });
+        Invoke(() => Item.GetRoot(mediaDevice).CreateSubdirectory(path));
     }
 
     public void DeleteDirectory(MediaDevice mediaDevice, string path, bool recursive = false)
@@ -74,59 +76,7 @@ partial class MainWorker
             item.Delete(recursive);
         });
     }
-
-    public bool DirectoryExists(MediaDevice mediaDevice, string path)
-    {
-        return Invoke(() => Item.FindFolder(mediaDevice, path) != null);
-    }
-
-    public void DownloadFile(MediaDevice mediaDevice, string path, Stream stream)
-    {
-        Invoke(() =>
-        {
-            Item item = Item.FindFile(mediaDevice, path) ?? throw new FileNotFoundException($"File {path} not found.");
-            using Stream sourceStream = item.OpenRead();
-            sourceStream.CopyTo(stream);
-        });
-    }
-
-    public void DownloadIcon(MediaDevice mediaDevice, string path, Stream stream)
-    {
-        Invoke(() =>
-        {
-            Item item = Item.FindFile(mediaDevice, path) ?? throw new FileNotFoundException($"File {path} not found.");
-            using var sourceStream = item.OpenReadIcon();
-            sourceStream.CopyTo(stream);
-        });
-    }
-
-    public void DownloadThumbnail(MediaDevice mediaDevice, string path, Stream stream)
-    {
-        Invoke(() =>
-        {
-            Item item = Item.FindFile(mediaDevice, path) ?? throw new FileNotFoundException($"File {path} not found.");
-            using Stream sourceStream = item.OpenReadThumbnail();
-            sourceStream.CopyTo(stream);
-        });
-    }
-
-    public void UploadFile(MediaDevice mediaDevice, Stream stream, string path)
-    {
-        Invoke(() =>
-        {
-            string? folder = Path.GetDirectoryName(path);
-            string fileName = Path.GetFileName(path);
-            Item item = Item.FindFolder(mediaDevice, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
-
-            if (item.GetChildren().Any(i => EqualsName(i.Name, fileName, mediaDevice.IsCaseSensitive)))
-            {
-                throw new IOException($"File {path} already exists");
-            }
-
-            item.UploadFile(fileName, stream);
-        });
-    }
-
+    
     public bool FileExists(MediaDevice mediaDevice, string path)
     {
         return Invoke(() => Item.FindFile(mediaDevice, path) != null);
@@ -149,6 +99,216 @@ partial class MainWorker
             item.Rename(newName);
         });
     }
+
+    #endregion
+
+    #region Download and Upload path based
+
+    public void DownloadFile(MediaDevice mediaDevice, string source, Stream stream)
+    {
+        Invoke(() =>
+        {
+            Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+            using var sourceStream = item.OpenRead();
+            sourceStream.CopyTo(stream);
+        });
+    }
+
+    public void DownloadFile(MediaDevice mediaDevice, string source, string destination)
+    {
+        Invoke(() =>
+        {
+            Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+            using var sourceStream = item.OpenRead();
+            using var destinationStream = File.Create(destination);
+            sourceStream.CopyTo(destinationStream);
+        });
+    }
+
+    public void DownloadIcon(MediaDevice mediaDevice, string source, Stream stream)
+    {
+        Invoke(() =>
+        {
+            Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+            using var sourceStream = item.OpenReadIcon();
+            sourceStream.CopyTo(stream);
+        });
+    }
+
+    public void DownloadIcon(MediaDevice mediaDevice, string source, string destination)
+    {
+        Invoke(() =>
+        {
+            Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+            using var sourceStream = item.OpenReadIcon();
+            using var destinationStream = File.Create(destination);
+            sourceStream.CopyTo(destinationStream);
+        });
+    }
+
+    public void DownloadThumbnail(MediaDevice mediaDevice, string source, Stream stream)
+    {
+        Invoke(() =>
+        {
+            Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+            using Stream sourceStream = item.OpenReadThumbnail();
+            sourceStream.CopyTo(stream);
+        });
+    }
+
+    public void DownloadThumbnail(MediaDevice mediaDevice, string source, string destination)
+    {
+        Invoke(() =>
+        {
+            Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+            using Stream sourceStream = item.OpenReadThumbnail();
+            using var destinationStream = File.Create(destination);
+            sourceStream.CopyTo(destinationStream);
+        });
+    }
+
+    public void DownloadFolder(MediaDevice mediaDevice, string source, string destination, bool recursive, bool ignoreExceptions)
+    {
+        Invoke(() =>
+        {
+            Item dir = Item.FindFolder(mediaDevice, source) ?? throw new DirectoryNotFoundException($"{source} not found.");
+            if (recursive)
+            {
+                foreach (var item in dir.GetChildren("*", SearchOption.AllDirectories))
+                {
+                    string path = Path.Combine(destination, GetLocalPath(source, item.FullName));
+                    if (item.IsFile)
+                    {
+                        DownloadFileIntern(item, path, ignoreExceptions);
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in dir.GetChildren())
+                {
+                    string path = Path.Combine(destination, GetLocalPath(source, item.FullName));
+                    DownloadFileIntern(item, path, ignoreExceptions);
+                }
+            }
+        });
+    }
+
+    private static void DownloadFileIntern(Item item, string path, bool ignoreExceptions)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+        try
+        {
+            using var sourceStream = item.OpenRead();
+            using var destinationStream = File.Create(path);
+            sourceStream.CopyTo(destinationStream);
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine($"{ex.Message} for {item.GetPath()}");
+            if (!ignoreExceptions)
+            {
+                throw;
+            }
+        }
+    }
+    
+    public void UploadFile(MediaDevice mediaDevice, Stream stream, string destination)
+    {
+        Invoke(() =>
+        {
+            string? folder = Path.GetDirectoryName(destination);
+            string fileName = Path.GetFileName(destination);
+            Item item = Item.FindFolder(mediaDevice, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
+
+            if (item.GetChildren().Any(i => EqualsName(i.Name, fileName, mediaDevice.IsCaseSensitive)))
+            {
+                throw new IOException($"File {destination} already exists");
+            }
+
+            item.UploadFile(fileName, stream);
+        });
+    }
+
+    public void UploadFile(MediaDevice mediaDevice, string source, string destination)
+    {
+        Invoke(() =>
+        {
+            string? folder = Path.GetDirectoryName(destination);
+            string fileName = Path.GetFileName(destination);
+            Item item = Item.FindFolder(mediaDevice, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
+
+            if (item.GetChildren().Any(i => EqualsName(i.Name, fileName, mediaDevice.IsCaseSensitive)))
+            {
+                throw new IOException($"File {destination} already exists");
+            }
+
+            using var stream = File.OpenRead(source);
+            item.UploadFile(fileName, stream);
+        });
+    }
+
+    public void UploadFolder(MediaDevice mediaDevice, string source, string destination, bool recursive, bool ignoreExceptions)
+    {
+        Invoke(() =>
+        {
+            Item.GetRoot(mediaDevice).CreateSubdirectory(destination);
+            if (recursive)
+            {
+                var di = new DirectoryInfo(source);
+                foreach (var fsi in di.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
+                {
+                    string path = Path.Combine(destination, GetLocalPath(source, fsi.FullName));
+
+                    if (fsi is FileInfo fi)
+                    {
+                        UploadFileIntern(mediaDevice, fi, source, destination, ignoreExceptions);
+                    }
+                    else
+                    {
+                        Item.GetRoot(mediaDevice).CreateSubdirectory(path);
+                    }
+                }
+            }
+            else
+            {
+                var di = new DirectoryInfo(source);
+                foreach (FileInfo fi in di.EnumerateFiles())
+                {
+                    UploadFileIntern(mediaDevice, fi, source, destination, ignoreExceptions);
+                }
+            }
+        });
+    }
+
+    private static void UploadFileIntern(MediaDevice mediaDevice, FileInfo fi, string source, string destination, bool ignoreExceptions)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+        try
+        {
+            Item item = Item.FindFolder(mediaDevice, fi.DirectoryName!) ?? throw new DirectoryNotFoundException($"Directory {fi.DirectoryName} not found.");
+            string path = Path.Combine(destination, GetLocalPath(source, fi.FullName));
+            using FileStream stream = fi.OpenRead();
+            item.UploadFile(path, stream);
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine($"{ex.Message} for {fi.DirectoryName}");
+            if (!ignoreExceptions)
+            {
+                throw;
+            }
+        }
+    }
+
+    #endregion
+
+    #region MediaDevice: MediaFileInfo, MediaDirectoryInfo, MediaDriveInfo and MediaFileSystemInfo based 
+
 
     public MediaFileInfo GetFileInfo(MediaDevice mediaDevice, string path)
     {
@@ -173,6 +333,8 @@ partial class MainWorker
 
     private IEnumerable<MediaDriveInfo> GetDrivesIntern(MediaDevice mediaDevice)
     {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
         Guid guid = FunctionalCategory.Storage.GetGuid();
 
         int err = mediaDevice.deviceCapabilities!.GetFunctionalObjects(ref guid!, out IPortableDevicePropVariantCollection objects);
@@ -212,6 +374,43 @@ partial class MainWorker
         });
     }
 
+    #endregion
+
+    #region MediDevice: PersistentUniqueId
+
+    public string GetPathFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
+    {
+        return Invoke(() =>
+        {
+            Item item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
+            return item.GetPath();
+        });
+    }
+
+    public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
+    {
+        return Invoke(() =>
+        {
+            Item item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
+            return (MediaFileSystemInfo)(item.IsFile ? new MediaFileInfo(mediaDevice, item) : new MediaDirectoryInfo(mediaDevice, item));
+        });
+    }
+
+    public void DownloadFileFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId, string destination)
+    {
+        Invoke(() =>
+        {
+            Item? item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
+            if (item == null || !item.IsFile)
+            {
+                throw new FileNotFoundException($"{persistentUniqueId} not found.");
+            }
+            using var reader = item.OpenRead();
+            using var writer = File.Create(destination);
+            reader.CopyTo(writer);
+        });
+    }
+
     public Stream OpenReadFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
     {
         return Invoke(() =>
@@ -226,28 +425,20 @@ partial class MainWorker
         });
     }
 
-    public StreamReader? OpenTextFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
+    public StreamReader OpenTextFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
     {
         return Invoke(() =>
         {
-
             Item? item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
             if (item == null || !item.IsFile)
             {
                 throw new FileNotFoundException($"{persistentUniqueId} not found.");
             }
-            return item == null ? null : new StreamReader(item.OpenRead());
+            return new StreamReader(item.OpenRead());
         });
     }
 
-    public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(MediaDevice mediaDevice, string persistentUniqueId)
-    {
-        return Invoke(() =>
-        {
-            Item item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
-            return (MediaFileSystemInfo)(item.IsFile ? new MediaFileInfo(mediaDevice, item) : new MediaDirectoryInfo(mediaDevice, item));
-        });
-    }
+    
 
     #endregion
 
@@ -410,6 +601,17 @@ partial class MainWorker
     #endregion
 
     #region Internal
+
+    private static string GetLocalPath(string basePath, string fullPath)
+    {
+        if (!fullPath.StartsWith(basePath))
+        {
+            throw new ArgumentException($"{basePath} is not the base path of {fullPath}!");
+        }
+        return fullPath[basePath.Length..].TrimStart('\\', '/');
+        //return fullPath.Remove(0, basePath.Length).TrimStart('\\', '/');
+
+    }
 
     internal static bool EqualsName(string a, string b, bool isCaseSensitive)
     {

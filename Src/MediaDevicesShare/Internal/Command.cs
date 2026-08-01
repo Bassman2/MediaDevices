@@ -133,11 +133,11 @@ internal class Command
 
         //ComTrace.WriteObject(this.result!);
 
-        switch ((HResult)error)
+        switch ((ErrorCodes)error)
         {
-        case HResult.S_OK:
+        case ErrorCodes.OK:
             return true;
-        case HResult.E_NOT_IMPLEMENTED:
+        case ErrorCodes.NotImplemented:
             Debug.WriteLine("Command not implemented!");
             return false;
         default:

@@ -23,15 +23,15 @@ public class HannspreeHSG1351UnitTest : WritableUnitTest
         this.devicePowerSource = PowerSource.Battery;
 
         // Capability Test
-        this.supportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
-        this.supportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
-        this.supportedContents = new List<ContentType> { ContentType.Image };
+        this.deviceSupportedEvents = new List<Events> { Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated };
+        this.deviceSupportedCommands = new List<Commands> { Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects };
+        this.deviceSupportedContents = new List<ContentType> { ContentType.Image };
 
         // ContentLocation Test
-        this.contentLocations = new List<string> { "" };
+        this.deviceContentLocationsImages = new List<string> { "" };
 
 
-        this.workingFolder = @"\SD\DCIM\100CANON";
+        this.writeableWorkingFolder = @"\SD\DCIM\100CANON";
 
         // Exists Test
         //this.existingFile = @"\SD\DCIM\100CANON\IMG_2568.JPG";
@@ -50,29 +50,29 @@ public class HannspreeHSG1351UnitTest : WritableUnitTest
 
         //this.infoFileName = "IMG_0001.JPG";
         //this.infoFilePath = @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG";
-        //this.readonlyTestFileLength = 467430ul;
-        //this.readonlyTestFileCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
-        //this.readonlyTestFileLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
+        //this.readonlyFileLength = 467430ul;
+        //this.readonlyFileCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
+        //this.readonlyFileLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
 
         //this.infoFileParentName = "800AAAAA";
         //this.infoFileParentPath = @"\Internal Storage\DCIM\800AAAAA";
-        //this.readonlyTestFolderCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
-        //this.readonlyTestFolderLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
+        //this.readonlyFolderCreationTime = new DateTime(2000, 1, 27, 19, 47, 54);
+        //this.readonlyFolderLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
 
-        //this.readonlyTestEnumPath = @"\Internal Storage\DCIM\800AAAAA";
-        //this.readonlyTestEnumFolderSearchPattern = "*";
-        //this.readonlyTestEnumFileSearchPattern = "*_0002*";
-        //this.readonlyTestEnumItemSearchPattern = "*_0003*";
+        //this.readonlyEnumPath = @"\Internal Storage\DCIM\800AAAAA";
+        //this.readonlyEnumSearchPatternFolders = "*";
+        //this.readonlyEnumSearchPatternFiles = "*_0002*";
+        //this.readonlyEnumSearchPatternItems = "*_0003*";
 
-        //this.readonlyTestEnumFoldersAll = new List<string> { };
-        //this.readonlyTestEnumFoldersSearchPattern = new List<string> { };
+        //this.readonlyEnumFolders = new List<string> { };
+        //this.readonlyEnumFoldersSearchPattern = new List<string> { };
 
-        //this.readonlyTestEnumFilesAll = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
-        //this.readonlyTestEnumFilesSearchPattern = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
-        //this.readonlyTestEnumFilesSearchPatternRecursive = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
+        //this.readonlyEnumFiles = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
+        //this.readonlyEnumFilesSearchPattern = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
+        //this.readonlyEnumFilesSearchPatternRecursive = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
 
-        //this.readonlyTestEnumItemsAll = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
-        //this.readonlyTestEnumItemsSearchPattern = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
-        //this.readonlyTestEnumItemsSearchPatternRecursive = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
+        //this.readonlyEnumItems = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
+        //this.readonlyEnumItemsSearchPattern = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
+        //this.readonlyEnumItemsSearchPatternRecursive = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
     }
 }

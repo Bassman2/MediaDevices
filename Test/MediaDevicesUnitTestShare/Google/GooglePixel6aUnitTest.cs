@@ -22,24 +22,24 @@ public class GooglePixel6aUnitTest : WritableUnitTest
         //this.deviceProtocol = "MTP: 1.00";
 
         // Capability Test
-        //this.supportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
-        //this.supportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        //this.supportedContents = [ContentType.Image];
-        //this.functionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
+        //this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        //this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+        //this.deviceSupportedContents = [ContentType.Image];
+        //this.deviceFunctionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
 
         // ContentLocation Test
-        this.contentLocations = [];
+        this.deviceContentLocationsImages = [];
 
         // PersistentUniqueId
-        this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
-        this.FolderPersistentUniqueIdPath = @"\Phone\Music";
-        this.FilePersistentUniqueId = "{25606D91-C12C-CF74-93A6-34E88717AD11}"; // "{FDFF71F3-E0BD-D98E-0000-000000000000}";
-        this.FilePersistentUniqueIdPath = @"\Phone\Samsung\Music\Over_the_Horizon.mp3"; // @"\Phone\Videos\desktop.ini"; Directory = "\\Phone\\Samsung\\Music"
+        //this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
+        //this.FolderPersistentUniqueIdPath = @"\Phone\Music";
+        //this.FilePersistentUniqueId = "{25606D91-C12C-CF74-93A6-34E88717AD11}"; // "{FDFF71F3-E0BD-D98E-0000-000000000000}";
+        //this.FilePersistentUniqueIdPath = @"\Phone\Samsung\Music\Over_the_Horizon.mp3"; // @"\Phone\Videos\desktop.ini"; Directory = "\\Phone\\Samsung\\Music"
 
-        this.workingFolder = @"\Card\Test";
+        this.writeableWorkingFolder = @"\Card\Test";
 
         // DrivesTest
-        this.drives = ["Interner gemeinsamer Speicher"];
+        this.deviceDrives = ["Interner gemeinsamer Speicher"];
 
         // Exists Test
         //this.existingFile = @"\Phone\Music\Artist\05 - Decoupage.mp3";
@@ -56,29 +56,29 @@ public class GooglePixel6aUnitTest : WritableUnitTest
 
         //this.infoFileName = "Frank2.jpg";
         //this.infoFilePath = @"\SD card\Pictures\Frank2.jpg";
-        //this.readonlyTestFileLength = 232663ul;
-        //this.readonlyTestFileCreationTime = new DateTime(2015, 01, 30, 22, 47, 17);
-        //this.readonlyTestFileLastWriteTime = new DateTime(2015, 01, 30, 22, 47, 22);
+        //this.readonlyFileLength = 232663ul;
+        //this.readonlyFileCreationTime = new DateTime(2015, 01, 30, 22, 47, 17);
+        //this.readonlyFileLastWriteTime = new DateTime(2015, 01, 30, 22, 47, 22);
 
         //this.infoFileParentName = "Pictures";
         //this.infoFileParentPath = @"\SD card\Pictures";
-        //this.readonlyTestFolderCreationTime = new DateTime(2014, 03, 21, 19, 02, 04);
-        //this.readonlyTestFolderLastWriteTime = new DateTime(2017, 01, 07, 16, 54, 38);
+        //this.readonlyFolderCreationTime = new DateTime(2014, 03, 21, 19, 02, 04);
+        //this.readonlyFolderLastWriteTime = new DateTime(2017, 01, 07, 16, 54, 38);
 
-        //this.readonlyTestEnumPath = @"\Phone\Pictures";
-        //this.readonlyTestEnumFolderSearchPattern = "S*";
-        //this.readonlyTestEnumFileSearchPattern = "desk*";
-        //this.readonlyTestEnumItemSearchPattern = "*es*";
+        //this.readonlyEnumPath = @"\Phone\Pictures";
+        //this.readonlyEnumSearchPatternFolders = "S*";
+        //this.readonlyEnumSearchPatternFiles = "desk*";
+        //this.readonlyEnumSearchPatternItems = "*es*";
 
-        //this.readonlyTestEnumFoldersAll = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
-        //this.readonlyTestEnumFoldersSearchPattern = new List<string> { @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
+        //this.readonlyEnumFolders = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
+        //this.readonlyEnumFoldersSearchPattern = new List<string> { @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
 
-        //this.readonlyTestEnumFilesAll = new List<string> { @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyTestEnumFilesSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyTestEnumFilesSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
+        //this.readonlyEnumFiles = new List<string> { @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
+        //this.readonlyEnumFilesSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini" };
+        //this.readonlyEnumFilesSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
 
-        //this.readonlyTestEnumItemsAll = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyTestEnumItemsSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
-        //this.readonlyTestEnumItemsSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
+        //this.readonlyEnumItems = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
+        //this.readonlyEnumItemsSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
+        //this.readonlyEnumItemsSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
     }
 }

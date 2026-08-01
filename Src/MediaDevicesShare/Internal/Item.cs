@@ -259,6 +259,17 @@ internal class Item
 
         // get all predefined values
         int err = this.mediaDevice!.deviceProperties!.GetValues(this.Id, keyCollection, out IPortableDeviceValues values);
+        if (err == (int)ErrorCodes.InvalidParameter)
+        {
+            // some devices (e.g. Amazon Kindle Paperwhite) does not support GetValues with keyCollection
+            // so we need to call GetValues with null keyCollection to get all values
+            err = this.mediaDevice.deviceProperties!.GetValues(this.Id, null, out values);
+        }
+        if (err == (int)ErrorCodes.InvalidParameter)
+        {
+            throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading properties for item {this.Id}.");
+        }
+
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), this);
         
         // read all properties
@@ -267,7 +278,7 @@ internal class Item
         err = values.GetCount(ref num);
         if (err < 0)
         {
-            Trace.TraceError($"COM Error: {ErrorCodes.GetErrorMessage(err)}");
+            Trace.TraceError($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
             return;
         }
         for (uint i = 0; i < num; i++)
@@ -277,7 +288,7 @@ internal class Item
             err = values.GetAt(i, ref val.Key, ref val.Value);
             if (err < 0)
             {
-                Trace.TraceError($"COM Error: {ErrorCodes.GetErrorMessage(err)}");
+                Trace.TraceError($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
                 continue;
             }
             if (val.Key.fmtid == WPD.OBJECT_PROPERTIES_V1)
@@ -589,7 +600,7 @@ internal class Item
             // ++ TODO
             if (string.IsNullOrWhiteSpace(item.ParentId))
             {
-                item = TryHandleNonHierarchicalStorage() ?? throw new Exception($"Problem occurred when trying to get full object path on mediaDevice {this.mediaDevice.FriendlyName}.");
+                item = TryHandleNonHierarchicalStorage() ?? throw new Exception($"Problem occurred when trying to get full object path on mediaDevice {this.mediaDevice.Description}.");
             }
 
             // -- TODO
@@ -659,6 +670,10 @@ internal class Item
         uint optimalTransferSize = 0;
 
         int err = resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out var res); // IStream wpdStream);
+        if (err == (int)ErrorCodes.ResourceNotAvailable)
+        {
+            throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading thumbnails.");
+        }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
         IStream wpdStream = (IStream)res;
@@ -674,6 +689,10 @@ internal class Item
         uint optimalTransferSize = 0;
 
         int err = resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out var res);
+        if (err == (int)ErrorCodes.ResourceNotAvailable)
+        {
+            throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading icons.");
+        }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
         IStream wpdStream = (IStream)res;
