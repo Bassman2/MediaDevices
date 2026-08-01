@@ -3,6 +3,7 @@
 internal enum ErrorCodes : int
 {
     NotSupported            /**/ = unchecked((int)0x80070032),      // ERROR_NOT_SUPPORTED
+    InvalidParameter        /**/ = unchecked((int)0x80070057),      // ERROR_INVALID_PARAMETER + E_INVALIDARG
     ResourceNotAvailable    /**/ = unchecked((int)0x8007138e),      // ERROR_RESOURCE_NOT_AVAILABLE
 
     //unchecked((int)0x80070005)

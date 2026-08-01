@@ -259,6 +259,17 @@ internal class Item
 
         // get all predefined values
         int err = this.mediaDevice!.deviceProperties!.GetValues(this.Id, keyCollection, out IPortableDeviceValues values);
+        if (err == (int)ErrorCodes.InvalidParameter)
+        {
+            // some devices (e.g. Amazon Kindle Paperwhite) does not support GetValues with keyCollection
+            // so we need to call GetValues with null keyCollection to get all values
+            err = this.mediaDevice.deviceProperties!.GetValues(this.Id, null, out values);
+        }
+        if (err == (int)ErrorCodes.InvalidParameter)
+        {
+            throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading properties for item {this.Id}.");
+        }
+
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), this);
         
         // read all properties

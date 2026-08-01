@@ -248,16 +248,14 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
         device.Connect();
         device.CreateDirectory(newFolder1);
-        var exists1 = device.DirectoryExists(newFolder1);
+        var exists = device.DirectoryExists(newFolder1);
         device.Disconnect();
 
         device.Connect(MediaDeviceAccess.GenericRead);
-        device.CreateDirectory(newFolder2);
-        var exists2 = device.DirectoryExists(newFolder2);
+        Assert.ThrowsExactly<NotSupportedException>(() => device.CreateDirectory(newFolder2));
         device.Disconnect();
 
-        Assert.IsTrue(exists1, "exists1");
-        Assert.IsFalse(exists2, "exists2");
+        Assert.IsTrue(exists, nameof(exists));
     }
 
 
