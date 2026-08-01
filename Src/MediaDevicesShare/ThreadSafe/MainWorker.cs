@@ -91,9 +91,12 @@ internal partial class MainWorker : ThreadSafeWorker
             // find the app name for client name
             var appName = AppDomain.CurrentDomain.FriendlyName;
 
+            int err = ComHelper.CreateInstance<IPortableDevice>(ref CLSID.PortableDevice, out mediaDevice.device);
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice));
+
             // set open mediaDevice parameters
             // TODO
-            int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var clientInfo);
+            err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var clientInfo);
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
 
             //IPortableDeviceValues clientInfo = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
@@ -165,11 +168,11 @@ internal partial class MainWorker : ThreadSafeWorker
             }
             if (!string.IsNullOrEmpty(mediaDevice.eventCookie))
             {
-                err = mediaDevice.device.Unadvise(mediaDevice.eventCookie);
+                err = mediaDevice.device!.Unadvise(mediaDevice.eventCookie);
                 MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Unadvise));
                 mediaDevice.eventCookie = null;
             }
-            err = mediaDevice.device.Close();
+            err = mediaDevice.device!.Close();
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Close));
 
             mediaDevice.IsConnected = false;
@@ -182,7 +185,7 @@ internal partial class MainWorker : ThreadSafeWorker
 
         Invoke(() =>
         {
-            mediaDevice.device.Cancel();
+            mediaDevice.device!.Cancel();
         });
     }
 

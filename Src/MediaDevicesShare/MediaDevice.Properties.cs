@@ -42,7 +42,7 @@ partial class MediaDevice
         get
         {
             NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetPnPDeviceID(this.device);
+            return mainWorker.GetPnPDeviceID(this.device!);
         }
     }
 

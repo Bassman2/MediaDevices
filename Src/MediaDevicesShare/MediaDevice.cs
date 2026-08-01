@@ -19,7 +19,7 @@ public sealed partial class MediaDevice : IDisposable
 
     #region Fields
 
-    internal IPortableDevice device;
+    internal IPortableDevice? device;
     internal IPortableDeviceContent? deviceContent;
     internal IPortableDeviceProperties? deviceProperties;
     internal IPortableDeviceCapabilities? deviceCapabilities;
@@ -198,9 +198,6 @@ public sealed partial class MediaDevice : IDisposable
         this.description = MainWorker.GetDeviceDescription(deviceManager, deviceId) ?? string.Empty;
         this.friendlyName = MainWorker.GetDeviceFriendlyName(deviceManager, deviceId) ?? string.Empty;
         this.manufacturer = MainWorker.GetDeviceManufacturer(deviceManager, deviceId) ?? string.Empty;
-
-        int err = ComHelper.CreateInstance<IPortableDevice>(ref CLSID.PortableDevice, out this.device);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice));
     }
 
     public void Dispose()
