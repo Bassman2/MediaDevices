@@ -33,7 +33,7 @@ public class AmazonFire8UnitTest : WritableUnitTest
         //this.FilePersistentUniqueIdPath = @"\Interner Speicher\Android\data\com.amazon.ags.app\files\cardcache\version";
 
         // Writable Tests
-        this.workingFolder = @"\Interner Speicher\tmp";
+        this.writeableWorkingFolder = @"\Interner Speicher\tmp";
 
 
         // Exists Test

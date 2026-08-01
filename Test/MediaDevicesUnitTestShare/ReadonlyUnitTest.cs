@@ -233,7 +233,7 @@ public abstract class ReadonlyUnitTest : UnitTest
     //    device.Connect();
 
     //    string sourceFolder = Path.Combine(testDataFolder, "UploadTree");
-    //    string destFolder = Path.Combine(this.workingFolder!, "UploadTree");
+    //    string destFolder = Path.Combine(this.writeableWorkingFolder!, "UploadTree");
 
     //    var exists1 = device.DirectoryExists(destFolder);
     //    if (exists1)

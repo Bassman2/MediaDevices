@@ -4,7 +4,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 {
     protected readonly string testDataFolder = Path.GetFullPath(@".\..\..\..\..\TestData");
 
-    protected string? workingFolder;
+    protected string writeableWorkingFolder = string.Empty;
     protected List<string> treeList =
     [
         "\\UploadTree\\Aaa",
@@ -28,9 +28,19 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
     ];
     protected List<string>? treeListFull;
 
+    private string GetTempFile(string extention = "")
+    {
+        return Path.Combine(writeableWorkingFolder, Path.ChangeExtension(Path.GetFileName(Path.GetTempFileName()), extention));
+    }
+
+    private string GetTempFolder()
+    {
+        return Path.Combine(writeableWorkingFolder, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
+    }   
+
     protected void UploadTestTree(MediaDevice device)
     {
-        this.treeListFull = [.. treeList.Select(p => workingFolder + p)];
+        this.treeListFull = [.. treeList.Select(p => writeableWorkingFolder + p)];
 
         string sourceFolder = Path.Combine(testDataFolder, "UploadTree");
 
@@ -43,7 +53,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var l = Directory.EnumerateFileSystemEntries(sourceFolder, "*", SearchOption.AllDirectories).OrderBy(s => s).ToList();
         var x = Directory.GetFileSystemEntries(sourceFolder, "*", SearchOption.AllDirectories).OrderBy(s => s).ToList();
 
-        string destFolder = Path.Combine(this.workingFolder!, "UploadTree");
+        string destFolder = Path.Combine(this.writeableWorkingFolder!, "UploadTree");
         
         var exists = device.DirectoryExists(destFolder);
         if (exists)
@@ -63,8 +73,8 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var device = GetDevice();
         device.Connect();
         
-        string newFolder = Path.Combine(this.workingFolder!, "Test");
-        var exists1 = device.DirectoryExists(this.workingFolder!);
+        string newFolder = Path.Combine(this.writeableWorkingFolder!, "Test");
+        var exists1 = device.DirectoryExists(this.writeableWorkingFolder!);
         device.CreateDirectory(newFolder);
         var exists2 = device.DirectoryExists(newFolder);
         device.DeleteDirectory(newFolder, true);
@@ -84,7 +94,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var device = GetDevice();
         device.Connect();
 
-        string filePath = Path.Combine(this.workingFolder!, "Test.txt");
+        string filePath = Path.Combine(this.writeableWorkingFolder!, "Test.txt");
         if (device.FileExists(filePath))
         {
             device.DeleteFile(filePath);
@@ -113,7 +123,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         device.Connect();
 
         string sourceFile = Path.Combine(testDataFolder, "TestFile.txt");
-        string destFile = Path.Combine(this.workingFolder!, "TestFile.txt");
+        string destFile = Path.Combine(this.writeableWorkingFolder!, "TestFile.txt");
 
         var exists1 = device.FileExists(destFile);
         if (exists1)
@@ -142,8 +152,8 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
         UploadTestTree(device);
         
-        string destFolder = Path.Combine(this.workingFolder!, "UploadTree");
-        int _ = this.workingFolder!.Length;                      
+        string destFolder = Path.Combine(this.writeableWorkingFolder!, "UploadTree");
+        int _ = this.writeableWorkingFolder!.Length;                      
         
         var list = device.EnumerateFileSystemEntries(destFolder, null, SearchOption.AllDirectories).ToList();
         
@@ -162,9 +172,9 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var device = GetDevice();
         device.Connect();
 
-        string filePath = Path.Combine(this.workingFolder!, "RenameTest.txt");
+        string filePath = Path.Combine(this.writeableWorkingFolder!, "RenameTest.txt");
         string newName = "NewName.txt";
-        string newPath = Path.Combine(this.workingFolder!, newName);
+        string newPath = Path.Combine(this.writeableWorkingFolder!, newName);
 
 
         if (device.FileExists(filePath))
@@ -203,9 +213,9 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var device = GetDevice();
         device.Connect();
 
-        string filePath = Path.Combine(this.workingFolder!, "RenameFolder");
+        string filePath = Path.Combine(this.writeableWorkingFolder!, "RenameFolder");
         string newName = "NewFolder";
-        string newPath = Path.Combine(this.workingFolder!, newName);
+        string newPath = Path.Combine(this.writeableWorkingFolder!, newName);
 
 
         if (device.DirectoryExists(filePath))
@@ -241,8 +251,8 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
     [Description("Creating a new folder.")]
     public void WritableConnectGenericReadTest()
     {
-        string newFolder1 = Path.Combine(this.workingFolder!, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
-        string newFolder2 = Path.Combine(this.workingFolder!, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
+        string newFolder1 = Path.Combine(this.writeableWorkingFolder!, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
+        string newFolder2 = Path.Combine(this.writeableWorkingFolder!, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
 
         var device = GetDevice();
 
@@ -261,7 +271,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
     [TestMethod]
     [Description("Test event handling.")]
-    public void WritableEventTest()
+    public void WritableEventFileTest()
     {
         //if (!this.supEvent) return;
 
@@ -271,7 +281,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         mediaDevice.ObjectRemoved += (s, a) => fired.Set();
         mediaDevice.Connect();
 
-        string filePath = Path.Combine(this.workingFolder!, "Test.txt");
+        string filePath = Path.Combine(this.writeableWorkingFolder!, "Test.txt");
         if (mediaDevice.FileExists(filePath))
         {
             mediaDevice.DeleteFile(filePath);
@@ -284,10 +294,38 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
         mediaDevice.DeleteFile(filePath);
 
-        bool isFired = fired.WaitOne(new TimeSpan(0, 2, 0));
+        bool isFired = fired.WaitOne(new TimeSpan(0, 0, 10));
         mediaDevice.Disconnect();
 
         Assert.IsTrue(isFired);
+    }
+
+    [TestMethod]
+    [Description("Test event handling.")]
+    public void WritableEventFolderTest()
+    {
+
+        string folder = GetTempFolder();
+
+        AutoResetEvent addEvent = new(false);
+        AutoResetEvent delEvent = new(false);
+
+        var mediaDevice = GetDevice();
+        mediaDevice.Connect(); 
+                
+        mediaDevice.ObjectAdded += (s, a) => addEvent.Set();
+        mediaDevice.ObjectRemoved += (s, a) => delEvent.Set();
+
+        mediaDevice.CreateDirectory(folder);
+        mediaDevice.DeleteDirectory(folder);
+
+        bool isAddFired = addEvent.WaitOne(new TimeSpan(0, 0, 10));
+        bool isDelFired = delEvent.WaitOne(new TimeSpan(0, 0, 10));
+
+        mediaDevice.Disconnect();
+
+        Assert.IsTrue(isAddFired);
+        Assert.IsTrue(isDelFired);
     }
 
 
@@ -295,7 +333,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
     [Description("Upload a unix file name to the target.")]
     public void WritableUploadUnixFileNameTest()
     {
-        string workingUnixFolder = Path.Combine(this.workingFolder!, "UnixTest");
+        string workingUnixFolder = Path.Combine(this.writeableWorkingFolder!, "UnixTest");
 
         var device = GetDevice();
         device.Connect();

@@ -37,7 +37,7 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         this.deviceDrives = ["Speichergerät"];
 
         // Writable Tests
-        this.workingFolder = @"\Interner Speicher\tmp";
+        this.writeableWorkingFolder = @"\Interner Speicher\tmp";
 
 
         // Exists Test

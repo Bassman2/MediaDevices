@@ -26,7 +26,7 @@ public class MicrosoftVolumeUnitTest : WritableUnitTest
         this.deviceContentLocationsImages = [ @"\SD card\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" ];
 
 
-        this.workingFolder = @"\Phone\Documents";
+        this.writeableWorkingFolder = @"\Phone\Documents";
 
         // Exists Test
         //this.existingFile = @"\Phone\Music\Artist\OMD";

@@ -39,7 +39,7 @@ public class AmazonKindlePaperwhiteUnitTest : WritableUnitTest
         //this.FilePersistentUniqueIdPath = $@"\{deviceLetter}:\system\version.txt";
 
         // Writable Tests
-        this.workingFolder = "";// $@"\{deviceLetter}:\documents";
+        this.writeableWorkingFolder = "";// $@"\{deviceLetter}:\documents";
 
 
         // Exists Test

@@ -33,7 +33,7 @@ public class KingstonFCRHS219UnitTest : WritableUnitTest
         //this.FilePersistentUniqueIdPath = @"\K:\Test\desctop.ini";
 
         // Writable Tests
-        this.workingFolder = @"\K:\Test";
+        this.writeableWorkingFolder = @"\K:\Test";
 
 
         // Exists Test

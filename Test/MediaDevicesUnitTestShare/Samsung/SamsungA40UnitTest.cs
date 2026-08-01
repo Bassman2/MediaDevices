@@ -176,9 +176,8 @@ public class SamsungA40UnitTest : WritableUnitTest
 
         #region Writeable Tests
 
-        workingFolder = @"\Card\Test";
-
-        
+        writeableWorkingFolder = @"\Card\Test";
+               
 
         #endregion
 

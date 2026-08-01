@@ -44,7 +44,7 @@ internal sealed partial class PropVariantFacade : IDisposable
         if (this.Value.vt == PropVariantType.VT_ERROR)
         {
             int error = ToError();
-            string name = Enum.GetName(typeof(HResult), error) ?? error.ToString("X");
+            string name = Enum.GetName(typeof(ErrorCodes), error) ?? error.ToString("X");
             return $"Error: {name}";
         }
         return ToString();

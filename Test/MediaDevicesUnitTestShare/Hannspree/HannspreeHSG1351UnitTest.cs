@@ -31,7 +31,7 @@ public class HannspreeHSG1351UnitTest : WritableUnitTest
         this.deviceContentLocationsImages = new List<string> { "" };
 
 
-        this.workingFolder = @"\SD\DCIM\100CANON";
+        this.writeableWorkingFolder = @"\SD\DCIM\100CANON";
 
         // Exists Test
         //this.existingFile = @"\SD\DCIM\100CANON\IMG_2568.JPG";

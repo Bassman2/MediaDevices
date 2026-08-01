@@ -36,7 +36,7 @@ public class MicrosoftLumia650UnitTest : WritableUnitTest
         //this.FilePersistentUniqueId = "{FDFF71F3-E0BD-D98E-0000-000000000000}";
         //this.FilePersistentUniqueIdPath = @"\Phone\Videos\desktop.ini";
 
-        this.workingFolder = @"\Phone\Documents";
+        this.writeableWorkingFolder = @"\Phone\Documents";
 
         // Exists Test
         //this.existingFile = @"\Phone\Music\Artist\05 - Decoupage.mp3";

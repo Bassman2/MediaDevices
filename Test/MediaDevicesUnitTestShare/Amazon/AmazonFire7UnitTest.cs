@@ -34,7 +34,7 @@ public class AmazonFire7UnitTest : WritableUnitTest
         //this.FilePersistentUniqueIdPath = @"\Interner Speicher\Download\.DS_Store";
 
         // Writable Tests
-        this.workingFolder = @"\Interner Speicher\tmp";
+        this.writeableWorkingFolder = @"\Interner Speicher\tmp";
 
 
         // Exists Test

@@ -26,7 +26,7 @@ public class MicrosoftLumia950UnitTest : WritableUnitTest
         // ContentLocation Test
         this.deviceContentLocationsImages = [@"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures"];
 
-        this.workingFolder = @"\Phone\Documents";
+        this.writeableWorkingFolder = @"\Phone\Documents";
 
         // Exists Test
         //this.existingFile = @"\Phone\Music\Artist\05 - Decoupage.mp3";

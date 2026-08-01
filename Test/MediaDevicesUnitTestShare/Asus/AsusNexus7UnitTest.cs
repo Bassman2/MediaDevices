@@ -26,7 +26,7 @@ public class Nexus7UnitTest : WritableUnitTest
         this.deviceContentLocationsImages = [@"\SD card\Pictures", @"\Phone\Pictures", @"\SD card\Pictures"];
 
 
-        this.workingFolder = @"\Internal storage\Download";
+        this.writeableWorkingFolder = @"\Internal storage\Download";
 
         // Exists Test
         //this.existingFile = @"\Internal storage\Ringtones\hangouts_message.ogg";
