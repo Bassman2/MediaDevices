@@ -54,18 +54,18 @@ public class CanonPowerShotSX30UnitTest : ReadonlyUnitTest
         this.readonlyFolderLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
 
         this.readonlyEnumPath = @"\Internal Storage\DCIM\800AAAAA";
-        this.readonlyEnumFolderSearchPattern = "*";
-        this.readonlyEnumFileSearchPattern = "*_0002*";
-        this.readonlyEnumItemSearchPattern = "*_0003*";
+        this.readonlyEnumSearchPatternFolders = "*";
+        this.readonlyEnumSearchPatternFiles = "*_0002*";
+        this.readonlyEnumSearchPatternItems = "*_0003*";
 
-        this.readonlyEnumFoldersAll = [];
+        this.readonlyEnumFolders = [];
         this.readonlyEnumFoldersSearchPattern = [];
 
-        this.readonlyEnumFilesAll = [@"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
+        this.readonlyEnumFiles = [@"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
         this.readonlyEnumFilesSearchPattern = [@"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG"];
         this.readonlyEnumFilesSearchPatternRecursive = [@"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG"];
 
-        this.readonlyEnumItemsAll = [@"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
+        this.readonlyEnumItems = [@"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
         this.readonlyEnumItemsSearchPattern = [@"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
         this.readonlyEnumItemsSearchPatternRecursive = [@"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG"];
     }

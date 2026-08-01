@@ -55,18 +55,18 @@ public class Nexus7UnitTest : WritableUnitTest
         //this.readonlyFolderLastWriteTime = new DateTime(2015, 10, 06, 13, 41, 07);
 
         //this.readonlyEnumPath = @"\Internal storage\Download\UnitTest";
-        //this.readonlyEnumFolderSearchPattern = "x_*";
-        //this.readonlyEnumFileSearchPattern = "p_*";
-        //this.readonlyEnumItemSearchPattern = "x_*";
+        //this.readonlyEnumSearchPatternFolders = "x_*";
+        //this.readonlyEnumSearchPatternFiles = "p_*";
+        //this.readonlyEnumSearchPatternItems = "x_*";
 
-        //this.readonlyEnumFoldersAll = new List<string> { @"\Internal storage\Download\UnitTest\Sub", @"\Internal storage\Download\UnitTest\x_sub" };
+        //this.readonlyEnumFolders = new List<string> { @"\Internal storage\Download\UnitTest\Sub", @"\Internal storage\Download\UnitTest\x_sub" };
         //this.readonlyEnumFoldersSearchPattern = new List<string> { @"\Internal storage\Download\UnitTest\x_sub" };
 
-        //this.readonlyEnumFilesAll = new List<string> { @"\Internal storage\Download\UnitTest\p_03g.jpg", @"\Internal storage\Download\UnitTest\p-06g.jpg", @"\Internal storage\Download\UnitTest\x_12g.jpg", @"\Internal storage\Download\UnitTest\x_avatar.png" };
+        //this.readonlyEnumFiles = new List<string> { @"\Internal storage\Download\UnitTest\p_03g.jpg", @"\Internal storage\Download\UnitTest\p-06g.jpg", @"\Internal storage\Download\UnitTest\x_12g.jpg", @"\Internal storage\Download\UnitTest\x_avatar.png" };
         //this.readonlyEnumFilesSearchPattern = new List<string> { @"\Internal storage\Download\UnitTest\p_03g.jpg" };
         //this.readonlyEnumFilesSearchPatternRecursive = new List<string> { @"\Internal storage\Download\UnitTest\p_03g.jpg", @"\Internal storage\Download\UnitTest\Sub\p_Android_x.jpg" };
 
-        //this.readonlyEnumItemsAll = new List<string> { @"\Internal storage\Download\UnitTest\Sub", @"\Internal storage\Download\UnitTest\x_sub", @"\Internal storage\Download\UnitTest\p_03g.jpg", @"\Internal storage\Download\UnitTest\p-06g.jpg", @"\Internal storage\Download\UnitTest\x_12g.jpg", @"\Internal storage\Download\UnitTest\x_avatar.png" };
+        //this.readonlyEnumItems = new List<string> { @"\Internal storage\Download\UnitTest\Sub", @"\Internal storage\Download\UnitTest\x_sub", @"\Internal storage\Download\UnitTest\p_03g.jpg", @"\Internal storage\Download\UnitTest\p-06g.jpg", @"\Internal storage\Download\UnitTest\x_12g.jpg", @"\Internal storage\Download\UnitTest\x_avatar.png" };
         //this.readonlyEnumItemsSearchPattern = new List<string> { @"\Internal storage\Download\UnitTest\x_12g.jpg", @"\Internal storage\Download\UnitTest\x_sub", @"\Internal storage\Download\UnitTest\x_avatar.png" };
         //this.readonlyEnumItemsSearchPatternRecursive = new List<string> { @"\Internal storage\Download\UnitTest\x_12g.jpg", @"\Internal storage\Download\UnitTest\x_sub", @"\Internal storage\Download\UnitTest\x_sub\x_5890017.png", @"\Internal storage\Download\UnitTest\x_avatar.png" };
     }

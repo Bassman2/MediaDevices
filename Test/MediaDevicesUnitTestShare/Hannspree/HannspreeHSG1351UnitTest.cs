@@ -60,18 +60,18 @@ public class HannspreeHSG1351UnitTest : WritableUnitTest
         //this.readonlyFolderLastWriteTime = new DateTime(2000, 1, 27, 19, 47, 54);
 
         //this.readonlyEnumPath = @"\Internal Storage\DCIM\800AAAAA";
-        //this.readonlyEnumFolderSearchPattern = "*";
-        //this.readonlyEnumFileSearchPattern = "*_0002*";
-        //this.readonlyEnumItemSearchPattern = "*_0003*";
+        //this.readonlyEnumSearchPatternFolders = "*";
+        //this.readonlyEnumSearchPatternFiles = "*_0002*";
+        //this.readonlyEnumSearchPatternItems = "*_0003*";
 
-        //this.readonlyEnumFoldersAll = new List<string> { };
+        //this.readonlyEnumFolders = new List<string> { };
         //this.readonlyEnumFoldersSearchPattern = new List<string> { };
 
-        //this.readonlyEnumFilesAll = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
+        //this.readonlyEnumFiles = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
         //this.readonlyEnumFilesSearchPattern = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
         //this.readonlyEnumFilesSearchPatternRecursive = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG" };
 
-        //this.readonlyEnumItemsAll = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
+        //this.readonlyEnumItems = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0001.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0002.JPG", @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
         //this.readonlyEnumItemsSearchPattern = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
         //this.readonlyEnumItemsSearchPatternRecursive = new List<string> { @"\Internal Storage\DCIM\800AAAAA\IMG_0003.JPG" };
     }

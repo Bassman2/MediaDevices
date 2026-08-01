@@ -10,7 +10,7 @@ public class SamsungA40UnitTest : WritableUnitTest
         this.deviceSelect = device => device.Description == this.deviceDescription;
 
         // Ignore tests
-        this.ignoreTests = Ignore.DownloadIcon;
+        //this.ignoreTests = Ignore.DownloadIcon;
 
         #region Device Tests
 
@@ -56,12 +56,12 @@ public class SamsungA40UnitTest : WritableUnitTest
         
         // Enum
         this.readonlyEnumPath = @"Phone\Pictures\My_EnumTest";
-        this.readonlyEnumFolderSearchPattern = "S*";
-        this.readonlyEnumFileSearchPattern = "desc*";
-        this.readonlyEnumItemSearchPattern = "*es*";
+        this.readonlyEnumSearchPatternFolders = "S*";
+        this.readonlyEnumSearchPatternFiles = "desc*";
+        this.readonlyEnumSearchPatternItems = "*es*";
 
         // ReadonlyDirectoryInfoEnumDirectoriesTest
-        this.readonlyEnumFoldersAll = [
+        this.readonlyEnumFolders = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001", 
             "\\Phone\\Pictures\\My_EnumTest\\A0001",
@@ -69,7 +69,7 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\_S1002",
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0",
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        this.readonlyEnumFoldersAllRecursive = [
+        this.readonlyEnumFoldersRecursive = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001", 
             "\\Phone\\Pictures\\My_EnumTest\\A0001", 
@@ -93,12 +93,12 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
 
         // ReadonlyDirectoryInfoEnumFilesTest
-        this.readonlyEnumFilesAll = [
+        this.readonlyEnumFiles = [
             "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt",
             "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt",
             "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt",
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt"];
-        this.readonlyEnumFilesAllRecursive = [
+        this.readonlyEnumFilesRecursive = [
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0003.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\_desc_0004.txt",
@@ -139,7 +139,7 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt"];
 
         // ReadonlyDirectoryInfoEnumItemsTest
-        this.readonlyEnumItemsAll = [
+        this.readonlyEnumItems = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000",
             "\\Phone\\Pictures\\My_EnumTest\\S1001", 
             "\\Phone\\Pictures\\My_EnumTest\\A0001", 
@@ -151,7 +151,7 @@ public class SamsungA40UnitTest : WritableUnitTest
             "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
             "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        this.readonlyEnumItemsAllRecursive = [
+        this.readonlyEnumItemsRecursive = [
             "\\Phone\\Pictures\\My_EnumTest\\S1000", 
             "\\Phone\\Pictures\\My_EnumTest\\S1001",
             "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt",

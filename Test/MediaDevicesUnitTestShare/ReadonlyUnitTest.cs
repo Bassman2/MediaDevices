@@ -24,31 +24,35 @@ public abstract class ReadonlyUnitTest : UnitTest
     protected MediaFileAttributes? readonlyFolderAttributes = MediaFileAttributes.Directory;
 
     protected string? readonlyFolderParentPath;
+    protected bool readonlyFolderParentTimes = true;
     protected DateTime? readonlyFolderParentCreationTime;
     protected DateTime? readonlyFolderParentLastWriteTime;
     protected DateTime? readonlyFolderParentAuthoredTime = DateTime.MinValue;
     protected MediaFileAttributes? readonlyFolderParentAttributes = MediaFileAttributes.Directory;
 
     // Enumerable & List tests
-    protected string? readonlyEnumPath;
-    protected string? readonlyEnumFolderSearchPattern;
-    protected string? readonlyEnumFileSearchPattern;
-    protected string? readonlyEnumItemSearchPattern;
+    protected bool readonlyFileDownloadIcon = false;
+    protected bool readonlyFileDownloadThumbnail = false;
 
-    protected List<string>? readonlyEnumFoldersAll;
-    protected List<string>? readonlyEnumFoldersAllRecursive;
-    protected List<string>? readonlyEnumFoldersSearchPattern;
-    protected List<string>? readonlyEnumFoldersSearchPatternRecursive;
+    protected string readonlyEnumPath = "";
+    protected string readonlyEnumSearchPatternFiles = "";
+    protected string readonlyEnumSearchPatternFolders = "";
+    protected string readonlyEnumSearchPatternItems = "";
 
-    protected List<string>? readonlyEnumFilesAll;
-    protected List<string>? readonlyEnumFilesAllRecursive;
-    protected List<string>? readonlyEnumFilesSearchPattern;
-    protected List<string>? readonlyEnumFilesSearchPatternRecursive;
+    protected List<string> readonlyEnumFiles = [];
+    protected List<string> readonlyEnumFilesRecursive = [];
+    protected List<string> readonlyEnumFilesSearchPattern = [];
+    protected List<string> readonlyEnumFilesSearchPatternRecursive = [];
 
-    protected List<string>? readonlyEnumItemsAll;
-    protected List<string>? readonlyEnumItemsAllRecursive;
-    protected List<string>? readonlyEnumItemsSearchPattern;
-    protected List<string>? readonlyEnumItemsSearchPatternRecursive;
+    protected List<string> readonlyEnumFolders = [];
+    protected List<string> readonlyEnumFoldersRecursive = [];
+    protected List<string> readonlyEnumFoldersSearchPattern = [];
+    protected List<string> readonlyEnumFoldersSearchPatternRecursive = [];   
+
+    protected List<string> readonlyEnumItems = [];
+    protected List<string> readonlyEnumItemsRecursive = [];
+    protected List<string> readonlyEnumItemsSearchPattern = [];
+    protected List<string> readonlyEnumItemsSearchPatternRecursive = [];
 
     [TestMethod]
     [Description("Readonly Root test.")]
@@ -165,24 +169,27 @@ public abstract class ReadonlyUnitTest : UnitTest
     [Description("Download a icon from the target.")]
     public void ReadonlyMediaDeviceDownloadIconTest()
     {
-        CheckIgnoreTest(Ignore.DownloadIcon);
-
         string tempFile = Path.ChangeExtension(Path.GetTempFileName(), Path.GetExtension(this.readonlyFilePath!));
         
 
         var device = GetDevice();
         device.Connect();
 
-        var exists1 = device.FileExists(readonlyFilePath!);
+        var exists = device.FileExists(readonlyFilePath!);
+        Assert.IsTrue(exists, "exists");
 
-        device.DownloadIcon(readonlyFilePath!, tempFile);
-
+        if (readonlyFileDownloadIcon)
+        {
+            device.DownloadIcon(readonlyFilePath!, tempFile);
+            Assert.IsTrue(File.Exists(tempFile), "Exists");
+            Assert.IsGreaterThan(100, new FileInfo(tempFile).Length, "Length");
+        }
+        else
+        {
+            Assert.ThrowsExactly<FileNotFoundException>(() =>
+                device.DownloadIcon(readonlyFilePath!, tempFile));
+        }
         device.Disconnect();
-
-        Assert.IsTrue(exists1);
-        Assert.IsTrue(File.Exists(tempFile), "Exists");
-        Assert.IsGreaterThan(100, new FileInfo(tempFile).Length, "Length");
-
     }
 
     [TestMethod]
@@ -194,16 +201,21 @@ public abstract class ReadonlyUnitTest : UnitTest
         var device = GetDevice();
         device.Connect();
 
-        var exists1 = device.FileExists(readonlyFilePath!);
+        var exists = device.FileExists(readonlyFilePath!);
+        Assert.IsTrue(exists, "exists");
 
-        device.DownloadThumbnail(readonlyFilePath!, tempFile);
-
+        if (readonlyFileDownloadThumbnail)
+        {
+            device.DownloadThumbnail(readonlyFilePath!, tempFile);
+            Assert.IsTrue(File.Exists(tempFile), "Exists");
+            Assert.IsGreaterThan(100, new FileInfo(tempFile).Length, "Length");
+        }
+        else
+        {
+            Assert.ThrowsExactly<FileNotFoundException>(() =>
+                device.DownloadThumbnail(readonlyFilePath!, tempFile)); 
+        }   
         device.Disconnect();
-
-        Assert.IsTrue(exists1);
-        Assert.IsTrue(File.Exists(tempFile), "Exists");
-        Assert.IsGreaterThan(100, new FileInfo(tempFile).Length, "Length");
-
     }
 
     //[TestMethod]
@@ -286,9 +298,12 @@ public abstract class ReadonlyUnitTest : UnitTest
         Assert.AreEqual(Path.GetFileName(readonlyFolderParentPath), folderParent.Name, "Folder Parent Name");
         Assert.AreEqual(readonlyFolderParentPath, folderParent.FullName, "Folder Parent FullName");
         Assert.AreEqual(0ul, folderParent.Length, "Folder Parent Length");
-        Assert.AreEqual(readonlyFolderParentCreationTime, folderParent.CreationTime, "Folder Parent CreationTime");
-        Assert.AreEqual(readonlyFolderParentLastWriteTime, folderParent.LastWriteTime, "Folder Parent LastWriteTime");
-        Assert.AreEqual(readonlyFolderParentAuthoredTime, folderParent.DateAuthored, "Folder Parent DateAuthored");
+        if (readonlyFolderParentTimes)
+        {
+            Assert.AreEqual(readonlyFolderParentCreationTime, folderParent.CreationTime, "Folder Parent CreationTime");
+            Assert.AreEqual(readonlyFolderParentLastWriteTime, folderParent.LastWriteTime, "Folder Parent LastWriteTime");
+            Assert.AreEqual(readonlyFolderParentAuthoredTime, folderParent.DateAuthored, "Folder Parent DateAuthored");
+        }
         Assert.AreEqual(readonlyFolderParentAttributes, folderParent.Attributes, "Folder Parent Attributes");
 
         device.Disconnect();
@@ -307,13 +322,13 @@ public abstract class ReadonlyUnitTest : UnitTest
 
         var enum1 = device.EnumerateFiles(this.readonlyEnumPath!).ToList();
         var enum2 = device.EnumerateFiles(this.readonlyEnumPath!, "", SearchOption.AllDirectories).ToList();
-        var enum3 = device.EnumerateFiles(this.readonlyEnumPath!, this.readonlyEnumFileSearchPattern!).ToList();
-        var enum4 = device.EnumerateFiles(this.readonlyEnumPath!, this.readonlyEnumFileSearchPattern!, SearchOption.AllDirectories).ToList();
+        var enum3 = device.EnumerateFiles(this.readonlyEnumPath!, this.readonlyEnumSearchPatternFiles!).ToList();
+        var enum4 = device.EnumerateFiles(this.readonlyEnumPath!, this.readonlyEnumSearchPatternFiles!, SearchOption.AllDirectories).ToList();
 
         device.Disconnect();
 
-        Assert.AreSequenceEqual(this.readonlyEnumFilesAll, enum1, SequenceOrder.InAnyOrder, "EnumFilesAll");
-        Assert.AreSequenceEqual(this.readonlyEnumFilesAllRecursive, enum2, SequenceOrder.InAnyOrder, "EnumFilesAllRecursive");
+        Assert.AreSequenceEqual(this.readonlyEnumFiles, enum1, SequenceOrder.InAnyOrder, "EnumFilesAll");
+        Assert.AreSequenceEqual(this.readonlyEnumFilesRecursive, enum2, SequenceOrder.InAnyOrder, "EnumFilesAllRecursive");
         Assert.AreSequenceEqual(this.readonlyEnumFilesSearchPattern, enum3, SequenceOrder.InAnyOrder, "EnumFilesSearchPattern");
         Assert.AreSequenceEqual(this.readonlyEnumFilesSearchPatternRecursive, enum4, SequenceOrder.InAnyOrder, "EnumFilesSearchPatternRecursive");
     }
@@ -329,13 +344,13 @@ public abstract class ReadonlyUnitTest : UnitTest
 
         var enum1 = dir.EnumerateFiles().Select(e => e.FullName).ToList();
         var enum2 = dir.EnumerateFiles("", SearchOption.AllDirectories).Select(e => e.FullName).ToList();
-        var enum3 = dir.EnumerateFiles(this.readonlyEnumFileSearchPattern!).Select(e => e.FullName).ToList();
-        var enum4 = dir.EnumerateFiles(this.readonlyEnumFileSearchPattern!, SearchOption.AllDirectories).Select(e => e.FullName).ToList();
+        var enum3 = dir.EnumerateFiles(this.readonlyEnumSearchPatternFiles!).Select(e => e.FullName).ToList();
+        var enum4 = dir.EnumerateFiles(this.readonlyEnumSearchPatternFiles!, SearchOption.AllDirectories).Select(e => e.FullName).ToList();
 
         device.Disconnect();
 
-        Assert.AreSequenceEqual(this.readonlyEnumFilesAll, enum1, SequenceOrder.InAnyOrder, "readonlyEnumFilesAll");
-        Assert.AreSequenceEqual(this.readonlyEnumFilesAllRecursive, enum2, SequenceOrder.InAnyOrder, "readonlyEnumFilesAllRecursive");
+        Assert.AreSequenceEqual(this.readonlyEnumFiles, enum1, SequenceOrder.InAnyOrder, "readonlyEnumFiles");
+        Assert.AreSequenceEqual(this.readonlyEnumFilesRecursive, enum2, SequenceOrder.InAnyOrder, "readonlyEnumFilesRecursive");
         Assert.AreSequenceEqual(this.readonlyEnumFilesSearchPattern, enum3, SequenceOrder.InAnyOrder, "readonlyEnumFilesSearchPattern");
         Assert.AreSequenceEqual(this.readonlyEnumFilesSearchPatternRecursive, enum4, SequenceOrder.InAnyOrder, "readonlyEnumFilesSearchPatternRecursive");
     }
@@ -351,17 +366,17 @@ public abstract class ReadonlyUnitTest : UnitTest
         var device = GetDevice();
         device.Connect();
 
-        var enum1 = device.EnumerateDirectories(this.readonlyEnumPath!).ToList();
-        var enum2 = device.EnumerateDirectories(this.readonlyEnumPath!, "", SearchOption.AllDirectories).ToList();
-        var enum3 = device.EnumerateDirectories(this.readonlyEnumPath!, this.readonlyEnumFolderSearchPattern!).ToList();
-        var enum4 = device.EnumerateDirectories(this.readonlyEnumPath!, this.readonlyEnumFolderSearchPattern!, SearchOption.AllDirectories).ToList();
+        var enum1 = device.EnumerateDirectories(readonlyEnumPath).ToList();
+        var enum2 = device.EnumerateDirectories(readonlyEnumPath, "", SearchOption.AllDirectories).ToList();
+        var enum3 = device.EnumerateDirectories(readonlyEnumPath, this.readonlyEnumSearchPatternFolders!).ToList();
+        var enum4 = device.EnumerateDirectories(readonlyEnumPath, this.readonlyEnumSearchPatternFolders!, SearchOption.AllDirectories).ToList();
 
         device.Disconnect();
 
-        Assert.AreSequenceEqual(this.readonlyEnumFoldersAll, enum1, SequenceOrder.InAnyOrder, "EnumFoldersAll");
-        Assert.AreSequenceEqual(this.readonlyEnumFoldersAllRecursive, enum2, SequenceOrder.InAnyOrder, "EnumFoldersAllRecursive");
-        Assert.AreSequenceEqual(this.readonlyEnumFoldersSearchPattern, enum3, SequenceOrder.InAnyOrder, "EnumFoldersSearchPattern");
-        Assert.AreSequenceEqual(this.readonlyEnumFoldersSearchPatternRecursive, enum4, SequenceOrder.InAnyOrder, "EnumFoldersSearchPatternRecursive");
+        Assert.AreSequenceEqual(readonlyEnumFolders, enum1, SequenceOrder.InAnyOrder, nameof(readonlyEnumFolders));
+        Assert.AreSequenceEqual(readonlyEnumFoldersRecursive, enum2, SequenceOrder.InAnyOrder, nameof(readonlyEnumFoldersRecursive));
+        Assert.AreSequenceEqual(readonlyEnumFoldersSearchPattern, enum3, SequenceOrder.InAnyOrder, nameof(readonlyEnumFoldersSearchPattern));
+        Assert.AreSequenceEqual(readonlyEnumFoldersSearchPatternRecursive, enum4, SequenceOrder.InAnyOrder, nameof(readonlyEnumFoldersSearchPatternRecursive));
     }
 
     [TestMethod]
@@ -375,15 +390,15 @@ public abstract class ReadonlyUnitTest : UnitTest
 
         var enum1 = dir.EnumerateDirectories().Select(e => e.FullName).ToList();
         var enum2 = dir.EnumerateDirectories("", SearchOption.AllDirectories).Select(e => e.FullName).ToList();
-        var enum3 = dir.EnumerateDirectories(this.readonlyEnumFolderSearchPattern!).Select(e => e.FullName).ToList();
-        var enum4 = dir.EnumerateDirectories(this.readonlyEnumFolderSearchPattern!, SearchOption.AllDirectories).Select(e => e.FullName).ToList();
+        var enum3 = dir.EnumerateDirectories(this.readonlyEnumSearchPatternFolders!).Select(e => e.FullName).ToList();
+        var enum4 = dir.EnumerateDirectories(this.readonlyEnumSearchPatternFolders!, SearchOption.AllDirectories).Select(e => e.FullName).ToList();
 
         device.Disconnect();
 
-        Assert.AreSequenceEqual(this.readonlyEnumFoldersAll, enum1, SequenceOrder.InAnyOrder, "EnumFoldersAll");
-        Assert.AreSequenceEqual(this.readonlyEnumFoldersAllRecursive, enum2, SequenceOrder.InAnyOrder, "EnumFoldersAllRecursive");
-        Assert.AreSequenceEqual(this.readonlyEnumFoldersSearchPattern, enum3, SequenceOrder.InAnyOrder, "EnumFoldersSearchPattern");
-        Assert.AreSequenceEqual(this.readonlyEnumFoldersSearchPatternRecursive, enum4, SequenceOrder.InAnyOrder, "EnumFoldersSearchPatternRecursive");
+        Assert.AreSequenceEqual(readonlyEnumFolders, enum1, SequenceOrder.InAnyOrder, nameof(readonlyEnumFolders));
+        Assert.AreSequenceEqual(readonlyEnumFoldersRecursive, enum2, SequenceOrder.InAnyOrder, nameof(readonlyEnumFoldersRecursive));
+        Assert.AreSequenceEqual(readonlyEnumFoldersSearchPattern, enum3, SequenceOrder.InAnyOrder, nameof(readonlyEnumFoldersSearchPattern));
+        Assert.AreSequenceEqual(readonlyEnumFoldersSearchPatternRecursive, enum4, SequenceOrder.InAnyOrder, nameof(readonlyEnumFoldersSearchPatternRecursive));
     }
 
     #endregion
@@ -399,13 +414,13 @@ public abstract class ReadonlyUnitTest : UnitTest
 
         var enum1 = device.EnumerateFileSystemEntries(this.readonlyEnumPath!).ToList();
         var enum2 = device.EnumerateFileSystemEntries(this.readonlyEnumPath!, "", SearchOption.AllDirectories).ToList();
-        var enum3 = device.EnumerateFileSystemEntries(this.readonlyEnumPath!, this.readonlyEnumItemSearchPattern!).ToList();
-        var enum4 = device.EnumerateFileSystemEntries(this.readonlyEnumPath!, this.readonlyEnumItemSearchPattern!, SearchOption.AllDirectories).ToList();
+        var enum3 = device.EnumerateFileSystemEntries(this.readonlyEnumPath!, this.readonlyEnumSearchPatternItems!).ToList();
+        var enum4 = device.EnumerateFileSystemEntries(this.readonlyEnumPath!, this.readonlyEnumSearchPatternItems!, SearchOption.AllDirectories).ToList();
 
         device.Disconnect();
 
-        Assert.AreSequenceEqual(this.readonlyEnumItemsAll, enum1, SequenceOrder.InAnyOrder, "EnumItemsAll");
-        Assert.AreSequenceEqual(this.readonlyEnumItemsAllRecursive, enum2, SequenceOrder.InAnyOrder, "EnumItemsAllRecursive");
+        Assert.AreSequenceEqual(this.readonlyEnumItems, enum1, SequenceOrder.InAnyOrder, "EnumItemsAll");
+        Assert.AreSequenceEqual(this.readonlyEnumItemsRecursive, enum2, SequenceOrder.InAnyOrder, "EnumItemsAllRecursive");
         Assert.AreSequenceEqual(this.readonlyEnumItemsSearchPattern, enum3, SequenceOrder.InAnyOrder, "EnumItemsSearchPattern");
         Assert.AreSequenceEqual(this.readonlyEnumItemsSearchPatternRecursive, enum4, SequenceOrder.InAnyOrder, "EnumItemsSearchPatternRecursive");
     }
@@ -421,15 +436,15 @@ public abstract class ReadonlyUnitTest : UnitTest
 
         var enum1 = dir.EnumerateFileSystemInfos().Select(e => e.FullName).ToList();
         var enum2 = dir.EnumerateFileSystemInfos("", SearchOption.AllDirectories).Select(e => e.FullName).ToList();
-        var enum3 = dir.EnumerateFileSystemInfos(this.readonlyEnumItemSearchPattern!).Select(e => e.FullName).ToList();
-        var enum4 = dir.EnumerateFileSystemInfos(this.readonlyEnumItemSearchPattern!, SearchOption.AllDirectories).Select(e => e.FullName).ToList();
+        var enum3 = dir.EnumerateFileSystemInfos(this.readonlyEnumSearchPatternItems!).Select(e => e.FullName).ToList();
+        var enum4 = dir.EnumerateFileSystemInfos(this.readonlyEnumSearchPatternItems!, SearchOption.AllDirectories).Select(e => e.FullName).ToList();
 
         device.Disconnect();
 
-        Assert.AreSequenceEqual(this.readonlyEnumItemsAll, enum1, SequenceOrder.InAnyOrder, "EnumItemsAll");
-        Assert.AreSequenceEqual(this.readonlyEnumItemsAllRecursive, enum2, SequenceOrder.InAnyOrder, "EnumItemsAllRecursive");
-        Assert.AreSequenceEqual(this.readonlyEnumItemsSearchPattern, enum3, SequenceOrder.InAnyOrder, "EnumItemsSearchPattern");
-        Assert.AreSequenceEqual(this.readonlyEnumItemsSearchPatternRecursive, enum4, SequenceOrder.InAnyOrder, "EnumItemsSearchPatternRecursive");
+        Assert.AreSequenceEqual(readonlyEnumItems, enum1, SequenceOrder.InAnyOrder, nameof(readonlyEnumItems));
+        Assert.AreSequenceEqual(readonlyEnumItemsRecursive, enum2, SequenceOrder.InAnyOrder, nameof(readonlyEnumItemsRecursive));
+        Assert.AreSequenceEqual(readonlyEnumItemsSearchPattern, enum3, SequenceOrder.InAnyOrder, nameof(readonlyEnumItemsSearchPattern));
+        Assert.AreSequenceEqual(readonlyEnumItemsSearchPatternRecursive, enum4, SequenceOrder.InAnyOrder, nameof(readonlyEnumItemsSearchPatternRecursive));
     }
 
     #endregion

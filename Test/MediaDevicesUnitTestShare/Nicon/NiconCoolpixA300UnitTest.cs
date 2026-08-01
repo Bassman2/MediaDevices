@@ -64,18 +64,18 @@ public class NiconCoolpixA300 : ReadonlyUnitTest
         this.readonlyFolderAuthoredTime = new DateTime(0001, 1, 1, 0, 0, 0);
 
         this.readonlyEnumPath = @"\A300\DCIM\100NIKON";
-        this.readonlyEnumFolderSearchPattern = "*";
-        this.readonlyEnumFileSearchPattern = "*_0002*";
-        this.readonlyEnumItemSearchPattern = "*_0003*";
+        this.readonlyEnumSearchPatternFolders = "*";
+        this.readonlyEnumSearchPatternFiles = "*_0002*";
+        this.readonlyEnumSearchPatternItems = "*_0003*";
 
-        this.readonlyEnumFoldersAll = [];
+        this.readonlyEnumFolders = [];
         this.readonlyEnumFoldersSearchPattern = [];
 
-        this.readonlyEnumFilesAll = [@"\A300\DCIM\100NIKON\DSCN0005.JPG", @"\A300\DCIM\100NIKON\DSCN0006.JPG", @"\A300\DCIM\100NIKON\DSCN0007.JPG"];
+        this.readonlyEnumFiles = [@"\A300\DCIM\100NIKON\DSCN0005.JPG", @"\A300\DCIM\100NIKON\DSCN0006.JPG", @"\A300\DCIM\100NIKON\DSCN0007.JPG"];
         this.readonlyEnumFilesSearchPattern = [@"\A300\DCIM\100NIKON\DSCN0005.JPG"];
         this.readonlyEnumFilesSearchPatternRecursive =[@"\A300\DCIM\100NIKON\DSCN0005.JPG"];
 
-        this.readonlyEnumItemsAll = [@"\A300\DCIM\100NIKON\DSCN0005.JPG", @"\A300\DCIM\100NIKON\DSCN0006.JPG", @"\A300\DCIM\100NIKON\DSCN0007.JPG"];
+        this.readonlyEnumItems = [@"\A300\DCIM\100NIKON\DSCN0005.JPG", @"\A300\DCIM\100NIKON\DSCN0006.JPG", @"\A300\DCIM\100NIKON\DSCN0007.JPG"];
         this.readonlyEnumItemsSearchPattern = [@"\A300\DCIM\100NIKON\DSCN0005.JPG"];
         this.readonlyEnumItemsSearchPatternRecursive = [@"\A300\DCIM\100NIKON\DSCN0005.JPG"];
     }
