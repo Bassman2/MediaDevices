@@ -589,7 +589,7 @@ internal class Item
             // ++ TODO
             if (string.IsNullOrWhiteSpace(item.ParentId))
             {
-                item = TryHandleNonHierarchicalStorage() ?? throw new Exception($"Problem occurred when trying to get full object path on mediaDevice {this.mediaDevice.FriendlyName}.");
+                item = TryHandleNonHierarchicalStorage() ?? throw new Exception($"Problem occurred when trying to get full object path on mediaDevice {this.mediaDevice.Description}.");
             }
 
             // -- TODO
