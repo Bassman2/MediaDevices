@@ -4,15 +4,17 @@ partial class MediaDevice
 {
     #region IPortableDeviceManager
 
+    internal string? friendlyName;
+
     public string? FriendlyName
     {
-        get => IsConnected ? mainWorker.GetFriendlyName(this.deviceValues!) : friendlyName;
+        get => friendlyName;
         set
         {
             NotConnectedException.ThrowIfNotConnected(this);
-            mainWorker.SetFriendlyName(this, value ?? "");
-            // set friendlyName for use after Disconnect
-            friendlyName = mainWorker.GetFriendlyName(this.deviceValues!) ?? "";
+            ArgumentNullException.ThrowIfNullOrEmpty(value, nameof(value));
+            ThreadSafeWorkerException.ThrowIfNotOutside();
+            friendlyName = mainWorker.SetFriendlyName(this, value);
         }
     }
 
@@ -20,15 +22,14 @@ partial class MediaDevice
     /// Description of the portable mediaDevice.
     /// </summary>
     /// <remarks>Readable when not connected.</remarks>
-    public string? Description => description;
+    public string? Description { get; internal set; }
 
     /// <summary>
     /// Manufacturer of the portable mediaDevice.
     /// </summary>
     /// <remarks>Readable when not connected.</remarks>
-    public string? Manufacturer
-        => IsConnected ? mainWorker.GetManufacturer(this.deviceValues!) : manufacturer;
-
+    public string? Manufacturer { get; internal set; }
+       
     #endregion
 
     #region IPortableDevice
@@ -37,14 +38,8 @@ partial class MediaDevice
     /// PnP mediaDevice ID
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public string? PnPDeviceID
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetPnPDeviceID(this.device!);
-        }
-    }
+    public string? PnPDeviceID { get; internal set; }
+    
 
     #endregion
 
@@ -54,211 +49,98 @@ partial class MediaDevice
     /// Sync partner of the mediaDevice.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public string? SyncPartner
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetSyncPartner(this.deviceValues!);
-        }
-    }
-
+    public string? SyncPartner { get; internal set; }
+    
     /// <summary>
     /// Firmware version of the portable mediaDevice.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public string? FirmwareVersion
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetFirmwareVersion(this.deviceValues!);
-        }
-    }
+    public string? FirmwareVersion { get; internal set; }
+    
 
     /// <summary>
     /// Battery level of the portable mediaDevice.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public int? PowerLevel
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetPowerLevel(this.deviceValues!);
-        }
-    }
-
+    public int? PowerLevel { get; internal set; }
+    
     /// <summary>
     /// Power source of the mediaDevice.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public PowerSource? PowerSource
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetPowerSource(this.deviceValues!);
-        }
-    }
+    public PowerSource? PowerSource { get; internal set; }
 
     /// <summary>
     /// Protocol of the mediaDevice.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public string? Protocol
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetProtocol(this.deviceValues!);
-        }
-    }
-
+    public string? Protocol { get; internal set; }
+    
     /// <summary>
     /// Model of the portable mediaDevice.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public string? Model
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetModel(this.deviceValues!);
-        }
-    }
-
+    public string? Model { get; internal set; }
+    
     /// <summary>
     /// Serial number of the portable mediaDevice.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public string? SerialNumber
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetSerialNumber(this.deviceValues!);
-
-        }
-    }
-
+    public string? SerialNumber { get; internal set; }
+    
     /// <summary>
     /// Supports non consumable.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public bool? SupportsNonConsumable
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetSupportsNonConsumable(this.deviceValues!);
-        }
-    }
-
+    public bool? SupportsNonConsumable { get; internal set; }
+    
     /// <summary>
     /// Date and time of the media mediaDevice.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public DateTime? DateTime
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetDateTime(this.deviceValues!);
-        }
-    }
-
+    public DateTime? DateTime { get; internal set; }
+    
     /// <summary>
     /// Supported formats are ordered.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public bool? SupportedFormatsAreOrdered
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetSupportedFormatsAreOrdered(this.deviceValues!);
-        }
-    }
-
+    public bool? SupportedFormatsAreOrdered { get; internal set; }
+   
     /// <summary>
     /// Device type of the portable mediaDevice.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public DeviceType? DeviceType
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetDeviceType(this.deviceValues!);
-        }
-    }
-
+    public DeviceType? DeviceType { get; internal set; }
+    
     /// <summary>
     /// Network Identifier
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public ulong? NetworkIdentifier
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetNetworkIdentifier(this.deviceValues!);
-        }
-    }
-
+    public ulong? NetworkIdentifier { get; internal set; }
+   
     /// <summary>
     /// Functional unique id od the media mediaDevice
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public byte[]? FunctionalUniqueId
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetFunctionalUniqueId(this.deviceValues!);
-        }
-    }
-
+    public byte[]? FunctionalUniqueId { get; internal set; }
+    
     /// <summary>
     /// Model unique id od the media mediaDevice
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public byte[]? ModelUniqueId
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetModelUniqueId(this.deviceValues!);
-        }
-    }
-
+    public byte[]? ModelUniqueId { get; internal set; }
+    
     /// <summary>
     /// Device transport.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public DeviceTransport? Transport
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetTransport(this.deviceValues!);
-        }
-    }
-
+    public DeviceTransport? Transport { get; internal set; }
+   
     /// <summary>
     /// Use mediaDevice stage
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public DeviceTransport? UseDeviceStage
-    {
-        get
-        {
-            NotConnectedException.ThrowIfNotConnected(this);
-            return mainWorker.GetUseDeviceStage(this.deviceValues!);
-
-        }
-    }
-
+    public DeviceTransport? UseDeviceStage { get; internal set; }
+    
     #endregion
 }

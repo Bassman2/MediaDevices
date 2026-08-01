@@ -14,24 +14,20 @@ namespace MediaDevices;
 [DebuggerDisplay("Description: {Description}, FriendlyName: {FriendlyName}, Manufacturer: {Manufacturer}, PnPDeviceID: {pnPDeviceID}")]
 public sealed partial class MediaDevice : IDisposable
 {
-    private readonly IPortableDeviceManager deviceManager;
-    internal readonly IPortableDeviceServiceManager serviceManager;
 
     #region Fields
+
+    private readonly IPortableDeviceManager deviceManager;
+    internal readonly IPortableDeviceServiceManager serviceManager;
+    internal readonly MainWorker mainWorker;
 
     internal IPortableDevice? device;
     internal IPortableDeviceContent? deviceContent;
     internal IPortableDeviceProperties? deviceProperties;
     internal IPortableDeviceCapabilities? deviceCapabilities;
-    internal IPortableDeviceValues? deviceValues;
-    private readonly string description = string.Empty;
-    private string friendlyName = string.Empty;
-    private readonly string manufacturer = string.Empty;
-    //private readonly string pnPDeviceID = string.Empty;
+    internal IPortableDeviceValues? deviceValues;    
     internal string? eventCookie;
     internal EventCallback? eventCallback;
-
-    internal readonly MainWorker mainWorker;
 
     #endregion
 
@@ -195,9 +191,9 @@ public sealed partial class MediaDevice : IDisposable
         this.deviceManager = deviceManager;
         this.serviceManager = serviceManager;
 
-        this.description = MainWorker.GetDeviceDescription(deviceManager, deviceId) ?? string.Empty;
+        this.Description = MainWorker.GetDeviceDescription(deviceManager, deviceId) ?? string.Empty;
         this.friendlyName = MainWorker.GetDeviceFriendlyName(deviceManager, deviceId) ?? string.Empty;
-        this.manufacturer = MainWorker.GetDeviceManufacturer(deviceManager, deviceId) ?? string.Empty;
+        this.Manufacturer = MainWorker.GetDeviceManufacturer(deviceManager, deviceId) ?? string.Empty;
     }
 
     public void Dispose()

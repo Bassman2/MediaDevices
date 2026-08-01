@@ -152,7 +152,35 @@ internal partial class MainWorker : ThreadSafeWorker
             mediaDevice.eventCallback = new EventCallback(mediaDevice);
             err = mediaDevice.device.Advise(0, mediaDevice.eventCallback, null, out mediaDevice.eventCookie);
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Advise));
-            
+
+
+            // properties
+
+            mediaDevice.Manufacturer = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_MANUFACTURER) ?? string.Empty;
+
+
+            err = mediaDevice.device.GetPnPDeviceID(out string pnPDeviceID);
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.GetPnPDeviceID));
+            mediaDevice.PnPDeviceID = pnPDeviceID;
+
+            mediaDevice.SyncPartner = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_SYNC_PARTNER);
+            mediaDevice.FirmwareVersion = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_FIRMWARE_VERSION);
+            mediaDevice.PowerLevel = mediaDevice.deviceValues.GetSignedIntegerValue(WPD.DEVICE_POWER_LEVEL);
+            mediaDevice.PowerSource = (PowerSource?)mediaDevice.deviceValues.GetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE);
+            mediaDevice.Protocol = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_PROTOCOL);
+            mediaDevice.Model = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_MODEL);
+            mediaDevice.SerialNumber = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_SERIAL_NUMBER);
+            mediaDevice.SupportsNonConsumable = mediaDevice.deviceValues.GetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE);
+            mediaDevice.DateTime = mediaDevice.deviceValues.GetDateTimeValue(WPD.DEVICE_DATETIME);
+            mediaDevice.friendlyName = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_FRIENDLY_NAME);
+            mediaDevice.SupportedFormatsAreOrdered = mediaDevice.deviceValues.GetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED);
+            mediaDevice.DeviceType = (DeviceType?)mediaDevice.deviceValues.GetSignedIntegerValue(WPD.DEVICE_TYPE);
+            mediaDevice.NetworkIdentifier = mediaDevice.deviceValues.GetUnsignedLargeIntegerValue(WPD.DEVICE_NETWORK_IDENTIFIER);
+            mediaDevice.FunctionalUniqueId = mediaDevice.deviceValues.GetByteArrayValue(WPD.DEVICE_FUNCTIONAL_UNIQUE_ID);
+            mediaDevice.ModelUniqueId = mediaDevice.deviceValues.GetByteArrayValue(WPD.DEVICE_MODEL_UNIQUE_ID);
+            mediaDevice.Transport = (DeviceTransport?)mediaDevice.deviceValues.GetUnsignedIntegerValue(WPD.DEVICE_TRANSPORT);
+            mediaDevice.UseDeviceStage = (DeviceTransport?)mediaDevice.deviceValues.GetUnsignedIntegerValue(WPD.DEVICE_USE_DEVICE_STAGE);
+
             mediaDevice.IsConnected = true;
         });
     }
