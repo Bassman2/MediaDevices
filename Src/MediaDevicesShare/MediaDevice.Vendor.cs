@@ -9,7 +9,7 @@ partial class MediaDevice
     /// </summary>
     /// <returns>List of vendor extended operation code.</returns>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public IEnumerable<int> VendorOpcodes()
+    public IEnumerable<uint> VendorOpcodes()
     {
         NotConnectedException.ThrowIfNotConnected(this);
 

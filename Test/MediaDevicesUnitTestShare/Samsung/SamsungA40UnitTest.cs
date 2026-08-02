@@ -7,7 +7,7 @@ public class SamsungA40UnitTest : WritableUnitTest
     public SamsungA40UnitTest()
     {
         // Device Select
-        this.deviceSelect = device => device.Description == this.deviceDescription;
+        deviceSelect = device => device.Description == this.deviceDescription;
 
         // Ignore tests
         //this.ignoreTests = Ignore.DownloadIcon;
@@ -15,20 +15,23 @@ public class SamsungA40UnitTest : WritableUnitTest
         #region Device Tests
 
         // Device Properties Test
-        this.deviceDescription = "SM-A405FN";
-        this.deviceFriendlyName = "Samsung A40";
-        this.deviceManufacture = "Samsung Electronics Co., Ltd.";
-        this.deviceSyncPartner = "Longhorn Sync Engine";
-        this.deviceFirmwareVersion = "A405FNXXU4CWC3";
-        this.deviceModel = "SM-A405FN";
-        this.deviceSerialNumber = "R58M81NACKB";
-        this.deviceDeviceType = DeviceType.MediaPlayer;
-        this.deviceDateTimeHasValue = false;
+        deviceDescription = "SM-A405FN";
+        deviceFriendlyName = "Samsung A40";
+        deviceManufacture = "Samsung Electronics Co., Ltd.";
+        deviceSyncPartner = "Longhorn Sync Engine";
+        deviceFirmwareVersion = "A405FNXXU4CWC3";
+        deviceModel = "SM-A405FN";
+        deviceSerialNumber = "R58M81NACKB";
+        deviceDeviceType = DeviceType.MediaPlayer;
+        deviceDateTimeHasValue = false;
         
-        this.deviceFunctionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
+        deviceFunctionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
 
-        this.deviceDrives = ["Phone", "Card"];
+        deviceDrives = ["Phone", "Card"];
         
+        // Vendor Test
+        deviceVendorOpcodes = [38148, 37377, 37378, 38145, 38146, 38147];
+        deviceVendorExtentionDescription = "microsoft.com: 1.0; samsung.com/kies: 5.0; samsung.com/devicestatus: 2; ";
 
         #endregion
 
