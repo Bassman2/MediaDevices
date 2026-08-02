@@ -152,6 +152,30 @@ public abstract class ReadonlyUnitTest : UnitTest
     }
 
     [TestMethod]
+    [Description("Download a mediaDeviceFile to the target.")]
+    [Ignore("Test takes too long")]
+    public void ReadonlyMediaDeviceFileDownloadPathBigSizeTest()
+    {
+        string sourcePath = @"\Card\BigSize.zip";
+        string destinationPath = Path.ChangeExtension(Path.GetTempFileName(), Path.GetExtension(".zip"));
+        ulong destinationFileSize = 2359730001ul;
+
+        var device = GetDevice();
+        device.Connect();
+
+        bool exists = device.FileExists(sourcePath);
+        Assert.IsTrue(exists, "exists");
+
+        device.DownloadFile(sourcePath, destinationPath);
+        device.Disconnect();
+
+        Assert.IsTrue(File.Exists(destinationPath), "Exists");
+        Assert.AreEqual(destinationFileSize, (ulong)new FileInfo(destinationPath).Length, nameof(destinationFileSize));
+    }
+
+
+
+    [TestMethod]
     [Description("Download a mediaDeviceFile from the target.")]
     public void ReadonlyMediaDeviceFileDownloadStreamTest()
     {
@@ -172,6 +196,31 @@ public abstract class ReadonlyUnitTest : UnitTest
 
         Assert.IsTrue(File.Exists(tempFile), "Exists");
         Assert.AreEqual(readonlyFileLength, (ulong)new FileInfo(tempFile).Length, "Length");
+    }
+
+    [TestMethod]
+    [Description("Download a mediaDeviceFile to the target.")]
+    [Ignore("Test takes too long")]
+    public void ReadonlyMediaDeviceFileDownloadStreamBigSizeTest()
+    {
+        string sourcePath = @"\Card\BigSize.zip";
+        string destinationPath = Path.ChangeExtension(Path.GetTempFileName(), Path.GetExtension(".zip"));
+        ulong destinationFileSize = 2359730001ul;
+
+        var device = GetDevice();
+        device.Connect();
+
+        bool exists = device.FileExists(sourcePath);
+        Assert.IsTrue(exists, "exists");
+
+        using (var stream = File.Create(destinationPath))
+        {
+            device.DownloadFile(sourcePath, stream);
+        }
+        device.Disconnect();
+
+        Assert.IsTrue(File.Exists(destinationPath), "Exists");
+        Assert.AreEqual(destinationFileSize, (ulong)new FileInfo(destinationPath).Length, nameof(destinationFileSize));
     }
 
     [TestMethod]
