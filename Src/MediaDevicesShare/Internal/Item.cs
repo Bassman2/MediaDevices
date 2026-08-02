@@ -637,7 +637,7 @@ internal class Item
     /// Handles DCF storages specific for Apple iPhones.
     /// </summary>
     /// <returns></returns>
-    private static Item? TryHandleNonHierarchicalStorage()
+    private Item? TryHandleNonHierarchicalStorage()
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -653,12 +653,12 @@ internal class Item
         // we need to fetch an object functional container ID. Which is storage for top most
         // directory.
         // TODOO
-        //var drives = this.mediaDevice.GetDrives();
-        //var storageRoot = drives.FirstOrDefault(s => s.RootDirectory.Id == this.ParentContainerId);
-        //if (storageRoot != null)
-        //{
-        //    return storageRoot.RootDirectory.item;
-        //}
+        var drives = mediaDevice.mainWorker.GetDrivesIntern(mediaDevice);
+        var storageRoot = drives.FirstOrDefault(s => s.RootDirectory!.Id == this.ParentContainerId);
+        if (storageRoot != null)
+        {
+            return storageRoot.RootDirectory!.item;
+        }
 
         return null;
     }

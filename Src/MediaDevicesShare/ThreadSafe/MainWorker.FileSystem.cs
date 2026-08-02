@@ -456,7 +456,7 @@ partial class MainWorker
     public IEnumerable<MediaDriveInfo> GetDrives(MediaDevice mediaDevice)
         => InvokeEnumerable(() => GetDrivesIntern(mediaDevice));
 
-    private IEnumerable<MediaDriveInfo> GetDrivesIntern(MediaDevice mediaDevice)
+    internal IEnumerable<MediaDriveInfo> GetDrivesIntern(MediaDevice mediaDevice)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 

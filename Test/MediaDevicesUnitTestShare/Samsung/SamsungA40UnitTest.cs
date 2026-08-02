@@ -24,9 +24,13 @@ public class SamsungA40UnitTest : WritableUnitTest
         deviceSerialNumber = "R58M81NACKB";
         deviceDeviceType = DeviceType.MediaPlayer;
         deviceDateTimeHasValue = false;
-        
+
+        // Capability Test
         deviceFunctionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
 
+        // ContentLocation Test
+
+        // Drive Test
         deviceDrives = ["Phone", "Card"];
         
         // Vendor Test
