@@ -105,6 +105,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Capabilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Commands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Events.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.FileSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Properties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Services.cs" />

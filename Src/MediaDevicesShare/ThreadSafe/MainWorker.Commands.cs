@@ -15,7 +15,7 @@ partial class MainWorker
             cmd.Add(WPD.PROPERTY_DEVICE_HINTS_CONTENT_TYPE, contentType.GetGuid());
             if (!cmd.Send(mediaDevice.device!))
             {
-                return Enumerable.Empty<string>();
+                return [];
             }
 
             return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => Item.Create(mediaDevice, c).FullName);
@@ -108,14 +108,14 @@ partial class MainWorker
 
     internal Events CallEvent(MediaDevice mediaDevice, IPortableDeviceValues eventParameters)
     {
-        return Invoke(() =>
-        {
+        //return Invoke(() =>
+        //{
             //ComTrace.WriteObject(eventParameters);
             eventParameters.GetGuidValue(ref WPD.EVENT_PARAMETER_EVENT_ID, out Guid eventGuid);
 
             //Events eventEnum = eventGuid.GetEnumFromAttrGuid<Events>();
             return eventGuid.FindEventsEnum();
-        });
+        //});
     }
 
     public MediaStorageInfo? GetStorageInfo(MediaDevice mediaDevice, string storageObjectId)

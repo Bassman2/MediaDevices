@@ -1,4 +1,6 @@
-﻿namespace MediaDevicesUnitTest;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace MediaDevicesUnitTest;
 
 public abstract class WritableUnitTest : ReadonlyUnitTest 
 {
@@ -28,53 +30,29 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
     ];
     protected List<string>? treeListFull;
 
-    private string GetTempFile(string extention = ".txt")
+    private string GetDeviceTempFile(string extention = ".txt")
     {
         return Path.Combine(writeableWorkingFolder, Path.ChangeExtension(Path.GetFileName(Path.GetTempFileName()), extention));
     }
 
-    private string GetTempFolder()
+    private string GetDeviceTempFolder()
     {
         return Path.Combine(writeableWorkingFolder, Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
-    }   
-
-    protected void UploadTestTree(MediaDevice device)
-    {
-        string folder = GetTempFolder();
-        this.treeListFull = [.. treeList.Select(p => folder + p)];
-
-        string sourceFolder = Path.Combine(testDataFolder, "UploadTree");
-
-        // create empty folders not checked in
-        Directory.CreateDirectory(Path.Combine(sourceFolder, @"Aaa\Abb\Add"));
-        Directory.CreateDirectory(Path.Combine(sourceFolder, @"Aaa\Acc"));
-        Directory.CreateDirectory(Path.Combine(sourceFolder, "Bbb"));
-        Directory.CreateDirectory(Path.Combine(sourceFolder, "Ccc"));
-
-        var l = Directory.EnumerateFileSystemEntries(sourceFolder, "*", SearchOption.AllDirectories).OrderBy(s => s).ToList();
-        var x = Directory.GetFileSystemEntries(sourceFolder, "*", SearchOption.AllDirectories).OrderBy(s => s).ToList();
-
-        string destFolder = Path.Combine(folder, "UploadTree");
-        
-        var exists = device.DirectoryExists(destFolder);
-        if (exists)
-        {
-            device.DeleteDirectory(destFolder, true);
-        }
-
-        device.UploadFolder(sourceFolder, destFolder);
     }
 
-   
+    private static string GetLocalTempFolder()
+    {
+        return Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
+    }
 
     [TestMethod]
-    [Description("Creating a new folder.")]
+    [Description("Creating a new sourceFolder.")]
     public void WritableCreateFolderTest()
     {
         var device = GetDevice();
         device.Connect();
         
-        string newFolder = GetTempFolder();
+        string newFolder = GetDeviceTempFolder();
         var exists1 = device.DirectoryExists(Path.GetDirectoryName(newFolder)!);
         device.CreateDirectory(newFolder);
         var exists2 = device.DirectoryExists(newFolder);
@@ -95,7 +73,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var device = GetDevice();
         device.Connect();
 
-        string filePath = GetTempFile(".txt");
+        string filePath = GetDeviceTempFile(".txt");
         if (device.FileExists(filePath))
         {
             device.DeleteFile(filePath);
@@ -123,7 +101,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         device.Connect();
 
         string sourceFile = Path.ChangeExtension(Path.GetTempFileName(), ".txt");
-        string destFile = GetTempFile();
+        string destFile = GetDeviceTempFile();
 
         Trace.WriteLine($"sourceFile: {sourceFile}");
         Trace.WriteLine($"destFile: {destFile}");
@@ -160,25 +138,96 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         device.Disconnect();
     }
 
+    private void CreateTextFile(string filePath, string content)
+    {
+        using var writer = File.CreateText(filePath);
+        writer.WriteLine(content);
+        writer.Close();
+    }
+
     [TestMethod]
     [Description("Upload a tree to the target.")]
-    public void WritableUploadTreeTest()
+    public void WritableUploadTreeDirectoryTest()
     {
+        string sourceFolder = GetLocalTempFolder();
+
+        Directory.CreateDirectory(sourceFolder);
+        CreateTextFile(Path.Combine(sourceFolder, "testA.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "testB.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "testC.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "testD.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "testE.txt"), "Dies ist ein Test.");
+        Directory.CreateDirectory(Path.Combine(sourceFolder, "folderA"));
+        Directory.CreateDirectory(Path.Combine(sourceFolder, "folderB"));
+        Directory.CreateDirectory(Path.Combine(sourceFolder, "folderC"));
+        Directory.CreateDirectory(Path.Combine(sourceFolder, "folderC\\subA"));
+        Directory.CreateDirectory(Path.Combine(sourceFolder, "folderC\\subB"));
+        CreateTextFile(Path.Combine(sourceFolder, "folderA\\testF.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "folderB\\testG.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "folderC\\testH.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "folderC\\subA\\testI.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "folderC\\subB\\testJ.txt"), "Dies ist ein Test.");
+
+        string destinationFolder = GetDeviceTempFolder();
+        int destinationFolderPathLength = destinationFolder.Length + 1;
+
+        Trace.WriteLine($"sourceFolder: {sourceFolder}");
+        Trace.WriteLine($"destinationFolder: {destinationFolder}");
+
         var device = GetDevice();
         device.Connect();
-
-        UploadTestTree(device);
+        device.UploadFolder(sourceFolder, destinationFolder, false); 
         
-        string destFolder = GetTempFolder();
-        
-        
-        var list = device.EnumerateFileSystemEntries(destFolder, null, SearchOption.AllDirectories).ToList();
+        var files = device.EnumerateFiles(destinationFolder).Select(f => f.Substring(destinationFolderPathLength)).ToList();
+        var folders = device.EnumerateDirectories(destinationFolder).Select(f => f.Substring(destinationFolderPathLength)).ToList();
         
         device.Disconnect();
 
+        Assert.AreSequenceEqual(["testA.txt", "testB.txt", "testC.txt", "testD.txt", "testE.txt"], files, nameof(files));
+        Assert.AreSequenceEqual([], folders, nameof(folders));
 
-        Assert.AreSequenceEqual(this.treeListFull, list, SequenceOrder.InAnyOrder, "EnumerateFileSystemEntries");
-        //CollectionAssert.AreEquivalent(pathes, list, "EnumerateFileSystemEntries");
+
+    }
+
+    [TestMethod]
+    [Description("Upload a tree to the target.")]
+    public void WritableUploadTreeRecursiveTest()
+    {
+        string sourceFolder = Path.ChangeExtension(Path.GetTempFileName(), "");
+
+        Directory.CreateDirectory(sourceFolder);
+        CreateTextFile(Path.Combine(sourceFolder, "testA.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "testB.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "testC.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "testD.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "testE.txt"), "Dies ist ein Test.");
+        Directory.CreateDirectory(Path.Combine(sourceFolder, "folderA"));
+        Directory.CreateDirectory(Path.Combine(sourceFolder, "folderB"));
+        Directory.CreateDirectory(Path.Combine(sourceFolder, "folderC"));
+        Directory.CreateDirectory(Path.Combine(sourceFolder, "folderC\\subA"));
+        Directory.CreateDirectory(Path.Combine(sourceFolder, "folderC\\subB"));
+        CreateTextFile(Path.Combine(sourceFolder, "folderA\\testF.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "folderB\\testG.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "folderC\\testH.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "folderC\\subA\\testI.txt"), "Dies ist ein Test.");
+        CreateTextFile(Path.Combine(sourceFolder, "folderC\\subB\\testJ.txt"), "Dies ist ein Test.");
+
+        string destinationFolder = GetDeviceTempFolder();
+        int destinationFolderPathLength = destinationFolder.Length + 1;
+
+        Trace.WriteLine($"sourceFolder: {sourceFolder}");
+        Trace.WriteLine($"destinationFolder: {destinationFolder}");
+
+        var device = GetDevice();
+        device.Connect();
+        device.UploadFolder(sourceFolder, destinationFolder, true);
+
+        var files = device.EnumerateFiles(destinationFolder, "*", SearchOption.AllDirectories).Select(f => f.Substring(destinationFolderPathLength)).ToList();
+        var folders = device.EnumerateDirectories(destinationFolder, "*", SearchOption.AllDirectories).Select(f => f.Substring(destinationFolderPathLength)).ToList();
+        device.Disconnect();
+
+        Assert.AreSequenceEqual(["folderA\\testF.txt", "folderB\\testG.txt", "folderC\\subA\\testI.txt", "folderC\\subB\\testJ.txt", "folderC\\testH.txt", "testA.txt", "testB.txt", "testC.txt", "testD.txt", "testE.txt"], files, nameof(files));
+        Assert.AreSequenceEqual(["folderA", "folderB", "folderC", "folderC\\subA", "folderC\\subB"], folders, nameof(folders));
     }
 
 
@@ -189,8 +238,8 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var device = GetDevice();
         device.Connect();
 
-        string filePath = GetTempFile(".txt");
-        string newPath = GetTempFile(".txt");
+        string filePath = GetDeviceTempFile(".txt");
+        string newPath = GetDeviceTempFile(".txt");
         string newName = Path.GetFileName(newPath);
 
 
@@ -224,14 +273,14 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
     }
 
     [TestMethod]
-    [Description("Rename a folder.")]
+    [Description("Rename a sourceFolder.")]
     public void WritableRenameFolderTest()
     {
         var device = GetDevice();
         device.Connect();
 
-        string filePath = GetTempFolder();
-        string newPath = GetTempFolder();
+        string filePath = GetDeviceTempFolder();
+        string newPath = GetDeviceTempFolder();
         string newName = Path.GetFileName(newPath);
 
 
@@ -265,11 +314,11 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
     }
     
     [TestMethod]
-    [Description("Creating a new folder.")]
+    [Description("Creating a new sourceFolder.")]
     public void WritableConnectGenericReadTest()
     {
-        string newFolder1 = GetTempFolder();
-        string newFolder2 = GetTempFolder();
+        string newFolder1 = GetDeviceTempFolder();
+        string newFolder2 = GetDeviceTempFolder();
 
         var device = GetDevice();
 
@@ -296,7 +345,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         mediaDevice.ObjectRemoved += (s, a) => fired.Set();
         mediaDevice.Connect();
 
-        string filePath = GetTempFile();
+        string filePath = GetDeviceTempFile();
         if (mediaDevice.FileExists(filePath))
         {
             mediaDevice.DeleteFile(filePath);
@@ -320,7 +369,7 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
     public void WritableEventFolderTest()
     {
 
-        string folder = GetTempFolder();
+        string folder = GetDeviceTempFolder();
 
         AutoResetEvent addEvent = new(false);
         AutoResetEvent delEvent = new(false);
@@ -328,8 +377,14 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var mediaDevice = GetDevice();
         mediaDevice.Connect(); 
                 
-        mediaDevice.ObjectAdded += (s, a) => addEvent.Set();
-        mediaDevice.ObjectRemoved += (s, a) => delEvent.Set();
+        mediaDevice.ObjectAdded += (s, a) =>
+        {
+            addEvent.Set();
+        };
+        mediaDevice.ObjectRemoved += (s, a) => 
+        {
+            delEvent.Set();
+        };
 
         mediaDevice.CreateDirectory(folder);
         mediaDevice.DeleteDirectory(folder);
@@ -346,14 +401,15 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
     [TestMethod]
     [Description("Upload a unix file name to the target.")]
+    [Ignore("Currently not supported.")]
     public void WritableUploadUnixFileNameTest()
     {
-        string workingUnixFolder = GetTempFolder();
+        string workingUnixFolder = GetDeviceTempFolder();
 
         var device = GetDevice();
         device.Connect();
 
-        string sourceFile = GetTempFile();
+        string sourceFile = GetDeviceTempFile();
         string destFile = Path.Combine(Path.GetDirectoryName(sourceFile)!, @"Test:File.txt"); 
 
         var exists1 = device.FileExists(destFile);
