@@ -178,12 +178,12 @@ internal sealed partial class PropVariantFacade : IDisposable
         return this.Value.ulongVal;
     }
 
-    public DateTime ToDate()
+    public DateTime? ToDate()
     {
         if (this.Value.vt == PropVariantType.VT_ERROR)
         {
             TraceVtError(this.Value.errorCode, this.Key);
-            return new DateTime();
+            return null;
         }
 
         if (this.Value.vt != PropVariantType.VT_DATE)
@@ -191,7 +191,7 @@ internal sealed partial class PropVariantFacade : IDisposable
             throw new InvalidOperationException($"ToDate does not work for value type {this.Value.vt}");
         }
         
-        return DateTime.FromOADate(this.Value.dateVal);
+        return this.Value.dateVal == 0 ? null : DateTime.FromOADate(this.Value.dateVal);
     }
 
     public bool ToBool()
@@ -309,7 +309,7 @@ internal sealed partial class PropVariantFacade : IDisposable
         return val.ToBool();
     }
 
-    public static implicit operator DateTime(PropVariantFacade val)
+    public static implicit operator DateTime?(PropVariantFacade val)
     {
         return val.ToDate();
     }

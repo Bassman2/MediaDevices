@@ -48,8 +48,7 @@ public class SamsungA40UnitTest : WritableUnitTest
         readonlyFileParentPath = @"\Phone\Pictures\My_Test_Pictures";
         readonlyFileParentCreationTime = new DateTime(2026, 07, 23, 17, 20, 33);
         readonlyFileParentLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
-        readonlyFileParentAuthoredTime = new DateTime(0001, 01, 01, 00, 00, 00);
-        readonlyFileParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
+         readonlyFileParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
         // folder 
         readonlyFolderPath = @"\Phone\Pictures\My_Test_Pictures";
