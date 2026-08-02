@@ -56,34 +56,35 @@ partial class MediaDevice
     {
         Events eventEnum = mainWorker.CallEvent(this, eventParameters);
 
+
         switch (eventEnum)
         {
         case Events.ObjectAdded:
-            this.ObjectAdded?.Invoke(this, new ObjectAddedEventArgs(eventEnum, this, eventParameters));
+            this.ObjectAdded?.Invoke(this, mainWorker.CreateObjectAddedEventArgs(this, eventEnum, eventParameters));
             break;
         case Events.ObjectRemoved:
-            this.ObjectRemoved?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+            this.ObjectRemoved?.Invoke(this, mainWorker.CreateMediaDeviceEventArgs(this, eventEnum, eventParameters));
             break;
         case Events.ObjectUpdated:
-            this.ObjectUpdated?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+            this.ObjectUpdated?.Invoke(this, mainWorker.CreateMediaDeviceEventArgs(this, eventEnum, eventParameters));
             break;
         case Events.DeviceReset:
-            this.DeviceReset?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+            this.DeviceReset?.Invoke(this, mainWorker.CreateMediaDeviceEventArgs(this, eventEnum, eventParameters));
             break;
         case Events.DeviceCapabilitiesUpdated:
-            this.DeviceCapabilitiesUpdated?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+            this.DeviceCapabilitiesUpdated?.Invoke(this, mainWorker.CreateMediaDeviceEventArgs(this, eventEnum, eventParameters));
             break;
         case Events.StorageFormat:
-            this.StorageFormat?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+            this.StorageFormat?.Invoke(this, mainWorker.CreateMediaDeviceEventArgs(this, eventEnum, eventParameters));
             break;
         case Events.ObjectTransferRequest:
-            this.ObjectTransferRequest?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+            this.ObjectTransferRequest?.Invoke(this, mainWorker.CreateMediaDeviceEventArgs(this, eventEnum, eventParameters));
             break;
         case Events.DeviceRemoved:
-            this.DeviceRemoved?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+            this.DeviceRemoved?.Invoke(this, mainWorker.CreateMediaDeviceEventArgs(this, eventEnum, eventParameters));
             break;
         case Events.ServiceMethodComplete:
-            this.ServiceMethodComplete?.Invoke(this, new MediaDeviceEventArgs(eventEnum, this, eventParameters));
+            this.ServiceMethodComplete?.Invoke(this, mainWorker.CreateMediaDeviceEventArgs(this, eventEnum, eventParameters));
             break;
         default:
             break;

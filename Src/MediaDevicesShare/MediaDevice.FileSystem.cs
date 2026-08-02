@@ -439,7 +439,6 @@ partial class MediaDevice
         ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        Directory.CreateDirectory(destination);
         mainWorker.UploadFolder(this, source, destination, recursive, ignoreExceptions);
     }
 

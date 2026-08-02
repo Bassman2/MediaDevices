@@ -503,7 +503,7 @@ internal class Item
         }
     }
 
-    internal Item? CreateSubdirectory(string path)
+    internal Item? CreateSubdirectory(string path, DateTime dateCreated, DateTime dateModified, DateTime dateAuthored)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -516,19 +516,38 @@ internal class Item
             if (child == null)
             {
                 // create a new directory
-                // IPortableDeviceValues deviceValues = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
+                // IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
 
-                int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var deviceValues);
+                int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var portableDeviceValues);
                 MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
 
-                deviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, parent.Id);
-                deviceValues.SetStringValue(ref WPD.OBJECT_NAME, folder);
-                deviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, folder);
-                deviceValues.SetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, ref WPD.CONTENT_TYPE_FOLDER);
+                portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, parent.Id);
+                portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, folder);
+                portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, folder);
+                portableDeviceValues.SetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, ref WPD.CONTENT_TYPE_FOLDER);
+
+                using (var facade = PropVariantFacade.DateTimeToPropVariant(dateCreated))
+                {
+                    err = portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_CREATED, ref facade.Value);
+                    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetValue), "OBJECT_DATE_CREATED");
+                }
+
+                using (var facade = PropVariantFacade.DateTimeToPropVariant(dateModified))
+                {
+                    err = portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_MODIFIED, ref facade.Value);
+                    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetValue), "OBJECT_DATE_MODIFIED");
+                }
+
+                using (var facade = PropVariantFacade.DateTimeToPropVariant(dateAuthored))
+                {
+                    err = portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_AUTHORED, ref facade.Value);
+                    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetValue), "OBJECT_DATE_AUTHORED");
+                }
+
                 string id = string.Empty;
                 try
                 {
-                    this.mediaDevice!.deviceContent!.CreateObjectWithPropertiesOnly(deviceValues, ref id);
+                    this.mediaDevice!.deviceContent!.CreateObjectWithPropertiesOnly(portableDeviceValues, ref id);
                 }
                 catch (Exception ex)
                 {

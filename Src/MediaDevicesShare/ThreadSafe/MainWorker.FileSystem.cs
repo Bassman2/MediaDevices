@@ -65,7 +65,8 @@ partial class MainWorker
 
     public void CreateDirectory(MediaDevice mediaDevice, string path)
     {
-        Invoke(() => Item.GetRoot(mediaDevice).CreateSubdirectory(path));
+        var now = DateTime.Now;
+        Invoke(() => Item.GetRoot(mediaDevice).CreateSubdirectory(path, now, now, now));
     }
 
     public void DeleteDirectory(MediaDevice mediaDevice, string path, bool recursive = false)
@@ -236,64 +237,175 @@ partial class MainWorker
 
     public void UploadFile(MediaDevice mediaDevice, string source, string destination)
     {
-        Invoke(() =>
+        Invoke(() => UploadFileIntern(mediaDevice, source, destination));
+        //{
+        //    string? folder = Path.GetDirectoryName(destination);
+        //    string fileName = Path.GetFileName(destination);
+        //    Item item = Item.FindFolder(mediaDevice, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
+
+        //    if (item.GetChildren().Any(i => EqualsName(i.Name, fileName, mediaDevice.IsCaseSensitive)))
+        //    {
+        //        throw new IOException($"File {destination} already exists");
+        //    }
+
+        //    using var stream = File.OpenRead(source);
+
+        //    //// for testing 
+        //    //item.UploadFile(fileName, stream, 
+        //    //    new DateTime(2001, 1, 1),  // created
+        //    //    new DateTime(2002, 2, 2),  // modified 
+        //    //    new DateTime(2003, 3, 3)); // authored
+
+        //    item.UploadFile(fileName, stream,
+        //        DateTime.Now,                   // created: set date of upload
+        //        File.GetLastWriteTime(source),  // modified: set date the file was last written
+        //        File.GetLastWriteTime(source)); // authored: set date the file was last written
+        //});
+    }
+
+    public static void UploadFileIntern(MediaDevice mediaDevice, string source, string destination)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        string? folder = Path.GetDirectoryName(destination);
+        string fileName = Path.GetFileName(destination);
+        Item item = Item.FindFolder(mediaDevice, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
+
+        if (item.GetChildren().Any(i => EqualsName(i.Name, fileName, mediaDevice.IsCaseSensitive)))
         {
-            string? folder = Path.GetDirectoryName(destination);
-            string fileName = Path.GetFileName(destination);
-            Item item = Item.FindFolder(mediaDevice, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
+            throw new IOException($"File {destination} already exists");
+        }
 
-            if (item.GetChildren().Any(i => EqualsName(i.Name, fileName, mediaDevice.IsCaseSensitive)))
-            {
-                throw new IOException($"File {destination} already exists");
-            }
+        using var stream = File.OpenRead(source);
 
-            using var stream = File.OpenRead(source);
+        //// for testing 
+        //item.UploadFile(fileName, stream, 
+        //    new DateTime(2001, 1, 1),  // created
+        //    new DateTime(2002, 2, 2),  // modified 
+        //    new DateTime(2003, 3, 3)); // authored
 
-            //// for testing 
-            //item.UploadFile(fileName, stream, 
-            //    new DateTime(2001, 1, 1),  // created
-            //    new DateTime(2002, 2, 2),  // modified 
-            //    new DateTime(2003, 3, 3)); // authored
-
-            item.UploadFile(fileName, stream,
-                DateTime.Now,                   // created: set date of upload
-                File.GetLastWriteTime(source),  // modified: set date the file was last written
-                File.GetLastWriteTime(source)); // authored: set date the file was last written
-        });
+        item.UploadFile(fileName, stream,
+            DateTime.Now,                   // created: set date of upload
+            File.GetLastWriteTime(source),  // modified: set date the file was last written
+            File.GetLastWriteTime(source)); // authored: set date the file was last written
     }
 
     public void UploadFolder(MediaDevice mediaDevice, string source, string destination, bool recursive, bool ignoreExceptions)
     {
-        Invoke(() =>
+        Invoke(() => UploadFolderIntern(mediaDevice, source, destination, recursive, ignoreExceptions));
+        //{
+        //    try
+        //    {
+        //        Item.GetRoot(mediaDevice).CreateSubdirectory(destination);
+        //        if (recursive)
+        //        {
+        //            var di = new DirectoryInfo(source);
+        //            foreach (var fsi in di.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
+        //            {
+        //                Trace.WriteLine($"Processing {fsi.FullName}");
+        //                string path = Path.Combine(destination, GetLocalPath(source, fsi.FullName));
+
+        //                Trace.WriteLine($"Device {path}");
+        //                if (fsi is FileInfo fi)
+        //                {
+        //                    UploadFileIntern(mediaDevice, fi, source, destination, ignoreExceptions);
+        //                }
+        //                else
+        //                {
+        //                    Item.GetRoot(mediaDevice).CreateSubdirectory(path);
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            var di = new DirectoryInfo(source);
+        //            foreach (FileInfo fi in di.EnumerateFiles())
+        //            {
+        //                UploadFileIntern(mediaDevice, fi, source, destination, ignoreExceptions);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
+            
+        //});
+    }
+
+    public void UploadFolderIntern(MediaDevice mediaDevice, string source, string destination, bool recursive, bool ignoreExceptions)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+        try
         {
-            Item.GetRoot(mediaDevice).CreateSubdirectory(destination);
+            var now = DateTime.Now;
+            Item.GetRoot(mediaDevice).CreateSubdirectory(destination, now, now, now);
             if (recursive)
             {
                 var di = new DirectoryInfo(source);
-                foreach (var fsi in di.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
+                var list = new DirectoryInfo(source).EnumerateFileSystemInfos("*", SearchOption.AllDirectories);
+                foreach (var fsi in list)
                 {
-                    string path = Path.Combine(destination, GetLocalPath(source, fsi.FullName));
+                    var relSource = fsi.FullName.Substring(source.Length);
+                    var absDestination = Path.Combine(destination, relSource);
 
+                    //Trace.WriteLine($"Processing {fsi.FullName}");
+                    //string path = Path.Combine(destination, GetLocalPath(source, fsi.FullName));
+
+                    //Trace.WriteLine($"Device {path}");
                     if (fsi is FileInfo fi)
                     {
-                        UploadFileIntern(mediaDevice, fi, source, destination, ignoreExceptions);
+                        //UploadFileIntern(mediaDevice, fi, source, destination, ignoreExceptions);
+                        UploadFileIntern(mediaDevice, fsi.FullName, absDestination);
                     }
                     else
                     {
-                        Item.GetRoot(mediaDevice).CreateSubdirectory(path);
+                        Item.GetRoot(mediaDevice).CreateSubdirectory(absDestination, now, now, now);
                     }
                 }
             }
             else
             {
-                var di = new DirectoryInfo(source);
-                foreach (FileInfo fi in di.EnumerateFiles())
+                //var files = Directory.EnumerateFiles(source).ToList();
+                foreach (var file in Directory.EnumerateFiles(source))
                 {
-                    UploadFileIntern(mediaDevice, fi, source, destination, ignoreExceptions);
+                    UploadFileIntern(mediaDevice, file, Path.Combine(destination, Path.GetFileName(file)));
                 }
+
+
+                ////var di = new DirectoryInfo(source);
+                //foreach (FileInfo fi in di.EnumerateFiles())
+                //{
+                //    UploadFileIntern(mediaDevice, fi, source, destination, ignoreExceptions);
+                //}
             }
-        });
+        }
+        catch (Exception ex)
+        {
+        }
     }
+
+    //private static void UploadFileIntern(MediaDevice mediaDevice, FileInfo fi, string source, string destination, bool ignoreExceptions)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
+    //    try
+    //    {
+    //        Item item = Item.FindFolder(mediaDevice, fi.DirectoryName!) ?? throw new DirectoryNotFoundException($"Directory {fi.DirectoryName} not found.");
+    //        string path = Path.Combine(destination, GetLocalPath(source, fi.FullName));
+    //        using FileStream stream = fi.OpenRead();
+    //        item.UploadFile(path, stream,
+    //            DateTime.Now,                   // created: set date of upload
+    //            File.GetLastWriteTime(source),  // modified: set date the file was last written
+    //            File.GetLastWriteTime(source)); // authored: set date the file was last written);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Trace.WriteLine($"{ex.Message} for {fi.DirectoryName}");
+    //        if (!ignoreExceptions)
+    //        {
+    //            throw;
+    //        }
+    //    }
+    //}
 
     private static void UploadFileIntern(MediaDevice mediaDevice, FileInfo fi, string source, string destination, bool ignoreExceptions)
     {
@@ -549,9 +661,10 @@ partial class MainWorker
 
     public MediaDirectoryInfo CreateSubdirectory(MediaDevice mediaDevice, Item item, string path)
     {
+        var now = DateTime.Now;
         return Invoke(() =>
         {
-            Item? dirItem = item.CreateSubdirectory(path);
+            Item? dirItem = item.CreateSubdirectory(path, now, now, now);
             return new MediaDirectoryInfo(mediaDevice, dirItem!);
         });
     }
