@@ -2,14 +2,14 @@
 
 partial class MainWorker
 {
-    public IEnumerable<int> VendorOpcodes(IPortableDevice device)
+    public IEnumerable<uint> VendorOpcodes(IPortableDevice device)
     {
         return InvokeEnumerable(() =>
         {
             Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_SUPPORTED_VENDOR_OPCODES);
             cmd.Send(device);
             var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES);
-            return list.Select(p => p.ToInt());
+            return list.Select(p => p.ToUInt());
         });
     }
 

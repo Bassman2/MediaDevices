@@ -47,7 +47,10 @@ public abstract class UnitTest
     protected List<ContentType>? deviceSupportedContents = [ ContentType.Image ];
     protected List<FunctionalCategory>? deviceFunctionalCategories = [ FunctionalCategory.Storage ];
 
-    
+    // Vendor Test
+    protected List<uint> deviceVendorOpcodes = [];
+    protected string deviceVendorExtentionDescription = "";
+
     //public TestContext TestContext { get; set; }
 
     ///// <summary>
@@ -377,6 +380,38 @@ public abstract class UnitTest
         Assert.AreSequenceEqual([], mediaLibraryService, SequenceOrder.InAnyOrder, "mediaLibraryService");
         Assert.AreSequenceEqual([], mtpDuDeviceService, SequenceOrder.InAnyOrder, "mtpDuDeviceService");
         Assert.AreSequenceEqual([], storageInfo, SequenceOrder.InAnyOrder, "storageInfo");
+    }
+
+    #endregion
+
+    #region Vendor Tests
+
+    [TestMethod]
+    [Description("Vendor opcodes test.")]
+    public void DeviceVendorOpcodesTest()
+    {
+        var device = GetDevice();
+        device.Connect();
+
+        var opcodes = device.VendorOpcodes().ToList();
+
+        device.Disconnect();
+
+        Assert.AreSequenceEqual(this.deviceVendorOpcodes, opcodes, SequenceOrder.InAnyOrder, nameof(deviceVendorOpcodes));
+    }
+
+    [TestMethod]
+    [Description("Vendor extension description test.")]
+    public void DeviceVendorExtentionDescriptionTest()
+    {
+        var device = GetDevice();
+        device.Connect();
+
+        var description = device.VendorExtentionDescription();
+
+        device.Disconnect();
+
+        Assert.AreEqual(deviceVendorExtentionDescription, description, nameof(deviceVendorExtentionDescription));
     }
 
     #endregion

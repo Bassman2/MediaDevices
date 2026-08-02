@@ -117,31 +117,47 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
 
     [TestMethod]
     [Description("Upload a file to the target.")]
-    [Ignore("BUG")]
     public void WritableUploadFilePathTest()
     {
         var device = GetDevice();
         device.Connect();
 
-        string sourceFile = Path.Combine(testDataFolder, "TestFile.txt");
-        string destFile = GetTempFile(".txt");
+        string sourceFile = Path.ChangeExtension(Path.GetTempFileName(), ".txt");
+        string destFile = GetTempFile();
 
-        var exists1 = device.FileExists(destFile);
-        if (exists1)
+        Trace.WriteLine($"sourceFile: {sourceFile}");
+        Trace.WriteLine($"destFile: {destFile}");
+
+        using (var writer = File.CreateText(sourceFile))
         {
-            device.DeleteFile(destFile);
+            writer.WriteLine("This is a test.");
+            writer.Close();
         }
+        File.SetCreationTime(sourceFile, new DateTime(2001, 1, 1));        
+        File.SetLastWriteTime(sourceFile, new DateTime(2002, 2, 2));       
+        File.SetLastAccessTime(sourceFile, new DateTime(2003, 3, 3));      
+
+        var creation = File.GetCreationTime(sourceFile);
+        var lastAccess = File.GetLastAccessTime(sourceFile);
+        var lastWrite = File.GetLastWriteTime(sourceFile);
 
         device.UploadFile(sourceFile, destFile);
 
-        var exists = device.FileExists(destFile);
+        var fileInfo = device.GetFileInfo(destFile);
 
-        device.DeleteFile(destFile);
+        var now = DateTime.Now;
+        Assert.IsNotNull(fileInfo, nameof(fileInfo));
+        Assert.AreEqual(17ul, fileInfo.Length, "length");
+        
+        Assert.IsNotNull(fileInfo.CreationTime, nameof(fileInfo.CreationTime));
+        Assert.IsGreaterThan(now - new TimeSpan(0,0,1), fileInfo.CreationTime.Value, "> " + nameof(fileInfo.CreationTime));
+        Assert.IsLessThan(now + new TimeSpan(0, 0, 1), fileInfo.CreationTime.Value, "< " + nameof(fileInfo.CreationTime));
+
+        Assert.AreEqual(lastWrite, fileInfo.LastWriteTime, nameof(lastWrite));
+
+        Assert.AreEqual(null, fileInfo.DateAuthored, nameof(lastAccess));
 
         device.Disconnect();
-
-        Assert.IsTrue(exists, "exists");
-
     }
 
     [TestMethod]

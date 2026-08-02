@@ -701,7 +701,7 @@ internal class Item
         return new StreamWrapper(wpdStream, this.Size);
     }
 
-    internal void UploadFile(string fileName, Stream stream)
+    internal void UploadFile(string fileName, Stream stream, DateTime dateCreated, DateTime dateModified, DateTime dateAuthored)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -719,30 +719,34 @@ internal class Item
 
         err = portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, fileName);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "OBJECT_NAME");
-        
-        // test
-        using var now = PropVariantFacade.DateTimeToPropVariant(DateTime.Now);
-        err = portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_CREATED, ref now.Value);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetValue), "OBJECT_DATE_CREATED");
-        err = portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_MODIFIED, ref now.Value);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetValue), "OBJECT_DATE_MODIFIED");
+
+        using (var facade = PropVariantFacade.DateTimeToPropVariant(dateCreated))
+        {
+            err = portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_CREATED, ref facade.Value);
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetValue), "OBJECT_DATE_CREATED");
+        }
+
+        using (var facade = PropVariantFacade.DateTimeToPropVariant(dateModified))
+        {
+            err = portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_MODIFIED, ref facade.Value);
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetValue), "OBJECT_DATE_MODIFIED");
+        }
+
+        using (var facade = PropVariantFacade.DateTimeToPropVariant(dateAuthored))
+        {
+            err = portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_AUTHORED, ref facade.Value);
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetValue), "OBJECT_DATE_AUTHORED");
+        }
+
 
         uint num = 0u;
         string text = string.Empty;
         err = this.mediaDevice.deviceContent!.CreateObjectWithPropertiesAndData(portableDeviceValues, out IStream wpdStream, ref num, ref text);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.CreateObjectWithPropertiesAndData));
-
-        try
-        {
-
-            using var destinationStream = new StreamWrapper(wpdStream);
-            stream.CopyTo(destinationStream);
-            destinationStream.Flush();
-        }
-        catch (Exception ex)
-        {
-            Trace.WriteLine(ex.ToString());
-        }
+        
+        using var destinationStream = new StreamWrapper(wpdStream);
+        stream.CopyTo(destinationStream);
+        destinationStream.Flush();
     }
 
     internal bool Rename(string newName)

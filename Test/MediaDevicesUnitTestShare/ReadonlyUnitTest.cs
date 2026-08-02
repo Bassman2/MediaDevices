@@ -19,21 +19,21 @@ public abstract class ReadonlyUnitTest : UnitTest
     protected string? readonlyFileParentPath;
     protected DateTime? readonlyFileParentCreationTime;
     protected DateTime? readonlyFileParentLastWriteTime;
-    protected DateTime? readonlyFileParentAuthoredTime = DateTime.MinValue;
+    protected DateTime? readonlyFileParentAuthoredTime = null;
     protected MediaFileAttributes? readonlyFileParentAttributes = MediaFileAttributes.Directory;
 
     // folderParent 
     protected string? readonlyFolderPath;
     protected DateTime? readonlyFolderCreationTime;
     protected DateTime? readonlyFolderLastWriteTime;
-    protected DateTime? readonlyFolderAuthoredTime = DateTime.MinValue; 
+    protected DateTime? readonlyFolderAuthoredTime = null; 
     protected MediaFileAttributes? readonlyFolderAttributes = MediaFileAttributes.Directory;
 
     protected string? readonlyFolderParentPath;
     protected bool readonlyFolderParentTimes = true;
     protected DateTime? readonlyFolderParentCreationTime;
     protected DateTime? readonlyFolderParentLastWriteTime;
-    protected DateTime? readonlyFolderParentAuthoredTime = DateTime.MinValue;
+    protected DateTime? readonlyFolderParentAuthoredTime = null;
     protected MediaFileAttributes? readonlyFolderParentAttributes = MediaFileAttributes.Directory;
 
     // Enumerable & List tests
@@ -293,25 +293,25 @@ public abstract class ReadonlyUnitTest : UnitTest
         var folderParent = folder.Parent!;
         
         // folderParent
-        Assert.AreEqual(Path.GetFileName(readonlyFolderPath), folder.Name, "Folder Name");
-        Assert.AreEqual(readonlyFolderPath, folder.FullName, "Folder FullName");
-        Assert.AreEqual(0ul, folder.Length, "Folder Length");
-        Assert.AreEqual(readonlyFolderCreationTime, folder.CreationTime, "Folder CreationTime");
-        Assert.AreEqual(readonlyFolderLastWriteTime, folder.LastWriteTime, "Folder LastWriteTime");
-        Assert.AreEqual(readonlyFolderAuthoredTime, folder.DateAuthored, "Folder DateAuthored");
-        Assert.AreEqual(readonlyFolderAttributes, folder.Attributes, "Folder Attributes");
+        Assert.AreEqual(Path.GetFileName(readonlyFolderPath), folder.Name, "readonlyFolderName");
+        Assert.AreEqual(readonlyFolderPath, folder.FullName, "readonlyFolderFullName");
+        Assert.AreEqual(0ul, folder.Length, "readonlyFolderLength");
+        Assert.AreEqual(readonlyFolderCreationTime, folder.CreationTime, "readonlyFolderCreationTime");
+        Assert.AreEqual(readonlyFolderLastWriteTime, folder.LastWriteTime, "readonlyFolderLastWriteTime");
+        Assert.AreEqual(readonlyFolderAuthoredTime, folder.DateAuthored, "readonlyFolderAuthoredTime");
+        Assert.AreEqual(readonlyFolderAttributes, folder.Attributes, "readonlyFolderAttributes");
 
         // folderParent
-        Assert.AreEqual(Path.GetFileName(readonlyFolderParentPath), folderParent.Name, "Folder Parent Name");
-        Assert.AreEqual(readonlyFolderParentPath, folderParent.FullName, "Folder Parent FullName");
-        Assert.AreEqual(0ul, folderParent.Length, "Folder Parent Length");
+        Assert.AreEqual(Path.GetFileName(readonlyFolderParentPath), folderParent.Name, "readonlyFolderParentName");
+        Assert.AreEqual(readonlyFolderParentPath, folderParent.FullName, nameof(readonlyFolderParentPath));
+        Assert.AreEqual(0ul, folderParent.Length, "readonlyFolderParentLength");
         if (readonlyFolderParentTimes)
         {
-            Assert.AreEqual(readonlyFolderParentCreationTime, folderParent.CreationTime, "Folder Parent CreationTime");
-            Assert.AreEqual(readonlyFolderParentLastWriteTime, folderParent.LastWriteTime, "Folder Parent LastWriteTime");
-            Assert.AreEqual(readonlyFolderParentAuthoredTime, folderParent.DateAuthored, "Folder Parent DateAuthored");
+            Assert.AreEqual(readonlyFolderParentCreationTime, folderParent.CreationTime, nameof(readonlyFolderParentCreationTime));
+            Assert.AreEqual(readonlyFolderParentLastWriteTime, folderParent.LastWriteTime, nameof(readonlyFolderParentLastWriteTime));
+            Assert.AreEqual(readonlyFolderParentAuthoredTime, folderParent.DateAuthored, "readonlyFolderParentDateAuthored");
         }
-        Assert.AreEqual(readonlyFolderParentAttributes, folderParent.Attributes, "Folder Parent Attributes");
+        Assert.AreEqual(readonlyFolderParentAttributes, folderParent.Attributes, nameof(readonlyFolderParentAttributes));
 
         device.Disconnect();
     }
