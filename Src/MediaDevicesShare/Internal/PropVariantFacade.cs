@@ -67,7 +67,7 @@ internal sealed partial class PropVariantFacade : IDisposable
                 return ToGuid().ToString();
 
             case PropVariantType.VT_DATE:
-                return ToDate().ToString();
+            return ToDate()?.ToString() ?? string.Empty;
 
             case PropVariantType.VT_BOOL:
                 return ToBool().ToString();
@@ -91,7 +91,7 @@ internal sealed partial class PropVariantFacade : IDisposable
                 return ToUlong().ToString();
 
             case PropVariantType.VT_ERROR:
-                TraceVtError(this.Value.errorCode, this.Key);
+                TraceVtError(this.Value.errorCode);
                 //Debug.WriteLine($"VT_ERROR: 0x{this.Value.errorCode:X} for property {this.Key}");
                 return "";
 
@@ -104,7 +104,7 @@ internal sealed partial class PropVariantFacade : IDisposable
     {
         if (this.Value.vt == PropVariantType.VT_ERROR)
         {
-            TraceVtError(this.Value.errorCode, this.Key);
+            TraceVtError(this.Value.errorCode);
             return 0;
         }
 
@@ -123,7 +123,7 @@ internal sealed partial class PropVariantFacade : IDisposable
     {
         if (this.Value.vt == PropVariantType.VT_ERROR)
         {
-            TraceVtError(this.Value.errorCode, this.Key); 
+            TraceVtError(this.Value.errorCode); 
             return 0;
         }
 
@@ -142,7 +142,7 @@ internal sealed partial class PropVariantFacade : IDisposable
     {
         if (this.Value.vt == PropVariantType.VT_ERROR)
         {
-            TraceVtError(this.Value.errorCode, this.Key);
+            TraceVtError(this.Value.errorCode);
             return 0;
         }
 
@@ -162,7 +162,7 @@ internal sealed partial class PropVariantFacade : IDisposable
     {
         if (this.Value.vt == PropVariantType.VT_ERROR)
         {
-            TraceVtError(this.Value.errorCode, this.Key);
+            TraceVtError(this.Value.errorCode);
             return 0;
         }
 
@@ -182,7 +182,7 @@ internal sealed partial class PropVariantFacade : IDisposable
     {
         if (this.Value.vt == PropVariantType.VT_ERROR)
         {
-            TraceVtError(this.Value.errorCode, this.Key);
+            TraceVtError(this.Value.errorCode);
             return null;
         }
 
@@ -198,7 +198,7 @@ internal sealed partial class PropVariantFacade : IDisposable
     {
         if (this.Value.vt == PropVariantType.VT_ERROR)
         {
-            TraceVtError(this.Value.errorCode, this.Key);
+            TraceVtError(this.Value.errorCode);
             return false;
         }
 
@@ -215,7 +215,7 @@ internal sealed partial class PropVariantFacade : IDisposable
     {
         if (this.Value.vt == PropVariantType.VT_ERROR)
         {
-            TraceVtError(this.Value.errorCode, this.Key);
+            TraceVtError(this.Value.errorCode);
             return new Guid();
         }
 
@@ -238,7 +238,7 @@ internal sealed partial class PropVariantFacade : IDisposable
     {
         if (this.Value.vt == PropVariantType.VT_ERROR)
         {
-            TraceVtError(this.Value.errorCode, this.Key);
+            TraceVtError(this.Value.errorCode);
             return null;
         }
 
@@ -339,9 +339,10 @@ internal sealed partial class PropVariantFacade : IDisposable
         return val.ToByteArray();
     }
 
-    private void TraceVtError(int errorCode, PropertyKey key)
+    private void TraceVtError(int errorCode)
     {
-        string errorMessage = Marshal.GetExceptionForHR(errorCode)?.Message ?? "unknown error";  //new Win32Exception(error).Message;
-        Debug.WriteLine($"PropVariantFacade error ({this.Key.GetName()}): {errorMessage}");
+        // TODO
+        //string errorMessage = Marshal.GetExceptionForHR(errorCode)?.Message ?? "unknown error";  //new Win32Exception(error).Message;
+        //Debug.WriteLine($"PropVariantFacade error ({this.Key.GetName()}): {errorMessage}");
     }
 }

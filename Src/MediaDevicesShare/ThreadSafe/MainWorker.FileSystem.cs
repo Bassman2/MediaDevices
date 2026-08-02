@@ -230,7 +230,7 @@ partial class MainWorker
                 throw new IOException($"File {destination} already exists");
             }
 
-            item.UploadFile(fileName, stream);
+            item.UploadFile(fileName, stream, DateTime.Now, DateTime.Now, DateTime.Now);
         });
     }
 
@@ -248,7 +248,17 @@ partial class MainWorker
             }
 
             using var stream = File.OpenRead(source);
-            item.UploadFile(fileName, stream);
+
+            //// for testing 
+            //item.UploadFile(fileName, stream, 
+            //    new DateTime(2001, 1, 1),  // created
+            //    new DateTime(2002, 2, 2),  // modified 
+            //    new DateTime(2003, 3, 3)); // authored
+
+            item.UploadFile(fileName, stream,
+                DateTime.Now,                   // created: set date of upload
+                File.GetLastWriteTime(source),  // modified: set date the file was last written
+                File.GetLastWriteTime(source)); // authored: set date the file was last written
         });
     }
 
@@ -293,7 +303,10 @@ partial class MainWorker
             Item item = Item.FindFolder(mediaDevice, fi.DirectoryName!) ?? throw new DirectoryNotFoundException($"Directory {fi.DirectoryName} not found.");
             string path = Path.Combine(destination, GetLocalPath(source, fi.FullName));
             using FileStream stream = fi.OpenRead();
-            item.UploadFile(path, stream);
+            item.UploadFile(path, stream,
+                DateTime.Now,                   // created: set date of upload
+                File.GetLastWriteTime(source),  // modified: set date the file was last written
+                File.GetLastWriteTime(source)); // authored: set date the file was last written);
         }
         catch (Exception ex)
         {

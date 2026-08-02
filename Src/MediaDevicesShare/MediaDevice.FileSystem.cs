@@ -409,35 +409,34 @@ partial class MediaDevice
     /// Upload data from a stream to a file on a portable mediaDevice.
     /// </summary>
     /// <param name="stream">The stream to upload from.</param>
-    /// <param name="path">The path to the file.</param>
+    /// <param name="destination">The path to the file.</param>
     /// <exception cref="System.IO.IOException">path is a file name.</exception>
     /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
     /// <exception cref="System.ArgumentNullException">path is null.</exception>
     /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public void UploadFile(Stream stream, string path)
+    public void UploadFile(Stream stream, string destination)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
-        ArgumentNullException.ThrowIfNull(stream);
+        ArgumentNullException.ThrowIfNull(stream, nameof(stream));
+        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.UploadFile(this, stream, path);
+        mainWorker.UploadFile(this, stream, destination);
     }
 
     public void UploadFile(string source, string destination)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(source);
-        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
+        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        using FileStream stream = File.OpenRead(source);
-        mainWorker.UploadFile(this, stream, destination);
+        mainWorker.UploadFile(this, source, destination);
     }
 
     public void UploadFolder(string source, string destination, bool recursive = true, bool ignoreExceptions = true)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(source);
-        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
+        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
         Directory.CreateDirectory(destination);
