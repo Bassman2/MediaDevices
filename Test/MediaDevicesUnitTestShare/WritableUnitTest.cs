@@ -4,7 +4,7 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
 {
     protected readonly string testDataFolder = Path.GetFullPath(@".\..\..\..\..\TestData");
     
-    protected string writeableWorkingFolder = @"\Card\Test";
+    protected string writeableWorkingFolder = testPath + @"\Test_Writeable";
 
     protected List<string> treeList =
     [

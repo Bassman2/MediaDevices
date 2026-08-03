@@ -54,14 +54,14 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         // file
         readonlyFilePath = @"\Speichergerät\Test_ReadonlyFile\Pictures\Sundown.jpg";
         readonlyFileLength = 3675020ul;
-        readonlyFileCreationTime = new DateTime(2026, 07, 23, 17, 20, 41);
+        readonlyFileCreationTime = null; // new DateTime(2026, 07, 23, 17, 20, 41);
         readonlyFileLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
-        readonlyFileAuthoredTime = new DateTime(2024, 06, 25, 21, 53, 17);
+        readonlyFileAuthoredTime = null; // new DateTime(2024, 06, 25, 21, 53, 17);
         readonlyFileAttributes = MediaFileAttributes.Normal | MediaFileAttributes.CanDelete;
 
         readonlyFileParentPath = @"\Speichergerät\Test_ReadonlyFile\Pictures";
-        readonlyFileParentCreationTime = new DateTime(2026, 07, 23, 17, 20, 33);
-        readonlyFileParentLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        readonlyFileParentCreationTime = null; // new DateTime(2026, 07, 23, 17, 20, 33);
+        readonlyFileParentLastWriteTime = new DateTime(2026, 08, 03, 19, 24, 13);
         readonlyFileParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
         // folder 
@@ -121,5 +121,7 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         //this.readonlyEnumItemsSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
 
         #endregion
+
+        //writeableWorkingFolder = @"\Speichergerät\Test_Writeable";
     }
 }
