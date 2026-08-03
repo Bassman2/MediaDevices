@@ -5,17 +5,26 @@
 public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
 {
     public AmazonFireHD10Plus11UnitTest()
+        : base("\\Speichergerät")
     {
-        // Device Test
-        this.deviceDescription = "Fire";
-        this.deviceFriendlyName = "FireHD10Plus11";
-        this.deviceManufacture = "Amazon";
-        this.deviceFirmwareVersion = "1.0";
-        this.deviceModel = "Fire";
-        this.deviceSerialNumber = "G001MG0613460HLU";
+        #region Device Tests
+
+        deviceFileProperties = FileProperties.LastWriteTime;
+
+        // Device Properties Test
+        deviceDescription = "Fire";
+        deviceFriendlyName = "FireHD10Plus11";
+        deviceManufacture = "Amazon";
+        deviceFirmwareVersion = "1.0";
+        deviceModel = "Fire";
+        deviceSerialNumber = "G001MG0613460HLU";
         //this.deviceDeviceType = DeviceType.MediaPlayer;
         //this.deviceTransport = DeviceTransport.USB;
         //this.devicePowerSource = PowerSource.Battery;
+        deviceSyncPartner = "";
+        deviceSupportsNonConsumable = false;
+        deviceDateTimeHasValue = false;
+        deviceSupportedFormatsAreOrdered = null;
 
         // Capability Test
         //this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
@@ -33,52 +42,39 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         //this.FilePersistentUniqueIdPath = @"\Interner Speicher\Android\data\com.amazon.ags.app\files\cardcache\version";
 
         // DriveTest
-
         this.deviceDrives = ["Speichergerät"];
 
-        // Writable Tests
-        this.writeableWorkingFolder = @"\Interner Speicher\tmp";
+        // Vendor Test
+        deviceVendorOpcodes = [38337, 38338, 38339, 38340, 38341];
+        deviceVendorExtentionDescription = "microsoft.com: 1.0; android.com: 1.0;";
 
 
-        // Exists Test
-        //this.existingFile = @"\Interner Speicher\Download\14.jpg";
+        #endregion
 
-        //this.infoDirectoryName = "Pictures";
-        //this.infoDirectoryPath = @"\SD card\Pictures";
-        //this.infoDirectoryCreationTime = new DateTime(2014, 03, 21, 19, 02, 04);
-        //this.infoDirectoryLastWriteTime = new DateTime(2017, 01, 07, 16, 54, 38);
+        #region Readonly Tests
 
-        //this.infoDirectoryParentName = "SD card";
-        //this.infoDirectoryParentPath = @"\SD card";
-        //this.infoDirectoryParentCreationTime = null;
-        //this.infoDirectoryParentLastWriteTime = null;
+        // file
+        readonlyFilePath = @"\Speichergerät\Test_ReadonlyFile\Pictures\Sundown.jpg";
+        readonlyFileLength = 3675020ul;
+        readonlyFileLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        readonlyFileAttributes = MediaFileAttributes.Normal | MediaFileAttributes.CanDelete;
 
-        //this.infoFileName = "Frank2.jpg";
-        //this.infoFilePath = @"\SD card\Pictures\Frank2.jpg";
-        //this.readonlyFileLength = 232663ul;
-        //this.readonlyFileCreationTime = new DateTime(2015, 01, 30, 22, 47, 17);
-        //this.readonlyFileLastWriteTime = new DateTime(2015, 01, 30, 22, 47, 22);
+        readonlyFileParentPath = @"\Speichergerät\Test_ReadonlyFile\Pictures";
+        readonlyFileParentLastWriteTime = new DateTime(2026, 08, 03, 19, 24, 13);
+        readonlyFileParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
-        //this.infoFileParentName = "Pictures";
-        //this.infoFileParentPath = @"\SD card\Pictures";
-        //this.readonlyFolderCreationTime = new DateTime(2014, 03, 21, 19, 02, 04);
-        //this.readonlyFolderLastWriteTime = new DateTime(2017, 01, 07, 16, 54, 38);
+        // folder 
+        readonlyFolderPath = @"\Speichergerät\Test_ReadonlyFile\Pictures";
+        readonlyFolderLastWriteTime = new DateTime(2026, 08, 03, 19, 24, 13);
+        readonlyFolderAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
-        //this.readonlyEnumPath = @"\Phone\Pictures";
-        //this.readonlyEnumSearchPatternFolders = "S*";
-        //this.readonlyEnumSearchPatternFiles = "desk*";
-        //this.readonlyEnumSearchPatternItems = "*es*";
+        readonlyFolderParentPath = @"\Speichergerät\Test_ReadonlyFile";
+        readonlyFolderParentLastWriteTime = new DateTime(2026, 08, 03, 19, 24, 13);
+        readonlyFolderParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
-        //this.readonlyEnumFolders = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
-        //this.readonlyEnumFoldersSearchPattern = new List<string> { @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp" };
+        readonlyFileDownloadIcon = false;
+        readonlyFileDownloadThumbnail = true;
 
-        //this.readonlyEnumFiles = new List<string> { @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyEnumFilesSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyEnumFilesSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
-
-        //this.readonlyEnumItems = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
-        //this.readonlyEnumItemsSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
-        //this.readonlyEnumItemsSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
-
+        #endregion
     }
 }

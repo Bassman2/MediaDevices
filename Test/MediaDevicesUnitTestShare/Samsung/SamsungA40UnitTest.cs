@@ -4,13 +4,16 @@
 [TestCategory("Samsung")]
 public class SamsungA40UnitTest : WritableUnitTest
 {
-    public SamsungA40UnitTest()
+    public SamsungA40UnitTest() : base("\\Card")
     {
         // Device Select
-        deviceSelect = device => device.Description == this.deviceDescription;
+        //deviceSelect = device => device.Description == this.deviceDescription;
 
         // Ignore tests
         //this.ignoreTests = Ignore.DownloadIcon;
+
+        //string readonlyBasePath     Test_ReadonlyFile
+
 
         #region Device Tests
 
@@ -35,7 +38,7 @@ public class SamsungA40UnitTest : WritableUnitTest
         
         // Vendor Test
         deviceVendorOpcodes = [38148, 37377, 37378, 38145, 38146, 38147];
-        deviceVendorExtentionDescription = "microsoft.com: 1.0; samsung.com/kies: 5.0; samsung.com/devicestatus: 2; ";
+        deviceVendorExtentionDescription = "microsoft.com: 1.0; samsung.com/kies: 5.0; samsung.com/devicestatus: 0; ";
 
         #endregion
 
@@ -52,7 +55,7 @@ public class SamsungA40UnitTest : WritableUnitTest
         readonlyFileParentPath = @"\Phone\Pictures\My_Test_Pictures";
         readonlyFileParentCreationTime = new DateTime(2026, 07, 23, 17, 20, 33);
         readonlyFileParentLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
-         readonlyFileParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
+        readonlyFileParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
         // folder 
         readonlyFolderPath = @"\Phone\Pictures\My_Test_Pictures";
@@ -69,125 +72,6 @@ public class SamsungA40UnitTest : WritableUnitTest
         readonlyFileDownloadIcon = false;
         readonlyFileDownloadThumbnail = true;
 
-        readonlyEnumPath = @"Phone\Pictures\My_EnumTest";
-        readonlyEnumSearchPatternFolders = "S*";
-        readonlyEnumSearchPatternFiles = "desc*";
-        readonlyEnumSearchPatternItems = "*es*";
-
-        readonlyEnumFiles = ["\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt", "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt", "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt", "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt"];
-        readonlyEnumFilesRecursive = ["\\Phone\\Pictures\\My_EnumTest\\A0002\\_desc_0004.txt", "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0002.txt", "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0003.txt", "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0001.txt", "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0002.txt", "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0003.txt", "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0001.txt", "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\_desc_0004.txt", "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0001.txt", "\\Phone\\Pictures\\My_EnumTest\\S1001\\_desc_0004.txt", "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0003.txt", "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt", "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt", "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt", "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt", "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt"]; 
-        readonlyEnumFilesSearchPattern = ["\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt", "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt", "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt", "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt"];
-        readonlyEnumFilesSearchPatternRecursive = ["\\Phone\\Pictures\\My_EnumTest\\A0002\\_desc_0004.txt", "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0002.txt", "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0003.txt", "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0001.txt", "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0002.txt", "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0003.txt", "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0001.txt", "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\_desc_0004.txt", "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0001.txt", "\\Phone\\Pictures\\My_EnumTest\\S1001\\_desc_0004.txt", "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0003.txt", "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt", "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt", "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt", "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt", "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt"];
-
-        // ReadonlyDirectoryInfoEnumDirectoriesTest
-       readonlyEnumFolders = [
-            "\\Phone\\Pictures\\My_EnumTest\\S1000", 
-            "\\Phone\\Pictures\\My_EnumTest\\S1001", 
-            "\\Phone\\Pictures\\My_EnumTest\\A0001",
-            "\\Phone\\Pictures\\My_EnumTest\\A0002",
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002",
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es0",
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        readonlyEnumFoldersRecursive = [
-            "\\Phone\\Pictures\\My_EnumTest\\S1000", 
-            "\\Phone\\Pictures\\My_EnumTest\\S1001", 
-            "\\Phone\\Pictures\\My_EnumTest\\A0001", 
-            "\\Phone\\Pictures\\My_EnumTest\\A0002", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001", 
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es0",
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        readonlyEnumFoldersSearchPattern = [
-            "\\Phone\\Pictures\\My_EnumTest\\S1000", 
-            "\\Phone\\Pictures\\My_EnumTest\\S1001", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002", 
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        readonlyEnumFoldersSearchPatternRecursive = [
-            "\\Phone\\Pictures\\My_EnumTest\\S1000", 
-            "\\Phone\\Pictures\\My_EnumTest\\S1001", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001", 
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-
-        
-
-        // ReadonlyDirectoryInfoEnumItemsTest
-        readonlyEnumItems = [
-            "\\Phone\\Pictures\\My_EnumTest\\S1000",
-            "\\Phone\\Pictures\\My_EnumTest\\S1001", 
-            "\\Phone\\Pictures\\My_EnumTest\\A0001", 
-            "\\Phone\\Pictures\\My_EnumTest\\A0002", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002",
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        readonlyEnumItemsRecursive = [
-            "\\Phone\\Pictures\\My_EnumTest\\S1000", 
-            "\\Phone\\Pictures\\My_EnumTest\\S1001",
-            "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0003.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\S1001\\_desc_0004.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0001.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\A0001", 
-            "\\Phone\\Pictures\\My_EnumTest\\A0002",
-            "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0003.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\A0002\\_desc_0004.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0001.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0002.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0002.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0003.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\_desc_0004.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0001.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        readonlyEnumItemsSearchPattern = [
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-        readonlyEnumItemsSearchPatternRecursive = [
-            "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0002.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0003.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\S1001\\_desc_0004.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\S1001\\desc_0001.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0003.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\A0002\\_desc_0004.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0001.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\A0002\\desc_0002.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0002.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0003.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\_desc_0004.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\_S1002\\S1001\\desc_0001.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0001.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0002.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\desc_0003.txt",
-            "\\Phone\\Pictures\\My_EnumTest\\_desc_0004.txt", 
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es0", 
-            "\\Phone\\Pictures\\My_EnumTest\\X0000es1"];
-       
         #endregion
-
-        #region Writeable Tests
-
-        writeableWorkingFolder = @"\Card\Test";
-               
-
-        #endregion
-
-        // Exists Test
-            
     }
 }

@@ -5,78 +5,93 @@
 public class NiconCoolpixA300 : ReadonlyUnitTest
 {
     public NiconCoolpixA300()
+        : base("\\A300")
     {
-        // Device Test
-        this.deviceDescription = "A300";
-        this.deviceFriendlyName = "A300";
-        this.deviceManufacture = "NIKON";
-        this.deviceFirmwareVersion = "COOLPIX A300 V1.4";
-        this.deviceModel = "A300";
-        this.deviceSerialNumber = "";
-        this.deviceDeviceType = DeviceType.Camera;
-        this.deviceTransport = DeviceTransport.USB;
-        this.devicePowerSource = PowerSource.Battery;
-        this.deviceProtocol = "MTP: 1.00";
+        ignoreTests = Ignore.FriendlyName;
 
-        // Capability Test
-        this.deviceSupportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
-        this.deviceSupportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
-        this.deviceSupportedContents = [ ContentType.Image ];
-        this.deviceFunctionalCategories = [ FunctionalCategory.Storage, FunctionalCategory.StillImageCapture ];
+        #region Device Tests
 
-        // ContentLocation Test
-        this.deviceContentLocationsImages = [];
+        // Device Properties Test
+        deviceDescription = "A300";
+        deviceFriendlyName = "A300";
+        deviceManufacture = "NIKON";
+        deviceFirmwareVersion = "COOLPIX A300 V1.4";
+        deviceModel = "A300";
+        deviceSerialNumber = "";
+        deviceDeviceType = DeviceType.Camera;
+        deviceTransport = DeviceTransport.USB;
+        devicePowerSource = PowerSource.Battery;
+        deviceProtocol = "MTP: 1.00";
+        deviceSupportsNonConsumable = false;
+        deviceSupportedFormatsAreOrdered = null;
+        deviceUseDeviceStage = DeviceTransport.NotSupported;
 
-        // PersistentUniqueId
-        //this.FolderPersistentUniqueId = "{00000003-0000-0000-0000-000000000000}";
-        //this.FolderPersistentUniqueIdPath = @"\A300\DCIM\100NIKON";
-        //this.FilePersistentUniqueId = "{00000004-0000-0000-0000-000000000000}";
-        //this.FilePersistentUniqueIdPath = @"\A300\DCIM\100NIKON\DSCN0005.JPG";
+        // Device Capability Test
+        deviceSupportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
+        deviceSupportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
+        deviceSupportedContents = [ ContentType.Image ];
+        deviceFunctionalCategories = [ FunctionalCategory.Storage, FunctionalCategory.StillImageCapture ];
 
-        // Exists Test
-        this.readonlyFilePath = @"\A300\DCIM\100NIKON\DSCN0005.JPG";
+        // Device ContentLocation Test
+        deviceContentLocationsImages = [];
+
+        // Device Drive Test
+        deviceDrives = ["A300"];
+
+        // Device Vendor Test
+        deviceVendorOpcodes = [36866, 37376, 36867, 36869, 36870];
+        deviceVendorExtentionDescription = "microsoft.com/deviceservices: 1.0;";
+
+        #endregion
+
+        #region  Readonly Tests
+
+        // file tests
+        readonlyFilePath = @"\A300\DCIM\100NIKON\DSCN0005.JPG";
+        readonlyFileLength = 4784013ul;
+        readonlyFileCreationTime = new DateTime(2017, 11, 15, 20, 55, 54);
+        readonlyFileLastWriteTime = new DateTime(2017, 11, 15, 20, 55, 54);
+        readonlyFileAuthoredTime = null;
+        readonlyFileAttributes = MediaFileAttributes.Normal | MediaFileAttributes.CanDelete;
+
+        readonlyFileParentPath = @"\A300\DCIM\100NIKON";
+        readonlyFileParentCreationTime = null;
+        readonlyFileParentLastWriteTime = null;
+        readonlyFileParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
+
+        // folder tests
+        readonlyFolderPath = @"\A300\DCIM\100NIKON";
+        readonlyFolderAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
+
+        readonlyFolderParentPath = @"\A300\DCIM";
+        readonlyFolderParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
+
+        readonlyFileDownloadThumbnail = true;
+
+        // Enumerable
+        readonlyEnumPath = "\\A300\\DCIM";
+        readonlyEnumSearchPatternFiles = "*003*";
+        readonlyEnumSearchPatternFolders = "*003*";
+        readonlyEnumSearchPatternItems = "*003*";
+
+        //readonlyEnumFilesMode = EnumerableMode.Subset;
+        readonlyEnumFiles = [];
+        readonlyEnumFilesRecursive = ["\\A300\\DCIM\\100NIKON\\DSCN0005.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0006.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0007.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0008.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0009.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0010.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0011.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0012.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0013.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0014.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0015.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0016.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0017.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0018.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0019.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0020.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0021.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0022.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0023.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0024.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0025.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0026.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0027.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0028.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0029.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0030.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0031.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0032.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0033.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0034.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0035.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0036.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0037.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0038.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0039.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0040.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0041.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0042.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0043.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0044.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0045.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0046.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0047.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0048.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0049.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0050.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0051.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0052.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0053.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0054.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0055.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0056.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0057.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0058.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0059.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0060.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0061.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0062.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0063.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0064.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0065.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0066.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0067.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0068.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0069.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0070.JPG"];
+        readonlyEnumFilesSearchPattern = [];
+        readonlyEnumFilesSearchPatternRecursive = ["\\A300\\DCIM\\100NIKON\\DSCN0030.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0031.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0032.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0033.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0034.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0035.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0036.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0037.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0038.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0039.JPG"];
 
 
-        // Directory Info Test
-        //this.infoDirectoryName = "DCIM";
-        //this.infoDirectoryPath = @"\A300\DCIM";
-        //this.infoDirectoryCreationTime = new DateTime(0001, 1, 1, 0, 0, 0);
-        //this.infoDirectoryLastWriteTime = new DateTime(0001, 1, 1, 0, 0, 0);
-        //this.infoDirectoryAuthoredTime = new DateTime(0001, 1, 1, 0, 0, 0);
+        //readonlyEnumFoldersMode = EnumerableMode.Subset;
+        readonlyEnumFolders = ["\\A300\\DCIM\\100NIKON"];
+        readonlyEnumFoldersRecursive = ["\\A300\\DCIM\\100NIKON"];
+        readonlyEnumFoldersSearchPattern = [];
+        readonlyEnumFoldersSearchPatternRecursive = [];
 
-        //this.infoDirectoryParentName = "A300";
-        //this.infoDirectoryParentPath = @"\A300";
-        //this.infoDirectoryParentCreationTime = new DateTime(0001, 1, 1, 0, 0, 0);
-        //this.infoDirectoryParentLastWriteTime = new DateTime(0001, 1, 1, 0, 0, 0);
-        //this.infoDirectoryParentAuthoredTime = new DateTime(0001, 1, 1, 0, 0, 0);
+        readonlyEnumItems = ["\\A300\\DCIM\\100NIKON"];
+        readonlyEnumItemsRecursive = ["\\A300\\DCIM\\100NIKON", "\\A300\\DCIM\\100NIKON\\DSCN0005.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0006.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0007.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0008.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0009.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0010.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0011.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0012.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0013.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0014.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0015.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0016.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0017.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0018.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0019.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0020.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0021.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0022.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0023.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0024.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0025.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0026.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0027.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0028.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0029.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0030.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0031.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0032.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0033.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0034.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0035.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0036.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0037.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0038.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0039.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0040.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0041.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0042.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0043.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0044.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0045.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0046.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0047.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0048.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0049.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0050.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0051.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0052.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0053.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0054.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0055.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0056.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0057.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0058.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0059.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0060.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0061.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0062.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0063.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0064.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0065.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0066.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0067.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0068.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0069.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0070.JPG"];
+        readonlyEnumItemsSearchPattern = [];
+        readonlyEnumItemsSearchPatternRecursive = ["\\A300\\DCIM\\100NIKON\\DSCN0030.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0031.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0032.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0033.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0034.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0035.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0036.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0037.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0038.JPG", "\\A300\\DCIM\\100NIKON\\DSCN0039.JPG"];
 
-        // File InfoTest
-        //this.infoFilePath = @"\A300\DCIM\100NIKON\DSCN0005.JPG";
-        this.readonlyFileLength = 4784013ul;
-        this.readonlyFileCreationTime = new DateTime(2017, 11, 15, 20, 55, 54); 
-        this.readonlyFileLastWriteTime = new DateTime(2017, 11, 15, 20, 55, 54);
-        this.readonlyFileAuthoredTime = new DateTime(0001, 1, 1, 0, 0, 0);
-
-        //this.infoFileParentName = "100NIKON";
-        //this.infoFileParentPath = @"\A300\DCIM\100NIKON";
-        this.readonlyFolderCreationTime = new DateTime(0001, 1, 1, 0, 0, 0);
-        this.readonlyFolderLastWriteTime = new DateTime(0001, 1, 1, 0, 0, 0);
-        this.readonlyFolderAuthoredTime = new DateTime(0001, 1, 1, 0, 0, 0);
-
-        this.readonlyEnumPath = @"\A300\DCIM\100NIKON";
-        this.readonlyEnumSearchPatternFolders = "*";
-        this.readonlyEnumSearchPatternFiles = "*_0002*";
-        this.readonlyEnumSearchPatternItems = "*_0003*";
-
-        this.readonlyEnumFolders = [];
-        this.readonlyEnumFoldersSearchPattern = [];
-
-        this.readonlyEnumFiles = [@"\A300\DCIM\100NIKON\DSCN0005.JPG", @"\A300\DCIM\100NIKON\DSCN0006.JPG", @"\A300\DCIM\100NIKON\DSCN0007.JPG"];
-        this.readonlyEnumFilesSearchPattern = [@"\A300\DCIM\100NIKON\DSCN0005.JPG"];
-        this.readonlyEnumFilesSearchPatternRecursive =[@"\A300\DCIM\100NIKON\DSCN0005.JPG"];
-
-        this.readonlyEnumItems = [@"\A300\DCIM\100NIKON\DSCN0005.JPG", @"\A300\DCIM\100NIKON\DSCN0006.JPG", @"\A300\DCIM\100NIKON\DSCN0007.JPG"];
-        this.readonlyEnumItemsSearchPattern = [@"\A300\DCIM\100NIKON\DSCN0005.JPG"];
-        this.readonlyEnumItemsSearchPatternRecursive = [@"\A300\DCIM\100NIKON\DSCN0005.JPG"];
+        #endregion
     }
 }

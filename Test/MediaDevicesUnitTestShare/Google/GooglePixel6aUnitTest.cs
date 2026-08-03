@@ -1,25 +1,37 @@
-﻿namespace MediaDevicesUnitTest;
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace MediaDevicesUnitTest;
 
 [TestClass]
 [TestCategory("Google")]
 public class GooglePixel6aUnitTest : WritableUnitTest
 {
     public GooglePixel6aUnitTest()
+        : base("")
     {
         // Device Select
         this.deviceSelect = device => device.Description == this.deviceDescription;
 
-        // Device Test
-        this.deviceDescription = "Pixel 6a";
-        this.deviceFriendlyName = "Pixel 6a";
-        this.deviceManufacture = "Google";
-        this.deviceFirmwareVersion = "1.0";
-        this.deviceModel = "Pixel 6a";
-        this.deviceSerialNumber = "B165F4325D7024A91DA6E32BD7DFDCF4";
-        this.deviceDeviceType = DeviceType.Phone;
+        // Ignore tests
+        //this.ignoreTests = Ignore.DownloadIcon;
+
+        #region Device Tests
+
+        // Device Properties Test
+        deviceDescription = "Pixel 6a";
+        deviceFriendlyName = "Pixel 6a";
+        deviceManufacture = "Google";
+        deviceSyncPartner = "";         // TODO check for NULL
+        deviceFirmwareVersion = "1.0";
+        deviceModel = "Pixel 6a";
+        deviceSerialNumber = "B165F4325D7024A91DA6E32BD7DFDCF4";
+        deviceDeviceType = DeviceType.Phone;
         //this.deviceTransport = DeviceTransport.USB;
         //this.devicePowerSource = PowerSource.Battery;
         //this.deviceProtocol = "MTP: 1.00";
+        deviceSupportsNonConsumable = false;
+        deviceDateTimeHasValue = false;
+        deviceSupportedFormatsAreOrdered = null;
 
         // Capability Test
         //this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
@@ -30,16 +42,18 @@ public class GooglePixel6aUnitTest : WritableUnitTest
         // ContentLocation Test
         this.deviceContentLocationsImages = [];
 
-        // PersistentUniqueId
-        //this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";
-        //this.FolderPersistentUniqueIdPath = @"\Phone\Music";
-        //this.FilePersistentUniqueId = "{25606D91-C12C-CF74-93A6-34E88717AD11}"; // "{FDFF71F3-E0BD-D98E-0000-000000000000}";
-        //this.FilePersistentUniqueIdPath = @"\Phone\Samsung\Music\Over_the_Horizon.mp3"; // @"\Phone\Videos\desktop.ini"; Directory = "\\Phone\\Samsung\\Music"
+        // Drive Test
+        deviceDrives = ["Interner gemeinsamer Speicher"];
 
-        this.writeableWorkingFolder = @"\Card\Test";
+        deviceFileProperties = FileProperties.LastWriteTime;   // no creation time, no date authored
 
-        // DrivesTest
-        this.deviceDrives = ["Interner gemeinsamer Speicher"];
+        // Vendor Test
+        deviceVendorOpcodes = [38337, 38338, 38339, 38340, 38341];
+        deviceVendorExtentionDescription = "microsoft.com: 1.0; android.com: 1.0;";
+
+        #endregion
+
+        #region Readonly Tests
 
         // Exists Test
         //this.existingFile = @"\Phone\Music\Artist\05 - Decoupage.mp3";
@@ -80,5 +94,13 @@ public class GooglePixel6aUnitTest : WritableUnitTest
         //this.readonlyEnumItems = new List<string> { @"\Phone\Pictures\Camera Roll", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Screenshots", @"\Phone\Pictures\WhatsApp", @"\Phone\Pictures\bs.jpg", @"\Phone\Pictures\desktop.ini" };
         //this.readonlyEnumItemsSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
         //this.readonlyEnumItemsSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
+
+        #endregion
+
+        #region WriteableTests
+
+        writeableWorkingFolder = "\\Interner gemeinsamer Speicher\\Test";
+
+        #endregion
     }
 }
