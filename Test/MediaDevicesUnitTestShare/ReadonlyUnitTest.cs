@@ -17,22 +17,22 @@ public abstract class ReadonlyUnitTest : UnitTest
     protected MediaFileAttributes? readonlyFileAttributes = MediaFileAttributes.Normal;
 
     protected string? readonlyFileParentPath;
-    protected DateTime? readonlyFileParentCreationTime;
-    protected DateTime? readonlyFileParentLastWriteTime;
+    protected DateTime? readonlyFileParentCreationTime = null;
+    protected DateTime? readonlyFileParentLastWriteTime = null;
     protected DateTime? readonlyFileParentAuthoredTime = null;
     protected MediaFileAttributes? readonlyFileParentAttributes = MediaFileAttributes.Directory;
 
     // folder tests
     protected string? readonlyFolderPath;
-    protected DateTime? readonlyFolderCreationTime;
-    protected DateTime? readonlyFolderLastWriteTime;
+    protected DateTime? readonlyFolderCreationTime = null;
+    protected DateTime? readonlyFolderLastWriteTime = null;
     protected DateTime? readonlyFolderAuthoredTime = null; 
     protected MediaFileAttributes? readonlyFolderAttributes = MediaFileAttributes.Directory;
 
     protected string? readonlyFolderParentPath;
     protected bool readonlyFolderParentTimes = true;
-    protected DateTime? readonlyFolderParentCreationTime;
-    protected DateTime? readonlyFolderParentLastWriteTime;
+    protected DateTime? readonlyFolderParentCreationTime = null;
+    protected DateTime? readonlyFolderParentLastWriteTime = null;
     protected DateTime? readonlyFolderParentAuthoredTime = null;
     protected MediaFileAttributes? readonlyFolderParentAttributes = MediaFileAttributes.Directory;
 
