@@ -5,6 +5,7 @@
 public class CanonPowerShotSX30UnitTest : ReadonlyUnitTest
 {
     public CanonPowerShotSX30UnitTest()
+        : base("")
     {
         // Device Test
         this.deviceDescription = "Canon PowerShot SX30 IS";

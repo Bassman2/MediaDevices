@@ -5,6 +5,7 @@
 public class MicrosoftVolumeUnitTest : WritableUnitTest
 {
     public MicrosoftVolumeUnitTest()
+        : base("")
     {
         // Device Test
         this.deviceDescription = "WPD-Dateisystem-Volumetreiber";

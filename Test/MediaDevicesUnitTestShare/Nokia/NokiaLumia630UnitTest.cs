@@ -5,6 +5,7 @@
 public class NokiaLumia630UnitTest : WritableUnitTest
 {
     public NokiaLumia630UnitTest()
+        : base("")
     {
         // Device Select
         this.deviceSelect = device => device.Description == this.deviceDescription;

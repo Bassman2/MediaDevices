@@ -5,6 +5,7 @@
 public class MicrosoftLumia650UnitTest : WritableUnitTest
 {
     public MicrosoftLumia650UnitTest()
+        : base("")
     {
         // Device Select
         this.deviceSelect = device => device.Description == this.deviceDescription;

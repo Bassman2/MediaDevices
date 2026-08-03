@@ -5,6 +5,7 @@
 public class MicrosoftLumia950UnitTest : WritableUnitTest
 {
     public MicrosoftLumia950UnitTest()
+        : base("")
     {
         // Device Test
         this.deviceDescription = "Lumia 950";

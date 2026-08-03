@@ -1,11 +1,10 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿namespace MediaDevicesUnitTest;
 
-namespace MediaDevicesUnitTest;
-
-public abstract class WritableUnitTest : ReadonlyUnitTest 
+public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testPath)
 {
     protected readonly string testDataFolder = Path.GetFullPath(@".\..\..\..\..\TestData");
-    protected string writeableWorkingFolder = string.Empty;
+    
+    protected string writeableWorkingFolder = @"\Card\Test";
 
     protected List<string> treeList =
     [
@@ -111,9 +110,9 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
             writer.WriteLine("This is a test.");
             writer.Close();
         }
-        File.SetCreationTime(sourceFile, new DateTime(2001, 1, 1));        
-        File.SetLastWriteTime(sourceFile, new DateTime(2002, 2, 2));       
-        File.SetLastAccessTime(sourceFile, new DateTime(2003, 3, 3));      
+        File.SetCreationTime(sourceFile, new DateTime(2001, 1, 1));
+        File.SetLastWriteTime(sourceFile, new DateTime(2002, 2, 2));
+        File.SetLastAccessTime(sourceFile, new DateTime(2003, 3, 3));
 
         var creation = File.GetCreationTime(sourceFile);
         var lastAccess = File.GetLastAccessTime(sourceFile);
@@ -126,19 +125,40 @@ public abstract class WritableUnitTest : ReadonlyUnitTest
         var now = DateTime.Now;
         Assert.IsNotNull(fileInfo, nameof(fileInfo));
         Assert.AreEqual(17ul, fileInfo.Length, "length");
-        
-        Assert.IsNotNull(fileInfo.CreationTime, nameof(fileInfo.CreationTime));
-        Assert.IsGreaterThan(now - new TimeSpan(0,0,1), fileInfo.CreationTime.Value, "> " + nameof(fileInfo.CreationTime));
-        Assert.IsLessThan(now + new TimeSpan(0, 0, 1), fileInfo.CreationTime.Value, "< " + nameof(fileInfo.CreationTime));
 
-        Assert.AreEqual(lastWrite, fileInfo.LastWriteTime, nameof(lastWrite));
+        if (deviceFileProperties.HasFlag(FileProperties.CreationTime))
+        {
+            Assert.IsNotNull(fileInfo.CreationTime, nameof(fileInfo.CreationTime));
+            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 1), fileInfo.CreationTime.Value, "> " + nameof(fileInfo.CreationTime));
+            Assert.IsLessThan(now + new TimeSpan(0, 0, 1), fileInfo.CreationTime.Value, "< " + nameof(fileInfo.CreationTime));
+        }
+        else
+        {
+            Assert.IsNull(fileInfo.CreationTime, nameof(fileInfo.CreationTime));
+        }
 
-        Assert.AreEqual(null, fileInfo.DateAuthored, nameof(lastAccess));
+        if (deviceFileProperties.HasFlag(FileProperties.LastWriteTime))
+        {
+            Assert.AreEqual(lastWrite, fileInfo.LastWriteTime, nameof(fileInfo.LastWriteTime));
+        }
+        else
+        {
+            Assert.IsNull(fileInfo.LastWriteTime, nameof(fileInfo.LastWriteTime));
+        }
+
+        if (deviceFileProperties.HasFlag(FileProperties.DateAuthored))
+        {
+            Assert.AreEqual(lastWrite, fileInfo.DateAuthored, nameof(fileInfo.DateAuthored));
+        }
+        else
+        {
+            Assert.IsNull(fileInfo.DateAuthored, nameof(fileInfo.DateAuthored));
+        }
 
         device.Disconnect();
     }
 
-    private void CreateTextFile(string filePath, string content)
+    private static void CreateTextFile(string filePath, string content)
     {
         using var writer = File.CreateText(filePath);
         writer.WriteLine(content);

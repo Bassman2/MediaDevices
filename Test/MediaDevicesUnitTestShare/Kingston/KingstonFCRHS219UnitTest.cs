@@ -5,6 +5,7 @@
 public class KingstonFCRHS219UnitTest : WritableUnitTest
 {
     public KingstonFCRHS219UnitTest()
+        : base("")
     {
         // Device Test
         this.deviceDescription = "FCR-HS219/1     ";

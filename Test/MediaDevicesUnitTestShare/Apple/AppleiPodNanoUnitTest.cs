@@ -5,6 +5,7 @@
 public class AppleiPodNanoUnitTest : ReadonlyUnitTest
 {
     public AppleiPodNanoUnitTest()
+        : base("")
     {
         // Device Test
         this.deviceDescription = "iPod";

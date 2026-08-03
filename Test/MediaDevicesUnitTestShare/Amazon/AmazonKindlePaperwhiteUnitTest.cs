@@ -7,6 +7,7 @@ public class AmazonKindlePaperwhiteUnitTest : WritableUnitTest
     //private string deviceLetter = "E";
 
     public AmazonKindlePaperwhiteUnitTest()
+        : base("")
     {
         // Device Test
         this.deviceDescription = "Internal Storage";

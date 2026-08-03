@@ -5,9 +5,10 @@
 public class AppleiPhoneS3UnitTest : ReadonlyUnitTest
 {
     public AppleiPhoneS3UnitTest()
-    {
+        : base("")
+    { 
         // Find function
-        this.deviceSelect = d => d.Description == this.deviceDescription;
+        //this.deviceSelect = d => d.Description == this.deviceDescription;
 
         // Device Test
         this.deviceDescription = "Apple iPhone";

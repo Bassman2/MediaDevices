@@ -5,6 +5,7 @@
 public class HannspreeHSG1351UnitTest : WritableUnitTest
 {
     public HannspreeHSG1351UnitTest()
+        : base("")
     {
         //this.supDevicePowerLevel = false;
         //this.supWritable = false;

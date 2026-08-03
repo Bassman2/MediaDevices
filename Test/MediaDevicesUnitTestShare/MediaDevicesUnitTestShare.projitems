@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Canon\CanonEos60DUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Canon\CanonEosR6m2UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Canon\CanonPowerShotSX30UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Google\GooglePixel6aUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hannspree\HannspreeHSG1351UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ignore.cs" />

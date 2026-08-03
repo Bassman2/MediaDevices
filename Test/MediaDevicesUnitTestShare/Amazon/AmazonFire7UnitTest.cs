@@ -4,7 +4,8 @@
 [TestCategory("Amazon")]
 public class AmazonFire7UnitTest : WritableUnitTest
 {
-    public AmazonFire7UnitTest() 
+    public AmazonFire7UnitTest()
+        : base("")
     {
         // Device Test
         this.deviceDescription = "Fire"; // "MTP-USB-Gerät"; // ;

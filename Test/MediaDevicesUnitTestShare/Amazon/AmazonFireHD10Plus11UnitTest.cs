@@ -5,6 +5,7 @@
 public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
 {
     public AmazonFireHD10Plus11UnitTest()
+        : base("")
     {
         // Device Test
         this.deviceDescription = "Fire";

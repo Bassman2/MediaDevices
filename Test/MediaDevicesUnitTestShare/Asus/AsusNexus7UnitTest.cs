@@ -5,6 +5,7 @@
 public class Nexus7UnitTest : WritableUnitTest
 {
     public Nexus7UnitTest()
+        : base("")
     {
         // Device Test
         this.deviceDescription = "Nexus 7";

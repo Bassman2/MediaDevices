@@ -8,8 +8,8 @@ public abstract class ReadonlyUnitTest : UnitTest
         Subset
     }
 
-    // file
-    protected string readonlyFilePath = string.Empty;
+    // file tests
+    protected string readonlyFilePath;
     protected ulong readonlyFileLength;
     protected DateTime? readonlyFileCreationTime;
     protected DateTime? readonlyFileLastWriteTime;
@@ -22,7 +22,7 @@ public abstract class ReadonlyUnitTest : UnitTest
     protected DateTime? readonlyFileParentAuthoredTime = null;
     protected MediaFileAttributes? readonlyFileParentAttributes = MediaFileAttributes.Directory;
 
-    // folderParent 
+    // folder tests
     protected string? readonlyFolderPath;
     protected DateTime? readonlyFolderCreationTime;
     protected DateTime? readonlyFolderLastWriteTime;
@@ -62,6 +62,137 @@ public abstract class ReadonlyUnitTest : UnitTest
     protected List<string> readonlyEnumItemsRecursive = [];
     protected List<string> readonlyEnumItemsSearchPattern = [];
     protected List<string> readonlyEnumItemsSearchPatternRecursive = [];
+
+    protected ReadonlyUnitTest(string testPath)
+    {
+        // for writeable device or readonly devices with SD card, copy MediaDevices\TestData to the device nad use this settings
+        readonlyFilePath = Path.Combine(testPath, "Test_ReadonlyFile");
+        readonlyEnumPath = Path.Combine(testPath, "Test_ReadonlyEnum");
+
+        readonlyEnumSearchPatternFolders = "*data*";
+        readonlyEnumSearchPatternFiles = "*data*";
+        readonlyEnumSearchPatternItems = "*data*";
+
+        readonlyEnumFiles = [
+            readonlyEnumPath + "\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_file_0002.txt"];
+        readonlyEnumFilesRecursive = [
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_file_0002.txt"];
+        readonlyEnumFilesSearchPattern = [
+            readonlyEnumPath + "\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002.txt"];
+        readonlyEnumFilesSearchPatternRecursive = [
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0002.txt"];
+
+        // ReadonlyDirectoryInfoEnumDirectoriesTest
+        readonlyEnumFolders = [
+            readonlyEnumPath + "\\test_data_0001", 
+            readonlyEnumPath + "\\test_data_0002", 
+            readonlyEnumPath + "\\test_folder_0001", 
+            readonlyEnumPath + "\\test_folder_0002"];
+        readonlyEnumFoldersRecursive = [
+            readonlyEnumPath + "\\test_data_0001", 
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001", 
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001", 
+            readonlyEnumPath + "\\test_data_0002",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001", 
+            readonlyEnumPath + "\\test_folder_0001", 
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001",
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001", 
+            readonlyEnumPath + "\\test_folder_0002", 
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001", 
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001"];
+        readonlyEnumFoldersSearchPattern = [
+            readonlyEnumPath + "\\test_data_0001",
+            readonlyEnumPath + "\\test_data_0002"];
+
+        readonlyEnumFoldersSearchPatternRecursive = [
+            readonlyEnumPath + "\\test_data_0001", 
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001",
+            readonlyEnumPath + "\\test_data_0002", 
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001"];
+    }
 
     [TestMethod]
     [Description("Readonly Root test.")]

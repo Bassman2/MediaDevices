@@ -5,6 +5,7 @@
 public class CanonEos60DUnitTest : ReadonlyUnitTest
 {
     public CanonEos60DUnitTest()
+        : base("")
     {
         
 
