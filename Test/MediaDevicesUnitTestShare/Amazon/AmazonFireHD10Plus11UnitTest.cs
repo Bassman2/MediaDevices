@@ -5,18 +5,24 @@
 public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
 {
     public AmazonFireHD10Plus11UnitTest()
-        : base("")
+        : base("\\Speichergerät")
     {
-        // Device Test
-        this.deviceDescription = "Fire";
-        this.deviceFriendlyName = "FireHD10Plus11";
-        this.deviceManufacture = "Amazon";
-        this.deviceFirmwareVersion = "1.0";
-        this.deviceModel = "Fire";
-        this.deviceSerialNumber = "G001MG0613460HLU";
+        #region Device Tests
+
+        // Device Properties Test
+        deviceDescription = "Fire";
+        deviceFriendlyName = "FireHD10Plus11";
+        deviceManufacture = "Amazon";
+        deviceFirmwareVersion = "1.0";
+        deviceModel = "Fire";
+        deviceSerialNumber = "G001MG0613460HLU";
         //this.deviceDeviceType = DeviceType.MediaPlayer;
         //this.deviceTransport = DeviceTransport.USB;
         //this.devicePowerSource = PowerSource.Battery;
+        deviceSyncPartner = "";
+        deviceSupportsNonConsumable = false;
+        deviceDateTimeHasValue = false;
+        deviceSupportedFormatsAreOrdered = null;
 
         // Capability Test
         //this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
@@ -34,25 +40,58 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         //this.FilePersistentUniqueIdPath = @"\Interner Speicher\Android\data\com.amazon.ags.app\files\cardcache\version";
 
         // DriveTest
-
         this.deviceDrives = ["Speichergerät"];
 
+        // Vendor Test
+        deviceVendorOpcodes = [38337, 38338, 38339, 38340, 38341];
+        deviceVendorExtentionDescription = "microsoft.com: 1.0; android.com: 1.0;";
+
+
+        #endregion
+
+        #region Readonly Tests
+
+        // file
+        readonlyFilePath = @"\Speichergerät\Test_ReadonlyFile\Pictures\Sundown.jpg";
+        readonlyFileLength = 3675020ul;
+        readonlyFileCreationTime = new DateTime(2026, 07, 23, 17, 20, 41);
+        readonlyFileLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        readonlyFileAuthoredTime = new DateTime(2024, 06, 25, 21, 53, 17);
+        readonlyFileAttributes = MediaFileAttributes.Normal | MediaFileAttributes.CanDelete;
+
+        readonlyFileParentPath = @"\Speichergerät\Test_ReadonlyFile\Pictures";
+        readonlyFileParentCreationTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        readonlyFileParentLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        readonlyFileParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
+
+        // folder 
+        readonlyFolderPath = @"\Speichergerät\Test_ReadonlyFile\Pictures";
+        readonlyFolderCreationTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        readonlyFolderLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        readonlyFolderAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
+
+        readonlyFolderParentPath = @"\Speichergerät\Test_ReadonlyFile";
+        readonlyFolderParentCreationTime = new DateTime(2026, 07, 23, 19, 06, 10);
+        readonlyFolderParentLastWriteTime = new DateTime(2026, 07, 23, 19, 06, 10);
+        readonlyFolderParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
+
+
         // Writable Tests
-        this.writeableWorkingFolder = @"\Interner Speicher\tmp";
+        //this.writeableWorkingFolder = @"\Interner Speicher\tmp";
 
 
-        // Exists Test
-        //this.existingFile = @"\Interner Speicher\Download\14.jpg";
+        //// Exists Test
+        ////this.existingFile = @"\Interner Speicher\Download\14.jpg";
 
-        //this.infoDirectoryName = "Pictures";
-        //this.infoDirectoryPath = @"\SD card\Pictures";
-        //this.infoDirectoryCreationTime = new DateTime(2014, 03, 21, 19, 02, 04);
-        //this.infoDirectoryLastWriteTime = new DateTime(2017, 01, 07, 16, 54, 38);
+        //infoDirectoryName = "Pictures";
+        //infoDirectoryPath = @"\SD card\Pictures";
+        //infoDirectoryCreationTime = new DateTime(2014, 03, 21, 19, 02, 04);
+        //infoDirectoryLastWriteTime = new DateTime(2017, 01, 07, 16, 54, 38);
 
-        //this.infoDirectoryParentName = "SD card";
-        //this.infoDirectoryParentPath = @"\SD card";
-        //this.infoDirectoryParentCreationTime = null;
-        //this.infoDirectoryParentLastWriteTime = null;
+        //infoDirectoryParentName = "SD card";
+        //infoDirectoryParentPath = @"\SD card";
+        //infoDirectoryParentCreationTime = null;
+        //infoDirectoryParentLastWriteTime = null;
 
         //this.infoFileName = "Frank2.jpg";
         //this.infoFilePath = @"\SD card\Pictures\Frank2.jpg";
@@ -81,5 +120,6 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         //this.readonlyEnumItemsSearchPattern = new List<string> { @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures" };
         //this.readonlyEnumItemsSearchPatternRecursive = new List<string> { @"\Phone\Pictures\Camera Roll\desktop.ini", @"\Phone\Pictures\desktop.ini", @"\Phone\Pictures\Sample Pictures", @"\Phone\Pictures\Saved Pictures", @"\Phone\Pictures\Saved Pictures\desktop.ini" };
 
+        #endregion
     }
 }

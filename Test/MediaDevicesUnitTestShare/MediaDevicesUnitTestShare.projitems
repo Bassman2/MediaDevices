@@ -9,28 +9,14 @@
     <Import_RootNamespace>MediaDevicesUnitTest</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Amazon\AmazonFire7UnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Amazon\AmazonFire8UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Amazon\AmazonFireHD10Plus11UnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Amazon\AmazonKindlePaperwhiteUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Apple\AppleiPadAirM4UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Apple\AppleiPhone17ProUnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Apple\AppleiPhoneS3UnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Apple\AppleiPodNanoUnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Asus\AsusNexus7UnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Canon\CanonEos60DUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Canon\CanonEosR6m2UnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Canon\CanonPowerShotSX30UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Google\GooglePixel6aUnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Hannspree\HannspreeHSG1351UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ignore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Kingston\KingstonFCRHS219UnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Microsoft\MicrosoftLumia650UnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Microsoft\MicrosoftLumia950UnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Microsoft\MicrosoftVolumeUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Nicon\NiconCoolpixA300UnitTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Nokia\NokiaLumia630UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Samsung\SamsungA40UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tascam\TascamDR40UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReadonlyUnitTest.cs" />
@@ -41,15 +27,10 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Amazon\" />
     <Folder Include="$(MSBuildThisFileDirectory)Apple\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Asus\" />
     <Folder Include="$(MSBuildThisFileDirectory)Canon\" />
     <Folder Include="$(MSBuildThisFileDirectory)Google\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Hannspree\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Kingston\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Microsoft\" />
     <Folder Include="$(MSBuildThisFileDirectory)Tascam\" />
     <Folder Include="$(MSBuildThisFileDirectory)Samsung\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Nokia\" />
     <Folder Include="$(MSBuildThisFileDirectory)Nicon\" />
   </ItemGroup>
 </Project>

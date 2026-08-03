@@ -192,6 +192,119 @@ public abstract class ReadonlyUnitTest : UnitTest
             readonlyEnumPath + "\\test_data_0002\\test_data_0001",
             readonlyEnumPath + "\\test_folder_0001\\test_data_0001",
             readonlyEnumPath + "\\test_folder_0002\\test_data_0001"];
+
+        readonlyEnumItems = [
+            readonlyEnumPath + "\\test_data_0001", 
+            readonlyEnumPath + "\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_data_0002", 
+            readonlyEnumPath + "\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001",
+            readonlyEnumPath + "\\test_folder_0002"];
+        readonlyEnumItemsRecursive = [
+            readonlyEnumPath + "\\test_data_0001",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001", 
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_file_0002.txt", 
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_file_0002.txt", 
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001",
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_data_0002", 
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001", 
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_file_0002.txt", 
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_data_0002\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_data_0002\\test_file_0001.txt", 
+            readonlyEnumPath + "\\test_data_0002\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_file_0002.txt", 
+            readonlyEnumPath + "\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_file_0001.txt", 
+            readonlyEnumPath + "\\test_file_0002.txt", 
+            readonlyEnumPath + "\\test_folder_0001",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001", 
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_file_0001.txt", 
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_folder_0001\\test_file_0001.txt", 
+            readonlyEnumPath + "\\test_folder_0001\\test_file_0002.txt", 
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001",
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_file_0002.txt", 
+            readonlyEnumPath + "\\test_folder_0002", 
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001", 
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_file_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_file_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_file_0001.txt", 
+            readonlyEnumPath + "\\test_folder_0002\\test_file_0002.txt", 
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001",
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_file_0001.txt", 
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_file_0002.txt"];
+        readonlyEnumItemsSearchPattern = [
+            readonlyEnumPath + "\\test_data_0001",
+            readonlyEnumPath + "\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002", 
+            readonlyEnumPath + "\\test_data_0002.txt"];
+        readonlyEnumItemsSearchPatternRecursive = [
+            readonlyEnumPath + "\\test_data_0001",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_data_0001\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_data_0001\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0001\\test_sub_0001\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_data_0002", 
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001", 
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_data_0001.txt", 
+            readonlyEnumPath + "\\test_data_0002\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_data_0002\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001", 
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_data_0002.txt", 
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0001\\test_sub_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001", 
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_data_0002.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_data_0001.txt",
+            readonlyEnumPath + "\\test_folder_0002\\test_sub_0001\\test_data_0002.txt"];
     }
 
     [TestMethod]
@@ -516,10 +629,10 @@ public abstract class ReadonlyUnitTest : UnitTest
 
         if (this.readonlyEnumFilesMode == EnumerableMode.Sequence)
         {
-            Assert.AreSequenceEqual(readonlyEnumFiles, enum1, nameof(readonlyEnumFiles));
-            Assert.AreSequenceEqual(readonlyEnumFilesRecursive, enum2, nameof(readonlyEnumFilesRecursive));
-            Assert.AreSequenceEqual(readonlyEnumFilesSearchPattern, enum3, nameof(readonlyEnumFilesSearchPattern));
-            Assert.AreSequenceEqual(readonlyEnumFilesSearchPatternRecursive, enum4, nameof(readonlyEnumFilesSearchPatternRecursive));
+            Assert.AreSequenceEqual(readonlyEnumFiles, enum1, SequenceOrder.InAnyOrder, nameof(readonlyEnumFiles));
+            Assert.AreSequenceEqual(readonlyEnumFilesRecursive, enum2, SequenceOrder.InAnyOrder, nameof(readonlyEnumFilesRecursive));
+            Assert.AreSequenceEqual(readonlyEnumFilesSearchPattern, enum3, SequenceOrder.InAnyOrder, nameof(readonlyEnumFilesSearchPattern));
+            Assert.AreSequenceEqual(readonlyEnumFilesSearchPatternRecursive, enum4, SequenceOrder.InAnyOrder, nameof(readonlyEnumFilesSearchPatternRecursive));
         }
         else
         {
@@ -548,10 +661,10 @@ public abstract class ReadonlyUnitTest : UnitTest
 
         if(this.readonlyEnumFilesMode == EnumerableMode.Sequence)
         {
-            Assert.AreSequenceEqual(readonlyEnumFiles, enum1, nameof(readonlyEnumFiles));
-            Assert.AreSequenceEqual(readonlyEnumFilesRecursive, enum2, nameof(readonlyEnumFilesRecursive));
-            Assert.AreSequenceEqual(readonlyEnumFilesSearchPattern, enum3, nameof(readonlyEnumFilesSearchPattern));
-            Assert.AreSequenceEqual(readonlyEnumFilesSearchPatternRecursive, enum4, nameof(readonlyEnumFilesSearchPatternRecursive));
+            Assert.AreSequenceEqual(readonlyEnumFiles, enum1, SequenceOrder.InAnyOrder, nameof(readonlyEnumFiles));
+            Assert.AreSequenceEqual(readonlyEnumFilesRecursive, enum2, SequenceOrder.InAnyOrder, nameof(readonlyEnumFilesRecursive));
+            Assert.AreSequenceEqual(readonlyEnumFilesSearchPattern, enum3, SequenceOrder.InAnyOrder, nameof(readonlyEnumFilesSearchPattern));
+            Assert.AreSequenceEqual(readonlyEnumFilesSearchPatternRecursive, enum4, SequenceOrder.InAnyOrder, nameof(readonlyEnumFilesSearchPatternRecursive));
         }
         else
         {
