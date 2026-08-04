@@ -7,7 +7,7 @@ namespace MediaDevicesUnitTest;
 [TestCategory("Philips")]
 public class PhilipsUFD : WritableUnitTest
 {
-    public PhilipsUFD() : base("")
+    public PhilipsUFD() : base("\\F:")
     {
         #region Device Tests
 
@@ -91,13 +91,13 @@ public class PhilipsUFD : WritableUnitTest
 
         // folder 
         readonlyFolderPath = @"\F:\Test_ReadonlyFile\Pictures";
-        readonlyFolderCreationTime = DateTime.Parse("2026-07-23T17:20:34");
-        readonlyFolderLastWriteTime = DateTime.Parse("2026-07-23T17:20:34");
+        readonlyFolderCreationTime = DateTime.Parse("2026-08-04T18:17:35");
+        readonlyFolderLastWriteTime = DateTime.Parse("2026-08-03T13:22:34");
         readonlyFolderAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
         readonlyFolderParentPath = @"\F:\Test_ReadonlyFile";
-        readonlyFolderParentCreationTime = DateTime.Parse("2026-07-23T19:06:10");
-        readonlyFolderParentLastWriteTime = DateTime.Parse("2026-07-23T19:06:10");
+        readonlyFolderParentCreationTime = DateTime.Parse("2026-08-04T18:17:35");
+        readonlyFolderParentLastWriteTime = DateTime.Parse("2026-08-03T13:22:34");
         readonlyFolderParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
         // Enumerable & List tests
