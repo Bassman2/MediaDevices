@@ -9,8 +9,6 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
     {
         #region Device Tests
 
-        deviceFileProperties = FileProperties.LastWriteTime;
-
         // Device Properties Test
         deviceDescription = "Fire";
         deviceFriendlyName = "FireHD10Plus11";
@@ -34,12 +32,6 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
 
         // ContentLocation Test
         this.deviceContentLocationsImages = []; // new List<string> { @"\Phone\Pictures", @"\Phone\Pictures", @"\SD card\Pictures" };
-
-        // PersistentUniqueId
-        //this.FolderPersistentUniqueId = "{00000023-0001-0001-0000-000000000000}";
-        //this.FolderPersistentUniqueIdPath = @"\Interner Speicher\Download";
-        //this.FilePersistentUniqueId = "{0000002B-0001-0001-0000-000000000000}";
-        //this.FilePersistentUniqueIdPath = @"\Interner Speicher\Android\data\com.amazon.ags.app\files\cardcache\version";
 
         // DriveTest
         this.deviceDrives = ["Speichergerät"];

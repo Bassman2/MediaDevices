@@ -38,7 +38,8 @@ public class SamsungA40UnitTest : WritableUnitTest
         
         // Vendor Test
         deviceVendorOpcodes = [38148, 37377, 37378, 38145, 38146, 38147];
-        deviceVendorExtentionDescription = "microsoft.com: 1.0; samsung.com/kies: 5.0; samsung.com/devicestatus: 0; ";
+        deviceVendorExtentionDescription = @"^microsoft\.com: 1\.0; samsung\.com\/kies: 5\.0; samsung\.com\/devicestatus: \d; $";
+                                        //   "microsoft.com: 1.0; samsung.com/kies: 5.0; samsung.com/devicestatus: 0; ";
 
         #endregion
 

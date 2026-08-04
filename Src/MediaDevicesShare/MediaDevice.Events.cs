@@ -54,8 +54,9 @@ partial class MediaDevice
 
     internal void CallEvent(IPortableDeviceValues eventParameters)
     {
-        Events eventEnum = mainWorker.CallEvent(this, eventParameters);
+        ThreadSafeWorkerException.ThrowIfNotOutside();
 
+        Events eventEnum = mainWorker.CallEvent(this, eventParameters);
 
         switch (eventEnum)
         {

@@ -269,6 +269,10 @@ internal class Item
         {
             throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading properties for item {this.Id}.");
         }
+        if (err == (int)ErrorCodes.NotFound)
+        {
+            throw new FileNotFoundException($"The item {this.Id} was not found on device {mediaDevice.Description}.");
+        }
 
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), this);
         
@@ -709,6 +713,10 @@ internal class Item
 
         int err = resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out var res);
         if (err == (int)ErrorCodes.ResourceNotAvailable)
+        {
+            throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading icons.");
+        }
+        if (err == (int)ErrorCodes.InvalidParameter)
         {
             throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading icons.");
         }

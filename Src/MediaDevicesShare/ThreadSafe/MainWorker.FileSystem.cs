@@ -332,7 +332,7 @@ partial class MainWorker
         //});
     }
 
-    public void UploadFolderIntern(MediaDevice mediaDevice, string source, string destination, bool recursive, bool ignoreExceptions)
+    public static void UploadFolderIntern(MediaDevice mediaDevice, string source, string destination, bool recursive, bool ignoreExceptions)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
         try

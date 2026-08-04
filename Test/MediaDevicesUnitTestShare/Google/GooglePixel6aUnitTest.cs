@@ -45,8 +45,6 @@ public class GooglePixel6aUnitTest : WritableUnitTest
         // Drive Test
         deviceDrives = ["Interner gemeinsamer Speicher"];
 
-        deviceFileProperties = FileProperties.LastWriteTime;   // no creation time, no date authored
-
         // Vendor Test
         deviceVendorOpcodes = [38337, 38338, 38339, 38340, 38341];
         deviceVendorExtentionDescription = "microsoft.com: 1.0; android.com: 1.0;";
