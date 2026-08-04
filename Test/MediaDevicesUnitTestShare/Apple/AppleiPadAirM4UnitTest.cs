@@ -7,13 +7,13 @@ namespace MediaDevicesUnitTest;
 [TestCategory("Apple")]
 public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
 {
-    public AppleiPadAirM4UnitTest()
+    public AppleiPadAirM4UnitTest() : base("\\Internal Storage")
     {
         // Device Select
-        this.deviceSelect = device => device.Description == this.deviceDescription;
+        deviceSelect = device => device.Description == this.deviceDescription;
 
         // Ignore tests
-        this.ignoreTests = Ignore.FriendlyName;
+        ignoreTests = Ignore.FriendlyName;
 
         #region Device Tests
 
@@ -32,19 +32,19 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
         devicePowerSource = PowerSource.Battery;
         deviceProtocol = "MTP: 1.00";
 
-        // Capability Test
+        // Device Capability Test
         deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
         deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
         deviceSupportedContents = [ContentType.Image];
         deviceFunctionalCategories = [FunctionalCategory.Storage];
 
-        // ContentLocation Test
+        // Device ContentLocation Test
         deviceContentLocationsImages = [];
 
-        // Drive Test
+        // Device Drive Test
         deviceDrives = ["Internal Storage"];
 
-        // Vendor Test
+        // Device Vendor Test
         deviceVendorOpcodes = [38658, 36873, 36875, 36876, 36878, 36879, 36880, 36865, 36866, 36867, 36868, 36869, 36870, 36871, 38657, 36872];
         deviceVendorExtentionDescription = "ICPE^1&CPLS^1&ASN^DC62X123XW";
 
@@ -61,12 +61,12 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
         readonlyFileLength = 1202261ul;
         readonlyFileCreationTime = new DateTime(2014, 07, 24, 12, 55, 42);
         readonlyFileLastWriteTime = new DateTime(2014, 07, 24, 12, 55, 42);
-        readonlyFileAuthoredTime = null;
+        //readonlyFileAuthoredTime = null;
 
         readonlyFileParentPath = @"\Internal Storage\201407_a";
         readonlyFileParentCreationTime = new DateTime(2014, 07, 01, 00, 00, 00);
         readonlyFileParentLastWriteTime = new DateTime(2014, 07, 01, 00, 00, 00);
-        readonlyFileParentAuthoredTime = null;
+        //readonlyFileParentAuthoredTime = null;
 
         // folder
         readonlyFolderPath = @"\Internal Storage\201407_a";
@@ -76,9 +76,7 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
         
         readonlyFolderParentPath = "\\DCIM";
         readonlyFolderParentTimes = false;
-        //readonlyFolderParentCreationTime = new DateTime(2026, 08, 01, 10, 24, 18);
-        //readonlyFolderParentLastWriteTime = new DateTime(2026, 07, 31, 19, 53, 45);
-        //readonlyFolderParentAuthoredTime = new DateTime(0001, 01, 01, 00, 00, 00);
+        
 
         // Enumerable
         readonlyEnumPath = "\\Internal Storage";

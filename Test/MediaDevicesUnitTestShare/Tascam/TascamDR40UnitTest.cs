@@ -5,6 +5,7 @@
 public class TascamDR40UnitTest : WritableUnitTest
 {
     public TascamDR40UnitTest()
+        : base("")
     {
         // Device Select
         this.deviceSelect = device => device.Description == this.deviceDescription;

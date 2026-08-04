@@ -1,6 +1,4 @@
-﻿using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
-
-namespace MediaDevicesUnitTest;
+﻿namespace MediaDevicesUnitTest;
 
 public abstract class UnitTest
 {
@@ -11,6 +9,7 @@ public abstract class UnitTest
    
     // Ignore tests
     protected Ignore ignoreTests = Ignore.None;
+    
     
     // Device Properties Test
     protected string? deviceDescription;
@@ -32,8 +31,14 @@ public abstract class UnitTest
     // ModelUniqueId
     protected DeviceTransport deviceTransport = DeviceTransport.USB;
     protected DeviceTransport? deviceUseDeviceStage;
-    protected List<string> deviceDrives = [];
-    // content locations
+    
+    // Device Capability Test
+    protected List<Events>? deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
+    protected List<Commands>? deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
+    protected List<ContentType>? deviceSupportedContents = [ContentType.Image];
+    protected List<FunctionalCategory>? deviceFunctionalCategories = [FunctionalCategory.Storage];
+
+    // Device ContentLocation Test
     protected List<string> deviceContentLocationsImages = [];
     protected List<string> deviceContentLocationsVideos = [];
     protected List<string> deviceContentLocationsAudios = [];
@@ -41,13 +46,13 @@ public abstract class UnitTest
     protected List<string> deviceContentLocationsCalendars = [];
     protected List<string> deviceContentLocationsAll = [];
 
-    // Capability Test
-    protected List<Events>? deviceSupportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
-    protected List<Commands>? deviceSupportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
-    protected List<ContentType>? deviceSupportedContents = [ ContentType.Image ];
-    protected List<FunctionalCategory>? deviceFunctionalCategories = [ FunctionalCategory.Storage ];
+    // Device Drive Test
+    protected List<string> deviceDrives = [];
 
-    // Vendor Test
+    // Device File Properties Test
+    protected FileProperties deviceFileProperties = FileProperties.CreationTime | FileProperties.LastWriteTime;
+
+    // Device Vendor Test
     protected List<uint> deviceVendorOpcodes = [];
     protected string deviceVendorExtentionDescription = "";
 
@@ -182,29 +187,29 @@ public abstract class UnitTest
         DeviceTransport? useDeviceStage = device.UseDeviceStage;
         device.Disconnect();
 
-        Assert.AreEqual(this.deviceDescription, description, "Description");
-        Assert.AreEqual(this.deviceFriendlyName, friendlyName, "FriendlyName");
-        Assert.AreEqual(this.deviceManufacture, manufacture, "Manufacture");
+        Assert.AreEqual(this.deviceDescription, description, nameof(deviceDescription));
+        Assert.AreEqual(this.deviceFriendlyName, friendlyName, nameof(deviceFriendlyName));
+        Assert.AreEqual(this.deviceManufacture, manufacture, nameof(deviceManufacture));
 
 
-        Assert.AreEqual(this.deviceSyncPartner, syncPartner, "SyncPartner");
-        Assert.AreEqual(this.deviceFirmwareVersion, firmwareVersion, "FirmwareVersion");
-        Assert.AreEqual(this.devicePowerLevelHasValue, powerLevel.HasValue, "PowerLevel"); // value changes
-        Assert.AreEqual(this.devicePowerSource, powerSource, "PowerSource");
-        Assert.AreEqual(this.deviceProtocol, protocol, "Protocol");
-        Assert.AreEqual(this.deviceModel, model, "Model");
-        Assert.AreEqual(this.deviceSerialNumber, serialNumber, "SerialNumber");
-        Assert.AreEqual(this.deviceSupportsNonConsumable, supportsNonConsumable, "SupportsNonConsumable");
-        Assert.AreEqual(this.deviceDateTimeHasValue, dateTime.HasValue, "DateTime");    // value changes
-        Assert.AreEqual(this.deviceSupportedFormatsAreOrdered, supportedFormatsAreOrdered, "SupportedFormatsAreOrdered");
-        Assert.AreEqual(this.deviceDeviceType, deviceType, "DeviceType");
-        Assert.AreEqual(this.deviceNetworkIdentifier, networkIdentifier, "NetworkIdentifier");
+        Assert.AreEqual(this.deviceSyncPartner, syncPartner, nameof(deviceSyncPartner));
+        Assert.AreEqual(this.deviceFirmwareVersion, firmwareVersion, nameof(deviceFirmwareVersion));
+        Assert.AreEqual(this.devicePowerLevelHasValue, powerLevel.HasValue, nameof(devicePowerLevelHasValue)); // value changes
+        Assert.AreEqual(this.devicePowerSource, powerSource, nameof(devicePowerSource));
+        Assert.AreEqual(this.deviceProtocol, protocol, nameof(deviceProtocol));
+        Assert.AreEqual(this.deviceModel, model, nameof(deviceModel));
+        Assert.AreEqual(this.deviceSerialNumber, serialNumber, nameof(deviceSerialNumber));
+        Assert.AreEqual(this.deviceSupportsNonConsumable, supportsNonConsumable, nameof(deviceSupportsNonConsumable));
+        Assert.AreEqual(this.deviceDateTimeHasValue, dateTime.HasValue, nameof(deviceDateTimeHasValue));    // value changes
+        Assert.AreEqual(this.deviceSupportedFormatsAreOrdered, supportedFormatsAreOrdered, nameof(deviceSupportedFormatsAreOrdered));
+        Assert.AreEqual(this.deviceDeviceType, deviceType, nameof(deviceDeviceType));
+        Assert.AreEqual(this.deviceNetworkIdentifier, networkIdentifier, nameof(deviceNetworkIdentifier));
         // FunctionalUniqueId
         // ModelUniqueId
-        Assert.AreEqual(this.deviceTransport, transport, "Transport");
-        Assert.AreEqual(this.deviceUseDeviceStage, useDeviceStage, "UseDeviceStage");
+        Assert.AreEqual(this.deviceTransport, transport, nameof(deviceTransport));
+        Assert.AreEqual(this.deviceUseDeviceStage, useDeviceStage, nameof(deviceUseDeviceStage));
 
-        //Assert.IsGreaterThanOrEqualTo(0, powerLevel, "PowerLevel");
+        //Assert.IsGreaterThanOrEqualTo(0, powerLevel, nameof(devicePowerLevel));
     }
 
 
