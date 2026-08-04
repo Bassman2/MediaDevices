@@ -126,33 +126,55 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
         Assert.IsNotNull(fileInfo, nameof(fileInfo));
         Assert.AreEqual(17ul, fileInfo.Length, "length");
 
-        if (deviceFileProperties.HasFlag(FileProperties.CreationTime))
+        switch (deviceCreationTimeMode)
         {
+        case DateMode.NotSupported:
+            Assert.IsNull(fileInfo.CreationTime, nameof(fileInfo.CreationTime));
+            break;
+        case DateMode.FileTime:
+            Assert.AreEqual(creation, fileInfo.CreationTime, nameof(fileInfo.CreationTime));
+            break;
+        case DateMode.Now:
             Assert.IsNotNull(fileInfo.CreationTime, nameof(fileInfo.CreationTime));
             Assert.IsGreaterThan(now - new TimeSpan(0, 0, 1), fileInfo.CreationTime.Value, "> " + nameof(fileInfo.CreationTime));
             Assert.IsLessThan(now + new TimeSpan(0, 0, 1), fileInfo.CreationTime.Value, "< " + nameof(fileInfo.CreationTime));
-        }
-        else
-        {
-            Assert.IsNull(fileInfo.CreationTime, nameof(fileInfo.CreationTime));
+            break;
+        default:
+            throw new NotSupportedException(deviceCreationTimeMode.ToString());
         }
 
-        if (deviceFileProperties.HasFlag(FileProperties.LastWriteTime))
+        switch (deviceLastWriteTimeMode)
         {
-            Assert.AreEqual(lastWrite, fileInfo.LastWriteTime, nameof(fileInfo.LastWriteTime));
-        }
-        else
-        {
+        case DateMode.NotSupported:
             Assert.IsNull(fileInfo.LastWriteTime, nameof(fileInfo.LastWriteTime));
+            break;
+        case DateMode.FileTime:
+            Assert.AreEqual(lastWrite, fileInfo.LastWriteTime, nameof(fileInfo.LastWriteTime));
+            break;
+        case DateMode.Now:
+            Assert.IsNotNull(fileInfo.LastWriteTime, nameof(fileInfo.LastWriteTime));
+            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 1), fileInfo.LastWriteTime.Value, "> " + nameof(fileInfo.LastWriteTime));
+            Assert.IsLessThan(now + new TimeSpan(0, 0, 1), fileInfo.LastWriteTime.Value, "< " + nameof(fileInfo.LastWriteTime));
+            break;
+        default:
+            throw new NotSupportedException(deviceLastWriteTimeMode.ToString());
         }
 
-        if (deviceFileProperties.HasFlag(FileProperties.DateAuthored))
+        switch (deviceDateAuthoredMode)
         {
-            Assert.AreEqual(lastWrite, fileInfo.DateAuthored, nameof(fileInfo.DateAuthored));
-        }
-        else
-        {
+        case DateMode.NotSupported:
             Assert.IsNull(fileInfo.DateAuthored, nameof(fileInfo.DateAuthored));
+            break;
+        case DateMode.FileTime:
+            Assert.AreEqual(lastAccess, fileInfo.DateAuthored, nameof(fileInfo.DateAuthored));
+            break;
+        case DateMode.Now:
+            Assert.IsNotNull(fileInfo.DateAuthored, nameof(fileInfo.DateAuthored));
+            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 1), fileInfo.DateAuthored.Value, "> " + nameof(fileInfo.DateAuthored));
+            Assert.IsLessThan(now + new TimeSpan(0, 0, 1), fileInfo.DateAuthored.Value, "< " + nameof(fileInfo.DateAuthored));
+            break;
+        default:
+            throw new NotSupportedException(deviceDateAuthoredMode.ToString());
         }
 
         device.Disconnect();

@@ -2,6 +2,16 @@
 
 public abstract class UnitTest
 {
+    public enum DateMode { NotSupported, FileTime, Now }
+
+
+    [Flags]
+    public enum Ignore : ulong
+    {
+        None = 0,
+        FriendlyName = 1,
+    }
+
     protected MediaDeviceManager manager = MediaDeviceManager.Instance;
 
     // Device Select
@@ -49,8 +59,10 @@ public abstract class UnitTest
     // Device Drive Test
     protected List<string> deviceDrives = [];
 
-    // Device File Properties Test
-    protected FileProperties deviceFileProperties = FileProperties.CreationTime | FileProperties.LastWriteTime;
+    // Device File Dates Test
+    protected DateMode deviceCreationTimeMode = DateMode.NotSupported;
+    protected DateMode deviceLastWriteTimeMode = DateMode.NotSupported;
+    protected DateMode deviceDateAuthoredMode = DateMode.NotSupported;
 
     // Device Vendor Test
     protected List<uint>? deviceVendorOpcodes = null;

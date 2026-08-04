@@ -9,8 +9,6 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
     {
         #region Device Tests
 
-        deviceFileProperties = FileProperties.LastWriteTime;
-
         // Device Properties Test
         deviceDescription = "Fire";
         deviceFriendlyName = "FireHD10Plus11";

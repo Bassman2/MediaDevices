@@ -1,7 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace MediaDevicesUnitTest;
+﻿namespace MediaDevicesUnitTest;
 
 [TestClass]
 [TestCategory("Philips")]
@@ -68,6 +65,13 @@ public class PhilipsUFD : WritableUnitTest
         // Drive Test
         deviceDrives = [""];
 
+
+        // Device File Dates Test
+        deviceCreationTimeMode = DateMode.Now;
+        deviceLastWriteTimeMode = DateMode.Now;
+        deviceDateAuthoredMode = DateMode.NotSupported;
+
+
         // Vendor Test
         deviceVendorOpcodes = [];
         deviceVendorExtentionDescription = null;
@@ -75,6 +79,8 @@ public class PhilipsUFD : WritableUnitTest
         #endregion
 
         #region Readonly Tests
+
+        readonlyFileDownloadIcon = false;
 
         // file
         readonlyFilePath = @"\F:\Test_ReadonlyFile\Pictures\Sundown.jpg";

@@ -712,6 +712,10 @@ internal class Item
         {
             throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading icons.");
         }
+        if (err == (int)ErrorCodes.InvalidParameter)
+        {
+            throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading icons.");
+        }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
         IStream wpdStream = (IStream)res;
