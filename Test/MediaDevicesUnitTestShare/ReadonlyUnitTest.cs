@@ -11,9 +11,9 @@ public abstract class ReadonlyUnitTest : UnitTest
     // file tests
     protected string readonlyFilePath;
     protected ulong readonlyFileLength;
-    protected DateTime? readonlyFileCreationTime;
-    protected DateTime? readonlyFileLastWriteTime;
-    protected DateTime? readonlyFileAuthoredTime;
+    protected DateTime? readonlyFileCreationTime = null;
+    protected DateTime? readonlyFileLastWriteTime = null;
+    protected DateTime? readonlyFileAuthoredTime = null;
     protected MediaFileAttributes? readonlyFileAttributes = MediaFileAttributes.Normal;
 
     protected string? readonlyFileParentPath;

@@ -416,7 +416,14 @@ public abstract class UnitTest
 
         device.Disconnect();
 
-        Assert.AreEqual(deviceVendorExtentionDescription, description, nameof(deviceVendorExtentionDescription));
+        if (deviceVendorExtentionDescription.StartsWith('^'))
+        {
+            Assert.MatchesRegex(deviceVendorExtentionDescription, description, nameof(deviceVendorExtentionDescription));
+        }
+        else
+        {
+            Assert.AreEqual(deviceVendorExtentionDescription, description, nameof(deviceVendorExtentionDescription));
+        }
     }
 
     #endregion
