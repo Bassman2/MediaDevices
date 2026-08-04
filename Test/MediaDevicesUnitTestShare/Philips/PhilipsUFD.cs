@@ -7,7 +7,7 @@ namespace MediaDevicesUnitTest;
 [TestCategory("Philips")]
 public class PhilipsUFD : WritableUnitTest
 {
-    public PhilipsUFD() : base("\\Card")
+    public PhilipsUFD() : base("")
     {
         #region Device Tests
 
@@ -77,27 +77,27 @@ public class PhilipsUFD : WritableUnitTest
         #region Readonly Tests
 
         // file
-        readonlyFilePath = @"\Phone\Pictures\My_Test_Pictures\Sundown.jpg";
+        readonlyFilePath = @"\F:\Test_ReadonlyFile\Pictures\Sundown.jpg";
         readonlyFileLength = 3675020ul;
-        readonlyFileCreationTime = new DateTime(2026, 07, 23, 17, 20, 41);
-        readonlyFileLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
-        readonlyFileAuthoredTime = new DateTime(2024, 06, 25, 21, 53, 17);
+        readonlyFileCreationTime = DateTime.Parse("2026-08-04T18:17:35");
+        readonlyFileLastWriteTime = DateTime.Parse("2026-07-23T17:20:34");
+        readonlyFileAuthoredTime = DateTime.Parse("2024-06-25T18:53:17");
         readonlyFileAttributes = MediaFileAttributes.Normal | MediaFileAttributes.CanDelete;
 
-        readonlyFileParentPath = @"\Phone\Pictures\My_Test_Pictures";
-        readonlyFileParentCreationTime = new DateTime(2026, 07, 23, 17, 20, 33);
-        readonlyFileParentLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        readonlyFileParentPath = @"\F:\Test_ReadonlyFile\Pictures";
+        readonlyFileParentCreationTime = DateTime.Parse("2026-08-04T18:17:35");
+        readonlyFileParentLastWriteTime = DateTime.Parse("2026-08-03T13:22:34");
         readonlyFileParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
         // folder 
-        readonlyFolderPath = @"\Phone\Pictures\My_Test_Pictures";
-        readonlyFolderCreationTime = new DateTime(2026, 07, 23, 17, 20, 33);
-        readonlyFolderLastWriteTime = new DateTime(2026, 07, 23, 17, 20, 33);
+        readonlyFolderPath = @"\F:\Test_ReadonlyFile\Pictures";
+        readonlyFolderCreationTime = DateTime.Parse("2026-07-23T17:20:34");
+        readonlyFolderLastWriteTime = DateTime.Parse("2026-07-23T17:20:34");
         readonlyFolderAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
-        readonlyFolderParentPath = @"\Phone\Pictures";
-        readonlyFolderParentCreationTime = new DateTime(2026, 07, 23, 19, 06, 10);
-        readonlyFolderParentLastWriteTime = new DateTime(2026, 07, 23, 19, 06, 10);
+        readonlyFolderParentPath = @"\F:\Test_ReadonlyFile";
+        readonlyFolderParentCreationTime = DateTime.Parse("2026-07-23T19:06:10");
+        readonlyFolderParentLastWriteTime = DateTime.Parse("2026-07-23T19:06:10");
         readonlyFolderParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
         // Enumerable & List tests

@@ -346,11 +346,42 @@ public abstract class ReadonlyUnitTest : UnitTest
     }
 
     [TestMethod]
+    [Description("Reace root folders path.")]
+    public void ReadonlyShowRootTreeTest()
+    {
+        var device = GetDevice();
+        device.Connect();
+
+        var root = device.GetRootDirectory();
+        Trace.WriteLine($"Root: {root.FullName} ({root.Length})");
+        foreach (var folder in root.EnumerateDirectories())
+        {
+            Trace.WriteLine($"  Folder: {folder.FullName}");
+            foreach (var subfolder in folder.EnumerateDirectories())
+            {
+                Trace.WriteLine($"    Subfolder: {subfolder.FullName}");
+            }
+        }
+        device.Disconnect();
+    }
+
+    [TestMethod]
     [Description("Check mediaDeviceFile infos.")]
     public void ReadonlyFileInfoTest()
     {
         var device = GetDevice();
         device.Connect();
+
+        var root = device.GetRootDirectory();
+        Trace.WriteLine($"Root: {root.FullName} ({root.Length})");
+        foreach (var folder in root.EnumerateDirectories())
+        {
+            Trace.WriteLine($"Folder: {folder.FullName}");
+            foreach (var subfolder in folder.EnumerateDirectories())
+            {
+                Trace.WriteLine($"Subfolder: {subfolder.FullName}");
+            }
+        }
 
         var file = device.GetFileInfo(this.readonlyFilePath!);
         var parent = file.Directory;

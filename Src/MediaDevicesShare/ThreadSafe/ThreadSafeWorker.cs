@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Concurrent;
 
 namespace MediaDevices.Internal;
@@ -139,23 +140,16 @@ internal class ThreadSafeWorker : IDisposable
 
     private class WorkerEnumerable<T>(ThreadSafeWorker worker, Func<IEnumerable<T>> func) : IEnumerable<T>
     {
-        //IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         public IEnumerator<T> GetEnumerator() => new WorkerEnumerator<T>(worker, worker.Invoke(() => func().GetEnumerator()));
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     private class WorkerEnumerator<T>(ThreadSafeWorker worker, IEnumerator<T> inner) : IEnumerator<T>
     {
         public void Dispose() => inner.Dispose();
         public T Current => inner.Current;
-        //object IEnumerator.Current => Current!;
-
-        object System.Collections.IEnumerator.Current => Current!;
-
+        object IEnumerator.Current => Current!;
         public void Reset() => inner.Reset();
         public bool MoveNext() => worker.Invoke(() => inner.MoveNext());
     }
