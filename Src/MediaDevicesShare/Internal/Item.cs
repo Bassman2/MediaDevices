@@ -269,6 +269,10 @@ internal class Item
         {
             throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading properties for item {this.Id}.");
         }
+        if (err == (int)ErrorCodes.NotFound)
+        {
+            throw new FileNotFoundException($"The item {this.Id} was not found on device {mediaDevice.Description}.");
+        }
 
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), this);
         

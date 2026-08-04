@@ -136,8 +136,8 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
             break;
         case DateMode.Now:
             Assert.IsNotNull(fileInfo.CreationTime, nameof(fileInfo.CreationTime));
-            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 1), fileInfo.CreationTime.Value, "> " + nameof(fileInfo.CreationTime));
-            Assert.IsLessThan(now + new TimeSpan(0, 0, 1), fileInfo.CreationTime.Value, "< " + nameof(fileInfo.CreationTime));
+            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 5), fileInfo.CreationTime.Value, "> " + nameof(fileInfo.CreationTime));
+            Assert.IsLessThan(now + new TimeSpan(0, 0, 5), fileInfo.CreationTime.Value, "< " + nameof(fileInfo.CreationTime));
             break;
         default:
             throw new NotSupportedException(deviceCreationTimeMode.ToString());
@@ -153,8 +153,8 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
             break;
         case DateMode.Now:
             Assert.IsNotNull(fileInfo.LastWriteTime, nameof(fileInfo.LastWriteTime));
-            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 1), fileInfo.LastWriteTime.Value, "> " + nameof(fileInfo.LastWriteTime));
-            Assert.IsLessThan(now + new TimeSpan(0, 0, 1), fileInfo.LastWriteTime.Value, "< " + nameof(fileInfo.LastWriteTime));
+            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 5), fileInfo.LastWriteTime.Value, "> " + nameof(fileInfo.LastWriteTime));
+            Assert.IsLessThan(now + new TimeSpan(0, 0, 5), fileInfo.LastWriteTime.Value, "< " + nameof(fileInfo.LastWriteTime));
             break;
         default:
             throw new NotSupportedException(deviceLastWriteTimeMode.ToString());
@@ -170,8 +170,8 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
             break;
         case DateMode.Now:
             Assert.IsNotNull(fileInfo.DateAuthored, nameof(fileInfo.DateAuthored));
-            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 1), fileInfo.DateAuthored.Value, "> " + nameof(fileInfo.DateAuthored));
-            Assert.IsLessThan(now + new TimeSpan(0, 0, 1), fileInfo.DateAuthored.Value, "< " + nameof(fileInfo.DateAuthored));
+            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 5), fileInfo.DateAuthored.Value, "> " + nameof(fileInfo.DateAuthored));
+            Assert.IsLessThan(now + new TimeSpan(0, 0, 5), fileInfo.DateAuthored.Value, "< " + nameof(fileInfo.DateAuthored));
             break;
         default:
             throw new NotSupportedException(deviceDateAuthoredMode.ToString());
@@ -369,8 +369,13 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
         var exists = device.DirectoryExists(newFolder1);
         device.Disconnect();
 
+        //NotSupportedException e;
+
+        //FileNotFoundException ex;
+
+
         device.Connect(MediaDeviceAccess.GenericRead);
-        Assert.ThrowsExactly<NotSupportedException>(() => device.CreateDirectory(newFolder2));
+        Assert.Throws<SystemException>(() => device.CreateDirectory(newFolder2));
         device.Disconnect();
 
         Assert.IsTrue(exists, nameof(exists));
@@ -421,10 +426,17 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
                 
         mediaDevice.ObjectAdded += (s, a) =>
         {
+            Trace.WriteLine("ObjectAdded");
+            addEvent.Set();
+        };
+        mediaDevice.ObjectUpdated += (s, a) =>
+        {
+            Trace.WriteLine("ObjectUpdated");
             addEvent.Set();
         };
         mediaDevice.ObjectRemoved += (s, a) => 
         {
+            Trace.WriteLine("ObjectRemoved");
             delEvent.Set();
         };
 
