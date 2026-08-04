@@ -15,7 +15,7 @@ public abstract class UnitTest
     protected string? deviceDescription;
     protected string? deviceFriendlyName;
     protected string? deviceManufacture;
-    protected string? deviceSyncPartner;
+    protected string? deviceSyncPartner = null;
     protected string? deviceFirmwareVersion;
     protected bool devicePowerLevelHasValue = true;
     protected PowerSource? devicePowerSource = PowerSource.Battery;
@@ -25,11 +25,11 @@ public abstract class UnitTest
     protected bool? deviceSupportsNonConsumable = true;
     protected bool deviceDateTimeHasValue = true;
     protected bool? deviceSupportedFormatsAreOrdered = true;
-    protected DeviceType deviceDeviceType = DeviceType.Generic;
+    protected DeviceType? deviceDeviceType = DeviceType.Generic;
     protected ulong? deviceNetworkIdentifier;
     // FunctionalUniqueId
     // ModelUniqueId
-    protected DeviceTransport deviceTransport = DeviceTransport.USB;
+    protected DeviceTransport? deviceTransport = DeviceTransport.USB;
     protected DeviceTransport? deviceUseDeviceStage;
     
     // Device Capability Test
@@ -53,8 +53,8 @@ public abstract class UnitTest
     protected FileProperties deviceFileProperties = FileProperties.CreationTime | FileProperties.LastWriteTime;
 
     // Device Vendor Test
-    protected List<uint> deviceVendorOpcodes = [];
-    protected string deviceVendorExtentionDescription = "";
+    protected List<uint>? deviceVendorOpcodes = null;
+    protected string? deviceVendorExtentionDescription = null;
 
     //public TestContext TestContext { get; set; }
 
@@ -236,10 +236,10 @@ public abstract class UnitTest
         Assert.IsNotNull(storageObjects, "storageObjects");
         Assert.IsNotNull(smsObjects, "smsObjects");
 
-        CollectionAssert.IsSubsetOf(deviceSupportedEvents, events, "Events");
-        CollectionAssert.IsSubsetOf(deviceSupportedCommands, commands, "Commands");
-        CollectionAssert.IsSubsetOf(deviceSupportedContents, contents, "Contents");
-        Assert.AreSequenceEqual(deviceFunctionalCategories, categories, SequenceOrder.InAnyOrder, "Categories");
+        Assert.AreSequenceEqual(deviceSupportedEvents, events, SequenceOrder.InAnyOrder, nameof(deviceSupportedEvents));
+        Assert.AreSequenceEqual(deviceSupportedCommands, commands, SequenceOrder.InAnyOrder, nameof(deviceSupportedCommands));
+        Assert.AreSequenceEqual(deviceSupportedContents, contents, SequenceOrder.InAnyOrder, nameof(deviceSupportedContents));
+        Assert.AreSequenceEqual(deviceFunctionalCategories, categories, SequenceOrder.InAnyOrder, nameof(deviceFunctionalCategories));
     }
 
 
@@ -416,7 +416,7 @@ public abstract class UnitTest
 
         device.Disconnect();
 
-        if (deviceVendorExtentionDescription.StartsWith('^'))
+        if (deviceVendorExtentionDescription?.StartsWith('^') ?? false)
         {
             Assert.MatchesRegex(deviceVendorExtentionDescription, description, nameof(deviceVendorExtentionDescription));
         }

@@ -93,15 +93,23 @@ internal class Command
     
     public IEnumerable<PropVariantFacade> GetPropVariants(PropertyKey key) 
     {
-        this.result!.GetIUnknownValue(ref key, out object? obj);
+        int err = this.result!.GetIUnknownValue(ref key, out object? obj);
+        if (err == (int)ErrorCodes.NotFound)
+        {
+            yield break;
+        }
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetIUnknownValue), key.GetName());
+
         var col = obj as IPortableDevicePropVariantCollection;
     
         uint count = 0;
-        col!.GetCount(ref count);
+        err = col!.GetCount(ref count);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
         for (uint i = 0; i < count; i++)
         {
             var val = new PropVariantFacade();
-            col.GetAt(i, ref val.Value);
+            err = col.GetAt(i, ref val.Value);
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt));
             yield return val;
         }
     }

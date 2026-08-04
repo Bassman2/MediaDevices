@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Google\GooglePixel6aUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ignore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Nicon\NiconCoolpixA300UnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Philips\PhilipsUFD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Samsung\SamsungA40UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tascam\TascamDR40UnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReadonlyUnitTest.cs" />
