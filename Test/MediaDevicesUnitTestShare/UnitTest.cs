@@ -88,7 +88,6 @@ public abstract class UnitTest
     public void TestInitialize()
     {
         if (this.ignoreTests.HasFlag(Ignore.FriendlyName)) return;
-        
 
         var device = GetDevice();
         device.Connect();
@@ -183,7 +182,7 @@ public abstract class UnitTest
         device.Connect();
         string? syncPartner = device.SyncPartner;
         string? firmwareVersion = device.FirmwareVersion;
-        int? powerLevel = device.PowerLevel ?? 0;
+        uint? powerLevel = device.PowerLevel ?? 0;
         PowerSource? powerSource = device.PowerSource;
         string? protocol = device.Protocol;
         string? model = device.Model;

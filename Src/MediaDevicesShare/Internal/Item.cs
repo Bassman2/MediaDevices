@@ -657,7 +657,7 @@ internal class Item
         // we need to fetch an object functional container ID. Which is storage for top most
         // directory.
         // TODOO
-        var drives = mediaDevice.mainWorker.GetDrivesIntern(mediaDevice);
+        var drives = ProtocolHandler.GetDrives(mediaDevice);
         var storageRoot = drives.FirstOrDefault(s => s.RootDirectory!.Id == this.ParentContainerId);
         if (storageRoot != null)
         {

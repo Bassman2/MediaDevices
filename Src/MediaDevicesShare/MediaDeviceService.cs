@@ -249,11 +249,7 @@ public class MediaDeviceService : IDisposable
     /// <returns>List of supported methods</returns>
     public IEnumerable<Methods> GetSupportedMethods()
     {
-        return device!.mainWorker.SupportedMethods(capabilities!);
-
-        //capabilities!.GetSupportedMethods(out IPortableDevicePropVariantCollection methods);
-        //ComTrace.WriteObject(methods);
-        //return methods.ToMethods();
+        return device!.mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedMethods(capabilities!));
     }
 
     /// <summary>
@@ -262,10 +258,7 @@ public class MediaDeviceService : IDisposable
     /// <returns>List of supported commands</returns>
     public IEnumerable<Commands> GetSupportedCommands()
     {
-        //capabilities!.GetSupportedCommands(out IPortableDeviceKeyCollection commands);
-        //ComTrace.WriteObject(commands);
-        //return commands.ToCommands();
-        return device!.mainWorker.SupportedCommands(capabilities!);
+        return device!.mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedCommands(capabilities!));
     }
 
     /// <summary>
@@ -274,10 +267,7 @@ public class MediaDeviceService : IDisposable
     /// <returns>list of supported events</returns>
     public IEnumerable<Events> GetSupportedEvents()
     {
-        return device!.mainWorker.SupportedEvents(capabilities!);
-        //capabilities!.GetSupportedEvents(out IPortableDevicePropVariantCollection events);
-        //ComTrace.WriteObject(events);
-        //return events.ToEvents();
+        return device!.mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedEvents(capabilities!));
     }
 
     /// <summary>
@@ -286,10 +276,7 @@ public class MediaDeviceService : IDisposable
     /// <returns>List of supported formats</returns>
     public IEnumerable<Formats> GetSupportedFormats()
     {
-        return device!.mainWorker.SupportedFormats(capabilities!);
-        //capabilities!.GetSupportedFormats(out IPortableDevicePropVariantCollection formats);
-        //ComTrace.WriteObject(formats);
-        //return formats.ToFormats();
+        return device!.mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedFormats(capabilities!));
     }
    
     /// <summary>
@@ -332,6 +319,4 @@ public class MediaDeviceService : IDisposable
 
         this.service!.SendCommand(0, ref values, out IPortableDeviceValues _);
     }
-
-    
 }

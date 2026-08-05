@@ -180,6 +180,95 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
         device.Disconnect();
     }
 
+    [TestMethod]
+    [Description("Upload a file to the target.")]
+    public async Task WritableUploadFilePathAsyncTest()
+    {
+        var device = GetDevice();
+        device.Connect();
+
+        string sourceFile = Path.ChangeExtension(Path.GetTempFileName(), ".txt");
+        string destFile = GetDeviceTempFile();
+
+        Trace.WriteLine($"sourceFile: {sourceFile}");
+        Trace.WriteLine($"destFile: {destFile}");
+
+        using (var writer = File.CreateText(sourceFile))
+        {
+            writer.WriteLine("This is a test.");
+            writer.Close();
+        }
+        File.SetCreationTime(sourceFile, new DateTime(2001, 1, 1));
+        File.SetLastWriteTime(sourceFile, new DateTime(2002, 2, 2));
+        File.SetLastAccessTime(sourceFile, new DateTime(2003, 3, 3));
+
+        var creation = File.GetCreationTime(sourceFile);
+        var lastAccess = File.GetLastAccessTime(sourceFile);
+        var lastWrite = File.GetLastWriteTime(sourceFile);
+
+        Task task = device.UploadFileAsync(sourceFile, destFile);
+        await task;
+
+        var fileInfo = device.GetFileInfo(destFile);
+
+        var now = DateTime.Now;
+        Assert.IsNotNull(fileInfo, nameof(fileInfo));
+        Assert.AreEqual(17ul, fileInfo.Length, "length");
+
+        switch (deviceCreationTimeMode)
+        {
+        case DateMode.NotSupported:
+            Assert.IsNull(fileInfo.CreationTime, nameof(fileInfo.CreationTime));
+            break;
+        case DateMode.FileTime:
+            Assert.AreEqual(creation, fileInfo.CreationTime, nameof(fileInfo.CreationTime));
+            break;
+        case DateMode.Now:
+            Assert.IsNotNull(fileInfo.CreationTime, nameof(fileInfo.CreationTime));
+            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 5), fileInfo.CreationTime.Value, "> " + nameof(fileInfo.CreationTime));
+            Assert.IsLessThan(now + new TimeSpan(0, 0, 5), fileInfo.CreationTime.Value, "< " + nameof(fileInfo.CreationTime));
+            break;
+        default:
+            throw new NotSupportedException(deviceCreationTimeMode.ToString());
+        }
+
+        switch (deviceLastWriteTimeMode)
+        {
+        case DateMode.NotSupported:
+            Assert.IsNull(fileInfo.LastWriteTime, nameof(fileInfo.LastWriteTime));
+            break;
+        case DateMode.FileTime:
+            Assert.AreEqual(lastWrite, fileInfo.LastWriteTime, nameof(fileInfo.LastWriteTime));
+            break;
+        case DateMode.Now:
+            Assert.IsNotNull(fileInfo.LastWriteTime, nameof(fileInfo.LastWriteTime));
+            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 5), fileInfo.LastWriteTime.Value, "> " + nameof(fileInfo.LastWriteTime));
+            Assert.IsLessThan(now + new TimeSpan(0, 0, 5), fileInfo.LastWriteTime.Value, "< " + nameof(fileInfo.LastWriteTime));
+            break;
+        default:
+            throw new NotSupportedException(deviceLastWriteTimeMode.ToString());
+        }
+
+        switch (deviceDateAuthoredMode)
+        {
+        case DateMode.NotSupported:
+            Assert.IsNull(fileInfo.DateAuthored, nameof(fileInfo.DateAuthored));
+            break;
+        case DateMode.FileTime:
+            Assert.AreEqual(lastAccess, fileInfo.DateAuthored, nameof(fileInfo.DateAuthored));
+            break;
+        case DateMode.Now:
+            Assert.IsNotNull(fileInfo.DateAuthored, nameof(fileInfo.DateAuthored));
+            Assert.IsGreaterThan(now - new TimeSpan(0, 0, 5), fileInfo.DateAuthored.Value, "> " + nameof(fileInfo.DateAuthored));
+            Assert.IsLessThan(now + new TimeSpan(0, 0, 5), fileInfo.DateAuthored.Value, "< " + nameof(fileInfo.DateAuthored));
+            break;
+        default:
+            throw new NotSupportedException(deviceDateAuthoredMode.ToString());
+        }
+
+        device.Disconnect();
+    }
+
     private static void CreateTextFile(string filePath, string content)
     {
         using var writer = File.CreateText(filePath);
@@ -405,7 +494,7 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
 
         mediaDevice.DeleteFile(filePath);
 
-        bool isFired = fired.WaitOne(new TimeSpan(0, 0, 10));
+        bool isFired = fired.WaitOne(new TimeSpan(0, 0, 3));
         mediaDevice.Disconnect();
 
         Assert.IsTrue(isFired);
@@ -443,8 +532,8 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
         mediaDevice.CreateDirectory(folder);
         mediaDevice.DeleteDirectory(folder);
 
-        bool isAddFired = addEvent.WaitOne(new TimeSpan(0, 0, 10));
-        bool isDelFired = delEvent.WaitOne(new TimeSpan(0, 0, 10));
+        bool isAddFired = addEvent.WaitOne(new TimeSpan(0, 0, 3));
+        bool isDelFired = delEvent.WaitOne(new TimeSpan(0, 0, 3));
 
         mediaDevice.Disconnect();
 

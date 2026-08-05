@@ -62,6 +62,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\PropVariantType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\Security.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\SmsMessageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.Commands.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.FileSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\StreamWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\CLSID.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.cs" />
@@ -70,10 +73,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.StatusDeviceServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.WpdMtpExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Capabilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Commands.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Commands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\MediaDeviceAccess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Events.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.FileSystem.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.FileSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Properties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Vendor.cs" />
@@ -102,15 +107,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Roaming.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StorageAccessCapability.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StorageType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Capabilities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Commands.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Events.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.FileSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Properties.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Services.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Vendor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\ThreadSafeWorker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.Capabilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.Properties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.Services.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.Vendor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ThreadSafeWorker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Usings.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -25,9 +25,63 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         deviceSupportedFormatsAreOrdered = null;
 
         // Capability Test
-        //this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
-        //this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        //this.deviceSupportedContents = [ContentType.Image];
+        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        this.deviceSupportedCommands = [
+            Commands.ObjectEnumerationStartFind,
+            Commands.ObjectEnumerationFindNext,
+            Commands.ObjectEnumerationEndFind,
+            Commands.ObjectPropertiesGetSupported,
+            Commands.ObjectPropertiesGet,
+            Commands.ObjectPropertiesGetAll,
+            Commands.ObjectPropertiesGetAttribute,
+            Commands.ObjectResourcesGetSupported,
+            Commands.ObjectResourcesGetAttributes,
+            Commands.ObjectResourcesOpen, 
+            Commands.ObjectResourcesRead,
+            Commands.ObjectResourcesClose, 
+            Commands.CapabilitiesGetSupportedCommands,
+            Commands.CapabilitiesGetCommandOptions, 
+            Commands.CapabilitiesGetSupportedFunctionalCategories,
+            Commands.CapabilitiesGetFunctionalObjects, 
+            Commands.CapabilitiesGetSupportedContentTypes,
+            Commands.CapabilitiesGetSupportedFormats,
+            Commands.CapabilitiesGetSupportedFormatProperties,
+            Commands.CapabilitiesGetFixedPropertyAttributes,
+            Commands.CapabilitiesGetSupportedEvents, 
+            Commands.CapabilitiesGetEventOptions, 
+            Commands.MtpExtVendorGetSupportedVendorOpcodes, 
+            Commands.MtpExtVendorGetVendorExtensionDescription, 
+            Commands.MtpExtVendorExecuteCommandWithoutDataPhase,
+            Commands.MtpExtVendorExecuteCommandWithDataToRead, 
+            Commands.MtpExtVendorExecuteCommandWithDataToWrite, 
+            Commands.MtpExtVendorReadData,
+            Commands.MtpExtVendorWriteData, 
+            Commands.MtpExtVendorEndDataTransfer,
+            Commands.Unknown,
+            Commands.Unknown,
+            Commands.ObjectManagementDeleteObjects,
+            Commands.ObjectManagementCreateObjectWithPropertiesOnly,
+            Commands.ObjectManagementCreateObjectWithPropertiesAndData, 
+            Commands.ObjectManagementWriteObjectData, 
+            Commands.ObjectManagementCommitObject, 
+            Commands.ObjectManagementRevertObject, 
+            Commands.ObjectManagementMoveObjects, 
+            Commands.ObjectManagementCopyObjects, 
+            Commands.ObjectPropertiesSet, 
+            Commands.ObjectPropertiesBulkGetValuesByObjectListStart,
+            Commands.ObjectPropertiesBulkGetValuesByObjectListNext, 
+            Commands.ObjectPropertiesBulkGetValuesByObjectListEnd, 
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatStart,
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatNext, 
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatEnd];
+        this.deviceSupportedContents = [
+            ContentType.Image,
+            ContentType.Audio,
+            ContentType.Playlist,
+            ContentType.Video,
+            ContentType.Document,
+            ContentType.Unspecified,
+            ContentType.Folder];
         //this.deviceFunctionalCategories = [FunctionalCategory.Storage];
 
         // ContentLocation Test
@@ -35,6 +89,11 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
 
         // DriveTest
         this.deviceDrives = ["Speichergerät"];
+
+        // Device File Dates Test
+        deviceCreationTimeMode = DateMode.NotSupported;
+        deviceLastWriteTimeMode = DateMode.FileTime;
+        deviceDateAuthoredMode = DateMode.NotSupported;
 
         // Vendor Test
         deviceVendorOpcodes = [38337, 38338, 38339, 38340, 38341];

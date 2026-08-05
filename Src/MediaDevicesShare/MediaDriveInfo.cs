@@ -7,7 +7,7 @@
 public sealed class MediaDriveInfo
 {
     private readonly MediaDevice mediaDevice;
-    private readonly MainWorker mainWorker;
+    private readonly ThreadSafeWorker mainWorker;
     private readonly string objectId;
     private readonly MediaStorageInfo? info;
 
@@ -20,7 +20,7 @@ public sealed class MediaDriveInfo
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         //this.info = mediaDevice.GetStorageInfo(objectId);
-        this.info = mainWorker.GetStorageInfoIntern(mediaDevice, objectId);
+        this.info = ProtocolHandler.GetStorageInfo(mediaDevice, objectId);
 
         if (this.info != null)
         {
@@ -47,7 +47,7 @@ public sealed class MediaDriveInfo
     public long AvailableFreeSpace { get; private set; }
 
     /// <summary>
-    /// Format of the drive.
+    /// FormatId of the drive.
     /// </summary>
     public string? DriveFormat { get; private set; }
 
@@ -91,14 +91,25 @@ public sealed class MediaDriveInfo
     /// </summary>
     public void Eject()
     {
-        this.mediaDevice.InternalEject(this.objectId);
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+
+        mainWorker.Invoke(() => ProtocolHandler.EjectId(this.mediaDevice, this.objectId));
     }
 
     /// <summary>
-    /// Format the drive.
+    /// FormatId the drive.
     /// </summary>
     public void Format()
     {
-        this.mediaDevice.Format(this.objectId);
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+
+        mainWorker.Invoke(() => ProtocolHandler.FormatId(this.mediaDevice, this.objectId));
+    }
+
+    public async Task FormatAsync()
+    {
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+
+        await mainWorker.InvokeAsync(() => ProtocolHandler.FormatId(this.mediaDevice, this.objectId));
     }
 }

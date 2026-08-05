@@ -428,6 +428,27 @@ public abstract class ReadonlyUnitTest : UnitTest
 
     [TestMethod]
     [Description("Download a mediaDeviceFile to the target.")]
+    public async Task ReadonlyMediaDeviceFileDownloadPathAsyncTest()
+    {
+        string tempFile = Path.ChangeExtension(Path.GetTempFileName(), Path.GetExtension(this.readonlyFilePath!));
+
+        var device = GetDevice();
+        device.Connect();
+
+        bool exists = device.FileExists(this.readonlyFilePath!);
+        Assert.IsTrue(exists, "exists");
+
+        Task task = device.DownloadFileAsync(this.readonlyFilePath!, tempFile);
+
+        await task; 
+        device.Disconnect();
+
+        Assert.IsTrue(File.Exists(tempFile), "Exists");
+        Assert.AreEqual(readonlyFileLength, (ulong)new FileInfo(tempFile).Length, "Length");
+    }
+
+    [TestMethod]
+    [Description("Download a mediaDeviceFile to the target.")]
     [Ignore("Test takes too long")]
     public void ReadonlyMediaDeviceFileDownloadPathBigSizeTest()
     {

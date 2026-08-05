@@ -13,7 +13,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorOpcodes(this.device!);
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorOpcodes(this.device!));
         
     }
 
@@ -29,7 +29,10 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorExcecute(this.device!, opCode, inputParams, out respCode);
+        int resp = 0;
+        var list = mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorExcecute(this.device!, opCode, inputParams, out resp));
+        respCode = resp;
+        return list;
     }
 
     /// <summary>
@@ -43,7 +46,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorExcecuteRead(this.device!, opCode, inputParams);
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorExcecuteRead(this.device!, opCode, inputParams));
     }
 
     /// <summary>
@@ -57,7 +60,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorExcecuteWrite(this.device!, opCode, inputParams);
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorExcecuteWrite(this.device!, opCode, inputParams));
     }
 
 
@@ -85,7 +88,10 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorEndTransfer(this.device!, context, out respCode);
+        int resp = 0;
+        var list = mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorEndTransfer(this.device!, context, out resp));
+        respCode = resp;
+        return list;
     }
 
     /// <summary>
@@ -97,6 +103,6 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.VendorExtentionDescription(this.device!);
+        return mainWorker.Invoke(() => ProtocolHandler.VendorExtentionDescription(this.device!));
     }
 }
