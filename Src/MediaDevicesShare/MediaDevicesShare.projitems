@@ -107,11 +107,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StorageAccessCapability.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StorageType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.Capabilities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.Properties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.Services.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.Vendor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\ThreadSafeWorker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ThreadSafeWorker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Usings.cs" />
   </ItemGroup>
   <ItemGroup>

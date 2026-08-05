@@ -4,11 +4,11 @@ public sealed partial class MediaDeviceManager : IDisposable
 {
     private static MediaDeviceManager? instance = new();
 
-    private readonly MainWorker mainWorker;
+    private readonly ThreadSafeWorker mainWorker;
     
     public static MediaDeviceManager Instance => instance ?? throw new Exception("MediaDeviceManager already closed");
 
-    internal static MainWorker MainWorker => Instance.mainWorker;
+    internal static ThreadSafeWorker MainWorker => Instance.mainWorker;
 
     internal IPortableDeviceManager? deviceManager;
     internal IPortableDeviceServiceManager? serviceManager; 
@@ -22,7 +22,7 @@ public sealed partial class MediaDeviceManager : IDisposable
 
     private MediaDeviceManager()
     {
-        mainWorker = new MainWorker();
+        mainWorker = new ThreadSafeWorker();
         mainWorker.Invoke(() => ProtocolHandler.InitMediaDeviceManager(this));
     }
 

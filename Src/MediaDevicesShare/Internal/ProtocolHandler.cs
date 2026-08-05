@@ -18,7 +18,7 @@ internal static partial class ProtocolHandler
 
     }
 
-    public static IEnumerable<MediaDevice> GetDevices(IPortableDeviceManager deviceManager, IPortableDeviceServiceManager serviceManager, MainWorker mainWorker)
+    public static IEnumerable<MediaDevice> GetDevices(IPortableDeviceManager deviceManager, IPortableDeviceServiceManager serviceManager, ThreadSafeWorker mainWorker)
     { 
         int err = deviceManager.RefreshDeviceList();
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager), nameof(IPortableDeviceManager.RefreshDeviceList));
@@ -42,7 +42,7 @@ internal static partial class ProtocolHandler
         }
     }
 
-    public static IEnumerable<MediaDevice> GetPrivateDevices(IPortableDeviceManager deviceManager, IPortableDeviceServiceManager serviceManager, MainWorker mainWorker)
+    public static IEnumerable<MediaDevice> GetPrivateDevices(IPortableDeviceManager deviceManager, IPortableDeviceServiceManager serviceManager, ThreadSafeWorker mainWorker)
     {
 
         int err = deviceManager.RefreshDeviceList();

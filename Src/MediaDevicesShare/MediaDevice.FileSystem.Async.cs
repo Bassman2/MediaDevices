@@ -2,7 +2,6 @@
 
 partial class MediaDevice
 {
-
     public async Task DownloadFileAsync(string source, string destination)
     {
         ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
@@ -12,14 +11,13 @@ partial class MediaDevice
         await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadFile(this, source, destination));
     }
 
-    /*
     public async Task DownloadIconAsync(string source, string destination)
     {
         ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
         ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeAsync(() => mainWorker.DownloadIcon(this, source, destination));
+        await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadIcon(this, source, destination));
     }
 
     public async Task DownloadThumbnailAsync(string source, string destination)
@@ -28,7 +26,7 @@ partial class MediaDevice
         ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => mainWorker.DownloadThumbnail(this, source, destination));
+        await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadThumbnail(this, source, destination));
     }
 
     public async Task DownloadFolderAsync(string source, string destination, bool recursive = true, bool ignoreExceptions = true)
@@ -37,9 +35,7 @@ partial class MediaDevice
         ArgumentPathException.ThrowIfNullOrNotPath(destination);
         NotConnectedException.ThrowIfNotConnected(this);
 
-
-        Directory.CreateDirectory(destination);
-        return await mainWorker.InvokeAsync(() => mainWorker.DownloadFolder(this, source, destination, recursive, ignoreExceptions));
+        await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadFolder(this, source, destination, recursive, ignoreExceptions));
     }
 
     public async Task UploadFileAsync(string source, string destination)
@@ -48,7 +44,7 @@ partial class MediaDevice
         ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => mainWorker.UploadFile(this, source, destination));
+        await mainWorker.InvokeAsync(() => ProtocolHandler.UploadFile(this, source, destination));
     }
 
     public async Task UploadFolderAsync(string source, string destination, bool recursive = true, bool ignoreExceptions = true)
@@ -57,8 +53,8 @@ partial class MediaDevice
         ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => mainWorker.UploadFolder(this, source, destination, recursive, ignoreExceptions));
+        await mainWorker.InvokeAsync(() => ProtocolHandler.UploadFolder(this, source, destination, recursive, ignoreExceptions));
     }
-    */
+
 }
 

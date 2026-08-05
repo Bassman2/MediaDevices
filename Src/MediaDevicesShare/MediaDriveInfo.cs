@@ -7,7 +7,7 @@
 public sealed class MediaDriveInfo
 {
     private readonly MediaDevice mediaDevice;
-    private readonly MainWorker mainWorker;
+    private readonly ThreadSafeWorker mainWorker;
     private readonly string objectId;
     private readonly MediaStorageInfo? info;
 

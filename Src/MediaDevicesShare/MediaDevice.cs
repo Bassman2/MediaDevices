@@ -19,7 +19,7 @@ public sealed partial class MediaDevice : IDisposable
 
     private readonly IPortableDeviceManager deviceManager;
     internal readonly IPortableDeviceServiceManager serviceManager;
-    internal readonly MainWorker mainWorker;
+    internal readonly ThreadSafeWorker mainWorker;
 
     internal IPortableDevice? device;
     internal IPortableDeviceContent? deviceContent;
@@ -181,7 +181,7 @@ public sealed partial class MediaDevice : IDisposable
 
     #region constructor
 
-    internal MediaDevice(string deviceId, MainWorker mainWorker, IPortableDeviceManager deviceManager, IPortableDeviceServiceManager serviceManager)
+    internal MediaDevice(string deviceId, ThreadSafeWorker mainWorker, IPortableDeviceManager deviceManager, IPortableDeviceServiceManager serviceManager)
     {
         // already running in worker thread
         ThreadSafeWorkerException.ThrowIfNotInside(); 

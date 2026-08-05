@@ -10,7 +10,7 @@ public abstract class MediaFileSystemInfo
     ///corresponding MediaDevice instance
     /// </summary>
     protected MediaDevice mediaDevice;
-    internal MainWorker mainWorker;
+    internal ThreadSafeWorker mainWorker;
     internal Item item;
 
     //private MediaDirectoryInfo? parent;
