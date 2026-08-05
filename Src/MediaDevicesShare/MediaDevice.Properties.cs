@@ -45,6 +45,22 @@ partial class MediaDevice
 
     #region IPortableDeviceValues
 
+    public string? ObjectId { get; internal set; } = null;
+
+    public string? ObjectParentId { get; internal set; } = null;
+
+    public string? ObjectContentType { get; internal set; } = null;
+
+    public string? FunctionalObjectCategory { get; internal set; } = null;
+
+    public string? PersistentUniqueId { get; internal set; } = null;
+
+    public bool? CanDelete { get; internal set; } = null;
+
+    public bool? IsHidden { get; internal set; } = null;
+
+    public string? ObjectFormat { get; internal set; } = null;
+
     /// <summary>
     /// Sync partner of the mediaDevice.
     /// </summary>
@@ -57,12 +73,12 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public string? FirmwareVersion { get; internal set; } = null;
 
-
+    public string? EdpItentifier { get; internal set; } = null;
     /// <summary>
     /// Battery level of the portable mediaDevice.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public int? PowerLevel { get; internal set; } = null;
+    public uint? PowerLevel { get; internal set; } = null;
 
     /// <summary>
     /// Power source of the mediaDevice.
