@@ -4,7 +4,7 @@
 /// Provides properties for drives.
 /// </summary>
 [DebuggerDisplay("{DriveType}, {Name}, {VolumeLabel}")]
-public sealed class MediaDriveInfo
+public sealed partial class MediaDriveInfo
 {
     private readonly MediaDevice mediaDevice;
     private readonly ThreadSafeWorker mainWorker;
@@ -104,12 +104,5 @@ public sealed class MediaDriveInfo
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
 
         mainWorker.Invoke(() => ProtocolHandler.FormatId(this.mediaDevice, this.objectId));
-    }
-
-    public async Task FormatAsync()
-    {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-
-        await mainWorker.InvokeAsync(() => ProtocolHandler.FormatId(this.mediaDevice, this.objectId));
     }
 }

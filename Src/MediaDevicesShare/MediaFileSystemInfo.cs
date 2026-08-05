@@ -26,14 +26,7 @@ public abstract class MediaFileSystemInfo
         item.Refresh();
     }
 
-    /// <summary>
-    /// Refreshes the state of the object.
-    /// </summary>
-    public virtual void Refresh()
-    {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        mainWorker.Invoke(() => ProtocolHandler.Refresh(this.item));
-    }
+    #region Properties
 
     /// <summary>
     /// Gets the parent directory of a specified subdirectory.
@@ -134,7 +127,20 @@ public abstract class MediaFileSystemInfo
     /// A unique cross session object ID, that is not changing when mediaDevice is disconnected.
     /// </remarks>
     public string PersistentUniqueId => this.item.PersistentUniqueId;
-        
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Refreshes the state of the object.
+    /// </summary>
+    public virtual void Refresh()
+    {
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        mainWorker.Invoke(() => ProtocolHandler.Refresh(this.item));
+    }
+
     /// <summary>
     /// Rename the folder of file
     /// </summary>
@@ -145,6 +151,10 @@ public abstract class MediaFileSystemInfo
         ArgumentException.ThrowIfNullOrWhiteSpace(newName, nameof(newName));
         mainWorker.Invoke(() => ProtocolHandler.Rename(this.item, newName));
     }
+
+    #endregion
+
+    #region object overrides
 
     /// <summary>
     /// Gets the hash code for the current object.
@@ -161,4 +171,6 @@ public abstract class MediaFileSystemInfo
     {
         return obj is MediaFileSystemInfo mfsi && mfsi.Id == this.Id;
     }
+
+    #endregion
 }

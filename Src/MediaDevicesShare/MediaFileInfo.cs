@@ -3,7 +3,7 @@
 /// <summary>
 /// Provides properties for files, directories and objects.
 /// </summary>
-public class MediaFileInfo : MediaFileSystemInfo
+public partial class MediaFileInfo : MediaFileSystemInfo
 {
     internal MediaFileInfo(MediaDevice device, Item item) : base(device, item)
     { }

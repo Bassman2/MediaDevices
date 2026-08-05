@@ -2,9 +2,9 @@
 
 [TestClass]
 [TestCategory("Philips")]
-public class PhilipsUFD : WritableUnitTest
+public class PhilipsUFDUnitTest : WritableUnitTest
 {
-    public PhilipsUFD() : base("\\F:")
+    public PhilipsUFDUnitTest() : base("\\F:")
     {
         #region Device Tests
 
