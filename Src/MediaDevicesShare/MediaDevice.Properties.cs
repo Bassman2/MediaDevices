@@ -40,7 +40,13 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public string? PnPDeviceID { get; internal set; } = null;
 
+    /// <summary>
+    /// Name of the portable mediaDevice.
+    /// </summary>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public string? Name { get; internal set; } = null;
 
+    public string? ContainerFunctionalObjectId { get; internal set; } = null;   
     #endregion
 
     #region IPortableDeviceValues

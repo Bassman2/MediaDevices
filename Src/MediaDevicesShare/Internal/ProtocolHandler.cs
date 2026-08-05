@@ -187,6 +187,12 @@ internal static partial class ProtocolHandler
                 MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
                 mediaDevice.ObjectParentId = objectParentId;
             }
+            else if (val.Key == WPD.OBJECT_NAME)
+            {
+                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string objectName);
+                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
+                mediaDevice.Name = objectName;
+            }
             else if (val.Key == WPD.OBJECT_CONTENT_TYPE)
             {
                 err = mediaDevice.deviceValues.GetGuidValue(ref val.Key, out Guid objectContentType);
@@ -199,11 +205,11 @@ internal static partial class ProtocolHandler
                 MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
                 mediaDevice.PersistentUniqueId = objectPersistentUniqueId;
             }
-            else if (val.Key == WPD.OBJECT_CAN_DELETE)
+            else if (val.Key == WPD.OBJECT_FORMAT)
             {
-                err = mediaDevice.deviceValues.GetBoolValue(ref val.Key, out int canDelete);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue));
-                mediaDevice.CanDelete = canDelete > 0;
+                err = mediaDevice.deviceValues.GetGuidValue(ref val.Key, out Guid objectFormat);
+                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetGuidValue));
+                mediaDevice.ObjectFormat = objectFormat.ToString();
             }
             else if (val.Key == WPD.OBJECT_ISHIDDEN)
             {
@@ -211,12 +217,19 @@ internal static partial class ProtocolHandler
                 MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue));
                 mediaDevice.IsHidden = isHidden > 0;
             }
-            else if (val.Key == WPD.OBJECT_FORMAT)
+            else if (val.Key == WPD.OBJECT_CAN_DELETE)
             {
-                err = mediaDevice.deviceValues.GetGuidValue(ref val.Key, out Guid objectFormat);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetGuidValue));
-                mediaDevice.ObjectFormat = objectFormat.ToString();
+                err = mediaDevice.deviceValues.GetBoolValue(ref val.Key, out int canDelete);
+                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue));
+                mediaDevice.CanDelete = canDelete > 0;
             }
+            else if (val.Key == WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID)
+            {
+                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string containerFunctionalObjectId);
+                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
+                mediaDevice.ContainerFunctionalObjectId = containerFunctionalObjectId;
+            }
+
             else if (val.Key == WPD.FUNCTIONAL_OBJECT_CATEGORY)
             {
                 err = mediaDevice.deviceValues.GetGuidValue(ref val.Key, out Guid functionalObjectCategory);
@@ -346,9 +359,18 @@ internal static partial class ProtocolHandler
             else
             {
                 string name = val.Key.GetName();
-                Trace.WriteLine(name);
+                Trace.WriteLine($"Connect: {name}");
             }
         }
+
+
+        // Amazon Kindle Fire HDX 7 (2013) has the following properties:
+        //Connect: OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID
+        //Connect: OBJECT_NAME
+        //Connect: PROPERTIES_MTP_VENDOR_EXTENDED_DEVICE_PROPS: 54279
+        //Connect: OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID
+        //Connect: OBJECT_NAME
+        //Connect: PROPERTIES_MTP_VENDOR_EXTENDED_DEVICE_PROPS: 54279
 
         mediaDevice.IsConnected = true;
     }
