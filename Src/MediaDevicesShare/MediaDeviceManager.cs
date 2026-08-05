@@ -10,6 +10,9 @@ public sealed partial class MediaDeviceManager : IDisposable
 
     internal static MainWorker MainWorker => Instance.mainWorker;
 
+    internal IPortableDeviceManager? deviceManager;
+    internal IPortableDeviceServiceManager? serviceManager; 
+
 
     // without static constructor 
     // private static MediaDeviceManager instance = new MediaDeviceManager();
@@ -20,6 +23,7 @@ public sealed partial class MediaDeviceManager : IDisposable
     private MediaDeviceManager()
     {
         mainWorker = new MainWorker();
+        mainWorker.Invoke(() => ProtocolHandler.InitMediaDeviceManager(this));
     }
 
     public void Dispose()
@@ -33,11 +37,9 @@ public sealed partial class MediaDeviceManager : IDisposable
     /// </summary>
     /// <returns>>An enumerable collection of portable devices currently available.</returns>
     public IEnumerable<MediaDevice>? GetDevices()
-        => mainWorker.GetDevices();
+        => mainWorker.InvokeEnumerable(() => ProtocolHandler.GetDevices(deviceManager!, serviceManager!, mainWorker));
 
     public IEnumerable<MediaDevice>? GetPrivateDevices()
-        => mainWorker.GetPrivateDevices();
-
-
+        => mainWorker.InvokeEnumerable(() => ProtocolHandler.GetPrivateDevices(deviceManager!, serviceManager!, mainWorker));
 }
 

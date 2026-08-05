@@ -214,7 +214,7 @@ public sealed partial class MediaDevice : IDisposable
     public void Connect(MediaDeviceAccess access = MediaDeviceAccess.Default, MediaDeviceShare share = MediaDeviceShare.Default, bool enableCache = true)
     {
         if (this.IsConnected) return;
-        mainWorker.Connect(this, this.DeviceId, access, share, enableCache);
+        mainWorker.Invoke(() => ProtocolHandler.Connect(this, this.DeviceId, access, share, enableCache));
     }
 
     /// <summary>
@@ -223,7 +223,7 @@ public sealed partial class MediaDevice : IDisposable
     public void Disconnect()
     {
         if (!this.IsConnected) return;
-        mainWorker.Disconnect(this);
+        mainWorker.Invoke(() => ProtocolHandler.Disconnect(this));
     }
 
     /// <summary>
@@ -233,7 +233,7 @@ public sealed partial class MediaDevice : IDisposable
     public void Cancel()
     {
         NotConnectedException.ThrowIfNotConnected(this);
-        mainWorker.Cancel(this);
+        mainWorker.Invoke(() => ProtocolHandler.Cancel(this));
     }
 
     /// <summary>
