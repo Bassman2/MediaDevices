@@ -20,7 +20,7 @@ public sealed class MediaDriveInfo
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         //this.info = mediaDevice.GetStorageInfo(objectId);
-        this.info = mainWorker.GetStorageInfoIntern(mediaDevice, objectId);
+        this.info = ProtocolHandler.GetStorageInfo(mediaDevice, objectId);
 
         if (this.info != null)
         {

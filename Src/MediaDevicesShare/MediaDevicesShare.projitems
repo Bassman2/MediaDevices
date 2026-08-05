@@ -62,6 +62,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\PropVariantType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\Security.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\SmsMessageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.Commands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.FileSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\StreamWrapper.cs" />

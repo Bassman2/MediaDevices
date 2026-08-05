@@ -56,7 +56,8 @@ partial class MediaDevice
     {
         ThreadSafeWorkerException.ThrowIfNotOutside();
 
-        Events eventEnum = mainWorker.CallEvent(this, eventParameters);
+         
+        Events eventEnum = ProtocolHandler.CallEvent(this, eventParameters);
 
         switch (eventEnum)
         {

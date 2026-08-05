@@ -11,7 +11,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.ResetDevice(this);
+        mainWorker.Invoke(() => ProtocolHandler.ResetDevice(this));
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.GetContentLocations(this, contentType);
+        return mainWorker.Invoke(() => ProtocolHandler.GetContentLocations(this, contentType));
     }
 
     //public void Supported(string id)
@@ -44,14 +44,14 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
 
-        return mainWorker.EjectStorage(this, path);
+        return mainWorker.Invoke(() => ProtocolHandler.EjectStorage(this, path));
     }
 
     internal bool InternalEject(string id)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InternalEject(this, id);
+        return mainWorker.Invoke(() => ProtocolHandler.InternalEject(this, id));
     }
 
     /// <summary>
@@ -63,14 +63,14 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
 
-        mainWorker.FormatStorage(this, path);
+        mainWorker.Invoke(() => ProtocolHandler.FormatStorage(this, path));
     }
 
     internal void Format(string id)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Format(this, id);
+        mainWorker.Invoke(() => ProtocolHandler.Format(this, id));
     }
 
     /// <summary>
@@ -103,7 +103,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(recipient, nameof(recipient));
         ArgumentNullException.ThrowIfNullOrEmpty(text, nameof(text));
 
-        return mainWorker.SendTextSMS(this, functionalObject, recipient, text);
+        return mainWorker.Invoke(() => ProtocolHandler.SendTextSMS(this, functionalObject, recipient, text));
     }
 
     /// <summary>
@@ -135,7 +135,7 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(functionalObject, nameof(functionalObject));
 
-        return mainWorker.StillImageCaptureInitiate(this, functionalObject);
+        return mainWorker.Invoke(() => ProtocolHandler.StillImageCaptureInitiate(this, functionalObject));
     }
 
     
@@ -168,6 +168,6 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(storageObjectId, nameof(storageObjectId));
 
-        return mainWorker.GetStorageInfo(this, storageObjectId);
+        return mainWorker.Invoke(() => ProtocolHandler.GetStorageInfo(this, storageObjectId));
     }
 }
