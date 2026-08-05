@@ -39,38 +39,24 @@ partial class MediaDevice
     /// </summary>
     /// <param name="path">Path of storage to eject.</param>
     /// <returns>true is success and false if not supported.</returns>
-    public bool EjectStorage(string path)
+    public bool Eject(string path)
     {
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
 
-        return mainWorker.Invoke(() => ProtocolHandler.EjectStorage(this, path));
+        return mainWorker.Invoke(() => ProtocolHandler.EjectPath(this, path));
     }
-
-    internal bool InternalEject(string id)
-    {
-        NotConnectedException.ThrowIfNotConnected(this);
-
-        return mainWorker.Invoke(() => ProtocolHandler.InternalEject(this, id));
-    }
-
+    
     /// <summary>
-    /// Format storage
+    /// FormatId storage
     /// </summary>
     /// <param name="path">Path of storage to format.</param>
-    public void FormatStorage(string path)
+    public void Format(string path)
     {
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
 
-        mainWorker.Invoke(() => ProtocolHandler.FormatStorage(this, path));
-    }
-
-    internal void Format(string id)
-    {
-        NotConnectedException.ThrowIfNotConnected(this);
-
-        mainWorker.Invoke(() => ProtocolHandler.Format(this, id));
+        mainWorker.Invoke(() => ProtocolHandler.FormatPath(this, path));
     }
 
     /// <summary>

@@ -73,6 +73,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.StatusDeviceServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.WpdMtpExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Capabilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Commands.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Commands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\MediaDeviceAccess.cs" />

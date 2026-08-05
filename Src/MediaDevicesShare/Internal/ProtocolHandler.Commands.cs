@@ -40,7 +40,7 @@ partial class ProtocolHandler
     //        CommandCheckResult(result);
     //}
 
-    public static bool EjectStorage(MediaDevice mediaDevice, string path)
+    public static bool EjectPath(MediaDevice mediaDevice, string path)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -50,7 +50,7 @@ partial class ProtocolHandler
         return cmd.Send(mediaDevice.device!);
     }
 
-    internal static bool InternalEject(MediaDevice mediaDevice, string id)
+    public static bool EjectId(MediaDevice mediaDevice, string id)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -58,7 +58,8 @@ partial class ProtocolHandler
         cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, id);
         return cmd.Send(mediaDevice.device!);
     }
-    public static void FormatStorage(MediaDevice mediaDevice, string path)
+
+    public static void FormatPath(MediaDevice mediaDevice, string path)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -68,7 +69,7 @@ partial class ProtocolHandler
         cmd.Send(mediaDevice.device!);
     }
 
-    internal static void Format(MediaDevice mediaDevice, string id)
+    internal static void FormatId(MediaDevice mediaDevice, string id)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
