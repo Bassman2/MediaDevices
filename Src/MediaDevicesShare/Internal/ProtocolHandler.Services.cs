@@ -1,11 +1,9 @@
-﻿namespace MediaDevices;
+﻿namespace MediaDevices.Internal;
 
-partial class MainWorker
+partial class ProtocolHandler
 {
-    public IEnumerable<MediaDeviceService> GetServices(MediaDevice mediaDevice, MediaDeviceServices serviceType)
-        =>  InvokeEnumerable(() => GetServicesIntern(mediaDevice, serviceType));
-
-    public IEnumerable<MediaDeviceService> GetServicesIntern(MediaDevice mediaDevice, MediaDeviceServices serviceTypes)
+    
+    public static IEnumerable<MediaDeviceService> GetServices(IPortableDeviceServiceManager serviceManager, MediaDevice mediaDevice, MediaDeviceServices serviceTypes)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -28,11 +26,11 @@ partial class MainWorker
         }
     }
 
-    public IEnumerable<Commands> SupportedCommands(IPortableDeviceServiceCapabilities capabilities)
-        => InvokeEnumerable(() => SupportedCommandsIntern(capabilities));
-
-    private IEnumerable<Commands> SupportedCommandsIntern(IPortableDeviceServiceCapabilities capabilities)
+    
+    public static IEnumerable<Commands> SupportedCommands(IPortableDeviceServiceCapabilities capabilities)
     {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
         int err = capabilities.GetSupportedCommands(out IPortableDeviceKeyCollection commands);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedCommands));
         //return commands.ToCommands();
@@ -50,11 +48,10 @@ partial class MainWorker
         }
     }
 
-    public IEnumerable<Events> SupportedEvents(IPortableDeviceServiceCapabilities capabilities)
-        => InvokeEnumerable(() => SupportedEventsIntern(capabilities));
-
-    public IEnumerable<Events> SupportedEventsIntern(IPortableDeviceServiceCapabilities capabilities)
+    public static IEnumerable<Events> SupportedEvents(IPortableDeviceServiceCapabilities capabilities)
     {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
         int err = capabilities.GetSupportedEvents(out IPortableDevicePropVariantCollection events);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedEvents));
         //return events.ToEvents();
@@ -73,11 +70,11 @@ partial class MainWorker
         }
     }
 
-    public IEnumerable<Formats> SupportedFormats(IPortableDeviceServiceCapabilities capabilities)
-        => InvokeEnumerable(() => SupportedFormatsIntern(capabilities));
-
-    public IEnumerable<Formats> SupportedFormatsIntern(IPortableDeviceServiceCapabilities capabilities)
+   
+    public static IEnumerable<Formats> SupportedFormats(IPortableDeviceServiceCapabilities capabilities)
     {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
         int err = capabilities.GetSupportedFormats(out IPortableDevicePropVariantCollection formats);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedEvents));
         //return events.ToEvents();
@@ -96,11 +93,12 @@ partial class MainWorker
         }
     }
 
-    public IEnumerable<Methods> SupportedMethods(IPortableDeviceServiceCapabilities capabilities)
-        => InvokeEnumerable(() => SupportedMethodsIntern(capabilities));
+    
 
-    public IEnumerable<Methods> SupportedMethodsIntern(IPortableDeviceServiceCapabilities capabilities)
+    public static IEnumerable<Methods> SupportedMethods(IPortableDeviceServiceCapabilities capabilities)
     {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
         int err = capabilities.GetSupportedMethods(out IPortableDevicePropVariantCollection methods);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedEvents));
         //return events.ToEvents();

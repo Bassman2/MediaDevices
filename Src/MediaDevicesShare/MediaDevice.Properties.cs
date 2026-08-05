@@ -14,7 +14,7 @@ partial class MediaDevice
             NotConnectedException.ThrowIfNotConnected(this);
             ArgumentNullException.ThrowIfNullOrEmpty(value, nameof(value));
             ThreadSafeWorkerException.ThrowIfNotOutside();
-            friendlyName = mainWorker.SetFriendlyName(this, value);
+            friendlyName = mainWorker.Invoke(() => ProtocolHandler.SetFriendlyName(this, value));
         }
     }
 

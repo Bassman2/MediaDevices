@@ -191,9 +191,9 @@ public sealed partial class MediaDevice : IDisposable
         this.deviceManager = deviceManager;
         this.serviceManager = serviceManager;
 
-        this.Description = MainWorker.GetDeviceDescription(deviceManager, deviceId) ?? string.Empty;
-        this.friendlyName = MainWorker.GetDeviceFriendlyName(deviceManager, deviceId) ?? string.Empty;
-        this.Manufacturer = MainWorker.GetDeviceManufacturer(deviceManager, deviceId) ?? string.Empty;
+        this.Description = ProtocolHandler.GetDeviceDescription(deviceManager, deviceId);
+        this.friendlyName = ProtocolHandler.GetDeviceFriendlyName(deviceManager, deviceId);
+        this.Manufacturer = ProtocolHandler.GetDeviceManufacturer(deviceManager, deviceId);
     }
 
     public void Dispose()
@@ -244,7 +244,7 @@ public sealed partial class MediaDevice : IDisposable
     public IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices serviceType)
     {
         NotConnectedException.ThrowIfNotConnected(this);
-        return mainWorker.GetServices(this, serviceType);
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.GetServices(serviceManager, this, serviceType));
     }
 
     #endregion

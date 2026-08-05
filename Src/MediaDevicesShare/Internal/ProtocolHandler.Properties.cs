@@ -1,29 +1,28 @@
-﻿namespace MediaDevices;
+﻿namespace MediaDevices.Internal;
 
-partial class MainWorker
+partial class ProtocolHandler
 {
     #region IPortableDeviceProperties
 
-    public string? SetFriendlyName(MediaDevice mediaDevice, string? value)
+    public static string? SetFriendlyName(MediaDevice mediaDevice, string? value)
     {
-        return Invoke(() =>
-        {
-            //IPortableDeviceValues devInValues = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
+        ThreadSafeWorkerException.ThrowIfNotInside();
 
-            int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var devInValues);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
+        //IPortableDeviceValues devInValues = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
+
+        int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var devInValues);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
 
 
-            devInValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value!);
-            mediaDevice.deviceProperties!.SetValues(Item.RootId, devInValues, out IPortableDeviceValues _);
+        devInValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value!);
+        mediaDevice.deviceProperties!.SetValues(Item.RootId, devInValues, out IPortableDeviceValues _);
 
-            // reload mediaDevice values with new friendly name 
-            mediaDevice.deviceProperties.GetValues(Item.RootId, null, out mediaDevice.deviceValues);
+        // reload mediaDevice values with new friendly name 
+        mediaDevice.deviceProperties.GetValues(Item.RootId, null, out mediaDevice.deviceValues);
 
-            return mediaDevice.deviceValues!.GetStringValue(WPD.DEVICE_FRIENDLY_NAME);
-        });
+        return mediaDevice.deviceValues!.GetStringValue(WPD.DEVICE_FRIENDLY_NAME);
     }
-       
+
     #endregion
 
     #region IPortableDeviceManager
