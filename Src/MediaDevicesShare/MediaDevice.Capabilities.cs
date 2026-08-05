@@ -11,7 +11,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.SupportedCommands(this.deviceCapabilities!);
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedCommands(this.deviceCapabilities!));
     }
 
     /// <summary>
@@ -23,7 +23,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.FunctionalCategories(this.deviceCapabilities!);
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.FunctionalCategories(this.deviceCapabilities!));
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.FunctionalObjects(this.deviceCapabilities!, functionalCategory);
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.FunctionalObjects(this.deviceCapabilities!, functionalCategory));
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.SupportedContentTypes(this.deviceCapabilities!, functionalCategory);
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedContentTypes(this.deviceCapabilities!, functionalCategory));
     }
 
     /// <summary>
@@ -61,6 +61,6 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.SupportedEvents(this.deviceCapabilities!);
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedEvents(this.deviceCapabilities!));
     }
 }

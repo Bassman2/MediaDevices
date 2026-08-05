@@ -106,11 +106,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Roaming.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StorageAccessCapability.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StorageType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Capabilities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Commands.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.Capabilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Events.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.FileSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Properties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Services.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafe\MainWorker.Vendor.cs" />
