@@ -62,6 +62,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\PropVariantType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\Security.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\SmsMessageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.FileSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\StreamWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\CLSID.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\MediaDeviceAccess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Events.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.FileSystem.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.FileSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Properties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Vendor.cs" />

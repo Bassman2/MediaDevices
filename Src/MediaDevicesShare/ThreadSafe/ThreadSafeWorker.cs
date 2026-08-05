@@ -158,6 +158,29 @@ internal class ThreadSafeWorker : IDisposable
 
     #region Async
 
+    public Task InvokeAsync(
+        Action action,
+        [CallerLineNumber] int lineNumber = 0,
+        [CallerFilePath] string filePath = "",
+        [CallerMemberName] string memberName = "")
+    {
+        ThreadSafeWorkerException.ThrowIfNotOutside(lineNumber, filePath, memberName);
+        var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        queue.Add(() =>
+        {
+            try
+            {
+                action();
+                tcs.SetResult();
+            }
+            catch (Exception ex)
+            {
+                tcs.SetException(ex);
+            }
+        });
+        return tcs.Task;
+    }
+
     public Task<T> InvokeAsync<T>(
         Func<T> func,
         [CallerLineNumber] int lineNumber = 0,

@@ -32,7 +32,7 @@ public abstract class MediaFileSystemInfo
     public virtual void Refresh()
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        mainWorker.Refresh(this.item);
+        mainWorker.Invoke(() => ProtocolHandler.Refresh(this.item));
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public abstract class MediaFileSystemInfo
         get
         {
             NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            return mainWorker.GetParent(mediaDevice, this.item);
+            return mainWorker.Invoke(() => ProtocolHandler.GetParent(this.mediaDevice, this.item));
         }
     }
 
@@ -71,7 +71,7 @@ public abstract class MediaFileSystemInfo
         set
         {
             NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            mainWorker.SetCreationTime(this.item, value);
+            mainWorker.Invoke(() => ProtocolHandler.SetCreationTime(this.item, value));
         }
     }
 
@@ -84,7 +84,7 @@ public abstract class MediaFileSystemInfo
         set
         {
             NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            mainWorker.SetLastWriteTime(item, value);
+            mainWorker.Invoke(() => ProtocolHandler.SetLastWriteTime(this.item, value));
         }
     }
 
@@ -97,7 +97,7 @@ public abstract class MediaFileSystemInfo
         set
         {
             NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            mainWorker.SetDateAuthored(item, value);
+            mainWorker.Invoke(() => ProtocolHandler.SetDateAuthored(this.item, value));
         }
     }
 
@@ -143,7 +143,7 @@ public abstract class MediaFileSystemInfo
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
         ArgumentException.ThrowIfNullOrWhiteSpace(newName, nameof(newName));
-        mainWorker.Rename(this.item, newName);
+        mainWorker.Invoke(() => ProtocolHandler.Rename(this.item, newName));
     }
 
     /// <summary>

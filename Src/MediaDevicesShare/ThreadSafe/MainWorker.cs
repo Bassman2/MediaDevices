@@ -156,13 +156,13 @@ internal partial class MainWorker : ThreadSafeWorker
 
             // properties
 
-            mediaDevice.Manufacturer = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_MANUFACTURER) ?? string.Empty;
-
+            
 
             err = mediaDevice.device.GetPnPDeviceID(out string pnPDeviceID);
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.GetPnPDeviceID));
             mediaDevice.PnPDeviceID = pnPDeviceID;
 
+            mediaDevice.Manufacturer = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_MANUFACTURER) ?? string.Empty;
             mediaDevice.SyncPartner = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_SYNC_PARTNER);
             mediaDevice.FirmwareVersion = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_FIRMWARE_VERSION);
             mediaDevice.PowerLevel = mediaDevice.deviceValues.GetSignedIntegerValue(WPD.DEVICE_POWER_LEVEL);
@@ -180,6 +180,42 @@ internal partial class MainWorker : ThreadSafeWorker
             mediaDevice.ModelUniqueId = mediaDevice.deviceValues.GetByteArrayValue(WPD.DEVICE_MODEL_UNIQUE_ID);
             mediaDevice.Transport = (DeviceTransport?)mediaDevice.deviceValues.GetUnsignedIntegerValue(WPD.DEVICE_TRANSPORT);
             mediaDevice.UseDeviceStage = (DeviceTransport?)mediaDevice.deviceValues.GetUnsignedIntegerValue(WPD.DEVICE_USE_DEVICE_STAGE);
+
+
+            //uint num = 0;
+            //err = mediaDevice.deviceValues.GetCount(ref num);
+            //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetCount));
+            //for (uint i = 0; i < num; i++)
+            //{
+            //    using PropVariantFacade val = new();
+            //    err = mediaDevice.deviceValues.GetAt(i, ref val.Key, ref val.Value);
+            //    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetAt));
+
+            //    switch (val.Key)
+            //    {
+            //    case var key when key == WPD.DEVICE_MANUFACTURER:
+            //        mediaDevice.Manufacturer = val.ToString();
+            //        break;
+            //    case var key when key == WPD.DEVICE_FRIENDLY_NAME:
+            //        mediaDevice.friendlyName = val.ToString();
+            //        break;
+            //    case var key when key == WPD.DEVICE_MODEL:
+            //        mediaDevice.Model = val.ToString();
+            //        break;
+            //    case var key when key == WPD.DEVICE_SERIAL_NUMBER:
+            //        mediaDevice.SerialNumber = val.ToString();
+            //        break;
+            //    case var key when key == WPD.DEVICE_PROTOCOL:
+            //        mediaDevice.Protocol = val.ToString();
+            //        break;
+            //    case var key when key == WPD.DEVICE_POWER_SOURCE:
+            //        mediaDevice.PowerSource = (PowerSource?)val.ToInt();
+            //        break;
+            //    case var key when key == WPD.DEVICE_POWER_LEVEL:
+            //        mediaDevice.PowerLevel = val.ToInt();
+            //        break;
+            //    }
+            //}
 
             mediaDevice.IsConnected = true;
         });

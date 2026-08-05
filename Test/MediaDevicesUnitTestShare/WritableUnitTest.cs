@@ -405,7 +405,7 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
 
         mediaDevice.DeleteFile(filePath);
 
-        bool isFired = fired.WaitOne(new TimeSpan(0, 0, 10));
+        bool isFired = fired.WaitOne(new TimeSpan(0, 0, 3));
         mediaDevice.Disconnect();
 
         Assert.IsTrue(isFired);
@@ -443,8 +443,8 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
         mediaDevice.CreateDirectory(folder);
         mediaDevice.DeleteDirectory(folder);
 
-        bool isAddFired = addEvent.WaitOne(new TimeSpan(0, 0, 10));
-        bool isDelFired = delEvent.WaitOne(new TimeSpan(0, 0, 10));
+        bool isAddFired = addEvent.WaitOne(new TimeSpan(0, 0, 3));
+        bool isDelFired = delEvent.WaitOne(new TimeSpan(0, 0, 3));
 
         mediaDevice.Disconnect();
 
