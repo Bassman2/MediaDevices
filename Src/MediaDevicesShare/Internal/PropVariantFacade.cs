@@ -24,11 +24,12 @@ internal sealed partial class PropVariantFacade : IDisposable
         if (this.Value.vt != 0)
         {
             // clear propvariant clears also included objects like strings
-            int err = ComHelper.NativeMethods.PropVariantClear(ref this.Value);
-            if (err < 0)
-            {
-                Trace.TraceError($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
-            }
+            this.Value.Release();
+            //int err = ComHelper.NativeMethods.PropVariantClear(ref this.Value);
+            //if (err < 0)
+            //{
+            //    Trace.TraceError($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
+            //}
         }
     }
 
