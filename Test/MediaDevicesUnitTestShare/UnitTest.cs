@@ -22,9 +22,9 @@ public abstract class UnitTest
 
 
     // Device Properties Test
-    protected string? deviceDescription;
-    protected string? deviceFriendlyName;
-    protected string? deviceManufacture;
+    protected string? deviceDescription = null;
+    protected string? deviceFriendlyName = null;
+    protected string? deviceManufacture = null;
 
     protected string? deviceId = "DEVICE";
     protected string? deviceParentId = "";
@@ -32,28 +32,28 @@ public abstract class UnitTest
     protected ContentType? deviceContentType = ContentType.FunctionalObject;
     protected string? devicePersistentUniqueId = "DEVICE";
     protected ObjectFormat? deviceObjectFormat = ObjectFormat.PropertiesOnly;
-    protected bool? deviceIsHidden = true;
-    protected bool? deviceCanDelete = false;
+    protected bool? deviceIsHidden = null;
+    protected bool? deviceCanDelete = null;
     protected string? deviceContainerFunctionalObjectId = null;
     protected FunctionalCategory? deviceFunctionalObjectCategory = FunctionalCategory.Device;
 
     protected string? deviceSyncPartner = null;
-    protected string? deviceFirmwareVersion;
+    protected string? deviceFirmwareVersion = null;
     protected bool devicePowerLevelHasValue = true;
     protected PowerSource? devicePowerSource = PowerSource.Battery;
     protected string? deviceProtocol = "MTP: 1.00";
-    protected string? deviceModel;
-    protected string? deviceSerialNumber;
+    protected string? deviceModel = null;
+    protected string? deviceSerialNumber = null;
     protected bool? deviceSupportsNonConsumable = true;
     protected bool deviceDateTimeHasValue = true;
     protected string[]? deviceSupportedDrmSchemes = null;
     protected bool? deviceSupportedFormatsAreOrdered = true;
     protected DeviceType? deviceDeviceType = DeviceType.Generic;
-    protected ulong? deviceNetworkIdentifier;
-    protected uint? deviceFunctionalUniqueId;
-    protected uint? deviceModelUniqueId;
+    protected ulong? deviceNetworkIdentifier = null;
+    protected uint? deviceFunctionalUniqueId = null;
+    protected uint? deviceModelUniqueId = null;
     protected DeviceTransport? deviceTransport = DeviceTransport.USB;
-    protected DeviceTransport? deviceUseDeviceStage;
+    protected DeviceTransport? deviceUseDeviceStage = null;
     protected string? deviceEdpItentifier = null;
 
     // Device Capability Test
@@ -191,7 +191,7 @@ public abstract class UnitTest
 
         string? description = device.Description;
         string? friendlyName = device.FriendlyName;
-        string? manufacture = device.Manufacturer;
+        string? manufacture1 = device.Manufacturer;
 
         device.Connect();
         string? id = device.Id;
@@ -210,6 +210,7 @@ public abstract class UnitTest
         uint? powerLevel = device.PowerLevel ?? 0;
         PowerSource? powerSource = device.PowerSource;
         string? protocol = device.Protocol;
+        string? manufacture2 = device.Manufacturer;
         string? model = device.Model;
         string? serialNumber = device.SerialNumber;
         bool? supportsNonConsumable = device.SupportsNonConsumable;
@@ -227,7 +228,7 @@ public abstract class UnitTest
 
         Assert.AreEqual(this.deviceDescription, description, nameof(deviceDescription));
         Assert.AreEqual(this.deviceFriendlyName, friendlyName, nameof(deviceFriendlyName));
-        Assert.AreEqual(this.deviceManufacture, manufacture, nameof(deviceManufacture));
+        Assert.AreEqual(this.deviceManufacture, manufacture1, nameof(deviceManufacture) + " 1");
 
 
         Assert.AreEqual(deviceId, id, nameof(deviceId));
@@ -246,6 +247,7 @@ public abstract class UnitTest
         Assert.AreEqual(devicePowerLevelHasValue, powerLevel.HasValue, nameof(devicePowerLevelHasValue)); // value changes
         Assert.AreEqual(devicePowerSource, powerSource, nameof(devicePowerSource));
         Assert.AreEqual(deviceProtocol, protocol, nameof(deviceProtocol));
+        Assert.AreEqual(this.deviceManufacture, manufacture2, nameof(deviceManufacture) + " 2");
         Assert.AreEqual(deviceModel, model, nameof(deviceModel));
         Assert.AreEqual(deviceSerialNumber, serialNumber, nameof(deviceSerialNumber));
         Assert.AreEqual(deviceSupportsNonConsumable, supportsNonConsumable, nameof(deviceSupportsNonConsumable));
@@ -256,9 +258,9 @@ public abstract class UnitTest
         Assert.AreEqual(deviceNetworkIdentifier, networkIdentifier, nameof(deviceNetworkIdentifier));
         Assert.AreEqual(deviceFunctionalUniqueId, functionalUniqueId, nameof(deviceFunctionalUniqueId));
         Assert.AreEqual(deviceModelUniqueId, modelUniqueId, nameof(deviceModelUniqueId));
-        Assert.AreEqual(this.deviceTransport, transport, nameof(deviceTransport));
-        Assert.AreEqual(this.deviceUseDeviceStage, useDeviceStage, nameof(deviceUseDeviceStage));
-        Assert.AreEqual(this.deviceEdpItentifier, edpItentifier, nameof(deviceEdpItentifier));
+        Assert.AreEqual(deviceTransport, transport, nameof(deviceTransport));
+        Assert.AreEqual(deviceUseDeviceStage, useDeviceStage, nameof(deviceUseDeviceStage));
+        Assert.AreEqual(deviceEdpItentifier, edpItentifier, nameof(deviceEdpItentifier));
     }
 
     [TestMethod]

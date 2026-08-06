@@ -10,16 +10,19 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         #region Device Tests
 
         // Device Properties Test
+
         deviceDescription = "Fire";
         deviceFriendlyName = "FireHD10Plus11";
         deviceManufacture = "Amazon";
+
+        deviceName = "Fire";
+        deviceCanDelete = false;
+        deviceContainerFunctionalObjectId = "DEVICE";
+
+        deviceSyncPartner = "";
         deviceFirmwareVersion = "1.0";
         deviceModel = "Fire";
         deviceSerialNumber = "G001MG0613460HLU";
-        //this.deviceDeviceType = DeviceType.MediaPlayer;
-        //this.deviceTransport = DeviceTransport.USB;
-        //this.devicePowerSource = PowerSource.Battery;
-        deviceSyncPartner = "";
         deviceSupportsNonConsumable = false;
         deviceDateTimeHasValue = false;
         deviceSupportedFormatsAreOrdered = null;

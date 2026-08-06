@@ -12,12 +12,16 @@ public class PhilipsUFDUnitTest : WritableUnitTest
         deviceDescription = "PHILIPS USB     ";
         deviceFriendlyName = "PHILIPS UFD";
         deviceManufacture = "        ";
+
+        deviceIsHidden = true;
+        deviceCanDelete = false;
+
         deviceFirmwareVersion = "    ";
+        devicePowerSource = PowerSource.External;
+        deviceProtocol = "MSC:";
         deviceModel = "PHILIPS USB     ";
         deviceSerialNumber = "0000000005\u0006\u0018";
         deviceDateTimeHasValue = false;
-        devicePowerSource = PowerSource.External;
-        deviceProtocol = "MSC:";
         deviceSupportsNonConsumable = null;
         deviceSupportedFormatsAreOrdered = null;
         deviceTransport = null;
