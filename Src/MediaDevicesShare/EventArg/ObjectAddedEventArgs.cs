@@ -19,7 +19,7 @@ public class ObjectAddedEventArgs : MediaDeviceEventArgs
         
         if (eventParameters.TryGetGuidValue(WPD.OBJECT_CONTENT_TYPE, out Guid objectContentType))
         { 
-            //this.ObjectContentType = ComEnumerable.GetEnumFromAttrGuid<ContentType>(objectContentType);
+            //this.ContentType = ComEnumerable.GetEnumFromAttrGuid<ContentType>(objectContentType);
             this.ObjectContentType = objectContentType.FindContentTypeEnum();
         }
         

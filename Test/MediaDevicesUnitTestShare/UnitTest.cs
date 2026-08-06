@@ -19,12 +19,24 @@ public abstract class UnitTest
    
     // Ignore tests
     protected Ignore ignoreTests = Ignore.None;
-    
-    
+
+
     // Device Properties Test
     protected string? deviceDescription;
     protected string? deviceFriendlyName;
     protected string? deviceManufacture;
+
+    protected string? deviceId = "DEVICE";
+    protected string? deviceParentId = "";
+    protected string? deviceName = null;
+    protected ContentType? deviceContentType = ContentType.FunctionalObject;
+    protected string? devicePersistentUniqueId = "DEVICE";
+    protected ObjectFormat? deviceObjectFormat = ObjectFormat.PropertiesOnly;
+    protected bool? deviceIsHidden = true;
+    protected bool? deviceCanDelete = false;
+    protected string? deviceContainerFunctionalObjectId = null;
+    protected FunctionalCategory? deviceFunctionalObjectCategory = FunctionalCategory.Device;
+
     protected string? deviceSyncPartner = null;
     protected string? deviceFirmwareVersion;
     protected bool devicePowerLevelHasValue = true;
@@ -34,14 +46,16 @@ public abstract class UnitTest
     protected string? deviceSerialNumber;
     protected bool? deviceSupportsNonConsumable = true;
     protected bool deviceDateTimeHasValue = true;
+    protected string[]? deviceSupportedDrmSchemes = null;
     protected bool? deviceSupportedFormatsAreOrdered = true;
     protected DeviceType? deviceDeviceType = DeviceType.Generic;
     protected ulong? deviceNetworkIdentifier;
-    // FunctionalUniqueId
-    // ModelUniqueId
+    protected uint? deviceFunctionalUniqueId;
+    protected uint? deviceModelUniqueId;
     protected DeviceTransport? deviceTransport = DeviceTransport.USB;
     protected DeviceTransport? deviceUseDeviceStage;
-    
+    protected string? deviceEdpItentifier = null;
+
     // Device Capability Test
     protected List<Events>? deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
     protected List<Commands>? deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
@@ -180,6 +194,17 @@ public abstract class UnitTest
         string? manufacture = device.Manufacturer;
 
         device.Connect();
+        string? id = device.Id;
+        string? parentId = device.ParentId;
+        string? name = device.Name;
+        ContentType? contentType = device.ContentType;
+        string? persistentUniqueId = device.PersistentUniqueId;
+        ObjectFormat? objectFormat = device.ObjectFormat;
+        bool? isHidden = device.IsHidden;
+        bool? canDelete = device.CanDelete;
+        string? containerFunctionalObjectId = device.ContainerFunctionalObjectId;
+        FunctionalCategory? functionalObjectCategory = device.FunctionalObjectCategory;
+
         string? syncPartner = device.SyncPartner;
         string? firmwareVersion = device.FirmwareVersion;
         uint? powerLevel = device.PowerLevel ?? 0;
@@ -189,13 +214,15 @@ public abstract class UnitTest
         string? serialNumber = device.SerialNumber;
         bool? supportsNonConsumable = device.SupportsNonConsumable;
         DateTime? dateTime = device.DateTime;
+        string[]? supportedDrmSchemes = device.SupportedDrmSchemes;
         bool? supportedFormatsAreOrdered = device.SupportedFormatsAreOrdered;
         DeviceType? deviceType = device.DeviceType;
         ulong? networkIdentifier = device.NetworkIdentifier;
-        // FunctionalUniqueId
-        // ModelUniqueId
+        uint? functionalUniqueId = device.FunctionalUniqueId;
+        uint? modelUniqueId = device.ModelUniqueId;
         DeviceTransport? transport = device.Transport;
         DeviceTransport? useDeviceStage = device.UseDeviceStage;
+        string? edpItentifier = device.EdpItentifier;
         device.Disconnect();
 
         Assert.AreEqual(this.deviceDescription, description, nameof(deviceDescription));
@@ -203,27 +230,36 @@ public abstract class UnitTest
         Assert.AreEqual(this.deviceManufacture, manufacture, nameof(deviceManufacture));
 
 
-        Assert.AreEqual(this.deviceSyncPartner, syncPartner, nameof(deviceSyncPartner));
-        Assert.AreEqual(this.deviceFirmwareVersion, firmwareVersion, nameof(deviceFirmwareVersion));
-        Assert.AreEqual(this.devicePowerLevelHasValue, powerLevel.HasValue, nameof(devicePowerLevelHasValue)); // value changes
-        Assert.AreEqual(this.devicePowerSource, powerSource, nameof(devicePowerSource));
-        Assert.AreEqual(this.deviceProtocol, protocol, nameof(deviceProtocol));
-        Assert.AreEqual(this.deviceModel, model, nameof(deviceModel));
-        Assert.AreEqual(this.deviceSerialNumber, serialNumber, nameof(deviceSerialNumber));
-        Assert.AreEqual(this.deviceSupportsNonConsumable, supportsNonConsumable, nameof(deviceSupportsNonConsumable));
-        Assert.AreEqual(this.deviceDateTimeHasValue, dateTime.HasValue, nameof(deviceDateTimeHasValue));    // value changes
-        Assert.AreEqual(this.deviceSupportedFormatsAreOrdered, supportedFormatsAreOrdered, nameof(deviceSupportedFormatsAreOrdered));
-        Assert.AreEqual(this.deviceDeviceType, deviceType, nameof(deviceDeviceType));
-        Assert.AreEqual(this.deviceNetworkIdentifier, networkIdentifier, nameof(deviceNetworkIdentifier));
-        // FunctionalUniqueId
-        // ModelUniqueId
+        Assert.AreEqual(deviceId, id, nameof(deviceId));
+        Assert.AreEqual(deviceParentId, parentId, nameof(deviceParentId));
+        Assert.AreEqual(deviceName, name, nameof(deviceName));
+        Assert.AreEqual(deviceContentType, contentType, nameof(deviceContentType));
+        Assert.AreEqual(devicePersistentUniqueId, persistentUniqueId, nameof(devicePersistentUniqueId));
+        Assert.AreEqual(deviceObjectFormat, objectFormat, nameof(deviceObjectFormat));
+        Assert.AreEqual(deviceIsHidden, isHidden, nameof(deviceIsHidden));
+        Assert.AreEqual(deviceCanDelete, canDelete, nameof(deviceCanDelete));
+        Assert.AreEqual(deviceContainerFunctionalObjectId, containerFunctionalObjectId, nameof(deviceContainerFunctionalObjectId));
+        Assert.AreEqual(deviceFunctionalObjectCategory, functionalObjectCategory, nameof(deviceFunctionalObjectCategory));
+
+        Assert.AreEqual(deviceSyncPartner, syncPartner, nameof(deviceSyncPartner));
+        Assert.AreEqual(deviceFirmwareVersion, firmwareVersion, nameof(deviceFirmwareVersion));
+        Assert.AreEqual(devicePowerLevelHasValue, powerLevel.HasValue, nameof(devicePowerLevelHasValue)); // value changes
+        Assert.AreEqual(devicePowerSource, powerSource, nameof(devicePowerSource));
+        Assert.AreEqual(deviceProtocol, protocol, nameof(deviceProtocol));
+        Assert.AreEqual(deviceModel, model, nameof(deviceModel));
+        Assert.AreEqual(deviceSerialNumber, serialNumber, nameof(deviceSerialNumber));
+        Assert.AreEqual(deviceSupportsNonConsumable, supportsNonConsumable, nameof(deviceSupportsNonConsumable));
+        Assert.AreEqual(deviceDateTimeHasValue, dateTime.HasValue, nameof(deviceDateTimeHasValue));    // value changes
+        Assert.AreSequenceEqual(deviceSupportedDrmSchemes, supportedDrmSchemes, SequenceOrder.InAnyOrder, nameof(deviceSupportedDrmSchemes));
+        Assert.AreEqual(deviceSupportedFormatsAreOrdered, supportedFormatsAreOrdered, nameof(deviceSupportedFormatsAreOrdered));
+        Assert.AreEqual(deviceDeviceType, deviceType, nameof(deviceDeviceType));
+        Assert.AreEqual(deviceNetworkIdentifier, networkIdentifier, nameof(deviceNetworkIdentifier));
+        Assert.AreEqual(deviceFunctionalUniqueId, functionalUniqueId, nameof(deviceFunctionalUniqueId));
+        Assert.AreEqual(deviceModelUniqueId, modelUniqueId, nameof(deviceModelUniqueId));
         Assert.AreEqual(this.deviceTransport, transport, nameof(deviceTransport));
         Assert.AreEqual(this.deviceUseDeviceStage, useDeviceStage, nameof(deviceUseDeviceStage));
-
-        //Assert.IsGreaterThanOrEqualTo(0, powerLevel, nameof(devicePowerLevel));
+        Assert.AreEqual(this.deviceEdpItentifier, edpItentifier, nameof(deviceEdpItentifier));
     }
-
-
 
     [TestMethod]
     [Description("Check mediaDevice compatibility informations.")]

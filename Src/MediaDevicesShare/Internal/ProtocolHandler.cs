@@ -2,6 +2,8 @@
 
 internal static partial class ProtocolHandler
 {
+    private const int OK = 0;
+
     public static void InitMediaDeviceManager(MediaDeviceManager mediaDeviceManager)
     {
         IPortableDeviceManager? intDeviceManager = null;
@@ -66,9 +68,7 @@ internal static partial class ProtocolHandler
             return deviceIds.Select(d => new MediaDevice(d, mainWorker, deviceManager, serviceManager));
         }
     }
-
     
-
     public static void Connect(MediaDevice mediaDevice, string deviceId, MediaDeviceAccess access, MediaDeviceShare share, bool enableCache)
     {
 
@@ -129,9 +129,6 @@ internal static partial class ProtocolHandler
         err = mediaDevice.deviceProperties.GetValues(Item.RootId, null, out mediaDevice.deviceValues);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
-        //ComTrace.WriteObject(this.deviceValues);
-
-        // TODO
         // advice event handler
         mediaDevice.eventCallback = new EventCallback(mediaDevice);
         err = mediaDevice.device.Advise(0, mediaDevice.eventCallback, null, out mediaDevice.eventCookie);
@@ -140,237 +137,149 @@ internal static partial class ProtocolHandler
 
         // properties
 
-
-
-        err = mediaDevice.device.GetPnPDeviceID(out string pnPDeviceID);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.GetPnPDeviceID));
-        mediaDevice.PnPDeviceID = pnPDeviceID;
-
-        //mediaDevice.Manufacturer = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_MANUFACTURER) ?? string.Empty;
-        //mediaDevice.SyncPartner = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_SYNC_PARTNER);
-        //mediaDevice.FirmwareVersion = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_FIRMWARE_VERSION);
-        ////mediaDevice.PowerLevel = mediaDevice.deviceValues.GetSignedIntegerValue(WPD.DEVICE_POWER_LEVEL);
-        //mediaDevice.PowerSource = (PowerSource?)mediaDevice.deviceValues.GetSignedIntegerValue(WPD.DEVICE_POWER_SOURCE);
-        //mediaDevice.Protocol = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_PROTOCOL);
-        //mediaDevice.Model = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_MODEL);
-        //mediaDevice.SerialNumber = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_SERIAL_NUMBER);
-        //mediaDevice.SupportsNonConsumable = mediaDevice.deviceValues.GetBoolValue(WPD.DEVICE_SUPPORTS_NON_CONSUMABLE);
-        //mediaDevice.DateTime = mediaDevice.deviceValues.GetDateTimeValue(WPD.DEVICE_DATETIME);
-        //mediaDevice.friendlyName = mediaDevice.deviceValues.GetStringValue(WPD.DEVICE_FRIENDLY_NAME);
-        //mediaDevice.SupportedFormatsAreOrdered = mediaDevice.deviceValues.GetBoolValue(WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED);
-        //mediaDevice.DeviceType = (DeviceType?)mediaDevice.deviceValues.GetSignedIntegerValue(WPD.DEVICE_TYPE);
-        //mediaDevice.NetworkIdentifier = mediaDevice.deviceValues.GetUnsignedLargeIntegerValue(WPD.DEVICE_NETWORK_IDENTIFIER);
-        ////mediaDevice.FunctionalUniqueId = mediaDevice.deviceValues.GetByteArrayValue(WPD.DEVICE_FUNCTIONAL_UNIQUE_ID);
-        //mediaDevice.ModelUniqueId = mediaDevice.deviceValues.GetByteArrayValue(WPD.DEVICE_MODEL_UNIQUE_ID);
-        //mediaDevice.Transport = (DeviceTransport?)mediaDevice.deviceValues.GetUnsignedIntegerValue(WPD.DEVICE_TRANSPORT);
-        //mediaDevice.UseDeviceStage = (DeviceTransport?)mediaDevice.deviceValues.GetUnsignedIntegerValue(WPD.DEVICE_USE_DEVICE_STAGE);
-
-
-        uint num = 0;
-        err = mediaDevice.deviceValues.GetCount(ref num);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetCount));
-        for (uint i = 0; i < num; i++)
+        if (mediaDevice.device.GetPnPDeviceID(out string pnPDeviceID) == OK)
         {
-            using PropVariantFacade val = new();
-            err = mediaDevice.deviceValues.GetAt(i, ref val.Key, ref val.Value);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetAt));
-
-            if (val.Key == WPD.OBJECT_ID)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string objectId);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.ObjectId = objectId;
-            }
-            else if (val.Key == WPD.OBJECT_PARENT_ID)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string objectParentId);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.ObjectParentId = objectParentId;
-            }
-            else if (val.Key == WPD.OBJECT_NAME)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string objectName);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.Name = objectName;
-            }
-            else if (val.Key == WPD.OBJECT_CONTENT_TYPE)
-            {
-                err = mediaDevice.deviceValues.GetGuidValue(ref val.Key, out Guid objectContentType);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetGuidValue));
-                mediaDevice.ObjectContentType = objectContentType.ToString();
-            }
-            else if (val.Key == WPD.OBJECT_PERSISTENT_UNIQUE_ID)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string objectPersistentUniqueId);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.PersistentUniqueId = objectPersistentUniqueId;
-            }
-            else if (val.Key == WPD.OBJECT_FORMAT)
-            {
-                err = mediaDevice.deviceValues.GetGuidValue(ref val.Key, out Guid objectFormat);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetGuidValue));
-                mediaDevice.ObjectFormat = objectFormat.ToString();
-            }
-            else if (val.Key == WPD.OBJECT_ISHIDDEN)
-            {
-                err = mediaDevice.deviceValues.GetBoolValue(ref val.Key, out int isHidden);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue));
-                mediaDevice.IsHidden = isHidden > 0;
-            }
-            else if (val.Key == WPD.OBJECT_CAN_DELETE)
-            {
-                err = mediaDevice.deviceValues.GetBoolValue(ref val.Key, out int canDelete);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue));
-                mediaDevice.CanDelete = canDelete > 0;
-            }
-            else if (val.Key == WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string containerFunctionalObjectId);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.ContainerFunctionalObjectId = containerFunctionalObjectId;
-            }
-
-            else if (val.Key == WPD.FUNCTIONAL_OBJECT_CATEGORY)
-            {
-                err = mediaDevice.deviceValues.GetGuidValue(ref val.Key, out Guid functionalObjectCategory);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetGuidValue));
-                mediaDevice.FunctionalObjectCategory = functionalObjectCategory.ToString();
-            }
-            else if (val.Key == WPD.DEVICE_SYNC_PARTNER)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string syncPartner);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.SyncPartner = syncPartner;
-            }
-            else if (val.Key == WPD.DEVICE_FIRMWARE_VERSION)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string firmwareVersion);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.FirmwareVersion = firmwareVersion;
-            }
-            else if (val.Key == WPD.DEVICE_POWER_LEVEL)
-            {
-                err = mediaDevice.deviceValues.GetUnsignedIntegerValue(ref val.Key, out uint powerLevel);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetUnsignedIntegerValue));
-                mediaDevice.PowerLevel = powerLevel;
-            }
-            else if (val.Key == WPD.DEVICE_POWER_SOURCE)
-            {
-                err = mediaDevice.deviceValues.GetUnsignedIntegerValue(ref val.Key, out uint powerSource);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetUnsignedIntegerValue));
-                mediaDevice.PowerSource = (PowerSource?)powerSource;
-            }
-            else if (val.Key == WPD.DEVICE_PROTOCOL)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string protocol);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.Protocol = protocol;
-            }
-            else if (val.Key == WPD.DEVICE_MANUFACTURER)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string manufacturer);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.Manufacturer = manufacturer;
-            }
-            else if (val.Key == WPD.DEVICE_MODEL)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string model);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.Model = model;
-            }
-            else if (val.Key == WPD.DEVICE_SERIAL_NUMBER)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string serialNumber);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.SerialNumber = serialNumber;
-            }
-            else if (val.Key == WPD.DEVICE_SUPPORTS_NON_CONSUMABLE)
-            {
-                err = mediaDevice.deviceValues.GetBoolValue(ref val.Key, out var supportsNonConsumable);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue));
-                mediaDevice.SupportsNonConsumable = supportsNonConsumable > 0;
-            }
-            else if (val.Key == WPD.DEVICE_DATETIME)
-            {
-                //err = mediaDevice.deviceValues.GetDateTimeValue(ref val.Key, out DateTime dateTime);
-                //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetDateTimeValue));
-                //mediaDevice.DateTime = dateTime;
-            }
-            else if (val.Key == WPD.DEVICE_FRIENDLY_NAME)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string friendlyName);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.friendlyName = friendlyName;
-            }
-            else if (val.Key == WPD.DEVICE_SUPPORTED_DRM_SCHEMES)
-            {
-                //err = mediaDevice.deviceValues.GetDateTimeValue(ref val.Key, out DateTime dateTime);
-                //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetDateTimeValue));
-                //mediaDevice.DateTime = dateTime;
-            }
-            else if (val.Key == WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED)
-            {
-                err = mediaDevice.deviceValues.GetBoolValue(ref val.Key, out var supportedFormatsAreOrdered);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue));
-                mediaDevice.SupportedFormatsAreOrdered = supportedFormatsAreOrdered > 0;
-            }
-            else if (val.Key == WPD.DEVICE_TYPE)
-            {
-                err = mediaDevice.deviceValues.GetUnsignedIntegerValue(ref val.Key, out uint deviceType);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetUnsignedIntegerValue));
-                mediaDevice.DeviceType = (DeviceType?)deviceType;
-            }
-            else if (val.Key == WPD.DEVICE_NETWORK_IDENTIFIER)
-            {
-                err = mediaDevice.deviceValues.GetUnsignedLargeIntegerValue(ref val.Key, out ulong networkIdentifier);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetUnsignedLargeIntegerValue));
-                mediaDevice.NetworkIdentifier = networkIdentifier;
-            }
-            else if (val.Key == WPD.DEVICE_FUNCTIONAL_UNIQUE_ID)
-            {
-                err = mediaDevice.deviceValues.GetUnsignedIntegerValue(ref val.Key, out uint functionalUniqueId);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetUnsignedIntegerValue));
-                //mediaDevice.FunctionalUniqueId = [functionalUniqueId];
-            }
-            else if (val.Key == WPD.DEVICE_MODEL_UNIQUE_ID)
-            {
-                err = mediaDevice.deviceValues.GetUnsignedIntegerValue(ref val.Key, out uint modelUniqueId);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetUnsignedIntegerValue));
-                //mediaDevice.ModelUniqueId = [modelUniqueId];
-            }
-            else if (val.Key == WPD.DEVICE_TRANSPORT)
-            {
-                err = mediaDevice.deviceValues.GetUnsignedIntegerValue(ref val.Key, out uint transport);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetUnsignedIntegerValue));
-                mediaDevice.Transport = (DeviceTransport?)transport;
-            }
-            else if (val.Key == WPD.DEVICE_USE_DEVICE_STAGE)
-            {
-                err = mediaDevice.deviceValues.GetBoolValue(ref val.Key, out var useDeviceStage);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue));
-                mediaDevice.UseDeviceStage = (DeviceTransport?)useDeviceStage;
-            }
-            else if (val.Key == WPD.DEVICE_EDP_IDENTITY)
-            {
-                err = mediaDevice.deviceValues.GetStringValue(ref val.Key, out string edpItentifier);
-                MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
-                mediaDevice.EdpItentifier = edpItentifier;
-            }
-            else
-            {
-                string name = val.Key.GetName();
-                Trace.WriteLine($"Connect: {name}");
-            }
+            mediaDevice.PnPDeviceID = pnPDeviceID;
         }
 
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.OBJECT_ID, out string objectId) == OK)
+        {
+            mediaDevice.Id = objectId;
+        }
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.OBJECT_PARENT_ID, out string objectParentId) == OK)
+        {
+            mediaDevice.ParentId = objectParentId;
+        }
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.OBJECT_NAME, out string objectName) == OK)
+        {
+            mediaDevice.Name = objectName;
+        }
+        if (mediaDevice.deviceValues.GetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, out Guid objectContentType) == OK)
+        {
+            mediaDevice.ContentType = objectContentType.FindContentTypeEnum();
+        }
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.OBJECT_PERSISTENT_UNIQUE_ID, out string objectPersistentUniqueId) == OK)
+        {
+            mediaDevice.PersistentUniqueId = objectPersistentUniqueId;
+        }
+        if (mediaDevice.deviceValues.GetGuidValue(ref WPD.OBJECT_FORMAT, out Guid objectFormat) == OK)
+        {
+            mediaDevice.ObjectFormat = objectFormat.FindObjectFormatEnum();
+        }
+        if (mediaDevice.deviceValues.GetBoolValue(ref WPD.OBJECT_ISHIDDEN, out int isHidden) == OK)
+        {
+            mediaDevice.IsHidden = isHidden > 0;
+        }
+        if (mediaDevice.deviceValues.GetBoolValue(ref WPD.OBJECT_CAN_DELETE, out int canDelete) == OK)
+        {
+            mediaDevice.CanDelete = canDelete > 0;
+        }
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID, out string containerFunctionalObjectId) == OK)
+        {
+            mediaDevice.ContainerFunctionalObjectId = containerFunctionalObjectId;
+        }
 
-        // Amazon Kindle Fire HDX 7 (2013) has the following properties:
-        //Connect: OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID
-        //Connect: OBJECT_NAME
-        //Connect: PROPERTIES_MTP_VENDOR_EXTENDED_DEVICE_PROPS: 54279
-        //Connect: OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID
-        //Connect: OBJECT_NAME
-        //Connect: PROPERTIES_MTP_VENDOR_EXTENDED_DEVICE_PROPS: 54279
+        if (mediaDevice.deviceValues.GetGuidValue(ref WPD.FUNCTIONAL_OBJECT_CATEGORY, out Guid functionalObjectCategory) == OK)
+        {
+            mediaDevice.FunctionalObjectCategory = functionalObjectCategory.FindFunctionalCategoryEnum();
+        }
+
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_SYNC_PARTNER, out string syncPartner) == OK)
+        {
+            mediaDevice.SyncPartner = syncPartner;
+        }
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_FIRMWARE_VERSION, out string firmwareVersion) == OK)
+        {
+            mediaDevice.FirmwareVersion = firmwareVersion;
+        }
+        if (mediaDevice.deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_POWER_LEVEL, out uint powerLevel) == OK)
+        {
+            mediaDevice.PowerLevel = powerLevel;
+        }
+        if (mediaDevice.deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_POWER_SOURCE, out uint powerSource) == OK)
+        {
+            mediaDevice.PowerSource = (PowerSource?)powerSource;
+        }
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_PROTOCOL, out string protocol) == OK)
+        {
+            mediaDevice.Protocol = protocol;
+        }
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_MANUFACTURER, out string manufacturer) == OK)
+        {
+            mediaDevice.Manufacturer = manufacturer;
+        }
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_MODEL, out string model) == OK)
+        {
+            mediaDevice.Model = model;
+        }
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_SERIAL_NUMBER, out string serialNumber) == OK)
+        {
+            mediaDevice.SerialNumber = serialNumber;
+        }
+        if (mediaDevice.deviceValues.GetBoolValue(ref WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out var supportsNonConsumable) == OK)
+        {
+            mediaDevice.SupportsNonConsumable = supportsNonConsumable > 0;
+        }
+
+        // TODO
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_DATETIME, out string dateTime) == OK)
+        {
+            mediaDevice.DateTime = DateTime.Parse(dateTime);
+        }
+        
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, out string friendlyName) == OK)
+        { 
+            mediaDevice.friendlyName = friendlyName;
+        }
+        if (mediaDevice.deviceValues.GetIPortableDevicePropVariantCollectionValue(ref WPD.DEVICE_SUPPORTED_DRM_SCHEMES, out var propVariantCollection) == OK)
+        {
+            uint count = 0;
+            err = propVariantCollection.GetCount(ref count);
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
+            if (count <= 0)
+            {
+                List<string> list = [];
+                for (uint i = 0; i < count; i++)
+                {
+                    using PropVariantFacade val = new();
+                    propVariantCollection.GetAt(i, ref val.Value);
+                    list.Add(val);
+                }
+                mediaDevice.SupportedDrmSchemes = list.ToArray();
+            }
+        }
+        if (mediaDevice.deviceValues.GetBoolValue(ref WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out var supportedFormatsAreOrdered) == OK)
+        {
+            mediaDevice.SupportedFormatsAreOrdered = supportedFormatsAreOrdered > 0;
+        }
+        if (mediaDevice.deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_TYPE, out uint deviceType) == OK)   
+        {
+            mediaDevice.DeviceType = (DeviceType?)deviceType;
+        }
+        if (mediaDevice.deviceValues.GetUnsignedLargeIntegerValue(ref WPD.DEVICE_NETWORK_IDENTIFIER, out ulong networkIdentifier) == OK)
+        {   
+            mediaDevice.NetworkIdentifier = networkIdentifier;
+        }
+        if (mediaDevice.deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_FUNCTIONAL_UNIQUE_ID, out uint functionalUniqueId) == OK)
+        {
+            mediaDevice.FunctionalUniqueId = functionalUniqueId;
+        }
+        if (mediaDevice.deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_MODEL_UNIQUE_ID, out uint modelUniqueId) == OK)
+        {
+            mediaDevice.ModelUniqueId = modelUniqueId;
+        }
+        if (mediaDevice.deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_TRANSPORT, out uint transport) == OK)
+        {
+            mediaDevice.Transport = (DeviceTransport?)transport;
+        }
+        if (mediaDevice.deviceValues.GetBoolValue(ref WPD.DEVICE_USE_DEVICE_STAGE, out var useDeviceStage) == OK)
+        {
+            mediaDevice.UseDeviceStage = (DeviceTransport?)useDeviceStage;
+        }
+        if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_EDP_IDENTITY, out string edpItentifier) == OK)
+        {
+            mediaDevice.EdpItentifier = edpItentifier;
+        }
 
         mediaDevice.IsConnected = true;
     }

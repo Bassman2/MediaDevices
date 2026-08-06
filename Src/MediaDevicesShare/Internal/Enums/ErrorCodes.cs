@@ -9,4 +9,5 @@ internal enum ErrorCodes : int
     NotFound                /**/ = unchecked((int)0x80070490),      // ERROR_NOT_FOUND
     ResourceNotAvailable    /**/ = unchecked((int)0x8007138e),      // ERROR_RESOURCE_NOT_AVAILABLE
     
+    
 }

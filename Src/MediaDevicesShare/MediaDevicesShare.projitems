@@ -9,6 +9,7 @@
     <Import_RootNamespace>MediaDevices</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\ObjectFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentPathException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ChargingState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Commands.cs" />
@@ -116,7 +117,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Usings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Enums\" />
     <Folder Include="$(MSBuildThisFileDirectory)EventArg\" />
   </ItemGroup>
 </Project>
