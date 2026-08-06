@@ -222,11 +222,19 @@ internal static partial class ProtocolHandler
         }
 
         // TODO
-        if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_DATETIME, out string dateTime) == OK)
+        //if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_DATETIME, out string dateTime) == OK)
+        //{
+        //    mediaDevice.DateTime = DateTime.FromOADate(dateTime);
+        //}
+        if (mediaDevice.deviceValues.GetValue(ref WPD.DEVICE_DATETIME, out PropVariant dateTime) == OK)
         {
-            mediaDevice.DateTime = DateTime.Parse(dateTime);
+            if (dateTime.vt == PropVariantType.VT_DATE)
+            {
+                mediaDevice.DateTime = DateTime.FromOADate(dateTime.dateVal);
+            }
+            ComHelper.NativeMethods.PropVariantClear(ref dateTime);
         }
-        
+
         if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, out string friendlyName) == OK)
         { 
             mediaDevice.friendlyName = friendlyName;
@@ -245,7 +253,7 @@ internal static partial class ProtocolHandler
                     propVariantCollection.GetAt(i, ref val.Value);
                     list.Add(val);
                 }
-                mediaDevice.SupportedDrmSchemes = list.ToArray();
+                mediaDevice.SupportedDrmSchemes = [..list];
             }
         }
         if (mediaDevice.deviceValues.GetBoolValue(ref WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out var supportedFormatsAreOrdered) == OK)
