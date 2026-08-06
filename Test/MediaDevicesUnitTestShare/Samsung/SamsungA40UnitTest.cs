@@ -1,4 +1,6 @@
-﻿namespace MediaDevicesUnitTest;
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace MediaDevicesUnitTest;
 
 [TestClass]
 [TestCategory("Samsung")]
@@ -21,6 +23,11 @@ public class SamsungA40UnitTest : WritableUnitTest
         deviceDescription = "SM-A405FN";
         deviceFriendlyName = "Samsung A40";
         deviceManufacture = "Samsung Electronics Co., Ltd.";
+
+        deviceName = "SM-A405FN";
+        deviceCanDelete = false;
+        deviceContainerFunctionalObjectId = "DEVICE";
+
         deviceSyncPartner = "Longhorn Sync Engine";
         deviceFirmwareVersion = "A405FNXXU4CWC3";
         deviceModel = "SM-A405FN";
@@ -29,9 +36,64 @@ public class SamsungA40UnitTest : WritableUnitTest
         deviceDateTimeHasValue = false;
 
         // Capability Test
+        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        deviceSupportedCommands = [
+            Commands.ObjectEnumerationStartFind, 
+            Commands.ObjectManagementDeleteObjects,
+            Commands.ObjectEnumerationFindNext,
+            Commands.ObjectEnumerationEndFind,
+            Commands.ObjectPropertiesGetSupported,
+            Commands.ObjectPropertiesGet,
+            Commands.ObjectPropertiesGetAll,
+            Commands.ObjectPropertiesGetAttribute,
+            Commands.ObjectResourcesGetSupported,
+            Commands.ObjectResourcesGetAttributes,
+            Commands.ObjectResourcesOpen,
+            Commands.ObjectResourcesRead,
+            Commands.ObjectResourcesClose,
+            Commands.CapabilitiesGetSupportedCommands,
+            Commands.CapabilitiesGetCommandOptions,
+            Commands.CapabilitiesGetSupportedFunctionalCategories,
+            Commands.CapabilitiesGetFunctionalObjects,
+            Commands.CapabilitiesGetSupportedContentTypes,
+            Commands.CapabilitiesGetSupportedFormats,
+            Commands.CapabilitiesGetSupportedFormatProperties,
+            Commands.CapabilitiesGetFixedPropertyAttributes,
+            Commands.CapabilitiesGetSupportedEvents,
+            Commands.CapabilitiesGetEventOptions,
+            Commands.MtpExtVendorGetSupportedVendorOpcodes,
+            Commands.MtpExtVendorGetVendorExtensionDescription,
+            Commands.MtpExtVendorExecuteCommandWithoutDataPhase,
+            Commands.MtpExtVendorExecuteCommandWithDataToRead,
+            Commands.MtpExtVendorExecuteCommandWithDataToWrite,
+            Commands.MtpExtVendorReadData,
+            Commands.MtpExtVendorWriteData,
+            Commands.MtpExtVendorEndDataTransfer,
+            Commands.Unknown,
+            Commands.Unknown,
+            Commands.ObjectManagementCreateObjectWithPropertiesOnly,
+            Commands.ObjectManagementCreateObjectWithPropertiesAndData,
+            Commands.ObjectManagementWriteObjectData,
+            Commands.ObjectManagementCommitObject,
+            Commands.ObjectManagementRevertObject,
+            Commands.ObjectPropertiesSet,
+            Commands.ObjectPropertiesBulkGetValuesByObjectListStart,
+            Commands.ObjectPropertiesBulkGetValuesByObjectListNext,
+            Commands.ObjectPropertiesBulkGetValuesByObjectListEnd,
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatStart,
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatNext,
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatEnd,
+            Commands.ObjectPropertiesBulkSetValuesByObjectListStart,
+            Commands.ObjectPropertiesBulkSetValuesByObjectListNext,
+            Commands.ObjectPropertiesBulkSetValuesByObjectListEnd];
+        deviceSupportedContents = [ContentType.Audio, ContentType.Playlist, ContentType.Video, ContentType.Document, ContentType.Unspecified, ContentType.Folder, ContentType.Image];
         deviceFunctionalCategories = [FunctionalCategory.Storage, FunctionalCategory.RenderingInformation];
 
         // ContentLocation Test
+
+        // Device File Dates Test
+        deviceCreationTimeMode = DateMode.Now;
+        deviceLastWriteTimeMode = DateMode.FileTime;
 
         // Drive Test
         deviceDrives = ["Phone", "Card"];
