@@ -9,6 +9,7 @@
     <Import_RootNamespace>MediaDevices</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\ObjectFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentPathException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ChargingState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Commands.cs" />
@@ -83,7 +84,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Properties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Vendor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventArg\MediaDeviceEventArgs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceServiceContent.cs" />
@@ -93,8 +93,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\MediaDeviceShare.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceStatusService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDirectoryInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDriveInfo.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDriveInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\MediaFileAttributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaFileInfo.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaFileInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaFileSystemInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaStorageInfo.cs" />
@@ -115,7 +117,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Usings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Enums\" />
     <Folder Include="$(MSBuildThisFileDirectory)EventArg\" />
   </ItemGroup>
 </Project>

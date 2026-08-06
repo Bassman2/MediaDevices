@@ -12,6 +12,11 @@ public class NiconCoolpixA300 : ReadonlyUnitTest
         #region Device Tests
 
         // Device Properties Test
+
+        deviceName = "A300";
+        deviceIsHidden = null;
+        deviceContainerFunctionalObjectId = "DEVICE";
+
         deviceDescription = "A300";
         deviceFriendlyName = "A300";
         deviceManufacture = "NIKON";
@@ -24,7 +29,7 @@ public class NiconCoolpixA300 : ReadonlyUnitTest
         deviceProtocol = "MTP: 1.00";
         deviceSupportsNonConsumable = false;
         deviceSupportedFormatsAreOrdered = null;
-        deviceUseDeviceStage = DeviceTransport.NotSupported;
+        deviceUseDeviceStage = DeviceTransport.USB;
 
         // Device Capability Test
         deviceSupportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];

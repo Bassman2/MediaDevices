@@ -44,28 +44,34 @@ partial class MediaDevice
     /// Name of the portable mediaDevice.
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public string? Name { get; internal set; } = null;
-
-    public string? ContainerFunctionalObjectId { get; internal set; } = null;   
+    
     #endregion
 
     #region IPortableDeviceValues
 
-    public string? ObjectId { get; internal set; } = null;
+    public string? Id { get; internal set; } = null;
 
-    public string? ObjectParentId { get; internal set; } = null;
+    public string? ParentId { get; internal set; } = null;
 
-    public string? ObjectContentType { get; internal set; } = null;
+    public string? Name { get; internal set; } = null;
 
-    public string? FunctionalObjectCategory { get; internal set; } = null;
+    public ContentType? ContentType { get; internal set; } = null;
 
     public string? PersistentUniqueId { get; internal set; } = null;
 
-    public bool? CanDelete { get; internal set; } = null;
+    public ObjectFormat? ObjectFormat { get; internal set; } = null;
 
     public bool? IsHidden { get; internal set; } = null;
 
-    public string? ObjectFormat { get; internal set; } = null;
+    public bool? CanDelete { get; internal set; } = null;
+
+    public string? ContainerFunctionalObjectId { get; internal set; } = null;
+
+    public FunctionalCategory? FunctionalObjectCategory { get; internal set; } = null;
+
+
+    // Usefull
+
 
     /// <summary>
     /// Sync partner of the mediaDevice.
@@ -78,8 +84,7 @@ partial class MediaDevice
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public string? FirmwareVersion { get; internal set; } = null;
-
-    public string? EdpItentifier { get; internal set; } = null;
+        
     /// <summary>
     /// Battery level of the portable mediaDevice.
     /// </summary>
@@ -122,6 +127,9 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public DateTime? DateTime { get; internal set; } = null;
 
+
+    public string[]? SupportedDrmSchemes { get; internal set; } = null;
+
     /// <summary>
     /// Supported formats are ordered.
     /// </summary>
@@ -144,13 +152,13 @@ partial class MediaDevice
     /// Functional unique id od the media mediaDevice
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public byte[]? FunctionalUniqueId { get; internal set; } = null;
+    public uint? FunctionalUniqueId { get; internal set; } = null;
 
     /// <summary>
     /// Model unique id od the media mediaDevice
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public byte[]? ModelUniqueId { get; internal set; } = null;
+    public uint? ModelUniqueId { get; internal set; } = null;
 
     /// <summary>
     /// Device transport.
@@ -163,6 +171,9 @@ partial class MediaDevice
     /// </summary>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public DeviceTransport? UseDeviceStage { get; internal set; } = null;
+
+
+    public string? EdpItentifier { get; internal set; } = null;
 
     #endregion
 }

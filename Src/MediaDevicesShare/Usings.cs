@@ -18,4 +18,3 @@ global using System.Threading;
 
 global using MediaDevices.Interfaces;
 global using MediaDevices.Internal;
-
