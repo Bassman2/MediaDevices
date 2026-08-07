@@ -53,7 +53,7 @@ public abstract class UnitTest
     protected readonly uint? deviceFunctionalUniqueId = null;
     protected readonly uint? deviceModelUniqueId = null;
     protected DeviceTransport? deviceTransport = DeviceTransport.USB;               // PhilipsUFD: null & TascamDR40: Unspecified
-    protected DeviceTransport? deviceUseDeviceStage = DeviceTransport.USB;           // PhilipsUFD: null
+    protected DeviceTransport? deviceUseDeviceStage = DeviceTransport.USB;           // PhilipsUFD, GooglePixel6a & AppleiPhone17: null
     protected const string? deviceEdpItentifier = null;
 
     // Device Capability Test
