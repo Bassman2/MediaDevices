@@ -1,6 +1,6 @@
 ﻿namespace MediaDevices.Internal;
 
-internal class StreamWrapper : Stream
+internal sealed class StreamWrapper : Stream
 {
     private readonly IStream stream;
     private readonly ulong size;
@@ -10,9 +10,13 @@ internal class StreamWrapper : Stream
         this.stream = stream ?? throw new ArgumentNullException(nameof(stream));
         this.size = size;
     }
-
+        
     protected override void Dispose(bool disposing)
     {
+
+        // old code
+        // Marshal.ReleaseComObject(this.stream);
+
         //object obj = stream;
         //int err = Marshal.ReleaseComObject(obj);
         ////int err = Marshal.FinalReleaseComObject(obj);

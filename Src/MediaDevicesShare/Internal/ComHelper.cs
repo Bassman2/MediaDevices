@@ -4,17 +4,6 @@ internal static partial class ComHelper
 {
     private const int CLSCTX_ALL = 23;
 
-    //public static T CreateInstance<T>(ref Guid clsid)
-    //{
-    //    int res = NativeMethods.CoCreateInstance(clsid, 0, CLSCTX_ALL, typeof(T).GUID, out var factory);
-    //    if (res != 0)
-    //    {
-    //        //Trace.TraceError($"CoCreateInstance failed with 0x{res:x} : {new Win32Exception(res).Message}");
-    //        Marshal.ThrowExceptionForHR(res);
-    //    }
-    //    return (T)factory;
-    //}
-
     public static int CreateInstance<T>(ref Guid clsid, out T inst)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
@@ -24,7 +13,26 @@ internal static partial class ComHelper
         return err;
     }
 
-    internal partial class NativeMethods
+    public static void Release(
+        this PropVariant propVariant,
+        [CallerLineNumber] int lineNumber = 0,
+        [CallerFilePath] string filePath = "",
+        [CallerMemberName] string memberName = "")
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
+        int err = NativeMethods.PropVariantClear(ref propVariant);
+        if (err < 0)
+        {
+            string errorMessage = Marshal.GetExceptionForHR(err)?.Message ?? "unknown error";
+            string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
+            string message = $"COM Error 0x{err:x8} in PropVariantClear {errorMessage} at {errorPosition}";
+            Trace.WriteLine(message);
+            throw new MediaDeviceException (message);
+        }
+    }
+
+
+    private partial class NativeMethods
     {
         [PreserveSig, LibraryImport("ole32")]
         public static partial int CoCreateInstance(in Guid rclsid, nint pUnkOuter, int dwClsContext, in Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object ppv);

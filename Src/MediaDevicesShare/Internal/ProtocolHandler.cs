@@ -232,7 +232,8 @@ internal static partial class ProtocolHandler
             {
                 mediaDevice.DateTime = DateTime.FromOADate(dateTime.dateVal);
             }
-            ComHelper.NativeMethods.PropVariantClear(ref dateTime);
+            dateTime.Release();
+            //ComHelper.NativeMethods.PropVariantClear(ref dateTime);
         }
 
         if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, out string friendlyName) == OK)

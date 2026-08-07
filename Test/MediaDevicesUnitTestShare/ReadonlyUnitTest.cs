@@ -63,6 +63,7 @@ public abstract class ReadonlyUnitTest : UnitTest
     protected List<string> readonlyEnumItemsSearchPattern = [];
     protected List<string> readonlyEnumItemsSearchPatternRecursive = [];
 
+    
     protected ReadonlyUnitTest(string testPath)
     {
         // for writeable device or readonly devices with SD card, copy MediaDevices\TestData to the device nad use this settings
@@ -911,4 +912,94 @@ public abstract class ReadonlyUnitTest : UnitTest
     }
 
     #endregion
+
+    #region DirectoryNotFoundException Tests
+
+    [TestMethod]
+    [Description("Readonly Enumerate Directories Exception Test")]
+    public void ReadonlyMediaDeviceDirectoryEnumerateDirectoriesExceptionTest()
+    {
+        string folder = Path.Combine(readonlyFolderPath!, "Dummy1");
+
+        var device = GetDevice();
+        device.Connect();
+        Assert.Throws<DirectoryNotFoundException>(() => device.EnumerateDirectories(folder).ToList());
+        device.Disconnect();
+    }
+
+    [TestMethod]
+    [Description("Readonly Create Directory Exception Test")]
+    public void ReadonlyMediaDeviceCreateFolderExceptionTest()
+    {
+        string folder = Path.Combine(readonlyFolderPath!, "Dummy2");
+
+        var device = GetDevice();
+        device.Connect();
+        Assert.Throws<DirectoryNotFoundException>(() => device.CreateDirectory(folder));
+        device.Disconnect();
+    }
+    
+    [TestMethod]
+    [Description("Readonly Delete Directory Exception Test")]
+    public void ReadonlyMediaDeviceDeleteDirectoriesExceptionTest()
+    {
+        string folder = Path.Combine(readonlyFolderPath!, "Dummy3");
+
+        var device = GetDevice();
+        device.Connect();
+        Assert.Throws<DirectoryNotFoundException>(() => device.DeleteDirectory(folder));
+        device.Disconnect();
+    }
+
+    [TestMethod]
+    [Description("Readonly Enumerate Directories Exception Test")]
+    public void ReadonlyMediaDeviceEnumerateFilesExceptionTest()
+    {
+        string folder = Path.Combine(readonlyFolderPath!, "Dummy4");
+
+        var device = GetDevice();
+        device.Connect();
+        Assert.Throws<DirectoryNotFoundException>(() => device.EnumerateFiles(folder).ToList());
+        device.Disconnect();
+    }
+
+    [TestMethod]
+    [Description("Readonly Create Directory Exception Test")]
+    public void ReadonlyMediaDeviceCreateFileExceptionTest()
+    {
+        string folder = Path.Combine(readonlyFolderPath!, "Dummy5");
+
+        var device = GetDevice();
+        device.Connect();
+        Assert.Throws<DirectoryNotFoundException>(() => device.CreateDirectory(@"\" + Guid.NewGuid().ToString()));
+        device.Disconnect();
+    }
+
+    [TestMethod]
+    [Description("Readonly Delete Directory Exception Test")]
+    public void ReadonlyMediaDeviceDeleteFileExceptionTest()
+    {
+        string folder = Path.Combine(readonlyFolderPath!, "Dummy6");
+
+        var device = GetDevice();
+        device.Connect();
+        Assert.Throws<DirectoryNotFoundException>(() => device.DeleteFile(folder));
+        device.Disconnect();
+    }
+
+    #endregion
+
+    [TestMethod]
+    [Description("Readonly Delete Directory Exception Test")]
+    public void ReadonlyMediaDeviceDeleteReadonlyFileExceptionTest()
+    {
+        string folder = "\\SD1\\DCIM\\100EOSR6\\0K8A0173.JPG";
+
+        var device = GetDevice();
+        device.Connect();
+        Assert.Throws<UnauthorizedAccessException>(() => device.DeleteFile(folder));
+        device.Disconnect();
+    }
+
+
 }

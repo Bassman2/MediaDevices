@@ -15,25 +15,65 @@ public class TascamDR40UnitTest : WritableUnitTest
         //this.DoDownloadIconTest = false;
 
         // Device Test
-        this.deviceDescription = "Flash Reader    ";
-        this.deviceFriendlyName = "Samsung A40";
-        this.deviceManufacture = "Single  "; 
-        this.deviceFirmwareVersion = "1.00";
-        this.deviceModel = "Flash Reader    ";
-        this.deviceSerialNumber = "058F63356336";
-        //this.deviceDeviceType = DeviceType.Generic;
-        this.deviceTransport = DeviceTransport.Unspecified;
-        this.devicePowerSource = PowerSource.External;
-        this.deviceProtocol = "MSC:";
+        deviceDescription = "Flash Reader    ";
+        deviceFriendlyName = "Samsung A40";
+        deviceManufacture = "Single  ";
 
-        //// Capability Test
-        this.deviceSupportedEvents = [Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
-        //this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        //this.deviceSupportedContents = [ContentType.Image];
-        this.deviceFunctionalCategories = [FunctionalCategory.Storage];
+        deviceIsHidden = true;
+        deviceContainerFunctionalObjectId = null;
+
+
+        deviceFirmwareVersion = "1.00";
+        deviceModel = "Flash Reader    ";
+        deviceSerialNumber = "058F63356336";
+        deviceSupportsNonConsumable = null;
+        devicePowerSource = PowerSource.External;
+        deviceProtocol = "MSC:";
+        deviceTransport = null;
+        deviceUseDeviceStage = null;
+
+        // Capability Test
+        deviceSupportedEvents = [Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        deviceSupportedCommands = [
+            Commands.ObjectEnumerationStartFind,
+            Commands.ObjectManagementDeleteObjects,
+            Commands.ObjectEnumerationFindNext,
+            Commands.ObjectEnumerationEndFind,
+            Commands.ObjectManagementCreateObjectWithPropertiesOnly,
+            Commands.ObjectManagementCreateObjectWithPropertiesAndData,
+            Commands.ObjectManagementWriteObjectData,
+            Commands.ObjectManagementCommitObject,
+            Commands.ObjectManagementRevertObject,
+            Commands.ObjectPropertiesGetSupported,
+            Commands.ObjectPropertiesGet,
+            Commands.ObjectPropertiesGetAll,
+            Commands.ObjectPropertiesSet,
+            Commands.ObjectPropertiesGetAttribute,
+            Commands.ObjectPropertiesDelete,
+            Commands.ObjectResourcesGetSupported,
+            Commands.ObjectResourcesGetAttributes,
+            Commands.ObjectResourcesOpen,
+            Commands.ObjectResourcesRead,
+            Commands.ObjectResourcesWrite,
+            Commands.ObjectResourcesClose,
+            Commands.ObjectResourcesDelete,
+            Commands.CapabilitiesGetSupportedCommands,
+            Commands.CapabilitiesGetCommandOptions,
+            Commands.CapabilitiesGetSupportedFunctionalCategories,
+            Commands.CapabilitiesGetSupportedEvents,
+            Commands.CapabilitiesGetEventOptions,
+            Commands.CapabilitiesGetFunctionalObjects,
+            Commands.CapabilitiesGetSupportedContentTypes,
+            Commands.CapabilitiesGetSupportedFormats,
+            Commands.CapabilitiesGetSupportedFormatProperties,
+            Commands.CapabilitiesGetFixedPropertyAttributes];
+
+        
+        deviceSupportedContents = [ContentType.Image, ContentType.Unspecified, ContentType.Folder, ContentType.Audio, ContentType.Video, ContentType.Contact];
+        deviceFunctionalCategories = [FunctionalCategory.Storage];
 
         // ContentLocation Test
-        this.deviceContentLocationsImages = [];
+        deviceContentLocationsImages = [];
 
         // PersistentUniqueId
         //this.FolderPersistentUniqueId = "{052BDC9B-08B6-A6AB-5591-E52A8B782B74}"; // "{ CF527675-97D8-3DEF-0000-000000000000}";

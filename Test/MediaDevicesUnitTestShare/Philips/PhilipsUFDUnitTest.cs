@@ -14,17 +14,16 @@ public class PhilipsUFDUnitTest : WritableUnitTest
         deviceManufacture = "        ";
 
         deviceIsHidden = true;
-        deviceCanDelete = false;
+        deviceContainerFunctionalObjectId = null;
 
         deviceFirmwareVersion = "    ";
         devicePowerSource = PowerSource.External;
         deviceProtocol = "MSC:";
         deviceModel = "PHILIPS USB     ";
         deviceSerialNumber = "0000000005\u0006\u0018";
-        deviceDateTimeHasValue = false;
         deviceSupportsNonConsumable = null;
-        deviceSupportedFormatsAreOrdered = null;
         deviceTransport = null;
+        deviceUseDeviceStage = null;
 
         // Capability Test
         deviceSupportedEvents = [Events.ObjectAdded, Events.ObjectRemoved, Events.ObjectUpdated];
