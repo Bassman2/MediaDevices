@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 namespace MediaDevices.Internal;
 
-internal class ThreadSafeWorker : IDisposable
+internal sealed class ThreadSafeWorker : IDisposable
 {
     private readonly Thread thread;
     private readonly BlockingCollection<Action> queue = [];
@@ -13,7 +13,7 @@ internal class ThreadSafeWorker : IDisposable
     private const string exceptionInside = "Exception inside ThreadSafeWorker";
     public ThreadSafeWorker()
     {
-        thread = new Thread(WorkLoop) { Name = "MyWorkerThread", IsBackground = true };
+        thread = new Thread(WorkLoop) { Name = "MediaDeviceWorkerThread", IsBackground = true };
         if (!thread.TrySetApartmentState(ApartmentState.MTA))
         {
             throw new InvalidOperationException("Failed to set MTA apartment state.");
@@ -22,7 +22,8 @@ internal class ThreadSafeWorker : IDisposable
         thread.Start();
     }
 
-    public virtual void Dispose()
+    
+    public void Dispose()
     {
         queue.CompleteAdding();
         thread.Join();

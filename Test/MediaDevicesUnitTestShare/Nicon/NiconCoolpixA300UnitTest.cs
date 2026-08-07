@@ -12,29 +12,77 @@ public class NiconCoolpixA300 : ReadonlyUnitTest
         #region Device Tests
 
         // Device Properties Test
-
-        deviceName = "A300";
-        deviceIsHidden = null;
-        deviceContainerFunctionalObjectId = "DEVICE";
-
         deviceDescription = "A300";
         deviceFriendlyName = "A300";
         deviceManufacture = "NIKON";
+
+        deviceName = "A300";
+        deviceIsHidden = null;
+        deviceCanDelete = false;
+        deviceContainerFunctionalObjectId = "DEVICE";
+
+        
         deviceFirmwareVersion = "COOLPIX A300 V1.4";
-        deviceModel = "A300";
-        deviceSerialNumber = "";
-        deviceDeviceType = DeviceType.Camera;
-        deviceTransport = DeviceTransport.USB;
         devicePowerSource = PowerSource.Battery;
         deviceProtocol = "MTP: 1.00";
+        deviceModel = "A300";
+        deviceSerialNumber = "";
         deviceSupportsNonConsumable = false;
         deviceSupportedFormatsAreOrdered = null;
+        deviceDeviceType = DeviceType.Camera;
+        deviceTransport = DeviceTransport.USB;
         deviceUseDeviceStage = DeviceTransport.USB;
 
         // Device Capability Test
-        deviceSupportedEvents = [ Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated ];
-        deviceSupportedCommands = [ Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects ];
-        deviceSupportedContents = [ ContentType.Image ];
+        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.DeviceCapabilitiesUpdated, Events.Unknown, Events.StorageFormat, Events.Unknown, Events.Unknown, Events.ObjectTransferRequest, Events.Unknown, Events.ObjectAdded];
+        deviceSupportedCommands = [ 
+            Commands.ObjectEnumerationStartFind, 
+            Commands.ObjectManagementDeleteObjects,
+            Commands.ObjectEnumerationFindNext,
+            Commands.ObjectEnumerationEndFind,
+            Commands.ObjectPropertiesGetSupported,
+            Commands.ObjectPropertiesGet,
+            Commands.ObjectPropertiesGetAll,
+            Commands.ObjectPropertiesGetAttribute,
+            Commands.ObjectResourcesGetSupported,
+            Commands.ObjectResourcesGetAttributes,
+            Commands.ObjectResourcesOpen,
+            Commands.ObjectResourcesRead,
+            Commands.ObjectResourcesClose,
+            Commands.CapabilitiesGetSupportedCommands,
+            Commands.CapabilitiesGetCommandOptions,
+            Commands.CapabilitiesGetSupportedFunctionalCategories,
+            Commands.CapabilitiesGetFunctionalObjects,
+            Commands.CapabilitiesGetSupportedContentTypes,
+            Commands.CapabilitiesGetSupportedFormats,
+            Commands.CapabilitiesGetSupportedFormatProperties,
+            Commands.CapabilitiesGetFixedPropertyAttributes,
+            Commands.CapabilitiesGetSupportedEvents,
+            Commands.CapabilitiesGetEventOptions,
+            Commands.MtpExtVendorGetSupportedVendorOpcodes,
+            Commands.MtpExtVendorGetVendorExtensionDescription,
+            Commands.MtpExtVendorExecuteCommandWithoutDataPhase,
+            Commands.MtpExtVendorExecuteCommandWithDataToRead,
+            Commands.MtpExtVendorExecuteCommandWithDataToWrite,
+            Commands.MtpExtVendorReadData,
+            Commands.MtpExtVendorWriteData,
+            Commands.MtpExtVendorEndDataTransfer,
+            Commands.Unknown,
+            Commands.Unknown,
+            Commands.ObjectManagementCreateObjectWithPropertiesOnly,
+            Commands.ObjectManagementCreateObjectWithPropertiesAndData,
+            Commands.ObjectManagementWriteObjectData,
+            Commands.ObjectManagementCommitObject,
+            Commands.ObjectManagementRevertObject,
+            Commands.StorageFormat,
+            Commands.StillImageCaptureInitiate,
+            Commands.ObjectPropertiesBulkGetValuesByObjectListStart,
+            Commands.ObjectPropertiesBulkGetValuesByObjectListNext,
+            Commands.ObjectPropertiesBulkGetValuesByObjectListEnd,
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatStart,
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatNext,
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatEnd];
+        deviceSupportedContents = [ ContentType.Image, ContentType.Video, ContentType.Document, ContentType.Unspecified, ContentType.Folder];
         deviceFunctionalCategories = [ FunctionalCategory.Storage, FunctionalCategory.StillImageCapture ];
 
         // Device ContentLocation Test

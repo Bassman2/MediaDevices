@@ -51,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IPortableDeviceValuesCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IPropertyStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\FindFieldsGeneratorAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\EventThreadHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\ItemType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\KeyAttribute.cs" />
