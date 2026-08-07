@@ -32,19 +32,19 @@ public abstract class UnitTest
     protected const ContentType deviceContentType = ContentType.FunctionalObject;
     protected const string devicePersistentUniqueId = "DEVICE";
     protected const ObjectFormat deviceObjectFormat = ObjectFormat.PropertiesOnly;
-    protected bool? deviceIsHidden = null;                                          // PhilipsUFD: true
+    protected bool? deviceIsHidden = null;                                          // PhilipsUFD & TascamDR40: true
     protected const bool deviceCanDelete = false;
-    protected string? deviceContainerFunctionalObjectId = "DEVICE";                 // PhilipsUFD: null
+    protected string? deviceContainerFunctionalObjectId = "DEVICE";                 // PhilipsUFD & TascamDR40: null
     protected const FunctionalCategory deviceFunctionalObjectCategory = FunctionalCategory.Device;
 
     protected string? deviceSyncPartner = null;                                     // SamsungA40: "Longhorn Sync Engine"
     protected string? deviceFirmwareVersion = null;
     protected const bool devicePowerLevelHasValue = true;
     protected PowerSource? devicePowerSource = PowerSource.Battery;                 // TascamDR40 & PhilipsUFD: External
-    protected string? deviceProtocol = "MTP: 1.00";                                 // PhilipsUFD: "MSC:"
+    protected string? deviceProtocol = "MTP: 1.00";                                 // PhilipsUFD & TascamDR40: "MSC:"
     protected string? deviceModel = null;
     protected string? deviceSerialNumber = null;
-    protected bool? deviceSupportsNonConsumable = false;                            // PhilipsUFD: null
+    protected bool? deviceSupportsNonConsumable = false;                            // PhilipsUFD & TascamDR40: null
     protected const bool deviceDateTimeHasValue = false;
     protected readonly string[]? deviceSupportedDrmSchemes = null;
     protected readonly bool? deviceSupportedFormatsAreOrdered = null;
@@ -52,8 +52,8 @@ public abstract class UnitTest
     protected readonly ulong? deviceNetworkIdentifier = null;
     protected readonly uint? deviceFunctionalUniqueId = null;
     protected readonly uint? deviceModelUniqueId = null;
-    protected DeviceTransport? deviceTransport = DeviceTransport.USB;               // PhilipsUFD: null & TascamDR40: Unspecified
-    protected DeviceTransport? deviceUseDeviceStage = DeviceTransport.USB;           // PhilipsUFD, GooglePixel6a & AppleiPhone17: null
+    protected DeviceTransport? deviceTransport = DeviceTransport.USB;               // PhilipsUFD & TascamDR40: null
+    protected DeviceTransport? deviceUseDeviceStage = DeviceTransport.USB;          // PhilipsUFD, TascamDR40, GooglePixel6a & AppleiPhone17: null
     protected const string? deviceEdpItentifier = null;
 
     // Device Capability Test
