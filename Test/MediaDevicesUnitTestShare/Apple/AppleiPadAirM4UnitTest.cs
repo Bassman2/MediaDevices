@@ -20,8 +20,15 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
         // Device Properties Test
         deviceDescription = "Apple iPad";
         deviceFriendlyName = "Apple iPad";
-        deviceManufacture = "Apple Inc."; 
-        deviceFirmwareVersion = "26.5.2";
+        deviceManufacture = "Apple Inc.";
+
+        deviceName = "Apple iPad";
+        deviceCanDelete = false;
+        deviceContainerFunctionalObjectId = "DEVICE";
+
+        deviceFirmwareVersion = "26.6";
+        devicePowerSource = PowerSource.Battery;
+        deviceProtocol = "MTP: 1.00";
         deviceModel = "Apple iPad";
         deviceSerialNumber = "DC62X123XW";
         deviceSupportsNonConsumable = false;
@@ -29,13 +36,52 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
         deviceSupportedFormatsAreOrdered = null;
         deviceDeviceType = DeviceType.Generic;
         deviceTransport = DeviceTransport.USB;
-        devicePowerSource = PowerSource.Battery;
-        deviceProtocol = "MTP: 1.00";
 
         // Device Capability Test
-        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
-        deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
-        deviceSupportedContents = [ContentType.Image];
+        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown];
+        deviceSupportedCommands = [
+            Commands.ObjectEnumerationFindNext,
+            Commands.ObjectEnumerationEndFind,
+            Commands.ObjectPropertiesGetSupported,
+            Commands.ObjectPropertiesGet,
+            Commands.ObjectPropertiesGetAll,
+            Commands.ObjectPropertiesGetAttribute,
+            Commands.ObjectResourcesGetSupported,
+            Commands.ObjectResourcesGetAttributes,
+            Commands.ObjectResourcesOpen,
+            Commands.ObjectResourcesRead,
+            Commands.ObjectResourcesClose,
+            Commands.CapabilitiesGetSupportedCommands,
+            Commands.CapabilitiesGetCommandOptions,
+            Commands.CapabilitiesGetSupportedFunctionalCategories,
+            Commands.CapabilitiesGetFunctionalObjects,
+            Commands.CapabilitiesGetSupportedContentTypes,
+            Commands.CapabilitiesGetSupportedFormats,
+            Commands.CapabilitiesGetSupportedFormatProperties,
+            Commands.CapabilitiesGetFixedPropertyAttributes,
+            Commands.CapabilitiesGetSupportedEvents,
+            Commands.CapabilitiesGetEventOptions,
+            Commands.MtpExtVendorGetSupportedVendorOpcodes,
+            Commands.MtpExtVendorGetVendorExtensionDescription,
+            Commands.MtpExtVendorExecuteCommandWithoutDataPhase,
+            Commands.MtpExtVendorExecuteCommandWithDataToRead,
+            Commands.MtpExtVendorExecuteCommandWithDataToWrite,
+            Commands.MtpExtVendorReadData,
+            Commands.MtpExtVendorWriteData,
+            Commands.MtpExtVendorEndDataTransfer,
+            Commands.Unknown,
+            Commands.Unknown,
+            Commands.ObjectPropertiesBulkGetValuesByObjectListStart,
+            Commands.ObjectPropertiesBulkGetValuesByObjectListNext,
+            Commands.ObjectPropertiesBulkGetValuesByObjectListEnd,
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatStart,
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatNext,
+            Commands.ObjectPropertiesBulkGetValuesByObjectFormatEnd,
+            Commands.ObjectEnumerationStartFind, 
+            Commands.ObjectManagementDeleteObjects];
+
+
+        deviceSupportedContents = [ContentType.Image, ContentType.Audio, ContentType.Video, ContentType.Unspecified, ContentType.Folder];
         deviceFunctionalCategories = [FunctionalCategory.Storage];
 
         // Device ContentLocation Test
