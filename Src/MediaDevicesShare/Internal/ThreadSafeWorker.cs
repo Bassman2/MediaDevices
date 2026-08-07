@@ -71,6 +71,7 @@ internal class ThreadSafeWorker : IDisposable
         {
             if (error is FileNotFoundException || 
                 error is DirectoryNotFoundException || 
+                error is UnauthorizedAccessException ||
                 error is NotSupportedException)
             {
                 throw error;
@@ -113,7 +114,8 @@ internal class ThreadSafeWorker : IDisposable
         if (error != null)
         {
             if (error is FileNotFoundException || 
-                error is DirectoryNotFoundException || 
+                error is DirectoryNotFoundException ||
+                error is UnauthorizedAccessException ||
                 error is NotSupportedException)
             {
                 throw error;

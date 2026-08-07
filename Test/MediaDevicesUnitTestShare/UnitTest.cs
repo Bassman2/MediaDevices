@@ -26,8 +26,8 @@ public abstract class UnitTest
     protected string? deviceFriendlyName = null;
     protected string? deviceManufacture = null;
 
-    protected string? deviceId = "DEVICE";
-    protected string? deviceParentId = "";
+    protected const string? deviceId = "DEVICE";
+    protected const string? deviceParentId = "";
     protected string? deviceName = null;
     protected ContentType? deviceContentType = ContentType.FunctionalObject;
     protected string? devicePersistentUniqueId = "DEVICE";

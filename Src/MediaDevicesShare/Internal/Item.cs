@@ -602,7 +602,9 @@ internal class Item
 
         // TODO: get the results back and handle failures correctly
 
-        this.mediaDevice.deviceContent!.Delete(recursive ? PORTABLE_DEVICE_DELETE_WITH_RECURSION : PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, ref results);
+        err = this.mediaDevice.deviceContent!.Delete(recursive ? PORTABLE_DEVICE_DELETE_WITH_RECURSION : PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, ref results);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.Delete));
+
 
         ComTrace.WriteObjectIntern(objectIdCollection);
     }
