@@ -17,22 +17,18 @@ public class GooglePixel6aUnitTest : WritableUnitTest
 
         #region Device Tests
 
-        // Device Properties Test
         deviceDescription = "Pixel 6a";
         deviceFriendlyName = "Pixel 6a";
         deviceManufacture = "Google";
+
+        deviceName = "Pixel 6a";
+        
         deviceSyncPartner = "";         // TODO check for NULL
         deviceFirmwareVersion = "1.0";
         deviceModel = "Pixel 6a";
         deviceSerialNumber = "B165F4325D7024A91DA6E32BD7DFDCF4";
         deviceDeviceType = DeviceType.Phone;
-        //this.deviceTransport = DeviceTransport.USB;
-        //this.devicePowerSource = PowerSource.Battery;
-        //this.deviceProtocol = "MTP: 1.00";
-        deviceSupportsNonConsumable = false;
-        deviceDateTimeHasValue = false;
-        deviceSupportedFormatsAreOrdered = null;
-
+        
         // Capability Test
         //this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
         //this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];

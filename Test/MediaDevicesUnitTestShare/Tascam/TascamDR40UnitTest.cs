@@ -21,7 +21,6 @@ public class TascamDR40UnitTest : WritableUnitTest
         this.deviceFirmwareVersion = "1.00";
         this.deviceModel = "Flash Reader    ";
         this.deviceSerialNumber = "058F63356336";
-        //this.deviceDeviceType = DeviceType.Generic;
         this.deviceTransport = DeviceTransport.Unspecified;
         this.devicePowerSource = PowerSource.External;
         this.deviceProtocol = "MSC:";

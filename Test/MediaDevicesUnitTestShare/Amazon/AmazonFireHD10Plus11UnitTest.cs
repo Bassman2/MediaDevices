@@ -16,17 +16,12 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         deviceManufacture = "Amazon";
 
         deviceName = "Fire";
-        deviceCanDelete = false;
-        deviceContainerFunctionalObjectId = "DEVICE";
-
+        
         deviceSyncPartner = "";
         deviceFirmwareVersion = "1.0";
         deviceModel = "Fire";
         deviceSerialNumber = "G001MG0613460HLU";
-        deviceSupportsNonConsumable = false;
-        deviceDateTimeHasValue = false;
-        deviceSupportedFormatsAreOrdered = null;
-
+        
         // Capability Test
         this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
         this.deviceSupportedCommands = [

@@ -17,22 +17,12 @@ public class NiconCoolpixA300 : ReadonlyUnitTest
         deviceManufacture = "NIKON";
 
         deviceName = "A300";
-        deviceIsHidden = null;
-        deviceCanDelete = false;
-        deviceContainerFunctionalObjectId = "DEVICE";
-
-        
+                
         deviceFirmwareVersion = "COOLPIX A300 V1.4";
-        devicePowerSource = PowerSource.Battery;
-        deviceProtocol = "MTP: 1.00";
         deviceModel = "A300";
         deviceSerialNumber = "";
-        deviceSupportsNonConsumable = false;
-        deviceSupportedFormatsAreOrdered = null;
         deviceDeviceType = DeviceType.Camera;
-        deviceTransport = DeviceTransport.USB;
-        deviceUseDeviceStage = DeviceTransport.USB;
-
+        
         // Device Capability Test
         deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.DeviceCapabilitiesUpdated, Events.Unknown, Events.StorageFormat, Events.Unknown, Events.Unknown, Events.ObjectTransferRequest, Events.Unknown, Events.ObjectAdded];
         deviceSupportedCommands = [ 

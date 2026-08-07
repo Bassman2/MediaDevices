@@ -8,9 +8,6 @@ public class SamsungA40UnitTest : WritableUnitTest
 {
     public SamsungA40UnitTest() : base("\\Card")
     {
-        // Device Select
-        //deviceSelect = device => device.Description == this.deviceDescription;
-
         // Ignore tests
         //this.ignoreTests = Ignore.DownloadIcon;
 
@@ -25,15 +22,12 @@ public class SamsungA40UnitTest : WritableUnitTest
         deviceManufacture = "Samsung Electronics Co., Ltd.";
 
         deviceName = "SM-A405FN";
-        deviceCanDelete = false;
-        deviceContainerFunctionalObjectId = "DEVICE";
 
         deviceSyncPartner = "Longhorn Sync Engine";
         deviceFirmwareVersion = "A405FNXXU4CWC3";
         deviceModel = "SM-A405FN";
         deviceSerialNumber = "R58M81NACKB";
         deviceDeviceType = DeviceType.MediaPlayer;
-        deviceDateTimeHasValue = false;
 
         // Capability Test
         deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];

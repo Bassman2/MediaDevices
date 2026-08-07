@@ -19,18 +19,12 @@ public class CanonEosR6m2UnitTest : ReadonlyUnitTest
         deviceManufacture = "Canon.Inc";
 
         deviceName = "Canon EOS R6m2";
-        deviceCanDelete = false;
-        deviceContainerFunctionalObjectId = "DEVICE";
-
+        
         deviceFirmwareVersion = "3-1.7.0";
         deviceModel = "Canon EOS R6m2";
         deviceSerialNumber = "7bb7e995a3455324bc9ac49dc9b0af43";
-        deviceSupportsNonConsumable = false;
-        deviceDateTimeHasValue = false;
-        deviceSupportedFormatsAreOrdered = null;
         deviceDeviceType = DeviceType.Camera;
-        deviceUseDeviceStage = DeviceTransport.USB;
-
+        
         // Capability Test
         deviceSupportedEvents = [Events.DeviceReset, Events.Unknown, Events.StorageFormat, Events.Unknown, Events.Unknown, Events.ObjectRemoved, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.ObjectTransferRequest, Events.Unknown, Events.Unknown, Events.ObjectUpdated, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.ObjectAdded, Events.Unknown];
 

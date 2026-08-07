@@ -18,12 +18,11 @@ public class AppleiPhone17ProUnitTest : ReadonlyUnitTest
         deviceDescription = "Apple iPhone";
         deviceFriendlyName = "Apple iPhone";
         deviceManufacture = "Apple Inc.";
+        
         deviceFirmwareVersion = "26.5.2";
         deviceModel = "Apple iPhone";
         deviceSerialNumber = "KT2HQKH5CF";
-        deviceSupportsNonConsumable = false;
-        deviceDateTimeHasValue = false;
-        deviceSupportedFormatsAreOrdered = null;
+        
 
         // Device Capability Test
         deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];

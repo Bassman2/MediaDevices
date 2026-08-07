@@ -23,18 +23,10 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
         deviceManufacture = "Apple Inc.";
 
         deviceName = "Apple iPad";
-        deviceCanDelete = false;
-        deviceContainerFunctionalObjectId = "DEVICE";
-
+        
         deviceFirmwareVersion = "26.6";
-        devicePowerSource = PowerSource.Battery;
-        deviceProtocol = "MTP: 1.00";
         deviceModel = "Apple iPad";
         deviceSerialNumber = "DC62X123XW";
-        deviceSupportsNonConsumable = false;
-        deviceDateTimeHasValue = false;
-        deviceSupportedFormatsAreOrdered = null;
-        deviceDeviceType = DeviceType.Generic;
         deviceTransport = DeviceTransport.USB;
 
         // Device Capability Test
