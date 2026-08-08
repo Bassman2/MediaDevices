@@ -28,6 +28,7 @@ public sealed partial class MediaDevice : IDisposable
     internal IPortableDeviceValues? deviceValues;    
     internal string? eventCookie;
     internal EventCallback? eventCallback;
+    internal EventThreadHandler eventThreadHandler;
 
     #endregion
 
@@ -194,11 +195,13 @@ public sealed partial class MediaDevice : IDisposable
         this.Description = ProtocolHandler.GetDeviceDescription(deviceManager, deviceId);
         this.friendlyName = ProtocolHandler.GetDeviceFriendlyName(deviceManager, deviceId);
         this.Manufacturer = ProtocolHandler.GetDeviceManufacturer(deviceManager, deviceId);
+
+        this.eventThreadHandler = new(this);
     }
 
     public void Dispose()
     {
-
+        eventThreadHandler.Dispose();
     }
 
     #endregion
