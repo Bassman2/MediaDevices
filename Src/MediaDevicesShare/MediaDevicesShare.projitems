@@ -70,7 +70,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ProtocolHandler.FileSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\StreamWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\CLSID.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.DeviceServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WPD.Fix.cs" />

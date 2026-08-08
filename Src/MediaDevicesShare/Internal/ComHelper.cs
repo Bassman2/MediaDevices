@@ -1,5 +1,4 @@
-﻿using MediaDevices.Attributes;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace MediaDevices.Internal;
 
@@ -31,32 +30,32 @@ internal static partial class ComHelper
         return (T)insta;
     }
 
-    public static int CreateInstance<T>(ref Guid clsid, out T inst)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+    //public static int CreateInstance<T>(ref Guid clsid, out T inst)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
 
-        int err = NativeMethods.CoCreateInstance(clsid, 0, CLSCTX_ALL, typeof(T).GUID, out var insta);
-        inst = (T)insta;
-        return err;
-    }
+    //    int err = NativeMethods.CoCreateInstance(clsid, 0, CLSCTX_ALL, typeof(T).GUID, out var insta);
+    //    inst = (T)insta;
+    //    return err;
+    //}
 
-    public static void Release(
-        this PropVariant propVariant,
-        [CallerLineNumber] int lineNumber = 0,
-        [CallerFilePath] string filePath = "",
-        [CallerMemberName] string memberName = "")
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
-        int err = NativeMethods.PropVariantClear(ref propVariant);
-        if (err < 0)
-        {
-            string errorMessage = Marshal.GetExceptionForHR(err)?.Message ?? "unknown error";
-            string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
-            string message = $"COM Error 0x{err:x8} in PropVariantClear {errorMessage} at {errorPosition}";
-            Trace.WriteLine(message);
-            throw new MediaDeviceException (message);
-        }
-    }
+    //public static void Release(
+    //    this PropVariant propVariant,
+    //    [CallerLineNumber] int lineNumber = 0,
+    //    [CallerFilePath] string filePath = "",
+    //    [CallerMemberName] string memberName = "")
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
+    //    int err = NativeMethods.PropVariantClear(ref propVariant);
+    //    if (err < 0)
+    //    {
+    //        string errorMessage = Marshal.GetExceptionForHR(err)?.Message ?? "unknown error";
+    //        string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
+    //        string message = $"COM Error 0x{err:x8} in PropVariantClear {errorMessage} at {errorPosition}";
+    //        Trace.WriteLine(message);
+    //        throw new MediaDeviceException (message);
+    //    }
+    //}
 
 
     private partial class NativeMethods

@@ -4,6 +4,9 @@ internal static partial class ProtocolHandler
 {
     private const int OK = 0;
 
+    private static Guid namespaceExtention = new(0x35786d3c, 0xb075, 0x49b9, 0x88, 0xdd, 0x02, 0x98, 0x76, 0xe1, 0x1c, 0x01);
+
+
     public static void InitMediaDeviceManager(MediaDeviceManager mediaDeviceManager)
     {
         IPortableDeviceManager? intDeviceManager = null;
@@ -112,7 +115,8 @@ internal static partial class ProtocolHandler
         if (enableCache == false)
         {
             // disable file list cache
-            err = clientInfo.SetGuidValue(ref WPD.CLIENT_EVENT_COOKIE, ref CLSID.NamespaceExtention);
+
+            err = clientInfo.SetGuidValue(ref WPD.CLIENT_EVENT_COOKIE, ref namespaceExtention);
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetGuidValue), "NamespaceExtention");
         }
 

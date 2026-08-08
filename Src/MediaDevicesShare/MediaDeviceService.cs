@@ -1,4 +1,6 @@
-﻿namespace MediaDevices;
+﻿using System.Net;
+
+namespace MediaDevices;
 
 
 // C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\propkey.h
@@ -41,9 +43,8 @@ public class MediaDeviceService : IDisposable
 
         //service = ComHelper.CreateInstance<IPortableDeviceService>(ref CLSID.PortableDeviceService);
 
-        int err = ComHelper.CreateInstance<IPortableDeviceService>(ref CLSID.PortableDeviceService, out service);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceService));
-
+        service = ComHelper.CreateInstance<IPortableDeviceService>();
+        
 
         //IPortableDeviceValues values = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
 
