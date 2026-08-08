@@ -41,7 +41,7 @@ public abstract class UnitTest
     protected string? deviceFirmwareVersion = null;
     protected const bool devicePowerLevelHasValue = true;
     protected PowerSource? devicePowerSource = PowerSource.Battery;                 // TascamDR40 & PhilipsUFD: External
-    protected string? deviceProtocol = "MTP: 1.00";                                 // PhilipsUFD & TascamDR40: "MSC:"
+    protected string? deviceProtocol = "MTP: 1.00";                                 // PhilipsUFD & TascamDR40: "MSC:", CanonEos60D: "MTP: 2.00"
     protected string? deviceModel = null;
     protected string? deviceSerialNumber = null;
     protected bool? deviceSupportsNonConsumable = false;                            // PhilipsUFD & TascamDR40: null
@@ -53,7 +53,7 @@ public abstract class UnitTest
     protected readonly uint? deviceFunctionalUniqueId = null;
     protected readonly uint? deviceModelUniqueId = null;
     protected DeviceTransport? deviceTransport = DeviceTransport.USB;               // PhilipsUFD & TascamDR40: null
-    protected DeviceTransport? deviceUseDeviceStage = null;                         // CanonEosR6m2 & NiconCoolpixA300: USB
+    protected DeviceTransport? deviceUseDeviceStage = null;                         // CanonEosR6m2, NiconCoolpixA300 & CanonEos60D: USB
     protected const string? deviceEdpItentifier = null;
 
     // Device Capability Test
