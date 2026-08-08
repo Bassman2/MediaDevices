@@ -1,8 +1,10 @@
 <Solution>
-  <Folder Name="/Demo/" />
+  <Folder Name="/Demo/">
+    <Project Path="Demo/FileExceptionsConsole/FileExceptionsConsole.csproj" Id="d2e3cf24-5750-48ef-8c6a-d2b54ce9e481" />
+  </Folder>
   <Folder Name="/Generator/">
-    <Project Path="Generator/GeneratorLibraryShare/GeneratorLibraryShare.shproj" Id="dca7dd44-310c-48bd-bc75-c4203d5c3200" />
     <Project Path="Generator/FindGenerator/FindGenerator.csproj" />
+    <Project Path="Generator/GeneratorLibraryShare/GeneratorLibraryShare.shproj" Id="dca7dd44-310c-48bd-bc75-c4203d5c3200" />
     <Project Path="Generator/WPDGenerator/WPDGenerator.csproj" Id="1b2bfb76-e9d1-43ec-87c0-3e894c81c24f" />
   </Folder>
   <Folder Name="/Src/">

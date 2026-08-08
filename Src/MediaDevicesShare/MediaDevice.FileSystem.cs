@@ -16,7 +16,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<string> EnumerateDirectories(string path)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateDirectories(this, path));
@@ -37,7 +37,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateDirectories(this, path, searchPattern, searchOption));
@@ -56,7 +56,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<string> EnumerateFiles(string path)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateFiles(this, path));
@@ -76,7 +76,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateFiles(this, path, searchPattern, searchOption));
@@ -94,7 +94,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<string> EnumerateFileSystemEntries(string path)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateFileSystemEntries(this, path));
@@ -114,7 +114,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<string> EnumerateFileSystemEntries(string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateFileSystemEntries(this, path, searchPattern, searchOption));
@@ -217,7 +217,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public bool DirectoryExists(string path)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         return mainWorker.Invoke(() => ProtocolHandler.DirectoryExists(this, path));
@@ -234,7 +234,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void CreateDirectory(string path)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         mainWorker.Invoke(() => ProtocolHandler.CreateDirectory(this, path));
@@ -252,7 +252,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void DeleteDirectory(string path, bool recursive = false)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         mainWorker.Invoke(() => ProtocolHandler.DeleteDirectory(this, path, recursive));
@@ -268,7 +268,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public bool FileExists(string path)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         return mainWorker.Invoke(() => ProtocolHandler.FileExists(this, path));
@@ -285,7 +285,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void DeleteFile(string path)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         mainWorker.Invoke(() => ProtocolHandler.DeleteFile(this, path));
@@ -299,8 +299,8 @@ partial class MediaDevice
     public void Rename(string path, string newName)
     {
         NotConnectedException.ThrowIfNotConnected(this);
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
-        ArgumentPathException.ThrowIfNullOrNotPath(newName, nameof(newName));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(newName, nameof(newName));
 
         mainWorker.Invoke(() => ProtocolHandler.Rename(this, path, newName));
     }
@@ -321,7 +321,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void DownloadFile(string source, Stream stream)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
+        FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -330,8 +330,8 @@ partial class MediaDevice
 
     public void DownloadFile(string source, string destination)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
-        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
+        FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
+        FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
         mainWorker.Invoke(() => ProtocolHandler.DownloadFile(this, source, destination));
@@ -349,7 +349,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void DownloadIcon(string source, Stream stream)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
+        FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -358,8 +358,8 @@ partial class MediaDevice
 
     public void DownloadIcon(string source, string destination)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
-        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
+        FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
+        FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
         mainWorker.Invoke(() => ProtocolHandler.DownloadIcon(this, source, destination));
@@ -377,7 +377,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void DownloadThumbnail(string source, Stream stream)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
+        FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -386,8 +386,8 @@ partial class MediaDevice
 
     public void DownloadThumbnail(string source, string destination)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
-        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
+        FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
+        FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
         mainWorker.Invoke(() => ProtocolHandler.DownloadThumbnail(this, source, destination));
@@ -395,8 +395,8 @@ partial class MediaDevice
 
     public void DownloadFolder(string source, string destination, bool recursive = true, bool ignoreExceptions = true)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(source);
-        ArgumentPathException.ThrowIfNullOrNotPath(destination);
+        FileSystemPathCheck.ThrowIfInvalidPath(source);
+        FileSystemPathCheck.ThrowIfInvalidPath(destination);
         NotConnectedException.ThrowIfNotConnected(this);
                 
         mainWorker.Invoke(() => ProtocolHandler.DownloadFolder(this, source, destination, recursive, ignoreExceptions));
@@ -416,7 +416,7 @@ partial class MediaDevice
     public void UploadFile(Stream stream, string destination)
     {
         ArgumentNullException.ThrowIfNull(stream, nameof(stream));
-        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
+        FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
         mainWorker.Invoke(() => ProtocolHandler.UploadFile(this, stream, destination));
@@ -424,8 +424,8 @@ partial class MediaDevice
 
     public void UploadFile(string source, string destination)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
-        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
+        FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
+        FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
         mainWorker.Invoke(() => ProtocolHandler.UploadFile(this, source, destination));
@@ -433,8 +433,8 @@ partial class MediaDevice
 
     public void UploadFolder(string source, string destination, bool recursive = true, bool ignoreExceptions = true)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(source, nameof(source));
-        ArgumentPathException.ThrowIfNullOrNotPath(destination, nameof(destination));
+        FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
+        FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
         mainWorker.Invoke(() => ProtocolHandler.UploadFolder(this, source, destination, recursive, ignoreExceptions));
@@ -457,7 +457,7 @@ partial class MediaDevice
         /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public MediaFileInfo GetFileInfo(string path)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
          return mainWorker.Invoke(() => ProtocolHandler.GetFileInfo(this, path));
@@ -475,7 +475,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public MediaDirectoryInfo GetDirectoryInfo(string path)
     {
-        ArgumentPathException.ThrowIfNullOrNotPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         return mainWorker.Invoke(() => ProtocolHandler.GetDirectoryInfo(this, path));
