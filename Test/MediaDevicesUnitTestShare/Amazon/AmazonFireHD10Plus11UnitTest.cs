@@ -109,12 +109,12 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         readonlyFileAttributes = MediaFileAttributes.Normal | MediaFileAttributes.CanDelete;
 
         readonlyFileParentPath = @"\Speichergerät\Test_ReadonlyFile\Pictures";
-        readonlyFileParentLastWriteTime = new DateTime(2026, 08, 03, 19, 24, 13);
+        readonlyFileParentLastWriteTime = DateTime.Parse("2026-08-08T11:26:36");
         readonlyFileParentAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
         // folder 
         readonlyFolderPath = @"\Speichergerät\Test_ReadonlyFile\Pictures";
-        readonlyFolderLastWriteTime = new DateTime(2026, 08, 03, 19, 24, 13);
+        readonlyFolderLastWriteTime = DateTime.Parse("2026-08-08T11:26:36");
         readonlyFolderAttributes = MediaFileAttributes.Directory | MediaFileAttributes.CanDelete;
 
         readonlyFolderParentPath = @"\Speichergerät\Test_ReadonlyFile";

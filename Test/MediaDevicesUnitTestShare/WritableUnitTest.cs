@@ -1,33 +1,37 @@
-﻿namespace MediaDevicesUnitTest;
+﻿using Microsoft.CodeCoverage.Core.Reports.Coverage;
+
+namespace MediaDevicesUnitTest;
 
 public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testPath)
 {
-    protected readonly string testDataFolder = Path.GetFullPath(@".\..\..\..\..\TestData");
+    //protected readonly string testDataFolder = Path.GetFullPath(@".\..\..\..\..\TestData");
     
     protected string writeableWorkingFolder = testPath + @"\Test_Writeable";
 
-    protected List<string> treeList =
-    [
-        "\\UploadTree\\Aaa",
-        "\\UploadTree\\Aaa\\A.txt",
-        "\\UploadTree\\Aaa\\Abb",
-        "\\UploadTree\\Aaa\\Abb\\Acc",
-        "\\UploadTree\\Aaa\\Abb\\Acc\\Ctest.txt",
-        "\\UploadTree\\Aaa\\Abb\\Add",
-        "\\UploadTree\\Aaa\\Abb\\Aee.txt",
-        "\\UploadTree\\Aaa\\Abb\\Aff.txt",
-        "\\UploadTree\\Aaa\\Abb\\Agg.txt",
-        "\\UploadTree\\Aaa\\Abb\\B.txt",
-        "\\UploadTree\\Aaa\\Acc",
-        "\\UploadTree\\Baa",
-        "\\UploadTree\\Baa\\Bxx.txt",
-        "\\UploadTree\\Bbb",
-        "\\UploadTree\\Caa",
-        "\\UploadTree\\Caa\\Cxx.txt",
-        "\\UploadTree\\Ccc",
-        "\\UploadTree\\Root.txt"
-    ];
-    protected List<string>? treeListFull;
+    //protected List<string> treeList =
+    //[
+    //    "\\UploadTree\\Aaa",
+    //    "\\UploadTree\\Aaa\\A.txt",
+    //    "\\UploadTree\\Aaa\\Abb",
+    //    "\\UploadTree\\Aaa\\Abb\\Acc",
+    //    "\\UploadTree\\Aaa\\Abb\\Acc\\Ctest.txt",
+    //    "\\UploadTree\\Aaa\\Abb\\Add",
+    //    "\\UploadTree\\Aaa\\Abb\\Aee.txt",
+    //    "\\UploadTree\\Aaa\\Abb\\Aff.txt",
+    //    "\\UploadTree\\Aaa\\Abb\\Agg.txt",
+    //    "\\UploadTree\\Aaa\\Abb\\B.txt",
+    //    "\\UploadTree\\Aaa\\Acc",
+    //    "\\UploadTree\\Baa",
+    //    "\\UploadTree\\Baa\\Bxx.txt",
+    //    "\\UploadTree\\Bbb",
+    //    "\\UploadTree\\Caa",
+    //    "\\UploadTree\\Caa\\Cxx.txt",
+    //    "\\UploadTree\\Ccc",
+    //    "\\UploadTree\\Root.txt"
+    //];
+    //protected List<string>? treeListFull;
+
+    #region Helper
 
     private string GetDeviceTempFile(string extention = ".txt")
     {
@@ -44,13 +48,92 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
         return Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
     }
 
+    private static void CreateTextFile(string filePath, string content)
+    {
+        using var writer = File.CreateText(filePath);
+        writer.WriteLine(content);
+        writer.Close();
+    }
+
+    #endregion
+
+    #region File
+
     [TestMethod]
     [Description("Creating a new sourceFolder.")]
-    public void WritableCreateFolderTest()
+    public void WritableCreateAndDeleteFileTest()
+    {
+        string path = GetDeviceTempFile();
+
+        var device = GetDevice();
+        device.Connect();
+
+        using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
+        {
+            device.UploadFile(stream, path);
+        }
+        var exists1 = device.FileExists(path);
+        device.DeleteFile(path);
+        var exists2 = device.FileExists(path);
+
+        device.Disconnect();
+
+        Assert.IsTrue(exists1, "exists1");
+        Assert.IsFalse(exists2, "exists3");
+    }
+
+    [TestMethod]
+    [Description("Rename a file.")]
+    public void WritableRenameFileTest()
     {
         var device = GetDevice();
         device.Connect();
-        
+
+        string filePath = GetDeviceTempFile(".txt");
+        string newPath = GetDeviceTempFile(".txt");
+        string newName = Path.GetFileName(newPath);
+
+
+        if (device.FileExists(filePath))
+        {
+            device.DeleteFile(filePath);
+        }
+        if (device.FileExists(newPath))
+        {
+            device.DeleteFile(newPath);
+        }
+
+        using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
+        {
+            device.UploadFile(stream, filePath);
+        }
+        var exists1 = device.FileExists(filePath);
+
+        device.Rename(filePath, newName);
+
+        var exists2 = device.FileExists(newPath);
+
+        device.DeleteFile(newPath);
+        var exists3 = device.FileExists(newPath);
+
+        device.Disconnect();
+
+        Assert.IsTrue(exists1, "exists1");
+        Assert.IsTrue(exists2, "exists2");
+        Assert.IsFalse(exists3, "exists3");
+    }
+
+    #endregion
+
+    #region Directory
+
+    [TestMethod]
+    [Description("Creating a new sourceFolder.")]
+    public void WritableCreateAndDeleteFolderTest()
+    {
+        var device = GetDevice();
+        device.Connect();
+
         string newFolder = GetDeviceTempFolder();
         var exists1 = device.DirectoryExists(Path.GetDirectoryName(newFolder)!);
         device.CreateDirectory(newFolder);
@@ -64,6 +147,51 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
         Assert.IsTrue(exists2, "exists2");
         Assert.IsFalse(exists3, "exists3");
     }
+
+    [TestMethod]
+    [Description("Rename a sourceFolder.")]
+    public void WritableRenameFolderTest()
+    {
+        var device = GetDevice();
+        device.Connect();
+
+        string filePath = GetDeviceTempFolder();
+        string newPath = GetDeviceTempFolder();
+        string newName = Path.GetFileName(newPath);
+
+
+        if (device.DirectoryExists(filePath))
+        {
+            device.DeleteDirectory(filePath);
+        }
+
+        if (device.DirectoryExists(newPath))
+        {
+            device.DeleteDirectory(newPath);
+        }
+
+        device.CreateDirectory(filePath);
+
+        var exists1 = device.DirectoryExists(filePath);
+
+        device.Rename(filePath, newName);
+
+
+        var exists2 = device.DirectoryExists(newPath);
+
+        device.DeleteDirectory(newPath);
+        var exists3 = device.DirectoryExists(newPath);
+
+        device.Disconnect();
+
+        Assert.IsTrue(exists1, "exists1");
+        Assert.IsTrue(exists2, "exists2");
+        Assert.IsFalse(exists3, "exists3");
+    }
+
+    #endregion
+
+    #region Upload
 
     [TestMethod]
     [Description("Upload a file to the target.")]
@@ -269,13 +397,6 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
         device.Disconnect();
     }
 
-    private static void CreateTextFile(string filePath, string content)
-    {
-        using var writer = File.CreateText(filePath);
-        writer.WriteLine(content);
-        writer.Close();
-    }
-
     [TestMethod]
     [Description("Upload a tree to the target.")]
     public void WritableUploadTreeDirectoryTest()
@@ -307,11 +428,11 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
 
         var device = GetDevice();
         device.Connect();
-        device.UploadFolder(sourceFolder, destinationFolder, false); 
-        
+        device.UploadFolder(sourceFolder, destinationFolder, false);
+
         var files = device.EnumerateFiles(destinationFolder).Select(f => f.Substring(destinationFolderPathLength)).ToList();
         var folders = device.EnumerateDirectories(destinationFolder).Select(f => f.Substring(destinationFolderPathLength)).ToList();
-        
+
         device.Disconnect();
 
         Assert.AreSequenceEqual(["testA.txt", "testB.txt", "testC.txt", "testD.txt", "testE.txt"], files, nameof(files));
@@ -361,88 +482,8 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
         Assert.AreSequenceEqual(["folderA", "folderB", "folderC", "folderC\\subA", "folderC\\subB"], folders, nameof(folders));
     }
 
-
-    [TestMethod]
-    [Description("Rename a file.")]
-    public void WritableRenameFileTest()
-    {
-        var device = GetDevice();
-        device.Connect();
-
-        string filePath = GetDeviceTempFile(".txt");
-        string newPath = GetDeviceTempFile(".txt");
-        string newName = Path.GetFileName(newPath);
-
-
-        if (device.FileExists(filePath))
-        {
-            device.DeleteFile(filePath);
-        }
-        if (device.FileExists(newPath))
-        {
-            device.DeleteFile(newPath);
-        }
-
-        using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("This is a test.")))
-        {
-            device.UploadFile(stream, filePath);
-        }
-        var exists1 = device.FileExists(filePath);
-
-        device.Rename(filePath, newName);
-        
-        var exists2 = device.FileExists(newPath);
-
-        device.DeleteFile(newPath);
-        var exists3 = device.FileExists(newPath);
-
-        device.Disconnect();
-
-        Assert.IsTrue(exists1, "exists1");
-        Assert.IsTrue(exists2, "exists2");
-        Assert.IsFalse(exists3, "exists3");
-    }
-
-    [TestMethod]
-    [Description("Rename a sourceFolder.")]
-    public void WritableRenameFolderTest()
-    {
-        var device = GetDevice();
-        device.Connect();
-
-        string filePath = GetDeviceTempFolder();
-        string newPath = GetDeviceTempFolder();
-        string newName = Path.GetFileName(newPath);
-
-
-        if (device.DirectoryExists(filePath))
-        {
-            device.DeleteDirectory(filePath);
-        }
-
-        if (device.DirectoryExists(newPath))
-        {
-            device.DeleteDirectory(newPath);
-        }
-
-        device.CreateDirectory(filePath);
-
-        var exists1 = device.DirectoryExists(filePath);
-
-        device.Rename(filePath, newName);
-
-
-        var exists2 = device.DirectoryExists(newPath);
-
-        device.DeleteDirectory(newPath);
-        var exists3 = device.DirectoryExists(newPath);
-
-        device.Disconnect();
-
-        Assert.IsTrue(exists1, "exists1");
-        Assert.IsTrue(exists2, "exists2");
-        Assert.IsFalse(exists3, "exists3");
-    }
+    #endregion
+       
     
     [TestMethod]
     [Description("Creating a new sourceFolder.")]
