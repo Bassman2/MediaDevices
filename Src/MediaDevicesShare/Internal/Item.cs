@@ -225,13 +225,9 @@ internal class Item
 
     private static IPortableDeviceKeyCollection CreateKeyCollection()
     {
-        //ThreadSafeWorkerException.ThrowIfNotInside(mediaDevice.mainWorker);
+        ThreadSafeWorkerException.ThrowIfNotInside();
 
         var keyCollection = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
-
-        //int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keyCollection);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
-
 
         keyCollection.Add(ref WPD.OBJECT_CONTENT_TYPE);
         keyCollection.Add(ref WPD.OBJECT_NAME);
@@ -522,13 +518,7 @@ internal class Item
             if (child == null)
             {
                 // create a new directory
-                 IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
-
-                //ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var portableDeviceValues);
-
-                //results
-                //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var portableDeviceValues);
-                //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
+                IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
 
                 portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, parent.Id);
                 portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, folder);
@@ -588,29 +578,13 @@ internal class Item
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        //IPortableDevicePropVariantCollection objectIdCollection = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>(ref CLSID.PortableDevicePropVariantCollection);
-
-        //int err = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>(ref CLSID.PortableDevicePropVariantCollection, out var objectIdCollection);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection));
-
         var objectIdCollection = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>();
-
 
         var propVariantValue = PropVariantFacade.StringToPropVariant(this.Id);
         int err = objectIdCollection.Add(ref propVariantValue.Value);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.Add));
 
-
-        //IPortableDevicePropVariantCollection results = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>(ref CLSID.PortableDevicePropVariantCollection);
-
         var results = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>();
-
-        //err = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>(ref CLSID.PortableDevicePropVariantCollection, out var results);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection));
-
-
-
-
 
         // TODO: get the results back and handle failures correctly
 
@@ -753,9 +727,6 @@ internal class Item
 
         IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
 
-        //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out IPortableDeviceValues portableDeviceValues);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
-
         int err = portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, this.Id);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "OBJECT_PARENT_ID");
 
@@ -801,13 +772,7 @@ internal class Item
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        //IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
-
         IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
-
-        //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var portableDeviceValues);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
-
 
         // with OBJECT_NAME does not work for Amazon Kindle Paperwhite
         int err = portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, newName);
@@ -835,14 +800,7 @@ internal class Item
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        //IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
-        //new PortableDeviceValues() as IPortableDeviceValues;
-
         IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
-
-        //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var portableDeviceValues);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
-
 
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
@@ -858,13 +816,7 @@ internal class Item
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        //IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
-
         IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
-
-        //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var portableDeviceValues);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
-
 
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
@@ -880,13 +832,7 @@ internal class Item
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        //IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
-
         IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
-
-        //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var portableDeviceValues);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
-
 
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
