@@ -1,8 +1,35 @@
-﻿namespace MediaDevices.Internal;
+﻿using MediaDevices.Attributes;
+using System.Reflection;
+
+namespace MediaDevices.Internal;
 
 internal static partial class ComHelper
 {
     private const int CLSCTX_ALL = 23;
+
+
+    public static T CreateInstance<T>(
+        [CallerLineNumber] int lineNumber = 0,
+        [CallerFilePath] string filePath = "",
+        [CallerMemberName] string memberName = "") 
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        string guid = typeof(T).GetCustomAttribute<CLSIDAttribute>()?.Value ?? throw new InvalidOperationException($"Type {typeof(T).Name} must have a CLSIDAttribute");
+
+        Guid clsid = Guid.Parse(guid);
+
+        int err = NativeMethods.CoCreateInstance(clsid, 0, CLSCTX_ALL, typeof(T).GUID, out var insta);
+        if (err < 0)
+        {
+            string errorMessage = Marshal.GetExceptionForHR(err)?.Message ?? "unknown error";
+            string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
+            string message = $"COM Error 0x{err:x8} {errorMessage} in CoCreateInstance {typeof(T).Name} {errorPosition}";
+            Debug.WriteLine(message);
+            throw new MediaDeviceException(message);
+        }
+        return (T)insta;
+    }
 
     public static int CreateInstance<T>(ref Guid clsid, out T inst)
     {

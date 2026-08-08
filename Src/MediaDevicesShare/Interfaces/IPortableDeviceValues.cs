@@ -13,6 +13,7 @@ IPortableDeviceValues values = (IPortableDeviceValues)Activator.CreateInstance( 
 [GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper, StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("6848F6F2-3155-4F86-B6F5-263EEEAB3143")]
+[CLSID("0C15D503-D017-47CE-9016-7B3F978721CC")]
 internal partial interface IPortableDeviceValues
 {
     [PreserveSig]

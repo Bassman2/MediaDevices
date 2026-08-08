@@ -10,8 +10,10 @@ partial class ProtocolHandler
 
         //IPortableDeviceValues devInValues = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
 
-        int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var devInValues);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
+        IPortableDeviceValues devInValues = ComHelper.CreateInstance<IPortableDeviceValues>();
+
+        //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var devInValues);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
 
 
         devInValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value!);

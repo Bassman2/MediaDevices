@@ -9,6 +9,7 @@
     <Import_RootNamespace>MediaDevices</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\MediaDevicesShare\Attributes\CLSIDAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ObjectFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentPathException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ChargingState.cs" />

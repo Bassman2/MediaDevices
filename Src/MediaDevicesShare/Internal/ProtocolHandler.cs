@@ -9,8 +9,10 @@ internal static partial class ProtocolHandler
         IPortableDeviceManager? intDeviceManager = null;
         IPortableDeviceServiceManager? intServiceManager = null;
 
-        int err = ComHelper.CreateInstance<IPortableDeviceManager>(ref CLSID.PortableDeviceManager, out IPortableDeviceManager? deviceManager);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager));
+        IPortableDeviceManager deviceManager = ComHelper.CreateInstance<IPortableDeviceManager>();
+
+        //int err = ComHelper.CreateInstance<IPortableDeviceManager>(ref CLSID.PortableDeviceManager, out IPortableDeviceManager? deviceManager);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager));
 
         intDeviceManager = deviceManager!;
         intServiceManager = (IPortableDeviceServiceManager)intDeviceManager;
@@ -75,17 +77,14 @@ internal static partial class ProtocolHandler
         // find the app name for client name
         var appName = AppDomain.CurrentDomain.FriendlyName;
 
-        int err = ComHelper.CreateInstance<IPortableDevice>(ref CLSID.PortableDevice, out mediaDevice.device);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice));
+        mediaDevice.device = ComHelper.CreateInstance<IPortableDevice>();
 
         // set open mediaDevice parameters
-        // TODO
-        err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var clientInfo);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
-
+        var clientInfo = ComHelper.CreateInstance<IPortableDeviceValues>();
+        
         //IPortableDeviceValues clientInfo = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
         //(IPortableDeviceValues) new PortableDeviceValues();
-        err = clientInfo.SetStringValue(ref WPD.CLIENT_NAME, appName);
+        int err = clientInfo.SetStringValue(ref WPD.CLIENT_NAME, appName);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "CLIENT_NAME");
 
         err = clientInfo.SetUnsignedIntegerValue(ref WPD.CLIENT_MAJOR_VERSION, 1);

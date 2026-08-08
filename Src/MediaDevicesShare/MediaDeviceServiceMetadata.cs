@@ -13,12 +13,11 @@ public class MediaDeviceServiceMetadata : MediaDeviceService
     /// </summary>
     protected override void Update()
     {
-        //IPortableDeviceKeyCollection keyCol = 
-        //    ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection);
-        //(IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();
+        IPortableDeviceKeyCollection keyCol = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
 
-        int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keyCol);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
+        //(IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();
+        //int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keyCol);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
 
 
         keyCol.Add(ref WPD.OBJECT_PARENT_ID);

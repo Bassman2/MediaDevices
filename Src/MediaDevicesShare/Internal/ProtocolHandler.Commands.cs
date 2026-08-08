@@ -117,8 +117,11 @@ partial class ProtocolHandler
 
         //IPortableDeviceKeyCollection keys = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection);
 
-        int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keys);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
+        //int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keys);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
+
+        IPortableDeviceKeyCollection keys = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
+
 
         keys.Add(ref WPD.STORAGE_TYPE);
         keys.Add(ref WPD.STORAGE_FILE_SYSTEM_TYPE);
@@ -133,7 +136,7 @@ partial class ProtocolHandler
 
         var info = new MediaStorageInfo();
 
-        err = mediaDevice.deviceProperties!.GetSupportedProperties(storageObjectId, out IPortableDeviceKeyCollection ppKeys);
+        int err = mediaDevice.deviceProperties!.GetSupportedProperties(storageObjectId, out IPortableDeviceKeyCollection ppKeys);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetSupportedProperties), storageObjectId);
         ComTrace.WriteObjectIntern(ppKeys);
         mediaDevice.deviceProperties.GetValues(storageObjectId, keys, out IPortableDeviceValues values);

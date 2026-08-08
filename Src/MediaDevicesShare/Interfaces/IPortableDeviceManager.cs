@@ -1,6 +1,6 @@
 ﻿namespace MediaDevices.Internal;
 
-// https://learn.microsoft.com/en-us/dotnet/standard/native-interop/comwrappers-source-generation
+//// https://learn.microsoft.com/en-us/dotnet/standard/native-interop/comwrappers-source-generation
 // https://www.youtube.com/watch?v=DZd1SGd7dSU
 // https://stackoverflow.com/questions/78356359/net-8-com-class-using-generatedcominterfaceattribute-not-visible-to-vb6-vba-or
 // https://stackoverflow.com/questions/79118576/how-to-rewrite-the-windows-app-sdk-widgetprovider-registration-code-using-comwra
@@ -9,6 +9,7 @@
 
 [GeneratedComInterface(/*Options = ComInterfaceOptions.ComObjectWrapper, */StringMarshalling = StringMarshalling.Utf16)]
 [Guid("A1567595-4C2F-4574-A6FA-ECEF917B9A40")]
+[CLSID("0AF10CEC-2ECD-4B92-9581-34F6AE0637F3")]
 internal partial interface IPortableDeviceManager
 {
     [PreserveSig]

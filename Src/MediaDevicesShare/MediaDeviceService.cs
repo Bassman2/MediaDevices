@@ -47,8 +47,10 @@ public class MediaDeviceService : IDisposable
 
         //IPortableDeviceValues values = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
 
-        err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var values);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
+        IPortableDeviceValues values = ComHelper.CreateInstance<IPortableDeviceValues>();
+
+        //err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var values);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
 
 
         this.service.Open(this.ServiceId, values);
@@ -286,32 +288,37 @@ public class MediaDeviceService : IDisposable
     /// <param name="parameters">Method parameters</param>
     public void CallMethod(Guid method, object[] _)
     {
+        // TODO check?
         this.service!.Methods(out IPortableDeviceServiceMethods methods);
 
         //IPortableDeviceValues values = 
         //    ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
 
-        int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var values);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
+        var values = ComHelper.CreateInstance<IPortableDeviceValues>();
+
+        //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var values);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
 
         //(IPortableDeviceValues)new PortableDeviceValues();
         //values.SetStringValue();
         //IPortableDeviceValues results = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
         //(IPortableDeviceValues)new PortableDeviceValues();
 
-        err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var results);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
+        //err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var results);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
 
-
+        var results = ComHelper.CreateInstance<IPortableDeviceValues>();
 
         methods.Invoke(ref method, ref values, ref results);
     }
 
     internal void SendCommand(PropertyKey commandKey)
     {
-        //IPortableDeviceValues values = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
-        int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var values);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
+        ////IPortableDeviceValues values = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
+        //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var values);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
+
+        IPortableDeviceValues values = ComHelper.CreateInstance<IPortableDeviceValues>();
 
 
         values.SetGuidValue(ref WPD.PROPERTY_COMMON_COMMAND_CATEGORY, ref commandKey.fmtid);
