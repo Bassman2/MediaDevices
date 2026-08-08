@@ -589,7 +589,9 @@ internal class Item
 
 
         var propVariantValue = PropVariantFacade.StringToPropVariant(this.Id);
-        objectIdCollection.Add(ref propVariantValue.Value);
+        err = objectIdCollection.Add(ref propVariantValue.Value);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.Add));
+
 
         //IPortableDevicePropVariantCollection results = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>(ref CLSID.PortableDevicePropVariantCollection);
 
@@ -605,6 +607,11 @@ internal class Item
         err = this.mediaDevice.deviceContent!.Delete(recursive ? PORTABLE_DEVICE_DELETE_WITH_RECURSION : PORTABLE_DEVICE_DELETE_NO_RECURSION, objectIdCollection, ref results);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.Delete));
 
+        // fix for issue #420
+        if (err == (int)ErrorCodes.False)
+        {
+            throw new IOException($"Failed to delete file {Name}!");
+        }
 
         ComTrace.WriteObjectIntern(objectIdCollection);
     }

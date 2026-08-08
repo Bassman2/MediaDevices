@@ -2,6 +2,7 @@
 
 internal enum ErrorCodes : int
 {
+    False = 1,
     OK = 0,
     NotImplemented          /**/ = unchecked((int)0x80004001),      // E_NOT_IMPLEMENTED
     NotSupported            /**/ = unchecked((int)0x80070032),      // ERROR_NOT_SUPPORTED

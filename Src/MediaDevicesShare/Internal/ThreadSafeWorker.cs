@@ -73,6 +73,7 @@ internal sealed class ThreadSafeWorker : IDisposable
             if (error is FileNotFoundException || 
                 error is DirectoryNotFoundException || 
                 error is UnauthorizedAccessException ||
+                error is IOException ||
                 error is NotSupportedException)
             {
                 throw error;
@@ -117,6 +118,7 @@ internal sealed class ThreadSafeWorker : IDisposable
             if (error is FileNotFoundException || 
                 error is DirectoryNotFoundException ||
                 error is UnauthorizedAccessException ||
+                error is IOException ||
                 error is NotSupportedException)
             {
                 throw error;

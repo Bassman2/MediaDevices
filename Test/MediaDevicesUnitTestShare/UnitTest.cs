@@ -41,11 +41,11 @@ public abstract class UnitTest
     protected string? deviceFirmwareVersion = null;
     protected const bool devicePowerLevelHasValue = true;
     protected PowerSource? devicePowerSource = PowerSource.Battery;                 // TascamDR40 & PhilipsUFD: External
-    protected string? deviceProtocol = "MTP: 1.00";                                 // PhilipsUFD & TascamDR40: "MSC:"
+    protected string? deviceProtocol = "MTP: 1.00";                                 // PhilipsUFD & TascamDR40: "MSC:", CanonEos60D: "MTP: 2.00"
     protected string? deviceModel = null;
     protected string? deviceSerialNumber = null;
     protected bool? deviceSupportsNonConsumable = false;                            // PhilipsUFD & TascamDR40: null
-    protected const bool deviceDateTimeHasValue = false;
+    protected bool deviceDateTimeHasValue = false;                                  // NiconCoolpixA300 = true
     protected readonly string[]? deviceSupportedDrmSchemes = null;
     protected readonly bool? deviceSupportedFormatsAreOrdered = null;
     protected DeviceType? deviceDeviceType = DeviceType.Generic;
@@ -53,7 +53,7 @@ public abstract class UnitTest
     protected readonly uint? deviceFunctionalUniqueId = null;
     protected readonly uint? deviceModelUniqueId = null;
     protected DeviceTransport? deviceTransport = DeviceTransport.USB;               // PhilipsUFD & TascamDR40: null
-    protected DeviceTransport? deviceUseDeviceStage = DeviceTransport.USB;          // PhilipsUFD, TascamDR40, GooglePixel6a & AppleiPhone17: null
+    protected DeviceTransport? deviceUseDeviceStage = null;                         // CanonEosR6m2, NiconCoolpixA300 & CanonEos60D: USB
     protected const string? deviceEdpItentifier = null;
 
     // Device Capability Test
@@ -261,6 +261,8 @@ public abstract class UnitTest
         Assert.AreEqual(deviceTransport, transport, nameof(deviceTransport));
         Assert.AreEqual(deviceUseDeviceStage, useDeviceStage, nameof(deviceUseDeviceStage));
         Assert.AreEqual(deviceEdpItentifier, edpItentifier, nameof(deviceEdpItentifier));
+
+        Trace.WriteLine($"DateTime: {dateTime}");
     }
 
     [TestMethod]

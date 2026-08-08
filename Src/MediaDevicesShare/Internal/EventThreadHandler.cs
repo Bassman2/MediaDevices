@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Concurrent;
 
 namespace MediaDevices.Internal;
 
@@ -9,13 +6,18 @@ internal sealed class EventThreadHandler : IDisposable
 {
     private readonly Thread thread;
     private readonly BlockingCollection<MediaDeviceEventArgs> queue = new();
+    private readonly MediaDevice mediaDevice;
 
     //private volatile bool _isRunning = true;
     private volatile bool disposed = false;
 
-    public EventThreadHandler()
+    public int ThreadId { get; private set; } = 0;
+
+    public EventThreadHandler(MediaDevice mediaDevice)
     {
+        this.mediaDevice = mediaDevice;
         thread = new Thread(ProcessEventQueue) { Name = "MediaDeviceEventThread", IsBackground = true, Priority = ThreadPriority.Normal};
+        ThreadId = thread.ManagedThreadId;
         thread.Start();
     }
 
@@ -66,8 +68,8 @@ internal sealed class EventThreadHandler : IDisposable
     {
         foreach (var eventArgs in queue.GetConsumingEnumerable())
         {
-            //try { action(); }
-            //catch (Exception ex) { Debug.WriteLine(ex); }
+            try { mediaDevice.InvokeEvent(eventArgs); }
+            catch (Exception ex) { Debug.WriteLine(ex); }
         }
     }
 }
