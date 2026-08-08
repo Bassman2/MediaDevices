@@ -5,10 +5,8 @@ namespace MediaDevices.Internal;
 internal sealed class EventThreadHandler : IDisposable
 {
     private readonly Thread thread;
-    private readonly BlockingCollection<MediaDeviceEventArgs> queue = new();
+    private readonly BlockingCollection<MediaDeviceEventArgs> queue = [];
     private readonly MediaDevice mediaDevice;
-
-    //private volatile bool _isRunning = true;
     private volatile bool disposed = false;
 
     public int ThreadId { get; private set; } = 0;
@@ -23,24 +21,13 @@ internal sealed class EventThreadHandler : IDisposable
 
     public void Dispose()
     {
-        if (disposed)
-        {
-            return;
-        }
-
+        if (disposed) return;
         disposed = true;
-        
-        try
-        {
-            if (!thread.Join(5000))
-            {
-                Debug.WriteLine("Event thread did not terminate gracefully within timeout.");
-            }
-        }
-        finally
-        {
-            queue?.Dispose();
-        }
+
+        queue.CompleteAdding();
+        thread.Join(5000);
+        queue.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     /// <summary>
@@ -49,10 +36,7 @@ internal sealed class EventThreadHandler : IDisposable
     /// <param name="eventAction">The event action to invoke.</param>
     public void Invoke(MediaDeviceEventArgs eventArgs)
     {
-        if (disposed)
-        {
-            throw new ObjectDisposedException(nameof(EventThreadHandler));
-        }
+        ObjectDisposedException.ThrowIf(disposed, this);
 
         try
         {

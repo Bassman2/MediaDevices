@@ -1,6 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-
-namespace MediaDevices;
+﻿namespace MediaDevices;
 
 /// <summary>
 /// Represents errors that occur when interacting with media devices and COM components.
@@ -8,28 +6,28 @@ namespace MediaDevices;
 /// <param name="message">The error message that explains the reason for the exception.</param>
 public class MediaDeviceException(string message) : Exception(message)
 {
-    /// <summary>
-    /// Throws a <see cref="MediaDeviceException"/> when a COM call returns a failure HRESULT.
-    /// </summary>
-    /// <param name="errorCode">The HRESULT returned by the COM call.</param>
-    /// <param name="interf">The COM interface or component where the error occurred.</param>
-    /// <exception cref="MediaDeviceException">Thrown when <paramref name="errorCode"/> is a failure (negative) value.</exception>
-    public static void ThrowIfComError(
-        int errorCode, 
-        string interf,
-        [CallerLineNumber] int lineNumber = 0,
-        [CallerMemberName] string memberName = "",
-        [CallerFilePath] string filePath = "")
-    {
-        if (errorCode < 0)
-        {
-            string errorMessage = Marshal.GetExceptionForHR(errorCode)?.Message ?? "unknown error";
-            string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
-            string message = $"COM Error 0x{errorCode:x8} in CoCreateInstance {interf}: {errorMessage} at {errorPosition}";
-            Trace.WriteLine(message);
-            Throw(message);
-        }
-    }
+    ///// <summary>
+    ///// Throws a <see cref="MediaDeviceException"/> when a COM call returns a failure HRESULT.
+    ///// </summary>
+    ///// <param name="errorCode">The HRESULT returned by the COM call.</param>
+    ///// <param name="interf">The COM interface or component where the error occurred.</param>
+    ///// <exception cref="MediaDeviceException">Thrown when <paramref name="errorCode"/> is a failure (negative) value.</exception>
+    //public static void ThrowIfComError(
+    //    int errorCode, 
+    //    string interf,
+    //    [CallerLineNumber] int lineNumber = 0,
+    //    [CallerMemberName] string memberName = "",
+    //    [CallerFilePath] string filePath = "")
+    //{
+    //    if (errorCode < 0)
+    //    {
+    //        string errorMessage = Marshal.GetExceptionForHR(errorCode)?.Message ?? "unknown error";
+    //        string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
+    //        string message = $"COM Error 0x{errorCode:x8} in CoCreateInstance {interf}: {errorMessage} at {errorPosition}";
+    //        Trace.WriteLine(message);
+    //        Throw(message);
+    //    }
+    //}
 
     /// <summary>
     /// Throws a <see cref="MediaDeviceException"/> when a COM call returns a failure HRESULT.

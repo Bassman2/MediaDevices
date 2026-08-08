@@ -7,6 +7,7 @@ internal sealed class ThreadSafeWorker : IDisposable
 {
     private readonly Thread thread;
     private readonly BlockingCollection<Action> queue = [];
+    private volatile bool disposed = false;
 
     public static int ThreadId { get; private set; } = 0;
 
@@ -25,8 +26,11 @@ internal sealed class ThreadSafeWorker : IDisposable
     
     public void Dispose()
     {
+        if (disposed) return;
+        disposed = true;
+
         queue.CompleteAdding();
-        thread.Join();
+        thread.Join(5000);
         queue.Dispose();
         GC.SuppressFinalize(this);
     }
@@ -48,6 +52,7 @@ internal sealed class ThreadSafeWorker : IDisposable
         [CallerMemberName] string memberName = "")
     {
         ThreadSafeWorkerException.ThrowIfNotOutside(lineNumber, filePath, memberName);
+        ObjectDisposedException.ThrowIf(disposed, this);
 
         Exception? error = null;
 
@@ -92,6 +97,7 @@ internal sealed class ThreadSafeWorker : IDisposable
         [CallerMemberName] string memberName = "")
     {
         ThreadSafeWorkerException.ThrowIfNotOutside(lineNumber, filePath, memberName);
+        ObjectDisposedException.ThrowIf(disposed, this);
 
         Exception? error = null;
         T? result = default;
@@ -140,6 +146,8 @@ internal sealed class ThreadSafeWorker : IDisposable
         [CallerMemberName] string memberName = "")
     {
         ThreadSafeWorkerException.ThrowIfNotOutside(lineNumber, filePath, memberName);
+        ObjectDisposedException.ThrowIf(disposed, this);
+
         return new WorkerEnumerable<T>(this, func);
     }
 
@@ -170,6 +178,8 @@ internal sealed class ThreadSafeWorker : IDisposable
         [CallerMemberName] string memberName = "")
     {
         ThreadSafeWorkerException.ThrowIfNotOutside(lineNumber, filePath, memberName);
+        ObjectDisposedException.ThrowIf(disposed, this);
+
         var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         queue.Add(() =>
         {
@@ -193,6 +203,8 @@ internal sealed class ThreadSafeWorker : IDisposable
         [CallerMemberName] string memberName = "")
     {
         ThreadSafeWorkerException.ThrowIfNotOutside(lineNumber, filePath, memberName);
+        ObjectDisposedException.ThrowIf(disposed, this);
+
         var tcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
         queue.Add(() =>
         {
@@ -221,6 +233,8 @@ internal sealed class ThreadSafeWorker : IDisposable
         [CallerMemberName] string memberName = "")
     {
         ThreadSafeWorkerException.ThrowIfNotOutside(lineNumber, filePath, memberName);
+        ObjectDisposedException.ThrowIf(disposed, this);
+
         return new WorkerAsyncEnumerable<T>(this, func);
     }
 

@@ -15,11 +15,10 @@ public class MediaDeviceStatusService : MediaDeviceService
     /// </summary>
     protected override void Update()
     {
-        //IPortableDeviceKeyCollection keyCol = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection);
-        //(IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();
+        IPortableDeviceKeyCollection keyCol = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
 
-        int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keyCol);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
+        //int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keyCol);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
 
 
 

@@ -7,10 +7,12 @@ internal class Command
 
     private Command(PropertyKey commandKey)
     {
-        int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out values);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
+        values = ComHelper.CreateInstance<IPortableDeviceValues>();
 
-        err = this.values.SetGuidValue(ref WPD.PROPERTY_COMMON_COMMAND_CATEGORY, ref commandKey.fmtid);
+        //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out values);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
+
+        int err = this.values.SetGuidValue(ref WPD.PROPERTY_COMMON_COMMAND_CATEGORY, ref commandKey.fmtid);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetGuidValue), "PROPERTY_COMMON_COMMAND_CATEGORY");
 
         err = this.values.SetUnsignedIntegerValue(ref WPD.PROPERTY_COMMON_COMMAND_ID, commandKey.pid);
@@ -49,15 +51,14 @@ internal class Command
 
     public void Add(PropertyKey key, IEnumerable<int> values)
     {
-        int err = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>(ref CLSID.PortableDevicePropVariantCollection, out var col);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection));
+        var col = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>();
 
         foreach (var value in values)
         {
             var var = PropVariantFacade.IntToPropVariant(value);
             col.Add(ref var.Value);
         }
-        err = this.values.SetIPortableDevicePropVariantCollectionValue(ref key, col);
+        int err = this.values.SetIPortableDevicePropVariantCollectionValue(ref key, col);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetIPortableDevicePropVariantCollectionValue));
     }
 

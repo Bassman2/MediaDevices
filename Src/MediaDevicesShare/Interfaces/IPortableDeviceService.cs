@@ -3,6 +3,7 @@
 
 [Guid("D3BD3A44-D7B5-40A9-98B7-2FA4D01DEC08")]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+[CLSID("EF5DB4C2-9312-422C-9152-411CD9C4DD84")]
 internal interface IPortableDeviceService
 {
     [PreserveSig]

@@ -1,4 +1,6 @@
-﻿namespace MediaDevices.Internal;
+﻿using System.Data;
+
+namespace MediaDevices.Internal;
 
 internal static partial class ProtocolHandler
 {
@@ -258,53 +260,48 @@ internal static partial class ProtocolHandler
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        try
+        var now = DateTime.Now;
+        Item.GetRoot(mediaDevice).CreateSubdirectory(destination, now, now, now);
+        if (recursive)
         {
-            var now = DateTime.Now;
-            Item.GetRoot(mediaDevice).CreateSubdirectory(destination, now, now, now);
-            if (recursive)
+            var list = new DirectoryInfo(source).EnumerateFileSystemInfos("*", SearchOption.AllDirectories);
+            foreach (var fsi in list)
             {
-                var di = new DirectoryInfo(source);
-                var list = new DirectoryInfo(source).EnumerateFileSystemInfos("*", SearchOption.AllDirectories);
-                foreach (var fsi in list)
+                var relSource = fsi.FullName.Substring(source.Length);
+                var absDestination = Path.Combine(destination, relSource);
+
+                if (fsi is FileInfo)
                 {
-                    var relSource = fsi.FullName.Substring(source.Length);
-                    var absDestination = Path.Combine(destination, relSource);
-
-                    //Trace.WriteLine($"Processing {fsi.FullName}");
-                    //string path = Path.Combine(destination, GetLocalPath(source, fsi.FullName));
-
-                    //Trace.WriteLine($"Device {path}");
-                    if (fsi is FileInfo fi)
+                    try
                     {
-                        //UploadFileIntern(mediaDevice, fi, source, destination, ignoreExceptions);
                         UploadFile(mediaDevice, fsi.FullName, absDestination);
-                    }
-                    else
+                    } 
+                    catch 
                     {
-                        Item.GetRoot(mediaDevice).CreateSubdirectory(absDestination, now, now, now);
+                        if (!ignoreExceptions) throw;
                     }
                 }
+                else
+                {
+                    Item.GetRoot(mediaDevice).CreateSubdirectory(absDestination, now, now, now);
+                }
             }
-            else
+        }
+        else
+        {
+            foreach (var file in Directory.EnumerateFiles(source))
             {
-                //var files = Directory.EnumerateFiles(source).ToList();
-                foreach (var file in Directory.EnumerateFiles(source))
+                try
                 {
                     UploadFile(mediaDevice, file, Path.Combine(destination, Path.GetFileName(file)));
                 }
-
-
-                ////var di = new DirectoryInfo(source);
-                //foreach (FileInfo fi in di.EnumerateFiles())
-                //{
-                //    UploadFileIntern(mediaDevice, fi, source, destination, ignoreExceptions);
-                //}
+                catch
+                {
+                    if (!ignoreExceptions) throw;
+                }
             }
         }
-        catch (Exception ex)
-        {
-        }
+
     }
 
     //private static void UploadFileIntern(MediaDevice mediaDevice, FileInfo fi, string source, string destination, bool ignoreExceptions)

@@ -2,6 +2,7 @@
 
 [GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper, StringMarshalling = StringMarshalling.Utf16)]
 [Guid("625E2DF8-6392-4CF0-9AD1-3CFA5F17775C")]
+[CLSID("728A21C5-3D9E-48D7-9810-864848F0F404")]
 internal partial interface IPortableDevice
 {
     [PreserveSig]
