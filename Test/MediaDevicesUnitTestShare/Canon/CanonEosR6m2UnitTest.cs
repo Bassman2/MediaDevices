@@ -1,6 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-
-namespace MediaDevicesUnitTest;
+﻿namespace MediaDevicesUnitTest;
 
 [TestClass]
 [TestCategory("Canon")]
