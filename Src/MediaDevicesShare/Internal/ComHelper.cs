@@ -39,23 +39,23 @@ internal static partial class ComHelper
     //    return err;
     //}
 
-    //public static void Release(
-    //    this PropVariant propVariant,
-    //    [CallerLineNumber] int lineNumber = 0,
-    //    [CallerFilePath] string filePath = "",
-    //    [CallerMemberName] string memberName = "")
-    //{
-    //    ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
-    //    int err = NativeMethods.PropVariantClear(ref propVariant);
-    //    if (err < 0)
-    //    {
-    //        string errorMessage = Marshal.GetExceptionForHR(err)?.Message ?? "unknown error";
-    //        string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
-    //        string message = $"COM Error 0x{err:x8} in PropVariantClear {errorMessage} at {errorPosition}";
-    //        Trace.WriteLine(message);
-    //        throw new MediaDeviceException (message);
-    //    }
-    //}
+    public static void Release(
+        this PropVariant propVariant,
+        [CallerLineNumber] int lineNumber = 0,
+        [CallerFilePath] string filePath = "",
+        [CallerMemberName] string memberName = "")
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
+        int err = NativeMethods.PropVariantClear(ref propVariant);
+        if (err < 0)
+        {
+            string errorMessage = Marshal.GetExceptionForHR(err)?.Message ?? "unknown error";
+            string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
+            string message = $"COM Error 0x{err:x8} in PropVariantClear {errorMessage} at {errorPosition}";
+            Trace.WriteLine(message);
+            throw new MediaDeviceException(message);
+        }
+    }
 
 
     private partial class NativeMethods
