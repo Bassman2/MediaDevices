@@ -86,7 +86,8 @@ internal static partial class ProtocolHandler
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFile(mediaDevice, path) ?? throw new FileNotFoundException($"File {path} not found.");
+        // File.Delete throws DirectoryNotFoundException if path was not found; never FileNotFoundException
+        Item item = Item.FindFile(mediaDevice, path) ?? throw new DirectoryNotFoundException($"File {path} not found.");
         item.Delete();
     }
 

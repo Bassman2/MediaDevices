@@ -6,7 +6,10 @@ internal static class FileSystemPathCheck
 
     public static void ThrowIfInvalidPath(string? path, [CallerArgumentExpression(nameof(path))] string? paramName = null)
     {
-        ArgumentNullException.ThrowIfNullOrEmpty(path, paramName);
+        if (string.IsNullOrEmpty(path))
+        {
+            throw new ArgumentNullException(paramName);
+        }
 
         var invalidChars = Path.GetInvalidPathChars();
         if (path.IndexOfAny(invalidChars) >= 0)

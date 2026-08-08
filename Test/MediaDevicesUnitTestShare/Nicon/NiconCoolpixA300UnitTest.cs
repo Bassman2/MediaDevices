@@ -21,8 +21,10 @@ public class NiconCoolpixA300 : ReadonlyUnitTest
         deviceFirmwareVersion = "COOLPIX A300 V1.4";
         deviceModel = "A300";
         deviceSerialNumber = "";
+        deviceDateTimeHasValue = true;
         deviceDeviceType = DeviceType.Camera;
-        
+        deviceUseDeviceStage = DeviceTransport.USB;
+
         // Device Capability Test
         deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.DeviceCapabilitiesUpdated, Events.Unknown, Events.StorageFormat, Events.Unknown, Events.Unknown, Events.ObjectTransferRequest, Events.Unknown, Events.ObjectAdded];
         deviceSupportedCommands = [ 

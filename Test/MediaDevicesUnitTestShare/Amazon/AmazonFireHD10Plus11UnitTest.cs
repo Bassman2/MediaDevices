@@ -21,7 +21,7 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         deviceFirmwareVersion = "1.0";
         deviceModel = "Fire";
         deviceSerialNumber = "G001MG0613460HLU";
-        
+
         // Capability Test
         this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
         this.deviceSupportedCommands = [
