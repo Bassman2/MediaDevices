@@ -49,25 +49,11 @@ partial class MediaDevice
 
     #region IPortableDeviceValues
 
-    public string? Id { get; internal set; } = null;
-
-    public string? ParentId { get; internal set; } = null;
+   
 
     public string? Name { get; internal set; } = null;
 
-    public ContentType? ContentType { get; internal set; } = null;
 
-    public string? PersistentUniqueId { get; internal set; } = null;
-
-    public ObjectFormat? ObjectFormat { get; internal set; } = null;
-
-    public bool? IsHidden { get; internal set; } = null;
-
-    public bool? CanDelete { get; internal set; } = null;
-
-    public string? ContainerFunctionalObjectId { get; internal set; } = null;
-
-    public FunctionalCategory? FunctionalObjectCategory { get; internal set; } = null;
 
 
     // Usefull
@@ -142,6 +128,42 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public DeviceType? DeviceType { get; internal set; } = null;
 
+    
+
+    /// <summary>
+    /// Device transport.
+    /// </summary>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public DeviceTransport? Transport { get; internal set; } = null;
+
+    /// <summary>
+    /// Use mediaDevice stage
+    /// </summary>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    public DeviceTransport? UseDeviceStage { get; internal set; } = null;
+
+
+
+#if DEBUG
+
+    public string? Id { get; internal set; } = null;
+
+    public string? ParentId { get; internal set; } = null;
+
+    public ContentType? ContentType { get; internal set; } = null;
+
+    public string? PersistentUniqueId { get; internal set; } = null;
+
+    public ObjectFormat? ObjectFormat { get; internal set; } = null;
+
+    public bool? IsHidden { get; internal set; } = null;
+
+    public bool? CanDelete { get; internal set; } = null;
+
+    public string? ContainerFunctionalObjectId { get; internal set; } = null;
+
+    public FunctionalCategory? FunctionalObjectCategory { get; internal set; } = null;
+
     /// <summary>
     /// Network Identifier
     /// </summary>
@@ -160,20 +182,10 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public uint? ModelUniqueId { get; internal set; } = null;
 
-    /// <summary>
-    /// Device transport.
-    /// </summary>
-    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public DeviceTransport? Transport { get; internal set; } = null;
-
-    /// <summary>
-    /// Use mediaDevice stage
-    /// </summary>
-    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public DeviceTransport? UseDeviceStage { get; internal set; } = null;
-
-
     public string? EdpItentifier { get; internal set; } = null;
+
+
+#endif
 
     #endregion
 }

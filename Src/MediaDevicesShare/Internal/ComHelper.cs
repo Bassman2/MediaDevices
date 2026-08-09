@@ -50,8 +50,27 @@ internal static partial class ComHelper
     }
 
     
-        public static void Release(
-        this IPortableDeviceValues deviceValues,
+    public static void Release(
+        this IPortableDevicePropVariantCollection _,
+        [CallerLineNumber] int lineNumber = 0,
+        [CallerFilePath] string filePath = "",
+        [CallerMemberName] string memberName = "")
+    {
+        //ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
+        //int err = NativeMethods.PropVariantClear(ref propVariantCollection);
+        //if (err < 0)
+        //{
+        //    string errorMessage = Marshal.GetExceptionForHR(err)?.Message ?? "unknown error";
+        //    string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
+        //    string message = $"COM Error 0x{err:x8} in PropVariantClear {errorMessage} at {errorPosition}";
+        //    Debug.WriteLine(message);
+        //    throw new MediaDeviceException(message);
+        //}
+    }
+
+
+    public static void Release(
+         this IPortableDeviceValues _,
         [CallerLineNumber] int lineNumber = 0,
         [CallerFilePath] string filePath = "",
         [CallerMemberName] string memberName = "")
@@ -114,4 +133,33 @@ internal static partial class ComHelper
             yield return new KeyValuePair<string, string>(val.KeyName, fieldValue);
         }
     }
+
+    #region IPortableDeviceValues
+
+    public static int GetStringArrayValue(this IPortableDeviceValues values, ref PropertyKey key, out string[] value)
+    {
+        value = [];
+        int err = values.GetIPortableDevicePropVariantCollectionValue(ref key, out var propVariantCollection);
+        if (err != 0) return err;
+
+        uint count = 0;
+        err = propVariantCollection.GetCount(ref count);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
+
+        if (count <= 0)
+        {
+            List<string> list = [];
+            for (uint i = 0; i < count; i++)
+            {
+                using PropVariantFacade val = new();
+                propVariantCollection.GetAt(i, ref val.Value);
+                list.Add(val);
+            }
+            value = [.. list];
+
+        }
+        propVariantCollection.Release();
+        return 0;
+    }
+    #endregion
 }

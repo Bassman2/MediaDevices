@@ -7,22 +7,10 @@ public class TascamDR40UnitTest : WritableUnitTest
     public TascamDR40UnitTest()
         : base("")
     {
-        // Device Select
-        this.deviceSelect = device => device.Description == this.deviceDescription;
-
-        // Deactive tests
-
-        //this.DoDownloadIconTest = false;
-
         // Device Test
         deviceDescription = "Flash Reader    ";
         deviceFriendlyName = "Samsung A40";
         deviceManufacture = "Single  ";
-
-        deviceIsHidden = true;
-        deviceContainerFunctionalObjectId = null;
-
-
         deviceFirmwareVersion = "1.00";
         deviceModel = "Flash Reader    ";
         deviceSerialNumber = "058F63356336";
@@ -31,6 +19,10 @@ public class TascamDR40UnitTest : WritableUnitTest
         deviceProtocol = "MSC:";
         deviceTransport = null;
         deviceUseDeviceStage = null;
+#if DEBUG
+        deviceIsHidden = true;
+        deviceContainerFunctionalObjectId = null;
+#endif
 
         // Capability Test
         deviceSupportedEvents = [Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];

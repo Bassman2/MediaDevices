@@ -26,16 +26,7 @@ public abstract class UnitTest
     protected string? deviceFriendlyName = null;
     protected string? deviceManufacture = null;
 
-    protected const string deviceId = "DEVICE";
-    protected const string deviceParentId = "";
     protected string? deviceName = null;
-    protected const ContentType deviceContentType = ContentType.FunctionalObject;
-    protected const string devicePersistentUniqueId = "DEVICE";
-    protected const ObjectFormat deviceObjectFormat = ObjectFormat.PropertiesOnly;
-    protected bool? deviceIsHidden = null;                                          // PhilipsUFD & TascamDR40: true
-    protected const bool deviceCanDelete = false;
-    protected string? deviceContainerFunctionalObjectId = "DEVICE";                 // PhilipsUFD & TascamDR40: null
-    protected const FunctionalCategory deviceFunctionalObjectCategory = FunctionalCategory.Device;
 
     protected string? deviceSyncPartner = null;                                     // SamsungA40: "Longhorn Sync Engine"
     protected string? deviceFirmwareVersion = null;
@@ -49,12 +40,27 @@ public abstract class UnitTest
     protected readonly string[]? deviceSupportedDrmSchemes = null;
     protected readonly bool? deviceSupportedFormatsAreOrdered = null;
     protected DeviceType? deviceDeviceType = DeviceType.Generic;
+    protected DeviceTransport? deviceTransport = DeviceTransport.USB;               // PhilipsUFD & TascamDR40: null
+    protected DeviceTransport? deviceUseDeviceStage = null;                         // CanonEosR6m2, NiconCoolpixA300 & CanonEos60D: USB
+
+#if DEBUG
+    protected const string deviceId = "DEVICE";
+    protected const string deviceParentId = "";
+    protected const ContentType deviceContentType = ContentType.FunctionalObject;
+    protected const string devicePersistentUniqueId = "DEVICE";
+    protected const ObjectFormat deviceObjectFormat = ObjectFormat.PropertiesOnly;
+
+    protected bool? deviceIsHidden = null;                                          // PhilipsUFD & TascamDR40: true
+    protected const bool deviceCanDelete = false;
+    protected string? deviceContainerFunctionalObjectId = "DEVICE";                 // PhilipsUFD & TascamDR40: null
+    protected const FunctionalCategory deviceFunctionalObjectCategory = FunctionalCategory.Device;
+
     protected readonly ulong? deviceNetworkIdentifier = null;
     protected readonly uint? deviceFunctionalUniqueId = null;
     protected readonly uint? deviceModelUniqueId = null;
-    protected DeviceTransport? deviceTransport = DeviceTransport.USB;               // PhilipsUFD & TascamDR40: null
-    protected DeviceTransport? deviceUseDeviceStage = null;                         // CanonEosR6m2, NiconCoolpixA300 & CanonEos60D: USB
+
     protected const string? deviceEdpItentifier = null;
+#endif
 
     // Device Capability Test
     protected List<Events>? deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
@@ -194,17 +200,7 @@ public abstract class UnitTest
         string? manufacture1 = device.Manufacturer;
 
         device.Connect();
-        string? id = device.Id;
-        string? parentId = device.ParentId;
         string? name = device.Name;
-        ContentType? contentType = device.ContentType;
-        string? persistentUniqueId = device.PersistentUniqueId;
-        ObjectFormat? objectFormat = device.ObjectFormat;
-        bool? isHidden = device.IsHidden;
-        bool? canDelete = device.CanDelete;
-        string? containerFunctionalObjectId = device.ContainerFunctionalObjectId;
-        FunctionalCategory? functionalObjectCategory = device.FunctionalObjectCategory;
-
         string? syncPartner = device.SyncPartner;
         string? firmwareVersion = device.FirmwareVersion;
         uint? powerLevel = device.PowerLevel ?? 0;
@@ -218,36 +214,35 @@ public abstract class UnitTest
         string[]? supportedDrmSchemes = device.SupportedDrmSchemes;
         bool? supportedFormatsAreOrdered = device.SupportedFormatsAreOrdered;
         DeviceType? deviceType = device.DeviceType;
+        DeviceTransport? transport = device.Transport;
+        DeviceTransport? useDeviceStage = device.UseDeviceStage;
+#if DEBUG
+        string? id = device.Id;
+        string? parentId = device.ParentId;
+        ContentType? contentType = device.ContentType;
+        string? persistentUniqueId = device.PersistentUniqueId;
+        ObjectFormat? objectFormat = device.ObjectFormat;
+        bool? isHidden = device.IsHidden;
+        bool? canDelete = device.CanDelete;
+        string? containerFunctionalObjectId = device.ContainerFunctionalObjectId;
+        FunctionalCategory? functionalObjectCategory = device.FunctionalObjectCategory;
         ulong? networkIdentifier = device.NetworkIdentifier;
         uint? functionalUniqueId = device.FunctionalUniqueId;
         uint? modelUniqueId = device.ModelUniqueId;
-        DeviceTransport? transport = device.Transport;
-        DeviceTransport? useDeviceStage = device.UseDeviceStage;
         string? edpItentifier = device.EdpItentifier;
+#endif
         device.Disconnect();
 
-        Assert.AreEqual(this.deviceDescription, description, nameof(deviceDescription));
-        Assert.AreEqual(this.deviceFriendlyName, friendlyName, nameof(deviceFriendlyName));
-        Assert.AreEqual(this.deviceManufacture, manufacture1, nameof(deviceManufacture) + " 1");
-
-
-        Assert.AreEqual(deviceId, id, nameof(deviceId));
-        Assert.AreEqual(deviceParentId, parentId, nameof(deviceParentId));
+        Assert.AreEqual(deviceDescription, description, nameof(deviceDescription));
+        Assert.AreEqual(deviceFriendlyName, friendlyName, nameof(deviceFriendlyName));
+        Assert.AreEqual(deviceManufacture, manufacture1, nameof(deviceManufacture) + " 1");
         Assert.AreEqual(deviceName, name, nameof(deviceName));
-        Assert.AreEqual(deviceContentType, contentType, nameof(deviceContentType));
-        Assert.AreEqual(devicePersistentUniqueId, persistentUniqueId, nameof(devicePersistentUniqueId));
-        Assert.AreEqual(deviceObjectFormat, objectFormat, nameof(deviceObjectFormat));
-        Assert.AreEqual(deviceIsHidden, isHidden, nameof(deviceIsHidden));
-        Assert.AreEqual(deviceCanDelete, canDelete, nameof(deviceCanDelete));
-        Assert.AreEqual(deviceContainerFunctionalObjectId, containerFunctionalObjectId, nameof(deviceContainerFunctionalObjectId));
-        Assert.AreEqual(deviceFunctionalObjectCategory, functionalObjectCategory, nameof(deviceFunctionalObjectCategory));
-
         Assert.AreEqual(deviceSyncPartner, syncPartner, nameof(deviceSyncPartner));
         Assert.AreEqual(deviceFirmwareVersion, firmwareVersion, nameof(deviceFirmwareVersion));
         Assert.AreEqual(devicePowerLevelHasValue, powerLevel.HasValue, nameof(devicePowerLevelHasValue)); // value changes
         Assert.AreEqual(devicePowerSource, powerSource, nameof(devicePowerSource));
         Assert.AreEqual(deviceProtocol, protocol, nameof(deviceProtocol));
-        Assert.AreEqual(this.deviceManufacture, manufacture2, nameof(deviceManufacture) + " 2");
+        Assert.AreEqual(deviceManufacture, manufacture2, nameof(deviceManufacture) + " 2");
         Assert.AreEqual(deviceModel, model, nameof(deviceModel));
         Assert.AreEqual(deviceSerialNumber, serialNumber, nameof(deviceSerialNumber));
         Assert.AreEqual(deviceSupportsNonConsumable, supportsNonConsumable, nameof(deviceSupportsNonConsumable));
@@ -255,12 +250,23 @@ public abstract class UnitTest
         Assert.AreSequenceEqual(deviceSupportedDrmSchemes, supportedDrmSchemes, SequenceOrder.InAnyOrder, nameof(deviceSupportedDrmSchemes));
         Assert.AreEqual(deviceSupportedFormatsAreOrdered, supportedFormatsAreOrdered, nameof(deviceSupportedFormatsAreOrdered));
         Assert.AreEqual(deviceDeviceType, deviceType, nameof(deviceDeviceType));
+        Assert.AreEqual(deviceTransport, transport, nameof(deviceTransport));
+        Assert.AreEqual(deviceUseDeviceStage, useDeviceStage, nameof(deviceUseDeviceStage));
+#if DEBUG
+        Assert.AreEqual(deviceId, id, nameof(deviceId));
+        Assert.AreEqual(deviceParentId, parentId, nameof(deviceParentId));
+        Assert.AreEqual(deviceContentType, contentType, nameof(deviceContentType));
+        Assert.AreEqual(devicePersistentUniqueId, persistentUniqueId, nameof(devicePersistentUniqueId));
+        Assert.AreEqual(deviceObjectFormat, objectFormat, nameof(deviceObjectFormat));
+        Assert.AreEqual(deviceIsHidden, isHidden, nameof(deviceIsHidden));
+        Assert.AreEqual(deviceCanDelete, canDelete, nameof(deviceCanDelete));
+        Assert.AreEqual(deviceContainerFunctionalObjectId, containerFunctionalObjectId, nameof(deviceContainerFunctionalObjectId));
+        Assert.AreEqual(deviceFunctionalObjectCategory, functionalObjectCategory, nameof(deviceFunctionalObjectCategory));
         Assert.AreEqual(deviceNetworkIdentifier, networkIdentifier, nameof(deviceNetworkIdentifier));
         Assert.AreEqual(deviceFunctionalUniqueId, functionalUniqueId, nameof(deviceFunctionalUniqueId));
         Assert.AreEqual(deviceModelUniqueId, modelUniqueId, nameof(deviceModelUniqueId));
-        Assert.AreEqual(deviceTransport, transport, nameof(deviceTransport));
-        Assert.AreEqual(deviceUseDeviceStage, useDeviceStage, nameof(deviceUseDeviceStage));
         Assert.AreEqual(deviceEdpItentifier, edpItentifier, nameof(deviceEdpItentifier));
+#endif
 
         Trace.WriteLine($"DateTime: {dateTime}");
     }
@@ -390,7 +396,7 @@ public abstract class UnitTest
         Assert.AreSequenceEqual(this.deviceDrives, volumeLabels, SequenceOrder.InAnyOrder, nameof(volumeLabels));
     }
 
-    #endregion
+#endregion
 
     #region Service Tests
 
