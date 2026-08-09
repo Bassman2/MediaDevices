@@ -12,6 +12,8 @@ Version 2 has been completely rewritten to support the following features:
 
 * Uses generated COM and LibraryImport
 
+* Async support
+
 Older .NET versions prior to 8.0 are no longer supported, as they do not support these new features.
 
 ## Download

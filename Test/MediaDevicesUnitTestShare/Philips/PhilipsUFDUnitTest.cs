@@ -13,9 +13,6 @@ public class PhilipsUFDUnitTest : WritableUnitTest
         deviceFriendlyName = "PHILIPS UFD";
         deviceManufacture = "        ";
 
-        deviceIsHidden = true;
-        deviceContainerFunctionalObjectId = null;
-
         deviceFirmwareVersion = "    ";
         devicePowerSource = PowerSource.External;
         deviceProtocol = "MSC:";
@@ -24,6 +21,10 @@ public class PhilipsUFDUnitTest : WritableUnitTest
         deviceSupportsNonConsumable = null;
         deviceTransport = null;
         deviceUseDeviceStage = null;
+#if DEBUG
+        deviceIsHidden = true;
+        deviceContainerFunctionalObjectId = null;
+#endif
 
         // Capability Test
         deviceSupportedEvents = [Events.ObjectAdded, Events.ObjectRemoved, Events.ObjectUpdated];

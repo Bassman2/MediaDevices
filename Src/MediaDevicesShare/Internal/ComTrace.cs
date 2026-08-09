@@ -24,7 +24,7 @@ internal static class ComTrace
         ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
 
         string caller = $"{filePath} ({lineNumber}) {memberName}";
-        Trace.WriteLine($"############################### {caller}");
+        Debug.WriteLine($"############################### {caller}");
         uint num = 0;
 
         int err = values.GetCount(ref num);
@@ -63,10 +63,10 @@ internal static class ComTrace
             {
             case PropVariantType.VT_CLSID:
                 // TODO
-                Trace.WriteLine($"##### {val.KeyName} = {val.ToDebugString()}"); // FindGuidField(val.ToGuid())?.Name ?? val.ToString()}");
+                Debug.WriteLine($"##### {val.KeyName} = {val.ToDebugString()}"); // FindGuidField(val.ToGuid())?.Name ?? val.ToString()}");
                 break;
             default:
-                Trace.WriteLine($"##### {val.KeyName} = {val.ToDebugString()}");
+                Debug.WriteLine($"##### {val.KeyName} = {val.ToDebugString()}");
                 break;
             }
         }
@@ -96,7 +96,7 @@ internal static class ComTrace
         ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
 
         string caller = $"{filePath} ({lineNumber}) {memberName}";
-        Trace.WriteLine($"############################### {caller}");
+        Debug.WriteLine($"############################### {caller}");
 
         deviceProperties.GetSupportedProperties(objectId, out IPortableDeviceKeyCollection keys);
 
@@ -126,7 +126,7 @@ internal static class ComTrace
         ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
 
         string caller = $"{filePath} ({lineNumber}) {memberName}";
-        Trace.WriteLine($"############################### {caller}");
+        Debug.WriteLine($"############################### {caller}");
         uint num = 0;
         collection.GetCount(ref num);
         for (uint index = 0; index < num; index++)
@@ -134,7 +134,7 @@ internal static class ComTrace
             using PropVariantFacade val = new();
             collection.GetAt(index, ref val.Value);
 
-            Trace.WriteLine($"##### {val.ToDebugString()}");
+            Debug.WriteLine($"##### {val.ToDebugString()}");
 
         }
     }
@@ -160,7 +160,7 @@ internal static class ComTrace
     {
         ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
 
-        Trace.WriteLine("###############################");
+        Debug.WriteLine("###############################");
         uint num = 0;
         collection.GetCount(ref num);
         for (uint index = 0; index < num; index++)
@@ -172,7 +172,7 @@ internal static class ComTrace
 
             PropertyKeys propertyKey = key.FindPropertyKeysEnum();
 
-            Trace.WriteLine($"##### {propertyKey}");
+            Debug.WriteLine($"##### {propertyKey}");
         }
     }
 
@@ -199,6 +199,6 @@ internal static class ComTrace
     //public static void WriteError(int error, string interf, string function)
     //{
     //    string errorMessage = Marshal.GetExceptionForHR(error)?.Message ?? "unknown error";  //new Win32Exception(error).Message;
-    //    Trace.WriteLine($"COM Error in {interf}.{function}: {errorMessage}");
+    //    Debug.WriteLine($"COM Error in {interf}.{function}: {errorMessage}");
     //}
 }

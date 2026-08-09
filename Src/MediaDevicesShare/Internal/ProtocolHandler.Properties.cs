@@ -8,21 +8,20 @@ partial class ProtocolHandler
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        //IPortableDeviceValues devInValues = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
-
         IPortableDeviceValues devInValues = ComHelper.CreateInstance<IPortableDeviceValues>();
-
-        //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out var devInValues);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
-
-
         devInValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value!);
-        mediaDevice.deviceProperties!.SetValues(Item.RootId, devInValues, out IPortableDeviceValues _);
+        
+        int err = mediaDevice.deviceProperties!.SetValues(Item.RootId, devInValues, out IPortableDeviceValues _);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.SetValues));
 
         // reload mediaDevice values with new friendly name 
-        mediaDevice.deviceProperties.GetValues(Item.RootId, null, out mediaDevice.deviceValues);
+        err = mediaDevice.deviceProperties.GetValues(Item.RootId, null, out mediaDevice.deviceValues);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
-        return mediaDevice.deviceValues!.GetStringValue(WPD.DEVICE_FRIENDLY_NAME);
+        err = mediaDevice.deviceValues!.GetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, out string name);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
+
+        return name;
     }
 
     #endregion

@@ -4,7 +4,7 @@
 [DebuggerDisplay("{this.Type} - {this.Name} - {this.Id}")]
 internal class Item
 {
-    
+    private const int OK = 0;
     //static Item()
     //{
     //    // TODO must do inside main worker
@@ -280,7 +280,7 @@ internal class Item
         err = values.GetCount(ref num);
         if (err < 0)
         {
-            Trace.TraceError($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
+            Debug.WriteLine($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
             return;
         }
         for (uint i = 0; i < num; i++)
@@ -290,7 +290,7 @@ internal class Item
             err = values.GetAt(i, ref val.Key, ref val.Value);
             if (err < 0)
             {
-                Trace.TraceError($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
+                Debug.WriteLine($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
                 continue;
             }
             if (val.Key.fmtid == WPD.OBJECT_PROPERTIES_V1)
@@ -409,7 +409,7 @@ internal class Item
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
         if (enumerator == null) 
         {
-            Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
+            Debug.WriteLine("IPortableDeviceContent.EnumObjects failed");
             yield break;
         }
 
@@ -458,7 +458,7 @@ internal class Item
         //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
         if (enumerator == null) 
         {
-            Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
+            Debug.WriteLine("IPortableDeviceContent.EnumObjects failed");
             yield break; 
         }
 
@@ -780,18 +780,16 @@ internal class Item
 
         err = this.mediaDevice.deviceProperties!.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.SetValues));
-        
-        if (result.TryGetStringValue(WPD.OBJECT_ORIGINAL_FILE_NAME, out string check))
+
+        err = result.GetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, out string check);
+        if (err == OK && check == "Error: S_OK")
         {
-            if (check == "Error: S_OK")
-            {
-                // id can change on rename (e.g. Amazon Kindle Paperwhite) so find new one
-                var newItem = this.parent!.GetChildren().FirstOrDefault(i => EqualsName(i.Name, newName, mediaDevice.IsCaseSensitive));
-                this.Id = newItem!.Id;
-                
-                Refresh();
-                return true;
-            }
+            // id can change on rename (e.g. Amazon Kindle Paperwhite) so find new one
+            var newItem = this.parent!.GetChildren().FirstOrDefault(i => EqualsName(i.Name, newName, mediaDevice.IsCaseSensitive));
+            this.Id = newItem!.Id;
+
+            Refresh();
+            return true;
         }
         return false;
     }
