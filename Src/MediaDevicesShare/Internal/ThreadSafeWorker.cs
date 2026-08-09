@@ -37,7 +37,7 @@ internal sealed class ThreadSafeWorker : IDisposable
 
     private void WorkLoop()
     {
-        Trace.TraceInformation($"WorkLoop Apartment: {Thread.CurrentThread.GetApartmentState()}");
+        Debug.WriteLine($"WorkLoop Apartment: {Thread.CurrentThread.GetApartmentState()}");
         foreach (var action in queue.GetConsumingEnumerable())
         {
             try { action(); }

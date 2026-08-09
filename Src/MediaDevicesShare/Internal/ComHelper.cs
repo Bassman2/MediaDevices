@@ -52,11 +52,34 @@ internal static partial class ComHelper
             string errorMessage = Marshal.GetExceptionForHR(err)?.Message ?? "unknown error";
             string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
             string message = $"COM Error 0x{err:x8} in PropVariantClear {errorMessage} at {errorPosition}";
-            Trace.WriteLine(message);
+            Debug.WriteLine(message);
             throw new MediaDeviceException(message);
         }
     }
 
+    
+        public static void Release(
+        this IPortableDeviceValues deviceValues,
+        [CallerLineNumber] int lineNumber = 0,
+        [CallerFilePath] string filePath = "",
+        [CallerMemberName] string memberName = "")
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
+        
+        // TODO
+        ////Marshal.GetObjectForIUnknown(deviceValues);
+        //object obj = deviceValues;
+        ////int err = Marshal.ReleaseComObject(obj);
+        //int err = Marshal.FinalReleaseComObject(obj);
+        //if (err < 0)
+        //{
+        //    string errorMessage = Marshal.GetExceptionForHR(err)?.Message ?? "unknown error";
+        //    string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
+        //    string message = $"COM Error 0x{err:x8} in ReleaseComObject {errorMessage} at {errorPosition}";
+        //    Debug.WriteLine(message);
+        //    throw new MediaDeviceException(message);
+        //}
+    }
 
     private partial class NativeMethods
     {
@@ -106,16 +129,16 @@ internal static partial class ComHelper
     //    value = null;
     //    return false;
     //}
-    public static DateTime? GetDateTimeValue(this IPortableDeviceValues values, PropertyKey key)
-    {
-        if (values.HasKeyValue(key))
-        {
-            using PropVariantFacade val = new();
-            values.GetValue(ref key, out val.Value);
-            return val.ToDate();
-        }
-        return null;
-    }
+    //public static DateTime? GetDateTimeValue(this IPortableDeviceValues values, PropertyKey key)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        using PropVariantFacade val = new();
+    //        values.GetValue(ref key, out val.Value);
+    //        return val.ToDate();
+    //    }
+    //    return null;
+    //}
 
     //public static bool TryGetDateTimeValue(this IPortableDeviceValues values, PropertyKey key, out DateTime? value)
     //{
@@ -151,100 +174,100 @@ internal static partial class ComHelper
         return false;            
     }
 
-    public static bool TryGetGuidValue(this IPortableDeviceValues values, PropertyKey key, out Guid value)
-    {
-        if (values.HasKeyValue(key))
-        {
-            values.GetGuidValue(ref key, out value);
-            return true;
-        }
-        value = Guid.Empty;
-        return false;
-    }
+    //public static bool TryGetGuidValue(this IPortableDeviceValues values, PropertyKey key, out Guid value)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        values.GetGuidValue(ref key, out value);
+    //        return true;
+    //    }
+    //    value = Guid.Empty;
+    //    return false;
+    //}
 
-    public static bool? GetBoolValue(this IPortableDeviceValues values, PropertyKey key)
-    {
-        if (values.HasKeyValue(key))
-        {
-            values.GetBoolValue(ref key, out int val);
-            return val != 0;
-        }
-        return null;
-    }
-    public static bool TryGetBoolValue(this IPortableDeviceValues values, PropertyKey key, out bool value)
-    {
-        if (values.HasKeyValue(key))
-        {
-            values.GetBoolValue(ref key, out int val);
-            value = val != 0;
-            return true;
-        }
-        value = false;
-        return false;
-    }
+    //public static bool? GetBoolValue(this IPortableDeviceValues values, PropertyKey key)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        values.GetBoolValue(ref key, out int val);
+    //        return val != 0;
+    //    }
+    //    return null;
+    //}
+    //public static bool TryGetBoolValue(this IPortableDeviceValues values, PropertyKey key, out bool value)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        values.GetBoolValue(ref key, out int val);
+    //        value = val != 0;
+    //        return true;
+    //    }
+    //    value = false;
+    //    return false;
+    //}
 
-    public static uint? GetUnsignedIntegerValue(this IPortableDeviceValues values, PropertyKey key)
-    {
-        if (values.HasKeyValue(key))
-        {
-            values.GetUnsignedIntegerValue(ref key, out uint value);
-            return value;
-        }
-        return null;
-    }
+    //public static uint? GetUnsignedIntegerValue(this IPortableDeviceValues values, PropertyKey key)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        values.GetUnsignedIntegerValue(ref key, out uint value);
+    //        return value;
+    //    }
+    //    return null;
+    //}
 
-    public static bool TryGetUnsignedIntegerValue(this IPortableDeviceValues values, PropertyKey key, out uint value)
-    {
-        if (values.HasKeyValue(key))
-        {
-            values.GetUnsignedIntegerValue(ref key, out value);
-            return true;
-        }
-        value = 0;
-        return false;
-    }
+    //public static bool TryGetUnsignedIntegerValue(this IPortableDeviceValues values, PropertyKey key, out uint value)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        values.GetUnsignedIntegerValue(ref key, out value);
+    //        return true;
+    //    }
+    //    value = 0;
+    //    return false;
+    //}
 
-    public static ulong? GetUnsignedLargeIntegerValue(this IPortableDeviceValues values, PropertyKey key)
-    {
-        if (values.HasKeyValue(key))
-        {
-            values.GetUnsignedLargeIntegerValue(ref key, out ulong value);
-            return value;
-        }
-        return null;
-    }
+    //public static ulong? GetUnsignedLargeIntegerValue(this IPortableDeviceValues values, PropertyKey key)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        values.GetUnsignedLargeIntegerValue(ref key, out ulong value);
+    //        return value;
+    //    }
+    //    return null;
+    //}
 
-    public static bool TryGetUnsignedLargeIntegerValue(this IPortableDeviceValues values, PropertyKey key, out ulong value)
-    {
-        if (values.HasKeyValue(key))
-        {
-            values.GetUnsignedLargeIntegerValue(ref key, out value);
-            return true;
-        }
-        value = 0;
-        return false;
-    }
+    //public static bool TryGetUnsignedLargeIntegerValue(this IPortableDeviceValues values, PropertyKey key, out ulong value)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        values.GetUnsignedLargeIntegerValue(ref key, out value);
+    //        return true;
+    //    }
+    //    value = 0;
+    //    return false;
+    //}
 
-    public static int? GetSignedIntegerValue(this IPortableDeviceValues values, PropertyKey key)
-    {
-        if (values.HasKeyValue(key))
-        {
-            values.GetSignedIntegerValue(ref key, out int value);
-            return value;
-        }
-        return null;
-    }
+    //public static int? GetSignedIntegerValue(this IPortableDeviceValues values, PropertyKey key)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        values.GetSignedIntegerValue(ref key, out int value);
+    //        return value;
+    //    }
+    //    return null;
+    //}
 
-    public static bool TryGetSignedIntegerValue(this IPortableDeviceValues values, PropertyKey key, out int value)
-    {
-        if (values.HasKeyValue(key))
-        {
-            values.GetSignedIntegerValue(ref key, out value);
-            return true;
-        }
-        value = 0;
-        return false;
-    }
+    //public static bool TryGetSignedIntegerValue(this IPortableDeviceValues values, PropertyKey key, out int value)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        values.GetSignedIntegerValue(ref key, out value);
+    //        return true;
+    //    }
+    //    value = 0;
+    //    return false;
+    //}
 
     //public static bool TryGetIUnknownValue(this IPortableDeviceValues values, PropertyKey key, out object value)
     //{
@@ -257,29 +280,29 @@ internal static partial class ComHelper
     //    return false;
     //}
 
-    public static byte[]? GetByteArrayValue(this IPortableDeviceValues values, PropertyKey key)
-    {
-        if (values.HasKeyValue(key))
-        {
-            using PropVariantFacade val = new();
-            values.GetValue(ref key, out val.Value);
-            return val.ToByteArray();
-        }
-        return null;
-    }
+    //public static byte[]? GetByteArrayValue(this IPortableDeviceValues values, PropertyKey key)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        using PropVariantFacade val = new();
+    //        values.GetValue(ref key, out val.Value);
+    //        return val.ToByteArray();
+    //    }
+    //    return null;
+    //}
 
-    public static bool TryByteArrayValue(this IPortableDeviceValues values, PropertyKey key, out byte[]? value)
-    {
-        if (values.HasKeyValue(key))
-        {
-            using PropVariantFacade val = new();
-            values.GetValue(ref key, out val.Value);
-            value = val.ToByteArray();
-            return true;
-        }
-        value = null;
-        return false;
-    }
+    //public static bool TryByteArrayValue(this IPortableDeviceValues values, PropertyKey key, out byte[]? value)
+    //{
+    //    if (values.HasKeyValue(key))
+    //    {
+    //        using PropVariantFacade val = new();
+    //        values.GetValue(ref key, out val.Value);
+    //        value = val.ToByteArray();
+    //        return true;
+    //    }
+    //    value = null;
+    //    return false;
+    //}
 
     //private static class NativeMethods
     //{

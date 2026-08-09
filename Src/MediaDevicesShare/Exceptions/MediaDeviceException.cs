@@ -24,7 +24,7 @@ public class MediaDeviceException(string message) : Exception(message)
     //        string errorMessage = Marshal.GetExceptionForHR(errorCode)?.Message ?? "unknown error";
     //        string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
     //        string message = $"COM Error 0x{errorCode:x8} in CoCreateInstance {interf}: {errorMessage} at {errorPosition}";
-    //        Trace.WriteLine(message);
+    //        Debug.WriteLine(message);
     //        Throw(message);
     //    }
     //}
@@ -49,7 +49,7 @@ public class MediaDeviceException(string message) : Exception(message)
             string errorMessage = Marshal.GetExceptionForHR(errorCode)?.Message ?? "unknown error";
             string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
             string message = $"COM Error 0x{errorCode:x8} in {interf}.{function}: {errorMessage} at {errorPosition}";
-            Trace.WriteLine(message);
+            Debug.WriteLine(message);
             Throw(message);
         }
     }
@@ -76,7 +76,7 @@ public class MediaDeviceException(string message) : Exception(message)
             string errorMessage = Marshal.GetExceptionForHR(errorCode)?.Message ?? "unknown error";
             string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
             string message = $"COM Error 0x{errorCode:x8} in {interf}.{function} with {parameter}: {errorMessage} at {errorPosition}";
-            Trace.WriteLine(message);
+            Debug.WriteLine(message);
             Throw(message);
         }
     }
@@ -95,7 +95,7 @@ public class MediaDeviceException(string message) : Exception(message)
             string errorMessage = Marshal.GetExceptionForHR(errorCode)?.Message ?? "unknown error";
             string errorPosition = $"{filePath} ({lineNumber}) {memberName}";
             string message = $"COM Error 0x{errorCode:x8} in {interf}.{function} for {item.FullName}: {errorMessage} at {errorPosition}";
-            Trace.WriteLine(message);
+            Debug.WriteLine(message);
             Throw(message);
         }
     }

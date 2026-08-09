@@ -14,9 +14,6 @@ internal static partial class ProtocolHandler
 
         IPortableDeviceManager deviceManager = ComHelper.CreateInstance<IPortableDeviceManager>();
 
-        //int err = ComHelper.CreateInstance<IPortableDeviceManager>(ref CLSID.PortableDeviceManager, out IPortableDeviceManager? deviceManager);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager));
-
         intDeviceManager = deviceManager!;
         intServiceManager = (IPortableDeviceServiceManager)intDeviceManager;
 
@@ -84,9 +81,7 @@ internal static partial class ProtocolHandler
 
         // set open mediaDevice parameters
         var clientInfo = ComHelper.CreateInstance<IPortableDeviceValues>();
-        
-        //IPortableDeviceValues clientInfo = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues);
-        //(IPortableDeviceValues) new PortableDeviceValues();
+                
         int err = clientInfo.SetStringValue(ref WPD.CLIENT_NAME, appName);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "CLIENT_NAME");
 
@@ -123,6 +118,9 @@ internal static partial class ProtocolHandler
         // open mediaDevice
         err = mediaDevice.device.Open(deviceId, clientInfo);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Open));
+
+        clientInfo.Release();
+
         err = mediaDevice.device.Capabilities(out mediaDevice.deviceCapabilities);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Capabilities));
         err = mediaDevice.device.Content(out mediaDevice.deviceContent);

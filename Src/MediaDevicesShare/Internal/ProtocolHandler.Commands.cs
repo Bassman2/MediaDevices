@@ -99,30 +99,17 @@ partial class ProtocolHandler
         return cmd.Send(mediaDevice.device!);
     }
 
-    internal static Events CallEvent(MediaDevice mediaDevice, IPortableDeviceValues eventParameters)
-    {
-        //return Invoke(() =>
-        //{
-        //ComTrace.WriteObject(eventParameters);
-        eventParameters.GetGuidValue(ref WPD.EVENT_PARAMETER_EVENT_ID, out Guid eventGuid);
-
-        //Events eventEnum = eventGuid.GetEnumFromAttrGuid<Events>();
-        return eventGuid.FindEventsEnum();
-        //});
-    }
+    //internal static Events CallEvent(MediaDevice mediaDevice, IPortableDeviceValues eventParameters)
+    //{
+    //    eventParameters.GetGuidValue(ref WPD.EVENT_PARAMETER_EVENT_ID, out Guid eventGuid);
+    //    return eventGuid.FindEventsEnum();
+    //}
     
     public static MediaStorageInfo? GetStorageInfo(MediaDevice mediaDevice, string storageObjectId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
-
-        //IPortableDeviceKeyCollection keys = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection);
-
-        //int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keys);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
-
+        
         IPortableDeviceKeyCollection keys = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
-
-
         keys.Add(ref WPD.STORAGE_TYPE);
         keys.Add(ref WPD.STORAGE_FILE_SYSTEM_TYPE);
         keys.Add(ref WPD.STORAGE_CAPACITY);
@@ -138,9 +125,56 @@ partial class ProtocolHandler
 
         int err = mediaDevice.deviceProperties!.GetSupportedProperties(storageObjectId, out IPortableDeviceKeyCollection ppKeys);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetSupportedProperties), storageObjectId);
+       
         ComTrace.WriteObjectIntern(ppKeys);
-        mediaDevice.deviceProperties.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
+        
+        err = mediaDevice.deviceProperties.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), storageObjectId);
 
+
+
+        if (values.GetUnsignedIntegerValue(ref WPD.STORAGE_TYPE, out uint type) == OK)
+        {
+            info.Type = (StorageType)type;
+        }
+        if (values.GetStringValue(ref WPD.STORAGE_FILE_SYSTEM_TYPE, out string fileSystemType) == OK)
+        {
+            info.FileSystemType = fileSystemType;
+        }
+        if (values.GetUnsignedLargeIntegerValue(ref WPD.STORAGE_CAPACITY, out ulong capacity) == OK)
+        {
+            info.Capacity = capacity;
+        }
+        if (values.GetUnsignedLargeIntegerValue(ref WPD.STORAGE_FREE_SPACE_IN_BYTES, out ulong freeBytes) == OK)
+        {
+            info.FreeSpaceInBytes = freeBytes;
+        }
+        if (values.GetUnsignedLargeIntegerValue(ref WPD.STORAGE_FREE_SPACE_IN_OBJECTS, out ulong freeObjects) == OK)
+        {
+            info.FreeSpaceInObjects = freeObjects;
+        }
+        if (values.GetStringValue(ref WPD.STORAGE_DESCRIPTION, out string description) == OK)
+        {
+            info.Description = description;
+        }
+        if (values.GetStringValue(ref WPD.STORAGE_SERIAL_NUMBER, out string serialNumber) == OK)
+        {
+            info.SerialNumber = serialNumber;
+        }
+        if (values.GetUnsignedLargeIntegerValue(ref WPD.STORAGE_MAX_OBJECT_SIZE, out ulong maxObjectSize) == OK)
+        {
+            info.MaxObjectSize = maxObjectSize;
+        }
+        if (values.GetUnsignedLargeIntegerValue(ref WPD.STORAGE_CAPACITY_IN_OBJECTS, out ulong capacityInObjects) == OK)
+        {
+            info.CapacityInObjects = capacityInObjects;
+        }
+        if (values.GetUnsignedIntegerValue(ref WPD.STORAGE_ACCESS_CAPABILITY, out uint accessCapability) == OK)
+        {
+            info.AccessCapability = (StorageAccessCapability)accessCapability;
+        }
+
+        /*
         values.TryGetUnsignedIntegerValue(WPD.STORAGE_TYPE, out uint type);
         info.Type = (StorageType)type;
 
@@ -170,6 +204,7 @@ partial class ProtocolHandler
 
         values.TryGetUnsignedIntegerValue(WPD.STORAGE_ACCESS_CAPABILITY, out uint accessCapability);
         info.AccessCapability = (StorageAccessCapability)accessCapability;
+        */
 
         return info;
     }

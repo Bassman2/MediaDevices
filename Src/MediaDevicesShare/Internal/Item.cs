@@ -280,7 +280,7 @@ internal class Item
         err = values.GetCount(ref num);
         if (err < 0)
         {
-            Trace.TraceError($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
+            Debug.WriteLine($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
             return;
         }
         for (uint i = 0; i < num; i++)
@@ -290,7 +290,7 @@ internal class Item
             err = values.GetAt(i, ref val.Key, ref val.Value);
             if (err < 0)
             {
-                Trace.TraceError($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
+                Debug.WriteLine($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
                 continue;
             }
             if (val.Key.fmtid == WPD.OBJECT_PROPERTIES_V1)
@@ -409,7 +409,7 @@ internal class Item
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
         if (enumerator == null) 
         {
-            Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
+            Debug.WriteLine("IPortableDeviceContent.EnumObjects failed");
             yield break;
         }
 
@@ -458,7 +458,7 @@ internal class Item
         //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
         if (enumerator == null) 
         {
-            Trace.WriteLine("IPortableDeviceContent.EnumObjects failed");
+            Debug.WriteLine("IPortableDeviceContent.EnumObjects failed");
             yield break; 
         }
 

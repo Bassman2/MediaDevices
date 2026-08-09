@@ -205,7 +205,7 @@ internal static partial class ProtocolHandler
         }
         catch (Exception ex)
         {
-            Trace.WriteLine($"{ex.Message} for {item.GetPath()}");
+            Debug.WriteLine($"{ex.Message} for {item.GetPath()}");
             if (!ignoreExceptions)
             {
                 throw;
@@ -319,7 +319,7 @@ internal static partial class ProtocolHandler
     //    }
     //    catch (Exception ex)
     //    {
-    //        Trace.WriteLine($"{ex.Message} for {fi.DirectoryName}");
+    //        Debug.WriteLine($"{ex.Message} for {fi.DirectoryName}");
     //        if (!ignoreExceptions)
     //        {
     //            throw;
@@ -343,7 +343,7 @@ internal static partial class ProtocolHandler
         }
         catch (Exception ex)
         {
-            Trace.WriteLine($"{ex.Message} for {fi.DirectoryName}");
+            Debug.WriteLine($"{ex.Message} for {fi.DirectoryName}");
             if (!ignoreExceptions)
             {
                 throw;

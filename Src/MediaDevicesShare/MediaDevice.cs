@@ -80,7 +80,7 @@ public sealed partial class MediaDevice : IDisposable
     //    }
     //    catch (Exception ex)
     //    {
-    //        Trace.TraceError(ex.ToString());
+    //        Debug.WriteLine(ex.ToString());
     //    }
 
     //    // #define WMDM_E_NOTCERTIFIED                     0x80045005L
