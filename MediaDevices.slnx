@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Demo/">
     <Project Path="Demo/MediaDevicesDemo/MediaDevicesDemo.csproj" Id="4cd36a94-667d-4c00-9f56-66e1775face7" />
+    <Project Path="Demo/PictureImport/PictureImport.csproj" />
   </Folder>
   <Folder Name="/Generator/">
     <Project Path="Generator/FindGenerator/FindGenerator.csproj" />

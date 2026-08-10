@@ -672,9 +672,12 @@ internal class Item
         err = resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out var res);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream), Path.Combine(path!, name!));
 
-        // TODO
-        IStream wpdStream = (IStream)res;
-        return new StreamWrapper(wpdStream, this.Size);
+        // TODO XXXXXXXX
+
+        //IStream wpdStream = (IStream)res;
+        //return new StreamWrapper(wpdStream, this.Size);
+
+        return new StreamWrapper(res, this.Size);
     }
 
     internal Stream OpenReadThumbnail()

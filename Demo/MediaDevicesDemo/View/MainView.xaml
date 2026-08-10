@@ -43,11 +43,11 @@
             </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
-            <!--<ToolBar>
-                <Button Command="{Binding CheckGroupsCommand}" Content="{StaticResource taskImage}" ToolTip="Check Groups"/>
-                <Button Command="{Binding ExportGraphCommand}" Content="{StaticResource graphImage}" ToolTip="Create Graph"/>
-                <Separator/>
+            <ToolBar>
+                <Button Command="{Binding UpdateDevicesCommand}" Content="{StaticResource infoImage}" ToolTip="Check Groups"/>
+                <ComboBox SelectedItem="{Binding SelectedDevice}" ItemsSource="{Binding Devices}" DisplayMemberPath="Description" Width="160"/>
             </ToolBar>
+            <!--
             <ToolBar ItemsSource="{Binding Documentations}">
                 <ToolBar.ItemTemplate>
                     <DataTemplate>
@@ -86,7 +86,9 @@
             <TabItem Header="Capabilities">
                 <local:DeviceCapabilityView/>
             </TabItem>
-            
+            <TabItem Header="Vendor">
+                <local:DeviceVendorView/>
+            </TabItem>
         </TabControl>
 
     </DockPanel>
