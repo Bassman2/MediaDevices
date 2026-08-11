@@ -669,15 +669,10 @@ internal class Item
         
         uint optimalTransferSize = 0;
 
-        err = resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out var res);
+        err = resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out var iStream);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream), Path.Combine(path!, name!));
 
-        // TODO XXXXXXXX
-
-        //IStream wpdStream = (IStream)res;
-        //return new StreamWrapper(wpdStream, this.Size);
-
-        return new StreamWrapper(res, this.Size);
+        return new StreamWrapper(iStream, this.Size);
     }
 
     internal Stream OpenReadThumbnail()
@@ -688,15 +683,14 @@ internal class Item
 
         uint optimalTransferSize = 0;
 
-        int err = resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out var res); // IStream wpdStream);
+        int err = resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out var iStream); 
         if (err == (int)ErrorCodes.ResourceNotAvailable)
         {
             throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading thumbnails.");
         }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
-
-        IStream wpdStream = (IStream)res;
-        return new StreamWrapper(wpdStream, this.Size);
+                
+        return new StreamWrapper(iStream, this.Size);
     }
 
     internal Stream OpenReadIcon()
@@ -707,7 +701,7 @@ internal class Item
 
         uint optimalTransferSize = 0;
 
-        int err = resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out var res);
+        int err = resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out var iStream);
         if (err == (int)ErrorCodes.ResourceNotAvailable)
         {
             throw new NotSupportedException($"The device {mediaDevice.Description} does not support reading icons.");
@@ -718,10 +712,7 @@ internal class Item
         }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
 
-        IStream wpdStream = (IStream)res;
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream));
-
-        return new StreamWrapper(wpdStream, this.Size);
+        return new StreamWrapper(iStream, this.Size);
     }
 
     internal void UploadFile(string fileName, Stream stream, DateTime dateCreated, DateTime dateModified, DateTime dateAuthored)
@@ -763,10 +754,10 @@ internal class Item
 
         uint num = 0u;
         string text = string.Empty;
-        err = this.mediaDevice.deviceContent!.CreateObjectWithPropertiesAndData(portableDeviceValues, out IStream wpdStream, ref num, ref text);
+        err = this.mediaDevice.deviceContent!.CreateObjectWithPropertiesAndData(portableDeviceValues, out var iStream, ref num, ref text);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.CreateObjectWithPropertiesAndData));
         
-        using var destinationStream = new StreamWrapper(wpdStream);
+        using var destinationStream = new StreamWrapper(iStream);
         stream.CopyTo(destinationStream);
         destinationStream.Flush();
     }

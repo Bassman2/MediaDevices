@@ -21,7 +21,10 @@ internal partial interface IPortableDeviceResources
         ref PropertyKey key, 
         uint dwMode, 
         ref uint pdwOptimalBufferSize,
-        [MarshalAs(UnmanagedType.Interface)] out /*IStream*/ object ppStream);
+
+        // TODO Test
+        //[MarshalAs(UnmanagedType.Interface)] out /*IStream*/ object ppStream);
+        [MarshalAs(UnmanagedType.Interface)] out IStream ppStream);
 
     [PreserveSig]
     int Delete(

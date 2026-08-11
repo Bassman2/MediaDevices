@@ -24,32 +24,33 @@ internal sealed class StreamWrapper : Stream
     {
         if (disposing)
         {
-            try
-            {
-                ComObject comObject = (ComObject)obj;
-                comObject.FinalRelease();
+            //Marshal.Release(stream);
+            //try
+            //{
+            //    ComObject comObject = (ComObject)obj;
+            //    comObject.FinalRelease();
 
-                //stream.Finalize;
-                //int err = Marshal.FinalReleaseComObject(obj);
+            //    //stream.Finalize;
+            //    //int err = Marshal.FinalReleaseComObject(obj);
 
-                //if (Marshal.IsComObject(obj))
-                //{
+            //    //if (Marshal.IsComObject(obj))
+            //    //{
                     
-                //    //try
-                //    //{
-                //    //    // Release all RCW references for the COM stream
-                //    //    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(this.stream);
-                //    //}
-                //    //catch (Exception ex)
-                //    //{
-                //    //    Debug.WriteLine($"Exception while releasing COM IStream: {ex}");
-                //    //}
-                //}
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Unexpected error in Dispose: {ex}");
-            }
+            //    //    //try
+            //    //    //{
+            //    //    //    // Release all RCW references for the COM stream
+            //    //    //    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(this.stream);
+            //    //    //}
+            //    //    //catch (Exception ex)
+            //    //    //{
+            //    //    //    Debug.WriteLine($"Exception while releasing COM IStream: {ex}");
+            //    //    //}
+            //    //}
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine($"Unexpected error in Dispose: {ex}");
+            //}
         }
 
         base.Dispose(disposing);
