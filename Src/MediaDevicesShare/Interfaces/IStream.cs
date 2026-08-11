@@ -25,8 +25,9 @@ public unsafe struct NativeSTATSTG
 */
 
 [GeneratedComInterface(/*Options = ComInterfaceOptions.ComObjectWrapper,*/ StringMarshalling = StringMarshalling.Utf16)]
+[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("0000000c-0000-0000-C000-000000000046")]
-internal partial interface IStream
+internal partial interface IStream //: IUnknown
 {
     // ISequentialStream portion
 
@@ -63,7 +64,7 @@ internal partial interface IStream
     [PreserveSig]
     int Commit(
         int grfCommitFlags);
-    
+
     void Revert();
 
     void LockRegion(

@@ -7,6 +7,12 @@ internal static partial class ComHelper
     private const int CLSCTX_ALL = 23;
 
 
+//    if (stream is IDisposable disposableStream)
+//{
+//    disposableStream.Dispose();
+//    return;
+//}
+
     public static T CreateInstance<T>(
         [CallerLineNumber] int lineNumber = 0,
         [CallerFilePath] string filePath = "",

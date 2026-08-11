@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Copy Canon EOS 60D": {
+      "commandName": "Project",
+      "commandLineArgs": "copy -d \"Canon EOS 60D\""
+    }
+  }
+}
