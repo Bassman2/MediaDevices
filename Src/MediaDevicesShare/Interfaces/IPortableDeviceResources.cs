@@ -21,9 +21,7 @@ internal partial interface IPortableDeviceResources
         ref PropertyKey key, 
         uint dwMode, 
         ref uint pdwOptimalBufferSize,
-
-        // TODO Test  https://github.com/dotnet/runtime/issues/100645
-        //[MarshalAs(UnmanagedType.Interface)] out /*IStream*/ object ppStream);
+        // See https://github.com/dotnet/runtime/issues/100645
         [MarshalUsing(typeof(UniqueComInterfaceMarshaller<IStream>))] out IStream ppStream);
 
     [PreserveSig]
