@@ -4,97 +4,31 @@ internal sealed class StreamWrapper : Stream
 {
     private readonly IStream stream;
     private readonly ulong size;
-    private readonly object obj;
 
     public StreamWrapper(IStream stream, ulong size = 0)
     {
         this.stream = stream ?? throw new ArgumentNullException(nameof(stream));
         this.size = size;
-        this.obj = new();
     }
-
-    public StreamWrapper(object obj, ulong size = 0)
-    {
-        this.obj = obj;
-        this.stream = (IStream)obj;
-        this.size = size;
-    }
-
+    
     protected override void Dispose(bool disposing)
     {
         if (disposing)
         {
-            //Marshal.Release(stream);
-            //try
-            //{
-            //    ComObject comObject = (ComObject)obj;
-            //    comObject.FinalRelease();
-
-            //    //stream.Finalize;
-            //    //int err = Marshal.FinalReleaseComObject(obj);
-
-            //    //if (Marshal.IsComObject(obj))
-            //    //{
-                    
-            //    //    //try
-            //    //    //{
-            //    //    //    // Release all RCW references for the COM stream
-            //    //    //    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(this.stream);
-            //    //    //}
-            //    //    //catch (Exception ex)
-            //    //    //{
-            //    //    //    Debug.WriteLine($"Exception while releasing COM IStream: {ex}");
-            //    //    //}
-            //    //}
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine($"Unexpected error in Dispose: {ex}");
-            //}
+            if (((object)stream) is ComObject comObj)
+            {
+                comObj.FinalRelease();
+                GC.SuppressFinalize(comObj);
+            }
         }
 
         base.Dispose(disposing);
-
     }
 
     private void CheckDisposed()
     {
         ObjectDisposedException.ThrowIf(this.stream == null, this);
-        //{
-        //    throw new ObjectDisposedException("StreamWrapper");
-        //}
     }
-
-    // old code
-    // Marshal.ReleaseComObject(this.stream);
-
-    //object obj = stream;
-    //int err = Marshal.ReleaseComObject(obj);
-    ////int err = Marshal.FinalReleaseComObject(obj);
-    //MediaDeviceException.ThrowIfComError(err, nameof(IStream), "ReleaseComObject");
-
-
-    //StrategyBasedComWrappers.TryGetComInstance()
-    //ComWrappers.TryGetComInstance
-    //if (this.stream != null)
-    //{
-    // TODO Marshal.ReleaseComObject(stream);
-    //    this.stream = null;
-    //}
-
-    //int err = Marshal.FinalReleaseComObject(this.stream);
-    //if (Marshal.IsComObject(this.stream))
-    //{
-    //    Marshal.ReleaseComObject(this.stream);
-    //}
-    ////comObject = null;
-
-    //Marshal.ReleaseComObject(stream);
-    //if (this.pLength != IntPtr.Zero)
-    //{
-    //    Marshal.FreeHGlobal(this.pLength);
-    //    this.pLength = IntPtr.Zero;
-    //}
 
     public override bool CanRead => true;
 
@@ -143,8 +77,6 @@ internal sealed class StreamWrapper : Stream
 
         int err = this.stream.Read(localBuffer, count, out var read);
         MediaDeviceException.ThrowIfComError(err, nameof(IStream), nameof(IStream.Read));
-
-        //int bytesRead = Marshal.ReadInt32(this.pLength);
 
         if (offset > 0)
         {

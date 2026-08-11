@@ -24,22 +24,20 @@ public unsafe struct NativeSTATSTG
 }
 */
 
-[GeneratedComInterface(/*Options = ComInterfaceOptions.ComObjectWrapper,*/ StringMarshalling = StringMarshalling.Utf16)]
+[GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("0000000c-0000-0000-C000-000000000046")]
-internal partial interface IStream //: IUnknown
+internal partial interface IStream
 {
-    // ISequentialStream portion
-
     [PreserveSig]
     int Read(
-        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1), Out] byte[] pv, 
+        [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] byte[] pv, 
         int cb,
         out ulong read); //IntPtr pcbRead);
 
     [PreserveSig]
     int Write(
-        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1), In] byte[] pv,
+        [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] byte[] pv,
         int cb,
         out ulong written); // IntPtr pcbWritten);
 
@@ -78,9 +76,9 @@ internal partial interface IStream //: IUnknown
         int dwLockType);
 
     //void Stat(
-    //    out NativeSTATSTG pstatstg,
+    //    out System.Runtime.InteropServices.ComTypes.STATSTG pstatstg,
     //    int grfStatFlag);
-
+    
     //void Clone(
     //    out IStream ppstm);
 }

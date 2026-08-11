@@ -21,10 +21,9 @@ internal partial interface IPortableDeviceResources
         ref PropertyKey key, 
         uint dwMode, 
         ref uint pdwOptimalBufferSize,
-
-        // TODO Test
-        //[MarshalAs(UnmanagedType.Interface)] out /*IStream*/ object ppStream);
-        [MarshalAs(UnmanagedType.Interface)] out IStream ppStream);
+        // UniqueComInterfaceMarshaller allows for the manual release of the COM object with ComObject.FinalRelease();.
+        // Fix #417 See https://github.com/dotnet/runtime/issues/100645
+        [MarshalUsing(typeof(UniqueComInterfaceMarshaller<IStream>))] out IStream ppStream);
 
     [PreserveSig]
     int Delete(
