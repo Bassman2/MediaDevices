@@ -4,7 +4,7 @@
 /// Provides the base class for both MediaFileInfo and MediaDirectoryInfo objects.
 /// </summary>
 [DebuggerDisplay("{FullName}")]
-public abstract class MediaFileSystemInfo
+public abstract partial class MediaFileSystemInfo
 {
     /// <summary>
     ///corresponding MediaDevice instance

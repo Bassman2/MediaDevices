@@ -443,18 +443,18 @@ partial class MediaDevice
 
     #endregion
 
-        #region MediaFileInfo, MediaDirectoryInfo, MediaDriveInfo and MediaFileSystemInfo based 
+    #region MediaFileInfo, MediaDirectoryInfo, MediaDriveInfo and MediaFileSystemInfo based 
 
-        /// <summary>
-        /// Gets a new instance of the MediaFileInfo class, which acts as a wrapper for a file path.
-        /// </summary>
-        /// <param name="path">The fully qualified name of the file, directory or object.</param>
-        /// <returns>New instance of the MediaFileInfo class</returns>
-        /// <exception cref="System.IO.IOException">path is a file name.</exception>
-        /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
-        /// <exception cref="System.ArgumentNullException">path is null.</exception>
-        /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
-        /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
+    /// <summary>
+    /// Gets a new instance of the MediaFileInfo class, which acts as a wrapper for a file path.
+    /// </summary>
+    /// <param name="path">The fully qualified name of the file, directory or object.</param>
+    /// <returns>New instance of the MediaFileInfo class</returns>
+    /// <exception cref="System.IO.IOException">path is a file name.</exception>
+    /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
+    /// <exception cref="System.ArgumentNullException">path is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">path is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public MediaFileInfo GetFileInfo(string path)
     {
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
