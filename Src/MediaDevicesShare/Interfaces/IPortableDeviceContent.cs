@@ -27,7 +27,10 @@ internal partial interface IPortableDeviceContent
     [PreserveSig]
     int CreateObjectWithPropertiesAndData(
         [MarshalAs(UnmanagedType.Interface)] IPortableDeviceValues pValues,
-        [MarshalAs(UnmanagedType.Interface)] out IStream ppData,
+        //[MarshalAs(UnmanagedType.Interface)] out IStream ppData
+        // UniqueComInterfaceMarshaller allows for the manual release of the COM object with ComObject.FinalRelease();.
+        // Fix #417 See https://github.com/dotnet/runtime/issues/100645
+        [MarshalUsing(typeof(UniqueComInterfaceMarshaller<IStream>))] out IStream ppData,
         ref uint pdwOptimalWriteBufferSize,
         [MarshalAs(UnmanagedType.LPWStr)] ref string ppszCookie);
 
