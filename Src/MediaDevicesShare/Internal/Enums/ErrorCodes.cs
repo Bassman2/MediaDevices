@@ -5,6 +5,7 @@ internal enum ErrorCodes : int
     False = 1,
     OK = 0,
     NotImplemented          /**/ = unchecked((int)0x80004001),      // E_NOT_IMPLEMENTED
+    AccessDenied            /**/ = unchecked((int)0x80070005),      // E_ACCESSDENIED
     NotSupported            /**/ = unchecked((int)0x80070032),      // ERROR_NOT_SUPPORTED
     InvalidParameter        /**/ = unchecked((int)0x80070057),      // ERROR_INVALID_PARAMETER + E_INVALIDARG
     NotFound                /**/ = unchecked((int)0x80070490),      // ERROR_NOT_FOUND

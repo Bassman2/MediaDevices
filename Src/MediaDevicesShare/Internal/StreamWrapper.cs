@@ -1,29 +1,74 @@
 ﻿namespace MediaDevices.Internal;
 
 internal sealed class StreamWrapper : Stream
+
 {
-    private readonly IStream stream;
+    private IStream stream;
     private readonly ulong size;
-    private readonly object obj;
+    //private readonly object obj;
 
     public StreamWrapper(IStream stream, ulong size = 0)
     {
         this.stream = stream ?? throw new ArgumentNullException(nameof(stream));
         this.size = size;
-        this.obj = new();
+        //this.obj = new();
     }
 
-    public StreamWrapper(object obj, ulong size = 0)
-    {
-        this.obj = obj;
-        this.stream = (IStream)obj;
-        this.size = size;
-    }
+    //public StreamWrapper(object obj, ulong size = 0)
+    //{
+    //    this.obj = obj;
+    //    this.stream = (IStream)obj;
+    //    this.size = size;
+    //}
 
     protected override void Dispose(bool disposing)
     {
         if (disposing)
         {
+            try
+            {
+                if (((object)stream) is ComObject comObj)
+                {
+                    comObj.FinalRelease();
+                    GC.SuppressFinalize(comObj);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            //stream = null;
+            //try
+            //{
+            //    if (this.stream is IUnknown disposable)
+            //    {
+            //        try
+            //        {
+            //            int x = disposable.AddRef();
+            //            int err = disposable.Release();
+            //        }
+            //        catch (ObjectDisposedException)
+            //        {
+            //            // already disposed - ignore
+            //        }
+            //    }
+
+            //    //Marshal.FinalReleaseComObject(stream);
+            //}
+            //catch (Exception ex)
+            //{
+
+            //}
+
+
+            //IntPtr pUnk = Marshal.GetIUnknownForObject(stream);
+            //if (pUnk != IntPtr.Zero)
+            //{
+            //    // release the ref returned by GetIUnknownForObject
+            //    Marshal.Release(pUnk);
+            //}
+
             //Marshal.Release(stream);
             //try
             //{
@@ -35,7 +80,7 @@ internal sealed class StreamWrapper : Stream
 
             //    //if (Marshal.IsComObject(obj))
             //    //{
-                    
+
             //    //    //try
             //    //    //{
             //    //    //    // Release all RCW references for the COM stream
@@ -104,7 +149,7 @@ internal sealed class StreamWrapper : Stream
 
     public override void Flush()
     {
-        int err = this.stream.Commit(0);
+        int err = this.stream!.Commit(0);
         MediaDeviceException.ThrowIfComError(err, nameof(IStream), nameof(IStream.Commit));
     }
     
@@ -141,7 +186,7 @@ internal sealed class StreamWrapper : Stream
         }
 
 
-        int err = this.stream.Read(localBuffer, count, out var read);
+        int err = this.stream!.Read(localBuffer, count, out var read);
         MediaDeviceException.ThrowIfComError(err, nameof(IStream), nameof(IStream.Read));
 
         //int bytesRead = Marshal.ReadInt32(this.pLength);
@@ -160,7 +205,7 @@ internal sealed class StreamWrapper : Stream
     {
         CheckDisposed();
 
-        stream.SetSize(value);
+        stream!.SetSize(value);
     }
 
     public override void Write(byte[] buffer, int offset, int count)
@@ -183,7 +228,7 @@ internal sealed class StreamWrapper : Stream
         // workaround for Windows 10 Update 1703 problem 
         // https://social.msdn.microsoft.com/Forums/en-US/7f7a045d-9d9d-4ff4-b8e3-de2d7477a177/windows-10-update-1703-problem-with-wpd-and-mtp?forum=csharpgeneral
         
-        int err = stream.Write(localBuffer, count, out var written); //this.pLength);
+        int err = stream!.Write(localBuffer, count, out var written); //this.pLength);
         MediaDeviceException.ThrowIfComError(err, nameof(IStream), nameof(IStream.Write));
     }
 }

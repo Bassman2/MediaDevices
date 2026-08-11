@@ -21,7 +21,7 @@ internal static class Importer
         int index = 1;
         foreach (var file in list)
         {
-            Console.WriteLine($"{index++ / num:D3}");
+            Console.WriteLine($"{index++} / {num}");
             Console.CursorLeft = 0;
 
             var outputPath = CreateOutputPath(path, mask, raw, device, file);

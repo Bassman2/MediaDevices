@@ -22,9 +22,9 @@ internal partial interface IPortableDeviceResources
         uint dwMode, 
         ref uint pdwOptimalBufferSize,
 
-        // TODO Test
+        // TODO Test  https://github.com/dotnet/runtime/issues/100645
         //[MarshalAs(UnmanagedType.Interface)] out /*IStream*/ object ppStream);
-        [MarshalAs(UnmanagedType.Interface)] out IStream ppStream);
+        [MarshalUsing(typeof(UniqueComInterfaceMarshaller<IStream>))] out IStream ppStream);
 
     [PreserveSig]
     int Delete(
