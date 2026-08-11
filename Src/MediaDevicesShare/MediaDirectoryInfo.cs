@@ -3,7 +3,7 @@
 /// <summary>
 /// Exposes instance methods for creating, moving, and enumerating through directories and subdirectories. This class cannot be inherited.
 /// </summary>
-public class MediaDirectoryInfo : MediaFileSystemInfo
+public partial class MediaDirectoryInfo : MediaFileSystemInfo
 {
     internal MediaDirectoryInfo(MediaDevice device, Item item) : base(device, item)
     { }
