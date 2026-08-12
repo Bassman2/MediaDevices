@@ -37,7 +37,7 @@ public class MediaDeviceServiceContent
             this.Name = value;
         }
 
-        ComTrace.WriteObject(deviceValues);
+        //ComTrace.WriteValues(deviceValues);
 
     }
 

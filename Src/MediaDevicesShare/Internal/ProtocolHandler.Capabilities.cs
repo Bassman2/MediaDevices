@@ -55,7 +55,7 @@ partial class ProtocolHandler
         Guid guid = functionalCategory.GetGuid();
         int err = capabilities.GetFunctionalObjects(ref guid!, out IPortableDevicePropVariantCollection objects);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetFunctionalObjects));
-        //ComTrace.WriteObject(objects);
+        //ComTrace.WriteValues(objects);
         //return objects.ToStrings();
 
         uint count = 0;

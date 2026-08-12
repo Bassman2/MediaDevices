@@ -19,7 +19,6 @@ public sealed partial class MediaDriveInfo
 
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        //this.info = mediaDevice.GetStorageInfo(objectId);
         this.info = ProtocolHandler.GetStorageInfo(mediaDevice, objectId);
 
         if (this.info != null)
@@ -97,7 +96,7 @@ public sealed partial class MediaDriveInfo
     }
 
     /// <summary>
-    /// FormatId the drive.
+    /// Format the drive.
     /// </summary>
     public void Format()
     {

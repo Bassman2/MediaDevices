@@ -252,7 +252,6 @@ internal class Item
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-
         keyCollection ??= CreateKeyCollection();
 
         // get all predefined values
@@ -271,9 +270,71 @@ internal class Item
         {
             throw new FileNotFoundException($"The item {this.Id} was not found on device {mediaDevice.Description}.");
         }
-
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), this);
-        
+
+
+        if (values.GetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, out var contentType) == OK)
+        {
+            this.ContentType = contentType; // contentType.FindContentTypeEnum();   
+        }
+        if (values.GetStringValue(ref WPD.OBJECT_NAME, out var name) == OK)
+        {
+            this.name  = name;
+        }
+        if (values.GetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, out var originalFileName) == OK)
+        {
+            OriginalFileName = originalFileName;
+        }
+        if (values.GetStringValue(ref WPD.OBJECT_HINT_LOCATION_DISPLAY_NAME, out var hintLocationName) == OK)
+        {
+            HintLocationName = hintLocationName;
+        }
+        if (values.GetStringValue(ref WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID, out var parentContainerId) == OK)
+        {
+            ParentContainerId = parentContainerId;
+        }
+        if (values.GetUnsignedLargeIntegerValue(ref WPD.OBJECT_SIZE, out var size) == OK)
+        {
+            Size = size;
+        }
+        if (values.GetDateTimeValue(ref WPD.OBJECT_DATE_CREATED, out var dateCreated) == OK)
+        {
+            DateCreated = dateCreated;
+        }
+        if (values.GetDateTimeValue(ref WPD.OBJECT_DATE_MODIFIED, out var dateModified) == OK)
+        {
+            DateModified = dateModified;
+        }
+        if (values.GetDateTimeValue(ref WPD.OBJECT_DATE_AUTHORED, out var dateAuthored) == OK)
+        {
+            DateAuthored = dateAuthored;
+        }
+        if (values.GetBoolValue(ref WPD.OBJECT_CAN_DELETE, out var canDelete) == OK)
+        {
+            CanDelete = canDelete != 0;
+        }
+        if (values.GetBoolValue(ref WPD.OBJECT_ISSYSTEM, out var isSystem) == OK)
+        {
+            IsSystem = isSystem != 0;
+        }
+        if (values.GetBoolValue(ref WPD.OBJECT_ISHIDDEN, out var isHidden) == OK)
+        {
+            IsHidden = isHidden != 0;
+        }
+        if (values.GetBoolValue(ref WPD.OBJECT_IS_DRM_PROTECTED, out var isDRMProtected) == OK)
+        {
+            IsDRMProtected = isDRMProtected != 0;
+        }
+        if (values.GetStringValue(ref WPD.OBJECT_PARENT_ID, out var parentId) == OK)
+        {
+            ParentId = parentId;
+        }
+        if (values.GetStringValue(ref WPD.OBJECT_PERSISTENT_UNIQUE_ID, out var persistentUniqueId) == OK)
+        {
+            PersistentUniqueId = persistentUniqueId;
+        }
+
+        /*
         // read all properties
         // use a loop to prevent exceptions during calling GetValue for non existing values 
         uint num = 0;
@@ -358,8 +419,9 @@ internal class Item
                     break;
                 }
             }
-        }
+        */
     }
+       
 
     #region Value Properties
 
@@ -597,7 +659,7 @@ internal class Item
             throw new IOException($"Failed to delete file {Name}!");
         }
 
-        ComTrace.WriteObjectIntern(objectIdCollection);
+        //ComTrace.WriteObjectIntern(objectIdCollection);
     }
 
     public string GetPath()
@@ -798,7 +860,7 @@ internal class Item
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_CREATED, ref val.Value);
             this.mediaDevice.deviceProperties!.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
-            ComTrace.WriteObject(result);
+            ComTrace.WriteValues(result);
         }
 
         Refresh();
@@ -814,7 +876,7 @@ internal class Item
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_MODIFIED, ref val.Value);
             this.mediaDevice.deviceProperties!.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
-            ComTrace.WriteObject(result);
+            ComTrace.WriteValues(result);
         }
 
         Refresh();
@@ -830,7 +892,7 @@ internal class Item
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_AUTHORED, ref val.Value);
             this.mediaDevice.deviceProperties!.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
-            ComTrace.WriteObject(result);
+            ComTrace.WriteValues(result);
         }
 
         Refresh();

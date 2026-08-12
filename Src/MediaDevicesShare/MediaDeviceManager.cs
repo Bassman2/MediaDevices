@@ -1,5 +1,6 @@
 ﻿namespace MediaDevices;
 
+[SupportedOSPlatform("windows")]
 public sealed partial class MediaDeviceManager : IDisposable
 {
     private static MediaDeviceManager? instance = new();

@@ -2,11 +2,11 @@
 
 partial class MediaDirectoryInfo
 {
-    public async Task<MediaDirectoryInfo> CreateSubdirectoryAsync(string path)
+    public async Task<MediaDirectoryInfo> CreateSubdirectoryAsync(string path, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.CreateSubdirectory(this.mediaDevice, item, path));
+        return await mainWorker.InvokeAsync(() => ProtocolHandler.CreateSubdirectory(this.mediaDevice, item, path), cancellationToken);
     }
 
     // TODO

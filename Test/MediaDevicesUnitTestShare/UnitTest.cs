@@ -38,7 +38,7 @@ public abstract class UnitTest
     protected bool? deviceSupportsNonConsumable = false;                            // PhilipsUFD & TascamDR40: null
     protected bool deviceDateTimeHasValue = false;                                  // NiconCoolpixA300 = true
     protected readonly string[]? deviceSupportedDrmSchemes = null;
-    protected readonly bool? deviceSupportedFormatsAreOrdered = null;
+    protected bool? deviceSupportedFormatsAreOrdered = null;                        // SamsungA40: true
     protected DeviceType? deviceDeviceType = DeviceType.Generic;
     protected DeviceTransport? deviceTransport = DeviceTransport.USB;               // PhilipsUFD & TascamDR40: null
     protected DeviceTransport? deviceUseDeviceStage = null;                         // CanonEosR6m2, NiconCoolpixA300 & CanonEos60D: USB

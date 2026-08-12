@@ -3,9 +3,12 @@ global using System.Collections.Generic;
 global using System.Configuration;
 global using System.Data;
 global using System.Diagnostics;
-global using System.Reflection;
+global using System.IO;
+global using System.Runtime.Versioning;
 global using System.Text;
 global using System.Windows;
+global using System.Windows.Media;
+global using System.Windows.Media.Imaging;
 
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;

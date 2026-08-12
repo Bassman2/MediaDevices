@@ -1,75 +1,45 @@
 ﻿namespace MediaDevices.Internal;
 
-// to enable COM traces add "COMTRACE" to the Build Conditional compilation symbols of the MediaDevice project.
-
 internal static class ComTrace
 {
-    #region IPortableDeviceValues
+    private const string line = "################################################################################";
 
-    [Conditional("DEBUG")]
-    public static void WriteObject(
-        IPortableDeviceValues values,
-        [CallerLineNumber] int lineNumber = 0,
-        [CallerFilePath] string filePath = "",
-        [CallerMemberName] string memberName = "")
-    => MediaDeviceManager.MainWorker.Invoke(() => WriteObjectIntern(values, lineNumber, filePath, memberName), lineNumber, filePath, memberName);
+    #region IPortableDeviceValues
     
     [Conditional("DEBUG")]
-    public static void WriteObjectIntern(
+    public static void WriteValues(
         IPortableDeviceValues values,
         [CallerLineNumber] int lineNumber = 0,
         [CallerFilePath] string filePath = "",
         [CallerMemberName] string memberName = "")
     {
         ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
+        
+        Debug.WriteLine(line);
+        Debug.WriteLine($"##  at {filePath} ({lineNumber}) {memberName}");
 
-        string caller = $"{filePath} ({lineNumber}) {memberName}";
-        Debug.WriteLine($"############################### {caller}");
         uint num = 0;
-
         int err = values.GetCount(ref num);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetCount));
 
         for (uint i = 0; i < num; i++)
         {
-            //PropertyKey key = new();
             PropVariantFacade val = new();
             err = values.GetAt(i, ref val.Key, ref val.Value);
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetAt));
 
-
-            //string fieldName = val.Key.GetName();
-            /*
-            string fieldName = string.Empty;
-            FieldInfo? propField = FindPropertyKeyField(key);
-            if (propField != null)
-            {
-                fieldName = propField.Name;
-            }
-            else
-            {
-                FieldInfo? guidField = FindGuidField(key.fmtid);
-                if (guidField != null)
-                {
-                    fieldName = $"{guidField.Name}, {key.pid}";
-                }
-                else
-                {
-                    fieldName = $"{key.fmtid}, {key.pid}";
-                }
-            }
-            */
             switch (val.VariantType)
             {
             case PropVariantType.VT_CLSID:
                 // TODO
-                Debug.WriteLine($"##### {val.KeyName} = {val.ToDebugString()}"); // FindGuidField(val.ToGuid())?.Name ?? val.ToString()}");
+                Debug.WriteLine($"## {val.KeyName} = {val.ToDebugString()}"); // FindGuidField(val.ToGuid())?.Name ?? val.ToString()}");
                 break;
             default:
-                Debug.WriteLine($"##### {val.KeyName} = {val.ToDebugString()}");
+                Debug.WriteLine($"## {val.KeyName} = {val.ToDebugString()}");
                 break;
             }
         }
+        Debug.WriteLine(line);
     }
 
     #endregion
@@ -77,16 +47,7 @@ internal static class ComTrace
     #region IPortableDeviceProperties
 
     [Conditional("DEBUG")]
-    public static void WriteObject(
-        IPortableDeviceProperties deviceProperties, 
-        string objectId,
-        [CallerLineNumber] int lineNumber = 0,
-        [CallerFilePath] string filePath = "",
-        [CallerMemberName] string memberName = "")
-    => MediaDeviceManager.MainWorker.Invoke(() => WriteObjectIntern(deviceProperties, objectId, lineNumber, filePath, memberName), lineNumber, filePath, memberName);
-
-    [Conditional("DEBUG")]
-    public static void WriteObjectIntern(
+    public static void WriteSupportedProperties(
         IPortableDeviceProperties deviceProperties,
         string objectId,
         [CallerLineNumber] int lineNumber = 0,
@@ -95,72 +56,12 @@ internal static class ComTrace
     {
         ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
 
-        string caller = $"{filePath} ({lineNumber}) {memberName}";
-        Debug.WriteLine($"############################### {caller}");
+        Debug.WriteLine(line);
+        Debug.WriteLine($"## SupportedProperties for {objectId} at {filePath} ({lineNumber}) {memberName}");
 
-        deviceProperties.GetSupportedProperties(objectId, out IPortableDeviceKeyCollection keys);
-
-        deviceProperties.GetValues(objectId, keys, out IPortableDeviceValues values);
-    }
-
-    #endregion
-
-    #region IPortableDevicePropVariantCollection
-
-    [Conditional("DEBUG")]
-    public static void WriteObject(
-        IPortableDevicePropVariantCollection collection,
-        [CallerLineNumber] int lineNumber = 0,
-        [CallerFilePath] string filePath = "",
-        [CallerMemberName] string memberName = "")
-    => MediaDeviceManager.MainWorker.Invoke(() => WriteObjectIntern(collection, lineNumber, filePath, memberName), lineNumber, filePath, memberName);
-
-
-    [Conditional("DEBUG")]
-    public static void WriteObjectIntern(
-        IPortableDevicePropVariantCollection collection,
-        [CallerLineNumber] int lineNumber = 0,
-        [CallerFilePath] string filePath = "",
-        [CallerMemberName] string memberName = "")
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
-
-        string caller = $"{filePath} ({lineNumber}) {memberName}";
-        Debug.WriteLine($"############################### {caller}");
-        uint num = 0;
-        collection.GetCount(ref num);
-        for (uint index = 0; index < num; index++)
-        {
-            using PropVariantFacade val = new();
-            collection.GetAt(index, ref val.Value);
-
-            Debug.WriteLine($"##### {val.ToDebugString()}");
-
-        }
-    }
-
-    #endregion 
-
-    #region IPortableDeviceKeyCollection
-
-    [Conditional("DEBUG")]
-    public static void WriteObject(
-        IPortableDeviceKeyCollection collection,
-        [CallerLineNumber] int lineNumber = 0,
-        [CallerFilePath] string filePath = "",
-        [CallerMemberName] string memberName = "")
-    => MediaDeviceManager.MainWorker.Invoke(() => WriteObjectIntern(collection, lineNumber, filePath, memberName), lineNumber, filePath, memberName);
-
-    [Conditional("DEBUG")]
-    public static void WriteObjectIntern(
-        IPortableDeviceKeyCollection collection,
-        [CallerLineNumber] int lineNumber = 0,
-        [CallerFilePath] string filePath = "",
-        [CallerMemberName] string memberName = "")
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
-
-        Debug.WriteLine("###############################");
+        int err = deviceProperties.GetSupportedProperties(objectId, out IPortableDeviceKeyCollection collection);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetSupportedProperties), objectId, lineNumber, filePath, memberName);
+        
         uint num = 0;
         collection.GetCount(ref num);
         for (uint index = 0; index < num; index++)
@@ -168,18 +69,162 @@ internal static class ComTrace
             PropertyKey key = new();
             collection.GetAt(index, ref key);
 
-            //PropertyKeys? propertyKey = key.GetEnumFromAttrKey<PropertyKeys>();
-
             PropertyKeys propertyKey = key.FindPropertyKeysEnum();
 
-            Debug.WriteLine($"##### {propertyKey}");
+            Debug.WriteLine($"## {propertyKey}");
         }
+        Debug.WriteLine(line);
+
     }
+
+    [Conditional("DEBUG")]
+    public static void WriteValues(
+        IPortableDeviceProperties deviceProperties,
+        string objectId,
+        [CallerLineNumber] int lineNumber = 0,
+        [CallerFilePath] string filePath = "",
+        [CallerMemberName] string memberName = "")
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
+
+        Debug.WriteLine(line);
+        Debug.WriteLine($"## Values for {objectId} at {filePath} ({lineNumber}) {memberName}");
+
+        int err = deviceProperties.GetValues(objectId, null, out IPortableDeviceValues values);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), objectId, lineNumber, filePath, memberName);
+
+        uint num = 0;
+        err = values.GetCount(ref num);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetCount));
+
+        for (uint i = 0; i < num; i++)
+        {
+            PropVariantFacade val = new();
+            err = values.GetAt(i, ref val.Key, ref val.Value);
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetAt));
+
+            switch (val.VariantType)
+            {
+            case PropVariantType.VT_CLSID:
+                // TODO
+                Debug.WriteLine($"## {val.KeyName} = {val.ToDebugString()}"); // FindGuidField(val.ToGuid())?.Name ?? val.ToString()}");
+                break;
+            default:
+                Debug.WriteLine($"## {val.KeyName} = {val.ToDebugString()}");
+                break;
+            }
+        }
+        Debug.WriteLine(line);
+
+    }
+
+
+
+
+    //[Conditional("DEBUG")]
+    //public static void WriteValues(
+    //    IPortableDeviceProperties deviceProperties, 
+    //    string objectId,
+    //    [CallerLineNumber] int lineNumber = 0,
+    //    [CallerFilePath] string filePath = "",
+    //    [CallerMemberName] string memberName = "")
+    //=> MediaDeviceManager.MainWorker.Invoke(() => WriteObjectIntern(deviceProperties, objectId, lineNumber, filePath, memberName), lineNumber, filePath, memberName);
+
+    //[Conditional("DEBUG")]
+    //public static void WriteObjectIntern(
+    //    IPortableDeviceProperties deviceProperties,
+    //    string objectId,
+    //    [CallerLineNumber] int lineNumber = 0,
+    //    [CallerFilePath] string filePath = "",
+    //    [CallerMemberName] string memberName = "")
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
+
+    //    string caller = $"{filePath} ({lineNumber}) {memberName}";
+    //    Debug.WriteLine($"############################### {caller}");
+
+    //    deviceProperties.GetSupportedProperties(objectId, out IPortableDeviceKeyCollection keys);
+
+    //    deviceProperties.GetValues(objectId, keys, out IPortableDeviceValues values);
+    //}
+
+    #endregion
+
+    #region IPortableDevicePropVariantCollection
+
+    //[Conditional("DEBUG")]
+    //public static void WriteValues(
+    //    IPortableDevicePropVariantCollection collection,
+    //    [CallerLineNumber] int lineNumber = 0,
+    //    [CallerFilePath] string filePath = "",
+    //    [CallerMemberName] string memberName = "")
+    //=> MediaDeviceManager.MainWorker.Invoke(() => WriteObjectIntern(collection, lineNumber, filePath, memberName), lineNumber, filePath, memberName);
+
+
+    //[Conditional("DEBUG")]
+    //public static void WriteObjectIntern(
+    //    IPortableDevicePropVariantCollection collection,
+    //    [CallerLineNumber] int lineNumber = 0,
+    //    [CallerFilePath] string filePath = "",
+    //    [CallerMemberName] string memberName = "")
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
+
+    //    string caller = $"{filePath} ({lineNumber}) {memberName}";
+    //    Debug.WriteLine($"############################### {caller}");
+    //    uint num = 0;
+    //    collection.GetCount(ref num);
+    //    for (uint index = 0; index < num; index++)
+    //    {
+    //        using PropVariantFacade val = new();
+    //        collection.GetAt(index, ref val.Value);
+
+    //        Debug.WriteLine($"##### {val.ToDebugString()}");
+
+    //    }
+    //}
+
+    #endregion
+
+    #region IPortableDeviceKeyCollection
+
+    //[Conditional("DEBUG")]
+    //public static void WriteValues(
+    //    IPortableDeviceKeyCollection collection,
+    //    [CallerLineNumber] int lineNumber = 0,
+    //    [CallerFilePath] string filePath = "",
+    //    [CallerMemberName] string memberName = "")
+    //=> MediaDeviceManager.MainWorker.Invoke(() => WriteObjectIntern(collection, lineNumber, filePath, memberName), lineNumber, filePath, memberName);
+
+    //[Conditional("DEBUG")]
+    //public static void WriteObjectIntern(
+    //    IPortableDeviceKeyCollection collection,
+    //    [CallerLineNumber] int lineNumber = 0,
+    //    [CallerFilePath] string filePath = "",
+    //    [CallerMemberName] string memberName = "")
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside(lineNumber, filePath, memberName);
+
+    //    Debug.WriteLine("###############################");
+    //    uint num = 0;
+    //    collection.GetCount(ref num);
+    //    for (uint index = 0; index < num; index++)
+    //    {
+    //        PropertyKey key = new();
+    //        collection.GetAt(index, ref key);
+
+    //        //PropertyKeys? propertyKey = key.GetEnumFromAttrKey<PropertyKeys>();
+
+    //        PropertyKeys propertyKey = key.FindPropertyKeysEnum();
+
+    //        Debug.WriteLine($"##### {propertyKey}");
+    //    }
+    //}
 
     #endregion
 
     //[Conditional("COMTRACE")]
-    //public static void WriteObject(IPortableDeviceProperties deviceProperties, string objectId, [CallerMemberName] string? caller = null)
+    //public static void WriteValues(IPortableDeviceProperties deviceProperties, string objectId, [CallerMemberName] string? caller = null)
     //{
     //    deviceProperties.GetSupportedProperties(objectId, out IPortableDeviceKeyCollection keys);
 
