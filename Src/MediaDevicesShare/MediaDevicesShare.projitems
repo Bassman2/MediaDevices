@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MediaFileSystemInfo.Async.cs" />
     <Compile Include="..\MediaDevicesShare\Attributes\CLSIDAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ObjectFormat.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentPathException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ChargingState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Commands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ContentType.cs" />

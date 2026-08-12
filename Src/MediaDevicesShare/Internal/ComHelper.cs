@@ -4,6 +4,7 @@ namespace MediaDevices.Internal;
 
 internal static partial class ComHelper
 {
+    private const int OK = 0;
     private const int CLSCTX_ALL = 23;
 
 
@@ -167,5 +168,30 @@ internal static partial class ComHelper
         propVariantCollection.Release();
         return 0;
     }
+
+    public static int GetDateTimeValue(this IPortableDeviceValues values, ref PropertyKey key, out DateTime value)
+    {
+        value = DateTime.MinValue;
+
+        int err = values.GetValue(ref key, out PropVariant dateTime);
+        if (err == OK)
+        {
+            switch (dateTime.vt)
+            {
+            case PropVariantType.VT_DATE:
+                value = DateTime.FromOADate(dateTime.dateVal);
+                break;
+            case PropVariantType.VT_ERROR:
+                err = dateTime.errorCode;
+                break;
+            default:
+                throw new NotSupportedException($"{dateTime.vt} not supported type for DateTime");
+            }
+        }
+        dateTime.Release();
+        return err;  
+    }
+
+  
     #endregion
 }

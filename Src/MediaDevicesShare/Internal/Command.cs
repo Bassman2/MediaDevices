@@ -140,7 +140,7 @@ internal class Command
         err = result.GetErrorValue(ref WPD.PROPERTY_COMMON_HRESULT, out int error);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetErrorValue));
 
-        //ComTrace.WriteObject(this.result!);
+        //ComTrace.WriteValues(this.result!);
 
         switch ((ErrorCodes)error)
         {
@@ -157,6 +157,6 @@ internal class Command
     ////[Conditional("COMTRACE")]
     //public void WriteResults()
     //{
-    //    ComTrace.WriteObject(this.result!);
+    //    ComTrace.WriteValues(this.result!);
     //}
 }

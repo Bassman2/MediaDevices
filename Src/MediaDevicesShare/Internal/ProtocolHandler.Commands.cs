@@ -123,15 +123,11 @@ partial class ProtocolHandler
 
         var info = new MediaStorageInfo();
 
-        int err = mediaDevice.deviceProperties!.GetSupportedProperties(storageObjectId, out IPortableDeviceKeyCollection ppKeys);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetSupportedProperties), storageObjectId);
-       
-        ComTrace.WriteObjectIntern(ppKeys);
-        
-        err = mediaDevice.deviceProperties.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
+        ComTrace.WriteSupportedProperties(mediaDevice.deviceProperties!, storageObjectId);
+        ComTrace.WriteValues(mediaDevice.deviceProperties!, storageObjectId);
+
+        int err = mediaDevice.deviceProperties!.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), storageObjectId);
-
-
 
         if (values.GetUnsignedIntegerValue(ref WPD.STORAGE_TYPE, out uint type) == OK)
         {
@@ -173,38 +169,6 @@ partial class ProtocolHandler
         {
             info.AccessCapability = (StorageAccessCapability)accessCapability;
         }
-
-        /*
-        values.TryGetUnsignedIntegerValue(WPD.STORAGE_TYPE, out uint type);
-        info.Type = (StorageType)type;
-
-        values.TryGetStringValue(WPD.STORAGE_FILE_SYSTEM_TYPE, out string fileSystemType);
-        info.FileSystemType = fileSystemType;
-
-        values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY, out ulong capacity);
-        info.Capacity = capacity;
-
-        values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_BYTES, out ulong freeBytes);
-        info.FreeSpaceInBytes = freeBytes;
-
-        values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_FREE_SPACE_IN_OBJECTS, out ulong freeObjects);
-        info.FreeSpaceInObjects = freeObjects;
-
-        values.TryGetStringValue(WPD.STORAGE_DESCRIPTION, out string description);
-        info.Description = description;
-
-        // TODO change tryget to get
-        info.SerialNumber = values.GetStringValue(WPD.STORAGE_SERIAL_NUMBER);
-
-        values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_MAX_OBJECT_SIZE, out ulong maxObjectSize);
-        info.MaxObjectSize = maxObjectSize;
-
-        values.TryGetUnsignedLargeIntegerValue(WPD.STORAGE_CAPACITY_IN_OBJECTS, out ulong capacityInObjects);
-        info.CapacityInObjects = capacityInObjects;
-
-        values.TryGetUnsignedIntegerValue(WPD.STORAGE_ACCESS_CAPABILITY, out uint accessCapability);
-        info.AccessCapability = (StorageAccessCapability)accessCapability;
-        */
 
         return info;
     }

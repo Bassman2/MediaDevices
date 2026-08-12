@@ -73,7 +73,7 @@ public class MediaDeviceService : IDisposable
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
 
-        ComTrace.WriteObject(deviceValues);
+        ComTrace.WriteValues(deviceValues);
 
         using (var value = new PropVariantFacade())
         {
@@ -252,7 +252,7 @@ public class MediaDeviceService : IDisposable
         err = properties.GetValues(this.ServiceObjectID!, keyCol, out IPortableDeviceValues deviceValues);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
-        ComTrace.WriteObject(deviceValues);
+        //ComTrace.WriteValues(deviceValues);
     }
 
     /// <summary>
