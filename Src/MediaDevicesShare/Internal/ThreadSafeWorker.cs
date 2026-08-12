@@ -173,6 +173,7 @@ internal sealed class ThreadSafeWorker : IDisposable
 
     public Task InvokeAsync(
         Action action,
+        CancellationToken cancellationToken,
         [CallerLineNumber] int lineNumber = 0,
         [CallerFilePath] string filePath = "",
         [CallerMemberName] string memberName = "")
@@ -180,17 +181,39 @@ internal sealed class ThreadSafeWorker : IDisposable
         ThreadSafeWorkerException.ThrowIfNotOutside(lineNumber, filePath, memberName);
         ObjectDisposedException.ThrowIf(disposed, this);
 
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return Task.FromCanceled(cancellationToken);
+        }
+
         var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        // Register cancellation so the returned task will be cancelled if the token is triggered
+        var ctr = cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
+
         queue.Add(() =>
         {
             try
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    tcs.TrySetCanceled(cancellationToken);
+                    return;
+                }
+
                 action();
-                tcs.SetResult();
+                tcs.TrySetResult();
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                tcs.TrySetCanceled(cancellationToken);
             }
             catch (Exception ex)
             {
-                tcs.SetException(ex);
+                tcs.TrySetException(ex);
+            }
+            finally
+            {
+                ctr.Dispose();
             }
         });
         return tcs.Task;
@@ -198,6 +221,7 @@ internal sealed class ThreadSafeWorker : IDisposable
 
     public Task<T> InvokeAsync<T>(
         Func<T> func,
+        CancellationToken cancellationToken,
         [CallerLineNumber] int lineNumber = 0,
         [CallerFilePath] string filePath = "",
         [CallerMemberName] string memberName = "")
@@ -205,17 +229,38 @@ internal sealed class ThreadSafeWorker : IDisposable
         ThreadSafeWorkerException.ThrowIfNotOutside(lineNumber, filePath, memberName);
         ObjectDisposedException.ThrowIf(disposed, this);
 
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return Task.FromCanceled<T>(cancellationToken);
+        }
+
         var tcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var ctr = cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
+
         queue.Add(() =>
         {
             try
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    tcs.TrySetCanceled(cancellationToken);
+                    return;
+                }
+
                 var result = func();
-                tcs.SetResult(result);
+                tcs.TrySetResult(result);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                tcs.TrySetCanceled(cancellationToken);
             }
             catch (Exception ex)
             {
-                tcs.SetException(ex);
+                tcs.TrySetException(ex);
+            }
+            finally
+            {
+                ctr.Dispose();
             }
         });
         return tcs.Task;

@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaDevicesDemo.View"
+        xmlns:vm="clr-namespace:MediaDevicesDemo.ViewModel" 
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         mc:Ignorable="d"
-        Title="MainView" Height="450" Width="800">
+        Title="MediaDevices Demo" Height="600" Width="800">
     <Window.Resources>
         <Image x:Key="closeImage" Width="16" Height="16" Source="/Images/Close16.png" x:Shared="false"/>
         <Image x:Key="helpImage" Width="16" Height="16" Source="/Images/Help16.png" x:Shared="false"/>
@@ -79,13 +81,27 @@
                 <!--<Image Source="{Binding Caching, Converter={StaticResource BoolToImageBallConverter}}" ToolTip="{Binding Caching, Converter={StaticResource CachingToTooltipConverter}}" Width="20" Height="20"/>-->
             </StatusBarItem>
         </StatusBar>
-        <TabControl>
+        <TabControl DataContext="{Binding DeviceViewModel}">
             <TabItem Header="Properties">
                 <local:DevicePropertiesView/>
             </TabItem>
             <TabItem Header="Capabilities">
                 <local:DeviceCapabilityView/>
             </TabItem>
+            <TabItem Header="Services">
+                <local:DeviceServicesView/>
+            </TabItem>
+            <TabItem Header="Explorer">
+                <local:DeviceExplorerView/>
+            </TabItem>
+            <TabItem Header="SMS" IsEnabled="{Binding IsSmsSupported}">
+                <local:DeviceSmsView/>
+            </TabItem>
+            <TabItem Header="StillImage" IsEnabled="{Binding IsStillImageSupported}">
+                <local:DeviceStillImageView/>
+            </TabItem>
+            
+
             <TabItem Header="Vendor">
                 <local:DeviceVendorView/>
             </TabItem>

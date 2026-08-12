@@ -28,6 +28,8 @@ public class SamsungA40UnitTest : WritableUnitTest
         deviceModel = "SM-A405FN";
         deviceSerialNumber = "R58M81NACKB";
         deviceDeviceType = DeviceType.MediaPlayer;
+        deviceSupportsNonConsumable = true;
+        deviceSupportedFormatsAreOrdered = true;
 
         // Capability Test
         deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
