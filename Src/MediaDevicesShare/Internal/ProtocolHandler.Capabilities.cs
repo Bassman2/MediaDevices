@@ -2,117 +2,131 @@
 
 partial class ProtocolHandler
 {
-    public static IEnumerable<Commands> SupportedCommands(IPortableDeviceCapabilities capabilities)
+    public static IEnumerable<Commands> SupportedCommands(IPortableDeviceCapabilities capabilities, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        int err = capabilities.GetSupportedCommands(out IPortableDeviceKeyCollection commands);
+        cancellationToken.Register(() => capabilities.Cancel());
+
+        int err = capabilities.GetSupportedCommands(out IPortableDeviceKeyCollection collection);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedCommands));
-        //return commands.ToCommands();
-
-        uint count = 0;
-        err = commands.GetCount(ref count);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection), nameof(IPortableDeviceKeyCollection.GetCount));
-        for (uint i = 0; i < count; i++)
-        {
-            PropertyKey key = new();
-            err = commands.GetAt(i, ref key);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection), nameof(IPortableDeviceKeyCollection.GetAt));
-            //yield return (Commands)GetEnumFromAttrKey<Commands>(key)!;
-            yield return key.FindCommandsEnum();
-        }
+        return collection.Enumerate<Commands>(key => key.FindCommandsEnum());
     }
 
-    
-
-    public static IEnumerable<FunctionalCategory> FunctionalCategories(IPortableDeviceCapabilities capabilities)
+    public static IEnumerable<(string, string)> CommandOptions(IPortableDeviceCapabilities capabilities, Commands command, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        int err = capabilities.GetFunctionalCategories(out IPortableDevicePropVariantCollection categories);
+        cancellationToken.Register(() => capabilities.Cancel());
+
+        PropertyKey key = command.FindCommandsKey() ?? throw new ArgumentException("not found", nameof(command));
+        int err = capabilities.GetCommandOptions(ref key, out IPortableDeviceValues values);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetCommandOptions));
+        return values.Enumerate<(string, string)>(val => new (val.KeyName, val.ToString()));
+    }
+
+    public static IEnumerable<FunctionalCategory> FunctionalCategories(IPortableDeviceCapabilities capabilities, CancellationToken cancellationToken = default)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        cancellationToken.Register(() => capabilities.Cancel());
+
+        int err = capabilities.GetFunctionalCategories(out IPortableDevicePropVariantCollection collection);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetFunctionalCategories));
-        //return categories.ToFunctionalCategory();
-
-        uint count = 0;
-        err = categories.GetCount(ref count);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
-        for (uint i = 0; i < count; i++)
-        {
-            using PropVariantFacade val = new();
-            err = categories.GetAt(i, ref val.Value);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt));
-            //yield return (FunctionalCategory)GetEnumFromAttrGuid<FunctionalCategory>(val.ToGuid())!;
-            Guid guid = val.ToGuid();
-            yield return guid.FindFunctionalCategoryEnum();
-        }
+        return collection.Enumerate<FunctionalCategory>(val => val.ToGuid().FindFunctionalCategoryEnum());
     }
-
     
-    public static IEnumerable<string> FunctionalObjects(IPortableDeviceCapabilities capabilities, FunctionalCategory functionalCategory)
+    public static IEnumerable<string> FunctionalObjects(IPortableDeviceCapabilities capabilities, FunctionalCategory functionalCategory, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
+        cancellationToken.Register(() => capabilities.Cancel());
+
         Guid guid = functionalCategory.GetGuid();
-        int err = capabilities.GetFunctionalObjects(ref guid!, out IPortableDevicePropVariantCollection objects);
+        int err = capabilities.GetFunctionalObjects(ref guid!, out IPortableDevicePropVariantCollection collection);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetFunctionalObjects));
-        //ComTrace.WriteValues(objects);
-        //return objects.ToStrings();
-
-        uint count = 0;
-        err = objects.GetCount(ref count);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
-        for (uint i = 0; i < count; i++)
-        {
-            using PropVariantFacade val = new();
-            err = objects.GetAt(i, ref val.Value);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt));
-            yield return val.ToString();
-        }
+        return collection.Enumerate<string>(val => val.ToString());
     }
 
     
-    public static IEnumerable<ContentType> SupportedContentTypes(IPortableDeviceCapabilities capabilities, FunctionalCategory functionalCategory)
+    public static IEnumerable<ContentType> SupportedContentTypes(IPortableDeviceCapabilities capabilities, FunctionalCategory functionalCategory, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
+
+        cancellationToken.Register(() => capabilities.Cancel());
 
         Guid guid = functionalCategory.GetGuid();
-        int err = capabilities.GetSupportedContentTypes(ref guid, out IPortableDevicePropVariantCollection types);
+        int err = capabilities.GetSupportedContentTypes(ref guid, out IPortableDevicePropVariantCollection collection);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedContentTypes));
-        //return types.ToContentTypes();
-
-        uint count = 0;
-        err = types.GetCount(ref count);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
-        for (uint i = 0; i < count; i++)
-        {
-            using PropVariantFacade val = new();
-            err = types.GetAt(i, ref val.Value);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt));
-            //yield return (ContentType)GetEnumFromAttrGuid<ContentType>(val.ToGuid())!;
-            Guid guid2 = val.ToGuid();
-            yield return guid2.FindContentTypeEnum();
-        }
+        return collection.Enumerate<ContentType>(val => val.ToGuid().FindContentTypeEnum());
     }
 
-    public static IEnumerable<Events> SupportedEvents(IPortableDeviceCapabilities capabilities)
+    public static IEnumerable<ContentType> SupportedFormats(IPortableDeviceCapabilities capabilities, ContentType functionalCategory, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        int err = capabilities.GetSupportedEvents(out IPortableDevicePropVariantCollection events);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedEvents));
-        //return events.ToEvents();
+        cancellationToken.Register(() => capabilities.Cancel());
 
-        uint count = 0;
-        err = events.GetCount(ref count);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
-        for (uint i = 0; i < count; i++)
-        {
-            using PropVariantFacade val = new();
-            err = events.GetAt(i, ref val.Value);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt));
-            //yield return (Events)GetEnumFromAttrGuid<Events>(val.ToGuid())!;
-            Guid guid = val.ToGuid();
-            yield return guid.FindEventsEnum();
-        }
+        Guid guid = functionalCategory.GetGuid();
+        int err = capabilities.GetSupportedFormats(ref guid, out IPortableDevicePropVariantCollection collection);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedFormats));
+        return collection.Enumerate<ContentType>(val => val.ToGuid().FindContentTypeEnum());
+    }
+
+    public static IEnumerable<string> SupportedFormatProperties(IPortableDeviceCapabilities capabilities, Formats format, CancellationToken cancellationToken = default)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        cancellationToken.Register(() => capabilities.Cancel());
+
+        Guid guid = format.GetGuid();
+        int err = capabilities.GetSupportedFormatProperties(ref guid, out IPortableDeviceKeyCollection collection);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedFormatProperties));
+        return collection.Enumerate<string>(val => val.Name);
+    }
+
+    public static IEnumerable<(string, string)> FixedPropertyAttributes(IPortableDeviceCapabilities capabilities, Formats format, PropertyKey key, CancellationToken cancellationToken = default)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        cancellationToken.Register(() => capabilities.Cancel());
+
+        Guid guid = format.GetGuid();
+        int err = capabilities.GetFixedPropertyAttributes(ref guid, ref key, out IPortableDeviceValues collection);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetFixedPropertyAttributes));
+        return collection.Enumerate<(string, string)>(val => new (val.KeyName, val.ToString()));
+    }
+
+    //public static void Cancel(IPortableDeviceCapabilities capabilities, CancellationToken cancellationToken = default)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
+
+    //    cancellationToken.Register(() => capabilities.Cancel());
+
+    //    int err = capabilities.Cancel();
+    //    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedEvents));
+    //}
+
+    public static IEnumerable<Events> SupportedEvents(IPortableDeviceCapabilities capabilities, CancellationToken cancellationToken = default)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        cancellationToken.Register(() => capabilities.Cancel());
+
+        int err = capabilities.GetSupportedEvents(out IPortableDevicePropVariantCollection collection);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedEvents));
+        return collection.Enumerate<Events>(val => val.ToGuid().FindEventsEnum());
+    }
+
+    public static IEnumerable<(string,string)> EventOptions(IPortableDeviceCapabilities capabilities, Events ev, CancellationToken cancellationToken = default)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        cancellationToken.Register(() => capabilities.Cancel());
+        
+        Guid guid = ev.GetGuid();
+        int err = capabilities.GetEventOptions(ref guid, out IPortableDeviceValues values);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedEvents));
+        return values.Enumerate<(string, string)>(val => new (val.KeyName, val.ToString()));
     }
 }

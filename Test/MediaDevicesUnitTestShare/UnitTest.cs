@@ -273,7 +273,7 @@ public abstract class UnitTest
 
     [TestMethod]
     [Description("Check mediaDevice compatibility informations.")]
-    public void DeviceCapabilityTest()
+    public void DeviceCapabilitiesTest()
     {
         var device = GetDevice();
         device.Connect();

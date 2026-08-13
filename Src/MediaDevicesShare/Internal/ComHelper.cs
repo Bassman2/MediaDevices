@@ -192,6 +192,68 @@ internal static partial class ComHelper
         return err;  
     }
 
-  
+
+    #endregion
+
+
+    #region Enumerate
+
+    public static IEnumerable<T> Enumerate<T>(
+        this IPortableDeviceValues values,
+        Func<PropVariantFacade, T> func,
+        [CallerLineNumber] int lineNumber = 0,
+        [CallerFilePath] string filePath = "",
+        [CallerMemberName] string memberName = "")
+    {
+        uint count = 0;
+        int err = values.GetCount(ref count);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetCount), lineNumber, filePath, memberName);
+        for (uint i = 0; i < count; i++)
+        {
+            using PropVariantFacade val = new();
+            err = values.GetAt(i, ref val.Key, ref val.Value);
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetAt), lineNumber, filePath, memberName);
+            yield return func(val); 
+        }
+    }
+
+    public static IEnumerable<T> Enumerate<T>(
+        this IPortableDevicePropVariantCollection collection,
+        Func<PropVariantFacade, T> func,
+        [CallerLineNumber] int lineNumber = 0,
+        [CallerFilePath] string filePath = "",
+        [CallerMemberName] string memberName = "")
+    {
+        uint count = 0;
+        int err = collection.GetCount(ref count);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount), lineNumber, filePath, memberName);
+        for (uint i = 0; i < count; i++)
+        {
+            using PropVariantFacade val = new();
+            err = collection.GetAt(i, ref val.Value);
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt), lineNumber, filePath, memberName);
+            yield return func(val); //.ToString();
+        }
+    }
+
+    public static IEnumerable<T> Enumerate<T>(
+        this IPortableDeviceKeyCollection collection,
+        Func<PropertyKey, T> func,
+        [CallerLineNumber] int lineNumber = 0,
+        [CallerFilePath] string filePath = "",
+        [CallerMemberName] string memberName = "") 
+    {
+        uint count = 0;
+        int err = collection.GetCount(ref count);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection), nameof(IPortableDeviceKeyCollection.GetCount), lineNumber, filePath, memberName);
+        for (uint i = 0; i < count; i++)
+        {
+            PropertyKey propertyKey = new();
+            err = collection.GetAt(i, ref propertyKey);
+            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection), nameof(IPortableDeviceKeyCollection.GetAt), lineNumber, filePath, memberName);
+            yield return func(propertyKey);
+        }
+    }
+
     #endregion
 }

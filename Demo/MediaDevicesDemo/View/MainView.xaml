@@ -91,6 +91,10 @@
             <TabItem Header="Services">
                 <local:DeviceServicesView/>
             </TabItem>
+            <TabItem Header="Drives">
+                <local:DeviceDrivesView/>
+            </TabItem>
+
             <TabItem Header="Explorer">
                 <local:DeviceExplorerView/>
             </TabItem>

@@ -103,12 +103,6 @@ internal class Item
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        // fill collection with id to request
-        //IPortableDevicePropVariantCollection collection = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>(ref CLSID.PortableDevicePropVariantCollection);
-
-        //int err = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>(ref CLSID.PortableDevicePropVariantCollection, out var collection);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection));
-
         var collection = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>();
 
 
@@ -118,9 +112,6 @@ internal class Item
         }
         // request id collection           
         device.deviceContent!.GetObjectIDsFromPersistentUniqueIDs(collection, out IPortableDevicePropVariantCollection results);
-
-        //var s = results.ToStrings().ToArray();
-        //string? mediaObjectId = results.ToStrings().FirstOrDefault();
 
         uint count = 0;
         int err = results.GetCount(ref count);
@@ -333,93 +324,6 @@ internal class Item
         {
             PersistentUniqueId = persistentUniqueId;
         }
-
-        /*
-        // read all properties
-        // use a loop to prevent exceptions during calling GetValue for non existing values 
-        uint num = 0;
-        err = values.GetCount(ref num);
-        if (err < 0)
-        {
-            Debug.WriteLine($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
-            return;
-        }
-        for (uint i = 0; i < num; i++)
-        {
-            //var key = new PropertyKey();
-            using var val = new PropVariantFacade();
-            err = values.GetAt(i, ref val.Key, ref val.Value);
-            if (err < 0)
-            {
-                Debug.WriteLine($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
-                continue;
-            }
-            if (val.Key.fmtid == WPD.OBJECT_PROPERTIES_V1)
-            {
-                switch ((ObjectProperties)val.Key.pid)
-                {
-                case ObjectProperties.ContentType:
-                    this.ContentType = val;
-                    break;
-
-                case ObjectProperties.Name:
-                    this.name = val ?? string.Empty;
-                    break;
-
-                case ObjectProperties.OriginalFileName:
-                    this.OriginalFileName = val;
-                    break;
-
-                case ObjectProperties.HintLocationDisplayName:
-                    this.HintLocationName = val;
-                    break;
-
-                case ObjectProperties.ContainerFunctionalObjectId:
-                    this.ParentContainerId = val;
-                    break;
-
-                case ObjectProperties.Size:
-                    this.Size = val;
-                    break;
-
-                case ObjectProperties.DateCreated:
-                    this.DateCreated = val;
-                    break;
-
-                case ObjectProperties.DateModified:
-                    this.DateModified = val;
-                    break;
-
-                case ObjectProperties.DateAuthored:
-                    this.DateAuthored = val;
-                    break;
-
-                case ObjectProperties.CanDelete:
-                    this.CanDelete = val;
-                    break;
-
-                case ObjectProperties.IsSystem:
-                    this.IsSystem = val.ToBool();
-                    break;
-
-                case ObjectProperties.IsHidden:
-                    this.IsHidden = val;
-                    break;
-
-                case ObjectProperties.IsDrmProtected:
-                    this.IsDRMProtected = val;
-                    break;
-
-                case ObjectProperties.ParentId:
-                    this.ParentId = val;
-                    break;
-
-                case ObjectProperties.PersistentUniqueId:
-                    this.PersistentUniqueId = val;
-                    break;
-                }
-            }
-        */
     }
        
 

@@ -20,26 +20,18 @@ internal sealed partial class PropVariantFacade : IDisposable
 
     public void Dispose()
     {
-        // clear only if filled
-        if (this.Value.vt != 0)
-        {
-            // clear propvariant clears also included objects like strings
-            this.Value.Release();
-            //int err = ComHelper.NativeMethods.PropVariantClear(ref this.Value);
-            //if (err < 0)
-            //{
-            //    Debug.WriteLine($"COM Error: {ErrorCodeMessages.GetErrorMessage(err)}");
-            //}
-        }
+        // cleared by garbabe collector
+        //// clear only if filled
+        //if (this.Value.vt != 0)
+        //{
+        //    //this.Value.Release();
+        //}
     }
 
-    public string KeyName => this.Key.GetName();
+    public string KeyName => Key.GetName();
 
-    public PropVariantType VariantType
-    {
-        get { return this.Value.vt; }
-    }
-
+    public PropVariantType VariantType => Value.vt; 
+    
     public string ToDebugString()
     {
         if (this.Value.vt == PropVariantType.VT_ERROR)

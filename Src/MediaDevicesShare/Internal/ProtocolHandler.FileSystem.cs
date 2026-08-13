@@ -379,19 +379,10 @@ internal static partial class ProtocolHandler
 
         Guid storage = FunctionalCategory.Storage.GetGuid();
 
-        int err = mediaDevice.deviceCapabilities!.GetFunctionalObjects(ref storage, out IPortableDevicePropVariantCollection objects);
+        int err = mediaDevice.deviceCapabilities!.GetFunctionalObjects(ref storage, out IPortableDevicePropVariantCollection collection);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetFunctionalObjects));
 
-        uint count = 0;
-        err = objects.GetCount(ref count);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
-        for (uint i = 0; i < count; i++)
-        {
-            using PropVariantFacade val = new();
-            err = objects.GetAt(i, ref val.Value);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt));
-            yield return new MediaDriveInfo(mediaDevice, val.ToString());
-        }
+        return collection.Enumerate<MediaDriveInfo>(i => new MediaDriveInfo(mediaDevice, i.ToString()));
     }
 
     public static MediaDirectoryInfo GetRootDirectory(MediaDevice mediaDevice)

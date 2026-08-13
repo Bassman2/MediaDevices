@@ -7,12 +7,20 @@ partial class MediaDevice
     /// </summary>
     /// <returns>List with supported commands</returns>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public IEnumerable<Commands>? SupportedCommands()
+    public IEnumerable<Commands> SupportedCommands()
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedCommands(this.deviceCapabilities!));
     }
+
+    public IEnumerable<(string, string)> CommandOptions( Commands command)
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.CommandOptions(this.deviceCapabilities!, command));
+    }
+
 
     /// <summary>
     /// Retrieves all functional categories by the mediaDevice.
@@ -52,6 +60,27 @@ partial class MediaDevice
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedContentTypes(this.deviceCapabilities!, functionalCategory));
     }
 
+    public IEnumerable<ContentType> SupportedFormats(ContentType functionalCategory)
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedFormats(this.deviceCapabilities!, functionalCategory));
+    }
+
+    public IEnumerable<string> SupportedFormatProperties(Formats format)
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedFormatProperties(this.deviceCapabilities!, format));
+    }
+
+    //public IEnumerable<(string, string)> FixedPropertyAttributes(Formats format, PropertyKey key)
+    //{
+    //    NotConnectedException.ThrowIfNotConnected(this);
+
+    //    return mainWorker.InvokeEnumerable(() => ProtocolHandler.FixedPropertyAttributes(this.deviceCapabilities!, format, key));
+    //}
+
     /// <summary>
     /// Retrieves all events supported by the mediaDevice.
     /// </summary>
@@ -63,4 +92,12 @@ partial class MediaDevice
 
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedEvents(this.deviceCapabilities!));
     }
+
+    public IEnumerable<(string, string)> EventOptions(Events ev)
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.InvokeEnumerable(() => ProtocolHandler.EventOptions(this.deviceCapabilities!, ev));
+    }
+
 }
