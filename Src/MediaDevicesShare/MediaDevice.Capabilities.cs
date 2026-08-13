@@ -27,7 +27,7 @@ partial class MediaDevice
     /// </summary>
     /// <returns>List with functional categories</returns>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public IEnumerable<FunctionalCategory>? FunctionalCategories()
+    public IEnumerable<FunctionalCategory> FunctionalCategories()
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -40,7 +40,7 @@ partial class MediaDevice
     /// <param name="functionalCategory">Select functional category</param>
     /// <returns>List with functional objects</returns>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public IEnumerable<string>? FunctionalObjects(FunctionalCategory functionalCategory)
+    public IEnumerable<string> FunctionalObjects(FunctionalCategory functionalCategory)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -53,7 +53,7 @@ partial class MediaDevice
     /// <param name="functionalCategory">Select functional category</param>
     /// <returns>List with supported content types </returns>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public IEnumerable<ContentType>? SupportedContentTypes(FunctionalCategory functionalCategory)
+    public IEnumerable<ContentType> SupportedContentTypes(FunctionalCategory functionalCategory)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -86,7 +86,7 @@ partial class MediaDevice
     /// </summary>
     /// <returns>List with supported events</returns>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public IEnumerable<Events>? SupportedEvents()
+    public IEnumerable<Events> SupportedEvents()
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
