@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)MediaDirectoryInfo.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaFileSystemInfo.Async.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaProperty.cs" />
     <Compile Include="..\MediaDevicesShare\Attributes\CLSIDAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ObjectFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ChargingState.cs" />

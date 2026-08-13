@@ -9,6 +9,14 @@ public partial class DeviceViewModel : ObservableObject, IDisposable
     {
         this.mediaDevice = mediaDevice;
         this.mediaDevice.Connect();
+
+        #region Capability
+
+        FunctionalCategories = [.. mediaDevice.FunctionalCategories()];
+        SelectedFunctionalCategory = SelectedContentCategory = FunctionalCategories.FirstOrDefault();
+        
+
+        #endregion
     }
 
     public void Dispose()

@@ -13,7 +13,7 @@ partial class ProtocolHandler
         return collection.Enumerate<Commands>(key => key.FindCommandsEnum());
     }
 
-    public static IEnumerable<(string, string)> CommandOptions(IPortableDeviceCapabilities capabilities, Commands command, CancellationToken cancellationToken = default)
+    public static IEnumerable<MediaProperty> CommandOptions(IPortableDeviceCapabilities capabilities, Commands command, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -22,7 +22,7 @@ partial class ProtocolHandler
         PropertyKey key = command.FindCommandsKey() ?? throw new ArgumentException("not found", nameof(command));
         int err = capabilities.GetCommandOptions(ref key, out IPortableDeviceValues values);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetCommandOptions));
-        return values.Enumerate<(string, string)>(val => new (val.KeyName, val.ToString()));
+        return values.Enumerate<MediaProperty> (val => new MediaProperty(val));
     }
 
     public static IEnumerable<FunctionalCategory> FunctionalCategories(IPortableDeviceCapabilities capabilities, CancellationToken cancellationToken = default)
@@ -85,7 +85,7 @@ partial class ProtocolHandler
         return collection.Enumerate<string>(val => val.Name);
     }
 
-    public static IEnumerable<(string, string)> FixedPropertyAttributes(IPortableDeviceCapabilities capabilities, Formats format, PropertyKey key, CancellationToken cancellationToken = default)
+    public static IEnumerable<MediaProperty> FixedPropertyAttributes(IPortableDeviceCapabilities capabilities, Formats format, PropertyKey key, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -94,7 +94,7 @@ partial class ProtocolHandler
         Guid guid = format.GetGuid();
         int err = capabilities.GetFixedPropertyAttributes(ref guid, ref key, out IPortableDeviceValues collection);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetFixedPropertyAttributes));
-        return collection.Enumerate<(string, string)>(val => new (val.KeyName, val.ToString()));
+        return collection.Enumerate<MediaProperty>(val => new MediaProperty(val));
     }
 
     //public static void Cancel(IPortableDeviceCapabilities capabilities, CancellationToken cancellationToken = default)
