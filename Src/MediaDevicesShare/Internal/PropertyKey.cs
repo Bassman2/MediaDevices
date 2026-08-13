@@ -5,6 +5,8 @@ internal struct PropertyKey
     public Guid fmtid;
     public uint pid;
 
+    public readonly string Name => this.GetName();
+
     public PropertyKey()
     {
         this.fmtid = Guid.Empty;

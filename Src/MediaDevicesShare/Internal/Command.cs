@@ -108,29 +108,29 @@ internal class Command
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetCount));
         for (uint i = 0; i < count; i++)
         {
-            var val = new PropVariantFacade();
+            var val = new PropVariantFacade();  // no using
             err = col.GetAt(i, ref val.Value);
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt));
             yield return val;
         }
     }
 
-    public bool Has(PropertyKey key)
-    {
-        uint count = 0;
-        this.result!.GetCount(ref count);
-        for (uint i = 0; i < count; i++)
-        {
-            var k = new PropertyKey();
-            var v = new PropVariant();
-            this.result!.GetAt(i, ref k, ref v);
-            if (key == k)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+    //public bool Has(PropertyKey key)
+    //{
+    //    uint count = 0;
+    //    this.result!.GetCount(ref count);
+    //    for (uint i = 0; i < count; i++)
+    //    {
+    //        var k = new PropertyKey();
+    //        var v = new PropVariant();
+    //        this.result!.GetAt(i, ref k, ref v);
+    //        if (key == k)
+    //        {
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+    //}
 
     public bool Send(IPortableDevice device)
     {

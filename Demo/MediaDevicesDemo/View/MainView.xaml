@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:MediaDevicesDemo.ViewModel" 
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         mc:Ignorable="d"
-        Title="MediaDevices Demo" Height="600" Width="800">
+        Title="MediaDevices Demo" Height="600" Width="1024">
     <Window.Resources>
         <Image x:Key="closeImage" Width="16" Height="16" Source="/Images/Close16.png" x:Shared="false"/>
         <Image x:Key="helpImage" Width="16" Height="16" Source="/Images/Help16.png" x:Shared="false"/>
@@ -86,11 +86,15 @@
                 <local:DevicePropertiesView/>
             </TabItem>
             <TabItem Header="Capabilities">
-                <local:DeviceCapabilityView/>
+                <local:DeviceCapabilitiesView/>
             </TabItem>
             <TabItem Header="Services">
                 <local:DeviceServicesView/>
             </TabItem>
+            <TabItem Header="Drives">
+                <local:DeviceDrivesView/>
+            </TabItem>
+
             <TabItem Header="Explorer">
                 <local:DeviceExplorerView/>
             </TabItem>

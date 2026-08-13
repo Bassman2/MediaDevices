@@ -24,7 +24,7 @@ internal static class ComTrace
 
         for (uint i = 0; i < num; i++)
         {
-            PropVariantFacade val = new();
+            using PropVariantFacade val = new();
             err = values.GetAt(i, ref val.Key, ref val.Value);
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetAt));
 

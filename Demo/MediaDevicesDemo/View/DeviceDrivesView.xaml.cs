@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace MediaDevicesDemo.View
 {
     /// <summary>
-    /// Interaction logic for DeviceCapabilityView.xaml
+    /// Interaction logic for DeviceDrivesView.xaml
     /// </summary>
-    public partial class DeviceCapabilityView : UserControl
+    public partial class DeviceDrivesView : UserControl
     {
-        public DeviceCapabilityView()
+        public DeviceDrivesView()
         {
             InitializeComponent();
         }

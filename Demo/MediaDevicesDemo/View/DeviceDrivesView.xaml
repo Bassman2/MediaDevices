@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="MediaDevicesDemo.View.DeviceDrivesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MediaDevicesDemo.View"
+             xmlns:vm="clr-namespace:MediaDevicesDemo.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=vm:DeviceViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="7">
+        <DataGrid ItemsSource="{Binding Drives}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" Width="100"/>
+                <DataGridTextColumn Header="Drive Type" Binding="{Binding DriveType}" IsReadOnly="True" Width="100"/>
+                <DataGridTextColumn Header="Drive Format" Binding="{Binding DriveFormat}" IsReadOnly="True" Width="100"/>
+                <DataGridTextColumn Header="AvailableFreeSpace" Binding="{Binding AvailableFreeSpace, Converter={StaticResource LongToSizeStringConverter}}" IsReadOnly="True" Width="100"/>
+                <DataGridTextColumn Header="RootDirectory" Binding="{Binding RootDirectory.FullName}" IsReadOnly="True" Width="100"/>
+                <DataGridTextColumn Header="TotalFreeSpace" Binding="{Binding TotalFreeSpace, Converter={StaticResource LongToSizeStringConverter}}" IsReadOnly="True" Width="100"/>
+                <DataGridTextColumn Header="TotalSize" Binding="{Binding TotalSize, Converter={StaticResource LongToSizeStringConverter}}" IsReadOnly="True" Width="100"/>
+                <DataGridTextColumn Header="VolumeLabel" Binding="{Binding VolumeLabel}" IsReadOnly="True" Width="100"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+            
+    </Grid>
+</UserControl>
