@@ -148,7 +148,7 @@ public enum Formats : ushort
     /// Device Services FormatId: FORMAT_BMPImage
     /// </summary>
     [EnumGuid(0x38040000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    BMPImage,
+    BMPImage = 0x3804,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_CIFF
@@ -236,7 +236,7 @@ public enum Formats : ushort
     /// Device Services FormatId: FORMAT_WBMPImage
     /// </summary>
     [EnumGuid(0xB8030000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    WBMPImage,
+    WBMPImage = 0xB803,
 
     /// <summary>
     // WPD_OBJECT_FORMAT_JPEGXR
@@ -542,7 +542,6 @@ public enum Formats : ushort
     /// <summary>
     /// Samsung (Digital Negative) 
     /// </summary>
-    // 
     [EnumGuid(0x38110000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     DNGFile = 0x3811,
 
