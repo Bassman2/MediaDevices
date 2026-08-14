@@ -1,6 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-
-namespace MediaDevicesUnitTest;
+﻿namespace MediaDevicesUnitTest;
 
 [TestClass]
 [TestCategory("Samsung")]
@@ -8,12 +6,6 @@ public class SamsungA40UnitTest : WritableUnitTest
 {
     public SamsungA40UnitTest() : base("\\Card")
     {
-        // Ignore tests
-        //this.ignoreTests = Ignore.DownloadIcon;
-
-        //string readonlyBasePath     Test_ReadonlyFile
-
-
         #region Device Tests
 
         // Device Properties Test

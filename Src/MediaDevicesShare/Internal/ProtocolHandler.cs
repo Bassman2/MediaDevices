@@ -245,9 +245,9 @@ internal static partial class ProtocolHandler
         {
             mediaDevice.PersistentUniqueId = objectPersistentUniqueId;
         }
-        if (mediaDevice.deviceValues.GetGuidValue(ref WPD.OBJECT_FORMAT, out Guid objectFormat) == OK)
+        if (mediaDevice.deviceValues.GetGuidValue(ref WPD.OBJECT_FORMAT, out Guid format) == OK)
         {
-            mediaDevice.ObjectFormat = objectFormat.ToObjectFormatEnum();
+            mediaDevice.ObjectFormat = format.ToFormatsEnum();
         }
         if (mediaDevice.deviceValues.GetBoolValue(ref WPD.OBJECT_ISHIDDEN, out int isHidden) == OK)
         {

@@ -154,7 +154,7 @@ partial class MediaDevice
 
     public string? PersistentUniqueId { get; internal set; } = null;
 
-    public ObjectFormat? ObjectFormat { get; internal set; } = null;
+    public Formats? ObjectFormat { get; internal set; } = null;
 
     public bool? IsHidden { get; internal set; } = null;
 

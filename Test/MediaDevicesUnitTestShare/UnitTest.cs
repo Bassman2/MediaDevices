@@ -48,7 +48,7 @@ public abstract class UnitTest
     protected const string deviceParentId = "";
     protected const ContentType deviceContentType = ContentType.FunctionalObject;
     protected const string devicePersistentUniqueId = "DEVICE";
-    protected const ObjectFormat deviceObjectFormat = ObjectFormat.PropertiesOnly;
+    protected const Formats deviceObjectFormat = Formats.Association;
 
     protected bool? deviceIsHidden = null;                                          // PhilipsUFD & TascamDR40: true
     protected const bool deviceCanDelete = false;
@@ -221,7 +221,7 @@ public abstract class UnitTest
         string? parentId = device.ParentId;
         ContentType? contentType = device.ContentType;
         string? persistentUniqueId = device.PersistentUniqueId;
-        ObjectFormat? objectFormat = device.ObjectFormat;
+        Formats? objectFormat = device.ObjectFormat;
         bool? isHidden = device.IsHidden;
         bool? canDelete = device.CanDelete;
         string? containerFunctionalObjectId = device.ContainerFunctionalObjectId;

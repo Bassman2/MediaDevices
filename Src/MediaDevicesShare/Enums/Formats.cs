@@ -3,7 +3,7 @@
 /// <summary>
 /// Formats
 /// </summary>
-[FindFieldsGenerator(FindType.Guid)]
+//[FindFieldsGenerator(FindType.Guid)]
 public enum Formats : ushort
 {
     /// <summary>
