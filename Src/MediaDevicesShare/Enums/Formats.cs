@@ -4,13 +4,13 @@
 /// Formats
 /// </summary>
 [FindFieldsGenerator(FindType.Guid)]
-public enum Formats
+public enum Formats : ushort
 {
     /// <summary>
     /// Unknown format
     /// </summary>
     [EnumGuid]
-    Unknown,
+    Unknown = 0,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_PROPERTIES_ONLY
@@ -18,7 +18,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_Association
     /// </summary>
     [EnumGuid(0x30010000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    Association,
+    Association = 0x3001,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_UNSPECIFIED
@@ -26,7 +26,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_Undefined
     /// </summary>
     [EnumGuid(0x30000000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    Undefined,
+    Undefined = 0x3000,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_SCRIPT
@@ -34,7 +34,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_DeviceScript
     /// </summary>
     [EnumGuid(0x30020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    DeviceScript,
+    DeviceScript = 0x3002,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_EXECUTABLE
@@ -42,7 +42,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_DeviceExecutable
     /// </summary>
     [EnumGuid(0x30030000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    DeviceExecutable,
+    DeviceExecutable = 0x3003,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_TEXT
@@ -50,7 +50,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_TextDocument
     /// </summary>
     [EnumGuid(0x30040000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    TextDocument,
+    TextDocument = 0x3004,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_HTML
@@ -58,7 +58,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_HTMLDocument
     /// </summary>
     [EnumGuid(0x30050000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    HTMLDocument,
+    HTMLDocument = 0x3005,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_DPOF
@@ -66,7 +66,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_DPOFDocument
     /// </summary>
     [EnumGuid(0x30060000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    DPOFDocument,
+    DPOFDocument = 0x3006,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_AIFF
@@ -74,7 +74,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_AIFFFile
     /// </summary>
     [EnumGuid(0x30070000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    AIFFFile,
+    AIFFFile = 0x3007,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_WAVE
@@ -82,7 +82,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_WAVFile
     /// </summary>
     [EnumGuid(0x30080000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    WAVFile,
+    WAVFile = 0x3008,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_MP3
@@ -90,7 +90,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_MP3File
     /// </summary>
     [EnumGuid(0x30090000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    MP3File,
+    MP3File = 0x3009,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_AVI
@@ -98,7 +98,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_AVIFile
     /// </summary>
     [EnumGuid(0x300A0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    AVIFile,
+    AVIFile = 0x300A,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_MPEG
@@ -106,7 +106,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_MPEGFile
     /// </summary>
     [EnumGuid(0x300B0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    MPEGFile,
+    MPEGFile = 0x300B,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_ASF
@@ -114,7 +114,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_ASFFile
     /// </summary>
     [EnumGuid(0x300C0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    ASFFile,
+    ASFFile = 0x300C,
 
     #region Image
 
@@ -124,7 +124,7 @@ public enum Formats
     ///   Device Services FormatId: FORMAT_EXIFImage
     /// </summary>
     [EnumGuid(0x38010000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    EXIFImage,
+    EXIFImage = 0x3801,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_TIFFEP
@@ -132,7 +132,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_TIFFEPImage
     /// </summary>
     [EnumGuid(0x38020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    TIFFEPImage,
+    TIFFEPImage = 0x3802,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_FLASHPIX
@@ -140,7 +140,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_FlashPixImage
     /// </summary>
     [EnumGuid(0x38030000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    FlashPixImage,
+    FlashPixImage = 0x3803,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_BMP
@@ -156,7 +156,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_CIFFImage
     /// </summary>
     [EnumGuid(0x38050000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    CIFFImage,
+    CIFFImage = 0x3805,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_GIF
@@ -164,7 +164,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_GIFImage
     /// </summary>
     [EnumGuid(0x38070000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    GIFImage,
+    GIFImage = 0x3807,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_JFIF
@@ -172,7 +172,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_JFIFImage
     /// </summary>
     [EnumGuid(0x38080000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    JFIFImage,
+    JFIFImage = 0x3808,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_PCD
@@ -180,7 +180,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_PCDImage
     /// </summary>
     [EnumGuid(0x38090000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    PCDImage,
+    PCDImage = 0x3809,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_PICT
@@ -188,7 +188,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_PICTImage
     /// </summary>
     [EnumGuid(0x380A0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    PICTImage,
+    PICTImage = 0x380A,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_PNG
@@ -196,7 +196,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_PNGImage
     /// </summary>
     [EnumGuid(0x380B0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    PNGImage,
+    PNGImage = 0x380B,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_TIFF
@@ -204,7 +204,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_TIFFImage
     /// </summary>
     [EnumGuid(0x380D0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    TIFFImage,
+    TIFFImage = 0x380D,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_TIFFIT
@@ -212,7 +212,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_TIFFITImage
     /// </summary>
     [EnumGuid(0x380E0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    TIFFITImage,
+    TIFFITImage = 0x380E,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_JP2
@@ -220,7 +220,7 @@ public enum Formats
     ///   Device Services FormatId: FORMAT_JP2Image
     /// </summary>
     [EnumGuid(0x380F0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    JP2Image,
+    JP2Image = 0x380F,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_JPX
@@ -228,7 +228,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_JPXImage
     /// </summary>
     [EnumGuid(0x38100000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    JPXImage,
+    JPXImage = 0x3810,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_WBMP
@@ -244,7 +244,7 @@ public enum Formats
     //   Device Services FormatId: FORMAT_JPEGXRImage
     /// </summary>
     [EnumGuid(0xB8040000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    JPEGXRImage,
+    JPEGXRImage = 0xB804,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_WINDOWSIMAGEFORMAT
@@ -252,7 +252,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_HDPhotoImage
     /// </summary>
     [EnumGuid(0xB8810000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    HDPhotoImage,
+    HDPhotoImage = 0xB881,
 
     #endregion
 
@@ -262,7 +262,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_WMAFile
     /// </summary>
     [EnumGuid(0xB9010000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    WMAFile,
+    WMAFile = 0xB901,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_WMV
@@ -270,7 +270,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_WMVFile
     /// </summary>
     [EnumGuid(0xB9810000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    WMVFile,
+    WMVFile = 0xB981,
 
     #region Playlist
 
@@ -280,7 +280,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_WPLPlaylist
     /// </summary>
     [EnumGuid(0xBA100000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    WPLPlaylist,
+    WPLPlaylist = 0xBA10,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_M3UPLAYLIST
@@ -288,7 +288,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_M3UPlaylist
     /// </summary>
     [EnumGuid(0xBA110000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    M3UPlaylist,
+    M3UPlaylist = 0xBA11,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_MPLPLAYLIST
@@ -296,7 +296,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_MPLPlaylist
     /// </summary>
     [EnumGuid(0xBA120000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    MPLPlaylist,
+    MPLPlaylist = 0xBA12,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_ASXPLAYLIST
@@ -304,7 +304,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_ASXPlaylist
     /// </summary>
     [EnumGuid(0xBA130000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    ASXPlaylist,
+    ASXPlaylist = 0xBA13,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_PLSPLAYLIST
@@ -312,7 +312,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_PSLPlaylist
     /// </summary>
     [EnumGuid(0xBA140000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    PSLPlaylist,
+    PLSPlaylist = 0xBA14,
 
     #endregion
 
@@ -322,7 +322,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_AbstractContactGroup
     /// </summary>
     [EnumGuid(0xBA060000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    AbstractContactGroup,
+    AbstractContactGroup = 0xBA06,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_ABSTRACT_MEDIA_CAST
@@ -330,7 +330,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_AbstractMediacast
     /// </summary>
     [EnumGuid(0xBA0B0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    AbstractMediacast,
+    AbstractMediacast = 0xBA0B,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_VCALENDAR1
@@ -338,7 +338,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_VCalendar1
     /// </summary>
     [EnumGuid(0xBE020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    VCalendar1,
+    VCalendar1 = 0xBE02,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_ICALENDAR
@@ -346,7 +346,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_ICalendar
     /// </summary>
     [EnumGuid(0xBE030000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    ICalendar,
+    ICalendar = 0xBE03,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_ABSTRACT_CONTACT
@@ -354,7 +354,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_AbstractContact
     /// </summary>
     [EnumGuid(0xBB810000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    AbstractContact,
+    AbstractContact = 0xBB81,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_VCARD2
@@ -362,7 +362,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_VCard2Contact
     /// </summary>
     [EnumGuid(0xBB820000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    VCard2Contact,
+    VCard2Contact = 0xBB82,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_VCARD3
@@ -370,7 +370,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_VCard3Contact
     /// </summary>
     [EnumGuid(0xBB830000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    VCard3Contact,
+    VCard3Contact = 0xBB83,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_XML
@@ -378,7 +378,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_XMLDocument
     /// </summary>
     [EnumGuid(0xBA820000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    XMLDocument,
+    XMLDocument = 0xBA82,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_AAC
@@ -386,7 +386,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_AACFile
     /// </summary>
     [EnumGuid(0xB9030000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    AACFile,
+    AACFile = 0xB903,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_AUDIBLE
@@ -394,7 +394,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_AudibleFile
     /// </summary>
     [EnumGuid(0xB9040000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    AudibleFile,
+    AudibleFile = 0xB904,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_FLAC
@@ -402,7 +402,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_FLACFile
     /// </summary>
     [EnumGuid(0xB9060000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    FLACFile,
+    FLACFile = 0xB906,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_QCELP
@@ -410,7 +410,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_QCELPFile
     /// </summary>
     [EnumGuid(0xB9070000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    QCELPFile,
+    QCELPFile = 0xB907,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_AMR
@@ -418,7 +418,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_AMRFile
     /// </summary>
     [EnumGuid(0xB9080000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    AMRFile,
+    AMRFile = 0xB908,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_OGG
@@ -426,15 +426,16 @@ public enum Formats
     /// Device Services FormatId: FORMAT_OGGFile
     /// </summary>
     [EnumGuid(0xB9020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    OGGFile,
+    OGGFile = 0xB902,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_MP4
     /// Audio or Video file format
     /// Device Services FormatId: FORMAT_MPEG4File
+    /// ISO 14496-1
     /// </summary>
     [EnumGuid(0xB9820000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    MPEG4File,
+    MPEG4File = 0xB982,
 
     /// <summary>
     // WPD_OBJECT_FORMAT_MP2
@@ -442,7 +443,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_MPEG2File
     /// </summary>
     [EnumGuid(0xB9830000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    MPEG2File,
+    MPEG2File = 0xB983,
 
     #region Document
 
@@ -452,7 +453,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_WordDocument
     /// </summary>
     [EnumGuid(0xBA830000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    WordDocument,
+    WordDocument = 0xBA83,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_MHT_COMPILED_HTML
@@ -460,7 +461,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_MHTDocument
     /// </summary>
     [EnumGuid(0xBA840000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    MHTDocument,
+    MHTDocument = 0xBA84,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_MICROSOFT_EXCEL
@@ -468,7 +469,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_ExcelDocument
     /// </summary>
     [EnumGuid(0xBA850000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    ExcelDocument,
+    ExcelDocument = 0xBA85,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_MICROSOFT_POWERPOINT
@@ -476,7 +477,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_PowerPointDocument
     /// </summary>
     [EnumGuid(0xBA860000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    PowerPointDocument,
+    PowerPointDocument = 0xBA86,
 
     #endregion
 
@@ -484,9 +485,10 @@ public enum Formats
     /// WPD_OBJECT_FORMAT_3GP
     /// Audio or Video file format
     /// Device Services FormatId: FORMAT_3GPPFile
+    /// 3GPP file format. Details: http://www.3gpp.org/ftp/Specs/html-info/26244.htm (page title - \u201cTransparent end-to-end packet switched streaming service, 3GPP file format\u201d).
     /// </summary>
     [EnumGuid(0xB9840000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    _3GPPFile,
+    _3GPPFile = 0xB984,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_3G2
@@ -494,7 +496,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_3GPP2File
     /// </summary>
     [EnumGuid(0xB9850000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    _3GPP2File,
+    _3GPP2File = 0xB985,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_AVCHD
@@ -502,7 +504,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_AVCHDFile
     /// </summary>
     [EnumGuid(0xB9860000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    AVCHDFile,
+    AVCHDFile = 0xB986,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_ATSCTS
@@ -510,7 +512,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_ATSCTSFile
     /// </summary>
     [EnumGuid(0xB9870000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    ATSCTSFile,
+    ATSCTSFile = 0xB987,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_DVBTS
@@ -518,7 +520,7 @@ public enum Formats
     /// Device Services FormatId: FORMAT_DVBTSFile
     /// </summary>
     [EnumGuid(0xB9880000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    DVBTSFile,
+    DVBTSFile = 0xB988,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_MKV
@@ -526,32 +528,69 @@ public enum Formats
     /// Device Services FormatId: FORMAT_MKVFile
     /// </summary>
     [EnumGuid(0xB9900000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    MKVFile,
+    MKVFile = 0xB990,
 
 
-    #region Vendor
+    #region Android Formats from mtp.h not in Windows Header
 
-    // Was bedeutet 38110000-ae6c-4804-98ba-c57b46965fe7 als Format in MTP bei einem Samsung Handy
+    /// <summary>
+    /// Unknown image object
+    /// </summary>
+    [EnumGuid(0x38000000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    Defined = 0x3800,
 
     /// <summary>
     /// Samsung (Digital Negative) 
     /// </summary>
     // 
     [EnumGuid(0x38110000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    DNGFile,
+    DNGFile = 0x3811,
 
     /// <summary>
     /// Samsung (High Efficiency Image File Format)
     /// </summary>
     [EnumGuid(0x38120000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    HEIFFile,
+    HEIFFile = 0x3812,
+
+    [EnumGuid(0xB8020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    UndefinedFirmware = 0xB802,
+
+    [EnumGuid(0xB9000000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    UndefinedAudio = 0xB900,
+
+    [EnumGuid(0xB9800000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    UndefinedVideo = 0xB980,
+
+    [EnumGuid(0xBA000000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    UndefinedVollection = 0xBA00,
+
+    [EnumGuid(0xBA010000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    AbstractMultimediaAlbum = 0xBA01,
+
+    [EnumGuid(0xBA020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    AbstractImageAlbum = 0xBA02,
 
 
+    AbstractAudioAlbum = 0xBA03,
+    AbstractVideoAlbum = 0xBA04,
+    AbstractAVPlaylist = 0xBA05,
+    AbstractMessageFolder = 0xBA07,
+    AbstractChapteredProduction = 0xBA08,
+    AbstractAudiPlaylist = 0xBA09,
+    AbstractVideoPlaylist = 0xBA0A,
+
+    UndefinedDocument = 0xBA80,
+    AbstractDocument = 0xBA81,
+    
+    UndefinedMessage = 0xBB00,
+    AbstractMessage = 0xBB01,
+    UndefinedContact = 0xBB80,
+    
     /// <summary>
     /// Abstract Audio Video Playlist (M3U- or PLS-Playlist-File)
     /// </summary>
     [EnumGuid(0xba050000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    AAVPlaylist,
-    
+    AAVPlaylist = 0xba05,
+
     #endregion
 }
