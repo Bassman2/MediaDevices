@@ -14,8 +14,14 @@ public partial class DeviceViewModel : ObservableObject, IDisposable
 
         FunctionalCategories = [.. mediaDevice.FunctionalCategories()];
         SelectedFunctionalCategory = SelectedContentCategory = FunctionalCategories.FirstOrDefault();
-        
 
+        #endregion
+
+        #region Services
+
+        ServiceTypes = [..Enum.GetValues<MediaDeviceServices>().Where(e => e != MediaDeviceServices.Unknown)];
+        SelectedServiceType = MediaDeviceServices.All;
+    
         #endregion
     }
 

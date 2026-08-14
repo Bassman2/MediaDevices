@@ -21,6 +21,6 @@
         <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding ServiceTypes}" SelectedItem="{Binding SelectedServiceType}" Margin="3"/>
 
         <Label Grid.Column="0" Grid.Row="1" Content="Services"/>
-        <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Services}" SelectedItem="{Binding SelectedService}" Margin="3"/>
+        <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Services}" SelectedItem="{Binding SelectedService}" DisplayMemberPath="ServiceId" Margin="3"/>
     </Grid>
 </UserControl>

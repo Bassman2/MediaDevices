@@ -8,6 +8,7 @@
 /// </summary>
 public class MediaDeviceService : IDisposable
 {
+    private const int OK = 0;
     internal MediaDevice? device;
     internal IPortableDeviceService? service;
     internal IPortableDeviceServiceCapabilities? capabilities;
@@ -37,9 +38,9 @@ public class MediaDeviceService : IDisposable
         //    this.ServiceName = "Unknown";
         //}
         //this.ServiceName = serviceId.Substring(serviceId.LastIndexOf(@"\") + 1);
-                
+
         service = ComHelper.CreateInstance<IPortableDeviceService>();
-        
+
         IPortableDeviceValues values = ComHelper.CreateInstance<IPortableDeviceValues>();
 
         int err = this.service.Open(this.ServiceId, values);
@@ -75,33 +76,20 @@ public class MediaDeviceService : IDisposable
 
         ComTrace.WriteValues(deviceValues);
 
-        using (var value = new PropVariantFacade())
+
+        if (deviceValues.GetStringValue(ref WPD.OBJECT_NAME, out var name) == OK)
         {
-            err = deviceValues.GetValue(ref WPD.OBJECT_NAME, out value.Value);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetValue));
-
-            this.Name = value;
+            this.Name = name;
         }
-
-        using (var value = new PropVariantFacade())
+        if (deviceValues.GetGuidValue(ref WPD.FUNCTIONAL_OBJECT_CATEGORY, out var category) == OK)
         {
-            err = deviceValues.GetValue(ref WPD.FUNCTIONAL_OBJECT_CATEGORY, out value.Value);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetValue));
-
-            var serviceGuid = new Guid((string)value);
-            //this.Service = serviceGuid.GetEnum<MediaDeviceServices>();
-            this.Service = serviceGuid.ToMediaDeviceServicesEnum();
-            this.ServiceName = this.Service != MediaDeviceServices.Unknown ? this.Service.ToString() : serviceGuid.ToString();
+            this.Service = category.ToMediaDeviceServicesEnum();
+            this.ServiceName = this.Service != MediaDeviceServices.Unknown ? this.Service.ToString() : category.ToString();
         }
-
-        using (var value = new PropVariantFacade())
+        if (deviceValues.GetStringValue(ref WPD.SERVICE_VERSION, out var version) == OK)
         {
-            err = deviceValues.GetValue(ref WPD.SERVICE_VERSION, out value.Value);
-            MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetValue));
-
-            this.ServiceVersion = value;
+            this.ServiceVersion = version;
         }
-
         Update();
     }
 
