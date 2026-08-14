@@ -316,91 +316,117 @@ public enum Formats
 
     #endregion
 
-    /*
-        //
-        // WPD_OBJECT_FORMAT_ABSTRACT_CONTACT_GROUP
-        //   Generic format for contact group objects
-        //   Device Services FormatId: FORMAT_AbstractContactGroup
-        public static Guid OBJECT_FORMAT_ABSTRACT_CONTACT_GROUP = new(0xBA060000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_ABSTRACT_CONTACT_GROUP
+    /// Generic format for contact group objects
+    /// Device Services FormatId: FORMAT_AbstractContactGroup
+    /// </summary>
+    [EnumGuid(0xBA060000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    AbstractContactGroup,
 
-        //
-        // WPD_OBJECT_FORMAT_ABSTRACT_MEDIA_CAST
-        //   MediaCast file format
-        //   Device Services FormatId: FORMAT_AbstractMediacast
-        public static Guid OBJECT_FORMAT_ABSTRACT_MEDIA_CAST = new(0xBA0B0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_ABSTRACT_MEDIA_CAST
+    /// MediaCast file format
+    /// Device Services FormatId: FORMAT_AbstractMediacast
+    /// </summary>
+    [EnumGuid(0xBA0B0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    AbstractMediacast,
 
-        //
-        // WPD_OBJECT_FORMAT_VCALENDAR1
-        //   VCALENDAR file format (VCALENDAR Version 1)
-        //   Device Services FormatId: FORMAT_VCalendar1
-        public static Guid OBJECT_FORMAT_VCALENDAR1 = new(0xBE020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_VCALENDAR1
+    /// VCALENDAR file format (VCALENDAR Version 1)
+    /// Device Services FormatId: FORMAT_VCalendar1
+    /// </summary>
+    [EnumGuid(0xBE020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    VCalendar1,
 
-        //
-        // WPD_OBJECT_FORMAT_ICALENDAR
-        //   ICALENDAR file format (VCALENDAR Version 2)
-        //   Device Services FormatId: FORMAT_ICalendar
-        public static Guid OBJECT_FORMAT_ICALENDAR = new(0xBE030000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_ICALENDAR
+    /// ICALENDAR file format (VCALENDAR Version 2)
+    /// Device Services FormatId: FORMAT_ICalendar
+    /// </summary>
+    [EnumGuid(0xBE030000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    ICalendar,
 
-        //
-        // WPD_OBJECT_FORMAT_ABSTRACT_CONTACT
-        //   Abstract contact file format
-        //   Device Services FormatId: FORMAT_AbstractContact
-        public static Guid OBJECT_FORMAT_ABSTRACT_CONTACT = new(0xBB810000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_ABSTRACT_CONTACT
+    /// Abstract contact file format
+    /// Device Services FormatId: FORMAT_AbstractContact
+    /// </summary>
+    [EnumGuid(0xBB810000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    AbstractContact,
 
-        //
-        // WPD_OBJECT_FORMAT_VCARD2
-        //   VCARD file format (VCARD Version 2)
-        //   Device Services FormatId: FORMAT_VCard2Contact
-        public static Guid OBJECT_FORMAT_VCARD2 = new(0xBB820000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_VCARD2
+    /// VCARD file format (VCARD Version 2)
+    /// Device Services FormatId: FORMAT_VCard2Contact
+    /// </summary>
+    [EnumGuid(0xBB820000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    VCard2Contact,
 
-        //
-        // WPD_OBJECT_FORMAT_VCARD3
-        //   VCARD file format (VCARD Version 3)
-        //   Device Services FormatId: FORMAT_VCard3Contact
-        public static Guid OBJECT_FORMAT_VCARD3 = new(0xBB830000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_VCARD3
+    /// VCARD file format (VCARD Version 3)
+    /// Device Services FormatId: FORMAT_VCard3Contact
+    /// </summary>
+    [EnumGuid(0xBB830000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    VCard3Contact,
 
-        //
-        // WPD_OBJECT_FORMAT_XML
-        //   XML file format.
-        //   Device Services FormatId: FORMAT_XMLDocument
-        public static Guid OBJECT_FORMAT_XML = new(0xBA820000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_XML
+    /// XML file format.
+    /// Device Services FormatId: FORMAT_XMLDocument
+    /// </summary>
+    [EnumGuid(0xBA820000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    XMLDocument,
 
-        //
-        // WPD_OBJECT_FORMAT_AAC
-        //   Audio file format
-        //   Device Services FormatId: FORMAT_AACFile
-        public static Guid OBJECT_FORMAT_AAC = new(0xB9030000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_AAC
+    /// Audio file format
+    /// Device Services FormatId: FORMAT_AACFile
+    /// </summary>
+    [EnumGuid(0xB9030000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    AACFile,
 
-        //
-        // WPD_OBJECT_FORMAT_AUDIBLE
-        //   Audio file format
-        //   Device Services FormatId: FORMAT_AudibleFile
-        public static Guid OBJECT_FORMAT_AUDIBLE = new(0xB9040000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_AUDIBLE
+    /// Audio file format
+    /// Device Services FormatId: FORMAT_AudibleFile
+    /// </summary>
+    [EnumGuid(0xB9040000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    AudibleFile,
 
-        //
-        // WPD_OBJECT_FORMAT_FLAC
-        //   Audio file format
-        //   Device Services FormatId: FORMAT_FLACFile
-        public static Guid OBJECT_FORMAT_FLAC = new(0xB9060000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_FLAC
+    /// Audio file format
+    /// Device Services FormatId: FORMAT_FLACFile
+    /// </summary>
+    [EnumGuid(0xB9060000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    FLACFile,
 
-        //
-        // WPD_OBJECT_FORMAT_QCELP
-        //   Audio file format (Qualcomm Code Excited Linear Prediction)
-        //   Device Services FormatId: FORMAT_QCELPFile
-        public static Guid OBJECT_FORMAT_QCELP = new(0xB9070000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_QCELP
+    /// Audio file format (Qualcomm Code Excited Linear Prediction)
+    /// Device Services FormatId: FORMAT_QCELPFile
+    /// </summary>
+    [EnumGuid(0xB9070000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    QCELPFile,
 
-        //
-        // WPD_OBJECT_FORMAT_AMR
-        //   Audio file format (Adaptive Multi-Rate audio codec)
-        //   Device Services FormatId: FORMAT_AMRFile
-        public static Guid OBJECT_FORMAT_AMR = new(0xB9080000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_AMR
+    /// Audio file format (Adaptive Multi-Rate audio codec)
+    /// Device Services FormatId: FORMAT_AMRFile
+    /// </summary>
+    [EnumGuid(0xB9080000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    AMRFile,
 
-        //
-        // WPD_OBJECT_FORMAT_OGG
-        //   Audio file format
-        //   Device Services FormatId: FORMAT_OGGFile
-        public static Guid OBJECT_FORMAT_OGG = new(0xB9020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
-    */
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_OGG
+    /// Audio file format
+    /// Device Services FormatId: FORMAT_OGGFile
+    /// </summary>
+    [EnumGuid(0xB9020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    OGGFile,
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_MP4
@@ -500,5 +526,32 @@ public enum Formats
     /// Device Services FormatId: FORMAT_MKVFile
     /// </summary>
     [EnumGuid(0xB9900000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    MKVFile
+    MKVFile,
+
+
+    #region Vendor
+
+    // Was bedeutet 38110000-ae6c-4804-98ba-c57b46965fe7 als Format in MTP bei einem Samsung Handy
+
+    /// <summary>
+    /// Samsung (Digital Negative) 
+    /// </summary>
+    // 
+    [EnumGuid(0x38110000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    DNGFile,
+
+    /// <summary>
+    /// Samsung (High Efficiency Image File Format)
+    /// </summary>
+    [EnumGuid(0x38120000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    HEIFFile,
+
+
+    /// <summary>
+    /// Abstract Audio Video Playlist (M3U- or PLS-Playlist-File)
+    /// </summary>
+    [EnumGuid(0xba050000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    AAVPlaylist,
+    
+    #endregion
 }

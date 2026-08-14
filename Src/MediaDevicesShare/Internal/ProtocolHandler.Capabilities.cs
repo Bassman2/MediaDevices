@@ -71,7 +71,11 @@ partial class ProtocolHandler
         int err = capabilities.GetSupportedFormats(ref guid, out IPortableDevicePropVariantCollection collection);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedFormats));
 
-        var list = collection.Enumerate<string>(val => val.ToGuid().ToString()).ToList();
+#if DEBUG
+        collection.Enumerate<Guid>(val => val.ToGuid()).Where(g => g.ToFormatsEnum() == Formats.Unknown).ToList().ForEach(i =>
+            Debug.WriteLine($"***Unknown Format {i}"));
+
+#endif
 
 
         return collection.Enumerate<Formats>(val => val.ToGuid().ToFormatsEnum());
