@@ -436,67 +436,69 @@ public enum Formats
     [EnumGuid(0xBA840000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     MHTDocument,
 
-    /*
-       
-        
-        //
-        // WPD_OBJECT_FORMAT_MHT_COMPILED_HTML
-        //   MHT Compiled HTML Document file format.
-        //   Device Services FormatId: FORMAT_MHTDocument
-        public static Guid OBJECT_FORMAT_MHT_COMPILED_HTML = new(0xBA840000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_MICROSOFT_EXCEL
+    /// Microsoft Office Excel Document file format.
+    /// Device Services FormatId: FORMAT_ExcelDocument
+    /// </summary>
+    [EnumGuid(0xBA850000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    ExcelDocument,
 
-        //
-        // WPD_OBJECT_FORMAT_MICROSOFT_EXCEL
-        //   Microsoft Office Excel Document file format.
-        //   Device Services FormatId: FORMAT_ExcelDocument
-        public static Guid OBJECT_FORMAT_MICROSOFT_EXCEL = new(0xBA850000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
-
-        //
-        // WPD_OBJECT_FORMAT_MICROSOFT_POWERPOINT
-        //   Microsoft Office PowerPoint Document file format.
-        //   Device Services FormatId: FORMAT_PowerPointDocument
-        public static Guid OBJECT_FORMAT_MICROSOFT_POWERPOINT = new(0xBA860000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
-    */
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_MICROSOFT_POWERPOINT
+    /// Microsoft Office PowerPoint Document file format.
+    /// Device Services FormatId: FORMAT_PowerPointDocument
+    /// </summary>
+    [EnumGuid(0xBA860000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    PowerPointDocument,
 
     #endregion
 
-    /*
-        //
-        // WPD_OBJECT_FORMAT_3GP
-        //   Audio or Video file format
-        //   Device Services FormatId: FORMAT_3GPPFile
-        public static Guid OBJECT_FORMAT_3GP = new(0xB9840000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
-
-        //
-        // WPD_OBJECT_FORMAT_3G2
-        //   Audio or Video file format
-        //   Device Services FormatId: FORMAT_3GPP2File
-        public static Guid OBJECT_FORMAT_3G2 = new(0xB9850000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
-
-        //
-        // WPD_OBJECT_FORMAT_AVCHD
-        //   Audio or Video file format
-        //   Device Services FormatId: FORMAT_AVCHDFile
-        public static Guid OBJECT_FORMAT_AVCHD = new(0xB9860000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
-
-        //
-        // WPD_OBJECT_FORMAT_ATSCTS
-        //   Audio or Video file format
-        //   Device Services FormatId: FORMAT_ATSCTSFile
-        public static Guid OBJECT_FORMAT_ATSCTS = new(0xB9870000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
-
-        //
-        // WPD_OBJECT_FORMAT_DVBTS
-        //   Audio or Video file format
-        //   Device Services FormatId: FORMAT_DVBTSFile
-        public static Guid OBJECT_FORMAT_DVBTS = new(0xB9880000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
-     */
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_3GP
+    /// Audio or Video file format
+    /// Device Services FormatId: FORMAT_3GPPFile
+    /// </summary>
+    [EnumGuid(0xB9840000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    _3GPPFile,
 
     /// <summary>
-    // WPD_OBJECT_FORMAT_MKV
-    //   Audio or Video file format
-    //   Device Services FormatId: FORMAT_MKVFile
+    /// WPD_OBJECT_FORMAT_3G2
+    /// Audio or Video file format
+    /// Device Services FormatId: FORMAT_3GPP2File
+    /// </summary>
+    [EnumGuid(0xB9850000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    _3GPP2File,
+
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_AVCHD
+    /// Audio or Video file format
+    /// Device Services FormatId: FORMAT_AVCHDFile
+    /// </summary>
+    [EnumGuid(0xB9860000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    AVCHDFile,
+
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_ATSCTS
+    /// Audio or Video file format
+    /// Device Services FormatId: FORMAT_ATSCTSFile
+    /// </summary>
+    [EnumGuid(0xB9870000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    ATSCTSFile,
+
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_DVBTS
+    /// Audio or Video file format
+    /// Device Services FormatId: FORMAT_DVBTSFile
+    /// </summary>
+    [EnumGuid(0xB9880000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
+    DVBTSFile,
+
+    /// <summary>
+    /// WPD_OBJECT_FORMAT_MKV
+    /// Audio or Video file format
+    /// Device Services FormatId: FORMAT_MKVFile
     /// </summary>
     [EnumGuid(0xB9900000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
-    MKV
+    MKVFile
 }
