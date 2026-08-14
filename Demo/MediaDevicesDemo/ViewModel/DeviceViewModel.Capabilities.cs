@@ -61,7 +61,7 @@ partial class DeviceViewModel
     }
 
     [ObservableProperty]
-    public partial List<ContentType> Formats { get; set; }
+    public partial List<Formats> Formats { get; set; }
 
     #endregion
 

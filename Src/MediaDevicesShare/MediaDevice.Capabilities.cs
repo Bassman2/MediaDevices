@@ -60,7 +60,7 @@ partial class MediaDevice
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedContentTypes(this.deviceCapabilities!, functionalCategory));
     }
 
-    public IEnumerable<ContentType> SupportedFormats(ContentType functionalCategory)
+    public IEnumerable<Formats> SupportedFormats(ContentType functionalCategory)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 

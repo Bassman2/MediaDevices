@@ -27,11 +27,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="Commands"/>
+                <Label Grid.Row="0" Content="Commands" Visibility="Hidden"/>
                 <ComboBox Grid.Row="1" Visibility="Hidden" Margin="3"/>
                 <Label Grid.Row="2" Content="Commands"/>
                 <ListBox Grid.Row="3" ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand}" SelectedIndex="0" Margin="3"/>
-                <Label Grid.Row="4" Content="Commands"/>
+                <Label Grid.Row="4" Content="Parameters"/>
                 <DataGrid Grid.Row="5" ItemsSource="{Binding CommandOptions}" AutoGenerateColumns="False" Margin="3">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" Width="*"/>
@@ -52,11 +52,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="Functional Objects"/>
+                <Label Grid.Row="0" Content="Categories"/>
                 <ComboBox Grid.Row="1" ItemsSource="{Binding FunctionalCategories}" SelectedItem="{Binding SelectedFunctionalCategory}" SelectedIndex="0" Margin="3"/>
                 <Label Grid.Row="2" Content="Functional Objects"/>
                 <ListBox Grid.Row="3" ItemsSource="{Binding FunctionalObjects}" Margin="3"/>
-                <Label Grid.Row="4" Content="Events"/>
+                <Label Grid.Row="4" Content="Events" Visibility="Hidden"/>
             </Grid>
         </GroupBox>
         <GroupBox Grid.Column="2" Header="Content Types">
@@ -71,11 +71,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="Content Types"/>
+                <Label Grid.Row="0" Content="Categories"/>
                 <ComboBox Grid.Row="1" ItemsSource="{Binding FunctionalCategories}" SelectedItem="{Binding SelectedContentCategory}" SelectedIndex="0" Margin="3"/>
                 <Label Grid.Row="2" Content="Content Types"/>
                 <ListBox Grid.Row="3" ItemsSource="{Binding ContentTypes}" SelectedItem="{Binding SelectedContentType}" Margin="3"/>
-                <Label Grid.Row="4" Content="Content Types"/>
+                <Label Grid.Row="4" Content="Formats"/>
                 <ListBox Grid.Row="5" ItemsSource="{Binding Formats}" Margin="3"/>
             </Grid>
         </GroupBox>
@@ -92,11 +92,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="Events"/>
+                <Label Grid.Row="0" Content="Events" Visibility="Hidden"/>
                 <ComboBox Grid.Row="1" Visibility="Hidden" Margin="3"/>
                 <Label Grid.Row="2" Content="Events"/>
                 <ListBox Grid.Row="3" ItemsSource="{Binding Events}" Margin="3"/>
-                <Label Grid.Row="4" Content="Events"/>
+                <Label Grid.Row="4" Content="Events" Visibility="Hidden"/>
             </Grid>
         </GroupBox>
     </Grid>

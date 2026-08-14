@@ -61,7 +61,7 @@ partial class ProtocolHandler
         return collection.Enumerate<ContentType>(val => val.ToGuid().ToContentTypeEnum());
     }
 
-    public static IEnumerable<ContentType> SupportedFormats(IPortableDeviceCapabilities capabilities, ContentType functionalCategory, CancellationToken cancellationToken = default)
+    public static IEnumerable<Formats> SupportedFormats(IPortableDeviceCapabilities capabilities, ContentType functionalCategory, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -70,7 +70,11 @@ partial class ProtocolHandler
         Guid guid = functionalCategory.ToGuid();
         int err = capabilities.GetSupportedFormats(ref guid, out IPortableDevicePropVariantCollection collection);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetSupportedFormats));
-        return collection.Enumerate<ContentType>(val => val.ToGuid().ToContentTypeEnum());
+
+        var list = collection.Enumerate<string>(val => val.ToGuid().ToString()).ToList();
+
+
+        return collection.Enumerate<Formats>(val => val.ToGuid().ToFormatsEnum());
     }
 
     public static IEnumerable<string> SupportedFormatProperties(IPortableDeviceCapabilities capabilities, Formats format, CancellationToken cancellationToken = default)
