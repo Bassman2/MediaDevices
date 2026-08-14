@@ -94,11 +94,11 @@ namespace GeneratorLibrary
 
         public T? ToEnum<T>() 
         {
-            if (arg.Type?.SpecialType == SpecialType.System_Enum)
+            if (arg.Value !=  null)
             {
                 return (T?)arg.Value;
             }
-            return default(T);
+            return default;
         }
     }
 }
