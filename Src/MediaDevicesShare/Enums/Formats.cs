@@ -3,7 +3,7 @@
 /// <summary>
 /// Formats
 /// </summary>
-[FindFieldsGenerator]
+[FindFieldsGenerator(FindType.Guid)]
 public enum Formats
 {
     /// <summary>

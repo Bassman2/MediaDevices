@@ -7,7 +7,7 @@ partial class ProtocolHandler
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Guid serviceGuid = serviceTypes.GetGuid();
+        Guid serviceGuid = serviceTypes.ToGuid();
         uint num = 0;
         int err = serviceManager.GetDeviceServices(mediaDevice.DeviceId, ref serviceGuid, null, ref num);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceServiceManager), nameof(IPortableDeviceServiceManager.GetDeviceServices));
@@ -44,7 +44,7 @@ partial class ProtocolHandler
             err = commands.GetAt(i, ref key);
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection), nameof(IPortableDeviceKeyCollection.GetAt));
             //yield return (Commands)GetEnumFromAttrKey<Commands>(key)!;
-            yield return key.FindCommandsEnum();
+            yield return key.ToCommandsEnum();
         }
     }
 
@@ -66,7 +66,7 @@ partial class ProtocolHandler
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt));
             //yield return (Events)GetEnumFromAttrGuid<Events>(val.ToGuid())!;
             Guid guid = val.ToGuid();
-            yield return guid.FindEventsEnum();
+            yield return guid.ToEventsEnum();
         }
     }
 
@@ -89,7 +89,7 @@ partial class ProtocolHandler
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt));
             //yield return (Events)GetEnumFromAttrGuid<Events>(val.ToGuid())!;
             Guid guid = val.ToGuid();
-            yield return guid.FindFormatsEnum();
+            yield return guid.ToFormatsEnum();
         }
     }
 
@@ -113,7 +113,7 @@ partial class ProtocolHandler
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt));
             //yield return (Events)GetEnumFromAttrGuid<Events>(val.ToGuid())!;
             Guid guid = val.ToGuid();
-            yield return guid.FindMethodsEnum();
+            yield return guid.ToMethodsEnum();
         }
     }
 }

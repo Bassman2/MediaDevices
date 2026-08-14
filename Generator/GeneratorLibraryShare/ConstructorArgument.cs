@@ -8,7 +8,10 @@ namespace GeneratorLibrary
     {
         public string Value => FormatTypedConstant(arg);
 
+        public object? PureValue => arg.Value;
+
         public string TypeName => arg.Type?.ToDisplayString() ?? string.Empty;
+        public string TypeEnum => arg.Type?.SpecialType.ToString() ?? string.Empty;
 
         public string Kind => arg.Kind.ToString();
 
@@ -87,6 +90,15 @@ namespace GeneratorLibrary
                 return (uint?)arg.Value;
             }
             return null;
+        }
+
+        public T? ToEnum<T>() 
+        {
+            if (arg.Type?.SpecialType == SpecialType.System_Enum)
+            {
+                return (T?)arg.Value;
+            }
+            return default(T);
         }
     }
 }

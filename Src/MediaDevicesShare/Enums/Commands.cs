@@ -3,7 +3,7 @@
 /// <summary>
 /// Commands for the mediaDevice
 /// </summary>
-[FindFieldsGenerator]
+[FindFieldsGenerator(FindType.PropertyKey)]
 public enum Commands : ulong
 {
     /// <summary>

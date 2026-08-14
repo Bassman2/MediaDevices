@@ -1,6 +1,6 @@
 ﻿namespace MediaDevices;
 
-[FindFieldsGenerator]
+[FindFieldsGenerator(FindType.Guid)]
 public enum ObjectFormat
 {
     [EnumGuid]

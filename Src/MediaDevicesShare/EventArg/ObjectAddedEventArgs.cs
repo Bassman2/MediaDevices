@@ -22,11 +22,11 @@ public class ObjectAddedEventArgs : MediaDeviceEventArgs
         }
         if (eventParameters.GetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, out Guid objectContentType) == OK)
         {
-            this.ObjectContentType = objectContentType.FindContentTypeEnum();
+            this.ObjectContentType = objectContentType.ToContentTypeEnum();
         }
         if (eventParameters.GetGuidValue(ref WPD.FUNCTIONAL_OBJECT_CATEGORY, out Guid functionalObjectCategory) == OK)
         {
-            this.FunctionalObjectCategory = functionalObjectCategory.FindFunctionalCategoryEnum();
+            this.FunctionalObjectCategory = functionalObjectCategory.ToFunctionalCategoryEnum();
         }
         if (eventParameters.GetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, out string objectOriginalFileName) == OK)
         {

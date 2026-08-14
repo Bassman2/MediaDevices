@@ -4,7 +4,7 @@
 /// MediaDevice services
 /// </summary>
 /// 
-[FindFieldsGenerator]
+[FindFieldsGenerator(FindType.Guid)]
 public enum MediaDeviceServices
 {
     /// <summary>

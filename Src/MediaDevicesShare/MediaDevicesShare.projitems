@@ -62,7 +62,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\ObjectProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PropertyKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\PropertyKeys.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\PropVariant.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\PropVariant.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PropVariantData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PropVariantFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\PropVariantType.cs" />

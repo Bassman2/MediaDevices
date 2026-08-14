@@ -14,7 +14,7 @@ partial class ProtocolHandler
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_DEVICE_HINTS_GET_CONTENT_LOCATION);
-        cmd.Add(WPD.PROPERTY_DEVICE_HINTS_CONTENT_TYPE, contentType.GetGuid());
+        cmd.Add(WPD.PROPERTY_DEVICE_HINTS_CONTENT_TYPE, contentType.ToGuid());
         if (!cmd.Send(mediaDevice.device!))
         {
             return [];

@@ -90,7 +90,7 @@ public class MediaDeviceService : IDisposable
 
             var serviceGuid = new Guid((string)value);
             //this.Service = serviceGuid.GetEnum<MediaDeviceServices>();
-            this.Service = serviceGuid.FindMediaDeviceServicesEnum();
+            this.Service = serviceGuid.ToMediaDeviceServicesEnum();
             this.ServiceName = this.Service != MediaDeviceServices.Unknown ? this.Service.ToString() : serviceGuid.ToString();
         }
 

@@ -377,7 +377,7 @@ internal static partial class ProtocolHandler
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Guid storage = FunctionalCategory.Storage.GetGuid();
+        Guid storage = FunctionalCategory.Storage.ToGuid();
 
         int err = mediaDevice.deviceCapabilities!.GetFunctionalObjects(ref storage, out IPortableDevicePropVariantCollection collection);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetFunctionalObjects));

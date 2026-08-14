@@ -68,7 +68,7 @@ partial class MediaDevice
         
         int err = eventParameters.GetGuidValue(ref WPD.EVENT_PARAMETER_EVENT_ID, out Guid eventGuid);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetGuidValue), "EVENT_PARAMETER_EVENT_ID");
-        Events eventEnum = eventGuid.FindEventsEnum();
+        Events eventEnum = eventGuid.ToEventsEnum();
 
         MediaDeviceEventArgs? eventArgs = eventEnum switch
         {

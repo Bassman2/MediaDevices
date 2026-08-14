@@ -239,7 +239,7 @@ internal static partial class ProtocolHandler
         }
         if (mediaDevice.deviceValues.GetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, out Guid objectContentType) == OK)
         {
-            mediaDevice.ContentType = objectContentType.FindContentTypeEnum();
+            mediaDevice.ContentType = objectContentType.ToContentTypeEnum();
         }
         if (mediaDevice.deviceValues.GetStringValue(ref WPD.OBJECT_PERSISTENT_UNIQUE_ID, out string objectPersistentUniqueId) == OK)
         {
@@ -247,7 +247,7 @@ internal static partial class ProtocolHandler
         }
         if (mediaDevice.deviceValues.GetGuidValue(ref WPD.OBJECT_FORMAT, out Guid objectFormat) == OK)
         {
-            mediaDevice.ObjectFormat = objectFormat.FindObjectFormatEnum();
+            mediaDevice.ObjectFormat = objectFormat.ToObjectFormatEnum();
         }
         if (mediaDevice.deviceValues.GetBoolValue(ref WPD.OBJECT_ISHIDDEN, out int isHidden) == OK)
         {
@@ -264,7 +264,7 @@ internal static partial class ProtocolHandler
 
         if (mediaDevice.deviceValues.GetGuidValue(ref WPD.FUNCTIONAL_OBJECT_CATEGORY, out Guid functionalObjectCategory) == OK)
         {
-            mediaDevice.FunctionalObjectCategory = functionalObjectCategory.FindFunctionalCategoryEnum();
+            mediaDevice.FunctionalObjectCategory = functionalObjectCategory.ToFunctionalCategoryEnum();
         }
 
         if (mediaDevice.deviceValues.GetUnsignedLargeIntegerValue(ref WPD.DEVICE_NETWORK_IDENTIFIER, out ulong networkIdentifier) == OK)
