@@ -14,29 +14,90 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        
-        <Label Grid.Column="0" Content="Commands"/>
-        <ListBox Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand}" SelectedIndex="0" Margin="3"/>
-        <ListBox Grid.Column="0" Grid.Row="3" ItemsSource="{Binding CommandOptions}" Margin="3"/>
+        <GroupBox Grid.Column="0" Header="Commands">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Commands" Visibility="Hidden"/>
+                <ComboBox Grid.Row="1" Visibility="Hidden" Margin="3"/>
+                <Label Grid.Row="2" Content="Commands"/>
+                <ListBox Grid.Row="3" ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand}" SelectedIndex="0" Margin="3"/>
+                <Label Grid.Row="4" Content="Parameters"/>
+                <DataGrid Grid.Row="5" ItemsSource="{Binding CommandOptions}" AutoGenerateColumns="False" Margin="3">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="Value" Binding="{Binding Value}" IsReadOnly="True" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Functional Objects">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Categories"/>
+                <ComboBox Grid.Row="1" ItemsSource="{Binding FunctionalCategories}" SelectedItem="{Binding SelectedFunctionalCategory}" SelectedIndex="0" Margin="3"/>
+                <Label Grid.Row="2" Content="Functional Objects"/>
+                <ListBox Grid.Row="3" ItemsSource="{Binding FunctionalObjects}" Margin="3"/>
+                <Label Grid.Row="4" Content="Events" Visibility="Hidden"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="2" Header="Content Types">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Categories"/>
+                <ComboBox Grid.Row="1" ItemsSource="{Binding FunctionalCategories}" SelectedItem="{Binding SelectedContentCategory}" SelectedIndex="0" Margin="3"/>
+                <Label Grid.Row="2" Content="Content Types"/>
+                <ListBox Grid.Row="3" ItemsSource="{Binding ContentTypes}" SelectedItem="{Binding SelectedContentType}" Margin="3"/>
+                <Label Grid.Row="4" Content="Formats"/>
+                <ListBox Grid.Row="5" ItemsSource="{Binding Formats}" Margin="3"/>
+            </Grid>
+        </GroupBox>
 
-        <Label Grid.Column="1" Content="Functional Objects"/>
-        <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding FunctionalCategories}" SelectedItem="{Binding SelectedFunctionalCategory}" SelectedIndex="0" Margin="3"/>
-        <ListBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding FunctionalObjects}" Margin="3"/>
-
-        <Label Grid.Column="2" Content="Content Types"/>
-        <ComboBox Grid.Column="2" Grid.Row="1" ItemsSource="{Binding FunctionalCategories}" SelectedItem="{Binding SelectedContentCategory}" SelectedIndex="0" Margin="3"/>
-        <ListBox Grid.Column="2" Grid.Row="2" ItemsSource="{Binding ContentTypes}" SelectedItem="{Binding SelectedContentType}" Margin="3"/>
-        <ListBox Grid.Column="2" Grid.Row="3" ItemsSource="{Binding Formats}" Margin="3"/>
-
-        <Label Grid.Column="3" Content="Events"/>
-        <ListBox Grid.Column="3" Grid.Row="2" ItemsSource="{Binding Events}" Margin="3"/>
+        <GroupBox Grid.Column="3" Header="Events">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Events" Visibility="Hidden"/>
+                <ComboBox Grid.Row="1" Visibility="Hidden" Margin="3"/>
+                <Label Grid.Row="2" Content="Events"/>
+                <ListBox Grid.Row="3" ItemsSource="{Binding Events}" Margin="3"/>
+                <Label Grid.Row="4" Content="Events" Visibility="Hidden"/>
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>

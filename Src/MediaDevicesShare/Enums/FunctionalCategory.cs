@@ -3,7 +3,7 @@
 /// <summary>
 /// Functional categories
 /// </summary>
-[FindFieldsGenerator]
+[FindFieldsGenerator(FindType.Guid)]
 public enum FunctionalCategory
 {
     /// <summary>

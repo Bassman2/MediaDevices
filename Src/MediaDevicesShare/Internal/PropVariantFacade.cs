@@ -28,7 +28,7 @@ internal sealed partial class PropVariantFacade : IDisposable
         //}
     }
 
-    public string KeyName => Key.GetName();
+    public string KeyName => Key.ToName();
 
     public PropVariantType VariantType => Value.vt; 
     

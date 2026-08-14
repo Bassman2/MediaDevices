@@ -13,7 +13,7 @@ public partial class FinderGenerator : Generator
         //Debugger.Launch();
 
         // for debug only
-        CreateDebug();
+        //CreateDebug();
 
         // get all enums with [FindFieldsGeneratorAttribute] 
         foreach (var en in GetAllEnumsWithAttribute("MediaDevices.Internal.FindFieldsGeneratorAttribute"))

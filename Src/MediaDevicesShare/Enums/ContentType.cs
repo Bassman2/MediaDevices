@@ -3,7 +3,7 @@
 /// <summary>
 /// Supported content.
 /// </summary>
-[FindFieldsGenerator]
+[FindFieldsGenerator(FindType.Guid)]
 public enum ContentType : ulong
 {
     /// <summary>

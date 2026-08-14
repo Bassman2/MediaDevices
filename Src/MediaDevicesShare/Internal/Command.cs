@@ -99,7 +99,7 @@ internal class Command
         {
             yield break;
         }
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetIUnknownValue), key.GetName());
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetIUnknownValue), key.ToName());
 
         var col = obj as IPortableDevicePropVariantCollection;
     

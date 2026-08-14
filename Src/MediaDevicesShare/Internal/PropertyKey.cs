@@ -5,7 +5,7 @@ internal struct PropertyKey
     public Guid fmtid;
     public uint pid;
 
-    public readonly string Name => this.GetName();
+    public readonly string Name => this.ToName();
 
     public PropertyKey()
     {

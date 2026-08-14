@@ -4,7 +4,7 @@ partial class DeviceViewModel
 {
     #region Capability
 
-    public List<FunctionalCategory> FunctionalCategories => [.. mediaDevice.FunctionalCategories()];
+    public List<FunctionalCategory> FunctionalCategories { get; }
 
 
     #region Commands
@@ -20,16 +20,14 @@ partial class DeviceViewModel
     }
 
     [ObservableProperty]
-    public partial List<(string, string)> CommandOptions { get; set; }
+    public partial List<MediaProperty> CommandOptions { get; set; }
 
     #endregion
 
     #region Functional
 
-
-
     [ObservableProperty]
-    public partial FunctionalCategory SelectedFunctionalCategory { get; set; }
+    public partial FunctionalCategory SelectedFunctionalCategory { get; set; } 
 
     partial void OnSelectedFunctionalCategoryChanged(FunctionalCategory value)
     {
@@ -63,7 +61,7 @@ partial class DeviceViewModel
     }
 
     [ObservableProperty]
-    public partial List<ContentType> Formats { get; set; }
+    public partial List<Formats> Formats { get; set; }
 
     #endregion
 

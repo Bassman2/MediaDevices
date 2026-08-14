@@ -69,7 +69,7 @@ internal static class ComTrace
             PropertyKey key = new();
             collection.GetAt(index, ref key);
 
-            PropertyKeys propertyKey = key.FindPropertyKeysEnum();
+            PropertyKeys propertyKey = key.ToPropertyKeysEnum();
 
             Debug.WriteLine($"## {propertyKey}");
         }

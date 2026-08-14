@@ -14,7 +14,7 @@ partial class MediaDevice
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedCommands(this.deviceCapabilities!));
     }
 
-    public IEnumerable<(string, string)> CommandOptions( Commands command)
+    public IEnumerable<MediaProperty> CommandOptions(Commands command)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -60,7 +60,7 @@ partial class MediaDevice
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedContentTypes(this.deviceCapabilities!, functionalCategory));
     }
 
-    public IEnumerable<ContentType> SupportedFormats(ContentType functionalCategory)
+    public IEnumerable<Formats> SupportedFormats(ContentType functionalCategory)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -74,7 +74,7 @@ partial class MediaDevice
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedFormatProperties(this.deviceCapabilities!, format));
     }
 
-    //public IEnumerable<(string, string)> FixedPropertyAttributes(Formats format, PropertyKey key)
+    //public IEnumerable<MediaProperty> FixedPropertyAttributes(Formats format, PropertyKey key)
     //{
     //    NotConnectedException.ThrowIfNotConnected(this);
 

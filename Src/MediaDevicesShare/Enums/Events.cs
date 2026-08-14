@@ -3,7 +3,7 @@
 /// <summary>
 /// Supported events
 /// </summary>
-[FindFieldsGenerator]
+[FindFieldsGenerator(FindType.Guid)]
 public enum Events
 {
     /// <summary>

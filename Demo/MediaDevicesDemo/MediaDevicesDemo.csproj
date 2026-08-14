@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <Version>2.0.0.3000</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,10 +15,6 @@
     <None Remove="Images\Folder.png" />
     <None Remove="Images\Help16.png" />
     <None Remove="Images\Info16.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Model\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +32,10 @@
     <Resource Include="Images\Folder.png" />
     <Resource Include="Images\Help16.png" />
     <Resource Include="Images\Info16.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
 
 </Project>

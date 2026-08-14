@@ -3,7 +3,7 @@
 /// <summary>
 ///  Methods
 /// </summary>
-[FindFieldsGenerator]
+[FindFieldsGenerator(FindType.Guid)]
 public enum Methods
 {
     /// <summary>

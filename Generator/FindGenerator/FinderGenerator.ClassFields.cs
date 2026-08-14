@@ -19,34 +19,26 @@ partial class FinderGenerator
             
             namespace {{cl.NameSpace}};
 
-            internal static class {{cl.Name}}FindPropertyKeyName
+            internal static class Class{{cl.Name}}FindPropertyKeyName
             {
 
             """);
 
         ///////////////////////////////////////////////////////////////////////
-        // get PropertyKey names
+        // string ToName(this Guid guid)
         ///////////////////////////////////////////////////////////////////////
 
         sb.AppendLine(
             $$"""
-                public static string GetName(this Guid guid)
+                public static string ToName(this Guid guid)
                 {
-
             """);
 
         foreach (var field in cl.Fields)
         {
             if (field.Type.Name == "Guid")
             {
-                sb.AppendLine(
-                    $$"""
-                            if (guid == WPD.{{field.Name}})
-                            {
-                                return nameof(WPD.{{field.Name}});
-                            }
-                
-                    """);
+                sb.AppendLine($"        if (guid == WPD.{field.Name}) return nameof(WPD.{field.Name});");
             }
         }
 
@@ -57,34 +49,26 @@ partial class FinderGenerator
             """);
 
         ///////////////////////////////////////////////////////////////////////
-        // get PropertyKey names
+        // string ToName(this PropertyKey propertyKey)
         ///////////////////////////////////////////////////////////////////////
 
         sb.AppendLine(
             $$"""
-                public static string GetName(this PropertyKey propertyKey)
+                public static string ToName(this PropertyKey propertyKey)
                 {
-
             """);
 
         foreach (var field in cl.Fields)
         {
             if (field.Type.Name == "PropertyKey")
             {
-                sb.AppendLine(
-                    $$"""
-                            if (propertyKey == WPD.{{field.Name}})
-                            {
-                                return nameof(WPD.{{field.Name}});
-                            }
-                
-                    """);
+                sb.AppendLine($"        if (propertyKey == WPD.{field.Name}) return nameof(WPD.{field.Name});");
             }
         }
 
         sb.AppendLine(
             $$"""
-                    return $"{GetName(propertyKey.fmtid)}:{propertyKey.pid}";
+                    return $"{ToName(propertyKey.fmtid)}:{propertyKey.pid}";
                 }
             """);
 
@@ -97,6 +81,6 @@ partial class FinderGenerator
             }
             """);
 
-        AddSource($"{cl.Name}FindFields.g.cs", sb.ToString());
+        AddSource($"Class{cl.Name}FindFields.g.cs", sb.ToString());
     }
 }

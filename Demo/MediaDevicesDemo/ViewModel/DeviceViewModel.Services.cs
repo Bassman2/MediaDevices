@@ -2,15 +2,11 @@
 
 partial class DeviceViewModel
 {
-
-    //protected MediaDevice device;
-    //protected MediaDeviceService selectedService;
-    //protected MediaDeviceServices services = MediaDeviceServices.All;
-
-    public List<MediaDeviceServices> ServiceTypes => Enum.GetValues<MediaDeviceServices>().Where(e => e != MediaDeviceServices.Unknown).ToList();
+    [ObservableProperty]
+    public partial List<MediaDeviceServices> ServiceTypes { get; set; }
 
     [ObservableProperty]
-    public partial MediaDeviceServices SelectedServiceType { get; set; } = MediaDeviceServices.All;
+    public partial MediaDeviceServices SelectedServiceType { get; set; }
 
     partial void OnSelectedServiceTypeChanged(MediaDeviceServices value)
     {

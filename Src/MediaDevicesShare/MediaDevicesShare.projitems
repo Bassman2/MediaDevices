@@ -9,10 +9,11 @@
     <Import_RootNamespace>MediaDevices</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\EnumExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDirectoryInfo.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaFileSystemInfo.Async.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaProperty.cs" />
     <Compile Include="..\MediaDevicesShare\Attributes\CLSIDAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enums\ObjectFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ChargingState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Commands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ContentType.cs" />
@@ -61,7 +62,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\ObjectProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PropertyKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\PropertyKeys.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\PropVariant.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\PropVariant.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PropVariantData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PropVariantFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Enums\PropVariantType.cs" />
