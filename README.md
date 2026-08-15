@@ -18,7 +18,7 @@ Older .NET versions prior to 8.0 are no longer supported, as they do not support
 
 ## Download
 
-Future: [NuGet Package](https://www.nuget.org/packages/MediaDevices/)
+[NuGet Package](https://www.nuget.org/packages/MediaDevices/)
 
 ## Documentation
 
