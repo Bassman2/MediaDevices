@@ -6,6 +6,7 @@
              Startup="OnApplicationStartup">
     <Application.Resources>
         <conv:LongToSizeStringConverter x:Key="LongToSizeStringConverter"/>
+        <conv:EnumToStringConverter x:Key="EnumToStringConverter"/>
 
         <!-- DataGrid Styles -->
         <Style TargetType="DataGrid">

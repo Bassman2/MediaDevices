@@ -116,6 +116,11 @@ public enum Formats : ushort
     [EnumGuid(0x300C0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     ASFFile = 0x300C,
 
+    /// <summary>
+    /// (XML_DOCUMENT): Used by Apple to pass configuration files in XML format (such as .plist files) to the MTP subsystem.
+    /// </summary>
+    PLISTFile = 0x300D,
+    
     #region Image
 
     /// <summary>
@@ -229,6 +234,46 @@ public enum Formats : ushort
     /// </summary>
     [EnumGuid(0x38100000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     JPXImage = 0x3810,
+
+
+    #region Apple 0xB4xx
+    
+    /// <summary>
+    /// 0xB401: Apple Media/Live Photo Link – Meaning: Identifies the primary photo object. It links the various components of a Live Photo (the .HEIC/.JPG image and the .MOV video component).
+    /// </summary>
+    HEICImage = 0xB401,
+
+    /// <summary>
+    /// Apple Metadata / Sidecar File – Meaning: Identifies non-destructive editing data (the typical .AAE files). They tell the system which filters or crops have been applied to the original image.
+    /// </summary>
+    AAEFile = 0xB402,
+
+    /// <summary>
+    /// Apple Directory / Index Configuration: Refers to internal database structures (such as fragments of Photos.sqlite). It helps the MTP driver correctly construct virtual albums and the device's native DCIM folder structure (e.g., 100APPLE).
+    /// </summary>
+    AppleDirectoryAndIndexConfiguration = 0xB403,
+
+    /// <summary>
+    /// Apple Burst Group Marker – Meaning: Used to logically group burst shots so that they appear on the PC as a cohesive series rather than as hundreds of loose, individual images.
+    /// </summary>
+    AppleBurstGroupMarker = 0xB404,
+
+    /// <summary>
+    /// Apple Device Lock &amp; Trust Status – Meaning: Reports whether the iPhone is unlocked and whether the computer has security authorization ("Trust this computer?"). If the device is locked, this property blocks access to the DCIM folder.
+    /// </summary>
+    AppleDeviceLockAndTrustStatus = 0xB421,
+
+    /// <summary>
+    /// Apple Host Connection Mode – Meaning: Controls export behavior. This setting determines whether photos are transferred in their original format (e.g., .HEIC) or automatically converted for the PC (as .JPG) (configurable in iOS settings under Photos → Transfer to Mac or PC).
+    /// </summary>
+    AppleHostConnectionMode = 0xB422,
+
+    /// <summary>
+    /// Apple Camera/Continuity Control – Meaning: Used for advanced camera interactions, such as when the iPhone acts as a webcam for a Mac (Continuity Camera) or when professional import software sends studio commands to the iPhone camera.
+    /// </summary>
+    AppleCameraContinuityControl = 0xB423,
+
+    #endregion
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_WBMP
