@@ -45,7 +45,7 @@ public class MediaDeviceException(string message) : Exception(message)
     /// - Writes the diagnostic message to the debug output and throws a <see cref="MediaDeviceException"/>.
     /// </remarks>
     /// <exception cref="MediaDeviceException">Thrown when <paramref name="errorCode"/> indicates a COM failure.</exception>
-    public static void ThrowIfComError(
+    internal static void ThrowIfComError(
         int errorCode, 
         string interf, 
         string function,
@@ -70,8 +70,11 @@ public class MediaDeviceException(string message) : Exception(message)
     /// <param name="interf">The COM interface or component where the error occurred.</param>
     /// <param name="function">The function or method that reported the error.</param>
     /// <param name="parameter">An optional parameter or context value related to the failing call.</param>
+    /// <param name="lineNumber">The source line number of the caller (provided by the compiler).</param>
+    /// <param name="memberName">The member name of the caller (provided by the compiler).</param>
+    /// <param name="filePath">The source file path of the caller (provided by the compiler).</param>
     /// <exception cref="MediaDeviceException">Thrown when <paramref name="errorCode"/> is a failure (negative) value.</exception>
-    public static void ThrowIfComError(
+    internal static void ThrowIfComError(
         int errorCode, 
         string interf, 
         string function, 

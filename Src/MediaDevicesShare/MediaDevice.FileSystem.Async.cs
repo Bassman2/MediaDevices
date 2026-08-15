@@ -289,6 +289,15 @@ partial class MediaDevice
 
     #region MediaFileInfo, MediaDirectoryInfo, MediaDriveInfo and MediaFileSystemInfo based 
 
+    /// <summary>
+    /// Asynchronously retrieves file information for the specified path.
+    /// </summary>
+    /// <param name="path">The file path to retrieve information for. Must be a valid file system path.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the <see cref="MediaFileInfo"/> for the specified path.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="path"/> is invalid or empty.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the device is not connected.</exception>
+    /// <exception cref="OperationCanceledException">Thrown when the operation is cancelled via the <paramref name="cancellationToken"/>.</exception>
     public async Task<MediaFileInfo> GetFileInfoAsync(string path, CancellationToken cancellationToken = default)
     {
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
@@ -297,6 +306,15 @@ partial class MediaDevice
         return await mainWorker.InvokeAsync(() => ProtocolHandler.GetFileInfo(this, path), cancellationToken);
     }
 
+    /// <summary>
+    /// Asynchronously retrieves directory information for the specified path.
+    /// </summary>
+    /// <param name="path">The directory path to retrieve information for. Must be a valid file system path.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the <see cref="MediaDirectoryInfo"/> for the specified path.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="path"/> is invalid or empty.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the device is not connected.</exception>
+    /// <exception cref="OperationCanceledException">Thrown when the operation is cancelled via the <paramref name="cancellationToken"/>.</exception>
     public async Task<MediaDirectoryInfo> GetDirectoryInfoAsync(string path, CancellationToken cancellationToken = default)
     {
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
@@ -305,6 +323,13 @@ partial class MediaDevice
         return await mainWorker.InvokeAsync(() => ProtocolHandler.GetDirectoryInfo(this, path), cancellationToken);
     }
 
+    /// <summary>
+    /// Asynchronously retrieves the root directory information of the device.
+    /// </summary>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the <see cref="MediaDirectoryInfo"/> for the device's root directory.</returns>
+    /// <exception cref="NotConnectedException">Thrown when the device is not connected.</exception>
+    /// <exception cref="OperationCanceledException">Thrown when the operation is cancelled via the <paramref name="cancellationToken"/>.</exception>
     public async Task<MediaDirectoryInfo> GetRootDirectoryAsync(CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this);
@@ -316,6 +341,17 @@ partial class MediaDevice
 
     #region PersistentUniqueId
 
+    /// <summary>
+    /// Asynchronously resolves a persistent unique identifier to a device file system path.
+    /// </summary>
+    /// <param name="persistentUniqueId">The persistent unique identifier to resolve. Must not be <c>null</c> or empty.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>
+    /// A task representing the asynchronous operation. The task result contains the resolved device file system path as a <see cref="string"/>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="persistentUniqueId"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the device is not connected.</exception>
+    /// <exception cref="OperationCanceledException">Thrown when the operation is canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task<string> GetPathFromPersistentUniqueIdAsync(string persistentUniqueId, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
@@ -324,6 +360,17 @@ partial class MediaDevice
         return await mainWorker.InvokeAsync(() => ProtocolHandler.GetPathFromPersistentUniqueId(this, persistentUniqueId), cancellationToken);
     }
 
+    /// <summary>
+    /// Asynchronously retrieves file system metadata for the resource identified by the persistent unique identifier.
+    /// </summary>
+    /// <param name="persistentUniqueId">The persistent unique identifier of the resource. Must not be <c>null</c> or empty.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>
+    /// A task representing the asynchronous operation. The task result contains a <see cref="MediaFileSystemInfo"/> describing the resource.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="persistentUniqueId"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the device is not connected.</exception>
+    /// <exception cref="OperationCanceledException">Thrown when the operation is canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task<MediaFileSystemInfo> GetFileSystemInfoFromPersistentUniqueIdAsync(string persistentUniqueId, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
@@ -332,6 +379,16 @@ partial class MediaDevice
         return await mainWorker.InvokeAsync(() => ProtocolHandler.GetFileSystemInfoFromPersistentUniqueId(this, persistentUniqueId), cancellationToken);
     }
 
+    /// <summary>
+    /// Asynchronously downloads a file identified by a persistent unique identifier to a local destination path.
+    /// </summary>
+    /// <param name="persistentUniqueId">The persistent unique identifier of the file to download. Must not be <c>null</c> or empty.</param>
+    /// <param name="destination">The local destination file path where the file will be saved.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>A task that represents the asynchronous download operation.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="persistentUniqueId"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the device is not connected.</exception>
+    /// <exception cref="OperationCanceledException">Thrown when the operation is canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task DownloadFileFromPersistentUniqueIdAsync(string persistentUniqueId, string destination, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
@@ -340,6 +397,18 @@ partial class MediaDevice
         await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadFileFromPersistentUniqueId(this, persistentUniqueId, destination), cancellationToken);
     }
 
+    /// <summary>
+    /// Asynchronously opens a read-only <see cref="Stream"/> for the resource identified by the persistent unique identifier.
+    /// </summary>
+    /// <param name="persistentUniqueId">The persistent unique identifier of the resource. Must not be <c>null</c> or empty.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>
+    /// A task representing the asynchronous operation. The task result contains a readable <see cref="Stream"/> for the resource.
+    /// The caller is responsible for disposing the returned stream when finished.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="persistentUniqueId"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the device is not connected.</exception>
+    /// <exception cref="OperationCanceledException">Thrown when the operation is canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task<Stream> OpenReadFromPersistentUniqueIdAsync(string persistentUniqueId, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
@@ -348,6 +417,18 @@ partial class MediaDevice
         return await mainWorker.InvokeAsync(() => ProtocolHandler.OpenReadFromPersistentUniqueId(this, persistentUniqueId), cancellationToken);
     }
 
+    /// <summary>
+    /// Asynchronously opens a <see cref="StreamReader"/> for reading text from the resource identified by the persistent unique identifier.
+    /// </summary>
+    /// <param name="persistentUniqueId">The persistent unique identifier of the resource. Must not be <c>null</c> or empty.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>
+    /// A task representing the asynchronous operation. The task result contains a <see cref="StreamReader"/> for reading text, or <c>null</c> if the resource could not be opened as text.
+    /// The caller is responsible for disposing the returned <see cref="StreamReader"/> when finished.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="persistentUniqueId"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the device is not connected.</exception>
+    /// <exception cref="OperationCanceledException">Thrown when the operation is canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task<StreamReader?> OpenTextFromPersistentUniqueIdAsync(string persistentUniqueId, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));

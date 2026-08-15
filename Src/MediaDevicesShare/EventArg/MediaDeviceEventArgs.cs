@@ -5,7 +5,7 @@
 /// </summary>
 public class MediaDeviceEventArgs : EventArgs
 {
-    protected const int OK = 0;
+    private const int OK = 0;
 
     internal MediaDeviceEventArgs(Events eventEnum, MediaDevice mediaDevice, IPortableDeviceValues eventParameters)
     {

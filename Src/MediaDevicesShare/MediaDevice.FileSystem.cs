@@ -312,7 +312,7 @@ partial class MediaDevice
     /// <summary>
     /// Download data from a file on a portable mediaDevice to a stream.
     /// </summary>
-    /// <param name="path">The path to the file.</param>
+    /// <param name="source">The path to the file.</param>
     /// <param name="stream">The stream to download to.</param>
     /// <exception cref="System.IO.IOException">path is a file name.</exception>
     /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
@@ -328,6 +328,16 @@ partial class MediaDevice
         mainWorker.Invoke(() => ProtocolHandler.DownloadFile(this, source, stream));
     }
 
+    /// <summary>
+    /// Downloads a file from the connected portable media device to a local destination path.
+    /// </summary>
+    /// <param name="source">The path to the file on the device.</param>
+    /// <param name="destination">The local file path to save the downloaded file to.</param>
+    /// <exception cref="System.IO.IOException">source is a file name.</exception>
+    /// <exception cref="System.ArgumentException">source or destination is a zero-length string, contains only white space, or contains invalid characters as defined by <see cref="System.IO.Path.GetInvalidPathChars"/>.</exception>
+    /// <exception cref="System.ArgumentNullException">source or destination is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">source or destination is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void DownloadFile(string source, string destination)
     {
         FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
@@ -340,7 +350,7 @@ partial class MediaDevice
     /// <summary>
     /// Download icon from a file on a portable mediaDevice to a stream.
     /// </summary>
-    /// <param name="path">The path to the file.</param>
+    /// <param name="source">The path to the file.</param>
     /// <param name="stream">The stream to download to.</param>
     /// <exception cref="System.IO.IOException">path is a file name.</exception>
     /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
@@ -356,6 +366,19 @@ partial class MediaDevice
         mainWorker.Invoke(() => ProtocolHandler.DownloadIcon(this, source, stream));
     }
 
+    /// <summary>
+    /// Downloads the icon (thumbnail or representative image) for an item on the connected media device
+    /// and saves it to the specified local destination file.
+    /// </summary>
+    /// <param name="source">The device path to the file or directory whose icon should be downloaded.</param>
+    /// <param name="destination">The full local file-system path where the icon will be saved.</param>
+    /// <remarks>
+    /// Path arguments are validated by <see cref="FileSystemPathCheck"/> before the request is dispatched.
+    /// </remarks>
+    /// <exception cref="System.ArgumentException">Thrown when <paramref name="source"/> or <paramref name="destination"/> is an empty string, contains only white space, or contains invalid path characters.</exception>
+    /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="destination"/> is null.</exception>
+    /// <exception cref="System.IO.FileNotFoundException">Thrown when the source item or its icon cannot be found on the device.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">Thrown when the media device is not connected.</exception>
     public void DownloadIcon(string source, string destination)
     {
         FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
@@ -368,7 +391,7 @@ partial class MediaDevice
     /// <summary>
     /// Download thumbnail from a file on a portable mediaDevice to a stream.
     /// </summary>
-    /// <param name="path">The path to the file.</param>
+    /// <param name="source">The path to the file.</param>
     /// <param name="stream">The stream to download to.</param>
     /// <exception cref="System.IO.IOException">path is a file name.</exception>
     /// <exception cref="System.ArgumentException">path is a zero-length string, contains only white space, or contains invalid characters as defined by System.IO.Path.GetInvalidPathChars.</exception>
@@ -384,6 +407,16 @@ partial class MediaDevice
         mainWorker.Invoke(() => ProtocolHandler.DownloadThumbnail(this, source, stream));
     }
 
+    /// <summary>
+    /// Download thumbnail from a file on a portable media device to a local destination path.
+    /// </summary>
+    /// <param name="source">The path to the file on the device.</param>
+    /// <param name="destination">The local file path to save the thumbnail to.</param>
+    /// <exception cref="System.IO.IOException">source is a file name.</exception>
+    /// <exception cref="System.ArgumentException">source or destination is a zero-length string, contains only white space, or contains invalid characters as defined by <see cref="System.IO.Path.GetInvalidPathChars"/>.</exception>
+    /// <exception cref="System.ArgumentNullException">source or destination is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">source or destination is invalid.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void DownloadThumbnail(string source, string destination)
     {
         FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
@@ -393,6 +426,18 @@ partial class MediaDevice
         mainWorker.Invoke(() => ProtocolHandler.DownloadThumbnail(this, source, destination));
     }
 
+    /// <summary>
+    /// Downloads a directory from the connected portable media device to a local destination.
+    /// </summary>
+    /// <param name="source">The full path of the directory on the device to download.</param>
+    /// <param name="destination">The local filesystem path where the directory will be created and its contents saved.</param>
+    /// <param name="recursive">If true, subdirectories are downloaded recursively; otherwise only the top-level contents are downloaded. The default is <c>true</c>.</param>
+    /// <param name="ignoreExceptions">If true, errors encountered while downloading individual files or subdirectories are ignored and the operation continues; if false, the first encountered error is propagated. The default is <c>true</c>.</param>
+    /// <exception cref="System.IO.IOException">The <paramref name="source"/> refers to a file rather than a directory, or an I/O error occurs during the operation.</exception>
+    /// <exception cref="System.ArgumentException"><paramref name="source"/> or <paramref name="destination"/> is a zero-length string, contains only white space, or contains invalid path characters.</exception>
+    /// <exception cref="System.ArgumentNullException"><paramref name="source"/> or <paramref name="destination"/> is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException"><paramref name="source"/> is invalid or not found on the device.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">The media device is not connected.</exception>
     public void DownloadFolder(string source, string destination, bool recursive = true, bool ignoreExceptions = true)
     {
         FileSystemPathCheck.ThrowIfInvalidPath(source);
@@ -422,6 +467,16 @@ partial class MediaDevice
         mainWorker.Invoke(() => ProtocolHandler.UploadFile(this, stream, destination));
     }
 
+    /// <summary>
+    /// Uploads a file from the local file system to the media device.
+    /// </summary>
+    /// <param name="source">The full path of the source file on the local file system.</param>
+    /// <param name="destination">The destination path on the device where the file will be created.</param>
+    /// <exception cref="System.IO.IOException">An I/O error occurs while accessing the source or destination.</exception>
+    /// <exception cref="System.ArgumentException">source or destination is a zero-length string, contains only white space, or contains invalid characters.</exception>
+    /// <exception cref="System.ArgumentNullException">source or destination is null.</exception>
+    /// <exception cref="System.IO.FileNotFoundException">The source file was not found.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">The media device is not connected.</exception>
     public void UploadFile(string source, string destination)
     {
         FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
@@ -431,6 +486,18 @@ partial class MediaDevice
         mainWorker.Invoke(() => ProtocolHandler.UploadFile(this, source, destination));
     }
 
+    /// <summary>
+    /// Uploads a folder from the local file system to the media device.
+    /// </summary>
+    /// <param name="source">The full path of the source directory on the local file system.</param>
+    /// <param name="destination">The destination directory path on the device where files and subdirectories will be created.</param>
+    /// <param name="recursive">If true, subdirectories are uploaded recursively. Default is true.</param>
+    /// <param name="ignoreExceptions">If true, exceptions encountered while uploading individual items are ignored; otherwise they are propagated. Default is true.</param>
+    /// <exception cref="System.IO.IOException">An I/O error occurs while accessing the source or destination.</exception>
+    /// <exception cref="System.ArgumentException">source or destination is a zero-length string, contains only white space, or contains invalid characters.</exception>
+    /// <exception cref="System.ArgumentNullException">source or destination is null.</exception>
+    /// <exception cref="System.IO.DirectoryNotFoundException">The source directory was not found.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">The media device is not connected.</exception>
     public void UploadFolder(string source, string destination, bool recursive = true, bool ignoreExceptions = true)
     {
         FileSystemPathCheck.ThrowIfInvalidPath(source, nameof(source));
@@ -508,6 +575,16 @@ partial class MediaDevice
 
     #region PersistentUniqueId
 
+    /// <summary>
+    /// Gets the full device path for an item identified by its Persistent Unique Id.
+    /// </summary>
+    /// <param name="persistentUniqueId">The persistent unique identifier of the file or folder. Cannot be null or empty.</param>
+    /// <returns>
+    /// The absolute path on the media device that corresponds to the given persistent unique id.
+    /// </returns>
+    /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="persistentUniqueId"/> is null or empty.</exception>
+    /// <exception cref="MediaDevices.NotConnectedException">Thrown when the media device is not connected.</exception>
+    /// <exception cref="System.IO.FileNotFoundException">Thrown when no item with the specified persistent unique id exists on the device.</exception>
     public string GetPathFromPersistentUniqueId(string persistentUniqueId)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
