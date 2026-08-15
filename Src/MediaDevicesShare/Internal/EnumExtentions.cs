@@ -12,6 +12,7 @@ internal static class EnumExtentions
         var g = new Guid(unchecked((int)var), unchecked((short)0xAE6C), 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7);
         return g;
     }
+
     public static Formats ToFormatsEnum(this Guid value)
     {
         return (Formats)GetGuidId(value);
@@ -20,7 +21,6 @@ internal static class EnumExtentions
     public static string ToFormatsName(this Guid value)
     {
         ushort val = unchecked((ushort)(BitConverter.ToUInt32(value.ToByteArray(), 0) >> 16));
-
         Formats formats = (Formats)val;
         return formats.ToString();
     }

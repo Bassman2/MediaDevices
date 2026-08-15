@@ -76,7 +76,13 @@
                 <Label Grid.Row="2" Content="Content Types"/>
                 <ListBox Grid.Row="3" ItemsSource="{Binding ContentTypes}" SelectedItem="{Binding SelectedContentType}" Margin="3"/>
                 <Label Grid.Row="4" Content="Formats"/>
-                <ListBox Grid.Row="5" ItemsSource="{Binding Formats}" Margin="3"/>
+                <ListBox Grid.Row="5" ItemsSource="{Binding Formats}" Margin="3">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource EnumToStringConverter}}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </GroupBox>
 
