@@ -33,7 +33,7 @@ internal sealed class EventThreadHandler : IDisposable
     /// <summary>
     /// Enqueues an event action to be invoked on the event thread.
     /// </summary>
-    /// <param name="eventAction">The event action to invoke.</param>
+    /// <param name="eventArgs">The event action to invoke.</param>
     public void Invoke(MediaDeviceEventArgs eventArgs)
     {
         ObjectDisposedException.ThrowIf(disposed, this);

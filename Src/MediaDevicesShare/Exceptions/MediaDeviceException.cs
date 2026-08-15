@@ -32,10 +32,19 @@ public class MediaDeviceException(string message) : Exception(message)
     /// <summary>
     /// Throws a <see cref="MediaDeviceException"/> when a COM call returns a failure HRESULT.
     /// </summary>
-    /// <param name="errorCode">The HRESULT returned by the COM call.</param>
+    /// <param name="errorCode">The HRESULT returned by the COM call. A negative value indicates failure.</param>
     /// <param name="interf">The COM interface or component where the error occurred.</param>
     /// <param name="function">The function or method that reported the error.</param>
-    /// <exception cref="MediaDeviceException">Thrown when <paramref name="errorCode"/> is a failure (negative) value.</exception>
+    /// <param name="lineNumber">The source line number of the caller (provided by the compiler).</param>
+    /// <param name="memberName">The member name of the caller (provided by the compiler).</param>
+    /// <param name="filePath">The source file path of the caller (provided by the compiler).</param>
+    /// <remarks>
+    /// When <paramref name="errorCode"/> is a failure (negative) value, this method:
+    /// - Obtains a descriptive exception message from <see cref="Marshal.GetExceptionForHR(int)"/>.
+    /// - Builds a diagnostic message that includes the HRESULT, interface, function, and caller location.
+    /// - Writes the diagnostic message to the debug output and throws a <see cref="MediaDeviceException"/>.
+    /// </remarks>
+    /// <exception cref="MediaDeviceException">Thrown when <paramref name="errorCode"/> indicates a COM failure.</exception>
     public static void ThrowIfComError(
         int errorCode, 
         string interf, 

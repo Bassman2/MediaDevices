@@ -216,8 +216,8 @@ public enum Formats : ushort
 
     /// <summary>
     /// WPD_OBJECT_FORMAT_JP2
-    ///   Image file format (JPEG2000 Baseline File FormatId)
-    ///   Device Services FormatId: FORMAT_JP2Image
+    /// Image file format (JPEG2000 Baseline File FormatId)
+    /// Device Services FormatId: FORMAT_JP2Image
     /// </summary>
     [EnumGuid(0x380F0000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     JP2Image = 0x380F,
@@ -239,9 +239,9 @@ public enum Formats : ushort
     WBMPImage = 0xB803,
 
     /// <summary>
-    // WPD_OBJECT_FORMAT_JPEGXR
-    //   Image file format (JPEG XR, also known as HD Photo)
-    //   Device Services FormatId: FORMAT_JPEGXRImage
+    /// WPD_OBJECT_FORMAT_JPEGXR
+    /// Image file format (JPEG XR, also known as HD Photo)
+    /// Device Services FormatId: FORMAT_JPEGXRImage
     /// </summary>
     [EnumGuid(0xB8040000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     JPEGXRImage = 0xB804,
@@ -438,7 +438,7 @@ public enum Formats : ushort
     MPEG4File = 0xB982,
 
     /// <summary>
-    // WPD_OBJECT_FORMAT_MP2
+    /// WPD_OBJECT_FORMAT_MP2
     /// Audio or Video file format
     /// Device Services FormatId: FORMAT_MPEG2File
     /// </summary>
@@ -551,38 +551,136 @@ public enum Formats : ushort
     [EnumGuid(0x38120000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xc5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     HEIFFile = 0x3812,
 
+    /// <summary>
+    /// Undefined firmware object format.
+    /// Used for firmware files that do not match a known format.
+    /// Device Services FormatId: FORMAT_UndefinedFirmware
+    /// </summary>
     [EnumGuid(0xB8020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     UndefinedFirmware = 0xB802,
 
+    /// <summary>
+    /// Undefined audio object format.
+    /// Used when an audio file cannot be classified as a known audio format.
+    /// Device Services FormatId: FORMAT_UndefinedAudio
+    /// </summary>
     [EnumGuid(0xB9000000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     UndefinedAudio = 0xB900,
 
+    /// <summary>
+    /// Undefined video object format.
+    /// Used when a video file cannot be classified as a known video format.
+    /// Device Services FormatId: FORMAT_UndefinedVideo
+    /// </summary>
     [EnumGuid(0xB9800000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     UndefinedVideo = 0xB980,
 
+    /// <summary>
+    /// Undefined collection/volume object format.
+    /// Represents a collection or grouping that does not map to a known format.
+    /// Device Services FormatId: FORMAT_UndefinedCollection
+    /// </summary>
     [EnumGuid(0xBA000000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     UndefinedVollection = 0xBA00,
 
+    /// <summary>
+    /// Abstract multimedia album container.
+    /// Represents a generic album that may contain mixed media types (images, audio, video).
+    /// Device Services FormatId: FORMAT_AbstractMultimediaAlbum
+    /// </summary>
     [EnumGuid(0xBA010000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     AbstractMultimediaAlbum = 0xBA01,
 
+    /// <summary>
+    /// Abstract image album container.
+    /// Represents an album primarily containing images.
+    /// Device Services FormatId: FORMAT_AbstractImageAlbum
+    /// </summary>
     [EnumGuid(0xBA020000, 0xAE6C, 0x4804, 0x98, 0xBA, 0xC5, 0x7B, 0x46, 0x96, 0x5F, 0xE7)]
     AbstractImageAlbum = 0xBA02,
 
-
+    /// <summary>
+    /// Abstract audio album container.
+    /// Represents an album primarily containing audio tracks.
+    /// Device Services FormatId: FORMAT_AbstractAudioAlbum
+    /// </summary>
     AbstractAudioAlbum = 0xBA03,
+
+    /// <summary>
+    /// Abstract video album container.
+    /// Represents an album primarily containing video items.
+    /// Device Services FormatId: FORMAT_AbstractVideoAlbum
+    /// </summary>
     AbstractVideoAlbum = 0xBA04,
+
+    /// <summary>
+    /// Abstract audio/video playlist.
+    /// Represents a playlist container for audio and/or video items.
+    /// Device Services FormatId: FORMAT_AbstractAVPlaylist
+    /// </summary>
     AbstractAVPlaylist = 0xBA05,
+
+    /// <summary>
+    /// Abstract message folder.
+    /// Represents a container for message objects (e.g., SMS, MMS).
+    /// Device Services FormatId: FORMAT_AbstractMessageFolder
+    /// </summary>
     AbstractMessageFolder = 0xBA07,
+
+    /// <summary>
+    /// Abstract chaptered production.
+    /// Represents media that is divided into chapters (e.g., audiobooks, videos with chapters).
+    /// Device Services FormatId: FORMAT_AbstractChapteredProduction
+    /// </summary>
     AbstractChapteredProduction = 0xBA08,
+
+    /// <summary>
+    /// Abstract audio playlist.
+    /// Represents a playlist specifically for audio tracks.
+    /// Device Services FormatId: FORMAT_AbstractAudioPlaylist
+    /// </summary>
     AbstractAudiPlaylist = 0xBA09,
+
+    /// <summary>
+    /// Abstract video playlist.
+    /// Represents a playlist specifically for video items.
+    /// Device Services FormatId: FORMAT_AbstractVideoPlaylist
+    /// </summary>
     AbstractVideoPlaylist = 0xBA0A,
 
+    /// <summary>
+    /// Undefined document object format.
+    /// Used when a document cannot be classified into a known document format.
+    /// Device Services FormatId: FORMAT_UndefinedDocument
+    /// </summary>
     UndefinedDocument = 0xBA80,
+
+    /// <summary>
+    /// Abstract document container.
+    /// Represents a generic document object or collection of documents.
+    /// Device Services FormatId: FORMAT_AbstractDocument
+    /// </summary>
     AbstractDocument = 0xBA81,
-    
+
+    /// <summary>
+    /// Undefined message object format.
+    /// Used when a message cannot be classified into a known message format.
+    /// Device Services FormatId: FORMAT_UndefinedMessage
+    /// </summary>
     UndefinedMessage = 0xBB00,
+
+    /// <summary>
+    /// Abstract message container.
+    /// Represents a generic message object or collection of messages.
+    /// Device Services FormatId: FORMAT_AbstractMessage
+    /// </summary>
     AbstractMessage = 0xBB01,
+
+    /// <summary>
+    /// Undefined contact object format.
+    /// Used when a contact object cannot be classified into a known contact format.
+    /// Device Services FormatId: FORMAT_UndefinedContact
+    /// </summary>
     UndefinedContact = 0xBB80,
     
     /// <summary>

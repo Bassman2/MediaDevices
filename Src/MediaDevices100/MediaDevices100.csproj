@@ -11,16 +11,9 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <IsTrimmable>True</IsTrimmable>
-    <IsAotCompatible>True</IsAotCompatible>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <IsTrimmable>True</IsTrimmable>
-    <IsAotCompatible>True</IsAotCompatible>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<IsTrimmable>True</IsTrimmable>
+	<IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
 
   <Import Project="..\MediaDevicesShare\MediaDevicesShare.projitems" Label="Shared" />
