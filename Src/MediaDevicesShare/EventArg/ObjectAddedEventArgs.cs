@@ -5,6 +5,8 @@
 /// </summary>
 public class ObjectAddedEventArgs : MediaDeviceEventArgs
 {
+    private const int OK = 0;
+
     internal ObjectAddedEventArgs(Events eventEnum, MediaDevice mediaDevice, IPortableDeviceValues eventParameters) 
         : base(eventEnum, mediaDevice, eventParameters)
     {

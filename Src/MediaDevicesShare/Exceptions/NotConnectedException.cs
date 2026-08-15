@@ -5,7 +5,7 @@
 /// </summary>
 public class NotConnectedException(string? message) : Exception(message)
 {
-    public static void ThrowIfNotConnected(MediaDevice mediaDevice)
+    internal static void ThrowIfNotConnected(MediaDevice mediaDevice)
     {
         if (!mediaDevice.IsConnected)
         {

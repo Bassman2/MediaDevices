@@ -198,6 +198,13 @@ public sealed partial class MediaDevice : IDisposable
         this.eventThreadHandler = new(this);
     }
 
+    /// <summary>
+    /// Releases all resources used by the <see cref="MediaDevice"/> instance.
+    /// </summary>
+    /// <remarks>
+    /// This method ensures proper cleanup of the event thread handler associated with this device.
+    /// Call this method when the device instance is no longer needed to prevent resource leaks.
+    /// </remarks>
     public void Dispose()
     {
         eventThreadHandler.Dispose();
@@ -241,7 +248,7 @@ public sealed partial class MediaDevice : IDisposable
     /// <summary>
     /// Get mediaDevice services
     /// </summary>
-    /// <param name="service">Service type</param>
+    /// <param name="serviceType">Service type</param>
     /// <returns>List of services</returns>
     public IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices serviceType)
     {
