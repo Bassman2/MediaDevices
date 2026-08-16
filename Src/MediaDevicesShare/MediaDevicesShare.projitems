@@ -9,6 +9,7 @@
     <Import_RootNamespace>MediaDevices</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\OpCodes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\EnumExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDirectoryInfo.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaFileSystemInfo.Async.cs" />

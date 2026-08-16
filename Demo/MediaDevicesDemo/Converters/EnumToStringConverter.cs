@@ -8,14 +8,30 @@ internal class EnumToStringConverter : IValueConverter
     {
         if (value is Enum val)
         {
-            string name = val.ToString();
-            // If the name starts with a digit, it means no matching enum name was found
-            // In that case, format as hexadecimal
-            if (char.IsDigit(name[0]))
+            // Get the enum type and the numeric value
+            Type enumType = val.GetType();
+            object numericValue = System.Convert.ChangeType(val, Enum.GetUnderlyingType(enumType));
+
+            // Find all enum members with the same numeric value
+            var matchingNames = new HashSet<string>();
+            foreach (var name in Enum.GetNames(enumType))
             {
-                name = $"0x{System.Convert.ToInt32(val):X}";
+                var enumFieldValue = Enum.Parse(enumType, name);
+                object enumNumericValue = System.Convert.ChangeType(enumFieldValue, Enum.GetUnderlyingType(enumType));
+                if (numericValue.Equals(enumNumericValue))
+                {
+                    matchingNames.Add(name);
+                }
             }
-            return name;
+
+            if (matchingNames.Count > 0)
+            {
+                // Return all matching names separated by pipe
+                return string.Join(", ", matchingNames);
+            }
+
+            // Fallback: If no names found, format as hexadecimal
+            return $"0x{System.Convert.ToInt64(val):X}";
         }
         throw new Exception("The value is not an enum type!");
     }

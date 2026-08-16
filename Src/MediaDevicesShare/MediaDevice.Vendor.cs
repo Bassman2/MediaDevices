@@ -1,6 +1,4 @@
-﻿using System.Reflection.Emit;
-
-namespace MediaDevices;
+﻿namespace MediaDevices;
 
 partial class MediaDevice
 {
@@ -9,7 +7,7 @@ partial class MediaDevice
     /// </summary>
     /// <returns>List of vendor extended operation code.</returns>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public IEnumerable<uint> VendorOpcodes()
+    public IEnumerable<OpCodes> VendorOpcodes()
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -25,7 +23,7 @@ partial class MediaDevice
     /// <param name="respCode">Response code</param>
     /// <returns>Output parameters</returns>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public IEnumerable<int> VendorExcecute(int opCode, IEnumerable<int> inputParams, out int respCode)
+    public IEnumerable<int> VendorExcecute(OpCodes opCode, IEnumerable<int> inputParams, out int respCode)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -42,7 +40,7 @@ partial class MediaDevice
     /// <param name="inputParams">Input parameters.</param>
     /// <returns>Returned as a context identifier for subsequent data transfer</returns>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public IEnumerable<int> VendorExcecuteRead(int opCode, IEnumerable<int> inputParams)
+    public IEnumerable<int> VendorExcecuteRead(OpCodes opCode, IEnumerable<int> inputParams)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
@@ -56,7 +54,7 @@ partial class MediaDevice
     /// <param name="inputParams">Input parameters.</param>
     /// <returns>Returned as a context identifier for subsequent data transfer</returns>
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
-    public IEnumerable<int> VendorExcecuteWrite(int opCode, IEnumerable<int> inputParams)
+    public IEnumerable<int> VendorExcecuteWrite(OpCodes opCode, IEnumerable<int> inputParams)
     {
         NotConnectedException.ThrowIfNotConnected(this);
 

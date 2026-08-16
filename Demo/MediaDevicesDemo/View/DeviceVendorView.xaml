@@ -11,8 +11,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120"/>
-            <ColumnDefinition Width="120"/>
-            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -25,8 +24,14 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Description"/>
-        <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Text="{Binding VendorExtentionDescription, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding VendorExtentionDescription, Mode=OneWay}" IsReadOnly="True" Margin="3"/>
         <Label Grid.Column="0" Grid.Row="1" Content="Opcodes"/>
-        <ListBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding VendorOpcodes}" Margin="3"/>
+        <ListBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding VendorOpcodes}" Margin="3">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource EnumToStringConverter}}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>
