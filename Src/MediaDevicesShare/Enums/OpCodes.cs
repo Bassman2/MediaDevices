@@ -1,5 +1,8 @@
 ﻿namespace MediaDevices;
 
+
+#pragma warning disable CA1069
+
 /// <summary>
 /// Defines the operation codes (opcodes) used in Picture Transfer Protocol (PTP) and vendor-specific device communication.
 /// </summary>
@@ -380,6 +383,158 @@ public enum OpCodes : ushort
 
     #endregion
 
+    #region Sony
+
+    // Sony SDIO Core Operations (0x92xx)
+
+    /// <summary>
+    /// Performs the initial authentication handshake to unlock advanced PC control.
+    /// </summary>
+    Sony_SDIO_Connect = 0x9201,
+
+    /// <summary>
+    /// Retrieves extended Sony protocol versions and lists of supported properties.
+    /// </summary>
+    Sony_SDIO_GetExtDeviceInfo = 0x9202,
+
+    /// <summary>
+    /// Retrieves specific object metadata for Sony file structures.
+    /// </summary>
+    Sony_SDIO_GetExtObjectInfo = 0x9203,
+
+    /// <summary>
+    /// Downloads media objects via optimized Sony data channels.
+    /// </summary>
+    Sony_SDIO_GetExtObject = 0x9204,
+
+    /// <summary>
+    /// Sets manufacturer-specific camera properties (e.g., exposure or focus modes)
+    /// </summary>
+    Sony_SDIO_SetExtDevicePropValue = 0x9205,
+
+    /// <summary>
+    /// Transmits direct triggering and control commands to the camera electronics (e.g., opening the shutter).
+    /// </summary>
+    Sony_SDIO_ControlDevice = 0x9207,
+
+    /// <summary>
+    /// Retrieves all current camera settings simultaneously. 
+    /// PCs send this command at regular intervals to reflect changes made to the camera settings by the photographer live within the software.
+    /// </summary>
+    Sony_SDIO_GetAllExtDevicePropInfo = 0x9209,
+
+    // Sony DiExtCmd & App-Installer
+
+    /// <summary>
+    /// Used for direct memory and firmware write accesses.
+    /// </summary>
+    Sony_DiExtCmd_write = 0x98a1,
+
+    /// <summary>
+    /// Used for direct memory and firmware read accesses.
+    /// </summary>
+    Sony_DiExtCmd_read = 0x98a2,
+
+    /// <summary>
+    /// Forces a restart of the USB interface to switch the device to a different mode (e.g., app mode or mass storage) via software control.
+    /// </summary>
+    Sony_ReqReconnect = 0x98a3,
+
+    #endregion
+
+    #region Panasonic 
+
+    // Panasonic Basic and Session Control (0x91xx)
+
+    /// <summary>
+    /// Internal initialization command
+    /// </summary>
+    Panasonic_InternalInit = 0x9101,
+
+    /// <summary>
+    /// Starts a manufacturer-specific session (typically expects storage ID 0x00010001 as an argument).
+    /// </summary>
+    Panasonic_OpenSession = 0x9102,
+
+    /// <summary>
+    /// Properly closes the manufacturer-specific Panasonic session.
+    /// </summary>
+    Panasonic_CloseSession = 0x9103,
+
+    /// <summary>
+    /// Retrieves an extended device and protocol ID from the Lumix camera.
+    /// </summary>
+    Panasonic_GetExtDeviceID = 0x9104,
+
+    // Lumix Remote and Camera Control (0x94xx)
+
+    /// <summary>
+    /// Initial control command to activate remote mode.
+    /// </summary>
+    Panasonic_InitRemoteMode = 0x9401,
+
+    /// <summary>
+    /// Queries manufacturer-specific camera properties (used extensively to read out Lumix-specific menu items).
+    /// </summary>
+    Panasonic_GetProperty = 0x9402,
+
+    /// <summary>
+    /// Changes Panasonic camera settings via USB command.
+    /// </summary>
+    Panasonic_SetProperty = 0x9403,
+
+    /// <summary>
+    /// The primary command to trigger the camera digitally (open shutter/take photo).
+    /// </summary>
+    Panasonic_InitiateCapture = 0x9404,
+
+    /// <summary>
+    /// Controls autofocus (AF) and exposure metering (AE) in shooting mode (equivalent to pressing the shutter button halfway).
+    /// </summary>
+    Panasonic_RecCtrl_AF_AE = 0x9405,
+
+    /// <summary>
+    /// Performs administrative functions on the camera (used, among other things, for software-controlled formatting of memory cards).
+    /// </summary>
+    Panasonic_SetupCtrl = 0x9406,
+
+    #endregion
+
+    #region Fujifilm 
+
+    /// <summary>
+    /// Switches the camera to "tethering mode" via software. 
+    /// The camera's display typically locks or shows a connection icon while control is handed over to the USB channel.
+    /// </summary>
+    Fujifilm_InitiateTethering = 0x9021,
+
+    /// <summary>
+    /// Queries the manufacturer-specific event buffer to report asynchronous camera changes 
+    /// (e.g., when the photographer manually turns the aperture ring) to the PC.
+    /// </summary>
+    Fujifilm_GetCheckEvent = 0x902B,
+
+    #endregion
+
+    #region Leica
+
+    /// <summary>
+    /// Used by desktop applications such as Leica Image Shuttle to transfer camera settings and profiles directly to the camera body.
+    /// </summary>
+    Leica_SetCameraSettings = 0x9001,
+
+    /// <summary>
+    /// Retrieves the current configuration package and the status of the camera system.
+    /// </summary>
+    Leica_GetCameraSettings = 0x9002,
+
+    /// <summary>
+    /// Reads out specific lens parameters. 
+    /// This is used, among other things, in the Adobe Lightroom tethering plugin to retrieve lens metadata from digital rangefinder cameras (such as the M-series).
+    /// </summary>
+    Leica_GetLensParameter = 0x9003,
+
+    #endregion
 
     #region Vendor 0x9
 
