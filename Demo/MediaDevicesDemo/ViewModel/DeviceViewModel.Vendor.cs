@@ -6,7 +6,7 @@ partial class DeviceViewModel
 
     public string? VendorExtentionDescription => mediaDevice?.VendorExtentionDescription();
 
-    public List<string>? VendorOpcodes => mediaDevice?.VendorOpcodes().Select(i => i.ToString()).ToList();
+    public List<OpCodes> VendorOpcodes => [.. mediaDevice!.VendorOpcodes()];
 
     #endregion
 }

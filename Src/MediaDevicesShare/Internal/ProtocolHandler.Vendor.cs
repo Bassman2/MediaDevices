@@ -2,22 +2,22 @@
 
 partial class ProtocolHandler
 {
-    public static IEnumerable<uint> VendorOpcodes(IPortableDevice device)
+    public static IEnumerable<OpCodes> VendorOpcodes(IPortableDevice device)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_SUPPORTED_VENDOR_OPCODES);
         cmd.Send(device);
         var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES);
-        return list.Select(p => p.ToUInt());
+        return list.Select(p => (OpCodes)p.ToUInt());
     }
 
-    public static IEnumerable<int> VendorExcecute(IPortableDevice device, int opCode, IEnumerable<int> inputParams, out int respCode)
+    public static IEnumerable<int> VendorExcecute(IPortableDevice device, OpCodes opCode, IEnumerable<int> inputParams, out int respCode)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE);
-        cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
+        cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, (int)opCode);
         cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
         cmd.Send(device);
         respCode = cmd.GetInt(WPD.PROPERTY_MTP_EXT_RESPONSE_CODE);
@@ -25,24 +25,24 @@ partial class ProtocolHandler
         
     }
 
-    public static IEnumerable<int> VendorExcecuteRead(IPortableDevice device, int opCode, IEnumerable<int> inputParams)
+    public static IEnumerable<int> VendorExcecuteRead(IPortableDevice device, OpCodes opCode, IEnumerable<int> inputParams)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_READ);
-        cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
+        cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, (int)opCode);
         cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
         cmd.Send(device);
         var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
         return list.Select(p => p.ToInt());
     }
 
-    public static IEnumerable<int> VendorExcecuteWrite(IPortableDevice device, int opCode, IEnumerable<int> inputParams)
+    public static IEnumerable<int> VendorExcecuteWrite(IPortableDevice device, OpCodes opCode, IEnumerable<int> inputParams)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_EXECUTE_COMMAND_WITH_DATA_TO_WRITE);
-        cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, opCode);
+        cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_CODE, (int)opCode);
         cmd.Add(WPD.PROPERTY_MTP_EXT_OPERATION_PARAMS, inputParams);
         cmd.Send(device);
         var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES).ToList();
