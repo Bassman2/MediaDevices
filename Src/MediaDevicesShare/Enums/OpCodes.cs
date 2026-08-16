@@ -318,6 +318,11 @@ public enum OpCodes : ushort
     // Live View and Real-Time Streaming (0x92xx)
 
     /// <summary>
+    /// The code 0x9200 marks the exact beginning of the live-view command class. It is included by the camera firmware as a placeholder but does not itself perform any executable function.
+    /// </summary>
+    Nikon_Placeholder = 0x9200,
+
+    /// <summary>
     /// Flips up the mirror (on DSLRs) and starts the camera's Live View mode.
     /// </summary>
     Nikon_StartLiveView = 0x9201,
