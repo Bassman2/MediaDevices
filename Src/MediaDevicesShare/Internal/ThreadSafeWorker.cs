@@ -271,8 +271,34 @@ internal sealed class ThreadSafeWorker : IDisposable
 
     #region AsyncEnumerable
 
+    //public IAsyncEnumerable<T> InvokeAsyncEnumerable<T>(
+    //    Func<IAsyncEnumerable<T>> func,
+    //    [CallerLineNumber] int lineNumber = 0,
+    //    [CallerFilePath] string filePath = "",
+    //    [CallerMemberName] string memberName = "")
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotOutside(lineNumber, filePath, memberName);
+    //    ObjectDisposedException.ThrowIf(disposed, this);
+
+    //    return new WorkerAsyncEnumerable<T>(this, func);
+    //}
+
+    //private class WorkerAsyncEnumerable<T>(ThreadSafeWorker worker, Func<IAsyncEnumerable<T>> func) : IAsyncEnumerable<T>
+    //{
+    //    public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default) => new WorkerAsyncEnumerator<T>(worker, worker.Invoke(() => func().GetAsyncEnumerator(cancellationToken)));
+    //}
+
+    //private class WorkerAsyncEnumerator<T>(ThreadSafeWorker worker, IAsyncEnumerator<T> inner) : IAsyncEnumerator<T>
+    //{
+    //    public ValueTask DisposeAsync() => inner.DisposeAsync();
+    //    public T Current => inner.Current;
+    //    public ValueTask<bool> MoveNextAsync() => worker.Invoke(() => inner.MoveNextAsync());
+    //}
+
+    //###########################
+
     public IAsyncEnumerable<T> InvokeAsyncEnumerable<T>(
-        Func<IAsyncEnumerable<T>> func,
+        Func<IEnumerable<T>> func,
         [CallerLineNumber] int lineNumber = 0,
         [CallerFilePath] string filePath = "",
         [CallerMemberName] string memberName = "")
@@ -283,16 +309,26 @@ internal sealed class ThreadSafeWorker : IDisposable
         return new WorkerAsyncEnumerable<T>(this, func);
     }
 
-    private class WorkerAsyncEnumerable<T>(ThreadSafeWorker worker, Func<IAsyncEnumerable<T>> func) : IAsyncEnumerable<T>
+    private class WorkerAsyncEnumerable<T>(ThreadSafeWorker worker, Func<IEnumerable<T>> func) : IAsyncEnumerable<T>
     {
-        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default) => new WorkerAsyncEnumerator<T>(worker, worker.Invoke(() => func().GetAsyncEnumerator(cancellationToken)));
+        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default) => new WorkerAsyncEnumerator<T>(worker, worker.Invoke(() => func().GetEnumerator()));
     }
 
-    private class WorkerAsyncEnumerator<T>(ThreadSafeWorker worker, IAsyncEnumerator<T> inner) : IAsyncEnumerator<T>
+    private class WorkerAsyncEnumerator<T>(ThreadSafeWorker worker, IEnumerator<T> inner) : IAsyncEnumerator<T>
     {
-        public ValueTask DisposeAsync() => inner.DisposeAsync();
+        public ValueTask DisposeAsync()
+        {
+            worker.Invoke(() => inner.Dispose());
+            return ValueTask.CompletedTask;
+        }
+        
         public T Current => inner.Current;
-        public ValueTask<bool> MoveNextAsync() => worker.Invoke(() => inner.MoveNextAsync());
+        public ValueTask<bool> MoveNextAsync()
+        {
+            bool hasNext = worker.Invoke(() => inner.MoveNext());
+            return new ValueTask<bool>(hasNext);
+        }
+            
     }
 
     #endregion

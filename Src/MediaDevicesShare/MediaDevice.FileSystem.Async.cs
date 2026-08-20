@@ -3,6 +3,25 @@
 partial class MediaDevice
 {
     /// <summary>
+    /// Asynchronously enumerates the directories at the specified path on the media device.
+    /// </summary>
+    /// <param name="path">The path to enumerate directories from. Must be a valid file system path.</param>
+    /// <param name="cancellationToken">The cancellation token to observe during the asynchronous operation. Default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>
+    /// An <see cref="IAsyncEnumerable{String}"/> that yields directory names found at the specified <paramref name="path"/>.
+    /// The caller can asynchronously iterate the returned sequence to receive directory entries.
+    /// </returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="path"/> is invalid.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
+    public IAsyncEnumerable<string> EnumerateDirectoriesAsync(string path, CancellationToken cancellationToken = default)
+    {
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.InvokeAsyncEnumerable<string>(() => ProtocolHandler.EnumerateDirectories(this, path));
+    }
+
+    /// <summary>
     /// Asynchronously checks whether a directory exists at the specified path on the media device.
     /// </summary>
     /// <param name="path">The path of the directory to check. Must be a valid file system path.</param>
