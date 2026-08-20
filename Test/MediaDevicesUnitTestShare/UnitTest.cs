@@ -85,7 +85,7 @@ public abstract class UnitTest
     protected DateMode deviceDateAuthoredMode = DateMode.NotSupported;
 
     // Device Vendor Test
-    protected List<uint>? deviceVendorOpcodes = null;
+    protected List<OpCodes> deviceVendorOpcodes = [];
     protected string? deviceVendorExtentionDescription = null;
 
     //public TestContext TestContext { get; set; }

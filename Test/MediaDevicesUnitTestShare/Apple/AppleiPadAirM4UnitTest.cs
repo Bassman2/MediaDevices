@@ -83,7 +83,24 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
         deviceDrives = ["Internal Storage"];
 
         // Device Vendor Test
-        deviceVendorOpcodes = [38658, 36873, 36875, 36876, 36878, 36879, 36880, 36865, 36866, 36867, 36868, 36869, 36870, 36871, 38657, 36872];
+        deviceVendorOpcodes = [
+            OpCodes.Vendor_702, 
+            OpCodes.Vendor_009, 
+            OpCodes.Vendor_00B,
+            OpCodes.Vendor_00C, 
+            OpCodes.Vendor_00E, 
+            OpCodes.Vendor_00F,
+            OpCodes.Vendor_010,
+            OpCodes.Canon_PowershotGetObjectSize,
+            OpCodes.Vendor_002, 
+            OpCodes.Canon_PowershotKeepDeviceOn, 
+            OpCodes.Vendor_004,
+            OpCodes.Vendor_005,
+            OpCodes.Nikon_GetProfileAllData,
+            OpCodes.Vendor_007,
+            OpCodes.Vendor_701, 
+            OpCodes.Vendor_008];
+
         deviceVendorExtentionDescription = "ICPE^1&CPLS^1&ASN^DC62X123XW";
 
 

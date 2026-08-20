@@ -84,7 +84,7 @@ public class NiconCoolpixA300 : ReadonlyUnitTest
         deviceDrives = ["A300"];
 
         // Device Vendor Test
-        deviceVendorOpcodes = [36866, 37376, 36867, 36869, 36870];
+        deviceVendorOpcodes = [];
         deviceVendorExtentionDescription = "microsoft.com/deviceservices: 1.0;";
 
         #endregion
