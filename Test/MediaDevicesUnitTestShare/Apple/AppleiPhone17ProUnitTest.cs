@@ -7,11 +7,6 @@ public class AppleiPhone17ProUnitTest : ReadonlyUnitTest
 
     public AppleiPhone17ProUnitTest() : base("\\Internal Storage")
     {
-        
-        // Ignore tests
-        ignoreTests = Ignore.FriendlyName;
-
-
         #region Device Tests
 
         // Device Properties Test
@@ -81,7 +76,7 @@ public class AppleiPhone17ProUnitTest : ReadonlyUnitTest
         // Device File Properties Test
 
         // Device Vendor Test
-        deviceVendorOpcodes = [38658, 36873, 36875, 36876, 36878, 36879, 36880, 36865, 36866, 36867, 36868, 36869, 36870, 36871, 38657, 36872];
+        deviceVendorOpcodes = [];
         deviceVendorExtentionDescription = "ICPE^1&CPLS^1&ASN^KT2HQKH5CF";
 
         #endregion

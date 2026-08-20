@@ -632,11 +632,17 @@ internal class Item
 
         int err = this.mediaDevice.deviceContent!.Transfer(out IPortableDeviceResources resources);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.Transfer));
-        
-        uint optimalTransferSize = 0;
 
+        // Fix for Apple problem
+        // Explicit GC call to immediately destroy the generated COM wrappers.
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        // Allow the Apple driver time to physically close the channel.
+        System.Threading.Thread.Sleep(20);
+
+        uint optimalTransferSize = 0; 
         err = resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out var iStream);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream), Path.Combine(path!, name!));
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream), Path.Combine(path ?? "empty", name ?? "empty"));
 
         return new StreamWrapper(iStream, this.Size);
     }

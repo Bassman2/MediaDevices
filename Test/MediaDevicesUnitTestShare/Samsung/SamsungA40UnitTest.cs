@@ -22,7 +22,8 @@ public class SamsungA40UnitTest : WritableUnitTest
         deviceDeviceType = DeviceType.MediaPlayer;
         deviceSupportsNonConsumable = true;
         deviceSupportedFormatsAreOrdered = true;
-
+        deviceIsFriendlyNameEditable = true;
+        
         // Capability Test
         deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
         deviceSupportedCommands = [
@@ -87,7 +88,13 @@ public class SamsungA40UnitTest : WritableUnitTest
         deviceDrives = ["Phone", "Card"];
         
         // Vendor Test
-        deviceVendorOpcodes = [38148, 37377, 37378, 38145, 38146, 38147];
+        deviceVendorOpcodes = [
+            OpCodes.Samsung_Unknown1,
+            OpCodes.Samsung_Unknown2,
+            OpCodes.Samsung_Unknown3,
+            OpCodes.Samsung_Unknown4,
+            OpCodes.Samsung_Unknown5,
+            OpCodes.Samsung_Unknown6];
         deviceVendorExtentionDescription = @"^microsoft\.com: 1\.0; samsung\.com\/kies: 5\.0; samsung\.com\/devicestatus: \d; $";
                                         //   "microsoft.com: 1.0; samsung.com/kies: 5.0; samsung.com/devicestatus: 0; ";
 

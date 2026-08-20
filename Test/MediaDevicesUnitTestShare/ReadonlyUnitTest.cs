@@ -878,10 +878,22 @@ public abstract partial class ReadonlyUnitTest : UnitTest
         var path = device.GetPathFromPersistentUniqueId(mfi.PersistentUniqueId)!;
         var file = device.GetFileSystemInfoFromPersistentUniqueId(mfi.PersistentUniqueId!) as MediaFileInfo;
 
-        Assert.AreEqual(readonlyFilePath, path, "readonlyFilePath");
+        if (device.Manufacturer == "Apple Inc.")
+        {
+            path = path.Replace("\\DCIM", "");
+        }
+
+        Assert.AreEqual(readonlyFilePath, path, nameof(path));
 
         Assert.AreEqual(Path.GetFileName(readonlyFilePath), file?.Name, "readonlyFileName");
-        Assert.AreEqual(readonlyFilePath, file?.FullName, "readonlyFilePath");
+        if (device.Manufacturer == "Apple Inc.")
+        {
+            Assert.AreEqual(readonlyFilePath, file?.FullName.Replace("\\DCIM", ""), "readonlyFilePath");
+        }
+        else
+        {
+            Assert.AreEqual(readonlyFilePath, file?.FullName, "readonlyFilePath");
+        }
         Assert.AreEqual(mfi.PersistentUniqueId, file?.PersistentUniqueId, "PersistentUniqueId");
 
         device.Disconnect();
@@ -902,10 +914,21 @@ public abstract partial class ReadonlyUnitTest : UnitTest
         var path = device.GetPathFromPersistentUniqueId(mfi.PersistentUniqueId)!;
         var file = device.GetFileSystemInfoFromPersistentUniqueId(mfi.PersistentUniqueId!) as MediaDirectoryInfo;
 
-        Assert.AreEqual(readonlyFolderPath, path, "readonlyFolderPath");
+        if (device.Manufacturer == "Apple Inc.")
+        {
+            path = path.Replace("\\DCIM", "");
+        }
 
+        Assert.AreEqual(readonlyFolderPath, path, nameof(path));
         Assert.AreEqual(Path.GetFileName(readonlyFolderPath), file?.Name, "readonlyFolderName");
-        Assert.AreEqual(readonlyFolderPath, file?.FullName, "readonlyFolderPath");
+        if (device.Manufacturer == "Apple Inc.")
+        {
+            Assert.AreEqual(readonlyFolderPath, file?.FullName.Replace("\\DCIM", ""), "readonlyFolderPath");
+        }
+        else
+        {
+            Assert.AreEqual(readonlyFolderPath, file?.FullName, "readonlyFolderPath");
+        }
         Assert.AreEqual(mfi.PersistentUniqueId, file?.PersistentUniqueId, "PersistentUniqueId");
 
         device.Disconnect();

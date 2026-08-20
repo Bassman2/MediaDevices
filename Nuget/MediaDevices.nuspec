@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MediaDevices</id>
-    <version>2.0.0-preview.3.3000</version>
+    <version>2.0.0</version>
     <title>MediaDevices</title>
     <authors>Ralf Beckers</authors>
     <owners>Ralf Beckers</owners>
@@ -10,7 +10,7 @@
     <license type="expression">MIT</license>
     <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
     <projectUrl>https://github.com/Bassman2/MediaDevices</projectUrl>
-    <description>API to communicate with MTP / WPD devices like smart phones, tablets and cameras. Documentation included.</description>
+    <description>API to communicate with MTP / WPD devices like smart phones, tablets and cameras.</description>
     <releaseNotes>Async, AOT, Trimmable and Thread Safe</releaseNotes>
     <copyright>Copyright 2016 - 2026 (c) by Ralf Beckers</copyright>
     <repository type="git" url="https://github.com/Bassman2/MediaDevices" />

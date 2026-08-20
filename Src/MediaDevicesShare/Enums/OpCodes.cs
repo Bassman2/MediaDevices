@@ -34,7 +34,7 @@ public enum OpCodes : ushort
     /// </summary>
     Unknown = 0,
 
-    #region PTPCommands 0x1001 - 0x101C
+    #region PTP Commands (0x1001 - 0x101C
 
     /// <summary>
     /// Queries basic hardware and protocol data.
@@ -140,6 +140,51 @@ public enum OpCodes : ushort
     /// Starts continuous media recording (e.g., video).
     /// </summary>
     InitiateOpenCapture = 0x101C,
+
+    #endregion
+
+    #region MTP Extentions (0x9201 - 0x9203) 
+
+    /// <summary>
+    /// Reports objects that have been added to or deleted from the device.
+    /// </summary>
+    /// <remarks>
+    /// This MTP (Media Transfer Protocol) extension opcode is used to notify the host about changes
+    /// to the file system on the device, allowing synchronization of added and removed items.
+    /// </remarks>
+    ReportAddedDeletedItems = 0x9201,
+
+    /// <summary>
+    /// Reports objects that have been acquired or captured by the device.
+    /// </summary>
+    /// <remarks>
+    /// This MTP extension opcode notifies the host about newly captured or imported objects,
+    /// such as recently taken photos or downloaded media on the device.
+    /// </remarks>
+    ReportAcquiredItems = 0x9202,
+
+    /// <summary>
+    /// Retrieves or manages playlist object preferences on the device.
+    /// </summary>
+    /// <remarks>
+    /// This MTP extension opcode is used to query or configure playlist-related object preferences,
+    /// enabling enhanced media management and playlist handling on devices that support this feature.
+    /// </remarks>
+    PlaylistObjectPref = 0x9203,
+
+    #endregion
+
+    #region Microsoft Zune (0x9204)
+
+    /// <summary>
+    /// Represents an undefined Microsoft Zune operation code.
+    /// </summary>
+    /// <remarks>
+    /// This is a vendor-specific opcode used by Microsoft Zune devices. The exact functionality
+    /// of this operation is not documented or is device-specific. This opcode should be handled
+    /// with care as its behavior may vary depending on the device implementation.
+    /// </remarks>
+    Zune_GetUndefined001 = 0x9204,
 
     #endregion
 
@@ -538,6 +583,52 @@ public enum OpCodes : ushort
     /// This is used, among other things, in the Adobe Lightroom tethering plugin to retrieve lens metadata from digital rangefinder cameras (such as the M-series).
     /// </summary>
     Leica_GetLensParameter = 0x9003,
+
+    #endregion
+
+    #region Samsung
+
+    /// <summary>
+    /// Samsung vendor-specific opcode (0x9501).
+    /// Purpose is not publicly documented; observed in Samsung device traffic.
+    /// Treat as reserved/vendor-specific and avoid relying on behavior across models/firmware.
+    /// </summary>
+    Samsung_Unknown1 = 0x9501,
+
+    /// <summary>
+    /// Samsung vendor-specific opcode (0x9502).
+    /// Purpose is not publicly documented; observed in Samsung device traffic.
+    /// Treat as reserved/vendor-specific and avoid relying on behavior across models/firmware.
+    /// </summary>
+    Samsung_Unknown2 = 0x9502,
+
+    /// <summary>
+    /// Samsung vendor-specific opcode (0x9503).
+    /// Purpose is not publicly documented; observed in Samsung device traffic.
+    /// Treat as reserved/vendor-specific and avoid relying on behavior across models/firmware.
+    /// </summary>
+    Samsung_Unknown3 = 0x9503,
+
+    /// <summary>
+    /// Samsung vendor-specific opcode (0x9504).
+    /// Purpose is not publicly documented; observed in Samsung device traffic.
+    /// Treat as reserved/vendor-specific and avoid relying on behavior across models/firmware.
+    /// </summary>
+    Samsung_Unknown4 = 0x9504,
+
+    /// <summary>
+    /// Samsung vendor-specific opcode (0x9201).
+    /// Purpose is not publicly documented; observed in Samsung device traffic.
+    /// Treat as reserved/vendor-specific and avoid relying on behavior across models/firmware.
+    /// </summary>
+    Samsung_Unknown5 = 0x9201,
+
+    /// <summary>
+    /// Samsung vendor-specific opcode (0x9202).
+    /// Purpose is not publicly documented; observed in Samsung device traffic.
+    /// Treat as reserved/vendor-specific and avoid relying on behavior across models/firmware.
+    /// </summary>
+    Samsung_Unknown6 = 0x9202,
 
     #endregion
 

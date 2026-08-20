@@ -94,7 +94,7 @@ public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
         deviceDateAuthoredMode = DateMode.NotSupported;
 
         // Vendor Test
-        deviceVendorOpcodes = [38337, 38338, 38339, 38340, 38341];
+        deviceVendorOpcodes = [];
         deviceVendorExtentionDescription = "microsoft.com: 1.0; android.com: 1.0;";
 
 

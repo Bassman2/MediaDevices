@@ -89,7 +89,7 @@ public class GooglePixel6aUnitTest : WritableUnitTest
         deviceDrives = ["Interner gemeinsamer Speicher"];
 
         // Vendor Test
-        deviceVendorOpcodes = [38337, 38338, 38339, 38340, 38341];
+        deviceVendorOpcodes = [];
         deviceVendorExtentionDescription = "microsoft.com: 1.0; android.com: 1.0;";
 
         #endregion

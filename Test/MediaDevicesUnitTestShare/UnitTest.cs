@@ -4,23 +4,11 @@ public abstract class UnitTest
 {
     public enum DateMode { NotSupported, FileTime, Now }
 
-
-    [Flags]
-    public enum Ignore : ulong
-    {
-        None = 0,
-        FriendlyName = 1,
-    }
-
     protected MediaDeviceManager manager = MediaDeviceManager.Instance;
 
     // Device Select
     protected Func<MediaDevice, bool>? deviceSelect;
    
-    // Ignore tests
-    protected Ignore ignoreTests = Ignore.None;
-
-
     // Device Properties Test
     protected string? deviceDescription = null;
     protected string? deviceFriendlyName = null;
@@ -42,6 +30,8 @@ public abstract class UnitTest
     protected DeviceType? deviceDeviceType = DeviceType.Generic;
     protected DeviceTransport? deviceTransport = DeviceTransport.USB;               // PhilipsUFD & TascamDR40: null
     protected DeviceTransport? deviceUseDeviceStage = null;                         // CanonEosR6m2, NiconCoolpixA300 & CanonEos60D: USB
+
+    protected bool deviceIsFriendlyNameEditable = false;
 
 #if DEBUG
     protected const string deviceId = "DEVICE";
@@ -77,7 +67,7 @@ public abstract class UnitTest
     protected List<string> deviceContentLocationsAll = [];
 
     // Device Drive Test
-    protected List<string> deviceDrives = [];
+    protected List<string> deviceDrives = ["SD"];
 
     // Device File Dates Test
     protected DateMode deviceCreationTimeMode = DateMode.NotSupported;
@@ -85,7 +75,7 @@ public abstract class UnitTest
     protected DateMode deviceDateAuthoredMode = DateMode.NotSupported;
 
     // Device Vendor Test
-    protected List<uint>? deviceVendorOpcodes = null;
+    protected List<OpCodes> deviceVendorOpcodes = [];
     protected string? deviceVendorExtentionDescription = null;
 
     //public TestContext TestContext { get; set; }
@@ -107,15 +97,21 @@ public abstract class UnitTest
     [TestInitialize]
     public void TestInitialize()
     {
-        if (this.ignoreTests.HasFlag(Ignore.FriendlyName)) return;
+        string? friendlyName = null;
 
         var device = GetDevice();
         device.Connect();
-        device.FriendlyName = this.deviceFriendlyName;
-        string? friendlyName = device.FriendlyName;
+        if (deviceIsFriendlyNameEditable)
+        {
+            device.FriendlyName = this.deviceFriendlyName;
+            friendlyName = device.FriendlyName;
+        }
         device.Disconnect();
 
-        Assert.AreEqual(this.deviceFriendlyName, friendlyName, "friendlyName");
+        if (deviceIsFriendlyNameEditable)
+        {
+            Assert.AreEqual(this.deviceFriendlyName, friendlyName, "friendlyName");
+        }
     }
 
     [TestCleanup]
@@ -123,37 +119,6 @@ public abstract class UnitTest
     {
     }
 
-    protected void CheckIgnoreTest(Ignore ignore)
-    {
-        if (this.ignoreTests.HasFlag(ignore))
-        {
-            Assert.Inconclusive();
-        }
-    }
-   
-
-    //protected void FindDeviceLetter(string pnpDeviceId)
-    //{
-    //    foreach (ManagementObject mediaDevice in new ManagementObjectSearcher(@"SELECT * FROM Win32_DiskDrive WHERE InterfaceType LIKE 'USB%'").Get())
-    //    {
-    //        string s1 = ((string)mediaDevice.GetPropertyValue("DeviceID"));
-    //        string s2 = ((string)mediaDevice.GetPropertyValue("PNPDeviceID"));
-
-
-    //        foreach (ManagementObject partition in new ManagementObjectSearcher(
-    //            "ASSOCIATORS OF {Win32_DiskDrive.DeviceID='" + mediaDevice.Properties["DeviceID"].Value
-    //            + "'} WHERE AssocClass = Win32_DiskDriveToDiskPartition").Get())
-    //        {
-    //            foreach (ManagementObject disk in new ManagementObjectSearcher(
-    //                        "ASSOCIATORS OF {Win32_DiskPartition.DeviceID='"
-    //                            + partition["DeviceID"]
-    //                            + "'} WHERE AssocClass = Win32_LogicalDiskToPartition").Get())
-    //            {
-    //                string s3 = ("Drive letter " + disk["Name"]);
-    //            }
-    //        }
-    //    }
-    //}
 
     protected MediaDevice GetDevice()
     {
@@ -216,6 +181,7 @@ public abstract class UnitTest
         DeviceType? deviceType = device.DeviceType;
         DeviceTransport? transport = device.Transport;
         DeviceTransport? useDeviceStage = device.UseDeviceStage;
+        bool isFriendlyNameEditable = device.IsFriendlyNameEditable;
 #if DEBUG
         string? id = device.Id;
         string? parentId = device.ParentId;
@@ -252,6 +218,7 @@ public abstract class UnitTest
         Assert.AreEqual(deviceDeviceType, deviceType, nameof(deviceDeviceType));
         Assert.AreEqual(deviceTransport, transport, nameof(deviceTransport));
         Assert.AreEqual(deviceUseDeviceStage, useDeviceStage, nameof(deviceUseDeviceStage));
+        Assert.AreEqual(deviceIsFriendlyNameEditable, isFriendlyNameEditable, nameof(deviceIsFriendlyNameEditable));
 #if DEBUG
         Assert.AreEqual(deviceId, id, nameof(deviceId));
         Assert.AreEqual(deviceParentId, parentId, nameof(deviceParentId));
@@ -328,39 +295,55 @@ public abstract class UnitTest
     [Description("Check persistent unique id functionality.")]
     public void DeviceFriendlyNameTest()
     {
-        CheckIgnoreTest(Ignore.FriendlyName);
-       
+        //CheckIgnoreTest(Ignore.FriendlyName);
+
+        string? dummyFriendlyName = null;
+        string? disconnectedDummyFriendlyName = null;
+        string? connectedDummyFriendlyName = null;
+
+
         var device = GetDevice();
 
         string? disconnectedFriendlyName = device.FriendlyName;
 
+        
+
         device.Connect();
 
         string? connectedFriendlyName = device.FriendlyName;
+        bool isFriendlyNameEditable = device.IsFriendlyNameEditable;
 
-        // some devices use only upper letters in friendly names
-        device.FriendlyName = "DUMMY";
+        Trace.WriteLine($"IsFriendlyNameEditable {isFriendlyNameEditable}");
 
-        string? dummyFriendlyName = device.FriendlyName;
+        if (isFriendlyNameEditable)
+        {
+            // some devices use only upper letters in friendly names
+            device.FriendlyName = "DUMMY";
 
-        device.Disconnect();
+            dummyFriendlyName = device.FriendlyName;
 
-        string? disconnectedDummyFriendlyName = device.FriendlyName;
+            device.Disconnect();
 
-        device.Connect();
+            disconnectedDummyFriendlyName = device.FriendlyName;
 
-        string? connectedDummyFriendlyName = device.FriendlyName;
+            device.Connect();
 
-        device.FriendlyName = connectedFriendlyName;
+            connectedDummyFriendlyName = device.FriendlyName;
 
+            device.FriendlyName = connectedFriendlyName;
+        }
+        
         device.Disconnect();
 
 
         Assert.AreEqual(this.deviceFriendlyName, disconnectedFriendlyName, "disconnectedFriendlyName");
         Assert.AreEqual(this.deviceFriendlyName, connectedFriendlyName, "connectedFriendlyName");
-        Assert.AreEqual("DUMMY", dummyFriendlyName, "dummyFriendlyName");
-        Assert.AreEqual("DUMMY", disconnectedDummyFriendlyName, "disconnectedDummyFriendlyName");
-        Assert.AreEqual("DUMMY", connectedDummyFriendlyName, "connectedDummyFriendlyName");
+        if (isFriendlyNameEditable)
+        {
+            Assert.AreEqual("DUMMY", dummyFriendlyName, "dummyFriendlyName");
+            Assert.AreEqual("DUMMY", disconnectedDummyFriendlyName, "disconnectedDummyFriendlyName");
+            Assert.AreEqual("DUMMY", connectedDummyFriendlyName, "connectedDummyFriendlyName");
+        }
     }
         
     [TestMethod]
