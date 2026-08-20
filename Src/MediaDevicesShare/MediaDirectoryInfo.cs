@@ -59,7 +59,6 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
         return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateDirectories(this.mediaDevice, this.item, searchPattern, searchOption));
-
     }
 
     /// <summary>

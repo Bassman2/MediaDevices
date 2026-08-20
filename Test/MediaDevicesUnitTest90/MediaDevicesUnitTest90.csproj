@@ -15,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
     <PackageReference Include="MSTest" Version="4.3.3" />
+    <PackageReference Include="System.Linq.AsyncEnumerable" Version="10.0.11" />
   </ItemGroup>
 
   <ItemGroup>

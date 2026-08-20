@@ -21,13 +21,81 @@ partial class MediaDirectoryInfo
         return await mainWorker.InvokeAsync(() => ProtocolHandler.CreateSubdirectory(this.mediaDevice, item, path), cancellationToken);
     }
 
-    // TODO
-    //public IAsyncEnumerable<MediaDirectoryInfo> EnumerateDirectoriesAsync()
-    //{
-    //    NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-    //    return mainWorker.InvokeAsyncEnumerable<MediaDirectoryInfo>(() => ProtocolHandler.EnumerateDirectories(this.mediaDevice, this.item));
-    //}
+    /// <summary>
+    /// Asynchronously enumerates the subdirectories of the current directory.
+    /// </summary>
+    /// <param name="cancellationToken">A cancellation token to observe while enumerating. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{MediaDirectoryInfo}"/> that yields <see cref="MediaDirectoryInfo"/> instances for each subdirectory. Enumeration is lazy and supports cancellation.</returns>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
+    public IAsyncEnumerable<MediaDirectoryInfo> EnumerateDirectoriesAsync(CancellationToken cancellationToken = default)
+    {
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateDirectories(this.mediaDevice, this.item, cancellationToken), cancellationToken);
+    }
 
-    
+    /// <summary>
+    /// Asynchronously enumerates the subdirectories of the current directory that match the specified search pattern.
+    /// </summary>
+    /// <param name="searchPattern">The search string to match against the names of subdirectories. For example, "*" or "Images*". If <c>null</c> or empty, behavior depends on the underlying protocol handler.</param>
+    /// <param name="searchOption">Specifies whether the search operation should include only the current directory or all subdirectories.</param>
+    /// <param name="cancellationToken">A cancellation token to observe while enumerating. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{MediaDirectoryInfo}"/> that yields <see cref="MediaDirectoryInfo"/> instances for each matching subdirectory. Enumeration is lazy and supports cancellation.</returns>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
+    public IAsyncEnumerable<MediaDirectoryInfo> EnumerateDirectoriesAsync(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
+    {
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateDirectories(this.mediaDevice, this.item, searchPattern, searchOption, cancellationToken), cancellationToken);
+    }
 
+    /// <summary>
+    /// Asynchronously enumerates the files in the current directory.
+    /// </summary>
+    /// <param name="cancellationToken">A cancellation token to observe while enumerating. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{MediaFileInfo}"/> that yields <see cref="MediaFileInfo"/> instances for each file. Enumeration is lazy and supports cancellation.</returns>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
+    public IAsyncEnumerable<MediaFileInfo> EnumerateFilesAsync(CancellationToken cancellationToken = default)
+    {
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFiles(this.mediaDevice, this.item, cancellationToken), cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously enumerates the files in the current directory that match the specified search pattern.
+    /// </summary>
+    /// <param name="searchPattern">The search string to match against the names of files. For example, "*.jpg" or "Doc*". If <c>null</c> or empty, behavior depends on the underlying protocol handler.</param>
+    /// <param name="searchOption">Specifies whether the search operation should include only the current directory or all subdirectories.</param>
+    /// <param name="cancellationToken">A cancellation token to observe while enumerating. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{MediaFileInfo}"/> that yields <see cref="MediaFileInfo"/> instances for each matching file. Enumeration is lazy and supports cancellation.</returns>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
+    public IAsyncEnumerable<MediaFileInfo> EnumerateFilesAsync(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
+    {
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFiles(this.mediaDevice, this.item, searchPattern, searchOption, cancellationToken), cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously enumerates file system entries (files and directories) in the current directory.
+    /// </summary>
+    /// <param name="cancellationToken">A cancellation token to observe while enumerating. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{MediaFileSystemInfo}"/> that yields <see cref="MediaFileSystemInfo"/> instances for each file system entry. Enumeration is lazy and supports cancellation.</returns>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
+    public IAsyncEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfosAsync(CancellationToken cancellationToken = default)
+    {
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFileSystemInfos(this.mediaDevice, this.item, cancellationToken), cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously enumerates file system entries (files and directories) in the current directory that match the specified search pattern.
+    /// </summary>
+    /// <param name="searchPattern">The search string to match against the names of file system entries. For example, "*.*" or "Images*". If <c>null</c> or empty, behavior depends on the underlying protocol handler.</param>
+    /// <param name="searchOption">Specifies whether the search operation should include only the current directory or all subdirectories.</param>
+    /// <param name="cancellationToken">A cancellation token to observe while enumerating. The default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{MediaFileSystemInfo}"/> that yields <see cref="MediaFileSystemInfo"/> instances for each matching entry. Enumeration is lazy and supports cancellation.</returns>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
+    public IAsyncEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfosAsync(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
+    {
+        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFileSystemInfos(this.mediaDevice, this.item, searchPattern, searchOption, cancellationToken), cancellationToken);
+    }
 }
