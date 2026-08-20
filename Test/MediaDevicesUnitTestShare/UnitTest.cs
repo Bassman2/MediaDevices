@@ -77,7 +77,7 @@ public abstract class UnitTest
     protected List<string> deviceContentLocationsAll = [];
 
     // Device Drive Test
-    protected List<string> deviceDrives = [];
+    protected List<string> deviceDrives = ["SD"];
 
     // Device File Dates Test
     protected DateMode deviceCreationTimeMode = DateMode.NotSupported;
