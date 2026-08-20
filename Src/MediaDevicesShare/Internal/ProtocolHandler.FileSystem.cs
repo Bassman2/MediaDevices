@@ -22,7 +22,7 @@ internal static partial class ProtocolHandler
         return item.GetChildren(searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => i.FullName);
     }
 
-    public static IEnumerable<string> EnumerateFiles(MediaDevice mediaDevice, string path)
+    public static IEnumerable<string> EnumerateFiles(MediaDevice mediaDevice, string path, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -30,7 +30,7 @@ internal static partial class ProtocolHandler
         return item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => i.FullName);
     }
 
-    public static IEnumerable<string> EnumerateFiles(MediaDevice mediaDevice, string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public static IEnumerable<string> EnumerateFiles(MediaDevice mediaDevice, string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -38,7 +38,7 @@ internal static partial class ProtocolHandler
         return item.GetChildren(searchPattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.FullName);
     }
 
-    public static IEnumerable<string> EnumerateFileSystemEntries(MediaDevice mediaDevice, string path)
+    public static IEnumerable<string> EnumerateFileSystemEntries(MediaDevice mediaDevice, string path, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -46,7 +46,7 @@ internal static partial class ProtocolHandler
         return item.GetChildren().Select(i => i.FullName);
     }
 
-    public static IEnumerable<string> EnumerateFileSystemEntries(MediaDevice mediaDevice, string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public static IEnumerable<string> EnumerateFileSystemEntries(MediaDevice mediaDevice, string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -516,7 +516,7 @@ internal static partial class ProtocolHandler
 
     #region MediaDirectoryInfo
 
-    public static IEnumerable<MediaDirectoryInfo> EnumerateDirectories(MediaDevice mediaDevice, Item item)
+    public static IEnumerable<MediaDirectoryInfo> EnumerateDirectories(MediaDevice mediaDevice, Item item, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -524,27 +524,27 @@ internal static partial class ProtocolHandler
 
     }
 
-    public static IEnumerable<MediaDirectoryInfo> EnumerateDirectories(MediaDevice mediaDevice, Item item, string searchPattern, SearchOption searchOption)
+    public static IEnumerable<MediaDirectoryInfo> EnumerateDirectories(MediaDevice mediaDevice, Item item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         return item.GetChildren(searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(mediaDevice, i));
     }
 
-    public static IEnumerable<MediaFileInfo> EnumerateFiles(MediaDevice mediaDevice, Item item)
+    public static IEnumerable<MediaFileInfo> EnumerateFiles(MediaDevice mediaDevice, Item item, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         return item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(mediaDevice, i));
     }
-    public static IEnumerable<MediaFileInfo> EnumerateFiles(MediaDevice mediaDevice, Item item, string searchPattern, SearchOption searchOption)
+    public static IEnumerable<MediaFileInfo> EnumerateFiles(MediaDevice mediaDevice, Item item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         return item.GetChildren(searchPattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(mediaDevice, i));
     }
 
-    public static IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(MediaDevice mediaDevice, Item item)
+    public static IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(MediaDevice mediaDevice, Item item, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -552,7 +552,7 @@ internal static partial class ProtocolHandler
             (MediaFileSystemInfo)new MediaFileInfo(mediaDevice, i) :
             (MediaFileSystemInfo)new MediaDirectoryInfo(mediaDevice, i));
     }
-    public static IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(MediaDevice mediaDevice, Item item, string searchPattern, SearchOption searchOption)
+    public static IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(MediaDevice mediaDevice, Item item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 

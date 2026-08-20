@@ -21,12 +21,91 @@ partial class MediaDevice
         return mainWorker.InvokeAsyncEnumerable<string>(() => ProtocolHandler.EnumerateDirectories(this, path, cancellationToken), cancellationToken);
     }
 
+    /// <summary>
+    /// Asynchronously enumerates the directories at the specified path that match the given search pattern.
+    /// </summary>
+    /// <param name="path">The path to enumerate directories from. Must be a valid file system path.</param>
+    /// <param name="searchPattern">The search string to match against the names of directories. For example, "*" or "Photos*". If <c>null</c> or empty, behavior depends on the underlying protocol handler.</param>
+    /// <param name="searchOption">Specifies whether the search operation should include only the current directory or all subdirectories.</param>
+    /// <param name="cancellationToken">The cancellation token to observe during the asynchronous operation. Default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{String}"/> that yields directory names matching the provided pattern.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="path"/> is invalid.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
     public IAsyncEnumerable<string> EnumerateDirectoriesAsync(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
     {
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
         return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateDirectories(this, path, searchPattern, searchOption, cancellationToken), cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously enumerates the files at the specified path on the media device.
+    /// </summary>
+    /// <param name="path">The path to enumerate files from. Must be a valid file system path.</param>
+    /// <param name="cancellationToken">The cancellation token to observe during the asynchronous operation. Default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{String}"/> that yields file names found at the specified <paramref name="path"/>. The caller can asynchronously iterate the returned sequence to receive file entries.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="path"/> is invalid.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
+    public IAsyncEnumerable<string> EnumerateFilesAsync(string path, CancellationToken cancellationToken = default)
+    {
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFiles(this, path, cancellationToken), cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously enumerates the files at the specified path that match the given search pattern.
+    /// </summary>
+    /// <param name="path">The path to enumerate files from. Must be a valid file system path.</param>
+    /// <param name="searchPattern">The search string to match against the names of files. For example, "*.jpg" or "Doc*". If <c>null</c> or empty, behavior depends on the underlying protocol handler.</param>
+    /// <param name="searchOption">Specifies whether the search operation should include only the current directory or all subdirectories.</param>
+    /// <param name="cancellationToken">The cancellation token to observe during the asynchronous operation. Default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{String}"/> that yields file names matching the provided pattern.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="path"/> is invalid.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
+    public IAsyncEnumerable<string> EnumerateFilesAsync(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
+    {
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFiles(this, path, searchPattern, searchOption, cancellationToken), cancellationToken);
+
+    }
+
+    /// <summary>
+    /// Asynchronously enumerates file system entries (both files and directories) at the specified path on the media device.
+    /// </summary>
+    /// <param name="path">The path to enumerate entries from. Must be a valid file system path.</param>
+    /// <param name="cancellationToken">The cancellation token to observe during the asynchronous operation. Default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{String}"/> that yields file system entry names found at the specified <paramref name="path"/>. The caller can asynchronously iterate the returned sequence to receive entries.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="path"/> is invalid.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
+    public IAsyncEnumerable<string> EnumerateFileSystemEntriesAsync(string path, CancellationToken cancellationToken = default)
+    {
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFileSystemEntries(this, path, cancellationToken), cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously enumerates file system entries (files and directories) at the specified path that match the given search pattern.
+    /// </summary>
+    /// <param name="path">The path to enumerate file system entries from. Must be a valid file system path.</param>
+    /// <param name="searchPattern">The search string to match against the names of file system entries. For example, "*.*" or "Images*". If <c>null</c> or empty, behavior depends on the underlying protocol handler.</param>
+    /// <param name="searchOption">Specifies whether the search operation should include only the current directory or all subdirectories.</param>
+    /// <param name="cancellationToken">The cancellation token to observe during the asynchronous operation. Default is <see cref="CancellationToken.None"/>.</param>
+    /// <returns>An <see cref="IAsyncEnumerable{String}"/> that yields file system entry names matching the provided pattern.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="path"/> is invalid.</exception>
+    /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
+    public IAsyncEnumerable<string> EnumerateFileSystemEntriesAsync(string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
+    {
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFileSystemEntries(this, path, searchPattern, searchOption, cancellationToken), cancellationToken);
     }
 
     /// <summary>
