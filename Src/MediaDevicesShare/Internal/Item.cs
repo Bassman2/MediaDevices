@@ -640,16 +640,9 @@ internal class Item
         // Allow the Apple driver time to physically close the channel.
         System.Threading.Thread.Sleep(20);
 
-        uint optimalTransferSize = 0; //0x40000;
+        uint optimalTransferSize = 0; 
         err = resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out var iStream);
-
-        if (err != 0)
-        {
-            string errorMessage = Marshal.GetExceptionForHR(err)?.Message ?? "unknown error";
-        }
-        string p = Path.Combine(path ?? "empty", name ?? "empty");
-
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream), p );
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream), Path.Combine(path ?? "empty", name ?? "empty"));
 
         return new StreamWrapper(iStream, this.Size);
     }
