@@ -6,7 +6,7 @@ internal static partial class ProtocolHandler
 {
     #region MediaDevice: path based
 
-    public static IEnumerable<string> EnumerateDirectories(MediaDevice mediaDevice, string path)
+    public static IEnumerable<string> EnumerateDirectories(MediaDevice mediaDevice, string path, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -14,7 +14,7 @@ internal static partial class ProtocolHandler
         return item.GetChildren().Where(i => i.Type != ItemType.File).Select(i => i.FullName);
     }
 
-    public static IEnumerable<string> EnumerateDirectories(MediaDevice mediaDevice, string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    public static IEnumerable<string> EnumerateDirectories(MediaDevice mediaDevice, string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 

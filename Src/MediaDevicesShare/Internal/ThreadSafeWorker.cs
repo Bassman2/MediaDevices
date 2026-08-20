@@ -299,6 +299,7 @@ internal sealed class ThreadSafeWorker : IDisposable
 
     public IAsyncEnumerable<T> InvokeAsyncEnumerable<T>(
         Func<IEnumerable<T>> func,
+        CancellationToken cancellationToken = default,
         [CallerLineNumber] int lineNumber = 0,
         [CallerFilePath] string filePath = "",
         [CallerMemberName] string memberName = "")
