@@ -7,8 +7,6 @@ public class NiconCoolpixA300 : ReadonlyUnitTest
     public NiconCoolpixA300()
         : base("\\A300")
     {
-        ignoreTests = Ignore.FriendlyName;
-
         #region Device Tests
 
         // Device Properties Test

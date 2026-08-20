@@ -285,6 +285,12 @@ internal static partial class ProtocolHandler
         }
 #endif
 
+        err = mediaDevice.deviceProperties.GetPropertyAttributes(Item.RootId, ref WPD.DEVICE_FRIENDLY_NAME, out IPortableDeviceValues? attributes);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetPropertyAttributes), "DEVICE_FRIENDLY_NAME");
+        err = attributes.GetBoolValue(ref WPD.PROPERTY_ATTRIBUTE_CAN_WRITE, out int canWriteInt);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue), "PROPERTY_ATTRIBUTE_CAN_WRITE");
+        mediaDevice.IsFriendlyNameEditable = canWriteInt != 0;
+
         mediaDevice.IsConnected = true;
     }
 

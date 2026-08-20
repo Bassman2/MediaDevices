@@ -7,8 +7,6 @@ public class CanonEos60DUnitTest : ReadonlyUnitTest
     public CanonEos60DUnitTest()
         : base("")
     {
-        ignoreTests = Ignore.FriendlyName;
-
         // Device Test
         deviceDescription = "Canon EOS 60D";
         deviceFriendlyName = "Canon EOS 60D";

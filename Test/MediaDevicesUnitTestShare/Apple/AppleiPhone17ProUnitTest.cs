@@ -7,11 +7,6 @@ public class AppleiPhone17ProUnitTest : ReadonlyUnitTest
 
     public AppleiPhone17ProUnitTest() : base("\\Internal Storage")
     {
-        
-        // Ignore tests
-        ignoreTests = Ignore.FriendlyName;
-
-
         #region Device Tests
 
         // Device Properties Test

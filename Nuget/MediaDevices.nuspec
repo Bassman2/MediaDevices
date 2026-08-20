@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MediaDevices</id>
-    <version>2.0.0-preview.3.3000</version>
+    <version>2.0.0</version>
     <title>MediaDevices</title>
     <authors>Ralf Beckers</authors>
     <owners>Ralf Beckers</owners>

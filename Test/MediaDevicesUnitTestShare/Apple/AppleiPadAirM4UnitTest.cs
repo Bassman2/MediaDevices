@@ -12,9 +12,6 @@ public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
         // Device Select
         deviceSelect = device => device.Description == this.deviceDescription;
 
-        // Ignore tests
-        ignoreTests = Ignore.FriendlyName;
-
         #region Device Tests
 
         // Device Properties Test

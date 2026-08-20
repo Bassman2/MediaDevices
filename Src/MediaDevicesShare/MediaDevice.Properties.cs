@@ -30,6 +30,18 @@ partial class MediaDevice
     }
 
     /// <summary>
+    /// Gets a value indicating whether the device's friendly name can be edited.
+    /// </summary>
+    /// <remarks>
+    /// This property reflects whether the connected device exposes a writable friendly name.
+    /// </remarks>
+    /// <value>
+    /// <c>true</c> if the device supports editing its friendly name; otherwise, <c>false</c>.
+    /// The default value is <c>false</c>.
+    /// </value>
+    public bool IsFriendlyNameEditable { get; internal set; } = false;
+
+    /// <summary>
     /// A short description of the portable device.
     /// </summary>
     /// <remarks>

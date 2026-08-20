@@ -22,7 +22,8 @@ public class SamsungA40UnitTest : WritableUnitTest
         deviceDeviceType = DeviceType.MediaPlayer;
         deviceSupportsNonConsumable = true;
         deviceSupportedFormatsAreOrdered = true;
-
+        deviceIsFriendlyNameEditable = true;
+        
         // Capability Test
         deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
         deviceSupportedCommands = [

@@ -7,8 +7,6 @@ public class CanonEosR6m2UnitTest : ReadonlyUnitTest
     public CanonEosR6m2UnitTest()
         : base("")
     {
-        ignoreTests = Ignore.FriendlyName;
-
         #region Device Tests
 
         // Device Test
