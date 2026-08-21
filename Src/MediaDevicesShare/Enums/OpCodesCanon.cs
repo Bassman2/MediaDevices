@@ -85,9 +85,27 @@ public enum OpCodesCanon : ushort
 
     PairingComplete = 0x9035,
 
+
+
     #endregion
 
     #region Canon EOS (0x9191 - 0x9155)
+
+    EOS_TerminateEventProc = 0x905A,
+
+    EOS_ExecuteEventProc = 0x9052,
+
+    EOS_GetEventProcResult = 0x9053,
+
+    EOS_GetEventProcList = 0x9057,
+
+    EOS_ExecuteEventProcAsync = 0x9058,
+
+    EOS_GetEventProcActiveList = 0x9059,
+
+   EOS_GetLensParams = 0x9060,
+
+    EOS_GetCounterValues = 0x905F,
 
     // File handling and memory
 
@@ -120,6 +138,8 @@ public enum OpCodesCanon : ushort
     EOS_SendPartialObject = 0x910B,
     EOS_SetObjectAttributes = 0x910C,
 
+    EOS_SetObjectTime = 0x910E,
+
     // Camera handling
 
     /// <summary>
@@ -145,12 +165,24 @@ public enum OpCodesCanon : ushort
     /// </summary>
     /// <remarks>Queries camera events, e.g., setting changes.</remarks>
     EOS_GetEvent = 0x9116,
+    
+    EOS_TransferComplete = 0x9117,
+
+    EOS_CancelTransfer = 0x9118,
 
     EOS_ResetTransfer = 0x9119,
+
+    EOS_PCHDDCapacity = 0x911A,
+
+    EOS_SetUILock = 0x911B,
 
     EOS_ResetUILock = 0x911C,
 
     EOS_KeepDeviceOn = 0x911D,
+
+    EOS_SetNullEventMode = 0x911E,
+    
+    EOS_SetDisplayMonitor = 0x911F,
 
     // Data Transfer
 
@@ -174,6 +206,38 @@ public enum OpCodesCanon : ushort
     /// </summary>
     /// <remarks>For long exposures</remarks>
     EOS_BulbEnd = 0x9126,
+
+    EOS_RequestDevicePropValue = 0x9127,
+
+    EOS_RemoteReleaseOn = 0x9128,
+
+    EOS_RemoteReleaseOff = 0x9129,
+
+    EOS_ChangePhotoStudioMode = 0x912B,
+
+    EOS_GetPartialObjectEx = 0x912C,
+
+    EOS_ReSizeImageData = 0x912D,
+
+    EOS_GetReSizeData = 0x912E,
+    
+    EOS_ReleaseReSizeData = 0x912F,
+
+    EOS_ResetMirrorLockupState = 0x9130,
+
+    EOS_InitiateGetPartialObjectEx = 0x9131,
+
+    EOS_EndGetPartialObjectEx = 0x9132,
+
+    EOS_MovieSelectSWOn = 0x9133,
+
+    EOS_MovieSelectSWOff = 0x9134,
+
+    EOS_InitiateGetViewfinderData = 0x9135,
+
+    EOS_TerminateGetViewfinderData = 0x9136,
+
+    EOS_InitiateGetViewfinderDataEx = 0x9137,
 
     // Viewfinder
 
@@ -215,6 +279,18 @@ public enum OpCodesCanon : ushort
     EOS_Zoom = 0x9158,
     
     EOS_ZoomPosition = 0x9159,
+
+    EOS_SetLiveAfFrame = 0x915A,
+
+    EOS_AfCancel = 0x9160,
+
+    EOS_TransferComplete2 = 0x91F0,
+
+    EOS_CancelTransfer2 = 0x91F1,
+
+    EOS_FAPIMessageTX = 0x91FE,
+
+    EOS_FAPIMessageRX = 0x91FF,
 
     #endregion
 
