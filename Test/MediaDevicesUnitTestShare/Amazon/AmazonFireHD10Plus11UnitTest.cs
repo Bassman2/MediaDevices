@@ -2,7 +2,7 @@
 
 [TestClass]
 [TestCategory("Amazon")]
-public class AmazonFireHD10Plus11UnitTest : WritableUnitTest
+public class AmazonFireHD10Plus11UnitTest : AmazonUnitTest
 {
     public AmazonFireHD10Plus11UnitTest()
         : base("\\Speichergerät")

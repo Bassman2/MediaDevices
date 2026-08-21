@@ -2,7 +2,7 @@
 
 [TestClass]
 [TestCategory("Apple")]
-public class AppleiPhone17ProUnitTest : ReadonlyUnitTest
+public class AppleiPhone17ProUnitTest : AppleUnitTest
 {
 
     public AppleiPhone17ProUnitTest() : base("\\Internal Storage")

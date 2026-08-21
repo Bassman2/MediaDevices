@@ -5,7 +5,7 @@ namespace MediaDevicesUnitTest;
 
 [TestClass]
 [TestCategory("Apple")]
-public class AppleiPadAirM4UnitTest : ReadonlyUnitTest
+public class AppleiPadAirM4UnitTest : AppleUnitTest
 {
     public AppleiPadAirM4UnitTest() : base("\\Internal Storage")
     {

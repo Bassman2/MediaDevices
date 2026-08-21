@@ -1,10 +1,10 @@
 ﻿namespace MediaDevicesUnitTest;
 
 [TestClass]
-[TestCategory("Nicon")]
-public class NiconCoolpixA300 : ReadonlyUnitTest
+[TestCategory("Nikon")]
+public class NikonCoolpixA300 : NikonUnitTest
 {
-    public NiconCoolpixA300()
+    public NikonCoolpixA300()
         : base("\\A300")
     {
         #region Device Tests

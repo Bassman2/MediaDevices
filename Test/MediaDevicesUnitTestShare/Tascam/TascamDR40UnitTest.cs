@@ -2,7 +2,7 @@
 
 [TestClass]
 [TestCategory("Tascam")]
-public class TascamDR40UnitTest : WritableUnitTest
+public class TascamDR40UnitTest : TascamUnitTest
 {
     public TascamDR40UnitTest()
         : base("")
@@ -73,7 +73,7 @@ public class TascamDR40UnitTest : WritableUnitTest
         //this.FilePersistentUniqueId = "{25606D91-C12C-CF74-93A6-34E88717AD11}"; // "{FDFF71F3-E0BD-D98E-0000-000000000000}";
         //this.FilePersistentUniqueIdPath = @"\Phone\Samsung\Music\Over_the_Horizon.mp3"; // @"\Phone\Videos\desktop.ini"; Directory = "\\Phone\\Samsung\\Music"
 
-        this.writeableWorkingFolder = @"\Card\Test";
+        //this.writeableWorkingFolder = @"\Card\Test";
 
         this.deviceDrives = [""];
 

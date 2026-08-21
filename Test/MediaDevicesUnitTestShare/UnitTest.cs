@@ -24,12 +24,12 @@ public abstract class UnitTest
     protected string? deviceModel = null;
     protected string? deviceSerialNumber = null;
     protected bool? deviceSupportsNonConsumable = false;                            // PhilipsUFD & TascamDR40: null
-    protected bool deviceDateTimeHasValue = false;                                  // NiconCoolpixA300 = true
+    protected bool deviceDateTimeHasValue = false;                                  // NikonCoolpixA300 = true
     protected readonly string[]? deviceSupportedDrmSchemes = null;
     protected bool? deviceSupportedFormatsAreOrdered = null;                        // SamsungA40: true
     protected DeviceType? deviceDeviceType = DeviceType.Generic;
     protected DeviceTransport? deviceTransport = DeviceTransport.USB;               // PhilipsUFD & TascamDR40: null
-    protected DeviceTransport? deviceUseDeviceStage = null;                         // CanonEosR6m2, NiconCoolpixA300 & CanonEos60D: USB
+    protected DeviceTransport? deviceUseDeviceStage = null;                         // CanonEosR6m2, NikonCoolpixA300 & CanonEos60D: USB
 
     protected bool deviceIsFriendlyNameEditable = false;
 
@@ -75,7 +75,7 @@ public abstract class UnitTest
     protected DateMode deviceDateAuthoredMode = DateMode.NotSupported;
 
     // Device Vendor Test
-    protected List<OpCodes> deviceVendorOpcodes = [];
+    //protected List<OpCodes> deviceVendorOpcodes = [];
     protected string? deviceVendorExtentionDescription = null;
 
     //public TestContext TestContext { get; set; }
@@ -431,19 +431,19 @@ public abstract class UnitTest
 
     #region Vendor Tests
 
-    [TestMethod]
-    [Description("Vendor opcodes test.")]
-    public void DeviceVendorOpcodesTest()
-    {
-        var device = GetDevice();
-        device.Connect();
+    //[TestMethod]
+    //[Description("Vendor opcodes test.")]
+    //public void DeviceVendorOpcodesTest()
+    //{
+    //    var device = GetDevice();
+    //    device.Connect();
 
-        var opcodes = device.VendorOpcodes().ToList();
+    //    var opcodes = device.VendorOpcodes().ToList();
 
-        device.Disconnect();
+    //    device.Disconnect();
 
-        Assert.AreSequenceEqual(this.deviceVendorOpcodes, opcodes, SequenceOrder.InAnyOrder, nameof(deviceVendorOpcodes));
-    }
+    //    Assert.AreSequenceEqual(this.deviceVendorOpcodes, opcodes, SequenceOrder.InAnyOrder, nameof(deviceVendorOpcodes));
+    //}
 
     [TestMethod]
     [Description("Vendor extension description test.")]

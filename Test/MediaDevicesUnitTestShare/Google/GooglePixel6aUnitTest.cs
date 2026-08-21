@@ -1,10 +1,8 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-
-namespace MediaDevicesUnitTest;
+﻿namespace MediaDevicesUnitTest;
 
 [TestClass]
 [TestCategory("Google")]
-public class GooglePixel6aUnitTest : WritableUnitTest
+public class GooglePixel6aUnitTest : GoogleUnitTest
 {
     public GooglePixel6aUnitTest()
         : base("")
@@ -140,7 +138,7 @@ public class GooglePixel6aUnitTest : WritableUnitTest
 
         #region WriteableTests
 
-        writeableWorkingFolder = "\\Interner gemeinsamer Speicher\\Test";
+        //writeableWorkingFolder = "\\Interner gemeinsamer Speicher\\Test";
 
         #endregion
     }

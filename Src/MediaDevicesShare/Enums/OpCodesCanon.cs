@@ -3,141 +3,218 @@
 public enum OpCodesCanon : ushort
 {
 
-    #region Canon Powershot
+    #region Canon Powershot (0x9001 - 0x9035)
 
     /// <summary>
     /// Retrieves the size of a specified object on the Canon PowerShot device.
     /// </summary>
-    Canon_PowershotGetObjectSize = 0x9001,
+    GetPartialObjectInfo = 0x9001,
+
+    SetObjectArchive = 0x9002,
 
     /// <summary>
     /// Keeps the Canon PowerShot device active to prevent automatic power-down during communication sessions.
     /// </summary>
-    Canon_PowershotKeepDeviceOn = 0x9003,
+    KeepDeviceOn = 0x9003,
 
     /// <summary>
     /// Locks the user interface on the Canon PowerShot device to prevent accidental button presses during remote operations.
     /// </summary>
-    Canon_PowershotLockDeviceUI = 0x9004,
+    LockDeviceUI = 0x9004,
 
     /// <summary>
     /// Unlocks the user interface on the Canon PowerShot device to allow normal button presses and manual control.
     /// </summary>
-    Canon_PowershotUnlockDeviceUI = 0x9005,
+    UnlockDeviceUI = 0x9005,
 
-    /// <summary>
-    /// Initiates remote camera release control mode on the Canon PowerShot device for triggering captures.
-    /// </summary>
-    Canon_PowershotInitiateReleaseControl = 0x9008,
+    GetViewfinderUserDefinedLines = 0x9008,
+
+    ///// <summary>
+    ///// Initiates remote camera release control mode on the Canon PowerShot device for triggering captures.
+    ///// </summary>
+    //InitiateReleaseControl = 0x9008,
 
     /// <summary>
     /// Enables the viewfinder display on the Canon PowerShot device to show real-time preview.
     /// </summary>
-    Canon_PowershotViewfinderOn = 0x900B,
+    ViewfinderOn = 0x900B,
 
     /// <summary>
     /// Disables the viewfinder display on the Canon PowerShot device to conserve power.
     /// </summary>
-    Canon_PowershotViewfinderOff = 0x900C,
+    ViewfinderOff = 0x900C,
 
-    /// <summary>
-    /// Checks for pending events on the Canon PowerShot device such as button presses or focus completion.
-    /// </summary>
-    Canon_PowershotCheckEvent = 0x9013,
+
+    GetChanges = 0x9010,
+
+    GetFolderEntries = 0x9011,
+
+    GetFormatEffects = 0x9012,
+
+    FormatEffectsStore = 0x9013,
+    ///// <summary>
+    ///// Checks for pending events on the Canon PowerShot device such as button presses or focus completion.
+    ///// </summary>
+    //CheckEvent = 0x9013,
+
+
+    GetCustomFuncs = 0x9018,
+
+    GetAsphericalLensData = 0x901B,
 
     /// <summary>
     /// Retrieves the current viewfinder image from the Canon PowerShot device for live preview display.
     /// </summary>
-    Canon_PowershotGetViewfinderImage = 0x901D,
+    GetViewfinderImage = 0x901D,
 
-    /// <summary>
-    /// Sets wireless LAN pairing information on the Canon PowerShot device for network connectivity.
-    /// </summary>
-    Canon_PowershotSetPairingInfoWLAN = 0x902F,
+    InitiateDirectTransfer = 0x902F,
 
-    /// <summary>
-    /// Sets Bluetooth pairing information on the Canon PowerShot device for wireless communication.
-    /// </summary>
-    Canon_PowershotSetPairingInfoBluetooth = 0x9030,
+    ///// <summary>
+    ///// Sets wireless LAN pairing information on the Canon PowerShot device for network connectivity.
+    ///// </summary>
+    //SetPairingInfoWLAN = 0x902F,
+
+    TerminateDirectTransfer = 0x9030,
+
+    ///// <summary>
+    ///// Sets Bluetooth pairing information on the Canon PowerShot device for wireless communication.
+    ///// </summary>
+    //SetPairingInfoBluetooth = 0x9030,
+
+    SetDisplayMonitor = 0x9034,
+
+    PairingComplete = 0x9035,
 
     #endregion
 
-    #region Canon EOS
+    #region Canon EOS (0x9191 - 0x9155)
+
+    // File handling and memory
 
     /// <summary>
     /// Retrieves the list of storage device identifiers (handles) available on the Canon EOS camera.
     /// </summary>
-    Canon_EOSGetStorageIDs = 0x9101,
+    EOS_GetStorageIDs = 0x9101,
+
+    EOS_GetStorageInfo = 0x9102,
+
+    EOS_GetObjectInfo = 0x9103,
 
     /// <summary>
     /// Downloads a file object from the Canon EOS camera to the PC.
     /// </summary>
-    Canon_EOSGetObject = 0x9104,
+    EOS_GetObject = 0x9104,
+
+    EOS_DeleteObject = 0x9105,
+    EOS_FormatStore = 0x9106,
+    EOS_GetPartialObject = 0x9107,
 
     /// <summary>
     /// Queries extended device information and capabilities specific to Canon EOS cameras.
     /// </summary>
-    Canon_EOSGetDeviceInfoEx = 0x9108,
+    EOS_GetDeviceInfoEx = 0x9108,
+
+    EOS_GetObjectInfoEx = 0x9109,
+
+    EOS_GetThumbEx = 0x910A,
+    EOS_SendPartialObject = 0x910B,
+    EOS_SetObjectAttributes = 0x910C,
+
+    // Camera handling
 
     /// <summary>
     /// Triggers a remote shutter release on the Canon EOS camera.
     /// </summary>
     /// <remarks>Triggers the camera via USB/IP.</remarks>
-    Canon_EOSRemoteRelease = 0x910F,
+    EOS_RemoteRelease = 0x910F,
 
+    EOS_SetDevicePropValueEx = 0x9110,
+
+    EOS_GetRemoteMode = 0x9113,
 
     /// <summary>
     /// Enables or disables remote control mode on the Canon EOS camera.
     /// </summary>
     /// <remarks>Switches the camera to PC control mode.</remarks>
-    Canon_EOSSetRemoteMode = 0x9114,
+    EOS_SetRemoteMode = 0x9114,
+
+    EOS_SetEventMode = 0x9115,
 
     /// <summary>
     /// Polls for pending events on the Canon EOS camera such as button presses, focus completion, or operational status changes.
     /// </summary>
     /// <remarks>Queries camera events, e.g., setting changes.</remarks>
-    Canon_EOSGetEvent = 0x9116,
+    EOS_GetEvent = 0x9116,
+
+    EOS_ResetTransfer = 0x9119,
+
+    EOS_ResetUILock = 0x911C,
+
+    EOS_KeepDeviceOn = 0x911D,
+
+    // Data Transfer
+
+    EOS_TransferCompleteDT = 0x9120,
+
+    EOS_CancelTransferDT = 0x9121,
+
+    EOS_SetTransferTargetDT = 0x9122,
+
+
+    // Bulk
 
     /// <summary>
     /// Initiates continuous bulb exposure (long shutter) mode on the Canon EOS camera.
     /// </summary>
     /// <remarks>For long exposures</remarks>
-    Canon_EOSBulbStart = 0x9125,
+    EOS_BulbStart = 0x9125,
 
     /// <summary>
     /// Terminates continuous bulb exposure (long shutter) mode on the Canon EOS camera.
     /// </summary>
     /// <remarks>For long exposures</remarks>
-    Canon_EOSBulbEnd = 0x9126,
+    EOS_BulbEnd = 0x9126,
+
+    // Viewfinder
 
     /// <summary>
     /// Starts the viewfinder preview stream on the Canon EOS camera for live view display.
     /// </summary>
     /// <remarks>For Live View</remarks>
-    Canon_EOSInitiateViewfinder = 0x9151,
+    EOS_InitiateViewfinder = 0x9151,
 
     /// <summary>
     /// Stops the viewfinder preview stream on the Canon EOS camera.
     /// </summary>
     /// <remarks>For Live View</remarks>
-    Canon_EOSTerminateViewfinder = 0x9152,
+    EOS_TerminateViewfinder = 0x9152,
+
+    // LiveView and Focus
 
     /// <summary>
     /// Retrieves the current viewfinder image frame from the Canon EOS camera for live preview display.
     /// </summary>
     /// <remarks>Transfers the live view still images to the PC.</remarks>
-    Canon_EOSGetViewFinderImage = 0x9153,
+    EOS_GetViewFinderDat = 0x9153,
 
     /// <summary>
     /// Triggers autofocus on the Canon EOS camera.
     /// </summary>
-    Canon_EOSDoAf = 0x9154,
+    EOS_DoAf = 0x9154,
 
     /// <summary>
     /// Controls lens focus motor movement on the Canon EOS camera for manual focus adjustments.
     /// </summary>
     /// <remarks>Manual focusing/lens stepping via software.</remarks>
-    Canon_EOSDriveLens = 0x9155,
+    EOS_DriveLens = 0x9155,
+
+    EOS_DepthOfFieldPreview = 0x9156,
+
+    EOS_ClickWB = 0x9157,
+    
+    EOS_Zoom = 0x9158,
+    
+    EOS_ZoomPosition = 0x9159,
 
     #endregion
 

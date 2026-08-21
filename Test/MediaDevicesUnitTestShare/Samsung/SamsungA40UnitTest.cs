@@ -2,7 +2,7 @@
 
 [TestClass]
 [TestCategory("Samsung")]
-public class SamsungA40UnitTest : WritableUnitTest
+public class SamsungA40UnitTest : SamsungUnitTest
 {
     public SamsungA40UnitTest() : base("\\Card")
     {
@@ -86,15 +86,15 @@ public class SamsungA40UnitTest : WritableUnitTest
 
         // Drive Test
         deviceDrives = ["Phone", "Card"];
-        
+
         // Vendor Test
-        //deviceVendorOpcodes = [
-        //    OpCodes.Samsung_Unknown1,
-        //    OpCodes.Samsung_Unknown2,
-        //    OpCodes.Samsung_Unknown3,
-        //    OpCodes.Samsung_Unknown4,
-        //    OpCodes.Samsung_Unknown5,
-        //    OpCodes.Samsung_Unknown6];
+        deviceVendorOpcodes = [
+            OpCodesSamsung.Samsung_Unknown1,
+            OpCodesSamsung.Samsung_Unknown2,
+            OpCodesSamsung.Samsung_Unknown3,
+            OpCodesSamsung.Samsung_Unknown4,
+            OpCodesSamsung.Samsung_Unknown5,
+            OpCodesSamsung.Samsung_Unknown6];
         deviceVendorExtentionDescription = @"^microsoft\.com: 1\.0; samsung\.com\/kies: 5\.0; samsung\.com\/devicestatus: \d; $";
                                         //   "microsoft.com: 1.0; samsung.com/kies: 5.0; samsung.com/devicestatus: 0; ";
 

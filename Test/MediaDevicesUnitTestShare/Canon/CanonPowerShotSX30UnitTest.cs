@@ -2,7 +2,7 @@
 
 [TestClass]
 [TestCategory("Canon")]
-public class CanonPowerShotSX30UnitTest : ReadonlyUnitTest
+public class CanonPowerShotSX30UnitTest : CanonPowerShotUnitTest
 {
     public CanonPowerShotSX30UnitTest()
         : base("")

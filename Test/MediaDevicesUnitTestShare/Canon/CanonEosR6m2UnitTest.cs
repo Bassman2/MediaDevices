@@ -2,7 +2,7 @@
 
 [TestClass]
 [TestCategory("Canon")]
-public class CanonEosR6m2UnitTest : ReadonlyUnitTest
+public class CanonEosR6m2UnitTest : CanonEosUnitTest
 {
     public CanonEosR6m2UnitTest()
         : base("")
