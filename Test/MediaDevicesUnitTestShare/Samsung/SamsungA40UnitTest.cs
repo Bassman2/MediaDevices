@@ -89,12 +89,12 @@ public class SamsungA40UnitTest : SamsungUnitTest
 
         // Vendor Test
         deviceVendorOpcodes = [
-            OpCodesSamsung.Samsung_Unknown1,
-            OpCodesSamsung.Samsung_Unknown2,
-            OpCodesSamsung.Samsung_Unknown3,
-            OpCodesSamsung.Samsung_Unknown4,
-            OpCodesSamsung.Samsung_Unknown5,
-            OpCodesSamsung.Samsung_Unknown6];
+            OpCodesSamsung.Unknown1,
+            OpCodesSamsung.Unknown2,
+            OpCodesSamsung.Unknown3,
+            OpCodesSamsung.Unknown4,
+            OpCodesSamsung.Unknown5,
+            OpCodesSamsung.Unknown6];
         deviceVendorExtentionDescription = @"^microsoft\.com: 1\.0; samsung\.com\/kies: 5\.0; samsung\.com\/devicestatus: \d; $";
                                         //   "microsoft.com: 1.0; samsung.com/kies: 5.0; samsung.com/devicestatus: 0; ";
 
