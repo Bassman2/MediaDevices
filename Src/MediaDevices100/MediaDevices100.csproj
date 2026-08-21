@@ -11,7 +11,7 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
 	<IsTrimmable>True</IsTrimmable>
 	<IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>

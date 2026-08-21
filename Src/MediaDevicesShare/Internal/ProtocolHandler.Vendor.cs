@@ -2,14 +2,16 @@
 
 partial class ProtocolHandler
 {
-    public static IEnumerable<OpCodes> VendorOpcodes(IPortableDevice device)
+    public static IEnumerable<T> VendorOpcodes<T>(IPortableDevice device) where T : Enum
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_SUPPORTED_VENDOR_OPCODES);
         cmd.Send(device);
         var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES);
-        return list.Select(p => (OpCodes)p.ToUInt());
+        return list.Select(p => (T)Enum.ToObject(typeof(T), p.ToUInt()));
+
+        //(T)p.ToUInt());
     }
 
     public static IEnumerable<int> VendorExcecute(IPortableDevice device, OpCodes opCode, IEnumerable<int> inputParams, out int respCode)
