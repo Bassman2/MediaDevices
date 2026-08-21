@@ -2,7 +2,7 @@
 
 public abstract class NikonUnitTest(string testPath) : ReadonlyUnitTest(testPath)
 {
-    protected List<OpCodes> deviceVendorOpcodes = [];
+    protected List<OpCodesNikon> deviceVendorOpcodes = [];
 
     [TestMethod]
     [Description("Nikon Vendor opcodes test.")]
@@ -12,7 +12,9 @@ public abstract class NikonUnitTest(string testPath) : ReadonlyUnitTest(testPath
         device.Connect();
 
 
-        List<OpCodes> opcodes = [.. device.VendorOpcodes()];
+        INikonMediaDevice intf = device;
+
+        List<OpCodesNikon> opcodes = [.. intf.VendorOpcodes()];
 
         device.Disconnect();
 

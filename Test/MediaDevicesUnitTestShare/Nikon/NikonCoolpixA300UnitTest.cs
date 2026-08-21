@@ -82,7 +82,12 @@ public class NikonCoolpixA300 : NikonUnitTest
         deviceDrives = ["A300"];
 
         // Device Vendor Test
-        deviceVendorOpcodes = [];
+        deviceVendorOpcodes = [
+            OpCodesNikon.GetDevicePropertyCaps,
+            OpCodesNikon.Placeholder,
+            OpCodesNikon.GetDevicePropertyValue,
+            OpCodesNikon.GetDevicePropDesc,
+            OpCodesNikon.GetProfileAllData];
         deviceVendorExtentionDescription = "microsoft.com/deviceservices: 1.0;";
 
         #endregion
