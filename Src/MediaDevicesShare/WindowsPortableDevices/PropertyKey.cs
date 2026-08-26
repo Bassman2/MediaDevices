@@ -18,6 +18,12 @@ internal struct PropertyKey
         this.pid = id;
     }
 
+    public PropertyKey(Guid guid, uint id)
+    {
+        this.fmtid = guid;
+        this.pid = id;
+    }
+
     public PropertyKey(uint a, ushort b, ushort c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, uint id)
     {
         this.fmtid = new Guid(a, b, c, d, e, f, g, h, i, j, k);

@@ -34,6 +34,13 @@ internal static partial class ComHelper
             Debug.WriteLine(message);
             throw new MediaDeviceException(message);
         }
+
+        // TODO check *********************
+        // // ativeMethods.CoCreateInstance(clsid, 0, CLSCTX_ALL, typeof(T).GUID, out nint x);
+        //var comWrappers = new StrategyBasedComWrappers();
+        //var deviceManager = (IPortableDeviceManager)comWrappers.GetOrCreateObjectForComInstance(x, CreateObjectFlags.None);
+
+
         return (T)insta;
     }
         
