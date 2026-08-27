@@ -21,7 +21,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICanonMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INikonMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISamsungMediaDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Extentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\EnumExtentions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.Extentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.ICanon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.ICanon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.ICanon.cs" />
@@ -77,7 +79,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\Enums\ItemType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\KeyAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\Enums\ObjectProperties.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\PropertyKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\Enums\PropertyKeys.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\Interfaces\PropVariant.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\PropVariantData.cs" />

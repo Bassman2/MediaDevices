@@ -1,6 +1,6 @@
-﻿namespace MediaDevices.Internal;
+﻿namespace MediaDevices;
 
-internal struct PropertyKey
+public struct PropertyKey
 {
     public Guid fmtid;
     public uint pid;
