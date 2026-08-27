@@ -2,12 +2,25 @@
 
 partial class WPD
 {
+    //Guid wpdDevicePropertiesGuid = new Guid("1f6b2299-9e76-43c8-a2ec-eeef43358afc");
+
+    //// Canon PTP/MTP Extension Property Code for OwnerName is typically 0xD501 (or 54529)
+    //int canonOwnerNameId = 0xD501;
     public static Guid CanonDeviceProperties = new Guid("1f6b2299-9e76-43c8-a2ec-eeef43358afc");
 
-    public static PropertyKey CanonDevicePropertyOwnerNmae = new(CanonDeviceProperties, 0xD501);
+    //0xD108 Shooting Mode
+    public static PropertyKey CanonDevicePropertyShootingMode = new (CanonDeviceProperties, 0xD108);
 
+
+    public static PropertyKey CanonDevicePropertyOwnerName = new(CanonDeviceProperties, 0xD501);
+    
+    // 0xD502 (Artist/Author)
     public static PropertyKey CanonDevicePropertyArtistAuthor = new(CanonDeviceProperties, 0xD502);
+
+    //0xD503 (Copyright)
     public static PropertyKey CanonDevicePropertyCopyright = new(CanonDeviceProperties, 0xD503);
+
+    public static PropertyKey CanonDevicePropertySerial = new(CanonDeviceProperties, 0xD504);
 
     /*
      
@@ -24,7 +37,10 @@ partial class WPD
     0xD109Focus ModeOne-Shot AF, AI Focus, AI Servo AF, Manual Focus.
     0xD10AWhite Balance TempPrecise Kelvin color temperature setting.
     0xD10BWhite Balance ShiftColor adjustment matrix adjustments (Amber/Blue/Magenta/Green).
-    0xD10CZoom PositionLens focal lengths (Supported on specific PowerShot models).0xD10DFlash CompensationDirect flash intensity adjustment profile.0xD11CCapture DestinationDetermines if shot data writes to 1 (RAM/PC), 2 (SD Card), or 3 (Both).0xD11EBracket ModeExposure bracketing settings schema. 
+    0xD10CZoom PositionLens focal lengths (Supported on specific PowerShot models).
+    0xD10DFlash CompensationDirect flash intensity adjustment profile.
+    0xD11CCapture DestinationDetermines if shot data writes to 1 (RAM/PC), 2 (SD Card), or 3 (Both).
+    0xD11EBracket ModeExposure bracketing settings schema. 
     
     // Picture Styles & Image Quality
     0xD201Image FormatRAW, JPEG Large, JPEG Fine, RAW+JPEG combinations.

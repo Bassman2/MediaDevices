@@ -2,18 +2,20 @@
 
 partial class ProtocolHandler
 {
-    public static string GetDevicePropertyString(MediaDevice mediaDevice, PropertyKey propertyKey)
+    private  const string DeviceId = "DEVICE";
+
+    public static string? GetPropertyString(MediaDevice mediaDevice, PropertyKey propertyKey, string objectId = DeviceId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         var keyCollection = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
         keyCollection.Add(ref propertyKey);
 
-        int err = mediaDevice.deviceProperties!.GetValues(Item.RootId, keyCollection, out var deviceValues);
+        int err = mediaDevice.deviceProperties!.GetValues(objectId, keyCollection, out var deviceValues);
         if (err != 0)
         {
             // some devices does not accept a keyCollection
-            err = mediaDevice.deviceProperties!.GetValues(Item.RootId, null, out deviceValues);
+            err = mediaDevice.deviceProperties!.GetValues(objectId, null, out deviceValues);
         }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
@@ -23,18 +25,18 @@ partial class ProtocolHandler
         return value;
     }
 
-    public static int GetDevicePropertyInt(MediaDevice mediaDevice, PropertyKey propertyKey)
+    public static int? GetPropertyInt(MediaDevice mediaDevice, PropertyKey propertyKey, string objectId = DeviceId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         var keyCollection = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
         keyCollection.Add(ref propertyKey);
 
-        int err = mediaDevice.deviceProperties!.GetValues(Item.RootId, keyCollection, out var deviceValues);
+        int err = mediaDevice.deviceProperties!.GetValues(objectId, keyCollection, out var deviceValues);
         if (err != 0)
         {
             // some devices does not accept a keyCollection
-            err = mediaDevice.deviceProperties!.GetValues(Item.RootId, null, out deviceValues);
+            err = mediaDevice.deviceProperties!.GetValues(objectId, null, out deviceValues);
         }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
@@ -44,17 +46,17 @@ partial class ProtocolHandler
         return value;
     }
 
-    public static uint GetDevicePropertyUInt(MediaDevice mediaDevice, PropertyKey propertyKey)
+    public static uint? GetPropertyUInt(MediaDevice mediaDevice, PropertyKey propertyKey, string objectId = DeviceId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
         var keyCollection = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
         keyCollection.Add(ref propertyKey);
 
-        int err = mediaDevice.deviceProperties!.GetValues(Item.RootId, keyCollection, out var deviceValues);
+        int err = mediaDevice.deviceProperties!.GetValues(objectId, keyCollection, out var deviceValues);
         if (err != 0)
         {
             // some devices does not accept a keyCollection
-            err = mediaDevice.deviceProperties!.GetValues(Item.RootId, null, out deviceValues);
+            err = mediaDevice.deviceProperties!.GetValues(objectId, null, out deviceValues);
         }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
@@ -65,43 +67,43 @@ partial class ProtocolHandler
     }
 
 
-    public static bool SetDeviceProperty(MediaDevice mediaDevice, PropertyKey propertyKey, string value)
+    public static bool SetProperty(MediaDevice mediaDevice, PropertyKey propertyKey, string? value, string objectId = DeviceId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         IPortableDeviceValues deviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
-        int err = deviceValues.SetStringValue(ref propertyKey, value);
+        int err = deviceValues.SetStringValue(ref propertyKey, value!);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue));
 
-        err = mediaDevice.deviceProperties!.SetValues(Item.RootId, deviceValues, out IPortableDeviceValues _);
+        err = mediaDevice.deviceProperties!.SetValues(objectId, deviceValues, out IPortableDeviceValues _);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.SetValues));
 
         return true;
     }
 
-    public static bool SetDeviceProperty(MediaDevice mediaDevice, PropertyKey propertyKey, int value)
+    public static bool SetProperty(MediaDevice mediaDevice, PropertyKey propertyKey, int? value, string objectId = DeviceId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         IPortableDeviceValues deviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
-        int err = deviceValues.SetSignedIntegerValue(ref propertyKey, value);
+        int err = deviceValues.SetSignedIntegerValue(ref propertyKey, value.GetValueOrDefault());
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetSignedIntegerValue));
 
-        err = mediaDevice.deviceProperties!.SetValues(Item.RootId, deviceValues, out IPortableDeviceValues _);
+        err = mediaDevice.deviceProperties!.SetValues(objectId, deviceValues, out IPortableDeviceValues _);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.SetValues));
 
         return true;
     }
 
-    public static bool SetDeviceProperty(MediaDevice mediaDevice, PropertyKey propertyKey, uint value)
+    public static bool SetProperty(MediaDevice mediaDevice, PropertyKey propertyKey, uint? value, string objectId = DeviceId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         IPortableDeviceValues deviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
-        int err = deviceValues.SetUnsignedIntegerValue(ref propertyKey, value);
+        int err = deviceValues.SetUnsignedIntegerValue(ref propertyKey, value.GetValueOrDefault());
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue));
 
-        err = mediaDevice.deviceProperties!.SetValues(Item.RootId, deviceValues, out IPortableDeviceValues _);
+        err = mediaDevice.deviceProperties!.SetValues(objectId, deviceValues, out IPortableDeviceValues _);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.SetValues));
 
         return true;

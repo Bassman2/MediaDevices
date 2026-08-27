@@ -4,41 +4,47 @@ partial class MediaDevice
 {
 
 
-    public string GetDevicePropertyString(PropertyKey propertyKey)
+    public string? GetDevicePropertyString(PropertyKey propertyKey)
     {
         NotConnectedException.ThrowIfNotConnected(this); 
-        return mainWorker.Invoke(() => ProtocolHandler.GetDevicePropertyString(this, propertyKey));
+        return mainWorker.Invoke(() => ProtocolHandler.GetPropertyString(this, propertyKey));
     }
 
-    public short GetDevicePropertyInt(PropertyKey propertyKey)
+    public int? GetDevicePropertyInt(PropertyKey propertyKey)
     {
         NotConnectedException.ThrowIfNotConnected(this);
-        return mainWorker.Invoke(() => ProtocolHandler.GetDevicePropertyInt(this, propertyKey));
+        return mainWorker.Invoke(() => ProtocolHandler.GetPropertyInt(this, propertyKey));
     }
 
-    public short GetDevicePropertyUInt(PropertyKey propertyKey)
+    public uint? GetDevicePropertyUInt(PropertyKey propertyKey)
     {
         NotConnectedException.ThrowIfNotConnected(this);
-        return mainWorker.Invoke(() => ProtocolHandler.GetDevicePropertyUInt(this, propertyKey));
+        return mainWorker.Invoke(() => ProtocolHandler.GetPropertyUInt(this, propertyKey));
     }
 
 
-    public bool SetDeviceProperty(PropertyKey propertyKey, string value)
+    public bool SetDeviceProperty(PropertyKey propertyKey, string? value)
     {
         NotConnectedException.ThrowIfNotConnected(this);
-        return mainWorker.Invoke(() => ProtocolHandler.SetDeviceProperty(this, propertyKey, value));
+        ArgumentNullException.ThrowIfNull(value, nameof(value));
+
+        return mainWorker.Invoke(() => ProtocolHandler.SetProperty(this, propertyKey, value));
     }
 
-    public bool SetDeviceProperty(PropertyKey propertyKey, int value)
+    public bool SetDeviceProperty(PropertyKey propertyKey, int? value)
     {
         NotConnectedException.ThrowIfNotConnected(this);
-        return mainWorker.Invoke(() => ProtocolHandler.SetDeviceProperty(this, propertyKey, value));
+        ArgumentNullException.ThrowIfNull(value, nameof(value));
+
+        return mainWorker.Invoke(() => ProtocolHandler.SetProperty(this, propertyKey, value));
     }
 
-    public bool SetDeviceProperty(PropertyKey propertyKey, uint value)
+    public bool SetDeviceProperty(PropertyKey propertyKey, uint? value)
     {
         NotConnectedException.ThrowIfNotConnected(this);
-        return mainWorker.Invoke(() => ProtocolHandler.SetDeviceProperty(this, propertyKey, value));
+        ArgumentNullException.ThrowIfNull(value, nameof(value));
+
+        return mainWorker.Invoke(() => ProtocolHandler.SetProperty(this, propertyKey, value));
     }
 
 }

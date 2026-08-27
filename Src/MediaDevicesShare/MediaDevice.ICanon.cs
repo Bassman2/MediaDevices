@@ -14,39 +14,42 @@ partial class MediaDevice : ICanonMediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.Capture(this.device!));
+        //mainWorker.Invoke(() => ProtocolHandler.Capture(this.device!));
     }
 
-    //Guid wpdDevicePropertiesGuid = new Guid("1f6b2299-9e76-43c8-a2ec-eeef43358afc");
+    int? ICanonMediaDevice.ShootingMode
+    {
+        get => GetDevicePropertyInt(WPD.CanonDevicePropertyShootingMode);
+        set => SetDeviceProperty(WPD.CanonDevicePropertyShootingMode, value);
+    }
 
-    //// Canon PTP/MTP Extension Property Code for OwnerName is typically 0xD501 (or 54529)
-    //int canonOwnerNameId = 0xD501;
 
-    internal string? ownerName = null;
     string? ICanonMediaDevice.OwnerName
     {
-        get => ownerName; 
-        set { }
+        get => GetDevicePropertyString(WPD.CanonDevicePropertyOwnerName); 
+        set => SetDeviceProperty(WPD.CanonDevicePropertyOwnerName, value);
     }
-
-
-    // 0xD502 (Artist/Author)
-    internal string? artistAuthor = null;
+    
     string? ICanonMediaDevice.ArtistAuthor
     {
-        get => artistAuthor;
-        set { }
-    }
-
-    //0xD503 (Copyright)
-    private string? copyright = null;
-    string? ICanonMediaDevice.Copyright
-    {
-        get => copyright; 
-        set { }
+        get => GetDevicePropertyString(WPD.CanonDevicePropertyArtistAuthor);
+        set => SetDeviceProperty(WPD.CanonDevicePropertyArtistAuthor, value);
     }
 
    
-        
-       
+    string? ICanonMediaDevice.Copyright
+    {
+        get => GetDevicePropertyString(WPD.CanonDevicePropertyCopyright);
+        set => SetDeviceProperty(WPD.CanonDevicePropertyCopyright, value);
+    }
+
+    string? ICanonMediaDevice.Serial
+    {
+        get => GetDevicePropertyString(WPD.CanonDevicePropertySerial);
+        set => SetDeviceProperty(WPD.CanonDevicePropertySerial, value);
+    }
+
+
+
+
 }
