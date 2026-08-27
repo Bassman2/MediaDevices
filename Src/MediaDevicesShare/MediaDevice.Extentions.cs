@@ -2,8 +2,6 @@
 
 partial class MediaDevice
 {
-
-
     public string? GetDevicePropertyString(PropertyKey propertyKey)
     {
         NotConnectedException.ThrowIfNotConnected(this); 
