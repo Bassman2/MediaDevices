@@ -42,9 +42,16 @@ public interface INikonMediaDevice
 
     #region Exposure Control
 
-    int? FNumber { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// Write operations are only permitted if the physical exposure mode dial on the camera body 
+    /// is set to Aperture Priority (A) or Manual (M).
+    /// </remarks>
+    ushort? FNumber { get; set; }
     int? FocalLength { get; set; }
-    int? EffectMode { get; set; }
+    NikonEffectMode? EffectMode { get; set; }
     int? ExposureProgram { get; set; }
     int? ExposureIndex { get; set; }
 

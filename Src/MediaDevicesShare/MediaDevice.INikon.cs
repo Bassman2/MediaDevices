@@ -73,9 +73,10 @@ partial class MediaDevice : INikonMediaDevice
 
     #region Exposure Control
 
-    int? INikonMediaDevice.FNumber
+
+    ushort? INikonMediaDevice.FNumber
     {
-        get => GetDevicePropertyInt(WPD.NikonDevicePropertyFNumber);
+        get => (ushort?)GetDevicePropertyUInt(WPD.NikonDevicePropertyFNumber);
         set => SetDeviceProperty(WPD.NikonDevicePropertyFNumber, value);
     }
 
@@ -85,10 +86,10 @@ partial class MediaDevice : INikonMediaDevice
         set => SetDeviceProperty(WPD.NikonDevicePropertyFocalLength, value);
     }
 
-    int? INikonMediaDevice.EffectMode
+    NikonEffectMode? INikonMediaDevice.EffectMode
     {
-        get => GetDevicePropertyInt(WPD.NikonDevicePropertyEffectMode);
-        set => SetDeviceProperty(WPD.NikonDevicePropertyEffectMode, value);
+        get => (NikonEffectMode?)GetDevicePropertyUInt(WPD.NikonDevicePropertyEffectMode);
+        set => SetDeviceProperty(WPD.NikonDevicePropertyEffectMode, (ushort?)value);
     }
     int? INikonMediaDevice.ExposureProgram
     {

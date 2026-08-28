@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonBurstMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonCompressionNL.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonEffectMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonFocusMode .cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonImageSize.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonLiveViewAFAreaD.cs" />
