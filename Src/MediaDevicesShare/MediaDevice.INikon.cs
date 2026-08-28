@@ -57,16 +57,16 @@ partial class MediaDevice : INikonMediaDevice
         set => SetDeviceProperty(WPD.NikonDevicePropertyWhiteBalanceAutoBias, value);
     }
 
-    int? INikonMediaDevice.CompressionNL
+    NikonCompressionNL? INikonMediaDevice.CompressionNL
     {
-        get => GetDevicePropertyInt(WPD.NikonDevicePropertyCompressionNL);
-        set => SetDeviceProperty(WPD.NikonDevicePropertyCompressionNL, value);
+        get => (NikonCompressionNL?)GetDevicePropertyUInt(WPD.NikonDevicePropertyCompressionNL);
+        set => SetDeviceProperty(WPD.NikonDevicePropertyCompressionNL, (uint?)value);
     }
 
-    int? INikonMediaDevice.ImageSize
+    NikonImageSize? INikonMediaDevice.ImageSize
     {
-        get => GetDevicePropertyInt(WPD.NikonDevicePropertyImageSize);
-        set => SetDeviceProperty(WPD.NikonDevicePropertyImageSize, value);
+        get => (NikonImageSize?)GetDevicePropertyUInt(WPD.NikonDevicePropertyImageSize);
+        set => SetDeviceProperty(WPD.NikonDevicePropertyImageSize, (uint?)value);
     }
 
     #endregion
@@ -105,10 +105,10 @@ partial class MediaDevice : INikonMediaDevice
 
     #region Live View & Focus Settings
 
-    int? INikonMediaDevice.LiveViewStatus
+    NokiaLiveViewStatus? INikonMediaDevice.LiveViewStatus
     {
-        get => GetDevicePropertyInt(WPD.NikonDevicePropertyLiveViewStatus);
-        set => SetDeviceProperty(WPD.NikonDevicePropertyLiveViewStatus, value);
+        get => (NokiaLiveViewStatus?)GetDevicePropertyUInt(WPD.NikonDevicePropertyLiveViewStatus);
+        set => SetDeviceProperty(WPD.NikonDevicePropertyLiveViewStatus, (uint?)value);
     }
     int? INikonMediaDevice.LiveViewDriveMode
     {
@@ -130,10 +130,10 @@ partial class MediaDevice : INikonMediaDevice
 
     #region Capture & Shutter
 
-    int? INikonMediaDevice.RecordingMedia
+    NikonRecordingMedia? INikonMediaDevice.RecordingMedia
     {
-        get => GetDevicePropertyInt(WPD.NikonDevicePropertyRecordingMedia);
-        set => SetDeviceProperty(WPD.NikonDevicePropertyRecordingMedia, value);
+        get => (NikonRecordingMedia?)GetDevicePropertyUInt(WPD.NikonDevicePropertyRecordingMedia);
+        set => SetDeviceProperty(WPD.NikonDevicePropertyRecordingMedia, (uint?)value);
     }
 
     /// <summary>

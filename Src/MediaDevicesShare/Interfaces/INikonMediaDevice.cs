@@ -1,6 +1,4 @@
-﻿using System.Timers;
-
-namespace MediaDevices;
+﻿namespace MediaDevices;
 
 public interface INikonMediaDevice
 {
@@ -37,8 +35,8 @@ public interface INikonMediaDevice
     NikonRawCompression? RawCompression { get; set; }
 
     int? WhiteBalanceAutoBias { get; set; }
-    int? CompressionNL { get; set; }
-    int? ImageSize { get; set; }
+    NikonCompressionNL? CompressionNL { get; set; }
+    NikonImageSize? ImageSize { get; set; }
 
     #endregion
 
@@ -54,7 +52,7 @@ public interface INikonMediaDevice
 
     #region Live View & Focus Settings
 
-    int? LiveViewStatus { get; set; }
+    NokiaLiveViewStatus? LiveViewStatus { get; set; }
     int? LiveViewDriveMode { get; set; }
     int? LiveViewAFArea { get; set; }
     int? FocusMode { get; set; }
@@ -63,7 +61,7 @@ public interface INikonMediaDevice
 
     #region Capture & Shutter
 
-    int? RecordingMedia { get; set; }
+    NikonRecordingMedia? RecordingMedia { get; set; }
     uint? ShutterSpeed { get; set; }
     NikonBurstMode? BurstMode { get; set; }
 
