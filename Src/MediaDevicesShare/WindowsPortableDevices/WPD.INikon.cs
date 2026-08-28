@@ -14,31 +14,29 @@ partial class WPD
     public static PropertyKey NikonDevicePropertyShootingBankNameC = new(NikonDeviceProperties, 0xD013);
     public static PropertyKey NikonDevicePropertyShootingBankNameD = new(NikonDeviceProperties, 0xD014);
     public static PropertyKey NikonDevicePropertyResetBank = new(NikonDeviceProperties, 0xD015);
-
     public static PropertyKey NikonDevicePropertyRawCompression = new(NikonDeviceProperties, 0xD016);
-    
-    // 0xD017: WhiteBalanceAutoBias
-    // 0xD01F: ImageSize
-    // 0xD01E: CompressionNL
+    public static PropertyKey NikonDevicePropertyWhiteBalanceAutoBias = new(NikonDeviceProperties, 0xD017);
+    public static PropertyKey NikonDevicePropertyCompressionNL = new(NikonDeviceProperties, 0xD01E);
+    public static PropertyKey NikonDevicePropertyImageSize = new(NikonDeviceProperties, 0xD01F);
 
     // Exposure Control
 
-    // 0xD050: FNumber(Nikon-specific aperture stepping overrides)
-    // 0xD051: FocalLength0xD052: EffectMode
-    // 0xD054: ExposureProgram
-    // 0xD056: ExposureIndex(ISO sensitivity mapping)
+    public static PropertyKey NikonDevicePropertyFNumber = new(NikonDeviceProperties, 0xD050);
+    public static PropertyKey NikonDevicePropertyFocalLength = new(NikonDeviceProperties, 0xD051);
+    public static PropertyKey NikonDevicePropertyEffectMode = new(NikonDeviceProperties, 0xD052);
+    public static PropertyKey NikonDevicePropertyExposureProgram = new(NikonDeviceProperties, 0xD054);
+    public static PropertyKey NikonDevicePropertyExposureIndex = new(NikonDeviceProperties, 0xD056);
 
     // Live View & Focus Settings
 
-    // 0xD100: LiveViewStatus(Engages/disengages live view mirrors/sensors)
-    // 0xD101: LiveViewDriveMode
-    // 0xD103: LiveViewAFArea
-    // 0xD108: FocusMode(AF-S, AF-C, Manual)
+    public static PropertyKey NikonDevicePropertyLiveViewStatus = new(NikonDeviceProperties, 0xD100);
+    public static PropertyKey NikonDevicePropertyLiveViewDriveMode = new(NikonDeviceProperties, 0xD1001);
+    public static PropertyKey NikonDevicePropertyLiveViewAFArea = new(NikonDeviceProperties, 0xD1003);
+    public static PropertyKey NikonDevicePropertyFocusMode = new(NikonDeviceProperties, 0xD108);
 
     // Capture & Shutter
 
-    // 0xD1A0: ShutterSpeed(Nikon extension map for bulb/timed exposures)
-    // 0xD1A1: BurstMode0xD140: RecordingMedia(Directing storage to Card Slot 1, Slot 2, or SDRAM tethering)
-
-
+    public static PropertyKey NikonDevicePropertyRecordingMedia = new(NikonDeviceProperties, 0xD140);
+    public static PropertyKey NikonDevicePropertyShutterSpeed = new(NikonDeviceProperties, 0xD1A0);
+    public static PropertyKey NikonDevicePropertyBurstMode = new(NikonDeviceProperties, 0xD1A1);
 }
