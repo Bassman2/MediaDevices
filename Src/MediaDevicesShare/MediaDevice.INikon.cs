@@ -135,15 +135,26 @@ partial class MediaDevice : INikonMediaDevice
         get => GetDevicePropertyInt(WPD.NikonDevicePropertyRecordingMedia);
         set => SetDeviceProperty(WPD.NikonDevicePropertyRecordingMedia, value);
     }
-    int? INikonMediaDevice.ShutterSpeed
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// Fractional shutter speeds are represented by multiplying the fraction out or utilizing Nikon's internal lookup table 
+    /// (e.g., 1/4000 or legacy hex bit-masks like 0x00010000).
+    /// ShutterSpeedBulbMode: The shutter stays open as long as the capture command pin is held active.
+    /// ShutterSpeedTimeMode: The first shutter command opens the exposure; a second distinct command closes it.
+    /// </remarks>
+    uint? INikonMediaDevice.ShutterSpeed
     {
-        get => GetDevicePropertyInt(WPD.NikonDevicePropertyShutterSpeed);
+        get => GetDevicePropertyUInt(WPD.NikonDevicePropertyShutterSpeed);
         set => SetDeviceProperty(WPD.NikonDevicePropertyShutterSpeed, value);
     }
-    int? INikonMediaDevice.BurstMode
+
+    NikonBurstMode? INikonMediaDevice.BurstMode
     {
-        get => GetDevicePropertyInt(WPD.NikonDevicePropertyBurstMode);
-        set => SetDeviceProperty(WPD.NikonDevicePropertyBurstMode, value);
+        get => (NikonBurstMode?)GetDevicePropertyUInt(WPD.NikonDevicePropertyBurstMode);
+        set => SetDeviceProperty(WPD.NikonDevicePropertyBurstMode, (uint?)value);
     }
 
     #endregion

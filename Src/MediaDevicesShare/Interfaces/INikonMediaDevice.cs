@@ -1,7 +1,19 @@
-﻿namespace MediaDevices;
+﻿using System.Timers;
+
+namespace MediaDevices;
 
 public interface INikonMediaDevice
 {
+    /// <summary>
+    /// The shutter stays open as long as the capture command pin is held active.
+    /// </summary>
+    const uint ShutterSpeedBulbMode = 0xFFFFFFFF;
+
+    /// <summary>
+    /// The first shutter command opens the exposure; a second distinct command closes it.
+    /// </summary>
+    const uint ShutterSpeedTimeMode = 0xFFFFFFFE;
+
     IEnumerable<OpCodesNikon> VendorOpcodes();
 
     #region Camera Setup & Configuration
@@ -52,8 +64,8 @@ public interface INikonMediaDevice
     #region Capture & Shutter
 
     int? RecordingMedia { get; set; }
-    int? ShutterSpeed { get; set; }
-    int? BurstMode { get; set; }
+    uint? ShutterSpeed { get; set; }
+    NikonBurstMode? BurstMode { get; set; }
 
     #endregion
 }
