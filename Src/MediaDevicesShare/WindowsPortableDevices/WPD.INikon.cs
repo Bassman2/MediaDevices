@@ -1,6 +1,4 @@
-﻿using System.Timers;
-
-namespace MediaDevices.Internal;
+﻿namespace MediaDevices.Internal;
 
 partial class WPD
 {

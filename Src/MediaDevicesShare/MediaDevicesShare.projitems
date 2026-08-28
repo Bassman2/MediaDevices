@@ -44,6 +44,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MediaFileSystemInfo.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.INikon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.Sony.cs" />
     <Compile Include="..\MediaDevicesShare\Attributes\CLSIDAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ChargingState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Commands.cs" />
