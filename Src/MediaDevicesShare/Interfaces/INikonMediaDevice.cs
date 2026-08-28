@@ -53,9 +53,11 @@ public interface INikonMediaDevice
     #region Live View & Focus Settings
 
     NokiaLiveViewStatus? LiveViewStatus { get; set; }
-    int? LiveViewDriveMode { get; set; }
-    int? LiveViewAFArea { get; set; }
-    int? FocusMode { get; set; }
+    NikonLiveViewDriveMode? LiveViewDriveMode { get; set; }
+    NikonLiveViewAFAreaD? LiveViewAFAreaD { get; set; }
+    NikonLiveViewAFAreaZ? LiveViewAFAreaZ { get; set; }
+
+    NikonFocusMode? FocusMode { get; set; }
 
     #endregion
 

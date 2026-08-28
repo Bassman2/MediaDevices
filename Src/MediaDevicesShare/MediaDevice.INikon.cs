@@ -110,20 +110,37 @@ partial class MediaDevice : INikonMediaDevice
         get => (NokiaLiveViewStatus?)GetDevicePropertyUInt(WPD.NikonDevicePropertyLiveViewStatus);
         set => SetDeviceProperty(WPD.NikonDevicePropertyLiveViewStatus, (uint?)value);
     }
-    int? INikonMediaDevice.LiveViewDriveMode
+
+    NikonLiveViewDriveMode? INikonMediaDevice.LiveViewDriveMode
     {
-        get => GetDevicePropertyInt(WPD.NikonDevicePropertyLiveViewDriveMode);
-        set => SetDeviceProperty(WPD.NikonDevicePropertyLiveViewDriveMode, value);
+        get => (NikonLiveViewDriveMode?)GetDevicePropertyUInt(WPD.NikonDevicePropertyLiveViewDriveMode);
+        set => SetDeviceProperty(WPD.NikonDevicePropertyLiveViewDriveMode, (uint?)value);
     }
-    int? INikonMediaDevice.LiveViewAFArea
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>Legacy DSLR Generation (e.g., Nikon D850, D7500, D4S)</remarks>
+    NikonLiveViewAFAreaD? INikonMediaDevice.LiveViewAFAreaD
     {
-        get => GetDevicePropertyInt(WPD.NikonDevicePropertyLiveViewAFArea);
-        set => SetDeviceProperty(WPD.NikonDevicePropertyLiveViewAFArea, value);
+        get => (NikonLiveViewAFAreaD?)GetDevicePropertyUInt(WPD.NikonDevicePropertyLiveViewAFArea);
+        set => SetDeviceProperty(WPD.NikonDevicePropertyLiveViewAFArea, (uint?)value);
     }
-    int? INikonMediaDevice.FocusMode
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>Modern Mirrorless Generation (e.g., Nikon Z6 II, Z7 II, Z8, Z9)</remarks>
+    NikonLiveViewAFAreaZ? INikonMediaDevice.LiveViewAFAreaZ
     {
-        get => GetDevicePropertyInt(WPD.NikonDevicePropertyFocusMode);
-        set => SetDeviceProperty(WPD.NikonDevicePropertyFocusMode, value);
+        get => (NikonLiveViewAFAreaZ?)GetDevicePropertyUInt(WPD.NikonDevicePropertyLiveViewAFArea);
+        set => SetDeviceProperty(WPD.NikonDevicePropertyLiveViewAFArea, (uint?)value);
+    }
+
+    NikonFocusMode? INikonMediaDevice.FocusMode
+    {
+        get => (NikonFocusMode?)GetDevicePropertyUInt(WPD.NikonDevicePropertyFocusMode);
+        set => SetDeviceProperty(WPD.NikonDevicePropertyFocusMode, (uint?)value);
     }
 
     #endregion
