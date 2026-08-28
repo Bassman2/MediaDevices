@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISamsungMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Extentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\EnumExtentions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonRawCompression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.Extentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.ICanon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.ICanon.cs" />

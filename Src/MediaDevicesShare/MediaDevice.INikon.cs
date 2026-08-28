@@ -42,4 +42,11 @@ partial class MediaDevice : INikonMediaDevice
 
     void INikonMediaDevice.ResetCurrentBank() 
         => SetDeviceProperty(WPD.NikonDevicePropertyResetBank, 0);
+
+    NikonRawCompression? INikonMediaDevice.RawCompression
+    {
+        get => (NikonRawCompression?)GetDevicePropertyUInt(WPD.CanonDevicePropertyShootingMode);
+        set => SetDeviceProperty(WPD.CanonDevicePropertyShootingMode, (uint?)value);
+    }
+    
 }

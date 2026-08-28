@@ -12,4 +12,6 @@ public interface INikonMediaDevice
     string? ShootingBankNameD { get; set; }
 
     void ResetCurrentBank();
+
+    NikonRawCompression? RawCompression { get; set; }
 }
