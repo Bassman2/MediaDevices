@@ -20,6 +20,12 @@ partial class MediaDevice
         return mainWorker.Invoke(() => ProtocolHandler.GetPropertyUInt(this, propertyKey));
     }
 
+    public DateTime? GetDevicePropertyDateTime(PropertyKey propertyKey)
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+        return mainWorker.Invoke(() => ProtocolHandler.GetPropertyDateTime(this, propertyKey));
+    }
+
 
     public bool SetDeviceProperty(PropertyKey propertyKey, string? value)
     {
@@ -38,6 +44,14 @@ partial class MediaDevice
     }
 
     public bool SetDeviceProperty(PropertyKey propertyKey, uint? value)
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+        ArgumentNullException.ThrowIfNull(value, nameof(value));
+
+        return mainWorker.Invoke(() => ProtocolHandler.SetProperty(this, propertyKey, value));
+    }
+
+    public bool SetDeviceProperty(PropertyKey propertyKey, DateTime? value)
     {
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNull(value, nameof(value));
