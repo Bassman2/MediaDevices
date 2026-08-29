@@ -17,5 +17,11 @@ public interface ICanonMediaDevice
 
     string? Serial { get; set; }
 
+    void TakePicture();
 
+    Task TakePictureAsync(CancellationToken cancellationToken = default);
+
+    void TakePictureAndDownload(string destination);
+    
+    Task TakePictureAndDownloadAsync(string destination, CancellationToken cancellationToken = default);
 }

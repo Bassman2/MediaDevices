@@ -30,10 +30,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\OpCodesSony.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\SonyCompression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICanonMediaDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILeicaMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INikonMediaDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IPanasonicMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISamsungMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISonyMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Extentions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.ILeica.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.IPanasonic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.ISony.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Static.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\EnumExtentions.cs" />
@@ -49,6 +53,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MediaDirectoryInfo.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaFileSystemInfo.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.ILeica.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.INikon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.ISony.cs" />
     <Compile Include="..\MediaDevicesShare\Attributes\CLSIDAttribute.cs" />

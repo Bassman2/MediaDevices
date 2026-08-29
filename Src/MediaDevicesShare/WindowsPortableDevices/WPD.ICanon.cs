@@ -81,4 +81,12 @@ partial class WPD
 
     public static Guid WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASES = new Guid(0x95156F86, 0x1312, 0x4719, 0xBD, 0xC1, 0xDD, 0x61, 0x84, 0x36, 0x01, 0x33);
 
+
+
+
+    private const string WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE = "4FC150F8-EB9C-4A19-B849-EC2641D225EE";
+    private const uint WPD_PROPERTY_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE_PID = 12;
+
+    public static PropertyKey CanonExtExecuteCommandWithoutDataPhase = new PropertyKey(WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE, 12);
+
 }

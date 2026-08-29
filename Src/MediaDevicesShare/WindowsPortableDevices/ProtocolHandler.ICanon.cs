@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static System.Net.WebRequestMethods;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Net.Mime;
 
 namespace MediaDevices.Internal;
 
@@ -44,4 +40,16 @@ partial class ProtocolHandler
 
 
     }
+
+
+    //        private const string WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE = "4FC150F8-EB9C-4A19-B849-EC2641D225EE";
+    // private const uint WPD_PROPERTY_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE_PID = 12;
+
+    public static void CanonTakePicture(MediaDevice mediaDevice)
+    {
+
+        Command cmd = Command.Create(WPD.CanonExtExecuteCommandWithoutDataPhase);
+        cmd.Send(mediaDevice.device!);
+    }
+
 }
