@@ -38,6 +38,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Static.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\EnumExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonRawCompression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.Device.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.IFujifilm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.Extentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.ICanon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.ICanon.cs" />
@@ -48,7 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MediaFileSystemInfo.Async.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.INikon.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.Sony.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.ISony.cs" />
     <Compile Include="..\MediaDevicesShare\Attributes\CLSIDAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ChargingState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Commands.cs" />

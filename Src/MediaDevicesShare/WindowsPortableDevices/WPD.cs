@@ -1,4 +1,4 @@
-namespace MediaDevices.Internal;
+namespace MediaDevices.WindowsPortableDevices;
 
 [FindFieldsGeneratorAttribute]
 internal static partial class WPD
