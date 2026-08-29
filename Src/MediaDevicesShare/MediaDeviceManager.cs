@@ -90,7 +90,7 @@ public sealed partial class MediaDeviceManager : IDisposable
     /// Returns an enumerable collection of currently available portable devices.
     /// </summary>
     /// <returns>An enumerable collection of portable devices currently available.</returns>
-    public IEnumerable<MediaDevice>? GetDevices()
+    public IEnumerable<MediaDevice> GetDevices()
         => mainWorker.InvokeEnumerable(() => ProtocolHandler.GetDevices(deviceManager!, serviceManager!, mainWorker));
 
     /// <summary>
@@ -100,7 +100,7 @@ public sealed partial class MediaDeviceManager : IDisposable
     /// Private devices are typically those with restricted access or special permissions required.
     /// </remarks>
     /// <returns>An enumerable collection of private portable devices.</returns>
-    public IEnumerable<MediaDevice>? GetPrivateDevices()
+    public IEnumerable<MediaDevice> GetPrivateDevices()
         => mainWorker.InvokeEnumerable(() => ProtocolHandler.GetPrivateDevices(deviceManager!, serviceManager!, mainWorker));
 }
 

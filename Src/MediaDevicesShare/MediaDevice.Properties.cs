@@ -136,11 +136,7 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">Thrown when the device is not connected.</exception>
     public bool? SupportsNonConsumable { get; internal set; } = null;
 
-    /// <summary>
-    /// Current date and time on the device (if provided).
-    /// </summary>
-    /// <exception cref="MediaDevices.NotConnectedException">Thrown when the device is not connected.</exception>
-    public DateTime? DateTime { get; internal set; } = null;
+    
 
     /// <summary>
     /// DRM schemes supported by the device.
@@ -247,6 +243,20 @@ partial class MediaDevice
     public string? EdpItentifier { get; internal set; } = null;
 
 #endif
+
+    #endregion
+
+    #region dynamic IPortableDeviceValues
+
+    /// <summary>
+    /// Current date and time on the device (if provided).
+    /// </summary>
+    /// <exception cref="MediaDevices.NotConnectedException">Thrown when the device is not connected.</exception>
+    public DateTime? DateTime
+    {
+        get => GetDevicePropertyDateTime(WPD.DEVICE_DATETIME);
+        set => SetDeviceProperty(WPD.DEVICE_DATETIME, value);
+    }
 
     #endregion
 }

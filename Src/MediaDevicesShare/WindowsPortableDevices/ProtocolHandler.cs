@@ -187,20 +187,20 @@ internal static partial class ProtocolHandler
             mediaDevice.SupportsNonConsumable = supportsNonConsumable > 0;
         }
 
-        // TODO
-        //if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_DATETIME, out string dateTime) == OK)
+        //// TODO
+        ////if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_DATETIME, out string dateTime) == OK)
+        ////{
+        ////    mediaDevice.DateTime = DateTime.FromOADate(dateTime);
+        ////}
+        //if (mediaDevice.deviceValues.GetValue(ref WPD.DEVICE_DATETIME, out PropVariant dateTime) == OK)
         //{
-        //    mediaDevice.DateTime = DateTime.FromOADate(dateTime);
+        //    if (dateTime.vt == PropVariantType.VT_DATE)
+        //    {
+        //        mediaDevice.DateTime = DateTime.FromOADate(dateTime.dateVal);
+        //    }
+        //    dateTime.Release();
+        //    //ComHelper.NativeMethods.PropVariantClear(ref dateTime);
         //}
-        if (mediaDevice.deviceValues.GetValue(ref WPD.DEVICE_DATETIME, out PropVariant dateTime) == OK)
-        {
-            if (dateTime.vt == PropVariantType.VT_DATE)
-            {
-                mediaDevice.DateTime = DateTime.FromOADate(dateTime.dateVal);
-            }
-            dateTime.Release();
-            //ComHelper.NativeMethods.PropVariantClear(ref dateTime);
-        }
 
         if (mediaDevice.deviceValues.GetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, out string friendlyName) == OK)
         { 

@@ -35,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISonyMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Extentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.ISony.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Static.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\EnumExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonRawCompression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.Extentions.cs" />
