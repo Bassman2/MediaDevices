@@ -20,6 +20,10 @@ partial class ProtocolHandler
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
         err = deviceValues!.GetStringValue(ref propertyKey, out var value);
+        if (err == (int)ErrorCodes.NotFound)
+        {
+            return null;
+        }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
 
         return value;
@@ -41,6 +45,10 @@ partial class ProtocolHandler
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
         err = deviceValues!.GetSignedIntegerValue(ref propertyKey, out var value);
+        if (err == (int)ErrorCodes.NotFound)
+        {
+            return null;
+        }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
 
         return value;
@@ -62,6 +70,10 @@ partial class ProtocolHandler
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
         err = deviceValues!.GetUnsignedIntegerValue(ref propertyKey, out var value);
+        if (err == (int)ErrorCodes.NotFound)
+        {
+            return null;
+        }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
 
         return value;
@@ -83,6 +95,10 @@ partial class ProtocolHandler
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
         err = deviceValues!.GetValue(ref propertyKey, out PropVariant dateTime);
+        if (err == (int)ErrorCodes.NotFound)
+        {
+            return null;
+        }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetValue));
 
         DateTime? value = dateTime.vt == PropVariantType.VT_DATE ? DateTime.FromOADate(dateTime.dateVal) : null;

@@ -5,6 +5,9 @@ namespace MediaDevices.Internal;
 
 internal sealed class ThreadSafeWorker : IDisposable
 {
+    private static readonly Lazy<ThreadSafeWorker> instance = new Lazy<ThreadSafeWorker>(() => new ThreadSafeWorker());
+    public static ThreadSafeWorker Instance => instance.Value;
+
     private readonly Thread thread;
     private readonly BlockingCollection<Action> queue = [];
     private volatile bool disposed = false;
@@ -12,7 +15,8 @@ internal sealed class ThreadSafeWorker : IDisposable
     public static int ThreadId { get; private set; } = 0;
 
     private const string exceptionInside = "Exception inside ThreadSafeWorker";
-    public ThreadSafeWorker()
+
+    private ThreadSafeWorker()
     {
         thread = new Thread(WorkLoop) { Name = "MediaDeviceWorkerThread", IsBackground = true };
         if (!thread.TrySetApartmentState(ApartmentState.MTA))

@@ -69,7 +69,7 @@ public sealed partial class MediaDeviceManager : IDisposable
     /// </remarks>
     private MediaDeviceManager()
     {
-        mainWorker = new ThreadSafeWorker();
+        mainWorker = ThreadSafeWorker.Instance;
         mainWorker.Invoke(() => ProtocolHandler.InitMediaDeviceManager(this));
     }
 
