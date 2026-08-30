@@ -9,7 +9,7 @@ partial class ProtocolHandler
 
         Guid serviceGuid = serviceTypes.ToGuid();
         uint num = 0;
-        int err = serviceManager.GetDeviceServices(mediaDevice.DeviceId, ref serviceGuid, null, ref num);
+        int err = serviceManager.GetDeviceServices(mediaDevice.InterfacePath, ref serviceGuid, null, ref num);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceServiceManager), nameof(IPortableDeviceServiceManager.GetDeviceServices));
 
         if (num == 0)
@@ -17,7 +17,7 @@ partial class ProtocolHandler
             yield break;
         }
         string[] services = new string[num];
-        err = serviceManager.GetDeviceServices(mediaDevice.DeviceId, ref serviceGuid, services, ref num);
+        err = serviceManager.GetDeviceServices(mediaDevice.InterfacePath, ref serviceGuid, services, ref num);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceServiceManager), nameof(IPortableDeviceServiceManager.GetDeviceServices));
 
         foreach (var service in services)

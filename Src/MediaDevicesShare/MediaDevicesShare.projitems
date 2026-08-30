@@ -9,6 +9,7 @@
     <Import_RootNamespace>MediaDevices</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\ManufacturerId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonBurstMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonCompressionNL.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonEffectMode.cs" />

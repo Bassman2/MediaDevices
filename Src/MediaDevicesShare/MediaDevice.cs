@@ -33,11 +33,15 @@ public sealed partial class MediaDevice : IDisposable
 
     #region Properties
 
+   
     /// <summary>
-    /// Device Id of the portable mediaDevice.
+    /// Interface Path of the portable mediaDevice.
     /// </summary>
     /// <remarks>Readable when not connected.</remarks>
-    public string DeviceId { get; private set; }
+    public string InterfacePath { get; private set; }
+
+    public ManufacturerId ManufacturerId { get; private set; } = 0;
+    public ushort DeviceId { get; private set; } = 0;
 
     /// <summary>
     /// Is portable mediaDevice connected.
@@ -51,22 +55,32 @@ public sealed partial class MediaDevice : IDisposable
 
     #endregion
 
- 
+
     #region constructor
 
-    internal MediaDevice(string deviceId, ThreadSafeWorker mainWorker, IPortableDeviceManager deviceManager, IPortableDeviceServiceManager serviceManager)
+
+    // \\?\usb#vid_04e8&pid_6860&ms_comp_mtp&samsung_android#6&6e4669b&4&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}
+    internal MediaDevice(string interfacePath, ThreadSafeWorker mainWorker, IPortableDeviceManager deviceManager, IPortableDeviceServiceManager serviceManager)
     {
         // already running in worker thread
-        ThreadSafeWorkerException.ThrowIfNotInside(); 
+        ThreadSafeWorkerException.ThrowIfNotInside();
 
-        this.DeviceId = deviceId;
+        this.InterfacePath = interfacePath;
+        Match match = Regex.Match(interfacePath, @"vid_(?<vid>[0-9a-fA-F]{4})&pid_(?<pid>[0-9a-fA-F]{4})", RegexOptions.IgnoreCase);
+        if (match.Success)
+        {
+            this.ManufacturerId = (ManufacturerId)Convert.ToUInt16(match.Groups["vid"].Value, 16);
+            this.DeviceId = Convert.ToUInt16(match.Groups["pid"].Value, 16);
+        }
+
+       
         this.mainWorker = mainWorker;
         this.deviceManager = deviceManager;
         this.serviceManager = serviceManager;
 
-        this.Description = ProtocolHandler.GetDeviceDescription(deviceManager, deviceId);
-        this.friendlyName = ProtocolHandler.GetDeviceFriendlyName(deviceManager, deviceId);
-        this.Manufacturer = ProtocolHandler.GetDeviceManufacturer(deviceManager, deviceId);
+        this.Description = ProtocolHandler.GetDeviceDescription(deviceManager, interfacePath);
+        this.friendlyName = ProtocolHandler.GetDeviceFriendlyName(deviceManager, interfacePath);
+        this.Manufacturer = ProtocolHandler.GetDeviceManufacturer(deviceManager, interfacePath);
 
         this.eventThreadHandler = new(this);
     }
@@ -96,7 +110,7 @@ public sealed partial class MediaDevice : IDisposable
     public void Connect(MediaDeviceAccess access = MediaDeviceAccess.Default, MediaDeviceShare share = MediaDeviceShare.Default, bool enableCache = true)
     {
         if (this.IsConnected) return;
-        mainWorker.Invoke(() => ProtocolHandler.Connect(this, this.DeviceId, access, share, enableCache));
+        mainWorker.Invoke(() => ProtocolHandler.Connect(this, this.InterfacePath, access, share, enableCache));
     }
 
     /// <summary>
