@@ -9,6 +9,8 @@ public class SamsungA40UnitTest : SamsungUnitTest
         #region Device Tests
 
         // Device Properties Test
+        deviceManufacturerId = ManufacturerId.Samsung;
+        deviceDeviceId = 0x6860;
         deviceDescription = "SM-A405FN";
         deviceFriendlyName = "Samsung A40";
         deviceManufacture = "Samsung Electronics Co., Ltd.";
