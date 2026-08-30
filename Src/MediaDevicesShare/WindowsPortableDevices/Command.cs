@@ -9,9 +9,6 @@ internal class Command
     {
         values = ComHelper.CreateInstance<IPortableDeviceValues>();
 
-        //int err = ComHelper.CreateInstance<IPortableDeviceValues>(ref CLSID.PortableDeviceValues, out values);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues));
-
         int err = this.values.SetGuidValue(ref WPD.PROPERTY_COMMON_COMMAND_CATEGORY, ref commandKey.fmtid);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetGuidValue), "PROPERTY_COMMON_COMMAND_CATEGORY");
 

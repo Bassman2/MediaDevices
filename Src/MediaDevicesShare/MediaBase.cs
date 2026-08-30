@@ -66,4 +66,12 @@ public abstract class MediaBase(MediaDevice device, string objId = MediaBase.Dev
 
         return mainWorker.Invoke(() => ProtocolHandler.SetProperty(mediaDevice, propertyKey, value));
     }
+
+   
+
+    public CommandResponse SendCammand(CommandRequest request)
+    {
+        NotConnectedException.ThrowIfNotConnected(mediaDevice);
+        return request.SendCommand(mediaDevice);
+    }
 }

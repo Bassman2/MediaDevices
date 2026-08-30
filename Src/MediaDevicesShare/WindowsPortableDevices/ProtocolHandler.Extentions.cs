@@ -166,4 +166,32 @@ partial class ProtocolHandler
 
         return true;
     }
+
+   
+
+    //public static CommandResponse SendCommand(MediaDevice mediaDevice, CommandRequest request)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
+
+    //    int err = mediaDevice.device.SendCommand(0, request.values, out var .result);
+    //    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.SendCommand));
+
+    //    err = result.GetErrorValue(ref WPD.PROPERTY_COMMON_HRESULT, out int error);
+    //    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetErrorValue));
+
+    //    //ComTrace.WriteValues(this.result!);
+
+    //    switch ((ErrorCodes)error)
+    //    {
+    //    case ErrorCodes.OK:
+    //        return true;
+    //    case ErrorCodes.NotImplemented:
+    //        Debug.WriteLine("Command not implemented!");
+    //        return false;
+    //    default:
+    //        throw new Exception($"Error {error:X}");
+    //    }
+    //    mediaDevice.device.SendCommand
+    //    return new CommandRequest(commandKey);
+    //}
 }
