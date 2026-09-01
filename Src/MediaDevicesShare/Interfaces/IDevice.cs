@@ -1,7 +1,12 @@
-﻿namespace MediaDevices.Interfaces;
+﻿using System.Security.Cryptography;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace MediaDevices.Interfaces;
 
 internal interface IDevice : IDisposable
 {
+    bool IsConnected { get; }
+
     void Connect(MediaDeviceAccess access, MediaDeviceShare share, bool enableCache);
 
     void Disconnect();
@@ -48,12 +53,12 @@ internal interface IDevice : IDisposable
 
     #region FileSystem
 
-    IEnumerable<string> EnumerateDirectories(string path);
-    IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly);
-    IEnumerable<string> EnumerateFiles(string path);
-    IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly);
-    IEnumerable<string> EnumerateFileSystemEntries(string path);
-    IEnumerable<string> EnumerateFileSystemEntries(string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly);
+    IEnumerable<string> EnumerateDirectories(string path, CancellationToken cancellationToken = default);
+    IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
+    IEnumerable<string> EnumerateFiles(string path, CancellationToken cancellationToken = default);
+    IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
+    IEnumerable<string> EnumerateFileSystemEntries(string path, CancellationToken cancellationToken = default);
+    IEnumerable<string> EnumerateFileSystemEntries(string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
 
     bool DirectoryExists(string path);
 
@@ -66,6 +71,103 @@ internal interface IDevice : IDisposable
     void DeleteFile(string path);
 
     void Rename(string path, string newName);
+
+    void DownloadFile(string source, Stream stream, CancellationToken cancellationToken = default);
+
+    void DownloadFile(string source, string destination, CancellationToken cancellationToken = default);
+
+    void DownloadIcon(string source, Stream stream, CancellationToken cancellationToken = default);
+
+    void DownloadIcon(string source, string destination, CancellationToken cancellationToken = default);
+
+    void DownloadThumbnail(string source, Stream stream, CancellationToken cancellationToken = default);
+
+    void DownloadThumbnail(string source, string destination, CancellationToken cancellationToken = default);
+
+    void DownloadFolder(string source, string destination, bool recursive, bool ignoreExceptions, CancellationToken cancellationToken = default);
+
+
+    void UploadFile(Stream stream, string destination, CancellationToken cancellationToken = default);
+
+    void UploadFile(string source, string destination, CancellationToken cancellationToken = default);
+
+    void UploadFolder(string source, string destination, bool recursive, bool ignoreExceptions, CancellationToken cancellationToken = default);
+
+    MediaFileInfo GetFileInfo(string path, CancellationToken cancellationToken = default);
+
+    MediaDirectoryInfo GetDirectoryInfo(string path, CancellationToken cancellationToken = default);
+
+    IEnumerable<MediaDriveInfo> GetDrives(CancellationToken cancellationToken = default);
+
+    MediaDirectoryInfo GetRootDirectory(CancellationToken cancellationToken = default);
+
+    string GetPathFromPersistentUniqueId(string persistentUniqueId, CancellationToken cancellationToken = default);
+
+    MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(string persistentUniqueId, CancellationToken cancellationToken = default);
+
+    void DownloadFileFromPersistentUniqueId(string persistentUniqueId, string destination, CancellationToken cancellationToken = default);
+
+    Stream OpenReadFromPersistentUniqueId(string persistentUniqueId, CancellationToken cancellationToken = default);
+
+    StreamReader? OpenTextFromPersistentUniqueId(string persistentUniqueId, CancellationToken cancellationToken = default);
+
+    #endregion
+
+    #region Vendor
+
+    IEnumerable<OpCodes> VendorOpcodes();
+
+    IEnumerable<int> VendorExcecute(OpCodes opCode, IEnumerable<int> inputParams, out int respCode);
+
+    IEnumerable<int> VendorExcecuteRead(OpCodes opCode, IEnumerable<int> inputParams);
+
+    IEnumerable<int> VendorExcecuteWrite(OpCodes opCode, IEnumerable<int> inputParams);
+
+    IEnumerable<int> VendorEndTransfer(string context, out int respCode);
+
+    string VendorExtentionDescription();
+
+    #endregion
+
+    #region MediaDriveInfo
+
+    void EjectObjectId(string objectId);
+    void FormatObjectId(string objectId);
+    MediaDirectoryInfo? GetParent(string objectId);
+
+    void CopyTo(string objectId, string destFileName, bool overwrite = true);
+
+    void CopyIconTo(string objectId, string destFileName, bool overwrite = true);
+
+    void CopyThumbnailTo(string objectId, string destFileName, bool overwrite = true);
+
+    Stream OpenRead(string objectId);
+
+    Stream OpenIcon(string objectId);
+
+    Stream OpenThumbnail(string objectId);
+
+    StreamReader OpenText(string objectId);
+
+    #endregion
+
+    #region Extentions
+
+    string? GetPropertyString(PropertyKey propertyKey);
+
+    int? GetPropertyInt(PropertyKey propertyKey);
+
+    uint? GetPropertyUInt(PropertyKey propertyKey);
+
+    DateTime? GetPropertyDateTime(PropertyKey propertyKey);
+
+    bool SetProperty(PropertyKey propertyKey, string? value);
+
+    bool SetProperty(PropertyKey propertyKey, int? value);
+
+    bool SetProperty(PropertyKey propertyKey, uint? value);
+
+    bool SetProperty(PropertyKey propertyKey, DateTime? value);
 
     #endregion
 

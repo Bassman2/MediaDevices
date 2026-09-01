@@ -6,37 +6,35 @@
 [DebuggerDisplay("{DriveType}, {Name}, {VolumeLabel}")]
 public sealed partial class MediaDriveInfo
 {
-    private readonly MediaDevice mediaDevice;
-    private readonly ThreadSafeWorker mainWorker;
+    private static readonly ThreadSafeWorker worker = ThreadSafeWorker.Instance;
+    private readonly IDevice device;
     private readonly string objectId;
-    private readonly MediaStorageInfo? info;
 
-    internal MediaDriveInfo(MediaDevice mediaDevice, string objectId)
+    internal MediaDriveInfo(IDevice device, string objectId)
     {
-        this.mediaDevice = mediaDevice;
-        this.mainWorker = mediaDevice.worker;
+        this.device = device;
         this.objectId = objectId;
-
+       
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        this.info = WpdDevice.GetStorageInfo(mediaDevice, objectId);
+        var info = device.GetStorageInfo(objectId);
 
-        if (this.info != null)
+        if (info != null)
         {
-            this.TotalSize = (long)this.info.Capacity;
-            this.TotalFreeSpace = this.AvailableFreeSpace = (long)this.info.FreeSpaceInBytes;
+            this.TotalSize = (long)info.Capacity;
+            this.TotalFreeSpace = this.AvailableFreeSpace = (long)info.FreeSpaceInBytes;
 
-            this.DriveFormat = this.info.FileSystemType;
+            this.DriveFormat = info.FileSystemType;
 
-            this.DriveType = this.info.Type switch
+            this.DriveType = info.Type switch
             {
                 StorageType.FixedRam or StorageType.FixedRom => DriveType.Fixed,
                 StorageType.RemovableRam or StorageType.RemovableRom => DriveType.Removable,
                 _ => DriveType.Unknown,
             };
-            this.RootDirectory = new MediaDirectoryInfo(this.mediaDevice, Item.Create(this.mediaDevice, this.objectId));
+            this.RootDirectory = new MediaDirectoryInfo(device, Item.Create(device, this.objectId));
             this.Name = this.RootDirectory.FullName;
-            this.VolumeLabel = this.info.Description;
+            this.VolumeLabel = info.Description;
         }
     }
 
@@ -90,18 +88,16 @@ public sealed partial class MediaDriveInfo
     /// </summary>
     public void Eject()
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-
-        mainWorker.Invoke(() => WpdDevice.EjectId(this.mediaDevice, this.objectId));
+        NotConnectedException.ThrowIfNotConnected(device);
+        worker.Invoke(() => device.EjectObjectId(objectId));
     }
 
     /// <summary>
     /// Format the drive.
     /// </summary>
-    public void Format()
+    public void Format()    
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-
-        mainWorker.Invoke(() => WpdDevice.FormatId(this.mediaDevice, this.objectId));
+        NotConnectedException.ThrowIfNotConnected(device);
+        worker.Invoke(() => device.FormatObjectId(objectId));
     }
 }

@@ -6,24 +6,19 @@
 [DebuggerDisplay("{FullName}")]
 public abstract partial class MediaFileSystemInfo
 {
-    /// <summary>
-    ///corresponding MediaDevice instance
-    /// </summary>
-    protected MediaDevice mediaDevice;
-    internal ThreadSafeWorker mainWorker;
-    internal Item item;
+    internal static readonly ThreadSafeWorker worker = ThreadSafeWorker.Instance;
+    internal readonly IDevice device;
+    protected readonly string objectId;
 
-    //private MediaDirectoryInfo? parent;
-
-    internal MediaFileSystemInfo(MediaDevice device, Item item)
+    internal MediaFileSystemInfo(IDevice device, string objectId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        this.mediaDevice = device;
-        this.mainWorker = device.worker;
-        this.item = item;
+        this.device = device;
+        this.objectId = objectId;
+        //this.item = item;
 
-        item.Refresh();
+        //item.Refresh();
     }
 
     #region Properties
@@ -31,12 +26,12 @@ public abstract partial class MediaFileSystemInfo
     /// <summary>
     /// Gets the parent directory of a specified subdirectory.
     /// </summary>
-    protected MediaDirectoryInfo? ParentDirectoryInfo
+    protected MediaDirectoryInfo? ParentDirectoryInfo 
     {
         get
         {
-            NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            return mainWorker.Invoke(() => WpdDevice.GetParent(this.mediaDevice, this.item));
+            NotConnectedException.ThrowIfNotConnected(device);
+            return worker.Invoke(() => device.GetParent(objectId));
         }
     }
 
@@ -64,7 +59,7 @@ public abstract partial class MediaFileSystemInfo
         set
         {
             NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            mainWorker.Invoke(() => WpdDevice.SetCreationTime(this.item, value));
+            worker.Invoke(() => WpdDevice.SetCreationTime(this.item, value));
         }
     }
 
@@ -77,7 +72,7 @@ public abstract partial class MediaFileSystemInfo
         set
         {
             NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            mainWorker.Invoke(() => WpdDevice.SetLastWriteTime(this.item, value));
+            worker.Invoke(() => WpdDevice.SetLastWriteTime(this.item, value));
         }
     }
 
@@ -90,7 +85,7 @@ public abstract partial class MediaFileSystemInfo
         set
         {
             NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            mainWorker.Invoke(() => WpdDevice.SetDateAuthored(this.item, value));
+            worker.Invoke(() => WpdDevice.SetDateAuthored(this.item, value));
         }
     }
 
@@ -137,8 +132,8 @@ public abstract partial class MediaFileSystemInfo
     /// </summary>
     public virtual void Refresh()
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        mainWorker.Invoke(() => WpdDevice.Refresh(this.item));
+        NotConnectedException.ThrowIfNotConnected(device);
+        worker.Invoke(() => device.Refresh(this.item));
     }
 
     /// <summary>
@@ -147,9 +142,9 @@ public abstract partial class MediaFileSystemInfo
     /// <param name="newName">New name of the file or folder.</param>
     public void Rename(string newName)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        NotConnectedException.ThrowIfNotConnected(device);
         ArgumentException.ThrowIfNullOrWhiteSpace(newName, nameof(newName));
-        mainWorker.Invoke(() => WpdDevice.Rename(this.item, newName));
+        worker.Invoke(() => device.Rename(this.item, newName));
     }
 
     #endregion

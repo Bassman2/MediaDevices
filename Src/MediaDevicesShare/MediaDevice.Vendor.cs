@@ -11,7 +11,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.VendorOpcodes<OpCodes>(this.device!));
+        return worker.InvokeEnumerable(() => device.VendorOpcodes<OpCodes>());
         
     }
 
@@ -28,7 +28,7 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
 
         int resp = 0;
-        var list = worker.InvokeEnumerable(() => WpdDevice.VendorExcecute(this.device!, opCode, inputParams, out resp));
+        var list = worker.InvokeEnumerable(() => device.VendorExcecute(opCode, inputParams, out resp));
         respCode = resp;
         return list;
     }
@@ -44,7 +44,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.VendorExcecuteRead(this.device!, opCode, inputParams));
+        return worker.InvokeEnumerable(() => device.VendorExcecuteRead(opCode, inputParams));
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.VendorExcecuteWrite(this.device!, opCode, inputParams));
+        return worker.InvokeEnumerable(() => device.VendorExcecuteWrite(opCode, inputParams));
     }
 
 
@@ -87,7 +87,7 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
 
         int resp = 0;
-        var list = worker.InvokeEnumerable(() => WpdDevice.VendorEndTransfer(this.device!, context, out resp));
+        var list = worker.InvokeEnumerable(() => device.VendorEndTransfer(context, out resp));
         respCode = resp;
         return list;
     }
@@ -101,6 +101,6 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.Invoke(() => WpdDevice.VendorExtentionDescription(this.device!));
+        return worker.Invoke(() => device.VendorExtentionDescription());
     }
 }

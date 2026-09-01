@@ -17,7 +17,6 @@ public sealed partial class MediaDevice : IDisposable
 
     private readonly IDevice device;
 
-
     internal MediaDevice(IDevice device)
     {
         this.device = device;

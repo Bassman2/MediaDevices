@@ -5,7 +5,7 @@
 /// </summary>
 public partial class MediaFileInfo : MediaFileSystemInfo
 {
-    internal MediaFileInfo(MediaDevice device, Item item) : base(device, item)
+    internal MediaFileInfo(IDevice device, string objectId) : base(device, objectId)
     { }
 
     /// <summary>
@@ -28,8 +28,8 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void CopyTo(string destFileName, bool overwrite = true)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        mainWorker.Invoke(() => WpdDevice.CopyTo(item, destFileName, overwrite));
+        NotConnectedException.ThrowIfNotConnected(device);
+        worker.Invoke(() => device.CopyTo(objectId, destFileName, overwrite));
     }
 
     /// <summary>
@@ -42,8 +42,8 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void CopyIconTo(string destFileName, bool overwrite = true)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        mainWorker.Invoke(() => WpdDevice.CopyIconTo(item, destFileName, overwrite));
+        NotConnectedException.ThrowIfNotConnected(device);
+        worker.Invoke(() => device.CopyIconTo(objectId, destFileName, overwrite));
     }
 
     /// <summary>
@@ -56,8 +56,8 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public void CopyThumbnailTo(string destFileName, bool overwrite = true)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        mainWorker.Invoke(() => WpdDevice.CopyThumbnailTo(item, destFileName, overwrite));
+        NotConnectedException.ThrowIfNotConnected(device);
+        worker.Invoke(() => device.CopyThumbnailTo(objectId, destFileName, overwrite));
     }
 
     /// <summary>
@@ -68,8 +68,8 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public Stream OpenRead()
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.Invoke(() => WpdDevice.OpenRead(item));
+        NotConnectedException.ThrowIfNotConnected(device);
+        return worker.Invoke(() => device.OpenRead(objectId));
     }
 
     /// <summary>
@@ -80,8 +80,8 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public Stream OpenIcon()
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.Invoke(() => WpdDevice.OpenIcon(item));
+        NotConnectedException.ThrowIfNotConnected(device);
+        return worker.Invoke(() => device.OpenIcon(objectId));
     }
 
     /// <summary>
@@ -92,8 +92,8 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public Stream OpenThumbnail()
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.Invoke(() => WpdDevice.OpenThumbnail(item));
+        NotConnectedException.ThrowIfNotConnected(device);
+        return worker.Invoke(() => device.OpenThumbnail(objectId));
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public StreamReader OpenText()
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.Invoke(() => WpdDevice.OpenText(item));
+        NotConnectedException.ThrowIfNotConnected(device);
+        return worker.Invoke(() => device.OpenText(objectId));
     }
 }

@@ -325,7 +325,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.DownloadFile(this, source, stream));
+        worker.Invoke(() => device.DownloadFile(source, stream));
     }
 
     /// <summary>
@@ -344,7 +344,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.DownloadFile(this, source, destination));
+        worker.Invoke(() => device.DownloadFile(source, destination));
     }
 
     /// <summary>
@@ -363,7 +363,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.DownloadIcon(this, source, stream));
+        worker.Invoke(() => device.DownloadIcon(source, stream));
     }
 
     /// <summary>
@@ -385,7 +385,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.DownloadIcon(this, source, destination));
+        worker.Invoke(() => device.DownloadIcon(source, destination));
     }
 
     /// <summary>
@@ -404,7 +404,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.DownloadThumbnail(this, source, stream));
+        worker.Invoke(() => device.DownloadThumbnail(source, stream));
     }
 
     /// <summary>
@@ -423,7 +423,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.DownloadThumbnail(this, source, destination));
+        worker.Invoke(() => device.DownloadThumbnail(source, destination));
     }
 
     /// <summary>
@@ -444,7 +444,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination);
         NotConnectedException.ThrowIfNotConnected(this);
                 
-        worker.Invoke(() => WpdDevice.DownloadFolder(this, source, destination, recursive, ignoreExceptions));
+        worker.Invoke(() => device.DownloadFolder(source, destination, recursive, ignoreExceptions));
     }
 
 
@@ -464,7 +464,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.UploadFile(this, stream, destination));
+        worker.Invoke(() => device.UploadFile(stream, destination));
     }
 
     /// <summary>
@@ -483,7 +483,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.UploadFile(this, source, destination));
+        worker.Invoke(() => device.UploadFile(source, destination));
     }
 
     /// <summary>
@@ -504,7 +504,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.UploadFolder(this, source, destination, recursive, ignoreExceptions));
+        worker.Invoke(() => device.UploadFolder(source, destination, recursive, ignoreExceptions));
     }
 
 
@@ -527,7 +527,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-         return worker.Invoke(() => WpdDevice.GetFileInfo(this, path));
+         return worker.Invoke(() => device.GetFileInfo(path));
     }
 
     /// <summary>
@@ -545,7 +545,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.Invoke(() => WpdDevice.GetDirectoryInfo(this, path));
+        return worker.Invoke(() => device.GetDirectoryInfo(path));
     }
 
     /// <summary>
@@ -556,7 +556,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.GetDrives(this));
+        return worker.InvokeEnumerable(() => device.GetDrives());
     }
 
     /// <summary>
@@ -568,7 +568,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.Invoke(() => WpdDevice.GetRootDirectory(this));
+        return worker.Invoke(() => device.GetRootDirectory());
     }
 
     #endregion
@@ -590,7 +590,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.Invoke(() => WpdDevice.GetPathFromPersistentUniqueId(this, persistentUniqueId));
+        return worker.Invoke(() => device.GetPathFromPersistentUniqueId(persistentUniqueId));
     }
 
     /// <summary>
@@ -606,7 +606,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.Invoke(() => WpdDevice.GetFileSystemInfoFromPersistentUniqueId(this, persistentUniqueId));
+        return worker.Invoke(() => device.GetFileSystemInfoFromPersistentUniqueId(persistentUniqueId));
     }
 
     /// <summary>
@@ -623,7 +623,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.DownloadFileFromPersistentUniqueId(this, persistentUniqueId, destination));
+        worker.Invoke(() => device.DownloadFileFromPersistentUniqueId(persistentUniqueId, destination));
     }
 
     /// <summary>
@@ -639,7 +639,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.Invoke(() => WpdDevice.OpenReadFromPersistentUniqueId(this, persistentUniqueId));
+        return worker.Invoke(() => device.OpenReadFromPersistentUniqueId(persistentUniqueId));
     }
 
     /// <summary>
@@ -655,7 +655,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.Invoke(() => WpdDevice.OpenTextFromPersistentUniqueId(this, persistentUniqueId));
+        return worker.Invoke(() => device.OpenTextFromPersistentUniqueId(persistentUniqueId));
     }
     
     #endregion

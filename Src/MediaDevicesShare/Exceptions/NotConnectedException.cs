@@ -12,4 +12,12 @@ public class NotConnectedException(string? message) : Exception(message)
             throw new NotConnectedException("Device is not connected.");
         }
     }
+
+    internal static void ThrowIfNotConnected(IDevice device)
+    {
+        if (!device.IsConnected)
+        {
+            throw new NotConnectedException("Device is not connected.");
+        }
+    }
 }
