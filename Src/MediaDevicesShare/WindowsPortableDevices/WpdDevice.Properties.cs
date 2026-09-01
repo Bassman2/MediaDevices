@@ -1,7 +1,63 @@
-﻿namespace MediaDevices.Internal;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
-partial class ProtocolHandler
+partial class WpdDevice
 {
+    // withou connection
+
+    public string UsbDevice { get; }
+
+    public ManufacturerId ManufacturerId { get; }
+
+    public ushort DeviceId { get; } = 0;    
+
+    public string Description { get; }
+
+    public string FriendlyName { get; }
+
+    public string Manufacturer { get; }
+
+    // only after connection
+
+    public string? Name { get; set; } = null;
+
+    public string? SyncPartner { get; set; } = null;
+
+    public string? FirmwareVersion { get; set; } = null;
+
+
+    public uint? PowerLevel { get; set; } = null;
+
+    public PowerSource? PowerSource { get; set; } = null;
+
+    public string? Protocol { get; set; } = null;
+
+    public string? Model { get; set; } = null;
+
+    public string? SerialNumber { get; set; } = null;
+
+    public bool? SupportsNonConsumable { get; set; } = null;
+
+    public string[]? SupportedDrmSchemes { get; set; } = null;
+
+
+    public bool? SupportedFormatsAreOrdered { get; set; } = null;
+
+
+    public DeviceType? DeviceType { get; set; } = null;
+
+
+    public DeviceTransport? Transport { get; set; } = null;
+
+    /// <summary>
+    /// Indicates whether to use the device stage UI for this device.
+    /// </summary>
+    /// <exception cref="MediaDevices.NotConnectedException">Thrown when the device is not connected.</exception>
+    public DeviceTransport? UseDeviceStage { get; set; } = null;
+
+
+
+
+
     #region IPortableDeviceProperties
 
     public static string? SetFriendlyName(MediaDevice mediaDevice, string? value)
@@ -10,7 +66,7 @@ partial class ProtocolHandler
 
         IPortableDeviceValues devInValues = ComHelper.CreateInstance<IPortableDeviceValues>();
         devInValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value!);
-        
+
         int err = mediaDevice.deviceProperties!.SetValues(Item.RootId, devInValues, out IPortableDeviceValues _);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.SetValues));
 

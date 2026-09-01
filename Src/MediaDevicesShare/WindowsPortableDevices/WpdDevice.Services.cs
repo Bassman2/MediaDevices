@@ -1,6 +1,6 @@
-﻿namespace MediaDevices.Internal;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
-partial class ProtocolHandler
+partial class WpdDevice
 {
     
     public static IEnumerable<MediaDeviceService> GetServices(IPortableDeviceServiceManager serviceManager, MediaDevice mediaDevice, MediaDeviceServices serviceTypes)

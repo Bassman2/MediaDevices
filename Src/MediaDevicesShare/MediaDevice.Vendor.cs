@@ -11,7 +11,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorOpcodes<OpCodes>(this.device!));
+        return worker.InvokeEnumerable(() => WpdDevice.VendorOpcodes<OpCodes>(this.device!));
         
     }
 
@@ -28,7 +28,7 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
 
         int resp = 0;
-        var list = mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorExcecute(this.device!, opCode, inputParams, out resp));
+        var list = worker.InvokeEnumerable(() => WpdDevice.VendorExcecute(this.device!, opCode, inputParams, out resp));
         respCode = resp;
         return list;
     }
@@ -44,7 +44,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorExcecuteRead(this.device!, opCode, inputParams));
+        return worker.InvokeEnumerable(() => WpdDevice.VendorExcecuteRead(this.device!, opCode, inputParams));
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorExcecuteWrite(this.device!, opCode, inputParams));
+        return worker.InvokeEnumerable(() => WpdDevice.VendorExcecuteWrite(this.device!, opCode, inputParams));
     }
 
 
@@ -66,14 +66,14 @@ partial class MediaDevice
     //{
     //    NotConnectedException.ThrowIfNotConnected(this);
     //
-    //    return mainWorker.VendorRead(this.mediaDevice, opCode, inputParams);
+    //    return worker.VendorRead(this.mediaDevice, opCode, inputParams);
     //}
 
     //public int VendorWrite(string context, int bytesToWrite, byte[] buffer )
     //{
     //    NotConnectedException.ThrowIfNotConnected(this);
     //
-    //    return mainWorker.VendorWrite(this.mediaDevice, opCode, inputParams);
+    //    return worker.VendorWrite(this.mediaDevice, opCode, inputParams);
     //}
 
     /// <summary>
@@ -87,7 +87,7 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
 
         int resp = 0;
-        var list = mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorEndTransfer(this.device!, context, out resp));
+        var list = worker.InvokeEnumerable(() => WpdDevice.VendorEndTransfer(this.device!, context, out resp));
         respCode = resp;
         return list;
     }
@@ -101,6 +101,6 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.Invoke(() => ProtocolHandler.VendorExtentionDescription(this.device!));
+        return worker.Invoke(() => WpdDevice.VendorExtentionDescription(this.device!));
     }
 }

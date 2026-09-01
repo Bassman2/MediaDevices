@@ -20,7 +20,7 @@ public abstract partial class MediaFileSystemInfo
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         this.mediaDevice = device;
-        this.mainWorker = device.mainWorker;
+        this.mainWorker = device.worker;
         this.item = item;
 
         item.Refresh();
@@ -36,7 +36,7 @@ public abstract partial class MediaFileSystemInfo
         get
         {
             NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            return mainWorker.Invoke(() => ProtocolHandler.GetParent(this.mediaDevice, this.item));
+            return mainWorker.Invoke(() => WpdDevice.GetParent(this.mediaDevice, this.item));
         }
     }
 
@@ -64,7 +64,7 @@ public abstract partial class MediaFileSystemInfo
         set
         {
             NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            mainWorker.Invoke(() => ProtocolHandler.SetCreationTime(this.item, value));
+            mainWorker.Invoke(() => WpdDevice.SetCreationTime(this.item, value));
         }
     }
 
@@ -77,7 +77,7 @@ public abstract partial class MediaFileSystemInfo
         set
         {
             NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            mainWorker.Invoke(() => ProtocolHandler.SetLastWriteTime(this.item, value));
+            mainWorker.Invoke(() => WpdDevice.SetLastWriteTime(this.item, value));
         }
     }
 
@@ -90,7 +90,7 @@ public abstract partial class MediaFileSystemInfo
         set
         {
             NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            mainWorker.Invoke(() => ProtocolHandler.SetDateAuthored(this.item, value));
+            mainWorker.Invoke(() => WpdDevice.SetDateAuthored(this.item, value));
         }
     }
 
@@ -138,7 +138,7 @@ public abstract partial class MediaFileSystemInfo
     public virtual void Refresh()
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        mainWorker.Invoke(() => ProtocolHandler.Refresh(this.item));
+        mainWorker.Invoke(() => WpdDevice.Refresh(this.item));
     }
 
     /// <summary>
@@ -149,7 +149,7 @@ public abstract partial class MediaFileSystemInfo
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
         ArgumentException.ThrowIfNullOrWhiteSpace(newName, nameof(newName));
-        mainWorker.Invoke(() => ProtocolHandler.Rename(this.item, newName));
+        mainWorker.Invoke(() => WpdDevice.Rename(this.item, newName));
     }
 
     #endregion

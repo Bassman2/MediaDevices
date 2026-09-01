@@ -7,14 +7,14 @@ partial class MediaDevice : ICanonMediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorOpcodes<OpCodesCanon>(this.device!));
+        return worker.InvokeEnumerable(() => WpdDevice.VendorOpcodes<OpCodesCanon>(this.device!));
     }
 
     void ICanonMediaDevice.Capture()
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        //mainWorker.Invoke(() => ProtocolHandler.Capture(this.device!));
+        //worker.Invoke(() => WpdDevice.Capture(this.device!));
     }
 
     int? ICanonMediaDevice.ShootingMode
@@ -54,12 +54,12 @@ partial class MediaDevice : ICanonMediaDevice
 
     void ICanonMediaDevice.TakePicture()
     {
-        mainWorker.Invoke(() => ProtocolHandler.CanonTakePicture(this));
+        worker.Invoke(() => WpdDevice.CanonTakePicture(this));
     }
 
     async Task ICanonMediaDevice.TakePictureAsync(CancellationToken cancellationToken)
     {
-        await mainWorker.InvokeAsync(() => ProtocolHandler.CanonTakePicture(this), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.CanonTakePicture(this), cancellationToken);
     }
 
     void ICanonMediaDevice.TakePictureAndDownload(string destination)
@@ -84,7 +84,7 @@ partial class MediaDevice : ICanonMediaDevice
 
         };
 
-        mainWorker.Invoke(() => ProtocolHandler.CanonTakePicture(this));
+        worker.Invoke(() => WpdDevice.CanonTakePicture(this));
 
         ready.WaitOne();
     }
@@ -120,7 +120,7 @@ partial class MediaDevice : ICanonMediaDevice
 
         };
 
-        mainWorker.Invoke(() => ProtocolHandler.CanonTakePicture(this));
+        worker.Invoke(() => WpdDevice.CanonTakePicture(this));
 
         return tcs.Task;
     }

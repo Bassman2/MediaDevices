@@ -17,7 +17,7 @@ partial class MediaFileInfo
     public async Task CopyToAsync(string destFileName, bool overwrite = true, CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        await mainWorker.InvokeAsync(() => ProtocolHandler.CopyTo(item, destFileName, overwrite), cancellationToken);
+        await mainWorker.InvokeAsync(() => WpdDevice.CopyTo(item, destFileName, overwrite), cancellationToken);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ partial class MediaFileInfo
     public async Task CopyIconToAsync(string destFileName, bool overwrite = true, CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        await mainWorker.InvokeAsync(() => ProtocolHandler.CopyIconTo(item, destFileName, overwrite), cancellationToken);
+        await mainWorker.InvokeAsync(() => WpdDevice.CopyIconTo(item, destFileName, overwrite), cancellationToken);
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ partial class MediaFileInfo
     public async Task CopyThumbnailToAsync(string destFileName, bool overwrite = true, CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        await mainWorker.InvokeAsync(() => ProtocolHandler.CopyThumbnailTo(item, destFileName, overwrite), cancellationToken);
+        await mainWorker.InvokeAsync(() => WpdDevice.CopyThumbnailTo(item, destFileName, overwrite), cancellationToken);
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ partial class MediaFileInfo
     public async Task<Stream> OpenReadAsync(CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.OpenRead(item), cancellationToken);
+        return await mainWorker.InvokeAsync(() => WpdDevice.OpenRead(item), cancellationToken);
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ partial class MediaFileInfo
     public async Task<Stream> OpenIconAsync( CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.OpenIcon(item), cancellationToken);
+        return await mainWorker.InvokeAsync(() => WpdDevice.OpenIcon(item), cancellationToken);
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ partial class MediaFileInfo
     public async Task<Stream> OpenThumbnailAsync(CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.OpenThumbnail(item), cancellationToken);
+        return await mainWorker.InvokeAsync(() => WpdDevice.OpenThumbnail(item), cancellationToken);
     }
 
     /// <summary>
@@ -114,6 +114,6 @@ partial class MediaFileInfo
     public async Task<StreamReader> OpenTextAsync(CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.OpenText(item), cancellationToken);
+        return await mainWorker.InvokeAsync(() => WpdDevice.OpenText(item), cancellationToken);
     }
 }

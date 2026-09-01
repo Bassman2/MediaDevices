@@ -17,7 +17,7 @@ partial class MediaDriveInfo
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.EjectId(this.mediaDevice, this.objectId), cancellationToken);
+        await mainWorker.InvokeAsync(() => WpdDevice.EjectId(this.mediaDevice, this.objectId), cancellationToken);
     }
 
     /// <summary>
@@ -35,6 +35,6 @@ partial class MediaDriveInfo
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.FormatId(this.mediaDevice, this.objectId), cancellationToken);
+        await mainWorker.InvokeAsync(() => WpdDevice.FormatId(this.mediaDevice, this.objectId), cancellationToken);
     }
 }

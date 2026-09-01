@@ -29,7 +29,7 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     public void CopyTo(string destFileName, bool overwrite = true)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        mainWorker.Invoke(() => ProtocolHandler.CopyTo(item, destFileName, overwrite));
+        mainWorker.Invoke(() => WpdDevice.CopyTo(item, destFileName, overwrite));
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     public void CopyIconTo(string destFileName, bool overwrite = true)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        mainWorker.Invoke(() => ProtocolHandler.CopyIconTo(item, destFileName, overwrite));
+        mainWorker.Invoke(() => WpdDevice.CopyIconTo(item, destFileName, overwrite));
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     public void CopyThumbnailTo(string destFileName, bool overwrite = true)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        mainWorker.Invoke(() => ProtocolHandler.CopyThumbnailTo(item, destFileName, overwrite));
+        mainWorker.Invoke(() => WpdDevice.CopyThumbnailTo(item, destFileName, overwrite));
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     public Stream OpenRead()
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.Invoke(() => ProtocolHandler.OpenRead(item));
+        return mainWorker.Invoke(() => WpdDevice.OpenRead(item));
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     public Stream OpenIcon()
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.Invoke(() => ProtocolHandler.OpenIcon(item));
+        return mainWorker.Invoke(() => WpdDevice.OpenIcon(item));
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     public Stream OpenThumbnail()
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.Invoke(() => ProtocolHandler.OpenThumbnail(item));
+        return mainWorker.Invoke(() => WpdDevice.OpenThumbnail(item));
     }
 
     /// <summary>
@@ -105,6 +105,6 @@ public partial class MediaFileInfo : MediaFileSystemInfo
     public StreamReader OpenText()
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.Invoke(() => ProtocolHandler.OpenText(item));
+        return mainWorker.Invoke(() => WpdDevice.OpenText(item));
     }
 }

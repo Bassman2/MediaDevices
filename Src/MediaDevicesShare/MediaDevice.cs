@@ -13,76 +13,14 @@
 [DebuggerDisplay("Description: {Description}, FriendlyName: {FriendlyName}, Manufacturer: {Manufacturer}, PnPDeviceID: {pnPDeviceID}")]
 public sealed partial class MediaDevice : IDisposable
 {
+    private static readonly ThreadSafeWorker worker = ThreadSafeWorker.Instance;
 
-    #region Fields
-
-    private readonly IPortableDeviceManager deviceManager;
-    internal readonly IPortableDeviceServiceManager serviceManager;
-    internal readonly ThreadSafeWorker mainWorker;
-
-    internal IPortableDevice? device;
-    internal IPortableDeviceContent? deviceContent;
-    internal IPortableDeviceProperties? deviceProperties;
-    internal IPortableDeviceCapabilities? deviceCapabilities;
-    internal IPortableDeviceValues? deviceValues;    
-    internal string? eventCookie;
-    internal EventCallback? eventCallback;
-    internal EventThreadHandler eventThreadHandler;
-
-    #endregion
-
-    #region Properties
-
-   
-    /// <summary>
-    /// Interface Path of the portable mediaDevice.
-    /// </summary>
-    /// <remarks>Readable when not connected.</remarks>
-    public string InterfacePath { get; private set; }
-
-    public ManufacturerId ManufacturerId { get; private set; } = 0;
-    public ushort DeviceId { get; private set; } = 0;
-
-    /// <summary>
-    /// Is portable mediaDevice connected.
-    /// </summary>
-    public bool IsConnected { get; internal set; }
-
-    /// <summary>
-    /// Select if path is case sensitive or not. Default is not. 
-    /// </summary>
-    public bool IsCaseSensitive { get; set; } = false;
-
-    #endregion
+    private readonly IDevice device;
 
 
-    #region constructor
-
-
-    // \\?\usb#vid_04e8&pid_6860&ms_comp_mtp&samsung_android#6&6e4669b&4&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}
-    internal MediaDevice(string interfacePath, ThreadSafeWorker mainWorker, IPortableDeviceManager deviceManager, IPortableDeviceServiceManager serviceManager)
+    internal MediaDevice(IDevice device)
     {
-        // already running in worker thread
-        ThreadSafeWorkerException.ThrowIfNotInside();
-
-        this.InterfacePath = interfacePath;
-        Match match = Regex.Match(interfacePath, @"vid_(?<vid>[0-9a-fA-F]{4})&pid_(?<pid>[0-9a-fA-F]{4})", RegexOptions.IgnoreCase);
-        if (match.Success)
-        {
-            this.ManufacturerId = (ManufacturerId)Convert.ToUInt16(match.Groups["vid"].Value, 16);
-            this.DeviceId = Convert.ToUInt16(match.Groups["pid"].Value, 16);
-        }
-
-       
-        this.mainWorker = mainWorker;
-        this.deviceManager = deviceManager;
-        this.serviceManager = serviceManager;
-
-        this.Description = ProtocolHandler.GetDeviceDescription(deviceManager, interfacePath);
-        this.friendlyName = ProtocolHandler.GetDeviceFriendlyName(deviceManager, interfacePath);
-        this.Manufacturer = ProtocolHandler.GetDeviceManufacturer(deviceManager, interfacePath);
-
-        this.eventThreadHandler = new(this);
+        this.device = device;
     }
 
     /// <summary>
@@ -94,10 +32,10 @@ public sealed partial class MediaDevice : IDisposable
     /// </remarks>
     public void Dispose()
     {
-        eventThreadHandler.Dispose();
+        //eventThreadHandler.Dispose();
     }
 
-    #endregion
+    
     
     #region Public Methods
 
@@ -110,7 +48,7 @@ public sealed partial class MediaDevice : IDisposable
     public void Connect(MediaDeviceAccess access = MediaDeviceAccess.Default, MediaDeviceShare share = MediaDeviceShare.Default, bool enableCache = true)
     {
         if (this.IsConnected) return;
-        mainWorker.Invoke(() => ProtocolHandler.Connect(this, this.InterfacePath, access, share, enableCache));
+        worker.Invoke(() => device.Connect(access, share, enableCache));
     }
 
     /// <summary>
@@ -119,7 +57,7 @@ public sealed partial class MediaDevice : IDisposable
     public void Disconnect()
     {
         if (!this.IsConnected) return;
-        mainWorker.Invoke(() => ProtocolHandler.Disconnect(this));
+        worker.Invoke(() => device.Disconnect());
     }
 
     /// <summary>
@@ -129,19 +67,19 @@ public sealed partial class MediaDevice : IDisposable
     public void Cancel()
     {
         NotConnectedException.ThrowIfNotConnected(this);
-        mainWorker.Invoke(() => ProtocolHandler.Cancel(this));
+        worker.Invoke(() => device.Cancel());
     }
 
-    /// <summary>
-    /// Get mediaDevice services
-    /// </summary>
-    /// <param name="serviceType">Service type</param>
-    /// <returns>List of services</returns>
-    public IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices serviceType)
-    {
-        NotConnectedException.ThrowIfNotConnected(this);
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.GetServices(serviceManager, this, serviceType));
-    }
+    ///// <summary>
+    ///// Get mediaDevice services
+    ///// </summary>
+    ///// <param name="serviceType">Service type</param>
+    ///// <returns>List of services</returns>
+    //public IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices serviceType)
+    //{
+    //    NotConnectedException.ThrowIfNotConnected(this);
+    //    return worker.InvokeEnumerable(() => WpdDevice.GetServices(serviceManager, this, serviceType));
+    //}
 
     #endregion
 }

@@ -14,12 +14,12 @@ public sealed partial class MediaDriveInfo
     internal MediaDriveInfo(MediaDevice mediaDevice, string objectId)
     {
         this.mediaDevice = mediaDevice;
-        this.mainWorker = mediaDevice.mainWorker;
+        this.mainWorker = mediaDevice.worker;
         this.objectId = objectId;
 
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        this.info = ProtocolHandler.GetStorageInfo(mediaDevice, objectId);
+        this.info = WpdDevice.GetStorageInfo(mediaDevice, objectId);
 
         if (this.info != null)
         {
@@ -92,7 +92,7 @@ public sealed partial class MediaDriveInfo
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
 
-        mainWorker.Invoke(() => ProtocolHandler.EjectId(this.mediaDevice, this.objectId));
+        mainWorker.Invoke(() => WpdDevice.EjectId(this.mediaDevice, this.objectId));
     }
 
     /// <summary>
@@ -102,6 +102,6 @@ public sealed partial class MediaDriveInfo
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
 
-        mainWorker.Invoke(() => ProtocolHandler.FormatId(this.mediaDevice, this.objectId));
+        mainWorker.Invoke(() => WpdDevice.FormatId(this.mediaDevice, this.objectId));
     }
 }

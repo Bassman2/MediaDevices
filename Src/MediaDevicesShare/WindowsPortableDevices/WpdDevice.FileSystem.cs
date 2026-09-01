@@ -1,8 +1,8 @@
 ﻿using System.Data;
 
-namespace MediaDevices.Internal;
+namespace MediaDevices.WindowsPortableDevices;
 
-internal static partial class ProtocolHandler
+partial class WpdDevice
 {
     #region MediaDevice: path based
 

@@ -1,8 +1,8 @@
 ﻿using System.Net.Mime;
 
-namespace MediaDevices.Internal;
+namespace MediaDevices.WindowsPortableDevices;
 
-partial class ProtocolHandler
+partial class WpdDevice
 {
 
     // Technical Background: When controlling a camera via MTP, there are two distinct "Capture" commands: 0x100E (Standard PTP InitiateCapture)

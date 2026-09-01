@@ -54,12 +54,12 @@ partial class MediaDevice
 
     private ObjectAddedEventArgs CreateObjectAddedEventArgs(MediaDevice mediaDevice, Events eventEnum, IPortableDeviceValues eventParameters)
     {
-        return mainWorker.Invoke(() => new ObjectAddedEventArgs(eventEnum, mediaDevice, eventParameters));
+        return worker.Invoke(() => new ObjectAddedEventArgs(eventEnum, mediaDevice, eventParameters));
     }
 
     private MediaDeviceEventArgs CreateMediaDeviceEventArgs(MediaDevice mediaDevice, Events eventEnum, IPortableDeviceValues eventParameters)
     {
-        return mainWorker.Invoke(() => new MediaDeviceEventArgs(eventEnum, mediaDevice, eventParameters));
+        return worker.Invoke(() => new MediaDeviceEventArgs(eventEnum, mediaDevice, eventParameters));
     }
 
     internal void CallEvent(IPortableDeviceValues eventParameters)

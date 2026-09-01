@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 
-namespace MediaDevices.Internal;
+namespace MediaDevices.Internals;
 
 internal sealed class ThreadSafeWorker : IDisposable
 {

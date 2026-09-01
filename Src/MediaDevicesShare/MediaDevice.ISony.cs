@@ -12,7 +12,7 @@ partial class MediaDevice : ISonyMediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.VendorOpcodes<OpCodesSony>(this.device!));
+        return worker.InvokeEnumerable(() => WpdDevice.VendorOpcodes<OpCodesSony>(this.device!));
     }
 
     SonyCompression? ISonyMediaDevice.Compression

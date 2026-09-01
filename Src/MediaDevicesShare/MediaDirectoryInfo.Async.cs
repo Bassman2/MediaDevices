@@ -18,7 +18,7 @@ partial class MediaDirectoryInfo
     {
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.CreateSubdirectory(this.mediaDevice, item, path), cancellationToken);
+        return await mainWorker.InvokeAsync(() => WpdDevice.CreateSubdirectory(this.mediaDevice, item, path), cancellationToken);
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ partial class MediaDirectoryInfo
     public IAsyncEnumerable<MediaDirectoryInfo> EnumerateDirectoriesAsync(CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateDirectories(this.mediaDevice, this.item, cancellationToken), cancellationToken);
+        return mainWorker.InvokeAsyncEnumerable(() => WpdDevice.EnumerateDirectories(this.mediaDevice, this.item, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ partial class MediaDirectoryInfo
     public IAsyncEnumerable<MediaDirectoryInfo> EnumerateDirectoriesAsync(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateDirectories(this.mediaDevice, this.item, searchPattern, searchOption, cancellationToken), cancellationToken);
+        return mainWorker.InvokeAsyncEnumerable(() => WpdDevice.EnumerateDirectories(this.mediaDevice, this.item, searchPattern, searchOption, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ partial class MediaDirectoryInfo
     public IAsyncEnumerable<MediaFileInfo> EnumerateFilesAsync(CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFiles(this.mediaDevice, this.item, cancellationToken), cancellationToken);
+        return mainWorker.InvokeAsyncEnumerable(() => WpdDevice.EnumerateFiles(this.mediaDevice, this.item, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ partial class MediaDirectoryInfo
     public IAsyncEnumerable<MediaFileInfo> EnumerateFilesAsync(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFiles(this.mediaDevice, this.item, searchPattern, searchOption, cancellationToken), cancellationToken);
+        return mainWorker.InvokeAsyncEnumerable(() => WpdDevice.EnumerateFiles(this.mediaDevice, this.item, searchPattern, searchOption, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ partial class MediaDirectoryInfo
     public IAsyncEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfosAsync(CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFileSystemInfos(this.mediaDevice, this.item, cancellationToken), cancellationToken);
+        return mainWorker.InvokeAsyncEnumerable(() => WpdDevice.EnumerateFileSystemInfos(this.mediaDevice, this.item, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -96,6 +96,6 @@ partial class MediaDirectoryInfo
     public IAsyncEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfosAsync(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFileSystemInfos(this.mediaDevice, this.item, searchPattern, searchOption, cancellationToken), cancellationToken);
+        return mainWorker.InvokeAsyncEnumerable(() => WpdDevice.EnumerateFileSystemInfos(this.mediaDevice, this.item, searchPattern, searchOption, cancellationToken), cancellationToken);
     }
 }

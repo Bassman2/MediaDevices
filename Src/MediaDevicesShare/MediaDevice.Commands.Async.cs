@@ -19,6 +19,6 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.FormatPath(this, path), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.FormatPath(this, path), cancellationToken);
     }
 }

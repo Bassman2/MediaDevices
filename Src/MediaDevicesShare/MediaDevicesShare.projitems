@@ -9,6 +9,12 @@
     <Import_RootNamespace>MediaDevices</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\IMtpDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\MtpDeviceLinux.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\MtpDeviceManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\MtpDeviceSingleThreadProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\MtpObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\MtpDeviceWindows.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ManufacturerId.cs" />
@@ -32,24 +38,25 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\OpCodesSamsung.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\OpCodesSony.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\SonyCompression.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICanonMediaDevice.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILeicaMediaDevice.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INikonMediaDevice.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IPanasonicMediaDevice.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISamsungMediaDevice.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISonyMediaDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExplicitInterfaces\ICanonMediaDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExplicitInterfaces\ILeicaMediaDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExplicitInterfaces\INikonMediaDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExplicitInterfaces\IPanasonicMediaDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExplicitInterfaces\ISamsungMediaDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExplicitInterfaces\ISonyMediaDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internals\DeviceFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Extentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.ILeica.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.IPanasonic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.ISony.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Static.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\EnumExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonRawCompression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.Device.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.IFujifilm.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.Extentions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.ICanon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.Extentions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.ICanon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.ICanon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.ICanon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.INikon.cs" />
@@ -115,9 +122,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\Enums\PropVariantType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\Enums\Security.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\Enums\SmsMessageType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.Commands.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.FileSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.Commands.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.FileSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\StreamWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.DeviceServices.cs" />
@@ -135,7 +142,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Properties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Vendor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventArg\MediaDeviceEventArgs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceServiceContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDeviceServiceHints.cs" />
@@ -160,15 +166,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Roaming.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StorageAccessCapability.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StorageType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.Capabilities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.Properties.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.Services.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ProtocolHandler.Vendor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\ThreadSafeWorker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.Capabilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.Properties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.Services.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.Vendor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internals\ThreadSafeWorker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Usings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)EventArg\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Interfaces\" />
     <Folder Include="$(MSBuildThisFileDirectory)ProtocolStack\" />
   </ItemGroup>
 </Project>

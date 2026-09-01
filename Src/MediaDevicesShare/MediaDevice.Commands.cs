@@ -11,7 +11,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.ResetDevice(this));
+        worker.Invoke(() => device.ResetDevice());
     }
 
     /// <summary>
@@ -24,14 +24,14 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.Invoke(() => ProtocolHandler.GetContentLocations(this, contentType));
+        return worker.Invoke(() => device.GetContentLocations(contentType));
     }
 
     //public void Supported(string id)
     //{
     //    NotConnectedException.ThrowIfNotConnected(this);
     //    
-    //    mainWorker.Supported(this, id);
+    //    worker.Supported(this, id);
     //}
 
     /// <summary>
@@ -44,7 +44,7 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
 
-        return mainWorker.Invoke(() => ProtocolHandler.EjectPath(this, path));
+        return worker.Invoke(() => device.EjectPath(path));
     }
     
     /// <summary>
@@ -56,7 +56,7 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
 
-        mainWorker.Invoke(() => ProtocolHandler.FormatPath(this, path));
+        worker.Invoke(() => device.FormatPath(path));
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(recipient, nameof(recipient));
         ArgumentNullException.ThrowIfNullOrEmpty(text, nameof(text));
 
-        return mainWorker.Invoke(() => ProtocolHandler.SendTextSMS(this, functionalObject, recipient, text));
+        return worker.Invoke(() => device.SendTextSMS(functionalObject, recipient, text));
     }
 
     /// <summary>
@@ -121,7 +121,7 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(functionalObject, nameof(functionalObject));
 
-        return mainWorker.Invoke(() => ProtocolHandler.StillImageCaptureInitiate(this, functionalObject));
+        return worker.Invoke(() => device.StillImageCaptureInitiate(functionalObject));
     }
 
     
@@ -154,6 +154,6 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(storageObjectId, nameof(storageObjectId));
 
-        return mainWorker.Invoke(() => ProtocolHandler.GetStorageInfo(this, storageObjectId));
+        return worker.Invoke(() => device.GetStorageInfo(storageObjectId));
     }
 }

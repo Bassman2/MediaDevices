@@ -2,6 +2,26 @@
 
 partial class MediaDevice
 {
+    /// <summary>
+    /// Interface Path of the portable mediaDevice.
+    /// </summary>
+    /// <remarks>Readable when not connected.</remarks>
+    public string InterfacePath { get; private set; } = "";
+
+    public ManufacturerId ManufacturerId { get; private set; } = 0;
+    public ushort DeviceId { get; private set; } = 0;
+
+    /// <summary>
+    /// Is portable mediaDevice connected.
+    /// </summary>
+    public bool IsConnected { get; internal set; }
+
+    /// <summary>
+    /// Select if path is case sensitive or not. Default is not. 
+    /// </summary>
+    public bool IsCaseSensitive { get; set; } = false;
+
+
     #region IPortableDeviceManager
 
     internal string? friendlyName;
@@ -13,7 +33,7 @@ partial class MediaDevice
     /// Setting the property will perform the change via the device protocol handler.
     /// The setter validates connection state, non-null/empty input, and enforces thread-safety
     /// by delegating work to the main worker thread.
-    /// The backing field is updated with the value returned from <c>ProtocolHandler.SetFriendlyName</c>.
+    /// The backing field is updated with the value returned from <c>WpdDevice.SetFriendlyName</c>.
     /// </remarks>
     /// <exception cref="MediaDevices.NotConnectedException">Thrown when the device is not connected.</exception>
     /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="value"/> is null or empty.</exception>
@@ -25,7 +45,7 @@ partial class MediaDevice
             NotConnectedException.ThrowIfNotConnected(this);
             ArgumentNullException.ThrowIfNullOrEmpty(value, nameof(value));
             ThreadSafeWorkerException.ThrowIfNotOutside();
-            friendlyName = mainWorker.Invoke(() => ProtocolHandler.SetFriendlyName(this, value));
+            friendlyName = worker.Invoke(() => WpdDevice.SetFriendlyName(this, value));
         }
     }
 

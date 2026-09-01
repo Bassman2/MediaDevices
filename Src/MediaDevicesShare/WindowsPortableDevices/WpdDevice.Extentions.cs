@@ -1,17 +1,17 @@
-﻿namespace MediaDevices.Internal;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
-partial class ProtocolHandler
+partial class WpdDevice
 {
-    private  const string DeviceId = "DEVICE";
+    private  const string ObjecId = "DEVICE";
 
-    public static string? GetPropertyString(MediaDevice mediaDevice, PropertyKey propertyKey, string objectId = DeviceId)
+    public static string? GetPropertyString(MediaDevice mediaDevice, PropertyKey propertyKey, string objectId = ObjecId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         var keyCollection = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
         keyCollection.Add(ref propertyKey);
 
-        int err = mediaDevice.deviceProperties!.GetValues(objectId, keyCollection, out var deviceValues);
+        int err = deviceProperties!.GetValues(objectId, keyCollection, out var deviceValues);
         if (err != 0)
         {
             // some devices does not accept a keyCollection
@@ -29,7 +29,7 @@ partial class ProtocolHandler
         return value;
     }
 
-    public static int? GetPropertyInt(MediaDevice mediaDevice, PropertyKey propertyKey, string objectId = DeviceId)
+    public static int? GetPropertyInt(MediaDevice mediaDevice, PropertyKey propertyKey, string objectId = ObjecId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -54,7 +54,7 @@ partial class ProtocolHandler
         return value;
     }
 
-    public static uint? GetPropertyUInt(MediaDevice mediaDevice, PropertyKey propertyKey, string objectId = DeviceId)
+    public static uint? GetPropertyUInt(MediaDevice mediaDevice, PropertyKey propertyKey, string objectId = ObjecId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -79,7 +79,7 @@ partial class ProtocolHandler
         return value;
     }
 
-    public static DateTime? GetPropertyDateTime(MediaDevice mediaDevice, PropertyKey propertyKey, string objectId = DeviceId)
+    public static DateTime? GetPropertyDateTime(MediaDevice mediaDevice, PropertyKey propertyKey, string objectId = ObjecId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -108,7 +108,7 @@ partial class ProtocolHandler
     }
 
 
-    public static bool SetProperty(MediaDevice mediaDevice, PropertyKey propertyKey, string? value, string objectId = DeviceId)
+    public static bool SetProperty(MediaDevice mediaDevice, PropertyKey propertyKey, string? value, string objectId = ObjecId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -122,7 +122,7 @@ partial class ProtocolHandler
         return true;
     }
 
-    public static bool SetProperty(MediaDevice mediaDevice, PropertyKey propertyKey, int? value, string objectId = DeviceId)
+    public static bool SetProperty(MediaDevice mediaDevice, PropertyKey propertyKey, int? value, string objectId = ObjecId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -136,7 +136,7 @@ partial class ProtocolHandler
         return true;
     }
 
-    public static bool SetProperty(MediaDevice mediaDevice, PropertyKey propertyKey, uint? value, string objectId = DeviceId)
+    public static bool SetProperty(MediaDevice mediaDevice, PropertyKey propertyKey, uint? value, string objectId = ObjecId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -150,7 +150,7 @@ partial class ProtocolHandler
         return true;
     }
 
-    public static bool SetProperty(MediaDevice mediaDevice, PropertyKey propertyKey, DateTime? value, string objectId = DeviceId)
+    public static bool SetProperty(MediaDevice mediaDevice, PropertyKey propertyKey, DateTime? value, string objectId = ObjecId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 

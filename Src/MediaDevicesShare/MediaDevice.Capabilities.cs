@@ -11,7 +11,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedCommands(this.deviceCapabilities!));
+        return worker.InvokeEnumerable(() => device.SupportedCommands());
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.CommandOptions(this.deviceCapabilities!, command));
+        return worker.InvokeEnumerable(() => device.CommandOptions(command));
     }
 
 
@@ -37,7 +37,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.FunctionalCategories(this.deviceCapabilities!));
+        return worker.InvokeEnumerable(() => device.FunctionalCategories(this.deviceCapabilities!));
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.FunctionalObjects(this.deviceCapabilities!, functionalCategory));
+        return worker.InvokeEnumerable(() => device.FunctionalObjects(functionalCategory));
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedContentTypes(this.deviceCapabilities!, functionalCategory));
+        return worker.InvokeEnumerable(() => device.SupportedContentTypes(functionalCategory));
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedFormats(this.deviceCapabilities!, functionalCategory));
+        return worker.InvokeEnumerable(() => device.SupportedFormats(functionalCategory));
     }
 
     /// <summary>
@@ -89,14 +89,14 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedFormatProperties(this.deviceCapabilities!, format));
+        return worker.InvokeEnumerable(() => device.SupportedFormatProperties(format));
     }
 
     //public IEnumerable<MediaProperty> FixedPropertyAttributes(Formats format, PropertyKey key)
     //{
     //    NotConnectedException.ThrowIfNotConnected(this);
 
-    //    return mainWorker.InvokeEnumerable(() => ProtocolHandler.FixedPropertyAttributes(this.deviceCapabilities!, format, key));
+    //    return worker.InvokeEnumerable(() => device.FixedPropertyAttributes(this.deviceCapabilities!, format, key));
     //}
 
     /// <summary>
@@ -108,7 +108,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.SupportedEvents(this.deviceCapabilities!));
+        return worker.InvokeEnumerable(() => device.SupportedEvents());
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.EventOptions(this.deviceCapabilities!, ev));
+        return worker.InvokeEnumerable(() => device.EventOptions(ev));
     }
 
 }

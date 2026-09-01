@@ -1,6 +1,6 @@
-﻿namespace MediaDevices.Internal;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
-partial class ProtocolHandler
+partial class WpdDevice
 {
     public static IEnumerable<Commands> SupportedCommands(IPortableDeviceCapabilities capabilities, CancellationToken cancellationToken = default)
     {

@@ -13,25 +13,25 @@ public abstract class MediaBase(MediaDevice device, string objId = MediaBase.Dev
     public string? GetPropertyString(PropertyKey propertyKey)
     {
         NotConnectedException.ThrowIfNotConnected(mediaDevice);
-        return mainWorker.Invoke(() => ProtocolHandler.GetPropertyString(mediaDevice, propertyKey));
+        return mainWorker.Invoke(() => WpdDevice.GetPropertyString(mediaDevice, propertyKey));
     }
 
     public int? GetPropertyInt(PropertyKey propertyKey)
     {
         NotConnectedException.ThrowIfNotConnected(mediaDevice);
-        return mainWorker.Invoke(() => ProtocolHandler.GetPropertyInt(mediaDevice, propertyKey));
+        return mainWorker.Invoke(() => WpdDevice.GetPropertyInt(mediaDevice, propertyKey));
     }
 
     public uint? GetPropertyUInt(PropertyKey propertyKey)
     {
         NotConnectedException.ThrowIfNotConnected(mediaDevice);
-        return mainWorker.Invoke(() => ProtocolHandler.GetPropertyUInt(mediaDevice, propertyKey));
+        return mainWorker.Invoke(() => WpdDevice.GetPropertyUInt(mediaDevice, propertyKey));
     }
 
     public DateTime? GetPropertyDateTime(PropertyKey propertyKey)
     {
         NotConnectedException.ThrowIfNotConnected(mediaDevice);
-        return mainWorker.Invoke(() => ProtocolHandler.GetPropertyDateTime(mediaDevice, propertyKey));
+        return mainWorker.Invoke(() => WpdDevice.GetPropertyDateTime(mediaDevice, propertyKey));
     }
 
 
@@ -40,7 +40,7 @@ public abstract class MediaBase(MediaDevice device, string objId = MediaBase.Dev
         NotConnectedException.ThrowIfNotConnected(mediaDevice);
         ArgumentNullException.ThrowIfNull(value, nameof(value));
 
-        return mainWorker.Invoke(() => ProtocolHandler.SetProperty(mediaDevice, propertyKey, value));
+        return mainWorker.Invoke(() => WpdDevice.SetProperty(mediaDevice, propertyKey, value));
     }
 
     public bool SetProperty(PropertyKey propertyKey, int? value)
@@ -48,7 +48,7 @@ public abstract class MediaBase(MediaDevice device, string objId = MediaBase.Dev
         NotConnectedException.ThrowIfNotConnected(mediaDevice);
         ArgumentNullException.ThrowIfNull(value, nameof(value));
 
-        return mainWorker.Invoke(() => ProtocolHandler.SetProperty(mediaDevice, propertyKey, value));
+        return mainWorker.Invoke(() => WpdDevice.SetProperty(mediaDevice, propertyKey, value));
     }
 
     public bool SetProperty(PropertyKey propertyKey, uint? value)
@@ -56,7 +56,7 @@ public abstract class MediaBase(MediaDevice device, string objId = MediaBase.Dev
         NotConnectedException.ThrowIfNotConnected(mediaDevice);
         ArgumentNullException.ThrowIfNull(value, nameof(value));
 
-        return mainWorker.Invoke(() => ProtocolHandler.SetProperty(mediaDevice, propertyKey, value));
+        return mainWorker.Invoke(() => WpdDevice.SetProperty(mediaDevice, propertyKey, value));
     }
 
     public bool SetProperty(PropertyKey propertyKey, DateTime? value)
@@ -64,7 +64,7 @@ public abstract class MediaBase(MediaDevice device, string objId = MediaBase.Dev
         NotConnectedException.ThrowIfNotConnected(mediaDevice);
         ArgumentNullException.ThrowIfNull(value, nameof(value));
 
-        return mainWorker.Invoke(() => ProtocolHandler.SetProperty(mediaDevice, propertyKey, value));
+        return mainWorker.Invoke(() => WpdDevice.SetProperty(mediaDevice, propertyKey, value));
     }
 
    

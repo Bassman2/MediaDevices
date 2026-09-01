@@ -19,7 +19,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateDirectories(this, path));
+        return worker.InvokeEnumerable(() => WpdDevice.EnumerateDirectories(this, path));
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateDirectories(this, path, searchPattern, searchOption));
+        return worker.InvokeEnumerable(() => WpdDevice.EnumerateDirectories(this, path, searchPattern, searchOption));
     }
 
 
@@ -59,7 +59,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateFiles(this, path));
+        return worker.InvokeEnumerable(() => WpdDevice.EnumerateFiles(this, path));
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateFiles(this, path, searchPattern, searchOption));
+        return worker.InvokeEnumerable(() => WpdDevice.EnumerateFiles(this, path, searchPattern, searchOption));
     }
 
     /// <summary>
@@ -97,7 +97,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateFileSystemEntries(this, path));
+        return worker.InvokeEnumerable(() => WpdDevice.EnumerateFileSystemEntries(this, path));
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.EnumerateFileSystemEntries(this, path, searchPattern, searchOption));
+        return worker.InvokeEnumerable(() => WpdDevice.EnumerateFileSystemEntries(this, path, searchPattern, searchOption));
     }
 
     /// <summary>
@@ -220,7 +220,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.Invoke(() => ProtocolHandler.DirectoryExists(this, path));
+        return worker.Invoke(() => WpdDevice.DirectoryExists(this, path));
     }
 
     /// <summary>
@@ -237,7 +237,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.CreateDirectory(this, path));
+        worker.Invoke(() => WpdDevice.CreateDirectory(this, path));
     }
 
     /// <summary>
@@ -255,7 +255,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.DeleteDirectory(this, path, recursive));
+        worker.Invoke(() => WpdDevice.DeleteDirectory(this, path, recursive));
     }
     
     /// <summary>
@@ -271,7 +271,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.Invoke(() => ProtocolHandler.FileExists(this, path));
+        return worker.Invoke(() => WpdDevice.FileExists(this, path));
     }
 
     /// <summary>
@@ -288,7 +288,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.DeleteFile(this, path));
+        worker.Invoke(() => WpdDevice.DeleteFile(this, path));
     }
 
     /// <summary>
@@ -302,7 +302,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         FileSystemPathCheck.ThrowIfInvalidPath(newName, nameof(newName));
 
-        mainWorker.Invoke(() => ProtocolHandler.Rename(this, path, newName));
+        worker.Invoke(() => WpdDevice.Rename(this, path, newName));
     }
 
     #endregion
@@ -325,7 +325,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.DownloadFile(this, source, stream));
+        worker.Invoke(() => WpdDevice.DownloadFile(this, source, stream));
     }
 
     /// <summary>
@@ -344,7 +344,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.DownloadFile(this, source, destination));
+        worker.Invoke(() => WpdDevice.DownloadFile(this, source, destination));
     }
 
     /// <summary>
@@ -363,7 +363,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.DownloadIcon(this, source, stream));
+        worker.Invoke(() => WpdDevice.DownloadIcon(this, source, stream));
     }
 
     /// <summary>
@@ -385,7 +385,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.DownloadIcon(this, source, destination));
+        worker.Invoke(() => WpdDevice.DownloadIcon(this, source, destination));
     }
 
     /// <summary>
@@ -404,7 +404,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.DownloadThumbnail(this, source, stream));
+        worker.Invoke(() => WpdDevice.DownloadThumbnail(this, source, stream));
     }
 
     /// <summary>
@@ -423,7 +423,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.DownloadThumbnail(this, source, destination));
+        worker.Invoke(() => WpdDevice.DownloadThumbnail(this, source, destination));
     }
 
     /// <summary>
@@ -444,7 +444,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination);
         NotConnectedException.ThrowIfNotConnected(this);
                 
-        mainWorker.Invoke(() => ProtocolHandler.DownloadFolder(this, source, destination, recursive, ignoreExceptions));
+        worker.Invoke(() => WpdDevice.DownloadFolder(this, source, destination, recursive, ignoreExceptions));
     }
 
 
@@ -464,7 +464,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.UploadFile(this, stream, destination));
+        worker.Invoke(() => WpdDevice.UploadFile(this, stream, destination));
     }
 
     /// <summary>
@@ -483,7 +483,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.UploadFile(this, source, destination));
+        worker.Invoke(() => WpdDevice.UploadFile(this, source, destination));
     }
 
     /// <summary>
@@ -504,7 +504,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.UploadFolder(this, source, destination, recursive, ignoreExceptions));
+        worker.Invoke(() => WpdDevice.UploadFolder(this, source, destination, recursive, ignoreExceptions));
     }
 
 
@@ -527,7 +527,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-         return mainWorker.Invoke(() => ProtocolHandler.GetFileInfo(this, path));
+         return worker.Invoke(() => WpdDevice.GetFileInfo(this, path));
     }
 
     /// <summary>
@@ -545,7 +545,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.Invoke(() => ProtocolHandler.GetDirectoryInfo(this, path));
+        return worker.Invoke(() => WpdDevice.GetDirectoryInfo(this, path));
     }
 
     /// <summary>
@@ -556,7 +556,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeEnumerable(() => ProtocolHandler.GetDrives(this));
+        return worker.InvokeEnumerable(() => WpdDevice.GetDrives(this));
     }
 
     /// <summary>
@@ -568,7 +568,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.Invoke(() => ProtocolHandler.GetRootDirectory(this));
+        return worker.Invoke(() => WpdDevice.GetRootDirectory(this));
     }
 
     #endregion
@@ -590,7 +590,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.Invoke(() => ProtocolHandler.GetPathFromPersistentUniqueId(this, persistentUniqueId));
+        return worker.Invoke(() => WpdDevice.GetPathFromPersistentUniqueId(this, persistentUniqueId));
     }
 
     /// <summary>
@@ -606,7 +606,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.Invoke(() => ProtocolHandler.GetFileSystemInfoFromPersistentUniqueId(this, persistentUniqueId));
+        return worker.Invoke(() => WpdDevice.GetFileSystemInfoFromPersistentUniqueId(this, persistentUniqueId));
     }
 
     /// <summary>
@@ -623,7 +623,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        mainWorker.Invoke(() => ProtocolHandler.DownloadFileFromPersistentUniqueId(this, persistentUniqueId, destination));
+        worker.Invoke(() => WpdDevice.DownloadFileFromPersistentUniqueId(this, persistentUniqueId, destination));
     }
 
     /// <summary>
@@ -639,7 +639,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.Invoke(() => ProtocolHandler.OpenReadFromPersistentUniqueId(this, persistentUniqueId));
+        return worker.Invoke(() => WpdDevice.OpenReadFromPersistentUniqueId(this, persistentUniqueId));
     }
 
     /// <summary>
@@ -655,7 +655,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.Invoke(() => ProtocolHandler.OpenTextFromPersistentUniqueId(this, persistentUniqueId));
+        return worker.Invoke(() => WpdDevice.OpenTextFromPersistentUniqueId(this, persistentUniqueId));
     }
     
     #endregion

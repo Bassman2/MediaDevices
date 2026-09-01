@@ -18,7 +18,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeAsyncEnumerable<string>(() => ProtocolHandler.EnumerateDirectories(this, path, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable<string>(() => WpdDevice.EnumerateDirectories(this, path, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateDirectories(this, path, searchPattern, searchOption, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() => WpdDevice.EnumerateDirectories(this, path, searchPattern, searchOption, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFiles(this, path, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() => WpdDevice.EnumerateFiles(this, path, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFiles(this, path, searchPattern, searchOption, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() => WpdDevice.EnumerateFiles(this, path, searchPattern, searchOption, cancellationToken), cancellationToken);
 
     }
 
@@ -87,7 +87,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFileSystemEntries(this, path, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() => WpdDevice.EnumerateFileSystemEntries(this, path, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return mainWorker.InvokeAsyncEnumerable(() => ProtocolHandler.EnumerateFileSystemEntries(this, path, searchPattern, searchOption, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() => WpdDevice.EnumerateFileSystemEntries(this, path, searchPattern, searchOption, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -121,7 +121,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.DirectoryExists(this, path), cancellationToken);
+        return await worker.InvokeAsync(() => WpdDevice.DirectoryExists(this, path), cancellationToken);
     }
 
     /// <summary>
@@ -137,7 +137,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.CreateDirectory(this, path), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.CreateDirectory(this, path), cancellationToken);
     }
 
     /// <summary>
@@ -154,7 +154,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.DeleteDirectory(this, path, recursive), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.DeleteDirectory(this, path, recursive), cancellationToken);
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.FileExists(this, path), cancellationToken);
+        return await worker.InvokeAsync(() => WpdDevice.FileExists(this, path), cancellationToken);
     }
 
     /// <summary>
@@ -186,7 +186,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.DeleteFile(this, path), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.DeleteFile(this, path), cancellationToken);
     }
 
     /// <summary>
@@ -204,7 +204,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         FileSystemPathCheck.ThrowIfInvalidPath(newName, nameof(newName));
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.Rename(this, path, newName), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.Rename(this, path, newName), cancellationToken);
     }
 
     #region Download & Upload
@@ -221,7 +221,7 @@ partial class MediaDevice
     /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
     /// <remarks>
     /// The method does not dispose the provided <see cref="Stream"/>; the caller remains responsible for its lifetime.
-    /// The operation is executed via the internal <c>ProtocolHandler</c> on the library's main worker.
+    /// The operation is executed via the internal <c>WpdDevice</c> on the library's main worker.
     /// </remarks>
     public async Task DownloadFileAsync(string source, Stream stream, CancellationToken cancellationToken = default)
     {
@@ -229,7 +229,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadFile(this, source, stream), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.DownloadFile(this, source, stream), cancellationToken);
     }
 
     /// <summary>
@@ -242,7 +242,7 @@ partial class MediaDevice
     /// <exception cref="ArgumentException">Thrown when <paramref name="source"/> or <paramref name="destination"/> is an invalid path.</exception>
     /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
     /// <remarks>
-    /// The operation is executed via the internal <c>ProtocolHandler</c> on the library's main worker.
+    /// The operation is executed via the internal <c>WpdDevice</c> on the library's main worker.
     /// </remarks>
     public async Task DownloadFileAsync(string source, string destination, CancellationToken cancellationToken = default)
     {
@@ -250,7 +250,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadFile(this, source, destination), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.DownloadFile(this, source, destination), cancellationToken);
     }
 
     /// <summary>
@@ -272,7 +272,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadIcon(this, source, stream), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.DownloadIcon(this, source, stream), cancellationToken);
     }
 
     /// <summary>
@@ -290,7 +290,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadIcon(this, source, destination), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.DownloadIcon(this, source, destination), cancellationToken);
     }
 
     /// <summary>
@@ -312,7 +312,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadThumbnail(this, source, stream), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.DownloadThumbnail(this, source, stream), cancellationToken);
     }
 
     /// <summary>
@@ -330,7 +330,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadThumbnail(this, source, destination), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.DownloadThumbnail(this, source, destination), cancellationToken);
     }
 
     /// <summary>
@@ -350,7 +350,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadFolder(this, source, destination, recursive, ignoreExceptions), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.DownloadFolder(this, source, destination, recursive, ignoreExceptions), cancellationToken);
     }
 
     /// <summary>
@@ -368,7 +368,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.UploadFile(this, source, destination), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.UploadFile(this, source, destination), cancellationToken);
     }
 
     /// <summary>
@@ -388,7 +388,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.UploadFolder(this, source, destination, recursive, ignoreExceptions), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.UploadFolder(this, source, destination, recursive, ignoreExceptions), cancellationToken);
     }
 
     #endregion
@@ -409,7 +409,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.GetFileInfo(this, path), cancellationToken);
+        return await worker.InvokeAsync(() => WpdDevice.GetFileInfo(this, path), cancellationToken);
     }
 
     /// <summary>
@@ -426,7 +426,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.GetDirectoryInfo(this, path), cancellationToken);
+        return await worker.InvokeAsync(() => WpdDevice.GetDirectoryInfo(this, path), cancellationToken);
     }
 
     /// <summary>
@@ -440,7 +440,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.GetRootDirectory(this), cancellationToken);
+        return await worker.InvokeAsync(() => WpdDevice.GetRootDirectory(this), cancellationToken);
     }
 
     #endregion
@@ -463,7 +463,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.GetPathFromPersistentUniqueId(this, persistentUniqueId), cancellationToken);
+        return await worker.InvokeAsync(() => WpdDevice.GetPathFromPersistentUniqueId(this, persistentUniqueId), cancellationToken);
     }
 
     /// <summary>
@@ -482,7 +482,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.GetFileSystemInfoFromPersistentUniqueId(this, persistentUniqueId), cancellationToken);
+        return await worker.InvokeAsync(() => WpdDevice.GetFileSystemInfoFromPersistentUniqueId(this, persistentUniqueId), cancellationToken);
     }
 
     /// <summary>
@@ -500,7 +500,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await mainWorker.InvokeAsync(() => ProtocolHandler.DownloadFileFromPersistentUniqueId(this, persistentUniqueId, destination), cancellationToken);
+        await worker.InvokeAsync(() => WpdDevice.DownloadFileFromPersistentUniqueId(this, persistentUniqueId, destination), cancellationToken);
     }
 
     /// <summary>
@@ -520,7 +520,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.OpenReadFromPersistentUniqueId(this, persistentUniqueId), cancellationToken);
+        return await worker.InvokeAsync(() => WpdDevice.OpenReadFromPersistentUniqueId(this, persistentUniqueId), cancellationToken);
     }
 
     /// <summary>
@@ -540,7 +540,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNullOrEmpty(persistentUniqueId, nameof(persistentUniqueId));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await mainWorker.InvokeAsync(() => ProtocolHandler.OpenTextFromPersistentUniqueId(this, persistentUniqueId), cancellationToken);
+        return await worker.InvokeAsync(() => WpdDevice.OpenTextFromPersistentUniqueId(this, persistentUniqueId), cancellationToken);
     }
 
     #endregion

@@ -18,6 +18,6 @@ partial class MediaFileSystemInfo
     {
         NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
         ArgumentException.ThrowIfNullOrWhiteSpace(newName, nameof(newName));
-        await mainWorker.InvokeAsync (() => ProtocolHandler.Rename(this.item, newName), cancellationToken);
+        await mainWorker.InvokeAsync (() => WpdDevice.Rename(this.item, newName), cancellationToken);
     }
 }
