@@ -19,7 +19,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.EnumerateDirectories(this, path));
+        return worker.InvokeEnumerable(() => device.EnumerateDirectories(path));
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.EnumerateDirectories(this, path, searchPattern, searchOption));
+        return worker.InvokeEnumerable(() => device.EnumerateDirectories(path, searchPattern, searchOption));
     }
 
 
@@ -59,7 +59,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.EnumerateFiles(this, path));
+        return worker.InvokeEnumerable(() => device.EnumerateFiles(path));
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.EnumerateFiles(this, path, searchPattern, searchOption));
+        return worker.InvokeEnumerable(() => device.EnumerateFiles(path, searchPattern, searchOption));
     }
 
     /// <summary>
@@ -97,7 +97,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.EnumerateFileSystemEntries(this, path));
+        return worker.InvokeEnumerable(() => device.EnumerateFileSystemEntries(path));
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.EnumerateFileSystemEntries(this, path, searchPattern, searchOption));
+        return worker.InvokeEnumerable(() => device.EnumerateFileSystemEntries(path, searchPattern, searchOption));
     }
 
     /// <summary>
@@ -220,7 +220,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.Invoke(() => WpdDevice.DirectoryExists(this, path));
+        return worker.Invoke(() => device.DirectoryExists(path));
     }
 
     /// <summary>
@@ -237,7 +237,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.CreateDirectory(this, path));
+        worker.Invoke(() => device.CreateDirectory(path));
     }
 
     /// <summary>
@@ -255,7 +255,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.DeleteDirectory(this, path, recursive));
+        worker.Invoke(() => device.DeleteDirectory(path, recursive));
     }
     
     /// <summary>
@@ -271,7 +271,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.Invoke(() => WpdDevice.FileExists(this, path));
+        return worker.Invoke(() => device.FileExists(path));
     }
 
     /// <summary>
@@ -288,7 +288,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => WpdDevice.DeleteFile(this, path));
+        worker.Invoke(() => device.DeleteFile(path));
     }
 
     /// <summary>
@@ -302,7 +302,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         FileSystemPathCheck.ThrowIfInvalidPath(newName, nameof(newName));
 
-        worker.Invoke(() => WpdDevice.Rename(this, path, newName));
+        worker.Invoke(() => device.Rename(path, newName));
     }
 
     #endregion

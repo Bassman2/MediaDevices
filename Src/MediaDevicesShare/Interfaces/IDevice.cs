@@ -46,5 +46,28 @@ internal interface IDevice : IDisposable
 
     #endregion
 
+    #region FileSystem
+
+    IEnumerable<string> EnumerateDirectories(string path);
+    IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly);
+    IEnumerable<string> EnumerateFiles(string path);
+    IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly);
+    IEnumerable<string> EnumerateFileSystemEntries(string path);
+    IEnumerable<string> EnumerateFileSystemEntries(string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly);
+
+    bool DirectoryExists(string path);
+
+    void CreateDirectory(string path);
+
+    void DeleteDirectory(string path, bool recursive = false);
+
+    bool FileExists(string path);
+
+    void DeleteFile(string path);
+
+    void Rename(string path, string newName);
+
+    #endregion
+
 
 }
