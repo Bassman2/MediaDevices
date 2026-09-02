@@ -97,7 +97,7 @@ public class MediaDeviceException(string message) : Exception(message)
         int errorCode,
         string interf,
         string function,
-        Item item,
+        WpdItem item,
         [CallerLineNumber] int lineNumber = 0,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string filePath = "")

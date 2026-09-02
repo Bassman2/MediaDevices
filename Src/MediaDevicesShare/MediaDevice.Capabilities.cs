@@ -37,7 +37,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => device.FunctionalCategories(this.deviceCapabilities!));
+        return worker.InvokeEnumerable(() => device.FunctionalCategories());
     }
 
     /// <summary>

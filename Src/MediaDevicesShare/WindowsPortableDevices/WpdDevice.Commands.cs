@@ -19,7 +19,7 @@ partial class WpdDevice
         {
             return [];
         }
-        return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => Item.Create(mediaDevice, c).FullName);
+        return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => WpdItem.Create(mediaDevice, c).FullName);
     }
 
     //public staticvoid Supported(MediaDevice mediaDevice, string id)
@@ -44,7 +44,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item? item = Item.FindFolder(mediaDevice, path);
+        WpdItem? item = WpdItem.FindFolder(mediaDevice, path);
         Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
         cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item!.Id);
         return cmd.Send(mediaDevice.device!);
@@ -63,7 +63,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item? item = Item.FindFolder(mediaDevice, path);
+        WpdItem? item = WpdItem.FindFolder(mediaDevice, path);
         Command cmd = Command.Create(WPD.COMMAND_STORAGE_FORMAT);
         cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item!.Id);
         cmd.Send(mediaDevice.device!);

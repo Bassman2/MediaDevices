@@ -2,31 +2,31 @@
 
 partial class WpdDevice
 {
-    
-    public static IEnumerable<MediaDeviceService> GetServices(IPortableDeviceServiceManager serviceManager, MediaDevice mediaDevice, MediaDeviceServices serviceTypes)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Guid serviceGuid = serviceTypes.ToGuid();
-        uint num = 0;
-        int err = serviceManager.GetDeviceServices(mediaDevice.InterfacePath, ref serviceGuid, null, ref num);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceServiceManager), nameof(IPortableDeviceServiceManager.GetDeviceServices));
+    //public static IEnumerable<MediaDeviceService> GetServices(IPortableDeviceServiceManager serviceManager, MediaDevice mediaDevice, MediaDeviceServices serviceTypes)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
 
-        if (num == 0)
-        {
-            yield break;
-        }
-        string[] services = new string[num];
-        err = serviceManager.GetDeviceServices(mediaDevice.InterfacePath, ref serviceGuid, services, ref num);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceServiceManager), nameof(IPortableDeviceServiceManager.GetDeviceServices));
+    //    Guid serviceGuid = serviceTypes.ToGuid();
+    //    uint num = 0;
+    //    int err = serviceManager.GetDeviceServices(mediaDevice.InterfacePath, ref serviceGuid, null, ref num);
+    //    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceServiceManager), nameof(IPortableDeviceServiceManager.GetDeviceServices));
 
-        foreach (var service in services)
-        {
-            yield return new MediaDeviceService(mediaDevice, service);
-        }
-    }
+    //    if (num == 0)
+    //    {
+    //        yield break;
+    //    }
+    //    string[] services = new string[num];
+    //    err = serviceManager.GetDeviceServices(mediaDevice.InterfacePath, ref serviceGuid, services, ref num);
+    //    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceServiceManager), nameof(IPortableDeviceServiceManager.GetDeviceServices));
 
-    
+    //    foreach (var service in services)
+    //    {
+    //        yield return new MediaDeviceService(mediaDevice, service);
+    //    }
+    //}
+
+
     public static IEnumerable<Commands> SupportedCommands(IPortableDeviceServiceCapabilities capabilities)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
@@ -70,7 +70,7 @@ partial class WpdDevice
         }
     }
 
-   
+
     public static IEnumerable<Formats> SupportedFormats(IPortableDeviceServiceCapabilities capabilities)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
@@ -93,7 +93,7 @@ partial class WpdDevice
         }
     }
 
-    
+
 
     public static IEnumerable<Methods> SupportedMethods(IPortableDeviceServiceCapabilities capabilities)
     {

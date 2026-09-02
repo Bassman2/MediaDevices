@@ -11,10 +11,17 @@ internal partial class WpdDevice : IDevice, IDisposable
 
     private IPortableDevice? device;
     private IPortableDeviceCapabilities? deviceCapabilities;
-    private IPortableDeviceContent? deviceContent;
+    private string? eventCookie;
 
-    private IPortableDeviceProperties? deviceProperties;
 
+
+    // internal access for WpdItem
+    
+    internal IPortableDeviceProperties? deviceProperties;
+
+    internal IPortableDeviceContent? deviceContent;
+
+    
     /*
     private readonly IPortableDeviceManager deviceManager;
     internal readonly IPortableDeviceServiceManager serviceManager;
@@ -25,10 +32,13 @@ internal partial class WpdDevice : IDevice, IDisposable
     internal IPortableDeviceProperties? deviceProperties;
     internal IPortableDeviceCapabilities? deviceCapabilities;
     internal IPortableDeviceValues? deviceValues;    
-    internal string? eventCookie;
+    
     internal EventCallback? eventCallback;
     internal EventThreadHandler eventThreadHandler;
     */
+
+    public bool IsConnected { get; set; }
+
 
     //// \\?\usb#vid_04e8&pid_6860&ms_comp_mtp&samsung_android#6&6e4669b&4&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}
 
@@ -102,7 +112,7 @@ internal partial class WpdDevice : IDevice, IDisposable
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Content));
         err = deviceContent.Properties(out deviceProperties);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.Properties));
-        err = deviceProperties.GetValues(Item.RootId, null, out var deviceValues);
+        err = deviceProperties.GetValues(WpdItem.RootId, null, out var deviceValues);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
         // advice event handler
@@ -192,7 +202,7 @@ internal partial class WpdDevice : IDevice, IDisposable
 
 
 
-        err = deviceProperties.GetPropertyAttributes(Item.RootId, ref WPD.DEVICE_FRIENDLY_NAME, out var attributes);
+        err = deviceProperties.GetPropertyAttributes(WpdItem.RootId, ref WPD.DEVICE_FRIENDLY_NAME, out var attributes);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetPropertyAttributes), "DEVICE_FRIENDLY_NAME");
         err = attributes.GetBoolValue(ref WPD.PROPERTY_ATTRIBUTE_CAN_WRITE, out int canWriteInt);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue), "PROPERTY_ATTRIBUTE_CAN_WRITE");
@@ -201,32 +211,32 @@ internal partial class WpdDevice : IDevice, IDisposable
         IsConnected = true;
     }
 
-    public static void Disconnect(MediaDevice mediaDevice)
+    public void Disconnect()
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         int err;
-        if (!mediaDevice.IsConnected)
+        if (!IsConnected)
         {
             return;
         }
-        if (!string.IsNullOrEmpty(mediaDevice.eventCookie))
+        if (!string.IsNullOrEmpty(eventCookie))
         {
-            err = mediaDevice.device!.Unadvise(mediaDevice.eventCookie);
+            err = device!.Unadvise(eventCookie);
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Unadvise));
-            mediaDevice.eventCookie = null;
+            eventCookie = null;
         }
-        err = mediaDevice.device!.Close();
+        err = device!.Close();
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Close));
 
-        mediaDevice.IsConnected = false;
+        IsConnected = false;
     }
 
-    public static void Cancel(MediaDevice mediaDevice)
+    public void Cancel()
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
-        NotConnectedException.ThrowIfNotConnected(mediaDevice);
+        NotConnectedException.ThrowIfNotConnected(this);
     
-        mediaDevice.device!.Cancel();
+        device!.Cancel();
     }
 }

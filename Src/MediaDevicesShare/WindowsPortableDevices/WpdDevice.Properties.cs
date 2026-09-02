@@ -67,11 +67,11 @@ partial class WpdDevice
         IPortableDeviceValues devInValues = ComHelper.CreateInstance<IPortableDeviceValues>();
         devInValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value!);
 
-        int err = deviceProperties!.SetValues(Item.RootId, devInValues, out IPortableDeviceValues _);
+        int err = deviceProperties!.SetValues(WpdItem.RootId, devInValues, out IPortableDeviceValues _);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.SetValues));
 
         // reload mediaDevice values with new friendly name 
-        err = deviceProperties.GetValues(Item.RootId, null, out var deviceValues);
+        err = deviceProperties.GetValues(WpdItem.RootId, null, out var deviceValues);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
         err = deviceValues!.GetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, out string name);

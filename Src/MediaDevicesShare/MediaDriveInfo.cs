@@ -32,7 +32,7 @@ public sealed partial class MediaDriveInfo
                 StorageType.RemovableRam or StorageType.RemovableRom => DriveType.Removable,
                 _ => DriveType.Unknown,
             };
-            this.RootDirectory = new MediaDirectoryInfo(device, Item.Create(device, this.objectId));
+            this.RootDirectory = new MediaDirectoryInfo(device, WpdItem.Create(device, this.objectId));
             this.Name = this.RootDirectory.FullName;
             this.VolumeLabel = info.Description;
         }

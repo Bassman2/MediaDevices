@@ -110,7 +110,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\FindFieldsGeneratorAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\EventThreadHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\FileSystemPathCheck.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\Item.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\Enums\ItemType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\KeyAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\Enums\ObjectProperties.cs" />

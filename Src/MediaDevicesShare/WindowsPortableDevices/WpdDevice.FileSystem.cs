@@ -10,7 +10,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
         return item.GetChildren().Where(i => i.Type != ItemType.File).Select(i => i.FullName);
     }
 
@@ -18,7 +18,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
         return item.GetChildren(searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => i.FullName);
     }
 
@@ -26,7 +26,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
         return item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => i.FullName);
     }
 
@@ -34,7 +34,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
         return item.GetChildren(searchPattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.FullName);
     }
 
@@ -42,7 +42,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
         return item.GetChildren().Select(i => i.FullName);
     }
 
@@ -50,7 +50,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
         return item.GetChildren(searchPattern, searchOption).Select(i => i.FullName);
     }
 
@@ -58,7 +58,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return Item.FindFolder(mediaDevice, path) != null;
+        return WpdItem.FindFolder(mediaDevice, path) != null;
     }
 
     public void CreateDirectory(string path)
@@ -66,14 +66,14 @@ partial class WpdDevice
         ThreadSafeWorkerException.ThrowIfNotInside();
         
         var now = DateTime.Now;
-        Item.GetRoot(mediaDevice).CreateSubdirectory(path, now, now, now);
+        WpdItem.GetRoot(mediaDevice).CreateSubdirectory(path, now, now, now);
     }
 
     public void DeleteDirectory(string path, bool recursive = false)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Directory {path} not found.");
+        WpdItem item = WpdItem.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"Directory {path} not found.");
         item.Delete(recursive);
     }
 
@@ -81,7 +81,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return Item.FindFile(mediaDevice, path) != null;
+        return WpdItem.FindFile(mediaDevice, path) != null;
     }
 
     public void DeleteFile(string path)
@@ -89,7 +89,7 @@ partial class WpdDevice
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         // File.Delete throws DirectoryNotFoundException if path was not found; never FileNotFoundException
-        Item item = Item.FindFile(mediaDevice, path) ?? throw new DirectoryNotFoundException($"File {path} not found.");
+        WpdItem item = WpdItem.FindFile(mediaDevice, path) ?? throw new DirectoryNotFoundException($"File {path} not found.");
         item.Delete();
     }
 
@@ -97,7 +97,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindItem(mediaDevice, path) ?? throw new FileNotFoundException($"Path {path} not found.", path);
+        WpdItem item = WpdItem.FindItem(mediaDevice, path) ?? throw new FileNotFoundException($"Path {path} not found.", path);
         item.Rename(newName);
     }
 
@@ -105,39 +105,39 @@ partial class WpdDevice
 
     #region Download and Upload path based
 
-    public void DownloadFile(string source, Stream stream)
+    public void DownloadFile(string source, Stream stream, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
         using var sourceStream = item.OpenRead();
         sourceStream.CopyTo(stream);
     }
 
-    public void DownloadFile(string source, string destination)
+    public void DownloadFile(string source, string destination, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
         using var sourceStream = item.OpenRead();
         using var destinationStream = File.Create(destination);
         sourceStream.CopyTo(destinationStream);
     }
 
-    public void DownloadIcon(string source, Stream stream)
+    public void DownloadIcon(string source, Stream stream, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
         using var sourceStream = item.OpenReadIcon();
         sourceStream.CopyTo(stream);
     }
 
-    public void DownloadIcon(string source, string destination)
+    public void DownloadIcon(string source, string destination, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
         using var sourceStream = item.OpenReadIcon();
         using var destinationStream = File.Create(destination);
         sourceStream.CopyTo(destinationStream);
@@ -147,7 +147,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
         using Stream sourceStream = item.OpenReadThumbnail();
         sourceStream.CopyTo(stream);
     }
@@ -156,7 +156,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.FindFile(mediaDevice, source) ?? throw new FileNotFoundException($"File {source} not found.");
         using Stream sourceStream = item.OpenReadThumbnail();
         using var destinationStream = File.Create(destination);
         sourceStream.CopyTo(destinationStream);
@@ -167,7 +167,7 @@ partial class WpdDevice
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Directory.CreateDirectory(destination);
-        Item dir = Item.FindFolder(mediaDevice, source) ?? throw new DirectoryNotFoundException($"{source} not found.");
+        WpdItem dir = WpdItem.FindFolder(mediaDevice, source) ?? throw new DirectoryNotFoundException($"{source} not found.");
         if (recursive)
         {
             foreach (var item in dir.GetChildren("*", SearchOption.AllDirectories))
@@ -193,7 +193,7 @@ partial class WpdDevice
         }
     }
 
-    private void DownloadFileIntern(Item item, string path, bool ignoreExceptions)
+    private void DownloadFileIntern(WpdItem item, string path, bool ignoreExceptions)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -219,7 +219,7 @@ partial class WpdDevice
 
         string? folder = Path.GetDirectoryName(destination);
         string fileName = Path.GetFileName(destination);
-        Item item = Item.FindFolder(mediaDevice, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
+        WpdItem item = WpdItem.FindFolder(mediaDevice, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
 
         if (item.GetChildren().Any(i => EqualsName(i.Name, fileName, mediaDevice.IsCaseSensitive)))
         {
@@ -235,7 +235,7 @@ partial class WpdDevice
 
         string? folder = Path.GetDirectoryName(destination);
         string fileName = Path.GetFileName(destination);
-        Item item = Item.FindFolder(mediaDevice, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
+        WpdItem item = WpdItem.FindFolder(mediaDevice, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
 
         if (item.GetChildren().Any(i => EqualsName(i.Name, fileName, mediaDevice.IsCaseSensitive)))
         {
@@ -261,7 +261,7 @@ partial class WpdDevice
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         var now = DateTime.Now;
-        Item.GetRoot(mediaDevice).CreateSubdirectory(destination, now, now, now);
+        WpdItem.GetRoot(mediaDevice).CreateSubdirectory(destination, now, now, now);
         if (recursive)
         {
             var list = new DirectoryInfo(source).EnumerateFileSystemInfos("*", SearchOption.AllDirectories);
@@ -283,7 +283,7 @@ partial class WpdDevice
                 }
                 else
                 {
-                    Item.GetRoot(mediaDevice).CreateSubdirectory(absDestination, now, now, now);
+                    WpdItem.GetRoot(mediaDevice).CreateSubdirectory(absDestination, now, now, now);
                 }
             }
         }
@@ -309,7 +309,7 @@ partial class WpdDevice
     //    ThreadSafeWorkerException.ThrowIfNotInside();
     //    try
     //    {
-    //        Item item = Item.FindFolder(mediaDevice, fi.DirectoryName!) ?? throw new DirectoryNotFoundException($"Directory {fi.DirectoryName} not found.");
+    //        WpdItem item = WpdItem.FindFolder(mediaDevice, fi.DirectoryName!) ?? throw new DirectoryNotFoundException($"Directory {fi.DirectoryName} not found.");
     //        string path = Path.Combine(destination, GetLocalPath(source, fi.FullName));
     //        using FileStream stream = fi.OpenRead();
     //        item.UploadFile(path, stream,
@@ -333,7 +333,7 @@ partial class WpdDevice
 
         try
         {
-            Item item = Item.FindFolder(mediaDevice, fi.DirectoryName!) ?? throw new DirectoryNotFoundException($"Directory {fi.DirectoryName} not found.");
+            WpdItem item = WpdItem.FindFolder(mediaDevice, fi.DirectoryName!) ?? throw new DirectoryNotFoundException($"Directory {fi.DirectoryName} not found.");
             string path = Path.Combine(destination, GetLocalPath(source, fi.FullName));
             using FileStream stream = fi.OpenRead();
             item.UploadFile(path, stream,
@@ -360,7 +360,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        var item = Item.FindItem(mediaDevice, path) ?? throw new FileNotFoundException($"{path} not found.", path);
+        var item = WpdItem.FindItem(mediaDevice, path) ?? throw new FileNotFoundException($"{path} not found.", path);
         return new MediaFileInfo(mediaDevice, item);
     }
 
@@ -368,7 +368,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        var item = Item.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"{path} not found.");
+        var item = WpdItem.FindFolder(mediaDevice, path) ?? throw new DirectoryNotFoundException($"{path} not found.");
         return new MediaDirectoryInfo(mediaDevice, item);
     }
 
@@ -389,14 +389,14 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return new MediaDirectoryInfo(mediaDevice, Item.GetRoot(mediaDevice));
+        return new MediaDirectoryInfo(mediaDevice, WpdItem.GetRoot(mediaDevice));
     }
 
     public void DownloadFileFromPersistentUniqueId(string persistentUniqueId, Stream stream)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item? item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
+        WpdItem? item = WpdItem.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
         if (item == null || !item.IsFile)
         {
             throw new FileNotFoundException($"{persistentUniqueId} not found.");
@@ -413,7 +413,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
+        WpdItem item = WpdItem.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
         return item.GetPath();
     }
 
@@ -421,7 +421,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
+        WpdItem item = WpdItem.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
         return (MediaFileSystemInfo)(item.IsFile ? new MediaFileInfo(mediaDevice, item) : new MediaDirectoryInfo(mediaDevice, item));
     }
 
@@ -429,7 +429,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item? item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
+        WpdItem? item = WpdItem.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
         if (item == null || !item.IsFile)
         {
             throw new FileNotFoundException($"{persistentUniqueId} not found.");
@@ -443,7 +443,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item? item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
+        WpdItem? item = WpdItem.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
         if (item == null || !item.IsFile)
         {
             throw new FileNotFoundException($"{persistentUniqueId} not found.");
@@ -455,7 +455,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item? item = Item.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
+        WpdItem? item = WpdItem.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
         if (item == null || !item.IsFile)
         {
             throw new FileNotFoundException($"{persistentUniqueId} not found.");
@@ -469,43 +469,43 @@ partial class WpdDevice
 
     #region MediaFileSystemInfo
 
-    public void Refresh(Item item)
+    public void Refresh(WpdItem item)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         item.Refresh();
     }
 
-    public MediaDirectoryInfo? GetParent(Item item)
+    public MediaDirectoryInfo? GetParent(WpdItem item)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Item? parent = item.Parent;
-        return parent == null ? null : new MediaDirectoryInfo(mediaDevice, parent);
+        WpdItem? parent = item.Parent;
+        return parent == null ? null : new MediaDirectoryInfo(this, parent);
     }
 
-    public void SetCreationTime(Item item, DateTime? value)
+    public void SetCreationTime(WpdItem item, DateTime? value)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         item.SetDateCreated(value.GetValueOrDefault(DateTime.Now));
     }
 
-    public void SetLastWriteTime(Item item, DateTime? value)
+    public void SetLastWriteTime(WpdItem item, DateTime? value)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         item.SetDateModified(value.GetValueOrDefault(DateTime.Now));
     }
 
-    public void SetDateAuthored(Item item, DateTime? value)
+    public void SetDateAuthored(WpdItem item, DateTime? value)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         item.SetDateAuthored(value.GetValueOrDefault(DateTime.Now));
     }
 
-    public void Rename(Item item, string newName)
+    public void Rename(WpdItem item, string newName)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -516,7 +516,7 @@ partial class WpdDevice
 
     #region MediaDirectoryInfo
 
-    public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(Item item, CancellationToken cancellationToken = default)
+    public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(WpdItem item, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -524,27 +524,27 @@ partial class WpdDevice
 
     }
 
-    public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(Item item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
+    public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(WpdItem item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         return item.GetChildren(searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(mediaDevice, i));
     }
 
-    public IEnumerable<MediaFileInfo> EnumerateFiles(Item item, CancellationToken cancellationToken = default)
+    public IEnumerable<MediaFileInfo> EnumerateFiles(WpdItem item, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         return item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(mediaDevice, i));
     }
-    public IEnumerable<MediaFileInfo> EnumerateFiles(Item item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
+    public IEnumerable<MediaFileInfo> EnumerateFiles(WpdItem item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         return item.GetChildren(searchPattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(mediaDevice, i));
     }
 
-    public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(Item item, CancellationToken cancellationToken = default)
+    public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(WpdItem item, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -552,7 +552,7 @@ partial class WpdDevice
             (MediaFileSystemInfo)new MediaFileInfo(mediaDevice, i) :
             (MediaFileSystemInfo)new MediaDirectoryInfo(mediaDevice, i));
     }
-    public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(Item item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
+    public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(WpdItem item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -561,13 +561,13 @@ partial class WpdDevice
             (MediaFileSystemInfo)new MediaDirectoryInfo(mediaDevice, i));
     }
 
-    public MediaDirectoryInfo CreateSubdirectory(Item item, string path)
+    public MediaDirectoryInfo CreateSubdirectory(WpdItem item, string path)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         var now = DateTime.Now;
 
-        Item? dirItem = item.CreateSubdirectory(path, now, now, now);
+        WpdItem? dirItem = item.CreateSubdirectory(path, now, now, now);
         return new MediaDirectoryInfo(mediaDevice, dirItem!);
     }
 
@@ -575,7 +575,7 @@ partial class WpdDevice
 
     #region MediaFileInfo
 
-    public void CopyTo(Item item, string destFileName, bool overwrite)
+    public void CopyTo(WpdItem item, string destFileName, bool overwrite)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -584,7 +584,7 @@ partial class WpdDevice
         sourceStream.CopyTo(file);
     }
 
-    public void CopyIconTo(Item item, string destFileName, bool overwrite)
+    public void CopyIconTo(WpdItem item, string destFileName, bool overwrite)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -593,7 +593,7 @@ partial class WpdDevice
         sourceStream.CopyTo(file);
     }
 
-    public void CopyThumbnailTo(Item item, string destFileName, bool overwrite)
+    public void CopyThumbnailTo(WpdItem item, string destFileName, bool overwrite)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();   
 
@@ -602,28 +602,28 @@ partial class WpdDevice
         sourceStream.CopyTo(file);
     }
 
-    public Stream OpenRead(Item item)
+    public Stream OpenRead(WpdItem item)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         return item.OpenRead();
     }
 
-    public StreamReader OpenText(Item item)
+    public StreamReader OpenText(WpdItem item)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         return new StreamReader(item.OpenRead());
     }
 
-    public Stream OpenIcon(Item item)
+    public Stream OpenIcon(WpdItem item)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         return item.OpenReadIcon();
     }
 
-    public Stream OpenThumbnail(Item item)
+    public Stream OpenThumbnail(WpdItem item)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 

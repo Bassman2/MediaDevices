@@ -15,20 +15,22 @@ internal interface IDevice : IDisposable
 
     #region Capabilities
 
-    IEnumerable<Commands> SupportedCommands();
+    IEnumerable<Commands> SupportedCommands(CancellationToken cancellationToken = default);
 
-    IEnumerable<MediaProperty> CommandOptions(Commands command);
+    IEnumerable<MediaProperty> CommandOptions(Commands command, CancellationToken cancellationToken = default);
 
-    IEnumerable<string> FunctionalObjects(FunctionalCategory functionalCategory);
+    IEnumerable<FunctionalCategory> FunctionalCategories(CancellationToken cancellationToken = default);
 
-    IEnumerable<ContentType> SupportedContentTypes(FunctionalCategory functionalCategory);
+    IEnumerable<string> FunctionalObjects(FunctionalCategory functionalCategory, CancellationToken cancellationToken = default);
 
-    IEnumerable<Formats> SupportedFormats(ContentType functionalCategory);
+    IEnumerable<ContentType> SupportedContentTypes(FunctionalCategory functionalCategory, CancellationToken cancellationToken = default);
 
-    IEnumerable<string> SupportedFormatProperties(Formats format);
+    IEnumerable<Formats> SupportedFormats(ContentType functionalCategory, CancellationToken cancellationToken = default);
+
+    IEnumerable<string> SupportedFormatProperties(Formats format, CancellationToken cancellationToken = default);
 
 
-    IEnumerable<Events> SupportedEvents();
+    IEnumerable<Events> SupportedEvents(CancellationToken cancellationToken = default);
 
     IEnumerable<(string, string)> EventOptions(Events ev);
 
