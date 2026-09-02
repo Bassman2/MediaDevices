@@ -69,16 +69,16 @@ public sealed partial class MediaDevice : IDisposable
         worker.Invoke(() => device.Cancel());
     }
 
-    ///// <summary>
-    ///// Get mediaDevice services
-    ///// </summary>
-    ///// <param name="serviceType">Service type</param>
-    ///// <returns>List of services</returns>
-    //public IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices serviceType)
-    //{
-    //    NotConnectedException.ThrowIfNotConnected(this);
-    //    return worker.InvokeEnumerable(() => WpdDevice.GetServices(serviceManager, this, serviceType));
-    //}
+    /// <summary>
+    /// Get mediaDevice services
+    /// </summary>
+    /// <param name="serviceType">Service type</param>
+    /// <returns>List of services</returns>
+    public IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices serviceType)
+    {
+        NotConnectedException.ThrowIfNotConnected(this);
+        return worker.InvokeEnumerable(() => device.GetServices(serviceType));
+    }
 
     #endregion
 }

@@ -39,6 +39,8 @@ internal partial class WpdDevice : IDevice, IDisposable
 
     public bool IsConnected { get; set; }
 
+    public bool IsCaseSensitive { get; set; }
+
 
     //// \\?\usb#vid_04e8&pid_6860&ms_comp_mtp&samsung_android#6&6e4669b&4&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}
 
@@ -123,10 +125,10 @@ internal partial class WpdDevice : IDevice, IDisposable
 
         // properties
 
-        if (device.GetPnPDeviceID(out string pnPDeviceID) == OK)
-        {
-            PnPDeviceID = pnPDeviceID;
-        }
+        //if (device.GetPnPDeviceID(out string pnPDeviceID) == OK)
+        //{
+        //    PnPDeviceID = pnPDeviceID;
+        //}
 
         
         if (deviceValues.GetStringValue(ref WPD.OBJECT_NAME, out string objectName) == OK)

@@ -16,8 +16,8 @@ partial class MediaFileSystemInfo
     /// </remarks>
     public async Task RenameAsync(string newName, CancellationToken cancellationToken = default)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        NotConnectedException.ThrowIfNotConnected(device);
         ArgumentException.ThrowIfNullOrWhiteSpace(newName, nameof(newName));
-        await mainWorker.InvokeAsync (() => WpdDevice.Rename(this.item, newName), cancellationToken);
+        await worker.InvokeAsync (() => device.Rename(this.item, newName), cancellationToken);
     }
 }

@@ -1,11 +1,10 @@
-﻿using System.Security.Cryptography;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace MediaDevices.Interfaces;
+﻿namespace MediaDevices.Interfaces;
 
 internal interface IDevice : IDisposable
 {
     bool IsConnected { get; }
+
+    bool IsCaseSensitive { get; }
 
     void Connect(MediaDeviceAccess access, MediaDeviceShare share, bool enableCache);
 
@@ -170,6 +169,14 @@ internal interface IDevice : IDisposable
     bool SetProperty(PropertyKey propertyKey, uint? value);
 
     bool SetProperty(PropertyKey propertyKey, DateTime? value);
+
+    #endregion
+
+    #region Services
+
+    IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices serviceType);
+
+    void ServiceClose();
 
     #endregion
 

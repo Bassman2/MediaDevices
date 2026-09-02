@@ -8,7 +8,7 @@ public abstract partial class MediaFileSystemInfo
 {
     internal static readonly ThreadSafeWorker worker = ThreadSafeWorker.Instance;
     internal readonly IDevice device;
-    protected readonly string objectId;
+    
 
     internal MediaFileSystemInfo(IDevice device, string objectId)
     {
@@ -31,89 +31,71 @@ public abstract partial class MediaFileSystemInfo
         get
         {
             NotConnectedException.ThrowIfNotConnected(device);
-            return worker.Invoke(() => device.GetParent(objectId));
+            return worker.Invoke(() => device.GetParent(ObjectId));
         }
     }
+
+    public string ObjectId { get; internal set; }
 
     /// <summary>
     /// Gets the full path of the directory or file.
     /// </summary>
-    public string FullName => this.item.FullName;
+    public string FullName { get; internal set; }
 
     /// <summary>
     /// For files, gets the name of the file. For directories, gets the name of the last directory in the hierarchy if a hierarchy exists. Otherwise, the Name property gets the name of the directory.
     /// </summary>
-    public string Name => this.item.Name;
+    public string Name { get; internal set; }
 
     /// <summary>
     /// Gets the size, in bytes, of the current file.   
     /// </summary>
-    public ulong Length => this.item.Size;
+    public ulong Length { get; internal set; }
 
     /// <summary>
     /// Gets the creation time of the current file or directory.
     /// </summary>
-    public DateTime? CreationTime
-    {
-        get => this.item.DateCreated;
-        set
-        {
-            NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            worker.Invoke(() => WpdDevice.SetCreationTime(this.item, value));
-        }
-    }
+    public DateTime? CreationTime { get; internal set; }
+    //{
+    //    get => this.item.DateCreated;
+    //    set
+    //    {
+    //        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+    //        worker.Invoke(() => WpdDevice.SetCreationTime(this.item, value));
+    //    }
+    //}
 
     /// <summary>
     /// Gets the time when the current file or directory was last written to.
     /// </summary>
-    public DateTime? LastWriteTime
-    {
-        get => this.item.DateModified;
-        set
-        {
-            NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            worker.Invoke(() => WpdDevice.SetLastWriteTime(this.item, value));
-        }
-    }
+    public DateTime? LastWriteTime { get; internal set; }
+    //{
+    //    get => this.item.DateModified;
+    //    set
+    //    {
+    //        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+    //        worker.Invoke(() => WpdDevice.SetLastWriteTime(this.item, value));
+    //    }
+    //}
 
     /// <summary>
     /// Gets the time when the current file was authored.
     /// </summary>
-    public DateTime? DateAuthored
-    {
-        get => this.item.DateAuthored;
-        set
-        {
-            NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-            worker.Invoke(() => WpdDevice.SetDateAuthored(this.item, value));
-        }
-    }
+    public DateTime? DateAuthored { get; internal set; }
+    //{
+    //    get => this.item.DateAuthored;
+    //    set
+    //    {
+    //        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+    //        worker.Invoke(() => WpdDevice.SetDateAuthored(this.item, value));
+    //    }
+    //}
 
     /// <summary>
     /// Gets the attributes for the current file, directory or object.
     /// </summary>
-    public MediaFileAttributes Attributes
-    {
-        get
-        {
-            MediaFileAttributes attributes = this.item.Type switch
-            {
-                ItemType.File => MediaFileAttributes.Normal,
-                ItemType.Folder => MediaFileAttributes.Directory,
-                _ => MediaFileAttributes.Object
-            };
-            attributes |= this.item.CanDelete ? MediaFileAttributes.CanDelete : 0;
-            attributes |= this.item.IsSystem ? MediaFileAttributes.System : 0;
-            attributes |= this.item.IsHidden ? MediaFileAttributes.Hidden : 0;
-            attributes |= this.item.IsDRMProtected ? MediaFileAttributes.DRMProtected : 0;
-            return attributes; 
-        }
-    }
+    public MediaFileAttributes Attributes { get; internal set; }
 
-    /// <summary>
-    /// Gets the id of the MTP object.
-    /// </summary>
-    public string Id => this.item.Id;
 
     /// <summary>
     /// Gets the persistent unique id of the MTP object.
@@ -121,7 +103,7 @@ public abstract partial class MediaFileSystemInfo
     /// <remarks>
     /// A unique cross session object ID, that is not changing when mediaDevice is disconnected.
     /// </remarks>
-    public string PersistentUniqueId => this.item.PersistentUniqueId;
+    public string PersistentUniqueId { get; internal set; }
 
     #endregion
 
@@ -155,7 +137,7 @@ public abstract partial class MediaFileSystemInfo
     /// Gets the hash code for the current object.
     /// </summary>
     /// <returns>A hash code for the current object.</returns>
-    public override int GetHashCode() => this.item.Id.GetHashCode();
+    public override int GetHashCode() => ObjectId.GetHashCode();
 
     /// <summary>
     /// Determines whether the specified object is equal to the current object.
@@ -164,7 +146,7 @@ public abstract partial class MediaFileSystemInfo
     /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
     public override bool Equals(object? obj)
     {
-        return obj is MediaFileSystemInfo mfsi && mfsi.Id == this.Id;
+        return obj is MediaFileSystemInfo mfsi && mfsi.ObjectId == ObjectId;
     }
 
     #endregion

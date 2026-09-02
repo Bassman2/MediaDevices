@@ -33,6 +33,8 @@ internal class WpdItem
    
 
     private readonly WpdDevice device;
+
+
     private string? name;
     private readonly string? path;
     private WpdItem? parent;
@@ -55,11 +57,11 @@ internal class WpdItem
         return new WpdItem(device, RootId, @"\");
     }
 
-    public static WpdItem Create(WpdDevice device, string id, string? path = null)
+    public static WpdItem Create(WpdDevice device, string objectId, string? path = null)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return new WpdItem(device, id, path);
+        return new WpdItem(device, objectId, path);
     }
 
     public static WpdItem? FindFolder(WpdDevice device, string path)
@@ -130,15 +132,15 @@ internal class WpdItem
         //return string.IsNullOrEmpty(mediaObjectId) ? null : WpdItem.Create(mediaDevice, mediaObjectId);
     }
 
-    private WpdItem(WpdDevice device, string id, string? path)
+    private WpdItem(WpdDevice device, string objectId, string? path)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         this.device = device;
-        this.Id = id;
+        this.ObjectId = objectId;
         this.path = path;
 
-        if (id == WpdItem.RootId)
+        if (objectId == WpdItem.RootId)
         {
             this.Name = @"\";
             this.FullName = @"\";
@@ -163,13 +165,13 @@ internal class WpdItem
     /// </summary>
     /// <param name="device"></param>
     /// <param name="id"></param>
-    private WpdItem(WpdDevice device, string id)
+    private WpdItem(WpdDevice device, string objectId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         this.device = device;
-        this.Id = id;
-        if (id == WpdItem.RootId)
+        this.ObjectId = objectId;
+        if (objectId == WpdItem.RootId)
         {
             this.Name = @"\";
             this.FullName = @"\";
@@ -185,7 +187,7 @@ internal class WpdItem
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        if (this.Id != WpdItem.RootId)
+        if (ObjectId != WpdItem.RootId)
         {
             GetProperties();
 
@@ -329,7 +331,7 @@ internal class WpdItem
 
     #region Value Properties
 
-    public string Id { get; private set; } = string.Empty;
+    public string ObjectId { get; private set; } = string.Empty;
     public string Name { get; private set; } = string.Empty;
     public string FullName { get; set; } = string.Empty;
     public ItemType Type { get; private set; }        
@@ -348,7 +350,7 @@ internal class WpdItem
     public string ParentId { get; private set; } = string.Empty;
     public string PersistentUniqueId { get; private set; } = string.Empty;
 
-    public bool IsRoot => this.Id == RootId;
+    public bool IsRoot => this.ObjectId == RootId;
 
     public bool IsFile => this.Type == ItemType.File; 
 
@@ -808,9 +810,57 @@ internal class WpdItem
         Refresh();
     }
 
+    public MediaFileInfo ToFileInfo()
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+        return new MediaFileInfo(device, ObjectId)
+        {
+            ObjectId = this.ObjectId,
+            FullName = this.FullName,
+            Name = this.Name,
+            Length = this.Size,
+            CreationTime = this.DateCreated,
+            LastWriteTime = this.DateModified,
+            DateAuthored = this.DateAuthored,
+            Attributes = GetAttributes(),
+            PersistentUniqueId = this.PersistentUniqueId
+        };
+    }
+    public MediaDirectoryInfo ToDirectoryInfo()
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+        return new MediaDirectoryInfo(device, ObjectId)
+        {
+            ObjectId = this.ObjectId,
+            FullName = this.FullName,
+            Name = this.Name,
+            Length = this.Size,
+            CreationTime = this.DateCreated,
+            LastWriteTime = this.DateModified,
+            DateAuthored = this.DateAuthored,
+            Attributes = GetAttributes(),
+            PersistentUniqueId = this.PersistentUniqueId
+        };
+    }
+
     #endregion
 
     #region private
+
+    private MediaFileAttributes GetAttributes()
+    {
+        MediaFileAttributes attributes = Type switch
+        {
+            ItemType.File => MediaFileAttributes.Normal,
+            ItemType.Folder => MediaFileAttributes.Directory,
+            _ => MediaFileAttributes.Object
+        };
+        attributes |= CanDelete ? MediaFileAttributes.CanDelete : 0;
+        attributes |= IsSystem ? MediaFileAttributes.System : 0;
+        attributes |= IsHidden ? MediaFileAttributes.Hidden : 0;
+        attributes |= IsDRMProtected ? MediaFileAttributes.DRMProtected : 0;
+        return attributes;
+    }
 
     private static bool EqualsName(string a, string b, bool isCaseSensitive)
     {
