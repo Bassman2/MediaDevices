@@ -13,6 +13,8 @@ internal partial class WpdDevice : IDevice, IDisposable
     private IPortableDeviceCapabilities? deviceCapabilities;
     private IPortableDeviceContent? deviceContent;
 
+    private IPortableDeviceProperties? deviceProperties;
+
     /*
     private readonly IPortableDeviceManager deviceManager;
     internal readonly IPortableDeviceServiceManager serviceManager;
@@ -98,7 +100,7 @@ internal partial class WpdDevice : IDevice, IDisposable
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Capabilities));
         err = device.Content(out deviceContent);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Content));
-        err = deviceContent.Properties(out var deviceProperties);
+        err = deviceContent.Properties(out deviceProperties);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.Properties));
         err = deviceProperties.GetValues(Item.RootId, null, out var deviceValues);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));

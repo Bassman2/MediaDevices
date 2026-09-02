@@ -1,6 +1,4 @@
-﻿using System.Net.Mime;
-
-namespace MediaDevices.WindowsPortableDevices;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
 partial class WpdDevice
 {
@@ -16,7 +14,7 @@ partial class WpdDevice
     // Although the 0x910C command is formally defined as `SetObjectAttributes` in the Canon protocol specification, in the context of Windows MTP automation,
     // it serves as the most reliable "backdoor" trigger for firing the shutter of a Canon camera without relying on native Canon DLLs.
 
-    public static void Capture(MediaDevice mediaDevice)
+    public void Capture()
     {
         IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
 
@@ -35,21 +33,18 @@ partial class WpdDevice
 
 
         // send 0x910C
-        mediaDevice.device!.SendCommand(0, portableDeviceValues, out IPortableDeviceValues results);
-
-
-
+        device!.SendCommand(0, portableDeviceValues, out IPortableDeviceValues results);
     }
 
 
     //        private const string WPD_COMMAND_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE = "4FC150F8-EB9C-4A19-B849-EC2641D225EE";
     // private const uint WPD_PROPERTY_MTP_EXT_EXECUTE_COMMAND_WITHOUT_DATA_PHASE_PID = 12;
 
-    public static void CanonTakePicture(MediaDevice mediaDevice)
+    public void CanonTakePicture()
     {
 
         Command cmd = Command.Create(WPD.CanonExtExecuteCommandWithoutDataPhase);
-        cmd.Send(mediaDevice.device!);
+        cmd.Send(device!);
     }
 
 }

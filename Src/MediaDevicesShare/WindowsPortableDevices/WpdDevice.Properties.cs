@@ -60,21 +60,21 @@ partial class WpdDevice
 
     #region IPortableDeviceProperties
 
-    public static string? SetFriendlyName(MediaDevice mediaDevice, string? value)
+    public string? SetFriendlyName(string? value)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         IPortableDeviceValues devInValues = ComHelper.CreateInstance<IPortableDeviceValues>();
         devInValues.SetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, value!);
 
-        int err = mediaDevice.deviceProperties!.SetValues(Item.RootId, devInValues, out IPortableDeviceValues _);
+        int err = deviceProperties!.SetValues(Item.RootId, devInValues, out IPortableDeviceValues _);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.SetValues));
 
         // reload mediaDevice values with new friendly name 
-        err = mediaDevice.deviceProperties.GetValues(Item.RootId, null, out mediaDevice.deviceValues);
+        err = deviceProperties.GetValues(Item.RootId, null, out var deviceValues);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
-        err = mediaDevice.deviceValues!.GetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, out string name);
+        err = deviceValues!.GetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, out string name);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetStringValue));
 
         return name;
