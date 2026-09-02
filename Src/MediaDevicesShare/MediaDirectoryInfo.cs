@@ -8,10 +8,10 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     internal MediaDirectoryInfo(IDevice device, string objectId) : base(device, objectId)
     { }
 
-    /// <summary>
-    /// Refreshes the state of the object.
-    /// </summary>
-    public override void Refresh() => base.Refresh();
+    ///// <summary>
+    ///// Refreshes the state of the object.
+    ///// </summary>
+    //public override void Refresh() => base.Refresh();
 
     /// <summary>
     /// Gets the parent directory of a specified subdirectory.
@@ -31,8 +31,8 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     public MediaDirectoryInfo CreateSubdirectory(string path)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.Invoke(() => WpdDevice.CreateSubdirectory(this.mediaDevice, item, path));
+        NotConnectedException.ThrowIfNotConnected(device);
+        return worker.Invoke(() => device.CreateSubdirectory(ObjectId, path));
     }
 
     /// <summary>
@@ -43,8 +43,8 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<MediaDirectoryInfo> EnumerateDirectories()
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeEnumerable(() => WpdDevice.EnumerateDirectories(this.mediaDevice, this.item));
+        NotConnectedException.ThrowIfNotConnected(device);
+        return worker.InvokeEnumerable(() => device.EnumerateDirectories(ObjectId));
     }
 
     /// <summary>
@@ -57,8 +57,8 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeEnumerable(() => WpdDevice.EnumerateDirectories(this.mediaDevice, this.item, searchPattern, searchOption));
+        NotConnectedException.ThrowIfNotConnected(device);
+        return worker.InvokeEnumerable(() => device.EnumerateDirectories(ObjectId, searchPattern, searchOption));
     }
 
     /// <summary>
@@ -69,8 +69,8 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<MediaFileInfo> EnumerateFiles()
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeEnumerable(() => WpdDevice.EnumerateFiles(this.mediaDevice, this.item));
+        NotConnectedException.ThrowIfNotConnected(device);
+        return worker.InvokeEnumerable(() => device.EnumerateFiles(ObjectId));
     }
 
     /// <summary>
@@ -83,8 +83,8 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<MediaFileInfo> EnumerateFiles(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeEnumerable(() => WpdDevice.EnumerateFiles(this.mediaDevice, this.item, searchPattern, searchOption));
+        NotConnectedException.ThrowIfNotConnected(device);
+        return worker.InvokeEnumerable(() => device.EnumerateFiles(ObjectId, searchPattern, searchOption));
     }
 
     /// <summary>
@@ -95,8 +95,8 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos()
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeEnumerable(() => WpdDevice.EnumerateFileSystemInfos(this.mediaDevice, this.item));
+        NotConnectedException.ThrowIfNotConnected(device);
+        return worker.InvokeEnumerable(() => device.EnumerateFileSystemInfos(ObjectId));
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     /// <exception cref="MediaDevices.NotConnectedException">mediaDevice is not connected.</exception>
     public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return mainWorker.InvokeEnumerable(() => WpdDevice.EnumerateFileSystemInfos(this.mediaDevice, this.item, searchPattern, searchOption));
+        NotConnectedException.ThrowIfNotConnected(device);
+        return worker.InvokeEnumerable(() => device.EnumerateFileSystemInfos(ObjectId, searchPattern, searchOption));
     }
 }

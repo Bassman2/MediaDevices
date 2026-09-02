@@ -643,7 +643,7 @@ internal class WpdItem
         System.Threading.Thread.Sleep(20);
 
         uint optimalTransferSize = 0; 
-        err = resources.GetStream(this.Id, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out var iStream);
+        err = resources.GetStream(ObjectId, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out var iStream);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream), Path.Combine(path ?? "empty", name ?? "empty"));
 
         return new StreamWrapper(iStream, this.Size);
@@ -657,7 +657,7 @@ internal class WpdItem
 
         uint optimalTransferSize = 0;
 
-        int err = resources.GetStream(this.Id, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out var iStream); 
+        int err = resources.GetStream(ObjectId, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out var iStream); 
         if (err == (int)ErrorCodes.ResourceNotAvailable)
         {
             throw new NotSupportedException($"The device {device.Description} does not support reading thumbnails.");
@@ -675,7 +675,7 @@ internal class WpdItem
 
         uint optimalTransferSize = 0;
 
-        int err = resources.GetStream(this.Id, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out var iStream);
+        int err = resources.GetStream(ObjectId, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out var iStream);
         if (err == (int)ErrorCodes.ResourceNotAvailable)
         {
             throw new NotSupportedException($"The device {device.Description} does not support reading icons.");
@@ -695,7 +695,7 @@ internal class WpdItem
 
         IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
 
-        int err = portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, this.Id);
+        int err = portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, ObjectId);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "OBJECT_PARENT_ID");
 
         err = portableDeviceValues.SetUnsignedLargeIntegerValue(ref WPD.OBJECT_SIZE, (ulong)stream.Length);
@@ -746,7 +746,7 @@ internal class WpdItem
         int err = portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, newName);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "OBJECT_ORIGINAL_FILE_NAME");
 
-        err = device.deviceProperties!.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
+        err = device.deviceProperties!.SetValues(ObjectId, portableDeviceValues, out IPortableDeviceValues result);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.SetValues));
 
         err = result.GetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, out string check);
@@ -754,7 +754,7 @@ internal class WpdItem
         {
             // id can change on rename (e.g. Amazon Kindle Paperwhite) so find new one
             var newItem = this.parent!.GetChildren().FirstOrDefault(i => EqualsName(i.Name, newName, device.IsCaseSensitive));
-            this.Id = newItem!.Id;
+            this.ObjectId = newItem!.ObjectId;
 
             Refresh();
             return true;
@@ -771,7 +771,7 @@ internal class WpdItem
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_CREATED, ref val.Value);
-            device.deviceProperties!.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
+            device.deviceProperties!.SetValues(ObjectId, portableDeviceValues, out IPortableDeviceValues result);
             ComTrace.WriteValues(result);
         }
 
@@ -787,7 +787,7 @@ internal class WpdItem
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_MODIFIED, ref val.Value);
-            device.deviceProperties!.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
+            device.deviceProperties!.SetValues(ObjectId, portableDeviceValues, out IPortableDeviceValues result);
             ComTrace.WriteValues(result);
         }
 
@@ -803,7 +803,7 @@ internal class WpdItem
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_AUTHORED, ref val.Value);
-            device.deviceProperties!.SetValues(this.Id, portableDeviceValues, out IPortableDeviceValues result);
+            device.deviceProperties!.SetValues(ObjectId, portableDeviceValues, out IPortableDeviceValues result);
             ComTrace.WriteValues(result);
         }
 

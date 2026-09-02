@@ -9,12 +9,6 @@
     <Import_RootNamespace>MediaDevices</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\IMtpDevice.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\MtpDeviceLinux.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\MtpDeviceManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\MtpDeviceSingleThreadProxy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\MtpObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer\MtpDeviceWindows.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ManufacturerId.cs" />

@@ -113,14 +113,14 @@ public class MediaDeviceService : IDisposable
         if (disposing)
         {
             
-            ////device?.worker.Invoke(() =>
-            {
-                if (this.service != null)
-                {
-                    int err = this.service.Close();
-                    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceService), nameof(IPortableDeviceService.Close));
-                }
-            });
+            //////device?.worker.Invoke(() =>
+            //{
+            //    if (this.service != null)
+            //    {
+            //        int err = this.service.Close();
+            //        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceService), nameof(IPortableDeviceService.Close));
+            //    }
+            //});
         }
     }
 

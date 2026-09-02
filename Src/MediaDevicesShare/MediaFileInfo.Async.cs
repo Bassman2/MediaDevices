@@ -16,8 +16,8 @@ partial class MediaFileInfo
     /// <exception cref="System.OperationCanceledException">The operation was canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task CopyToAsync(string destFileName, bool overwrite = true, CancellationToken cancellationToken = default)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        await mainWorker.InvokeAsync(() => WpdDevice.CopyTo(item, destFileName, overwrite), cancellationToken);
+        NotConnectedException.ThrowIfNotConnected(device);
+        await worker.InvokeAsync(() => device.CopyTo(ObjectId, destFileName, overwrite), cancellationToken);
     }
 
     /// <summary>
@@ -34,8 +34,8 @@ partial class MediaFileInfo
     /// <exception cref="System.OperationCanceledException">The operation was canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task CopyIconToAsync(string destFileName, bool overwrite = true, CancellationToken cancellationToken = default)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        await mainWorker.InvokeAsync(() => WpdDevice.CopyIconTo(item, destFileName, overwrite), cancellationToken);
+        NotConnectedException.ThrowIfNotConnected(device);
+        await worker.InvokeAsync(() => device.CopyIconTo(ObjectId, destFileName, overwrite), cancellationToken);
     }
 
     /// <summary>
@@ -52,8 +52,8 @@ partial class MediaFileInfo
     /// <exception cref="System.OperationCanceledException">The operation was canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task CopyThumbnailToAsync(string destFileName, bool overwrite = true, CancellationToken cancellationToken = default)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        await mainWorker.InvokeAsync(() => WpdDevice.CopyThumbnailTo(item, destFileName, overwrite), cancellationToken);
+        NotConnectedException.ThrowIfNotConnected(device);
+        await worker.InvokeAsync(() => device.CopyThumbnailTo(ObjectId, destFileName, overwrite), cancellationToken);
     }
 
     /// <summary>
@@ -68,8 +68,8 @@ partial class MediaFileInfo
     /// <exception cref="System.OperationCanceledException">The operation was canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task<Stream> OpenReadAsync(CancellationToken cancellationToken = default)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return await mainWorker.InvokeAsync(() => WpdDevice.OpenRead(item), cancellationToken);
+        NotConnectedException.ThrowIfNotConnected(device);
+        return await worker.InvokeAsync(() => device.OpenRead(ObjectId), cancellationToken);
     }
 
     /// <summary>
@@ -83,8 +83,8 @@ partial class MediaFileInfo
     /// <exception cref="System.OperationCanceledException">The operation was canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task<Stream> OpenIconAsync( CancellationToken cancellationToken = default)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return await mainWorker.InvokeAsync(() => WpdDevice.OpenIcon(item), cancellationToken);
+        NotConnectedException.ThrowIfNotConnected(device);
+        return await worker.InvokeAsync(() => device.OpenIcon(ObjectId), cancellationToken);
     }
 
     /// <summary>
@@ -98,8 +98,8 @@ partial class MediaFileInfo
     /// <exception cref="System.OperationCanceledException">The operation was canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task<Stream> OpenThumbnailAsync(CancellationToken cancellationToken = default)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return await mainWorker.InvokeAsync(() => WpdDevice.OpenThumbnail(item), cancellationToken);
+        NotConnectedException.ThrowIfNotConnected(device);
+        return await worker.InvokeAsync(() => device.OpenThumbnail(ObjectId), cancellationToken);
     }
 
     /// <summary>
@@ -113,7 +113,7 @@ partial class MediaFileInfo
     /// <exception cref="System.OperationCanceledException">The operation was canceled via <paramref name="cancellationToken"/>.</exception>
     public async Task<StreamReader> OpenTextAsync(CancellationToken cancellationToken = default)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
-        return await mainWorker.InvokeAsync(() => WpdDevice.OpenText(item), cancellationToken);
+        NotConnectedException.ThrowIfNotConnected(device);
+        return await worker.InvokeAsync(() => device.OpenText(ObjectId), cancellationToken);
     }
 }

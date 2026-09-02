@@ -61,17 +61,19 @@ internal interface IDevice : IDisposable
     IEnumerable<string> EnumerateFileSystemEntries(string path, CancellationToken cancellationToken = default);
     IEnumerable<string> EnumerateFileSystemEntries(string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
 
-    bool DirectoryExists(string path);
+    bool DirectoryExists(string path, CancellationToken cancellationToken = default);
 
-    void CreateDirectory(string path);
+    void CreateDirectory(string path, CancellationToken cancellationToken = default);
+    void CreateDirectory(string objectId, string path, CancellationToken cancellationToken = default);
 
-    void DeleteDirectory(string path, bool recursive = false);
+    void DeleteDirectory(string path, bool recursive = false, CancellationToken cancellationToken = default);
+    void DeleteDirectoryByObjectId(string objectId, bool recursive = false, CancellationToken cancellationToken = default);
 
-    bool FileExists(string path);
+    bool FileExists(string path, CancellationToken cancellationToken = default);
 
-    void DeleteFile(string path);
+    void DeleteFile(string path, CancellationToken cancellationToken = default);
 
-    void Rename(string path, string newName);
+    void Rename(string path, string newName, CancellationToken cancellationToken = default);
 
     void DownloadFile(string source, Stream stream, CancellationToken cancellationToken = default);
 

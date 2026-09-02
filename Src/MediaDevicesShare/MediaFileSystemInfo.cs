@@ -15,7 +15,7 @@ public abstract partial class MediaFileSystemInfo
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         this.device = device;
-        this.objectId = objectId;
+        this.ObjectId = objectId;
         //this.item = item;
 
         //item.Refresh();
@@ -109,14 +109,14 @@ public abstract partial class MediaFileSystemInfo
 
     #region Methods
 
-    /// <summary>
-    /// Refreshes the state of the object.
-    /// </summary>
-    public virtual void Refresh()
-    {
-        NotConnectedException.ThrowIfNotConnected(device);
-        worker.Invoke(() => device.Refresh(this.item));
-    }
+    ///// <summary>
+    ///// Refreshes the state of the object.
+    ///// </summary>
+    //public virtual void Refresh()
+    //{
+    //    NotConnectedException.ThrowIfNotConnected(device);
+    //    worker.Invoke(() => device.Refresh(this.item));
+    //}
 
     /// <summary>
     /// Rename the folder of file

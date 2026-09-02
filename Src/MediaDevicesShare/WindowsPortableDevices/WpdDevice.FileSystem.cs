@@ -219,7 +219,7 @@ partial class WpdDevice
 
         string? folder = Path.GetDirectoryName(destination);
         string fileName = Path.GetFileName(destination);
-        WpdItem item = WpdItem.FindFolder(mediaDevice, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
+        WpdItem item = WpdItem.FindFolder(this, folder!) ?? throw new DirectoryNotFoundException($"Directory {folder} not found.");
 
         if (item.GetChildren().Any(i => EqualsName(i.Name, fileName, this.IsCaseSensitive)))
         {

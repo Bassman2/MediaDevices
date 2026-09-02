@@ -2,27 +2,27 @@
 
 partial class WpdDevice
 {
-    public static void ResetDevice(MediaDevice mediaDevice)
+    public void ResetDevice()
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Command.Create(WPD.COMMAND_COMMON_RESET_DEVICE).Send(mediaDevice.device!);
+        Command.Create(WPD.COMMAND_COMMON_RESET_DEVICE).Send(device!);
     }
 
-    public static IEnumerable<string> GetContentLocations(MediaDevice mediaDevice, ContentType contentType)
+    public IEnumerable<string> GetContentLocations(ContentType contentType)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_DEVICE_HINTS_GET_CONTENT_LOCATION);
         cmd.Add(WPD.PROPERTY_DEVICE_HINTS_CONTENT_TYPE, contentType.ToGuid());
-        if (!cmd.Send(mediaDevice.device!))
+        if (!cmd.Send(device!))
         {
             return [];
         }
-        return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => WpdItem.Create(mediaDevice, c).FullName);
+        return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => WpdItem.Create(this, c).FullName);
     }
 
-    //public staticvoid Supported(MediaDevice mediaDevice, string id)
+    //public void Supported(string id)
     //{
     //    ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -40,45 +40,45 @@ partial class WpdDevice
     //        CommandCheckResult(result);
     //}
 
-    public static bool EjectPath(MediaDevice mediaDevice, string path)
+    public bool EjectPath(string path)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem? item = WpdItem.FindFolder(mediaDevice, path);
+        WpdItem? item = WpdItem.FindFolder(this, path);
         Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
-        cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item!.Id);
-        return cmd.Send(mediaDevice.device!);
+        cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item!.ObjectId);
+        return cmd.Send(device!);
     }
 
-    public static bool EjectId(MediaDevice mediaDevice, string id)
+    public bool EjectId(string id)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
         cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, id);
-        return cmd.Send(mediaDevice.device!);
+        return cmd.Send(device!);
     }
 
-    public static void FormatPath(MediaDevice mediaDevice, string path)
+    public void FormatPath(MediaDevice mediaDevice, string path)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem? item = WpdItem.FindFolder(mediaDevice, path);
+        WpdItem? item = WpdItem.FindFolder(this, path);
         Command cmd = Command.Create(WPD.COMMAND_STORAGE_FORMAT);
-        cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item!.Id);
-        cmd.Send(mediaDevice.device!);
+        cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item!.ObjectId);
+        cmd.Send(device!);
     }
 
-    internal static void FormatId(MediaDevice mediaDevice, string id)
+    internal void FormatId(string id)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_STORAGE_FORMAT);
         cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, id);
-        cmd.Send(mediaDevice.device!);
+        cmd.Send(device!);
     }
 
-    public static bool SendTextSMS(MediaDevice mediaDevice, string functionalObject, string recipient, string text)
+    public bool SendTextSMS(string functionalObject, string recipient, string text)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -87,16 +87,16 @@ partial class WpdDevice
         cmd.Add(WPD.PROPERTY_SMS_RECIPIENT, recipient);
         cmd.Add(WPD.PROPERTY_SMS_MESSAGE_TYPE, (uint)SmsMessageType.Text);
         cmd.Add(WPD.PROPERTY_SMS_TEXT_MESSAGE, text);
-        return cmd.Send(mediaDevice.device!);
+        return cmd.Send(device!);
     }
 
-    public static bool StillImageCaptureInitiate(MediaDevice mediaDevice, string functionalObject)
+    public bool StillImageCaptureInitiate(string functionalObject)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_STILL_IMAGE_CAPTURE_INITIATE);
         cmd.Add(WPD.PROPERTY_COMMON_COMMAND_TARGET, functionalObject);
-        return cmd.Send(mediaDevice.device!);
+        return cmd.Send(device!);
     }
 
     //internal static Events CallEvent(MediaDevice mediaDevice, IPortableDeviceValues eventParameters)
@@ -105,7 +105,7 @@ partial class WpdDevice
     //    return eventGuid.FindEventsEnum();
     //}
     
-    public static MediaStorageInfo? GetStorageInfo(MediaDevice mediaDevice, string storageObjectId)
+    public MediaStorageInfo? GetStorageInfo(string storageObjectId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
         
@@ -123,10 +123,10 @@ partial class WpdDevice
 
         var info = new MediaStorageInfo();
 
-        ComTrace.WriteSupportedProperties(mediaDevice.deviceProperties!, storageObjectId);
-        ComTrace.WriteValues(mediaDevice.deviceProperties!, storageObjectId);
+        ComTrace.WriteSupportedProperties(deviceProperties!, storageObjectId);
+        ComTrace.WriteValues(deviceProperties!, storageObjectId);
 
-        int err = mediaDevice.deviceProperties!.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
+        int err = deviceProperties!.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), storageObjectId);
 
         if (values.GetUnsignedIntegerValue(ref WPD.STORAGE_TYPE, out uint type) == OK)
