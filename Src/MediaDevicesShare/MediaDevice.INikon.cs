@@ -7,7 +7,7 @@ partial class MediaDevice : INikonMediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.VendorOpcodes<OpCodesNikon>(this.device!));
+        return worker.InvokeEnumerable(() => device.VendorOpcodes().Select(o => (OpCodesNikon)o));
     }
 
     #region Camera Setup & Configuration

@@ -5,7 +5,7 @@
 /// </summary>
 public partial class MediaDirectoryInfo : MediaFileSystemInfo
 {
-    internal MediaDirectoryInfo(IDevice device, string objectId) : base(device, objectId)
+    internal MediaDirectoryInfo(IDevice device, ObjectId objectId) : base(device, objectId)
     { }
 
     ///// <summary>
@@ -32,7 +32,7 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     {
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(device);
-        return worker.Invoke(() => device.CreateSubdirectory(ObjectId, path));
+        return worker.Invoke(() => device.CreateDirectory(ObjectId, path));
     }
 
     /// <summary>

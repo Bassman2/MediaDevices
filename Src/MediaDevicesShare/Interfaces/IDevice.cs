@@ -12,6 +12,8 @@ internal interface IDevice : IDisposable
 
     void Cancel();
 
+    ObjectId PathToObjectId(string path, CancellationToken cancellationToken = default);
+
     #region Capabilities
 
     IEnumerable<Commands> SupportedCommands(CancellationToken cancellationToken = default);
@@ -31,7 +33,7 @@ internal interface IDevice : IDisposable
 
     IEnumerable<Events> SupportedEvents(CancellationToken cancellationToken = default);
 
-    IEnumerable<(string, string)> EventOptions(Events ev);
+    IEnumerable<(string, string)> EventOptions(Events ev, CancellationToken cancellationToken = default);
 
     #endregion
 
@@ -41,9 +43,7 @@ internal interface IDevice : IDisposable
 
     IEnumerable<string>? GetContentLocations(ContentType contentType);
 
-    bool Eject(string path);
-
-    void Format(string path);
+    
     bool SendTextSMS(string functionalObject, string recipient, string text);
 
     bool StillImageCaptureInitiate(string functionalObject);
@@ -63,11 +63,10 @@ internal interface IDevice : IDisposable
 
     bool DirectoryExists(string path, CancellationToken cancellationToken = default);
 
-    void CreateDirectory(string path, CancellationToken cancellationToken = default);
-    void CreateDirectory(string objectId, string path, CancellationToken cancellationToken = default);
+    MediaDirectoryInfo CreateDirectory(ObjectId objectId, string path, CancellationToken cancellationToken = default);
 
-    void DeleteDirectory(string path, bool recursive = false, CancellationToken cancellationToken = default);
-    void DeleteDirectoryByObjectId(string objectId, bool recursive = false, CancellationToken cancellationToken = default);
+    void DeleteDirectory(ObjectId objectId, bool recursive = false, CancellationToken cancellationToken = default);
+   
 
     bool FileExists(string path, CancellationToken cancellationToken = default);
 
@@ -118,7 +117,7 @@ internal interface IDevice : IDisposable
 
     #region Vendor
 
-    IEnumerable<OpCodes> VendorOpcodes();
+    IEnumerable<ushort> VendorOpcodes(CancellationToken cancellationToken = default);
 
     IEnumerable<int> VendorExcecute(OpCodes opCode, IEnumerable<int> inputParams, out int respCode);
 
@@ -134,43 +133,45 @@ internal interface IDevice : IDisposable
 
     #region MediaDriveInfo
 
-    void EjectObjectId(string objectId);
-    void FormatObjectId(string objectId);
-    MediaDirectoryInfo? GetParent(string objectId);
+    bool Eject(ObjectId objectId, CancellationToken cancellationToken = default);
 
-    void CopyTo(string objectId, string destFileName, bool overwrite = true);
+    bool Format(ObjectId objectId, CancellationToken cancellationToken = default);
 
-    void CopyIconTo(string objectId, string destFileName, bool overwrite = true);
+    MediaDirectoryInfo? GetParent(ObjectId objectId, CancellationToken cancellationToken = default);
 
-    void CopyThumbnailTo(string objectId, string destFileName, bool overwrite = true);
+    void CopyTo(ObjectId objectId, string destFileName, bool overwrite = true, CancellationToken cancellationToken = default);
 
-    Stream OpenRead(string objectId);
+    void CopyIconTo(ObjectId objectId, string destFileName, bool overwrite = true, CancellationToken cancellationToken = default);
 
-    Stream OpenIcon(string objectId);
+    void CopyThumbnailTo(ObjectId objectId, string destFileName, bool overwrite = true, CancellationToken cancellationToken = default);
 
-    Stream OpenThumbnail(string objectId);
+    Stream OpenRead(ObjectId objectId, CancellationToken cancellationToken = default);
 
-    StreamReader OpenText(string objectId);
+    Stream OpenIcon(ObjectId objectId, CancellationToken cancellationToken = default);
+
+    Stream OpenThumbnail(ObjectId objectId, CancellationToken cancellationToken = default);
+
+    StreamReader OpenText(ObjectId objectId, CancellationToken cancellationToken = default);
 
     #endregion
 
     #region Extentions
 
-    string? GetPropertyString(PropertyKey propertyKey);
+    string? GetPropertyString(ObjectId objectId, PropertyKey propertyKey);
 
-    int? GetPropertyInt(PropertyKey propertyKey);
+    int? GetPropertyInt(ObjectId objectId, PropertyKey propertyKey);
 
-    uint? GetPropertyUInt(PropertyKey propertyKey);
+    uint? GetPropertyUInt(ObjectId objectId, PropertyKey propertyKey);
 
-    DateTime? GetPropertyDateTime(PropertyKey propertyKey);
+    DateTime? GetPropertyDateTime(ObjectId objectId, PropertyKey propertyKey);
 
-    bool SetProperty(PropertyKey propertyKey, string? value);
+    bool SetProperty(ObjectId objectId, PropertyKey propertyKey, string? value);
 
-    bool SetProperty(PropertyKey propertyKey, int? value);
+    bool SetProperty(ObjectId objectId, PropertyKey propertyKey, int? value);
 
-    bool SetProperty(PropertyKey propertyKey, uint? value);
+    bool SetProperty(ObjectId objectId, PropertyKey propertyKey, uint? value);
 
-    bool SetProperty(PropertyKey propertyKey, DateTime? value);
+    bool SetProperty(ObjectId objectId, PropertyKey propertyKey, DateTime? value);
 
     #endregion
 
@@ -178,7 +179,7 @@ internal interface IDevice : IDisposable
 
     IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices serviceType);
 
-    void ServiceClose();
+   // void ServiceClose();
 
     #endregion
 

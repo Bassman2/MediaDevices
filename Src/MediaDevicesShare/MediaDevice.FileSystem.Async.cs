@@ -154,7 +154,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.DeleteDirectory(path, recursive), cancellationToken);
+        await worker.InvokeAsync(() => device.DeleteDirectory(device.PathToObjectId(path, cancellationToken), recursive, cancellationToken), cancellationToken);
     }
 
     /// <summary>

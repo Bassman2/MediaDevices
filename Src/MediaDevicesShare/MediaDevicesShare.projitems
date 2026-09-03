@@ -40,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ExplicitInterfaces\ISamsungMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExplicitInterfaces\ISonyMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\DeviceFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Extentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.ILeica.cs" />

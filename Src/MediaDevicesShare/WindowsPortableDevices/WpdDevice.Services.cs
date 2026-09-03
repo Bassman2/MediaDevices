@@ -3,28 +3,28 @@
 partial class WpdDevice
 {
 
-    //public static IEnumerable<MediaDeviceService> GetServices(IPortableDeviceServiceManager serviceManager, MediaDevice mediaDevice, MediaDeviceServices serviceTypes)
-    //{
-    //    ThreadSafeWorkerException.ThrowIfNotInside();
+    public IEnumerable<MediaDeviceService> GetServices(MediaDeviceServices serviceTypes)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
 
-    //    Guid serviceGuid = serviceTypes.ToGuid();
-    //    uint num = 0;
-    //    int err = serviceManager.GetDeviceServices(mediaDevice.InterfacePath, ref serviceGuid, null, ref num);
-    //    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceServiceManager), nameof(IPortableDeviceServiceManager.GetDeviceServices));
+        Guid serviceGuid = serviceTypes.ToGuid();
+        uint num = 0;
+        int err = serviceManager.GetDeviceServices(usbDevice, ref serviceGuid, null, ref num);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceServiceManager), nameof(IPortableDeviceServiceManager.GetDeviceServices));
 
-    //    if (num == 0)
-    //    {
-    //        yield break;
-    //    }
-    //    string[] services = new string[num];
-    //    err = serviceManager.GetDeviceServices(mediaDevice.InterfacePath, ref serviceGuid, services, ref num);
-    //    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceServiceManager), nameof(IPortableDeviceServiceManager.GetDeviceServices));
+        if (num == 0)
+        {
+            yield break;
+        }
+        string[] services = new string[num];
+        err = serviceManager.GetDeviceServices(usbDevice, ref serviceGuid, services, ref num);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceServiceManager), nameof(IPortableDeviceServiceManager.GetDeviceServices));
 
-    //    foreach (var service in services)
-    //    {
-    //        yield return new MediaDeviceService(mediaDevice, service);
-    //    }
-    //}
+        foreach (var service in services)
+        {
+            yield return new MediaDeviceService(this, service);
+        }
+    }
 
 
     public static IEnumerable<Commands> SupportedCommands(IPortableDeviceServiceCapabilities capabilities)

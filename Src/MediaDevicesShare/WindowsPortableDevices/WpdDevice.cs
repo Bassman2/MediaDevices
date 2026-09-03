@@ -21,11 +21,13 @@ internal partial class WpdDevice : IDevice, IDisposable
 
     internal IPortableDeviceContent? deviceContent;
 
-    
+    private readonly IPortableDeviceServiceManager serviceManager;
+
+
+    private string usbDevice;
     /*
     private readonly IPortableDeviceManager deviceManager;
-    internal readonly IPortableDeviceServiceManager serviceManager;
-    
+   
 
     internal IPortableDevice? device;
     internal IPortableDeviceContent? deviceContent;
@@ -50,6 +52,8 @@ internal partial class WpdDevice : IDevice, IDisposable
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         this.deviceManager = deviceManager;
+        this.serviceManager = deviceManager;
+        this.usbDevice = usbDevice; 
 
         //this.eventThreadHandler = new(this);
     }
@@ -103,7 +107,7 @@ internal partial class WpdDevice : IDevice, IDisposable
         }
 
         // open mediaDevice
-        err = device.Open(deviceId, clientInfo);
+        err = device.Open(usbDevice, clientInfo);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Open));
 
         clientInfo.Release();
@@ -208,7 +212,7 @@ internal partial class WpdDevice : IDevice, IDisposable
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetPropertyAttributes), "DEVICE_FRIENDLY_NAME");
         err = attributes.GetBoolValue(ref WPD.PROPERTY_ATTRIBUTE_CAN_WRITE, out int canWriteInt);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue), "PROPERTY_ATTRIBUTE_CAN_WRITE");
-        IsFriendlyNameEditable = canWriteInt != 0;
+        //IsFriendlyNameEditable = canWriteInt != 0;
 
         IsConnected = true;
     }
@@ -241,4 +245,11 @@ internal partial class WpdDevice : IDevice, IDisposable
     
         device!.Cancel();
     }
+
+    public ObjectId PathToObjectId(string path, CancellationToken cancellationToken = default)
+    {
+        WpdItem item = WpdItem.FindFolder(this, path) ?? throw new InvalidOperationException("Path not found");
+        return new ObjectId(item.ObjectId);
+    }
 }
+ 

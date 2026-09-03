@@ -8,9 +8,9 @@ public sealed partial class MediaDriveInfo
 {
     private static readonly ThreadSafeWorker worker = ThreadSafeWorker.Instance;
     private readonly IDevice device;
-    private readonly string objectId;
+    private readonly ObjectId objectId;
 
-    internal MediaDriveInfo(IDevice device, string objectId)
+    internal MediaDriveInfo(IDevice device, ObjectId objectId)
     {
         this.device = device;
         this.objectId = objectId;
@@ -32,7 +32,7 @@ public sealed partial class MediaDriveInfo
                 StorageType.RemovableRam or StorageType.RemovableRom => DriveType.Removable,
                 _ => DriveType.Unknown,
             };
-            this.RootDirectory = new MediaDirectoryInfo(device, WpdItem.Create(device, this.objectId));
+            this.RootDirectory = new MediaDirectoryInfo(device, WpdItem.Create(device, objectId.WpdObjectId));
             this.Name = this.RootDirectory.FullName;
             this.VolumeLabel = info.Description;
         }
@@ -89,15 +89,15 @@ public sealed partial class MediaDriveInfo
     public void Eject()
     {
         NotConnectedException.ThrowIfNotConnected(device);
-        worker.Invoke(() => device.EjectObjectId(objectId));
+        worker.Invoke(() => device.Eject(objectId));
     }
 
     /// <summary>
     /// Format the drive.
     /// </summary>
-    public void Format()    
+    public void Format()
     {
         NotConnectedException.ThrowIfNotConnected(device);
-        worker.Invoke(() => device.FormatObjectId(objectId));
+        worker.Invoke(() => device.Format(objectId));
     }
 }

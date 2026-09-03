@@ -84,13 +84,13 @@ public class ObjectAddedEventArgs : MediaDeviceEventArgs
     /// </summary>
     public string? ObjectContainerFuntionalObjectId { get; private set; }
 
-    /// <summary>
-    /// Full file name of the added object
-    /// </summary>
-    public string ObjectFullFileName => WpdItem.Create(this.MediaDevice, this.ObjectId!).FullName;
+    ///// <summary>
+    ///// Full file name of the added object
+    ///// </summary>
+    //public string ObjectFullFileName => WpdItem.Create(this.MediaDevice, this.ObjectId!).FullName;
         
-    /// <summary>
-    /// Read stream of the added object
-    /// </summary>
-    public Stream ObjectFileStream => WpdItem.Create(this.MediaDevice, this.ObjectId!).OpenRead();
+    ///// <summary>
+    ///// Read stream of the added object
+    ///// </summary>
+    //public Stream ObjectFileStream => WpdItem.Create(this.MediaDevice, this.ObjectId!).OpenRead();
 }

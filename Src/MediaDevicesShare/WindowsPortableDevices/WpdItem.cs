@@ -57,6 +57,13 @@ internal class WpdItem
         return new WpdItem(device, RootId, @"\");
     }
 
+    public static WpdItem Create(WpdDevice device, ObjectId objectId, string? path = null)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        return new WpdItem(device, objectId.WpdObjectId, path);
+    }
+
     public static WpdItem Create(WpdDevice device, string objectId, string? path = null)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();

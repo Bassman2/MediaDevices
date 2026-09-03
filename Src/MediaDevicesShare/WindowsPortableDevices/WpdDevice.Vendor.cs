@@ -2,15 +2,16 @@
 
 partial class WpdDevice
 {
-    public IEnumerable<T> VendorOpcodes<T>() where T : Enum
+    public IEnumerable<ushort> VendorOpcodes(CancellationToken cancellationToken = default) 
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_MTP_EXT_GET_SUPPORTED_VENDOR_OPCODES);
         cmd.Send(device!);
         var list = cmd.GetPropVariants(WPD.PROPERTY_MTP_EXT_VENDOR_OPERATION_CODES);
-        return list.Select(p => (T)Enum.ToObject(typeof(T), p.ToUInt()));
+        return list.Select(p => (ushort)p.ToUInt());
 
+        //return list.Select(p => (T)Enum.ToObject(typeof(T), p.ToUInt()));
         //(T)p.ToUInt());
     }
 

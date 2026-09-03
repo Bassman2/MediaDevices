@@ -54,46 +54,54 @@ partial class WpdDevice
         return item.GetChildren(searchPattern, searchOption).Select(i => i.FullName);
     }
 
-    public bool DirectoryExists(string path)
+    public bool DirectoryExists(string path, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         return WpdItem.FindFolder(this, path) != null;
     }
 
-    public void CreateDirectory(string path)
+    //public void CreateDirectory(string path, CancellationToken cancellationToken = default)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
+        
+    //    var now = DateTime.Now;
+    //    WpdItem.GetRoot(this).CreateSubdirectory(path, now, now, now);
+    //}
+
+    public MediaDirectoryInfo CreateDirectory(ObjectId objectId, string path, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
-        
+
         var now = DateTime.Now;
-        WpdItem.GetRoot(this).CreateSubdirectory(path, now, now, now);
+        return WpdItem.Create(this, objectId).CreateSubdirectory(path, now, now, now)?.ToDirectoryInfo() ?? throw new Exception(); 
     }
 
-    public void DeleteDirectory(string path, bool recursive = false)
+    public void DeleteDirectory(ObjectId objectId, bool recursive = false, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Directory {path} not found.");
+        WpdItem item = WpdItem.Create(this, objectId); 
         item.Delete(recursive);
     }
 
-    public bool FileExists(string path)
+    public bool FileExists(string path, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         return WpdItem.FindFile(this, path) != null;
     }
 
-    public void DeleteFile(string path)
+    public void DeleteFile(string objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         // File.Delete throws DirectoryNotFoundException if path was not found; never FileNotFoundException
-        WpdItem item = WpdItem.FindFile(this, path) ?? throw new DirectoryNotFoundException($"File {path} not found.");
+        WpdItem item = WpdItem.Create(this, objectId);
         item.Delete();
     }
 
-    public void Rename(string path, string newName)
+    public void Rename(string path, string newName, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -143,7 +151,7 @@ partial class WpdDevice
         sourceStream.CopyTo(destinationStream);
     }
 
-    public void DownloadThumbnail(string source, Stream stream)
+    public void DownloadThumbnail(string source, Stream stream, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -152,7 +160,7 @@ partial class WpdDevice
         sourceStream.CopyTo(stream);
     }
 
-    public void DownloadThumbnail(string source, string destination)
+    public void DownloadThumbnail(string source, string destination, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -162,7 +170,7 @@ partial class WpdDevice
         sourceStream.CopyTo(destinationStream);
     }
 
-    public void DownloadFolder(string source, string destination, bool recursive, bool ignoreExceptions)
+    public void DownloadFolder(string source, string destination, bool recursive, bool ignoreExceptions, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -193,7 +201,7 @@ partial class WpdDevice
         }
     }
 
-    private void DownloadFileIntern(WpdItem item, string path, bool ignoreExceptions)
+    private void DownloadFileIntern(WpdItem item, string path, bool ignoreExceptions, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -213,7 +221,7 @@ partial class WpdDevice
         }
     }
 
-    public void UploadFile(Stream stream, string destination)
+    public void UploadFile(Stream stream, string destination, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -229,7 +237,7 @@ partial class WpdDevice
         item.UploadFile(fileName, stream, DateTime.Now, DateTime.Now, DateTime.Now);
     }
 
-    public void UploadFile(string source, string destination)
+    public void UploadFile(string source, string destination, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -256,7 +264,7 @@ partial class WpdDevice
             File.GetLastWriteTime(source)); // authored: set date the file was last written
     }
 
-    public void UploadFolder(string source, string destination, bool recursive, bool ignoreExceptions)
+    public void UploadFolder(string source, string destination, bool recursive, bool ignoreExceptions, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -357,24 +365,24 @@ partial class WpdDevice
     #region MediaDevice: MediaFileInfo, MediaDirectoryInfo, MediaDriveInfo and MediaFileSystemInfo based 
 
 
-    public MediaFileInfo GetFileInfo(string path)
+    public MediaFileInfo GetFileInfo(string path, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         var item = WpdItem.FindItem(this, path) ?? throw new FileNotFoundException($"{path} not found.", path);
-        return new MediaFileInfo(this, item);
+        return new MediaFileInfo(this, item.ObjectId);
     }
 
-    public MediaDirectoryInfo GetDirectoryInfo(string path)
+    public MediaDirectoryInfo GetDirectoryInfo(string path, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         var item = WpdItem.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"{path} not found.");
-        return new MediaDirectoryInfo(this, item);
+        return new MediaDirectoryInfo(this, item.ObjectId);
     }
 
     
-    internal IEnumerable<MediaDriveInfo> GetDrives()
+    public IEnumerable<MediaDriveInfo> GetDrives(CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -386,18 +394,18 @@ partial class WpdDevice
         return collection.Enumerate<MediaDriveInfo>(i => new MediaDriveInfo(this, i.ToString()));
     }
 
-    public MediaDirectoryInfo GetRootDirectory()
+    public MediaDirectoryInfo GetRootDirectory(CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return new MediaDirectoryInfo(this, WpdItem.GetRoot(this));
+        return new MediaDirectoryInfo(this, WpdItem.RootId);
     }
 
-    public void DownloadFileFromPersistentUniqueId(string persistentUniqueId, Stream stream)
+    public void DownloadFileFromPersistentUniqueId(string persistentUniqueId, Stream stream, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem? item = WpdItem.GetFromPersistentUniqueId(mediaDevice, persistentUniqueId);
+        WpdItem? item = WpdItem.GetFromPersistentUniqueId(this, persistentUniqueId);
         if (item == null || !item.IsFile)
         {
             throw new FileNotFoundException($"{persistentUniqueId} not found.");
@@ -410,7 +418,7 @@ partial class WpdDevice
 
     #region MediDevice: PersistentUniqueId
 
-    public string GetPathFromPersistentUniqueId(string persistentUniqueId)
+    public string GetPathFromPersistentUniqueId(string persistentUniqueId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -418,15 +426,15 @@ partial class WpdDevice
         return item.GetPath();
     }
 
-    public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(string persistentUniqueId)
+    public MediaFileSystemInfo GetFileSystemInfoFromPersistentUniqueId(string persistentUniqueId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         WpdItem item = WpdItem.GetFromPersistentUniqueId(t, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
-        return (MediaFileSystemInfo)(item.IsFile ? new MediaFileInfo(this, item) : new MediaDirectoryInfo(this, item));
+        return (MediaFileSystemInfo)(item.IsFile ? new MediaFileInfo(this, item.ObjectId) : new MediaDirectoryInfo(this, item.ObjectId));
     }
 
-    public void DownloadFileFromPersistentUniqueId(string persistentUniqueId, string destination)
+    public void DownloadFileFromPersistentUniqueId(string persistentUniqueId, string destination, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -440,7 +448,7 @@ partial class WpdDevice
         reader.CopyTo(writer);
     }
 
-    public Stream OpenReadFromPersistentUniqueId(string persistentUniqueId)
+    public Stream OpenReadFromPersistentUniqueId(string persistentUniqueId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -452,7 +460,7 @@ partial class WpdDevice
         return item.OpenRead();
     }
 
-    public StreamReader OpenTextFromPersistentUniqueId(string persistentUniqueId)
+    public StreamReader OpenTextFromPersistentUniqueId(string persistentUniqueId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -477,11 +485,11 @@ partial class WpdDevice
         item.Refresh();
     }
 
-    public MediaDirectoryInfo? GetParent(WpdItem item)
+    public MediaDirectoryInfo? GetParent(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem? parent = item.Parent;
+        WpdItem? parent = WpdItem.Create(this, objectId.WpdObjectId).Parent;
         return parent?.ToDirectoryInfo();
     }
 
@@ -506,7 +514,7 @@ partial class WpdDevice
         item.SetDateAuthored(value.GetValueOrDefault(DateTime.Now));
     }
 
-    public void Rename(WpdItem item, string newName)
+    public void Rename(WpdItem item, string newName, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -576,59 +584,59 @@ partial class WpdDevice
 
     #region MediaFileInfo
 
-    public void CopyTo(WpdItem item, string destFileName, bool overwrite)
+    public void CopyTo(ObjectId objectId, string destFileName, bool overwrite, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         using FileStream file = File.Open(destFileName, overwrite ? FileMode.Create : FileMode.CreateNew);
-        using Stream sourceStream = item.OpenRead();
+        using Stream sourceStream = WpdItem.Create(this, objectId).OpenRead();
         sourceStream.CopyTo(file);
     }
 
-    public void CopyIconTo(WpdItem item, string destFileName, bool overwrite)
+    public void CopyIconTo(ObjectId objectId, string destFileName, bool overwrite, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         using FileStream file = File.Open(destFileName, overwrite ? FileMode.Create : FileMode.CreateNew);
-        using Stream sourceStream = item.OpenReadIcon();
+        using Stream sourceStream = WpdItem.Create(this, objectId).OpenReadIcon();
         sourceStream.CopyTo(file);
     }
 
-    public void CopyThumbnailTo(WpdItem item, string destFileName, bool overwrite)
+    public void CopyThumbnailTo(ObjectId objectId, string destFileName, bool overwrite, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();   
 
         using FileStream file = File.Open(destFileName, overwrite ? FileMode.Create : FileMode.CreateNew);
-        using Stream sourceStream = item.OpenReadThumbnail();
+        using Stream sourceStream = WpdItem.Create(this, objectId).OpenReadThumbnail();
         sourceStream.CopyTo(file);
     }
 
-    public Stream OpenRead(WpdItem item)
+    public Stream OpenRead(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return item.OpenRead();
+        return WpdItem.Create(this, objectId).OpenRead();
     }
 
-    public StreamReader OpenText(WpdItem item)
+    public StreamReader OpenText(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return new StreamReader(item.OpenRead());
+        return new StreamReader(WpdItem.Create(this, objectId).OpenRead());
     }
 
-    public Stream OpenIcon(WpdItem item)
+    public Stream OpenIcon(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return item.OpenReadIcon();
+        return WpdItem.Create(this, objectId).OpenReadIcon();
     }
 
-    public Stream OpenThumbnail(WpdItem item)
+    public Stream OpenThumbnail(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return item.OpenReadThumbnail();
+        return WpdItem.Create(this, objectId).OpenReadThumbnail();
     }
 
     #endregion

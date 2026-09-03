@@ -7,7 +7,7 @@ partial class MediaDevice : ICanonMediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.VendorOpcodes<OpCodesCanon>(this.device!));
+        return worker.InvokeEnumerable(() => device.VendorOpcodes().Select(o => (OpCodesCanon)o));
     }
 
     void ICanonMediaDevice.Capture()

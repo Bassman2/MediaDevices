@@ -44,7 +44,7 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
 
-        return worker.Invoke(() => device.EjectPath(path));
+        return worker.Invoke(() => device.Eject(device.PathToObjectId(path)));
     }
     
     /// <summary>
@@ -56,7 +56,7 @@ partial class MediaDevice
         NotConnectedException.ThrowIfNotConnected(this);
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
 
-        worker.Invoke(() => device.FormatPath(path));
+        worker.Invoke(() => device.Format(device.PathToObjectId(path)));
     }
 
     /// <summary>

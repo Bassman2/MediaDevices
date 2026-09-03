@@ -15,9 +15,9 @@ partial class MediaDriveInfo
     /// </exception>
     public async Task EjectAsync(CancellationToken cancellationToken = default)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        NotConnectedException.ThrowIfNotConnected(device);
 
-        await mainWorker.InvokeAsync(() => WpdDevice.EjectId(this.mediaDevice, this.objectId), cancellationToken);
+        await worker.InvokeAsync(() => device.Eject(this.objectId, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -33,8 +33,8 @@ partial class MediaDriveInfo
     /// </exception>
     public async Task FormatAsync(CancellationToken cancellationToken = default)
     {
-        NotConnectedException.ThrowIfNotConnected(this.mediaDevice);
+        NotConnectedException.ThrowIfNotConnected(device);
 
-        await mainWorker.InvokeAsync(() => WpdDevice.FormatId(this.mediaDevice, this.objectId), cancellationToken);
+        await worker.InvokeAsync(() => device.Format(objectId, cancellationToken), cancellationToken);
     }
 }

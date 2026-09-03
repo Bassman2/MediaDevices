@@ -5,7 +5,7 @@
 /// </summary>
 public class MediaDeviceServiceMetadata : MediaDeviceService
 {
-    internal MediaDeviceServiceMetadata(MediaDevice device, string serviceId) : base(device, serviceId)
+    internal MediaDeviceServiceMetadata(IDevice device, string serviceId) : base(device, serviceId)
     { }
 
     /// <summary>

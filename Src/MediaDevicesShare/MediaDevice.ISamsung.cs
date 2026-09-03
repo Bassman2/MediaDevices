@@ -7,6 +7,6 @@ partial class MediaDevice : ISamsungMediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => WpdDevice.VendorOpcodes<OpCodesSamsung>(this.device!));
+        return worker.InvokeEnumerable(() => device.VendorOpcodes().Select(o => (OpCodesSamsung)o));
     }
 }

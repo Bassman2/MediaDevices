@@ -18,7 +18,7 @@ partial class MediaDirectoryInfo
     {
         ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(device);
-        return await worker.InvokeAsync(() => device.CreateSubdirectory(ObjectId, path, cancellationToken), cancellationToken);
+        return await worker.InvokeAsync(() => device.CreateDirectory(ObjectId, path, cancellationToken), cancellationToken);
     }
 
     /// <summary>

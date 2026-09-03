@@ -10,7 +10,7 @@ public abstract partial class MediaFileSystemInfo
     internal readonly IDevice device;
     
 
-    internal MediaFileSystemInfo(IDevice device, string objectId)
+    internal MediaFileSystemInfo(IDevice device, ObjectId objectId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -35,7 +35,7 @@ public abstract partial class MediaFileSystemInfo
         }
     }
 
-    public string ObjectId { get; internal set; }
+    public ObjectId ObjectId { get; internal set; }
 
     /// <summary>
     /// Gets the full path of the directory or file.

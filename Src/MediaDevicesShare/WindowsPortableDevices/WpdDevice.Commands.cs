@@ -40,42 +40,22 @@ partial class WpdDevice
     //        CommandCheckResult(result);
     //}
 
-    public bool EjectPath(string path)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
-
-        WpdItem? item = WpdItem.FindFolder(this, path);
-        Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
-        cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item!.ObjectId);
-        return cmd.Send(device!);
-    }
-
-    public bool EjectId(string id)
+    public bool Eject(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_STORAGE_EJECT);
-        cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, id);
+        cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, objectId.WpdObjectId);
         return cmd.Send(device!);
     }
 
-    public void FormatPath(MediaDevice mediaDevice, string path)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
-
-        WpdItem? item = WpdItem.FindFolder(this, path);
-        Command cmd = Command.Create(WPD.COMMAND_STORAGE_FORMAT);
-        cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, item!.ObjectId);
-        cmd.Send(device!);
-    }
-
-    internal void FormatId(string id)
+    public bool Format(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         Command cmd = Command.Create(WPD.COMMAND_STORAGE_FORMAT);
-        cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, id);
-        cmd.Send(device!);
+        cmd.Add(WPD.PROPERTY_STORAGE_OBJECT_ID, objectId.WpdObjectId);
+        return cmd.Send(device!);
     }
 
     public bool SendTextSMS(string functionalObject, string recipient, string text)
