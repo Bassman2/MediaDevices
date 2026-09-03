@@ -54,12 +54,20 @@ internal interface IDevice : IDisposable
 
     #region FileSystem
 
-    IEnumerable<string> EnumerateDirectories(string path, CancellationToken cancellationToken = default);
-    IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
-    IEnumerable<string> EnumerateFiles(string path, CancellationToken cancellationToken = default);
-    IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
-    IEnumerable<string> EnumerateFileSystemEntries(string path, CancellationToken cancellationToken = default);
-    IEnumerable<string> EnumerateFileSystemEntries(string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
+    //IEnumerable<string> EnumerateDirectories(ObjectId objectId, CancellationToken cancellationToken = default);
+    //IEnumerable<string> EnumerateDirectories(ObjectId objectId, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
+    //IEnumerable<string> EnumerateFiles(ObjectId objectId, CancellationToken cancellationToken = default);
+    //IEnumerable<string> EnumerateFiles(ObjectId objectId, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
+    //IEnumerable<string> EnumerateFileSystemEntries(ObjectId objectId, CancellationToken cancellationToken = default);
+    //IEnumerable<string> EnumerateFileSystemEntries(ObjectId objectId, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
+
+    IEnumerable<MediaDirectoryInfo> EnumerateDirectories(ObjectId objectId, CancellationToken cancellationToken = default);
+    IEnumerable<MediaDirectoryInfo> EnumerateDirectories(ObjectId objectId, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
+    IEnumerable<MediaFileInfo> EnumerateFiles(ObjectId objectId, CancellationToken cancellationToken = default);
+    IEnumerable<MediaFileInfo> EnumerateFiles(ObjectId objectId, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
+    IEnumerable<MediaFileSystemInfo> EnumerateFileSystemEntries(ObjectId objectId, CancellationToken cancellationToken = default);
+    IEnumerable<MediaFileSystemInfo> EnumerateFileSystemEntries(ObjectId objectId, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
+
 
     bool DirectoryExists(string path, CancellationToken cancellationToken = default);
 

@@ -6,52 +6,102 @@ partial class WpdDevice
 {
     #region MediaDevice: path based
 
-    public IEnumerable<string> EnumerateDirectories(string path, CancellationToken cancellationToken = default)
+    /*
+    public IEnumerable<string> EnumerateDirectories(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.Create(this, objectId);
         return item.GetChildren().Where(i => i.Type != ItemType.File).Select(i => i.FullName);
     }
 
-    public IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
+    public IEnumerable<string> EnumerateDirectories(ObjectId objectId, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.Create(this, objectId);
         return item.GetChildren(searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => i.FullName);
     }
 
-    public IEnumerable<string> EnumerateFiles(string path, CancellationToken cancellationToken = default)
+    public IEnumerable<string> EnumerateFiles(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.Create(this, objectId);
         return item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => i.FullName);
     }
 
-    public IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
+    public IEnumerable<string> EnumerateFiles(ObjectId objectId, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.Create(this, objectId);
         return item.GetChildren(searchPattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.FullName);
     }
 
-    public IEnumerable<string> EnumerateFileSystemEntries(string path, CancellationToken cancellationToken = default)
+    public IEnumerable<string> EnumerateFileSystemEntries(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.Create(this, objectId);
         return item.GetChildren().Select(i => i.FullName);
     }
 
-    public IEnumerable<string> EnumerateFileSystemEntries(string path, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
+    public IEnumerable<string> EnumerateFileSystemEntries(ObjectId objectId, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFolder(this, path) ?? throw new DirectoryNotFoundException($"Director {path} not found.");
+        WpdItem item = WpdItem.Create(this, objectId);
         return item.GetChildren(searchPattern, searchOption).Select(i => i.FullName);
+    }
+    */
+
+    public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(ObjectId objectId, CancellationToken cancellationToken = default)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        WpdItem item = WpdItem.Create(this, objectId);
+        return item.GetChildren().Where(i => i.Type != ItemType.File).Select(i => i.ToDirectoryInfo());
+    }
+
+    public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(ObjectId objectId, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        WpdItem item = WpdItem.Create(this, objectId);
+        return item.GetChildren(searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => i.ToDirectoryInfo());
+    }
+
+    public IEnumerable<MediaFileInfo> EnumerateFiles(ObjectId objectId, CancellationToken cancellationToken = default)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        WpdItem item = WpdItem.Create(this, objectId);
+        return item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => i.ToFileInfo());
+    }
+
+    public IEnumerable<MediaFileInfo> EnumerateFiles(ObjectId objectId, string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        WpdItem item = WpdItem.Create(this, objectId);
+        return item.GetChildren(searchPattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => i.ToFileInfo());
+    }
+
+    public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemEntries(ObjectId objectId, CancellationToken cancellationToken = default)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        WpdItem item = WpdItem.Create(this, objectId);
+        return item.GetChildren().Select(i => i.ToFileSystemInfo());
+    }
+
+    public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemEntries(ObjectId objectId, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+
+        WpdItem item = WpdItem.Create(this, objectId);
+        return item.GetChildren(searchPattern, searchOption).Select(i => i.ToFileSystemInfo());
     }
 
     public bool DirectoryExists(string path, CancellationToken cancellationToken = default)

@@ -850,6 +850,11 @@ internal class WpdItem
         };
     }
 
+    public MediaFileSystemInfo ToFileSystemInfo()
+    {
+        return Type == ItemType.File ? ToFileInfo() : ToDirectoryInfo();
+    }
+
     #endregion
 
     #region private
