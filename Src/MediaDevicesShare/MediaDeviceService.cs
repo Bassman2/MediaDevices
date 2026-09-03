@@ -179,69 +179,71 @@ public class MediaDeviceService : IDisposable
 
     internal IEnumerable<MediaDeviceServiceContent> GetContent(string objectID)
     {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+        //ThreadSafeWorkerException.ThrowIfNotInside();
 
-        int err = this.content!.EnumObjects(0, objectID, null, out IEnumPortableDeviceObjectIDs enumerator);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent2), nameof(IPortableDeviceContent2.EnumObjects));
-
-
-        uint num = 0;
-        string[] objectIdArray = new string[20];
-        err = enumerator.Next(20, objectIdArray, ref num);
-        MediaDeviceException.ThrowIfComError(err, nameof(IEnumPortableDeviceObjectIDs), nameof(IEnumPortableDeviceObjectIDs.Next));
+        //int err = this.content!.EnumObjects(0, objectID, null, out IEnumPortableDeviceObjectIDs enumerator);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent2), nameof(IPortableDeviceContent2.EnumObjects));
 
 
-        return objectIdArray.Take((int)num).Select(o => new MediaDeviceServiceContent(this, o));
+        //uint num = 0;
+        //string[] objectIdArray = new string[20];
+        //err = enumerator.Next(20, objectIdArray, ref num);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IEnumPortableDeviceObjectIDs), nameof(IEnumPortableDeviceObjectIDs.Next));
+
+
+        //return objectIdArray.Take((int)num).Select(o => new MediaDeviceServiceContent(this, o));
+        yield break;
     }
 
     internal IEnumerable<KeyValuePair<string, string>> GetAllProperties(string objectID)
     {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+        //ThreadSafeWorkerException.ThrowIfNotInside();
 
-        int err = this.content!.Properties(out IPortableDeviceProperties properties);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent2), nameof(IPortableDeviceContent2.Properties));
-
-
-        err = properties.GetSupportedProperties(objectID, out IPortableDeviceKeyCollection keyCol);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetSupportedProperties));
+        //int err = this.content!.Properties(out IPortableDeviceProperties properties);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent2), nameof(IPortableDeviceContent2.Properties));
 
 
-        err = properties.GetValues(objectID, keyCol, out IPortableDeviceValues deviceValues);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
+        //err = properties.GetSupportedProperties(objectID, out IPortableDeviceKeyCollection keyCol);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetSupportedProperties));
 
 
-        return deviceValues.ToKeyValuePair();
+        //err = properties.GetValues(objectID, keyCol, out IPortableDeviceValues deviceValues);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
+
+
+        //return deviceValues.ToKeyValuePair();
+        yield break;
     }
 
-    internal IPortableDeviceValues GetProperties(IPortableDeviceKeyCollection keyCol)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+    //internal IPortableDeviceValues GetProperties(IPortableDeviceKeyCollection keyCol)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
 
-        int err = this.content!.Properties(out IPortableDeviceProperties properties);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent2), nameof(IPortableDeviceContent2.Properties));
+    //    int err = this.content!.Properties(out IPortableDeviceProperties properties);
+    //    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent2), nameof(IPortableDeviceContent2.Properties));
 
-        err = properties.GetValues(this.ServiceObjectID!, keyCol, out IPortableDeviceValues deviceValues);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
+    //    err = properties.GetValues(this.ServiceObjectID!, keyCol, out IPortableDeviceValues deviceValues);
+    //    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
-        return deviceValues;
-    }
+    //    return deviceValues;
+    //}
 
     /// <summary>
     /// Update service
     /// </summary>
     protected virtual void Update()
     {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+        //ThreadSafeWorkerException.ThrowIfNotInside();
 
-        int err = this.content!.Properties(out IPortableDeviceProperties properties);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent2), nameof(IPortableDeviceContent2.Properties));
+        //int err = this.content!.Properties(out IPortableDeviceProperties properties);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent2), nameof(IPortableDeviceContent2.Properties));
 
 
-        err = properties.GetSupportedProperties(this.ServiceObjectID!, out IPortableDeviceKeyCollection keyCol);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetSupportedProperties));
+        //err = properties.GetSupportedProperties(this.ServiceObjectID!, out IPortableDeviceKeyCollection keyCol);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetSupportedProperties));
 
-        err = properties.GetValues(this.ServiceObjectID!, keyCol, out IPortableDeviceValues deviceValues);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
+        //err = properties.GetValues(this.ServiceObjectID!, keyCol, out IPortableDeviceValues deviceValues);
+        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
 
         //ComTrace.WriteValues(deviceValues);
     }
@@ -250,18 +252,19 @@ public class MediaDeviceService : IDisposable
     /// Get all properties
     /// </summary>
     /// <returns>List of properties</returns>
-    public IEnumerable<KeyValuePair<string, string>> GetAllProperties()
-    {
-        return GetAllProperties(this.ServiceObjectID!);
-    }
+    //public IEnumerable<KeyValuePair<string, string>> GetAllProperties()
+    //{
+    //    return GetAllProperties(this.ServiceObjectID!);
+    //}
 
+    /*
     /// <summary>
     /// Get supported methods
     /// </summary>
     /// <returns>List of supported methods</returns>
     public IEnumerable<Methods> GetSupportedMethods()
     {
-        return device!.worker.InvokeEnumerable(() => WpdDevice.SupportedMethods(capabilities!));
+        return worker.InvokeEnumerable(() => device.SupportedMethods(capabilities!));
     }
 
     /// <summary>
@@ -270,7 +273,7 @@ public class MediaDeviceService : IDisposable
     /// <returns>List of supported commands</returns>
     public IEnumerable<Commands> GetSupportedCommands()
     {
-        return device!.worker.InvokeEnumerable(() => WpdDevice.SupportedCommands(capabilities!));
+        return worker.InvokeEnumerable(() => device.SupportedCommands(capabilities!));
     }
 
     /// <summary>
@@ -279,7 +282,7 @@ public class MediaDeviceService : IDisposable
     /// <returns>list of supported events</returns>
     public IEnumerable<Events> GetSupportedEvents()
     {
-        return device!.worker.InvokeEnumerable(() => WpdDevice.SupportedEvents(capabilities!));
+        return worker.InvokeEnumerable(() => WpdDevice.SupportedEvents(capabilities!));
     }
 
     /// <summary>
@@ -288,8 +291,9 @@ public class MediaDeviceService : IDisposable
     /// <returns>List of supported formats</returns>
     public IEnumerable<Formats> GetSupportedFormats()
     {
-        return device!.worker.InvokeEnumerable(() => WpdDevice.SupportedFormats(capabilities!));
+        return worker.InvokeEnumerable(() => WpdDevice.SupportedFormats(capabilities!));
     }
+    */
 
     ///// <summary>
     ///// Call a service method

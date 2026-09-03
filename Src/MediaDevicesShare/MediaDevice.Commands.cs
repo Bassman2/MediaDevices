@@ -149,10 +149,10 @@ partial class MediaDevice
     /// }
     /// </code>
     /// </example>
-    public MediaStorageInfo? GetStorageInfo(string storageObjectId)
+    public MediaStorageInfo? GetStorageInfo(ObjectId storageObjectId)
     {
         NotConnectedException.ThrowIfNotConnected(this);
-        ArgumentNullException.ThrowIfNullOrEmpty(storageObjectId, nameof(storageObjectId));
+        //rgumentNullException.ThrowIfNullOrEmpty(storageObjectId, nameof(storageObjectId));
 
         return worker.Invoke(() => device.GetStorageInfo(storageObjectId));
     }

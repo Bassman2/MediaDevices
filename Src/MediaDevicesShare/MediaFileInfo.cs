@@ -5,7 +5,7 @@
 /// </summary>
 public partial class MediaFileInfo : MediaFileSystemInfo
 {
-    internal MediaFileInfo(IDevice device, string objectId) : base(device, objectId)
+    internal MediaFileInfo(IDevice device, ObjectId objectId) : base(device, objectId)
     { }
 
     /// <summary>

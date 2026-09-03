@@ -48,7 +48,7 @@ internal interface IDevice : IDisposable
 
     bool StillImageCaptureInitiate(string functionalObject);
 
-    MediaStorageInfo? GetStorageInfo(string storageObjectId);
+    MediaStorageInfo? GetStorageInfo(ObjectId storageObjectId);
 
     #endregion
 
@@ -69,32 +69,32 @@ internal interface IDevice : IDisposable
     IEnumerable<MediaFileSystemInfo> EnumerateFileSystemEntries(ObjectId objectId, string? searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default);
 
 
-    bool DirectoryExists(string path, CancellationToken cancellationToken = default);
+    bool DirectoryExists(ObjectId objectId, CancellationToken cancellationToken = default);
 
     MediaDirectoryInfo CreateDirectory(ObjectId objectId, string path, CancellationToken cancellationToken = default);
 
     void DeleteDirectory(ObjectId objectId, bool recursive = false, CancellationToken cancellationToken = default);
    
 
-    bool FileExists(string path, CancellationToken cancellationToken = default);
+    bool FileExists(ObjectId objectId, CancellationToken cancellationToken = default);
 
-    void DeleteFile(string path, CancellationToken cancellationToken = default);
+    void DeleteFile(ObjectId objectId, CancellationToken cancellationToken = default);
 
-    void Rename(string path, string newName, CancellationToken cancellationToken = default);
+    void Rename(ObjectId objectId, string newName, CancellationToken cancellationToken = default);
 
-    void DownloadFile(string source, Stream stream, CancellationToken cancellationToken = default);
+    void DownloadFile(ObjectId objectId, Stream stream, CancellationToken cancellationToken = default);
 
-    void DownloadFile(string source, string destination, CancellationToken cancellationToken = default);
+    void DownloadFile(ObjectId objectId, string destination, CancellationToken cancellationToken = default);
 
-    void DownloadIcon(string source, Stream stream, CancellationToken cancellationToken = default);
+    void DownloadIcon(ObjectId objectId, Stream stream, CancellationToken cancellationToken = default);
 
-    void DownloadIcon(string source, string destination, CancellationToken cancellationToken = default);
+    void DownloadIcon(ObjectId objectId, string destination, CancellationToken cancellationToken = default);
 
-    void DownloadThumbnail(string source, Stream stream, CancellationToken cancellationToken = default);
+    void DownloadThumbnail(ObjectId objectId, Stream stream, CancellationToken cancellationToken = default);
 
-    void DownloadThumbnail(string source, string destination, CancellationToken cancellationToken = default);
+    void DownloadThumbnail(ObjectId objectId, string destination, CancellationToken cancellationToken = default);
 
-    void DownloadFolder(string source, string destination, bool recursive, bool ignoreExceptions, CancellationToken cancellationToken = default);
+    void DownloadFolder(ObjectId objectId, string destination, bool recursive, bool ignoreExceptions, CancellationToken cancellationToken = default);
 
 
     void UploadFile(Stream stream, string destination, CancellationToken cancellationToken = default);

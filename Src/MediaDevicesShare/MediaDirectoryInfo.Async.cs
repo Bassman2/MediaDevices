@@ -82,7 +82,7 @@ partial class MediaDirectoryInfo
     public IAsyncEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfosAsync(CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(device);
-        return worker.InvokeAsyncEnumerable(() => device.EnumerateFileSystemInfos(ObjectId, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() => device.EnumerateFileSystemEntries(ObjectId, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -96,6 +96,6 @@ partial class MediaDirectoryInfo
     public IAsyncEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfosAsync(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly, CancellationToken cancellationToken = default)
     {
         NotConnectedException.ThrowIfNotConnected(device);
-        return worker.InvokeAsyncEnumerable(() => device.EnumerateFileSystemInfos(ObjectId, searchPattern, searchOption, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() => device.EnumerateFileSystemEntries(ObjectId, searchPattern, searchOption, cancellationToken), cancellationToken);
     }
 }

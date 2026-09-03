@@ -40,12 +40,12 @@ public abstract partial class MediaFileSystemInfo
     /// <summary>
     /// Gets the full path of the directory or file.
     /// </summary>
-    public string FullName { get; internal set; }
+    public string FullName { get; internal set; } = "";
 
     /// <summary>
     /// For files, gets the name of the file. For directories, gets the name of the last directory in the hierarchy if a hierarchy exists. Otherwise, the Name property gets the name of the directory.
     /// </summary>
-    public string Name { get; internal set; }
+    public string Name { get; internal set; } = "";
 
     /// <summary>
     /// Gets the size, in bytes, of the current file.   
@@ -103,7 +103,7 @@ public abstract partial class MediaFileSystemInfo
     /// <remarks>
     /// A unique cross session object ID, that is not changing when mediaDevice is disconnected.
     /// </remarks>
-    public string PersistentUniqueId { get; internal set; }
+    public string PersistentUniqueId { get; internal set; } = "";
 
     #endregion
 
@@ -126,7 +126,7 @@ public abstract partial class MediaFileSystemInfo
     {
         NotConnectedException.ThrowIfNotConnected(device);
         ArgumentException.ThrowIfNullOrWhiteSpace(newName, nameof(newName));
-        worker.Invoke(() => device.Rename(this.item, newName));
+        worker.Invoke(() => device.Rename(ObjectId, newName));
     }
 
     #endregion

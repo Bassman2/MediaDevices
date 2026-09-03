@@ -19,7 +19,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => device.EnumerateDirectories(path));
+        return worker.InvokeEnumerable(() => device.EnumerateDirectories(device.PathToObjectId(path)).Select(i => i.FullName));
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => device.EnumerateDirectories(path, searchPattern, searchOption));
+        return worker.InvokeEnumerable(() => device.EnumerateDirectories(device.PathToObjectId(path), searchPattern, searchOption).Select(i => i.FullName));
     }
 
 
@@ -59,7 +59,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => device.EnumerateFiles(path));
+        return worker.InvokeEnumerable(() => device.EnumerateFiles(device.PathToObjectId(path)).Select(i => i.FullName));
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => device.EnumerateFiles(path, searchPattern, searchOption));
+        return worker.InvokeEnumerable(() => device.EnumerateFiles(device.PathToObjectId(path), searchPattern, searchOption).Select(i => i.FullName));
     }
 
     /// <summary>
@@ -97,7 +97,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => device.EnumerateFileSystemEntries(path));
+        return worker.InvokeEnumerable(() => device.EnumerateFileSystemEntries(device.PathToObjectId(path)).Select(i => i.FullName));
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => device.EnumerateFileSystemEntries(path, searchPattern, searchOption));
+        return worker.InvokeEnumerable(() => device.EnumerateFileSystemEntries(device.PathToObjectId(path), searchPattern, searchOption).Select(i => i.FullName));
     }
 
     /// <summary>
@@ -220,7 +220,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.Invoke(() => device.DirectoryExists(path));
+        return worker.Invoke(() => device.DirectoryExists(device.PathToObjectId(path)));
     }
 
     /// <summary>
@@ -255,7 +255,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => device.DeleteDirectory(path, recursive));
+        worker.Invoke(() => device.DeleteDirectory(device.PathToObjectId(path), recursive));
     }
     
     /// <summary>
@@ -271,7 +271,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.Invoke(() => device.FileExists(path));
+        return worker.Invoke(() => device.FileExists(device.PathToObjectId(path)));
     }
 
     /// <summary>
@@ -288,7 +288,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => device.DeleteFile(path));
+        worker.Invoke(() => device.DeleteFile(device.PathToObjectId(path)));
     }
 
     /// <summary>
@@ -302,7 +302,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         FileSystemPathCheck.ThrowIfInvalidPath(newName, nameof(newName));
 
-        worker.Invoke(() => device.Rename(path, newName));
+        worker.Invoke(() => device.Rename(device.PathToObjectId(path), newName));
     }
 
     #endregion

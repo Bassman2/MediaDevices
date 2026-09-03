@@ -19,7 +19,8 @@ partial class WpdDevice
         {
             return [];
         }
-        return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => WpdItem.Create(this, c).FullName);
+        //return cmd.GetPropVariants(WPD.PROPERTY_DEVICE_HINTS_CONTENT_LOCATIONS).Select(c => WpdItem.Create(this, c).FullName);
+        return [];
     }
 
     //public void Supported(string id)
@@ -85,7 +86,7 @@ partial class WpdDevice
     //    return eventGuid.FindEventsEnum();
     //}
     
-    public MediaStorageInfo? GetStorageInfo(string storageObjectId)
+    public MediaStorageInfo? GetStorageInfo(ObjectId storageObjectId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
         
@@ -103,11 +104,11 @@ partial class WpdDevice
 
         var info = new MediaStorageInfo();
 
-        ComTrace.WriteSupportedProperties(deviceProperties!, storageObjectId);
-        ComTrace.WriteValues(deviceProperties!, storageObjectId);
+        ComTrace.WriteSupportedProperties(deviceProperties!, storageObjectId.WpdObjectId);
+        ComTrace.WriteValues(deviceProperties!, storageObjectId.WpdObjectId);
 
-        int err = deviceProperties!.GetValues(storageObjectId, keys, out IPortableDeviceValues values);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), storageObjectId);
+        int err = deviceProperties!.GetValues(storageObjectId.WpdObjectId, keys, out IPortableDeviceValues values);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), storageObjectId.WpdObjectId);
 
         if (values.GetUnsignedIntegerValue(ref WPD.STORAGE_TYPE, out uint type) == OK)
         {

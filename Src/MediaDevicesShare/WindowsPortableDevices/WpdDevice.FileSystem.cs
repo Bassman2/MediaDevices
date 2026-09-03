@@ -104,11 +104,11 @@ partial class WpdDevice
         return item.GetChildren(searchPattern, searchOption).Select(i => i.ToFileSystemInfo());
     }
 
-    public bool DirectoryExists(string path, CancellationToken cancellationToken = default)
+    public bool DirectoryExists(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return WpdItem.FindFolder(this, path) != null;
+        return WpdItem.Create(this, objectId) != null;
     }
 
     //public void CreateDirectory(string path, CancellationToken cancellationToken = default)
@@ -135,14 +135,14 @@ partial class WpdDevice
         item.Delete(recursive);
     }
 
-    public bool FileExists(string path, CancellationToken cancellationToken = default)
+    public bool FileExists(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return WpdItem.FindFile(this, path) != null;
+        return WpdItem.Create(this, objectId) != null;
     }
 
-    public void DeleteFile(string objectId, CancellationToken cancellationToken = default)
+    public void DeleteFile(ObjectId objectId, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -151,11 +151,11 @@ partial class WpdDevice
         item.Delete();
     }
 
-    public void Rename(string path, string newName, CancellationToken cancellationToken = default)
+    public void Rename(ObjectId objectId, string newName, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindItem(this, path) ?? throw new FileNotFoundException($"Path {path} not found.", path);
+        WpdItem item = WpdItem.Create(this, objectId);
         item.Rename(newName);
     }
 
@@ -163,16 +163,16 @@ partial class WpdDevice
 
     #region Download and Upload path based
 
-    public void DownloadFile(string source, Stream stream, CancellationToken cancellationToken = default)
+    public void DownloadFile(ObjectId objectId, Stream stream, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFile(this, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.Create(this, objectId);
         using var sourceStream = item.OpenRead();
         sourceStream.CopyTo(stream);
     }
 
-    public void DownloadFile(string source, string destination, CancellationToken cancellationToken = default)
+    public void DownloadFile(ObjectId objectId, string destination, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -182,7 +182,7 @@ partial class WpdDevice
         sourceStream.CopyTo(destinationStream);
     }
 
-    public void DownloadIcon(string source, Stream stream, CancellationToken cancellationToken = default)
+    public void DownloadIcon(ObjectId objectId, Stream stream, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -191,7 +191,7 @@ partial class WpdDevice
         sourceStream.CopyTo(stream);
     }
 
-    public void DownloadIcon(string source, string destination, CancellationToken cancellationToken = default)
+    public void DownloadIcon(ObjectId objectId, string destination, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -201,7 +201,7 @@ partial class WpdDevice
         sourceStream.CopyTo(destinationStream);
     }
 
-    public void DownloadThumbnail(string source, Stream stream, CancellationToken cancellationToken = default)
+    public void DownloadThumbnail(ObjectId objectId, Stream stream, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -210,7 +210,7 @@ partial class WpdDevice
         sourceStream.CopyTo(stream);
     }
 
-    public void DownloadThumbnail(string source, string destination, CancellationToken cancellationToken = default)
+    public void DownloadThumbnail(ObjectId objectId, string destination, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -220,35 +220,35 @@ partial class WpdDevice
         sourceStream.CopyTo(destinationStream);
     }
 
-    public void DownloadFolder(string source, string destination, bool recursive, bool ignoreExceptions, CancellationToken cancellationToken = default)
+    public void DownloadFolder(ObjectId objectId, string destination, bool recursive, bool ignoreExceptions, CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        Directory.CreateDirectory(destination);
-        WpdItem dir = WpdItem.FindFolder(this, source) ?? throw new DirectoryNotFoundException($"{source} not found.");
-        if (recursive)
-        {
-            foreach (var item in dir.GetChildren("*", SearchOption.AllDirectories))
-            {
-                string path = Path.Combine(destination, GetLocalPath(source, item.FullName));
-                if (item.IsFile)
-                {
-                    DownloadFileIntern(item, path, ignoreExceptions);
-                }
-                else
-                {
-                    Directory.CreateDirectory(path);
-                }
-            }
-        }
-        else
-        {
-            foreach (var item in dir.GetChildren())
-            {
-                string path = Path.Combine(destination, GetLocalPath(source, item.FullName));
-                DownloadFileIntern(item, path, ignoreExceptions);
-            }
-        }
+        //Directory.CreateDirectory(destination);
+        //WpdItem dir = WpdItem.Create(this, objectId);
+        //if (recursive)
+        //{
+        //    foreach (var item in dir.GetChildren("*", SearchOption.AllDirectories))
+        //    {
+        //        string path = Path.Combine(destination, GetLocalPath(source, item.FullName));
+        //        if (item.IsFile)
+        //        {
+        //            DownloadFileIntern(item, path, ignoreExceptions);
+        //        }
+        //        else
+        //        {
+        //            Directory.CreateDirectory(path);
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    foreach (var item in dir.GetChildren())
+        //    {
+        //        string path = Path.Combine(destination, GetLocalPath(source, item.FullName));
+        //        DownloadFileIntern(item, path, ignoreExceptions);
+        //    }
+        //}
     }
 
     private void DownloadFileIntern(WpdItem item, string path, bool ignoreExceptions, CancellationToken cancellationToken = default)
@@ -441,14 +441,16 @@ partial class WpdDevice
         int err = this.deviceCapabilities!.GetFunctionalObjects(ref storage, out IPortableDevicePropVariantCollection collection);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceCapabilities), nameof(IPortableDeviceCapabilities.GetFunctionalObjects));
 
-        return collection.Enumerate<MediaDriveInfo>(i => new MediaDriveInfo(this, i.ToString()));
+        yield break;
+        //return collection.Enumerate<MediaDriveInfo>(i => i.ToMediaDriveInfo()));
     }
 
     public MediaDirectoryInfo GetRootDirectory(CancellationToken cancellationToken = default)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return new MediaDirectoryInfo(this, WpdItem.RootId);
+        WpdItem wpdItem = WpdItem.GetRoot(this);
+        return wpdItem.ToDirectoryInfo();
     }
 
     public void DownloadFileFromPersistentUniqueId(string persistentUniqueId, Stream stream, CancellationToken cancellationToken = default)
@@ -564,71 +566,71 @@ partial class WpdDevice
         item.SetDateAuthored(value.GetValueOrDefault(DateTime.Now));
     }
 
-    public void Rename(WpdItem item, string newName, CancellationToken cancellationToken = default)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+    //public void Rename(WpdItem item, string newName, CancellationToken cancellationToken = default)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
 
-        item.Rename(newName);
-    }
+    //    item.Rename(newName);
+    //}
 
     #endregion
 
     #region MediaDirectoryInfo
 
-    public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(WpdItem item, CancellationToken cancellationToken = default)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+    //public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(WpdItem item, CancellationToken cancellationToken = default)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return item.GetChildren().Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(this, i));
+    //    return item.GetChildren().Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(this, i));
 
-    }
+    //}
 
-    public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(WpdItem item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+    //public IEnumerable<MediaDirectoryInfo> EnumerateDirectories(WpdItem item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return item.GetChildren(searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(this, i));
-    }
+    //    return item.GetChildren(searchPattern, searchOption).Where(i => i.Type != ItemType.File).Select(i => new MediaDirectoryInfo(this, i));
+    //}
 
-    public IEnumerable<MediaFileInfo> EnumerateFiles(WpdItem item, CancellationToken cancellationToken = default)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+    //public IEnumerable<MediaFileInfo> EnumerateFiles(WpdItem item, CancellationToken cancellationToken = default)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(this, i));
-    }
-    public IEnumerable<MediaFileInfo> EnumerateFiles(WpdItem item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+    //    return item.GetChildren().Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(this, i));
+    //}
+    //public IEnumerable<MediaFileInfo> EnumerateFiles(WpdItem item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return item.GetChildren(searchPattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(this, i));
-    }
+    //    return item.GetChildren(searchPattern, searchOption).Where(i => i.Type == ItemType.File).Select(i => new MediaFileInfo(this, i));
+    //}
 
-    public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(WpdItem item, CancellationToken cancellationToken = default)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+    //public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(WpdItem item, CancellationToken cancellationToken = default)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return item.GetChildren().Select(i => i.Type == ItemType.File ?
-            (MediaFileSystemInfo)new MediaFileInfo(this, i) :
-            (MediaFileSystemInfo)new MediaDirectoryInfo(this, i));
-    }
-    public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(WpdItem item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+    //    return item.GetChildren().Select(i => i.Type == ItemType.File ?
+    //        (MediaFileSystemInfo)new MediaFileInfo(this, i) :
+    //        (MediaFileSystemInfo)new MediaDirectoryInfo(this, i));
+    //}
+    //public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(WpdItem item, string searchPattern, SearchOption searchOption, CancellationToken cancellationToken = default)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return item.GetChildren(searchPattern, searchOption).Select(i => i.Type == ItemType.File ?
-            (MediaFileSystemInfo)new MediaFileInfo(this, i) :
-            (MediaFileSystemInfo)new MediaDirectoryInfo(this, i));
-    }
+    //    return item.GetChildren(searchPattern, searchOption).Select(i => i.Type == ItemType.File ?
+    //        (MediaFileSystemInfo)new MediaFileInfo(this, i) :
+    //        (MediaFileSystemInfo)new MediaDirectoryInfo(this, i));
+    //}
 
-    public MediaDirectoryInfo CreateSubdirectory(WpdItem item, string path)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
+    //public MediaDirectoryInfo CreateSubdirectory(WpdItem item, string path)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
 
-        var now = DateTime.Now;
+    //    var now = DateTime.Now;
 
-        WpdItem? dirItem = item.CreateSubdirectory(path, now, now, now);
-        return new MediaDirectoryInfo(this, dirItem!);
-    }
+    //    WpdItem? dirItem = item.CreateSubdirectory(path, now, now, now);
+    //    return new MediaDirectoryInfo(this, dirItem!);
+    //}
 
     #endregion
 

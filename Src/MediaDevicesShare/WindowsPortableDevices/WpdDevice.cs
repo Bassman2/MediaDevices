@@ -52,7 +52,7 @@ internal partial class WpdDevice : IDevice, IDisposable
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         this.deviceManager = deviceManager;
-        this.serviceManager = deviceManager;
+        //this.serviceManager = deviceManager;
         this.usbDevice = usbDevice; 
 
         //this.eventThreadHandler = new(this);
@@ -182,7 +182,7 @@ internal partial class WpdDevice : IDevice, IDisposable
 
         if (deviceValues.GetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, out string friendlyName) == OK)
         { 
-            friendlyName = friendlyName;
+            //friendlyName = friendlyName;
         }
         if (deviceValues.GetStringArrayValue(ref WPD.DEVICE_SUPPORTED_DRM_SCHEMES, out string[] supportedDrmSchemes) == OK)
         {

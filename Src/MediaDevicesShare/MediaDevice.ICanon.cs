@@ -52,78 +52,78 @@ partial class MediaDevice : ICanonMediaDevice
 
     #region Commands
 
-    void ICanonMediaDevice.TakePicture()
-    {
-        worker.Invoke(() => WpdDevice.CanonTakePicture(this));
-    }
+    //void ICanonMediaDevice.TakePicture()
+    //{
+    //    worker.Invoke(() => device.CanonTakePicture());
+    //}
 
-    async Task ICanonMediaDevice.TakePictureAsync(CancellationToken cancellationToken)
-    {
-        await worker.InvokeAsync(() => WpdDevice.CanonTakePicture(this), cancellationToken);
-    }
+    //async Task ICanonMediaDevice.TakePictureAsync(CancellationToken cancellationToken)
+    //{
+    //    await worker.InvokeAsync(() => device.CanonTakePicture(), cancellationToken);
+    //}
 
-    void ICanonMediaDevice.TakePictureAndDownload(string destination)
-    {
-        var ready = new AutoResetEvent(false);
+    //void ICanonMediaDevice.TakePictureAndDownload(string destination)
+    //{
+    //    var ready = new AutoResetEvent(false);
 
-        Directory.CreateDirectory(destination);
+    //    Directory.CreateDirectory(destination);
 
-        ObjectAdded += (sender, e) =>
-        {
-            string extension = Path.GetExtension(e.ObjectName!).ToLower();
+    //    ObjectAdded += (sender, e) =>
+    //    {
+    //        string extension = Path.GetExtension(e.ObjectName!).ToLower();
 
-            // ignore temp files
-            if (extension == ".tmp" || string.IsNullOrEmpty(extension))
-            {
-                return;
-            }
+    //        // ignore temp files
+    //        if (extension == ".tmp" || string.IsNullOrEmpty(extension))
+    //        {
+    //            return;
+    //        }
 
-            string destinationPath = Path.Combine(destination, e.ObjectName!);
-            this.DownloadFile(e.ObjectFullFileName, destinationPath);
-            ready.Set();
+    //        string destinationPath = Path.Combine(destination, e.ObjectName!);
+    //        this.DownloadFile(e.ObjectFullFileName, destinationPath);
+    //        ready.Set();
 
-        };
+    //    };
 
-        worker.Invoke(() => WpdDevice.CanonTakePicture(this));
+    //    worker.Invoke(() => WpdDevice.CanonTakePicture(this));
 
-        ready.WaitOne();
-    }
+    //    ready.WaitOne();
+    //}
 
 
 
-    Task ICanonMediaDevice.TakePictureAndDownloadAsync(string destination, CancellationToken cancellationToken)
-    {
-        if (cancellationToken.IsCancellationRequested)
-        {
-            return Task.FromCanceled(cancellationToken);
-        }
+    //Task ICanonMediaDevice.TakePictureAndDownloadAsync(string destination, CancellationToken cancellationToken)
+    //{
+    //    if (cancellationToken.IsCancellationRequested)
+    //    {
+    //        return Task.FromCanceled(cancellationToken);
+    //    }
 
-        var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        // Register cancellation so the returned task will be cancelled if the token is triggered
-        var ctr = cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
+    //    var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+    //    // Register cancellation so the returned task will be cancelled if the token is triggered
+    //    var ctr = cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
 
-        Directory.CreateDirectory(destination);
+    //    Directory.CreateDirectory(destination);
 
-        ObjectAdded += (sender, e) =>
-        {
-            string extension = Path.GetExtension(e.ObjectName!).ToLower();
+    //    ObjectAdded += (sender, e) =>
+    //    {
+    //        string extension = Path.GetExtension(e.ObjectName!).ToLower();
 
-            // ignore temp files
-            if (extension == ".tmp" || string.IsNullOrEmpty(extension))
-            {
-                return;
-            }
+    //        // ignore temp files
+    //        if (extension == ".tmp" || string.IsNullOrEmpty(extension))
+    //        {
+    //            return;
+    //        }
 
-            string destinationPath = Path.Combine(destination, e.ObjectName!);
-            this.DownloadFile(e.ObjectFullFileName, destinationPath);
-            tcs.SetResult();
+    //        string destinationPath = Path.Combine(destination, e.ObjectName!);
+    //        this.DownloadFile(e.ObjectFullFileName, destinationPath);
+    //        tcs.SetResult();
 
-        };
+    //    };
 
-        worker.Invoke(() => WpdDevice.CanonTakePicture(this));
+    //    worker.Invoke(() => WpdDevice.CanonTakePicture(this));
 
-        return tcs.Task;
-    }
+    //    return tcs.Task;
+    //}
 
     #endregion
 

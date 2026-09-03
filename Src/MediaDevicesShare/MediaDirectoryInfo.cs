@@ -96,7 +96,7 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos()
     {
         NotConnectedException.ThrowIfNotConnected(device);
-        return worker.InvokeEnumerable(() => device.EnumerateFileSystemInfos(ObjectId));
+        return worker.InvokeEnumerable(() => device.EnumerateFileSystemEntries(ObjectId));
     }
 
     /// <summary>
@@ -110,6 +110,6 @@ public partial class MediaDirectoryInfo : MediaFileSystemInfo
     public IEnumerable<MediaFileSystemInfo> EnumerateFileSystemInfos(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
         NotConnectedException.ThrowIfNotConnected(device);
-        return worker.InvokeEnumerable(() => device.EnumerateFileSystemInfos(ObjectId, searchPattern, searchOption));
+        return worker.InvokeEnumerable(() => device.EnumerateFileSystemEntries(ObjectId, searchPattern, searchOption));
     }
 }

@@ -30,6 +30,7 @@ public class MediaDeviceServiceMetadata : MediaDeviceService
         keyCol.Add(ref WPD.ContentID);
         keyCol.Add(ref WPD.DefaultCAB);
         
+        /*
         IPortableDeviceValues values = GetProperties(keyCol);
 
         using (var value = new PropVariantFacade())
@@ -86,6 +87,7 @@ public class MediaDeviceServiceMetadata : MediaDeviceService
             values.GetValue(ref WPD.DefaultCAB, out value.Value);
             this.DefaultCAB = value;
         }
+        */
     }
 
     /// <summary>

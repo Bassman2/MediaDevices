@@ -1,4 +1,6 @@
-﻿namespace MediaDevices.Internal;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace MediaDevices.Internal;
 
 
 [DebuggerDisplay("{this.Type} - {this.Name} - {this.Id}")]
@@ -54,22 +56,22 @@ internal class WpdItem
     public static WpdItem GetRoot(WpdDevice device)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
-        return new WpdItem(device, RootId, @"\");
+        return new WpdItem(device, ObjectId.Device, @"\");
     }
 
     public static WpdItem Create(WpdDevice device, ObjectId objectId, string? path = null)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        return new WpdItem(device, objectId.WpdObjectId, path);
-    }
-
-    public static WpdItem Create(WpdDevice device, string objectId, string? path = null)
-    {
-        ThreadSafeWorkerException.ThrowIfNotInside();
-
         return new WpdItem(device, objectId, path);
     }
+
+    //public static WpdItem Create(WpdDevice device, string objectId, string? path = null)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotInside();
+
+    //    return new WpdItem(device, objectId, path);
+    //}
 
     public static WpdItem? FindFolder(WpdDevice device, string path)
     {
@@ -135,11 +137,11 @@ internal class WpdItem
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.GetAt));
         
         // return result item
-        return WpdItem.Create(device, val.ToString());
+        return WpdItem.Create(device, new ObjectId(val.ToString()));
         //return string.IsNullOrEmpty(mediaObjectId) ? null : WpdItem.Create(mediaDevice, mediaObjectId);
     }
 
-    private WpdItem(WpdDevice device, string objectId, string? path)
+    private WpdItem(WpdDevice device, ObjectId objectId, string? path)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
@@ -147,7 +149,7 @@ internal class WpdItem
         this.ObjectId = objectId;
         this.path = path;
 
-        if (objectId == WpdItem.RootId)
+        if (objectId.WpdObjectId == WpdItem.RootId)
         {
             this.Name = @"\";
             this.FullName = @"\";
@@ -172,13 +174,13 @@ internal class WpdItem
     /// </summary>
     /// <param name="device"></param>
     /// <param name="id"></param>
-    private WpdItem(WpdDevice device, string objectId)
+    private WpdItem(WpdDevice device, ObjectId objectId)
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
         this.device = device;
         this.ObjectId = objectId;
-        if (objectId == WpdItem.RootId)
+        if (objectId.IsDevice)
         {
             this.Name = @"\";
             this.FullName = @"\";
@@ -194,7 +196,7 @@ internal class WpdItem
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        if (ObjectId != WpdItem.RootId)
+        if (!ObjectId.IsDevice)
         {
             GetProperties();
 
@@ -255,12 +257,12 @@ internal class WpdItem
         keyCollection ??= CreateKeyCollection();
 
         // get all predefined values
-        int err = device!.deviceProperties!.GetValues(this.Id, keyCollection, out IPortableDeviceValues values);
+        int err = device!.deviceProperties!.GetValues(ObjectId, keyCollection, out IPortableDeviceValues values);
         if (err == (int)ErrorCodes.InvalidParameter)
         {
             // some devices (e.g. Amazon Kindle Paperwhite) does not support GetValues with keyCollection
             // so we need to call GetValues with null keyCollection to get all values
-            err = device.deviceProperties!.GetValues(this.Id, null, out values);
+            err = device.deviceProperties!.GetValues(ObjectId, null, out values);
         }
         if (err == (int)ErrorCodes.InvalidParameter)
         {
@@ -268,7 +270,7 @@ internal class WpdItem
         }
         if (err == (int)ErrorCodes.NotFound)
         {
-            throw new FileNotFoundException($"The item {this.Id} was not found on device {device.Description}.");
+            throw new FileNotFoundException($"The item {this.ObjectId} was not found on device {device.Description}.");
         }
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues), this);
 
@@ -338,7 +340,7 @@ internal class WpdItem
 
     #region Value Properties
 
-    public string ObjectId { get; private set; } = string.Empty;
+    public ObjectId ObjectId { get; private set; } = ObjectId.Device;
     public string Name { get; private set; } = string.Empty;
     public string FullName { get; set; } = string.Empty;
     public ItemType Type { get; private set; }        
@@ -357,7 +359,7 @@ internal class WpdItem
     public string ParentId { get; private set; } = string.Empty;
     public string PersistentUniqueId { get; private set; } = string.Empty;
 
-    public bool IsRoot => this.ObjectId == RootId;
+    public bool IsRoot => this.ObjectId.IsDevice;
 
     public bool IsFile => this.Type == ItemType.File; 
 
@@ -429,7 +431,7 @@ internal class WpdItem
 
         var regexPattern = FilterToRegex(searchPattern);
 
-        int err = device!.deviceContent!.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
+        int err = device!.deviceContent!.EnumObjects(0, ObjectId.WpdObjectId, null, out IEnumPortableDeviceObjectIDs enumerator);
         //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
         if (enumerator == null) 
         {
@@ -650,7 +652,7 @@ internal class WpdItem
         System.Threading.Thread.Sleep(20);
 
         uint optimalTransferSize = 0; 
-        err = resources.GetStream(ObjectId, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out var iStream);
+        err = resources.GetStream(ObjectId.WpdObjectId, ref WPD.RESOURCE_DEFAULT, 0, ref optimalTransferSize, out var iStream);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceResources), nameof(IPortableDeviceResources.GetStream), Path.Combine(path ?? "empty", name ?? "empty"));
 
         return new StreamWrapper(iStream, this.Size);
@@ -664,7 +666,7 @@ internal class WpdItem
 
         uint optimalTransferSize = 0;
 
-        int err = resources.GetStream(ObjectId, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out var iStream); 
+        int err = resources.GetStream(ObjectId.WpdObjectId, ref WPD.RESOURCE_THUMBNAIL, 0, ref optimalTransferSize, out var iStream); 
         if (err == (int)ErrorCodes.ResourceNotAvailable)
         {
             throw new NotSupportedException($"The device {device.Description} does not support reading thumbnails.");
@@ -682,7 +684,7 @@ internal class WpdItem
 
         uint optimalTransferSize = 0;
 
-        int err = resources.GetStream(ObjectId, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out var iStream);
+        int err = resources.GetStream(ObjectId.WpdObjectId, ref WPD.RESOURCE_ICON, 0, ref optimalTransferSize, out var iStream);
         if (err == (int)ErrorCodes.ResourceNotAvailable)
         {
             throw new NotSupportedException($"The device {device.Description} does not support reading icons.");
@@ -702,7 +704,7 @@ internal class WpdItem
 
         IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
 
-        int err = portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, ObjectId);
+        int err = portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, ObjectId.WpdObjectId);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "OBJECT_PARENT_ID");
 
         err = portableDeviceValues.SetUnsignedLargeIntegerValue(ref WPD.OBJECT_SIZE, (ulong)stream.Length);
@@ -753,7 +755,7 @@ internal class WpdItem
         int err = portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, newName);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.SetStringValue), "OBJECT_ORIGINAL_FILE_NAME");
 
-        err = device.deviceProperties!.SetValues(ObjectId, portableDeviceValues, out IPortableDeviceValues result);
+        err = device.deviceProperties!.SetValues(ObjectId.WpdObjectId, portableDeviceValues, out IPortableDeviceValues result);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.SetValues));
 
         err = result.GetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, out string check);
@@ -778,7 +780,7 @@ internal class WpdItem
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_CREATED, ref val.Value);
-            device.deviceProperties!.SetValues(ObjectId, portableDeviceValues, out IPortableDeviceValues result);
+            device.deviceProperties!.SetValues(ObjectId.WpdObjectId, portableDeviceValues, out IPortableDeviceValues result);
             ComTrace.WriteValues(result);
         }
 
@@ -794,7 +796,7 @@ internal class WpdItem
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_MODIFIED, ref val.Value);
-            device.deviceProperties!.SetValues(ObjectId, portableDeviceValues, out IPortableDeviceValues result);
+            device.deviceProperties!.SetValues(ObjectId.WpdObjectId, portableDeviceValues, out IPortableDeviceValues result);
             ComTrace.WriteValues(result);
         }
 
@@ -810,11 +812,27 @@ internal class WpdItem
         using (PropVariantFacade val = PropVariantFacade.DateTimeToPropVariant(value))
         {
             portableDeviceValues.SetValue(ref WPD.OBJECT_DATE_AUTHORED, ref val.Value);
-            device.deviceProperties!.SetValues(ObjectId, portableDeviceValues, out IPortableDeviceValues result);
+            device.deviceProperties!.SetValues(ObjectId.WpdObjectId, portableDeviceValues, out IPortableDeviceValues result);
             ComTrace.WriteValues(result);
         }
 
         Refresh();
+    }
+
+    public MediaDriveInfo ToMediaDriveInfo()
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+        return new MediaDriveInfo(device, ObjectId)
+        {
+            //FullName = this.FullName,
+            //Name = this.Name,
+            //Length = this.Size,
+            //CreationTime = this.DateCreated,
+            //LastWriteTime = this.DateModified,
+            //DateAuthored = this.DateAuthored,
+            //Attributes = GetAttributes(),
+            //PersistentUniqueId = this.PersistentUniqueId
+        };
     }
 
     public MediaFileInfo ToFileInfo()
@@ -822,7 +840,6 @@ internal class WpdItem
         ThreadSafeWorkerException.ThrowIfNotInside();
         return new MediaFileInfo(device, ObjectId)
         {
-            ObjectId = this.ObjectId,
             FullName = this.FullName,
             Name = this.Name,
             Length = this.Size,
@@ -854,6 +871,8 @@ internal class WpdItem
     {
         return Type == ItemType.File ? ToFileInfo() : ToDirectoryInfo();
     }
+
+
 
     #endregion
 

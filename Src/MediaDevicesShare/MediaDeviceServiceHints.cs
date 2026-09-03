@@ -5,7 +5,7 @@
 /// </summary>
 public class MediaDeviceServiceHints : MediaDeviceService
 {
-    internal MediaDeviceServiceHints(MediaDevice device, string serviceId) : base(device, serviceId)
+    internal MediaDeviceServiceHints(IDevice device, string serviceId) : base(device, serviceId)
     {
 
     }

@@ -5,7 +5,7 @@
 /// </summary>
 public class MediaDeviceStatusService : MediaDeviceService
 {
-    internal MediaDeviceStatusService(MediaDevice device, string serviceId) : base(device, serviceId)
+    internal MediaDeviceStatusService(IDevice device, string serviceId) : base(device, serviceId)
     {
 
     }

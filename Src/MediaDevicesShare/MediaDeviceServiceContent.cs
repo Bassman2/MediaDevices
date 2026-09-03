@@ -14,30 +14,30 @@ public class MediaDeviceServiceContent
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        this.service = service;
-        this.ObjectId = objectId;
+        //this.service = service;
+        //this.ObjectId = objectId;
                 
-        this.service!.content!.Properties(out IPortableDeviceProperties properties);
+        //this.service!.content!.Properties(out IPortableDeviceProperties properties);
 
-        //IPortableDeviceKeyCollection keyCol = (IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();
+        ////IPortableDeviceKeyCollection keyCol = (IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();
 
-        properties.GetSupportedProperties(this.ObjectId!, out IPortableDeviceKeyCollection keyCol);
+        //properties.GetSupportedProperties(this.ObjectId!, out IPortableDeviceKeyCollection keyCol);
 
-        properties.GetValues(this.ObjectId!, keyCol, out IPortableDeviceValues deviceValues);
+        //properties.GetValues(this.ObjectId!, keyCol, out IPortableDeviceValues deviceValues);
 
-        using (var value = new PropVariantFacade())
-        {
-            deviceValues.GetValue(ref WPD.OBJECT_PARENT_ID, out value.Value);
-            this.ParentId = value;
-        }
+        //using (var value = new PropVariantFacade())
+        //{
+        //    deviceValues.GetValue(ref WPD.OBJECT_PARENT_ID, out value.Value);
+        //    this.ParentId = value;
+        //}
 
-        using (var value = new PropVariantFacade())
-        {
-            deviceValues.GetValue(ref WPD.OBJECT_NAME, out value.Value);
-            this.Name = value;
-        }
+        //using (var value = new PropVariantFacade())
+        //{
+        //    deviceValues.GetValue(ref WPD.OBJECT_NAME, out value.Value);
+        //    this.Name = value;
+        //}
 
-        //ComTrace.WriteValues(deviceValues);
+        ////ComTrace.WriteValues(deviceValues);
 
     }
 

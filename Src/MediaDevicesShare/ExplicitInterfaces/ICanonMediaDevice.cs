@@ -17,11 +17,11 @@ public interface ICanonMediaDevice
 
     string? Serial { get; set; }
 
-    void TakePicture();
+    //void TakePicture();
 
-    Task TakePictureAsync(CancellationToken cancellationToken = default);
+    //Task TakePictureAsync(CancellationToken cancellationToken = default);
 
-    void TakePictureAndDownload(string destination);
+    //void TakePictureAndDownload(string destination);
     
-    Task TakePictureAndDownloadAsync(string destination, CancellationToken cancellationToken = default);
+    //Task TakePictureAndDownloadAsync(string destination, CancellationToken cancellationToken = default);
 }
