@@ -16,13 +16,13 @@ public partial class FinderGenerator : Generator
         //CreateDebug();
 
         // get all enums with [FindFieldsGeneratorAttribute] 
-        foreach (var en in GetAllEnumsWithAttribute("MediaDevices.Internal.FindFieldsGeneratorAttribute"))
+        foreach (var en in GetAllEnumsWithAttribute("MediaDevices.FindFieldsGeneratorAttribute"))
         {
             CreateFindEnumFieldsFile(en);
         }
 
         // get all classes with [FindFieldsGeneratorAttribute] 
-        foreach (var cl in GetAllClassesWithAttribute("MediaDevices.Internal.FindFieldsGeneratorAttribute"))
+        foreach (var cl in GetAllClassesWithAttribute("MediaDevices.FindFieldsGeneratorAttribute"))
         {
             CreateFindClassFieldsFile(cl);
         }

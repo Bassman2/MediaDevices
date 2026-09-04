@@ -18,7 +18,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeAsyncEnumerable<string>(() => device.EnumerateDirectories(path, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable<string>(() => device.EnumerateDirectories(device.PathToObjectId(path, cancellationToken), cancellationToken).Select(i => i.FullName), cancellationToken);
     }
 
     /// <summary>

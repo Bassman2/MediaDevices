@@ -13,6 +13,8 @@ public class MediaDeviceServiceMetadata : MediaDeviceService
     /// </summary>
     protected override void Update()
     {
+        /*
+        
         IPortableDeviceKeyCollection keyCol = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
 
         //(IPortableDeviceKeyCollection)new PortableDeviceKeyCollection();
@@ -30,7 +32,7 @@ public class MediaDeviceServiceMetadata : MediaDeviceService
         keyCol.Add(ref WPD.ContentID);
         keyCol.Add(ref WPD.DefaultCAB);
         
-        /*
+       
         IPortableDeviceValues values = GetProperties(keyCol);
 
         using (var value = new PropVariantFacade())

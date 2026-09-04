@@ -624,13 +624,14 @@ internal class WpdItem
         // but storage has ID = s10001 (storage10001). So to find a parent of top most folder
         // we need to fetch an object functional container ID. Which is storage for top most
         // directory.
-        // TODOO
-        var drives = WpdDevice.GetDrives(device);
-        var storageRoot = drives.FirstOrDefault(s => s.RootDirectory!.Id == this.ParentContainerId);
-        if (storageRoot != null)
-        {
-            return storageRoot.RootDirectory!.item;
-        }
+        
+        // TODO
+        //var drives = WpdDevice.GetDrives(device);
+        //var storageRoot = drives.FirstOrDefault(s => s.RootDirectory!.Id == this.ParentContainerId);
+        //if (storageRoot != null)
+        //{
+        //    return storageRoot.RootDirectory!.item;
+        //}
 
         return null;
     }

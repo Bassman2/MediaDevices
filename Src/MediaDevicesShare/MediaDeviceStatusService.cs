@@ -15,106 +15,106 @@ public class MediaDeviceStatusService : MediaDeviceService
     /// </summary>
     protected override void Update()
     {
-        IPortableDeviceKeyCollection keyCol = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
+        //IPortableDeviceKeyCollection keyCol = ComHelper.CreateInstance<IPortableDeviceKeyCollection>();
 
-        //int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keyCol);
-        //MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
-
-
-
-        keyCol.Add(ref WPD.SignalStrength);
-        keyCol.Add(ref WPD.TextMessages);
-        keyCol.Add(ref WPD.NewPictures);
-        keyCol.Add(ref WPD.MissedCalls);
-        keyCol.Add(ref WPD.VoiceMail);
-        keyCol.Add(ref WPD.NetworkName);
-        keyCol.Add(ref WPD.NetworkType);
-        keyCol.Add(ref WPD.Roaming);
-        keyCol.Add(ref WPD.BatteryLife);
-        keyCol.Add(ref WPD.ChargingState);
-        keyCol.Add(ref WPD.StorageCapacity);
-        keyCol.Add(ref WPD.StorageFreeSpace);
-        keyCol.Add(ref WPD.InternetConnected);
-        IPortableDeviceValues values = GetProperties(keyCol);
-
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.SignalStrength, out value.Value);
-            this.SignalStrength = value;
-        }
-
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.TextMessages, out value.Value);
-            this.TextMessages = value;
-        }
-
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.NewPictures, out value.Value);
-            this.NewPictures = value;
-        }
+        ////int err = ComHelper.CreateInstance<IPortableDeviceKeyCollection>(ref CLSID.PortableDeviceKeyCollection, out var keyCol);
+        ////MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceKeyCollection));
 
 
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.MissedCalls, out value.Value);
-            this.MissedCalls = value;
-        }
 
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.VoiceMail, out value.Value);
-            this.VoiceMail = value;
-        }
+        //keyCol.Add(ref WPD.SignalStrength);
+        //keyCol.Add(ref WPD.TextMessages);
+        //keyCol.Add(ref WPD.NewPictures);
+        //keyCol.Add(ref WPD.MissedCalls);
+        //keyCol.Add(ref WPD.VoiceMail);
+        //keyCol.Add(ref WPD.NetworkName);
+        //keyCol.Add(ref WPD.NetworkType);
+        //keyCol.Add(ref WPD.Roaming);
+        //keyCol.Add(ref WPD.BatteryLife);
+        //keyCol.Add(ref WPD.ChargingState);
+        //keyCol.Add(ref WPD.StorageCapacity);
+        //keyCol.Add(ref WPD.StorageFreeSpace);
+        //keyCol.Add(ref WPD.InternetConnected);
+        //IPortableDeviceValues values = GetProperties(keyCol);
 
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.NetworkName, out value.Value);
-            this.NetworkName = value;
-        }
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.SignalStrength, out value.Value);
+        //    this.SignalStrength = value;
+        //}
 
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.NetworkType, out value.Value);
-            this.NetworkType = value;
-        }
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.TextMessages, out value.Value);
+        //    this.TextMessages = value;
+        //}
 
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.Roaming, out value.Value);
-            this.Roaming = (Roaming)(byte)value;
-        }
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.NewPictures, out value.Value);
+        //    this.NewPictures = value;
+        //}
 
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.BatteryLife, out value.Value);
-            this.BatteryLife = value;
-        }
 
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.ChargingState, out value.Value);
-            this.ChargingState = (ChargingState)(byte)value;
-        }
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.MissedCalls, out value.Value);
+        //    this.MissedCalls = value;
+        //}
 
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.StorageCapacity, out value.Value);
-            this.StorageCapacity = value;
-        }
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.VoiceMail, out value.Value);
+        //    this.VoiceMail = value;
+        //}
 
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.StorageFreeSpace, out value.Value);
-            this.StorageFreeSpace = value;
-        }
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.NetworkName, out value.Value);
+        //    this.NetworkName = value;
+        //}
 
-        using (var value = new PropVariantFacade())
-        {
-            values.GetValue(ref WPD.InternetConnected, out value.Value);
-            this.InternetConnected = value;
-        }
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.NetworkType, out value.Value);
+        //    this.NetworkType = value;
+        //}
+
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.Roaming, out value.Value);
+        //    this.Roaming = (Roaming)(byte)value;
+        //}
+
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.BatteryLife, out value.Value);
+        //    this.BatteryLife = value;
+        //}
+
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.ChargingState, out value.Value);
+        //    this.ChargingState = (ChargingState)(byte)value;
+        //}
+
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.StorageCapacity, out value.Value);
+        //    this.StorageCapacity = value;
+        //}
+
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.StorageFreeSpace, out value.Value);
+        //    this.StorageFreeSpace = value;
+        //}
+
+        //using (var value = new PropVariantFacade())
+        //{
+        //    values.GetValue(ref WPD.InternetConnected, out value.Value);
+        //    this.InternetConnected = value;
+        //}
     }
 
     /// <summary>
