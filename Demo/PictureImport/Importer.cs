@@ -6,8 +6,7 @@ internal static class Importer
 
     public static int Copy(string deviceName, string path, string mask, bool raw, bool overrideExisting)
     {
-        var manager = MediaDeviceManager.Instance;
-        var device = manager.GetDevices()?.FirstOrDefault(d => d.Description == deviceName);
+        var device = MediaDevice.GetDevices()?.FirstOrDefault(d => d.Description == deviceName);
         if (device == null) 
         {
             Console.Error.WriteLine($"Device '{deviceName}' not found."); 
@@ -46,8 +45,8 @@ internal static class Importer
 
     public static int Move(string deviceName, string path, string mask, bool raw, bool overrideExisting)
     {
-        var manager = MediaDeviceManager.Instance;
-        var device = manager.GetDevices()?.FirstOrDefault(d => d.Description == deviceName);
+        
+        var device = MediaDevice.GetDevices()?.FirstOrDefault(d => d.Description == deviceName);
         if (device == null)
         {
             Console.Error.WriteLine($"Device '{deviceName}' not found.");
@@ -88,8 +87,8 @@ internal static class Importer
 
     public static int Clear(string deviceName)
     {
-        var manager = MediaDeviceManager.Instance;
-        var device = manager.GetDevices()?.FirstOrDefault(d => d.Description == deviceName);
+        
+        var device = MediaDevice.GetDevices()?.FirstOrDefault(d => d.Description == deviceName);
 
         if (device == null)
         {

@@ -6,8 +6,6 @@ public abstract class UnitTest
 {
     public enum DateMode { NotSupported, FileTime, Now }
 
-    protected MediaDeviceManager manager = MediaDeviceManager.Instance;
-
     // Device Select
     protected Func<MediaDevice, bool>? deviceSelect;
 
@@ -127,8 +125,8 @@ public abstract class UnitTest
 
     protected MediaDevice GetDevice()
     {
-        Assert.IsNotNull(manager, "Manager");
-        var devices = manager.GetDevices()?.ToArray();
+        
+        var devices = MediaDevice.GetDevices()?.ToArray();
         var device = devices?.FirstOrDefault(this.deviceSelect!);
         Assert.IsNotNull(device, "Device");
         return device ?? throw new InvalidOperationException("Device not found");

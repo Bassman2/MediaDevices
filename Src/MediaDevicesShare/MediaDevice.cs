@@ -17,6 +17,8 @@ public sealed partial class MediaDevice : IDisposable
 
     private readonly IDevice device;
 
+    public static IEnumerable<MediaDevice> GetDevices() => DeviceFactory.GetDevices();
+
     internal MediaDevice(IDevice device)
     {
         this.device = device;

@@ -5,13 +5,13 @@ namespace MediaDevicesDemo.ViewModel;
 [SupportedOSPlatform("windows")]
 public partial class MainViewModel : ObservableObject
 {
-    private readonly MediaDeviceManager manager;
+    //private readonly MediaDeviceManager manager;
    // private MediaDevice? device;
 
     public MainViewModel()
     {
-        manager = MediaDeviceManager.Instance;
-        Devices = manager.GetDevices()?.ToList() ?? [];
+        //manager = MediaDeviceManager.Instance;
+        Devices = MediaDevice.GetDevices()?.ToList() ?? [];
         SelectedDevice = Devices.FirstOrDefault();
         //device = Devices.FirstOrDefault();
         ////device?.Connect();
@@ -46,7 +46,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void OnUpdateDevices()
     {
-        Devices = manager.GetDevices()?.ToList() ?? [];
+        Devices = MediaDevice.GetDevices()?.ToList() ?? [];
         SelectedDevice = Devices.FirstOrDefault(d => d.Description == SelectedDevice?.Description) ?? Devices.FirstOrDefault();
     }
 

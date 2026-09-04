@@ -14,11 +14,11 @@ partial class MediaDevice
     /// This method validates that the media device is connected and that a valid path is provided
     /// before invoking the format operation. The actual formatting is performed on the main worker thread.
     /// </remarks>
-    public async Task FormatStorageAsync(string path, CancellationToken cancellationToken = default)
-    {
-        NotConnectedException.ThrowIfNotConnected(this);
-        ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
+    //public async Task FormatStorageAsync(string path, CancellationToken cancellationToken = default)
+    //{
+    //    NotConnectedException.ThrowIfNotConnected(this);
+    //    ArgumentNullException.ThrowIfNullOrEmpty(path, nameof(path));
 
-        await worker.InvokeAsync(() => WpdDevice.FormatPath(this, path), cancellationToken);
-    }
+    //    await worker.InvokeAsync(() => device.FormatPath(this, path), cancellationToken);
+    //}
 }

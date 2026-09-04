@@ -137,7 +137,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.CreateDirectory(path, cancellationToken), cancellationToken);
+        await worker.InvokeAsync(() => device.CreateDirectory(ObjectId.Device, path, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -186,7 +186,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.DeleteFile(path), cancellationToken);
+        await worker.InvokeAsync(() => device.DeleteFile(device.PathToObjectId(path, cancellationToken), cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -204,7 +204,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         FileSystemPathCheck.ThrowIfInvalidPath(newName, nameof(newName));
 
-        await worker.InvokeAsync(() => device.Rename(path, newName), cancellationToken);
+        await worker.InvokeAsync(() => device.Rename(device.PathToObjectId(path, cancellationToken), newName, cancellationToken), cancellationToken);
     }
 
     #region Download & Upload
@@ -229,7 +229,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.DownloadFile(source, stream, cancellationToken), cancellationToken);
+        await worker.InvokeAsync(() => device.DownloadFile(device.PathToObjectId(source, cancellationToken), stream, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -250,7 +250,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.DownloadFile(source, destination, cancellationToken), cancellationToken);
+        await worker.InvokeAsync(() => device.DownloadFile(device.PathToObjectId(source, cancellationToken), destination, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -272,7 +272,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.DownloadIcon(source, stream, cancellationToken), cancellationToken);
+        await worker.InvokeAsync(() => device.DownloadIcon(device.PathToObjectId(source, cancellationToken), stream, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -290,7 +290,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.DownloadIcon(source, destination, cancellationToken), cancellationToken);
+        await worker.InvokeAsync(() => device.DownloadIcon(device.PathToObjectId(source, cancellationToken), destination, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -312,7 +312,7 @@ partial class MediaDevice
         ArgumentNullException.ThrowIfNull(stream);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.DownloadThumbnail(source, stream, cancellationToken), cancellationToken);
+        await worker.InvokeAsync(() => device.DownloadThumbnail(device.PathToObjectId(source, cancellationToken), stream, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -330,7 +330,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination, nameof(destination));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.DownloadThumbnail(source, destination, cancellationToken), cancellationToken);
+        await worker.InvokeAsync(() => device.DownloadThumbnail(device.PathToObjectId(source, cancellationToken), destination, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -350,7 +350,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(destination);
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.DownloadFolder(source, destination, recursive, ignoreExceptions, cancellationToken), cancellationToken);
+        await worker.InvokeAsync(() => device.DownloadFolder(device.PathToObjectId(source, cancellationToken), destination, recursive, ignoreExceptions, cancellationToken), cancellationToken);
     }
 
     /// <summary>

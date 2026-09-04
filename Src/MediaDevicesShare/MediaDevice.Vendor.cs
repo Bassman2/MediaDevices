@@ -11,7 +11,7 @@ partial class MediaDevice
     {
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeEnumerable(() => device.VendorOpcodes<OpCodes>());
+        return worker.InvokeEnumerable(() => device.VendorOpcodes().Select(o => (OpCodes)o));
         
     }
 

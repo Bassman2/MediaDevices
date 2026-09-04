@@ -237,7 +237,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        worker.Invoke(() => device.CreateDirectory(path));
+        worker.Invoke(() => device.CreateDirectory(ObjectId.Device, path));
     }
 
     /// <summary>

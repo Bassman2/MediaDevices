@@ -14,7 +14,7 @@ partial class WpdDevice
 
     public string FriendlyName { get; }
 
-    public string Manufacturer { get; }
+    public string Manufacturer { get; set; }
 
     // only after connection
 

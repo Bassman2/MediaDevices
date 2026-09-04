@@ -42,10 +42,10 @@ partial class MediaDevice
         get => friendlyName;
         set
         {
-            NotConnectedException.ThrowIfNotConnected(this);
-            ArgumentNullException.ThrowIfNullOrEmpty(value, nameof(value));
-            ThreadSafeWorkerException.ThrowIfNotOutside();
-            friendlyName = worker.Invoke(() => WpdDevice.SetFriendlyName(this, value));
+            //NotConnectedException.ThrowIfNotConnected(this);
+            //ArgumentNullException.ThrowIfNullOrEmpty(value, nameof(value));
+            //ThreadSafeWorkerException.ThrowIfNotOutside();
+            //friendlyName = worker.Invoke(() => device.SetFriendlyName(this, value));
         }
     }
 

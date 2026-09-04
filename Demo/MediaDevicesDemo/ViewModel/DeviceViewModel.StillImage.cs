@@ -29,23 +29,23 @@ partial class DeviceViewModel
 
     private void OnStillImage(object? sender, ObjectAddedEventArgs e)
     {
-        mediaDevice.ObjectAdded -= OnStillImage;
+        //mediaDevice.ObjectAdded -= OnStillImage;
 
-        string fullName = e.ObjectFullFileName;
+        //string fullName = e.ObjectFullFileName;
         
-        using var mem = new MemoryStream();
-        e.ObjectFileStream.CopyTo(mem);
-        mem.Position = 0;
-        Application.Current.Dispatcher.Invoke(() =>
-        {
-            BitmapImage image = new BitmapImage();
-            image.BeginInit();
-            image.StreamSource = mem;
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            image.EndInit();
+        //using var mem = new MemoryStream();
+        //e.ObjectFileStream.CopyTo(mem);
+        //mem.Position = 0;
+        //Application.Current.Dispatcher.Invoke(() =>
+        //{
+        //    BitmapImage image = new BitmapImage();
+        //    image.BeginInit();
+        //    image.StreamSource = mem;
+        //    image.CacheOption = BitmapCacheOption.OnLoad;
+        //    image.EndInit();
 
-            StillImageSource = image;
-        });
+        //    StillImageSource = image;
+        //});
     }
     #endregion
 }

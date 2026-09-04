@@ -52,8 +52,8 @@ internal sealed class EventThreadHandler : IDisposable
     {
         foreach (var eventArgs in queue.GetConsumingEnumerable())
         {
-            try { mediaDevice.InvokeEvent(eventArgs); }
-            catch (Exception ex) { Debug.WriteLine(ex); }
+            //try { mediaDevice.InvokeEvent(eventArgs); }
+            //catch (Exception ex) { Debug.WriteLine(ex); }
         }
     }
 }

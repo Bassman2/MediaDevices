@@ -255,16 +255,16 @@ internal class WpdItem
         keyCollection ??= CreateKeyCollection();
 
         // get all predefined values
-        int err = device!.deviceProperties!.GetValues(ObjectId, keyCollection, out IPortableDeviceValues values);
+        int err = device!.deviceProperties!.GetValues(ObjectId.WpdObjectId, keyCollection, out IPortableDeviceValues values);
         if (err == (int)ErrorCodes.InvalidParameter)
         {
             // some devices (e.g. Amazon Kindle Paperwhite) does not support GetValues with keyCollection
             // so we need to call GetValues with null keyCollection to get all values
-            err = device.deviceProperties!.GetValues(ObjectId, null, out values);
+            err = device.deviceProperties!.GetValues(ObjectId.WpdObjectId, null, out values);
         }
         if (err == (int)ErrorCodes.InvalidParameter)
         {
-            throw new NotSupportedException($"The device {device.Description} does not support reading properties for item {this.Id}.");
+            throw new NotSupportedException($"The device {device.Description} does not support reading properties for item {this.ObjectId}.");
         }
         if (err == (int)ErrorCodes.NotFound)
         {
@@ -327,7 +327,7 @@ internal class WpdItem
         }
         if (values.GetStringValue(ref WPD.OBJECT_PARENT_ID, out var parentId) == OK)
         {
-            ParentId = parentId;
+            ParentId = new ObjectId(parentId);
         }
         if (values.GetStringValue(ref WPD.OBJECT_PERSISTENT_UNIQUE_ID, out var persistentUniqueId) == OK)
         {
@@ -367,7 +367,7 @@ internal class WpdItem
         {
             ThreadSafeWorkerException.ThrowIfNotInside();
 
-            this.parent ??= string.IsNullOrEmpty(this.ParentId) ? null : new WpdItem(device, this.ParentId, Path.GetDirectoryName(Path.GetDirectoryName(this.FullName)));
+            this.parent ??= this.ParentId.IsEmpty ? null : new WpdItem(device, this.ParentId, Path.GetDirectoryName(Path.GetDirectoryName(this.FullName)));
             return this.parent;
         }
     }
@@ -380,7 +380,7 @@ internal class WpdItem
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        int err = device!.deviceContent!.EnumObjects(0, this.Id, null, out IEnumPortableDeviceObjectIDs enumerator);
+        int err = device!.deviceContent!.EnumObjects(0, ObjectId.WpdObjectId, null, out IEnumPortableDeviceObjectIDs enumerator);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.EnumObjects));
         if (enumerator == null) 
         {
@@ -401,7 +401,7 @@ internal class WpdItem
 
                 try
                 {
-                    item = WpdItem.Create(device, objectIds[index], this.FullName);
+                    item = WpdItem.Create(device, new ObjectId(objectIds[index]), this.FullName);
                 }
                 catch (FileNotFoundException)
                 {
@@ -450,7 +450,7 @@ internal class WpdItem
 
                 try
                 {
-                    item = WpdItem.Create(device, objectIds[index], this.FullName);
+                    item = WpdItem.Create(device, new ObjectId(objectIds[index]), this.FullName);
                 }
                 catch (FileNotFoundException)
                 {
@@ -495,7 +495,7 @@ internal class WpdItem
                 // create a new directory
                 IPortableDeviceValues portableDeviceValues = ComHelper.CreateInstance<IPortableDeviceValues>();
 
-                portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, parent.Id);
+                portableDeviceValues.SetStringValue(ref WPD.OBJECT_PARENT_ID, parent.ObjectId.WpdObjectId);
                 portableDeviceValues.SetStringValue(ref WPD.OBJECT_NAME, folder);
                 portableDeviceValues.SetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, folder);
                 portableDeviceValues.SetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, ref WPD.CONTENT_TYPE_FOLDER);
@@ -529,7 +529,7 @@ internal class WpdItem
                     Debug.WriteLine(ex.Message);
                     return null;
                 }
-                child = WpdItem.Create(device, id, parent.FullName);
+                child = WpdItem.Create(device, new ObjectId(id), parent.FullName);
             }
             else if (child.Type == ItemType.File)
             {
@@ -555,7 +555,7 @@ internal class WpdItem
 
         var objectIdCollection = ComHelper.CreateInstance<IPortableDevicePropVariantCollection>();
 
-        var propVariantValue = PropVariantFacade.StringToPropVariant(this.Id);
+        var propVariantValue = PropVariantFacade.StringToPropVariant(this.ObjectId.WpdObjectId);
         int err = objectIdCollection.Add(ref propVariantValue.Value);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevicePropVariantCollection), nameof(IPortableDevicePropVariantCollection.Add));
 
@@ -579,7 +579,7 @@ internal class WpdItem
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        if (this.Id == WpdItem.RootId)
+        if (this.ObjectId.IsDevice)
         {
             return @"\";
         }
@@ -589,9 +589,9 @@ internal class WpdItem
         do
         {
             // ++ TODO
-            if (string.IsNullOrWhiteSpace(item.ParentId))
+            if (item.ParentId.IsEmpty)
             {
-                item = TryHandleNonHierarchicalStorage() ?? throw new Exception($"Problem occurred when trying to get full object path on mediaDevice {this.mediaDevice.Description}.");
+                item = TryHandleNonHierarchicalStorage() ?? throw new Exception($"Problem occurred when trying to get full object path on mediaDevice {this.device.Description}.");
             }
 
             // -- TODO

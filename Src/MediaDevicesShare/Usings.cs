@@ -23,4 +23,4 @@ global using MediaDevices.Internals;
 global using MediaDevices.Attributes;
 //global using MediaDevices.WindowsPortableDevices;
 
-using WPD = MediaDevices.WindowsPortableDevices.WPD;
+global using WPD = MediaDevices.WindowsPortableDevices.WPD;

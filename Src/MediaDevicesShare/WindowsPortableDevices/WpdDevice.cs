@@ -249,7 +249,7 @@ internal partial class WpdDevice : IDevice, IDisposable
     public ObjectId PathToObjectId(string path, CancellationToken cancellationToken = default)
     {
         WpdItem item = WpdItem.FindFolder(this, path) ?? throw new InvalidOperationException("Path not found");
-        return new ObjectId(item.ObjectId);
+        return item.ObjectId;
     }
 }
  

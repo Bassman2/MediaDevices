@@ -5,6 +5,6 @@ internal partial class EventCallback(MediaDevice device) : IPortableDeviceEventC
 {
     public void OnEvent(IPortableDeviceValues pEventParameters)
     {
-        device.CallEvent(pEventParameters);
+        //device.CallEvent(pEventParameters);
     }
 }

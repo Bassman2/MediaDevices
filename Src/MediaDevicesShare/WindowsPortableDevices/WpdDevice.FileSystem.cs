@@ -176,7 +176,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFile(this, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.Create(this, objectId); // ( WpdItem.FindFile(this, source) ?? throw new FileNotFoundException($"File {source} not found.");
         using var sourceStream = item.OpenRead();
         using var destinationStream = File.Create(destination);
         sourceStream.CopyTo(destinationStream);
@@ -186,7 +186,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFile(this, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.Create(this, objectId); //WpdItem.FindFile(this, source) ?? throw new FileNotFoundException($"File {source} not found.");
         using var sourceStream = item.OpenReadIcon();
         sourceStream.CopyTo(stream);
     }
@@ -195,7 +195,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFile(this, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.Create(this, objectId); //WpdItem.FindFile(this, source) ?? throw new FileNotFoundException($"File {source} not found.");
         using var sourceStream = item.OpenReadIcon();
         using var destinationStream = File.Create(destination);
         sourceStream.CopyTo(destinationStream);
@@ -205,7 +205,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFile(this, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.Create(this, objectId); //WpdItem.FindFile(this, source) ?? throw new FileNotFoundException($"File {source} not found.");
         using Stream sourceStream = item.OpenReadThumbnail();
         sourceStream.CopyTo(stream);
     }
@@ -214,7 +214,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.FindFile(this, source) ?? throw new FileNotFoundException($"File {source} not found.");
+        WpdItem item = WpdItem.Create(this, objectId); //WpdItem.FindFile(this, source) ?? throw new FileNotFoundException($"File {source} not found.");
         using Stream sourceStream = item.OpenReadThumbnail();
         using var destinationStream = File.Create(destination);
         sourceStream.CopyTo(destinationStream);
@@ -333,7 +333,7 @@ partial class WpdDevice
                     try
                     {
                         // call the instance overload UploadFile(source, destination)
-                        UploadFile(fsi.FullName, absDestination);
+                        UploadFile(fsi.FullName, absDestination, cancellationToken);
                     } 
                     catch 
                     {
@@ -352,7 +352,7 @@ partial class WpdDevice
             {
                 try
                 {
-                    UploadFile(mediaDevice, file, Path.Combine(destination, Path.GetFileName(file)));
+                    //UploadFile(mediaDevice, file, Path.Combine(destination, Path.GetFileName(file)));
                 }
                 catch
                 {
@@ -482,7 +482,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem item = WpdItem.GetFromPersistentUniqueId(t, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
+        WpdItem item = WpdItem.GetFromPersistentUniqueId(this, persistentUniqueId) ?? throw new FileNotFoundException($"{persistentUniqueId} not found.");
         return (MediaFileSystemInfo)(item.IsFile ? new MediaFileInfo(this, item.ObjectId) : new MediaDirectoryInfo(this, item.ObjectId));
     }
 
