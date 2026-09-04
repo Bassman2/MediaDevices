@@ -1,4 +1,8 @@
-﻿namespace MediaDevices;
+﻿using MediaDevices.WindowsPortableDevices;
+
+
+
+namespace MediaDevices;
 
 // Explicit Interface Implementation
 partial class MediaDevice : INikonMediaDevice

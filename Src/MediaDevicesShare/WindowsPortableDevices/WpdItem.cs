@@ -354,7 +354,7 @@ internal class WpdItem
     public bool IsSystem { get; private set; }
     public bool IsHidden { get; private set; }
     public bool IsDRMProtected { get; private set; }
-    public string ParentId { get; private set; } = string.Empty;
+    public ObjectId ParentId { get; private set; } = ObjectId.Device;
     public string PersistentUniqueId { get; private set; } = string.Empty;
 
     public bool IsRoot => this.ObjectId.IsDevice;

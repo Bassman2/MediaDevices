@@ -541,7 +541,7 @@ partial class WpdDevice
     {
         ThreadSafeWorkerException.ThrowIfNotInside();
 
-        WpdItem? parent = WpdItem.Create(this, objectId.WpdObjectId).Parent;
+        WpdItem? parent = WpdItem.Create(this, objectId).Parent;
         return parent?.ToDirectoryInfo();
     }
 

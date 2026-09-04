@@ -3,6 +3,7 @@
 public record ObjectId
 {
     public static readonly ObjectId Device = new ObjectId("DEVICE", 0);
+    public static readonly ObjectId Empty = new ObjectId("", 0);
 
     public ObjectId(string wpdObjectId, uint mtpObjectId)
     {
