@@ -36,7 +36,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeAsyncEnumerable(() => device.EnumerateDirectories(path, searchPattern, searchOption, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() => device.EnumerateDirectories(device.PathToObjectId(path, cancellationToken), searchPattern, searchOption, cancellationToken).Select(i => i.FullName), cancellationToken);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeAsyncEnumerable(() => device.EnumerateFiles(path, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() => device.EnumerateFiles(device.PathToObjectId(path, cancellationToken), cancellationToken).Select(i => i.FullName), cancellationToken);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeAsyncEnumerable(() => device.EnumerateFiles(path, searchPattern, searchOption, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() => device.EnumerateFiles(device.PathToObjectId(path, cancellationToken), searchPattern, searchOption, cancellationToken).Select(i => i.FullName), cancellationToken);
 
     }
 
@@ -87,7 +87,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeAsyncEnumerable(() =>device.EnumerateFileSystemEntries(path, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() =>device.EnumerateFileSystemEntries(device.PathToObjectId(path, cancellationToken), cancellationToken).Select(i => i.FullName), cancellationToken);
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return worker.InvokeAsyncEnumerable(() => device.EnumerateFileSystemEntries(path, searchPattern, searchOption, cancellationToken), cancellationToken);
+        return worker.InvokeAsyncEnumerable(() => device.EnumerateFileSystemEntries(device.PathToObjectId(path, cancellationToken), searchPattern, searchOption, cancellationToken).Select(i => i.FullName), cancellationToken);
     }
 
     /// <summary>
@@ -134,10 +134,10 @@ partial class MediaDevice
     /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
     public async Task CreateDirectoryAsync(string path, CancellationToken cancellationToken = default)
     {
-        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path))
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.CreateDirectory(path), cancellationToken);
+        await worker.InvokeAsync(() => device.CreateDirectory(path, cancellationToken), cancellationToken), cancellationToken);
     }
 
     /// <summary>

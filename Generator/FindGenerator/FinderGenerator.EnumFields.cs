@@ -18,7 +18,7 @@ partial class FinderGenerator
 
     private void CreateFindEnumFieldsFile(Enum en)
     {
-        FindType findType = en.GetAttribute("MediaDevices.FindFieldsGeneratorAttribute")?.GetConstructorArgument(0)?.ToEnum<FindType>() ?? FindType.All;
+        FindType findType = en.GetAttribute(FindFieldsGeneratorAttribute)?.GetConstructorArgument(0)?.ToEnum<FindType>() ?? FindType.All;
 
         StringBuilder sb = new(
             $$"""
@@ -66,7 +66,7 @@ partial class FinderGenerator
 
         foreach (var field in en.Fields)
         {
-            var attr = field.GetAttribute("MediaDevices.EnumGuidAttribute");
+            var attr = field.GetAttribute(EnumGuidAttribute);
             if (attr != null)
             {
                 switch (attr.ConstructorArgumentsLength)
@@ -117,7 +117,7 @@ partial class FinderGenerator
 
         foreach (var field in en.Fields)
         {
-            var attr = field.GetAttribute("MediaDevices.EnumGuidAttribute");
+            var attr = field.GetAttribute(EnumGuidAttribute);
             if (attr != null)
             {
                 sb.AppendLine($"            {en.Name}.{field.Name} => Guid{field.Name},");
@@ -143,7 +143,7 @@ partial class FinderGenerator
 
         foreach (var field in en.Fields)
         {
-            var attr = field.GetAttribute("MediaDevices.EnumGuidAttribute");
+            var attr = field.GetAttribute(EnumGuidAttribute);
             if (attr != null)
             {
                 sb.AppendLine($"        if (value == Guid{field.Name}) return \"{field.Name}\";");
@@ -167,7 +167,7 @@ partial class FinderGenerator
 
         foreach (var field in en.Fields)
         {
-            var attr = field.GetAttribute("MediaDevices.EnumGuidAttribute");
+            var attr = field.GetAttribute(EnumGuidAttribute);
             if (attr != null)
             {
                 sb.AppendLine($"        if (value == Guid{field.Name}) return {en.Name}.{field.Name};");
@@ -189,7 +189,7 @@ partial class FinderGenerator
 
         foreach (var field in en.Fields)
         {
-            var attr = field.GetAttribute("MediaDevices.KeyAttribute");
+            var attr = field.GetAttribute(KeyAttribute);
             if (attr != null)
             {
                 switch (attr.ConstructorArgumentsLength)
@@ -242,7 +242,7 @@ partial class FinderGenerator
 
         foreach (var field in en.Fields)
         {
-            var attr = field.GetAttribute("MediaDevices.Internal.KeyAttribute");
+            var attr = field.GetAttribute(KeyAttribute);
             if (attr != null)
             {
                 sb.AppendLine($"            {en.Name}.{field.Name} => Key{field.Name},");
@@ -272,7 +272,7 @@ partial class FinderGenerator
 
         foreach (var field in en.Fields)
         {
-            var attr = field.GetAttribute("MediaDevices.KeyAttribute");
+            var attr = field.GetAttribute(KeyAttribute);
             if (attr != null)
             {
                 sb.AppendLine($"        if (value == Key{field.Name}) return {en.Name}.{field.Name};");
@@ -296,7 +296,7 @@ partial class FinderGenerator
 
         foreach (var field in en.Fields)
         {
-            var attr = field.GetAttribute("MediaDevices.KeyAttribute");
+            var attr = field.GetAttribute(KeyAttribute);
             if (attr != null)
             {
                 sb.AppendLine($"        if (value == Key{field.Name}) return \"{field.Name}\";");
