@@ -134,10 +134,10 @@ partial class MediaDevice
     /// <exception cref="NotConnectedException">Thrown when the media device is not connected.</exception>
     public async Task CreateDirectoryAsync(string path, CancellationToken cancellationToken = default)
     {
-        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path))
+        FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        await worker.InvokeAsync(() => device.CreateDirectory(path, cancellationToken), cancellationToken), cancellationToken);
+        await worker.InvokeAsync(() => device.CreateDirectory(path, cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ partial class MediaDevice
         FileSystemPathCheck.ThrowIfInvalidPath(path, nameof(path));
         NotConnectedException.ThrowIfNotConnected(this);
 
-        return await worker.InvokeAsync(() => device.FileExists(path), cancellationToken);
+        return await worker.InvokeAsync(() => device.FileExists(device.PathToObjectId(path, cancellationToken), cancellationToken), cancellationToken);
     }
 
     /// <summary>
