@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace MediaDevices.Internal;
+namespace MediaDevices.WindowsPortableDevices;
 
 internal static partial class ComHelper
 {

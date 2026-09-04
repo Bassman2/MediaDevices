@@ -1,4 +1,4 @@
-﻿namespace MediaDevices.Internal;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
 internal class Command
 {

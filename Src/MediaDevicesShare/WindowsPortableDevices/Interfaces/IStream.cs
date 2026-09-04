@@ -1,4 +1,4 @@
-﻿namespace MediaDevices.Interfaces;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
 // for source-generated COM interface wrapper, we need to define a struct that matches the layout of the original STATSTG struct,
 // but with a raw pointer for the string field. This allows us to avoid issues with string marshalling and ensures that the memory layout is compatible with the COM interface.

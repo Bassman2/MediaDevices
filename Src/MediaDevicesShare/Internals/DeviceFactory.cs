@@ -1,4 +1,6 @@
-﻿namespace MediaDevices.Internals;
+﻿using MediaDevices.WindowsPortableDevices;
+
+namespace MediaDevices.Internals;
 
 internal static class DeviceFactory
 {

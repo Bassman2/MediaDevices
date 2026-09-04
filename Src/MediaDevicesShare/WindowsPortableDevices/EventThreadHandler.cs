@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace MediaDevices.Internal;
+namespace MediaDevices.WindowsPortableDevices;
 
 internal sealed class EventThreadHandler : IDisposable
 {

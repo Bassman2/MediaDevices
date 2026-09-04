@@ -1,4 +1,4 @@
-﻿namespace MediaDevices.Internal;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
 
 [GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper, StringMarshalling = StringMarshalling.Utf16)]

@@ -7,41 +7,41 @@ public class ObjectAddedEventArgs : MediaDeviceEventArgs
 {
     private const int OK = 0;
 
-    internal ObjectAddedEventArgs(Events eventEnum, MediaDevice mediaDevice, IPortableDeviceValues eventParameters) 
-        : base(eventEnum, mediaDevice, eventParameters)
+    internal ObjectAddedEventArgs(Events eventEnum, IDevice device) 
+        : base(eventEnum, device)
     {
-        if (eventParameters.GetStringValue(ref WPD.OBJECT_ID, out string objectId) == OK)
-        {
-            ObjectId = objectId;
-        }
-        if (eventParameters.GetStringValue(ref WPD.OBJECT_PERSISTENT_UNIQUE_ID, out string objectPersistentUniqueId) == OK)
-        {
-            this.ObjectPersistentUniqueId = objectPersistentUniqueId;
-        }
-        if (eventParameters.GetStringValue(ref WPD.OBJECT_NAME, out string objectName) == OK)
-        {
-            this.ObjectName = objectName;
-        }
-        if (eventParameters.GetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, out Guid objectContentType) == OK)
-        {
-            this.ObjectContentType = objectContentType.ToContentTypeEnum();
-        }
-        if (eventParameters.GetGuidValue(ref WPD.FUNCTIONAL_OBJECT_CATEGORY, out Guid functionalObjectCategory) == OK)
-        {
-            this.FunctionalObjectCategory = functionalObjectCategory.ToFunctionalCategoryEnum();
-        }
-        if (eventParameters.GetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, out string objectOriginalFileName) == OK)
-        {
-            this.ObjectOriginalFileName = objectOriginalFileName;
-        }
-        if (eventParameters.GetStringValue(ref WPD.OBJECT_PARENT_ID, out string objectParentId) == OK)
-        {
-            this.ObjectParentId = objectParentId;
-        }
-        if (eventParameters.GetStringValue(ref WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID, out string objectContainerFuntionalObjectId) == OK)
-        {
-            this.ObjectContainerFuntionalObjectId = objectContainerFuntionalObjectId;
-        }
+        //if (eventParameters.GetStringValue(ref WPD.OBJECT_ID, out string objectId) == OK)
+        //{
+        //    ObjectId = objectId;
+        //}
+        //if (eventParameters.GetStringValue(ref WPD.OBJECT_PERSISTENT_UNIQUE_ID, out string objectPersistentUniqueId) == OK)
+        //{
+        //    this.ObjectPersistentUniqueId = objectPersistentUniqueId;
+        //}
+        //if (eventParameters.GetStringValue(ref WPD.OBJECT_NAME, out string objectName) == OK)
+        //{
+        //    this.ObjectName = objectName;
+        //}
+        //if (eventParameters.GetGuidValue(ref WPD.OBJECT_CONTENT_TYPE, out Guid objectContentType) == OK)
+        //{
+        //    this.ObjectContentType = objectContentType.ToContentTypeEnum();
+        //}
+        //if (eventParameters.GetGuidValue(ref WPD.FUNCTIONAL_OBJECT_CATEGORY, out Guid functionalObjectCategory) == OK)
+        //{
+        //    this.FunctionalObjectCategory = functionalObjectCategory.ToFunctionalCategoryEnum();
+        //}
+        //if (eventParameters.GetStringValue(ref WPD.OBJECT_ORIGINAL_FILE_NAME, out string objectOriginalFileName) == OK)
+        //{
+        //    this.ObjectOriginalFileName = objectOriginalFileName;
+        //}
+        //if (eventParameters.GetStringValue(ref WPD.OBJECT_PARENT_ID, out string objectParentId) == OK)
+        //{
+        //    this.ObjectParentId = objectParentId;
+        //}
+        //if (eventParameters.GetStringValue(ref WPD.OBJECT_CONTAINER_FUNCTIONAL_OBJECT_ID, out string objectContainerFuntionalObjectId) == OK)
+        //{
+        //    this.ObjectContainerFuntionalObjectId = objectContainerFuntionalObjectId;
+        //}
     }
 
     /// <summary>

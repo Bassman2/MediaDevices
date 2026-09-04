@@ -1,4 +1,4 @@
-﻿namespace MediaDevices.Internal;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
 [GeneratedComInterface(Options = ComInterfaceOptions.ComObjectWrapper, StringMarshalling = StringMarshalling.Utf16)]
 [Guid("7F6D695C-03DF-4439-A809-59266BEEE3A6")]

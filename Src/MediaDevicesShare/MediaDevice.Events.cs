@@ -52,82 +52,82 @@ partial class MediaDevice
 
     #endregion
 
-    private ObjectAddedEventArgs CreateObjectAddedEventArgs(MediaDevice mediaDevice, Events eventEnum, IPortableDeviceValues eventParameters)
-    {
-        return worker.Invoke(() => new ObjectAddedEventArgs(eventEnum, mediaDevice, eventParameters));
-    }
+    //private ObjectAddedEventArgs CreateObjectAddedEventArgs(MediaDevice mediaDevice, Events eventEnum, IPortableDeviceValues eventParameters)
+    //{
+    //    return worker.Invoke(() => new ObjectAddedEventArgs(eventEnum, mediaDevice, eventParameters));
+    //}
 
-    private MediaDeviceEventArgs CreateMediaDeviceEventArgs(MediaDevice mediaDevice, Events eventEnum, IPortableDeviceValues eventParameters)
-    {
-        return worker.Invoke(() => new MediaDeviceEventArgs(eventEnum, mediaDevice, eventParameters));
-    }
+    //private MediaDeviceEventArgs CreateMediaDeviceEventArgs(MediaDevice mediaDevice, Events eventEnum, IPortableDeviceValues eventParameters)
+    //{
+    //    return worker.Invoke(() => new MediaDeviceEventArgs(eventEnum, mediaDevice, eventParameters));
+    //}
 
-    internal void CallEvent(IPortableDeviceValues eventParameters)
-    {
-        ThreadSafeWorkerException.ThrowIfNotOutside();
+    //internal void CallEvent(IPortableDeviceValues eventParameters)
+    //{
+    //    ThreadSafeWorkerException.ThrowIfNotOutside();
         
-        int err = eventParameters.GetGuidValue(ref WPD.EVENT_PARAMETER_EVENT_ID, out Guid eventGuid);
-        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetGuidValue), "EVENT_PARAMETER_EVENT_ID");
-        Events eventEnum = eventGuid.ToEventsEnum();
+    //    int err = eventParameters.GetGuidValue(ref WPD.EVENT_PARAMETER_EVENT_ID, out Guid eventGuid);
+    //    MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetGuidValue), "EVENT_PARAMETER_EVENT_ID");
+    //    Events eventEnum = eventGuid.ToEventsEnum();
 
-        MediaDeviceEventArgs? eventArgs = eventEnum switch
-        {
-            Events.ObjectAdded => new ObjectAddedEventArgs(eventEnum, this, eventParameters),
-            Events.ObjectRemoved or
-            Events.ObjectUpdated or
-            Events.DeviceReset or
-            Events.StorageFormat or
-            Events.ObjectTransferRequest or
-            Events.DeviceCapabilitiesUpdated or
-            Events.DeviceRemoved or
-            Events.ServiceMethodComplete => new MediaDeviceEventArgs(eventEnum, this, eventParameters),
-            _ => null
-        };
+    //    MediaDeviceEventArgs? eventArgs = eventEnum switch
+    //    {
+    //        Events.ObjectAdded => new ObjectAddedEventArgs(eventEnum, this, eventParameters),
+    //        Events.ObjectRemoved or
+    //        Events.ObjectUpdated or
+    //        Events.DeviceReset or
+    //        Events.StorageFormat or
+    //        Events.ObjectTransferRequest or
+    //        Events.DeviceCapabilitiesUpdated or
+    //        Events.DeviceRemoved or
+    //        Events.ServiceMethodComplete => new MediaDeviceEventArgs(eventEnum, this, eventParameters),
+    //        _ => null
+    //    };
 
-        if (eventArgs != null)
-        {
-            eventThreadHandler.Invoke(eventArgs);
-        }
-    }
+    //    if (eventArgs != null)
+    //    {
+    //        eventThreadHandler.Invoke(eventArgs);
+    //    }
+    //}
 
-    internal void InvokeEvent(MediaDeviceEventArgs eventArgs)
-    {
-        if (Environment.CurrentManagedThreadId != eventThreadHandler.ThreadId)
-        {
-            throw new ThreadSafeWorkerException("Not in event Thread");
-        }
+    //internal void InvokeEvent(MediaDeviceEventArgs eventArgs)
+    //{
+    //    if (Environment.CurrentManagedThreadId != eventThreadHandler.ThreadId)
+    //    {
+    //        throw new ThreadSafeWorkerException("Not in event Thread");
+    //    }
 
-        switch (eventArgs.Event)
-        {
-        case Events.ObjectAdded:
-            this.ObjectAdded?.Invoke(this, (ObjectAddedEventArgs)eventArgs);
-            break;
-        case Events.ObjectRemoved:
-            this.ObjectRemoved?.Invoke(this, eventArgs);
-            break;
-        case Events.ObjectUpdated:
-            this.ObjectUpdated?.Invoke(this, eventArgs);
-            break;
-        case Events.DeviceReset:
-            this.DeviceReset?.Invoke(this, eventArgs);
-            break;
-        case Events.DeviceCapabilitiesUpdated:
-            this.DeviceCapabilitiesUpdated?.Invoke(this, eventArgs);
-            break;
-        case Events.StorageFormat:
-            this.StorageFormat?.Invoke(this, eventArgs);
-            break;
-        case Events.ObjectTransferRequest:
-            this.ObjectTransferRequest?.Invoke(this, eventArgs);
-            break;
-        case Events.DeviceRemoved:
-            this.DeviceRemoved?.Invoke(this, eventArgs);
-            break;
-        case Events.ServiceMethodComplete:
-            this.ServiceMethodComplete?.Invoke(this, eventArgs);
-            break;
-        default:
-            break;
-        }
-    }
+    //    switch (eventArgs.Event)
+    //    {
+    //    case Events.ObjectAdded:
+    //        this.ObjectAdded?.Invoke(this, (ObjectAddedEventArgs)eventArgs);
+    //        break;
+    //    case Events.ObjectRemoved:
+    //        this.ObjectRemoved?.Invoke(this, eventArgs);
+    //        break;
+    //    case Events.ObjectUpdated:
+    //        this.ObjectUpdated?.Invoke(this, eventArgs);
+    //        break;
+    //    case Events.DeviceReset:
+    //        this.DeviceReset?.Invoke(this, eventArgs);
+    //        break;
+    //    case Events.DeviceCapabilitiesUpdated:
+    //        this.DeviceCapabilitiesUpdated?.Invoke(this, eventArgs);
+    //        break;
+    //    case Events.StorageFormat:
+    //        this.StorageFormat?.Invoke(this, eventArgs);
+    //        break;
+    //    case Events.ObjectTransferRequest:
+    //        this.ObjectTransferRequest?.Invoke(this, eventArgs);
+    //        break;
+    //    case Events.DeviceRemoved:
+    //        this.DeviceRemoved?.Invoke(this, eventArgs);
+    //        break;
+    //    case Events.ServiceMethodComplete:
+    //        this.ServiceMethodComplete?.Invoke(this, eventArgs);
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 }

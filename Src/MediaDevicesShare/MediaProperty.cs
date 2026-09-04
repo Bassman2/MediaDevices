@@ -9,7 +9,7 @@ public class MediaProperty
     /// Initializes a new instance of the <see cref="MediaProperty"/> class.
     /// </summary>
     /// <param name="propVariantFacade">The property variant facade containing the property data.</param>
-    internal MediaProperty(PropVariantFacade propVariantFacade)
+    internal MediaProperty(MediaDevices.WindowsPortableDevices.PropVariantFacade propVariantFacade)
     {
         Name = propVariantFacade.KeyName;
         Value = propVariantFacade.ToString();

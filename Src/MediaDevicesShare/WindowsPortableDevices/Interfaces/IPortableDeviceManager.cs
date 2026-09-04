@@ -1,4 +1,4 @@
-﻿namespace MediaDevices.Internal;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
 //// https://learn.microsoft.com/en-us/dotnet/standard/native-interop/comwrappers-source-generation
 // https://www.youtube.com/watch?v=DZd1SGd7dSU

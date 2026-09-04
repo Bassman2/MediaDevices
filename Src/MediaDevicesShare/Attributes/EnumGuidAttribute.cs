@@ -1,4 +1,4 @@
-﻿namespace MediaDevices.Internal;
+﻿namespace MediaDevices;
 
 [AttributeUsage(AttributeTargets.Field, Inherited = false)]
 internal class EnumGuidAttribute : Attribute

@@ -20,6 +20,5 @@ global using System.Threading;
 
 global using MediaDevices.Interfaces;
 global using MediaDevices.Internals;
-global using MediaDevices.Internal;
 global using MediaDevices.Attributes;
-global using MediaDevices.WindowsPortableDevices;
+//global using MediaDevices.WindowsPortableDevices;

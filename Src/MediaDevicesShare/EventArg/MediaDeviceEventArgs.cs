@@ -7,45 +7,45 @@ public class MediaDeviceEventArgs : EventArgs
 {
     private const int OK = 0;
 
-    internal MediaDeviceEventArgs(Events eventEnum, MediaDevice mediaDevice, IPortableDeviceValues eventParameters)
+    internal MediaDeviceEventArgs(Events eventEnum, IDevice device)
     {
-        this.MediaDevice = mediaDevice;
+        this.device = device;
         this.Event = eventEnum;
 
-        if (eventParameters.GetStringValue(ref WPD.EVENT_PARAMETER_PNP_DEVICE_ID, out string pnpDeviceId) == OK)
-        {
-            PnpDeviceId = pnpDeviceId;
-        }
-        if (eventParameters.GetUnsignedIntegerValue(ref WPD.EVENT_PARAMETER_OPERATION_STATE, out uint operationState) == OK)
-        {
-            OperationState = (OperationState)operationState; 
-        }
-        if (eventParameters.GetUnsignedIntegerValue(ref WPD.EVENT_PARAMETER_OPERATION_PROGRESS, out uint operationProgress) == OK)
-        {
-            this.OperationProgress = operationProgress;
-        }
-        if (eventParameters.GetStringValue(ref WPD.EVENT_PARAMETER_OBJECT_PARENT_PERSISTENT_UNIQUE_ID, out string objectParentPersistanceUniqueId) == OK)
-        {
-            this.ObjectParentPersistanceUniqueId = objectParentPersistanceUniqueId;
-        }
-        if (eventParameters.GetStringValue(ref WPD.EVENT_PARAMETER_OBJECT_CREATION_COOKIE, out string objectCreationCookie) == OK)
-        {
-            this.ObjectCreationCookie = objectCreationCookie;
-        }
-        if (eventParameters.GetBoolValue(ref WPD.EVENT_PARAMETER_CHILD_HIERARCHY_CHANGED, out int childHierarchyChanged) == OK)
-        {
-            this.ChildHierarchyChanged = childHierarchyChanged != 0;
-        }
-        if (eventParameters.GetStringValue(ref WPD.EVENT_PARAMETER_SERVICE_METHOD_CONTEXT, out string serviceMethodContext) == OK)
-        {
-            this.ServiceMethodContext = serviceMethodContext;
-        }
+        //if (eventParameters.GetStringValue(ref WPD.EVENT_PARAMETER_PNP_DEVICE_ID, out string pnpDeviceId) == OK)
+        //{
+        //    PnpDeviceId = pnpDeviceId;
+        //}
+        //if (eventParameters.GetUnsignedIntegerValue(ref WPD.EVENT_PARAMETER_OPERATION_STATE, out uint operationState) == OK)
+        //{
+        //    OperationState = (OperationState)operationState; 
+        //}
+        //if (eventParameters.GetUnsignedIntegerValue(ref WPD.EVENT_PARAMETER_OPERATION_PROGRESS, out uint operationProgress) == OK)
+        //{
+        //    this.OperationProgress = operationProgress;
+        //}
+        //if (eventParameters.GetStringValue(ref WPD.EVENT_PARAMETER_OBJECT_PARENT_PERSISTENT_UNIQUE_ID, out string objectParentPersistanceUniqueId) == OK)
+        //{
+        //    this.ObjectParentPersistanceUniqueId = objectParentPersistanceUniqueId;
+        //}
+        //if (eventParameters.GetStringValue(ref WPD.EVENT_PARAMETER_OBJECT_CREATION_COOKIE, out string objectCreationCookie) == OK)
+        //{
+        //    this.ObjectCreationCookie = objectCreationCookie;
+        //}
+        //if (eventParameters.GetBoolValue(ref WPD.EVENT_PARAMETER_CHILD_HIERARCHY_CHANGED, out int childHierarchyChanged) == OK)
+        //{
+        //    this.ChildHierarchyChanged = childHierarchyChanged != 0;
+        //}
+        //if (eventParameters.GetStringValue(ref WPD.EVENT_PARAMETER_SERVICE_METHOD_CONTEXT, out string serviceMethodContext) == OK)
+        //{
+        //    this.ServiceMethodContext = serviceMethodContext;
+        //}
     }
 
     /// <summary>
     /// Corresponding media mediaDevice
     /// </summary>
-    public MediaDevice MediaDevice { get; private set; }
+    private IDevice device;
 
     /// <summary>
     /// Indicates the event sent.

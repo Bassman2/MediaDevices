@@ -1,4 +1,4 @@
-﻿namespace MediaDevices.Internal;
+﻿namespace MediaDevices;
 
 [AttributeUsage(AttributeTargets.Field)]
 internal class KeyAttribute : Attribute

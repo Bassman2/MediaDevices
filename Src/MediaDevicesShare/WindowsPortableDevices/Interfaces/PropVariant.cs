@@ -1,4 +1,4 @@
-﻿namespace MediaDevices.Interfaces;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
 // https://docs.microsoft.com/de-de/windows/desktop/api/propidl/ns-propidl-tagpropvariant
 // https://referencesource.microsoft.com/#PresentationCore/Core/CSharp/System/Windows/Media/Imaging/PropVariant.cs

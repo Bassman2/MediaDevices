@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace MediaDevices.Internal;
+﻿namespace MediaDevices.WindowsPortableDevices;
 
 
 [DebuggerDisplay("{this.Type} - {this.Name} - {this.Id}")]
