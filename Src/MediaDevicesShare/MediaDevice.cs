@@ -35,8 +35,6 @@ public sealed partial class MediaDevice : IDisposable
     {
         //eventThreadHandler.Dispose();
     }
-
-    
     
     #region Public Methods
 

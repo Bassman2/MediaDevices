@@ -12,7 +12,7 @@ internal static class DeviceFactory
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            return worker.InvokeEnumerable<MediaDevice>(() =>  GetWindowsDevices());
+            return worker.InvokeEnumerable<MediaDevice>(() => GetWindowsDevices());
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
@@ -50,7 +50,11 @@ internal static class DeviceFactory
             var deviceIds = new string[count];
             err = deviceManager.GetDevices(deviceIds, ref count);
             MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceManager), nameof(IPortableDeviceManager.GetDevices));
-            return deviceIds.Select(d => new MediaDevice(new WpdDevice(deviceManager, d)));
+            return deviceIds.Select(d =>
+            {
+                IDevice device = new WpdDevice(deviceManager, d);  
+                return device.CreateMediaDevice();
+            });
         }
     }
 }

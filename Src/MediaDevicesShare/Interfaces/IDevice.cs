@@ -6,6 +6,8 @@ internal interface IDevice : IDisposable
 
     bool IsCaseSensitive { get; }
 
+    MediaDevice CreateMediaDevice();
+
     void Connect(MediaDeviceAccess access, MediaDeviceShare share, bool enableCache);
 
     void Disconnect();

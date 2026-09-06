@@ -186,21 +186,21 @@ public abstract class UnitTest
         DeviceTransport? transport = device.Transport;
         DeviceTransport? useDeviceStage = device.UseDeviceStage;
         bool isFriendlyNameEditable = device.IsFriendlyNameEditable;
-#if DEBUG
-        string? id = device.Id;
-        string? parentId = device.ParentId;
-        ContentType? contentType = device.ContentType;
-        string? persistentUniqueId = device.PersistentUniqueId;
-        Formats? objectFormat = device.ObjectFormat;
-        bool? isHidden = device.IsHidden;
-        bool? canDelete = device.CanDelete;
-        string? containerFunctionalObjectId = device.ContainerFunctionalObjectId;
-        FunctionalCategory? functionalObjectCategory = device.FunctionalObjectCategory;
-        ulong? networkIdentifier = device.NetworkIdentifier;
-        uint? functionalUniqueId = device.FunctionalUniqueId;
-        uint? modelUniqueId = device.ModelUniqueId;
-        string? edpItentifier = device.EdpItentifier;
-#endif
+//#if DEBUG
+//        string? id = device.Id;
+//        string? parentId = device.ParentId;
+//        ContentType? contentType = device.ContentType;
+//        string? persistentUniqueId = device.PersistentUniqueId;
+//        Formats? objectFormat = device.ObjectFormat;
+//        bool? isHidden = device.IsHidden;
+//        bool? canDelete = device.CanDelete;
+//        string? containerFunctionalObjectId = device.ContainerFunctionalObjectId;
+//        FunctionalCategory? functionalObjectCategory = device.FunctionalObjectCategory;
+//        ulong? networkIdentifier = device.NetworkIdentifier;
+//        uint? functionalUniqueId = device.FunctionalUniqueId;
+//        uint? modelUniqueId = device.ModelUniqueId;
+//        string? edpItentifier = device.EdpItentifier;
+//#endif
         device.Disconnect();
         Assert.AreEqual(deviceManufacturerId, manufacturerId, nameof(deviceManufacturerId));
         Assert.AreEqual(deviceDeviceId, deviceId, nameof(deviceDeviceId));
@@ -224,21 +224,21 @@ public abstract class UnitTest
         Assert.AreEqual(deviceTransport, transport, nameof(deviceTransport));
         Assert.AreEqual(deviceUseDeviceStage, useDeviceStage, nameof(deviceUseDeviceStage));
         Assert.AreEqual(deviceIsFriendlyNameEditable, isFriendlyNameEditable, nameof(deviceIsFriendlyNameEditable));
-#if DEBUG
-        //Assert.AreEqual(deviceId, id, nameof(deviceId));
-        Assert.AreEqual(deviceParentId, parentId, nameof(deviceParentId));
-        Assert.AreEqual(deviceContentType, contentType, nameof(deviceContentType));
-        Assert.AreEqual(devicePersistentUniqueId, persistentUniqueId, nameof(devicePersistentUniqueId));
-        Assert.AreEqual(deviceObjectFormat, objectFormat, nameof(deviceObjectFormat));
-        Assert.AreEqual(deviceIsHidden, isHidden, nameof(deviceIsHidden));
-        Assert.AreEqual(deviceCanDelete, canDelete, nameof(deviceCanDelete));
-        Assert.AreEqual(deviceContainerFunctionalObjectId, containerFunctionalObjectId, nameof(deviceContainerFunctionalObjectId));
-        Assert.AreEqual(deviceFunctionalObjectCategory, functionalObjectCategory, nameof(deviceFunctionalObjectCategory));
-        Assert.AreEqual(deviceNetworkIdentifier, networkIdentifier, nameof(deviceNetworkIdentifier));
-        Assert.AreEqual(deviceFunctionalUniqueId, functionalUniqueId, nameof(deviceFunctionalUniqueId));
-        Assert.AreEqual(deviceModelUniqueId, modelUniqueId, nameof(deviceModelUniqueId));
-        Assert.AreEqual(deviceEdpItentifier, edpItentifier, nameof(deviceEdpItentifier));
-#endif
+//#if DEBUG
+//        //Assert.AreEqual(deviceId, id, nameof(deviceId));
+//        Assert.AreEqual(deviceParentId, parentId, nameof(deviceParentId));
+//        Assert.AreEqual(deviceContentType, contentType, nameof(deviceContentType));
+//        Assert.AreEqual(devicePersistentUniqueId, persistentUniqueId, nameof(devicePersistentUniqueId));
+//        Assert.AreEqual(deviceObjectFormat, objectFormat, nameof(deviceObjectFormat));
+//        Assert.AreEqual(deviceIsHidden, isHidden, nameof(deviceIsHidden));
+//        Assert.AreEqual(deviceCanDelete, canDelete, nameof(deviceCanDelete));
+//        Assert.AreEqual(deviceContainerFunctionalObjectId, containerFunctionalObjectId, nameof(deviceContainerFunctionalObjectId));
+//        Assert.AreEqual(deviceFunctionalObjectCategory, functionalObjectCategory, nameof(deviceFunctionalObjectCategory));
+//        Assert.AreEqual(deviceNetworkIdentifier, networkIdentifier, nameof(deviceNetworkIdentifier));
+//        Assert.AreEqual(deviceFunctionalUniqueId, functionalUniqueId, nameof(deviceFunctionalUniqueId));
+//        Assert.AreEqual(deviceModelUniqueId, modelUniqueId, nameof(deviceModelUniqueId));
+//        Assert.AreEqual(deviceEdpItentifier, edpItentifier, nameof(deviceEdpItentifier));
+//#endif
 
         Trace.WriteLine($"DateTime: {dateTime}");
     }

@@ -1,4 +1,6 @@
-﻿namespace MediaDevices.WindowsPortableDevices;
+﻿using System.Globalization;
+
+namespace MediaDevices.WindowsPortableDevices;
 
 [SupportedOSPlatform("windows")]
 internal partial class WpdDevice : IDevice, IDisposable
@@ -6,6 +8,8 @@ internal partial class WpdDevice : IDevice, IDisposable
     private const int OK = 0;
 
     private static Guid namespaceExtention = new(0x35786d3c, 0xb075, 0x49b9, 0x88, 0xdd, 0x02, 0x98, 0x76, 0xe1, 0x1c, 0x01);
+
+    private MediaDevice mediaDevice;
 
     private readonly IPortableDeviceManager deviceManager;
 
@@ -43,6 +47,9 @@ internal partial class WpdDevice : IDevice, IDisposable
 
     public bool IsCaseSensitive { get; set; }
 
+    //public ManufacturerId ManufacturerId { get; }
+    //public  ushort DeviceId { get; }
+
 
     //// \\?\usb#vid_04e8&pid_6860&ms_comp_mtp&samsung_android#6&6e4669b&4&0000#{6ac27878-a6fa-4155-ba85-f98f491d4f33}
 
@@ -55,12 +62,38 @@ internal partial class WpdDevice : IDevice, IDisposable
         //this.serviceManager = deviceManager;
         this.usbDevice = usbDevice; 
 
+        var match = FilterUsbDeviceRegex().Match(usbDevice);
+        if (match.Success)
+        {
+            ManufacturerId = (ManufacturerId)ushort.Parse(match.Groups["vid"].Value, NumberStyles.HexNumber);
+            DeviceId = ushort.Parse(match.Groups["pid"].Value, NumberStyles.HexNumber); 
+        }
+
+        Description = GetDeviceDescription(deviceManager, usbDevice);
+        FriendlyName = GetDeviceFriendlyName(deviceManager, usbDevice);
+        Manufacturer = GetDeviceManufacturer(deviceManager, usbDevice);
+
         //this.eventThreadHandler = new(this);
     }
+
+    [GeneratedRegex("#vid_(?<vid>[0-9a-f]{4})&pid_(?<pid>[0-9a-f]{4})", RegexOptions.IgnoreCase)]
+    private static partial Regex FilterUsbDeviceRegex();
 
     public void Dispose()
     { }
 
+    public MediaDevice CreateMediaDevice()
+    {
+        mediaDevice = new MediaDevice(this)
+        {
+            ManufacturerId = this.ManufacturerId,
+            DeviceId = this.DeviceId,
+            Description = this.Description,
+            friendlyName = this.FriendlyName,       // friendlyName start with lower case because set FriendlyName is for writing
+            Manufacturer = this.Manufacturer
+        };
+        return mediaDevice;
+    }
 
     public void Connect(MediaDeviceAccess access, MediaDeviceShare share, bool enableCache)
     {
@@ -137,82 +170,77 @@ internal partial class WpdDevice : IDevice, IDisposable
         
         if (deviceValues.GetStringValue(ref WPD.OBJECT_NAME, out string objectName) == OK)
         {
-            Name = objectName;
+            mediaDevice.Name = objectName;
         }
         
 
         if (deviceValues.GetStringValue(ref WPD.DEVICE_SYNC_PARTNER, out string syncPartner) == OK)
         {
-            SyncPartner = syncPartner;
+            mediaDevice.SyncPartner = syncPartner;
         }
         if (deviceValues.GetStringValue(ref WPD.DEVICE_FIRMWARE_VERSION, out string firmwareVersion) == OK)
         {
-            FirmwareVersion = firmwareVersion;
+            mediaDevice.FirmwareVersion = firmwareVersion;
         }
         if (deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_POWER_LEVEL, out uint powerLevel) == OK)
         {
-            PowerLevel = powerLevel;
+            mediaDevice.PowerLevel = powerLevel;
         }
         if (deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_POWER_SOURCE, out uint powerSource) == OK)
         {
-            PowerSource = (PowerSource?)powerSource;
+            mediaDevice.PowerSource = (PowerSource?)powerSource;
         }
         if (deviceValues.GetStringValue(ref WPD.DEVICE_PROTOCOL, out string protocol) == OK)
         {
-            Protocol = protocol;
+            mediaDevice.Protocol = protocol;
         }
         if (deviceValues.GetStringValue(ref WPD.DEVICE_MANUFACTURER, out string manufacturer) == OK)
         {
-            Manufacturer = manufacturer;
+            mediaDevice.Manufacturer = manufacturer;
         }
         if (deviceValues.GetStringValue(ref WPD.DEVICE_MODEL, out string model) == OK)
         {
-            Model = model;
+            mediaDevice.Model = model;
         }
         if (deviceValues.GetStringValue(ref WPD.DEVICE_SERIAL_NUMBER, out string serialNumber) == OK)
         {
-            SerialNumber = serialNumber;
+            mediaDevice.SerialNumber = serialNumber;
         }
         if (deviceValues.GetBoolValue(ref WPD.DEVICE_SUPPORTS_NON_CONSUMABLE, out var supportsNonConsumable) == OK)
         {
-            SupportsNonConsumable = supportsNonConsumable > 0;
+            mediaDevice.SupportsNonConsumable = supportsNonConsumable > 0;
         }
 
-
-
         if (deviceValues.GetStringValue(ref WPD.DEVICE_FRIENDLY_NAME, out string friendlyName) == OK)
-        { 
-            //friendlyName = friendlyName;
+        {
+            mediaDevice.friendlyName = friendlyName;
         }
         if (deviceValues.GetStringArrayValue(ref WPD.DEVICE_SUPPORTED_DRM_SCHEMES, out string[] supportedDrmSchemes) == OK)
         {
-            SupportedDrmSchemes = supportedDrmSchemes;
+            mediaDevice.SupportedDrmSchemes = supportedDrmSchemes;
         }
         if (deviceValues.GetBoolValue(ref WPD.DEVICE_SUPPORTED_FORMATS_ARE_ORDERED, out var supportedFormatsAreOrdered) == OK)
         {
-            SupportedFormatsAreOrdered = supportedFormatsAreOrdered > 0;
+            mediaDevice.SupportedFormatsAreOrdered = supportedFormatsAreOrdered > 0;
         }
         if (deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_TYPE, out uint deviceType) == OK)   
         {
-            DeviceType = (DeviceType?)deviceType;
+            mediaDevice.DeviceType = (DeviceType?)deviceType;
         }
         if (deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_TRANSPORT, out uint transport) == OK)
         {
-            Transport = (DeviceTransport?)transport;
+            mediaDevice.Transport = (DeviceTransport?)transport;
         }
         if (deviceValues.GetBoolValue(ref WPD.DEVICE_USE_DEVICE_STAGE, out var useDeviceStage) == OK)
         {
-            UseDeviceStage = (DeviceTransport?)useDeviceStage;
+            mediaDevice.UseDeviceStage = (DeviceTransport?)useDeviceStage;
         }
-
-
-
 
         err = deviceProperties.GetPropertyAttributes(WpdItem.RootId, ref WPD.DEVICE_FRIENDLY_NAME, out var attributes);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetPropertyAttributes), "DEVICE_FRIENDLY_NAME");
         err = attributes.GetBoolValue(ref WPD.PROPERTY_ATTRIBUTE_CAN_WRITE, out int canWriteInt);
         MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceValues), nameof(IPortableDeviceValues.GetBoolValue), "PROPERTY_ATTRIBUTE_CAN_WRITE");
-        //IsFriendlyNameEditable = canWriteInt != 0;
+        mediaDevice.IsFriendlyNameEditable = canWriteInt != 0;
 
         IsConnected = true;
     }

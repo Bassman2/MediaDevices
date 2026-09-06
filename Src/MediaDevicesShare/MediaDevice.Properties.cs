@@ -8,13 +8,14 @@ partial class MediaDevice
     /// <remarks>Readable when not connected.</remarks>
     public string InterfacePath { get; private set; } = "";
 
-    public ManufacturerId ManufacturerId { get; private set; } = 0;
-    public ushort DeviceId { get; private set; } = 0;
+    public ManufacturerId ManufacturerId { get; internal set; } = 0;
+
+    public ushort DeviceId { get; internal set; } = 0;
 
     /// <summary>
     /// Is portable mediaDevice connected.
     /// </summary>
-    public bool IsConnected { get; internal set; }
+    public bool IsConnected => device.IsConnected; //{ get; internal set; }
 
     /// <summary>
     /// Select if path is case sensitive or not. Default is not. 
