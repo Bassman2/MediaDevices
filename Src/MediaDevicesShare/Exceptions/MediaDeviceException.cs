@@ -93,6 +93,7 @@ public class MediaDeviceException(string message) : Exception(message)
         }
     }
 
+    [SupportedOSPlatform("windows")]
     internal static void ThrowIfComError(
         int errorCode,
         string interf,

@@ -6,8 +6,8 @@ internal interface IDevice : IDisposable
 
     bool IsCaseSensitive { get; }
 
-    MediaDevice CreateMediaDevice();
-
+    MediaDevice MediaDevice { get; }
+        
     void Connect(MediaDeviceAccess access, MediaDeviceShare share, bool enableCache);
 
     void Disconnect();
@@ -15,6 +15,28 @@ internal interface IDevice : IDisposable
     void Cancel();
 
     ObjectId PathToObjectId(string path, CancellationToken cancellationToken = default);
+
+    #region Events
+
+    event EventHandler<ObjectAddedEventArgs>? ObjectAdded;
+
+    event EventHandler<MediaDeviceEventArgs>? ObjectRemoved;
+
+    event EventHandler<MediaDeviceEventArgs>? ObjectUpdated;
+
+    event EventHandler<MediaDeviceEventArgs>? DeviceReset;
+
+    event EventHandler<MediaDeviceEventArgs>? DeviceCapabilitiesUpdated;
+
+    event EventHandler<MediaDeviceEventArgs>? StorageFormat;
+
+    event EventHandler<MediaDeviceEventArgs>? ObjectTransferRequest;
+
+    event EventHandler<MediaDeviceEventArgs>? DeviceRemoved;
+
+    event EventHandler<MediaDeviceEventArgs>? ServiceMethodComplete;
+
+    #endregion
 
     #region Capabilities
 

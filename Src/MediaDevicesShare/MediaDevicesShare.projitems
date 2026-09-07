@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CommandRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\FunctionalMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ManufacturerId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonBurstMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonCompressionNL.cs" />
@@ -40,16 +41,27 @@
     <Compile Include="$(MSBuildThisFileDirectory)ExplicitInterfaces\ISamsungMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExplicitInterfaces\ISonyMediaDevice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\DeviceFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.DeviceInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.Extentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.ILeica.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.IPanasonic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaDevice.ISony.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OperationCodes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\ApplicationLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\MtpContainerHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\MtpHeaderType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\MtpResponseCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\ProtocolLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\ITransportLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\TransportLayerLinux.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\TransportLayerMacOS.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\EnumExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\NikonRawCompression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.Device.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.IFujifilm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.Events.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.Extentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WpdDevice.ICanon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.ICanon.cs" />
@@ -62,6 +74,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.ILeica.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.INikon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsPortableDevices\WPD.ISony.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyCodes.cs" />
     <Compile Include="..\MediaDevicesShare\Attributes\CLSIDAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ChargingState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Commands.cs" />
@@ -171,6 +185,5 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)EventArg\" />
     <Folder Include="$(MSBuildThisFileDirectory)Interfaces\" />
-    <Folder Include="$(MSBuildThisFileDirectory)ProtocolStack\" />
   </ItemGroup>
 </Project>

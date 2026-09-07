@@ -9,7 +9,6 @@
 /// Instances are created internally by MediaDeviceManager and provide a
 /// lightweight wrapper around the underlying portable mediaDevice manager APIs.
 /// </remarks>
-[SupportedOSPlatform("windows")]
 [DebuggerDisplay("Description: {Description}, FriendlyName: {FriendlyName}, Manufacturer: {Manufacturer}, PnPDeviceID: {pnPDeviceID}")]
 public sealed partial class MediaDevice : IDisposable
 {

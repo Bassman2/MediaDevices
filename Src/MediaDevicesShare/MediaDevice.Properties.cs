@@ -71,13 +71,13 @@ partial class MediaDevice
     /// </remarks>
     public string? Description { get; internal set; } = null;
 
-    /// <summary>
-    /// The manufacturer name reported by the portable device.
-    /// </summary>
-    /// <remarks>
-    /// Readable when not connected. May be <c>null</c> if not provided by the device.
-    /// </remarks>
-    public string? Manufacturer { get; internal set; } = null;
+    ///// <summary>
+    ///// The manufacturer name reported by the portable device.
+    ///// </summary>
+    ///// <remarks>
+    ///// Readable when not connected. May be <c>null</c> if not provided by the device.
+    ///// </remarks>
+    //public string? Manufacturer { get; internal set; } = null;
 
     #endregion
 
@@ -139,17 +139,17 @@ partial class MediaDevice
     /// <exception cref="MediaDevices.NotConnectedException">Thrown when the device is not connected.</exception>
     public string? Protocol { get; internal set; } = null;
 
-    /// <summary>
-    /// Model name of the device.
-    /// </summary>
-    /// <exception cref="MediaDevices.NotConnectedException">Thrown when the device is not connected.</exception>
-    public string? Model { get; internal set; } = null;
+    ///// <summary>
+    ///// Model name of the device.
+    ///// </summary>
+    ///// <exception cref="MediaDevices.NotConnectedException">Thrown when the device is not connected.</exception>
+    //public string? Model { get; internal set; } = null;
 
-    /// <summary>
-    /// Device serial number.
-    /// </summary>
-    /// <exception cref="MediaDevices.NotConnectedException">Thrown when the device is not connected.</exception>
-    public string? SerialNumber { get; internal set; } = null;
+    ///// <summary>
+    ///// Device serial number.
+    ///// </summary>
+    ///// <exception cref="MediaDevices.NotConnectedException">Thrown when the device is not connected.</exception>
+    //public string? SerialNumber { get; internal set; } = null;
 
     /// <summary>
     /// Indicates whether the device supports non-consumable media (e.g. DRM-protected content).

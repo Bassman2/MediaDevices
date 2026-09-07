@@ -2,6 +2,7 @@
 
 
 [DebuggerDisplay("{this.Type} - {this.Name} - {this.Id}")]
+[SupportedOSPlatform("windows")]
 internal class WpdItem
 {
     private const int OK = 0;

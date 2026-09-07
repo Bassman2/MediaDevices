@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>MediaDevices</AssemblyName>
@@ -10,7 +10,6 @@
     <Version>2.1.0.1000</Version>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Bassman.snk</AssemblyOriginatorKeyFile>
-    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
 	<IsTrimmable>True</IsTrimmable>
 	<IsAotCompatible>True</IsAotCompatible>
