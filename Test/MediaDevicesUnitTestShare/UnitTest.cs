@@ -1,6 +1,4 @@
-﻿using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
-
-namespace MediaDevicesUnitTest;
+﻿namespace MediaDevicesUnitTest;
 
 public abstract class UnitTest
 {
@@ -9,10 +7,33 @@ public abstract class UnitTest
     // Device Select
     protected Func<MediaDevice, bool>? deviceSelect;
 
-    // Device Properties Test
+    // Device USB properties
 
     protected ManufacturerId deviceManufacturerId = 0;
     protected ushort deviceDeviceId = 0;
+
+    // Device DeviceInfo Test
+
+    protected ushort deviceStandardVersion = 0;
+    protected uint deviceVendorExtensionId = 0;
+    protected ushort deviceVendorExtensionVersion = 0;
+    protected string deviceVendorExtensionDescription = string.Empty;
+    protected FunctionalMode deviceFunctionalMode = FunctionalMode.Standardmodus;
+    protected ushort[] deviceOperationsSupported = [];
+    protected ushort[] deviceEventsSupported = [];
+    protected ushort[] deviceDevicePropertiesSupported = [];
+    protected ushort[] deviceCaptureFormats = [];
+    protected ushort[] devicePlaybackFormats = [];
+    protected string deviceManufacturer = string.Empty;
+    protected string deviceModel = string.Empty;
+    protected string deviceDeviceVersion = string.Empty;
+    protected string deviceSerialNumber = string.Empty;
+
+
+
+    // Device Properties Test
+
+    
     protected string? deviceDescription = null;
     protected string? deviceFriendlyName = null;
     protected string? deviceManufacture = null;
@@ -24,8 +45,8 @@ public abstract class UnitTest
     protected const bool devicePowerLevelHasValue = true;
     protected PowerSource? devicePowerSource = PowerSource.Battery;                 // TascamDR40 & PhilipsUFD: External
     protected string? deviceProtocol = "MTP: 1.00";                                 // PhilipsUFD & TascamDR40: "MSC:", CanonEos60D: "MTP: 2.00"
-    protected string? deviceModel = null;
-    protected string? deviceSerialNumber = null;
+    //protected string? deviceModel = null;
+    //protected string? deviceSerialNumber = null;
     protected bool? deviceSupportsNonConsumable = false;                            // PhilipsUFD & TascamDR40: null
     protected bool deviceDateTimeHasValue = false;                                  // NikonCoolpixA300 = true
     protected readonly string[]? deviceSupportedDrmSchemes = null;
@@ -36,27 +57,8 @@ public abstract class UnitTest
 
     protected bool deviceIsFriendlyNameEditable = false;
 
-#if DEBUG
-    protected const string deviceId = "DEVICE";
-    protected const string deviceParentId = "";
-    protected const ContentType deviceContentType = ContentType.FunctionalObject;
-    protected const string devicePersistentUniqueId = "DEVICE";
-    protected const Formats deviceObjectFormat = Formats.Association;
-
-    protected bool? deviceIsHidden = null;                                          // PhilipsUFD & TascamDR40: true
-    protected const bool deviceCanDelete = false;
-    protected string? deviceContainerFunctionalObjectId = "DEVICE";                 // PhilipsUFD & TascamDR40: null
-    protected const FunctionalCategory deviceFunctionalObjectCategory = FunctionalCategory.Device;
-
-    protected readonly ulong? deviceNetworkIdentifier = null;
-    protected readonly uint? deviceFunctionalUniqueId = null;
-    protected readonly uint? deviceModelUniqueId = null;
-
-    protected const string? deviceEdpItentifier = null;
-#endif
-
     // Device Capability Test
-    protected List<Events>? deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
+    protected List<Events>? deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectInfoChanged];
     protected List<Commands>? deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
     protected List<ContentType>? deviceSupportedContents = [ContentType.Image];
     protected List<FunctionalCategory>? deviceFunctionalCategories = [FunctionalCategory.Storage];
@@ -97,25 +99,25 @@ public abstract class UnitTest
         this.deviceSelect = d => d.Description == this.deviceDescription && d.Manufacturer == this.deviceManufacture;
     }
 
-    [TestInitialize]
-    public void TestInitialize()
-    {
-        string? friendlyName = null;
+    //[TestInitialize]
+    //public void TestInitialize()
+    //{
+    //    string? friendlyName = null;
 
-        var device = GetDevice();
-        device.Connect();
-        if (deviceIsFriendlyNameEditable)
-        {
-            device.FriendlyName = this.deviceFriendlyName;
-            friendlyName = device.FriendlyName;
-        }
-        device.Disconnect();
+    //    var device = GetDevice();
+    //    device.Connect();
+    //    if (deviceIsFriendlyNameEditable)
+    //    {
+    //        device.FriendlyName = this.deviceFriendlyName;
+    //        friendlyName = device.FriendlyName;
+    //    }
+    //    device.Disconnect();
 
-        if (deviceIsFriendlyNameEditable)
-        {
-            Assert.AreEqual(this.deviceFriendlyName, friendlyName, "friendlyName");
-        }
-    }
+    //    if (deviceIsFriendlyNameEditable)
+    //    {
+    //        Assert.AreEqual(this.deviceFriendlyName, friendlyName, "friendlyName");
+    //    }
+    //}
 
     [TestCleanup]
     public void TestCleanup()
@@ -156,6 +158,55 @@ public abstract class UnitTest
         Assert.IsTrue(connected4, nameof(connected4));
         Assert.IsFalse(connected5, nameof(connected5));
     }
+
+    [TestMethod]
+    [Description("Device USB test")]
+    public void DeviceUsbTest()
+    {
+        var device = GetDevice();
+        var manufacturerId = device.ManufacturerId;
+        var deviceId = device.DeviceId;
+        Assert.AreEqual(deviceManufacturerId, manufacturerId, nameof(deviceManufacturerId));
+        Assert.AreEqual(deviceDeviceId, deviceId, nameof(deviceDeviceId));
+    }
+
+    [TestMethod]
+    [Description("Device Info test")]
+    public void DeviceInfoTest()
+    {
+        var device = GetDevice();
+        device.Connect();
+        var standardVersion = device.StandardVersion;
+        var vendorExtensionId = device.VendorExtensionId;
+        var vendorExtensionVersion = device.VendorExtensionVersion;
+        var vendorExtensionDescription = device.VendorExtensionDescription;
+        var functionalMode = device.FunctionalMode;
+        var operationsSupported = device.OperationsSupported;
+        var eventsSupported = device.EventsSupported;
+        var devicePropertiesSupported = device.DevicePropertiesSupported;
+        var captureFormats = device.CaptureFormats;
+        var playbackFormats = device.PlaybackFormats;
+        var manufacturer = device.Manufacturer;
+        var model = device.Model;
+        var deviceVersion = device.DeviceVersion;
+        var serialNumber = device!.SerialNumber;
+        device.Disconnect();
+        Assert.AreEqual(deviceStandardVersion, standardVersion, nameof(deviceStandardVersion));
+        Assert.AreEqual(deviceVendorExtensionId, vendorExtensionId, nameof(deviceVendorExtensionId));
+        Assert.AreEqual(deviceVendorExtensionVersion, vendorExtensionVersion, nameof(deviceVendorExtensionVersion));
+        Assert.AreEqual(deviceVendorExtensionDescription, vendorExtensionDescription, nameof(deviceVendorExtensionDescription));
+        Assert.AreEqual(deviceFunctionalMode, functionalMode, nameof(deviceFunctionalMode));
+        Assert.AreSequenceEqual(deviceOperationsSupported, operationsSupported, nameof(deviceOperationsSupported));
+        Assert.AreSequenceEqual(deviceEventsSupported, eventsSupported, nameof(deviceEventsSupported));
+        Assert.AreSequenceEqual(deviceDevicePropertiesSupported, devicePropertiesSupported, nameof(deviceDevicePropertiesSupported));
+        Assert.AreSequenceEqual(deviceCaptureFormats, captureFormats, nameof(deviceCaptureFormats));
+        Assert.AreSequenceEqual(devicePlaybackFormats, playbackFormats, nameof(devicePlaybackFormats));
+        Assert.AreEqual(deviceManufacturer, manufacturer, nameof(deviceManufacturer));
+        Assert.AreEqual(deviceModel, model, nameof(deviceModel));
+        Assert.AreEqual(deviceDeviceVersion, deviceVersion, nameof(deviceDeviceVersion));
+        Assert.AreEqual(deviceSerialNumber, serialNumber, nameof(deviceSerialNumber));
+    }
+
 
     [TestMethod]
     [Description("Device properties tests")]

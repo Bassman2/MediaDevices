@@ -3,16 +3,6 @@
 partial class MediaDevice
 {
     /// <summary>
-    /// Interface Path of the portable mediaDevice.
-    /// </summary>
-    /// <remarks>Readable when not connected.</remarks>
-    public string InterfacePath { get; private set; } = "";
-
-    public ManufacturerId ManufacturerId { get; internal set; } = 0;
-
-    public ushort DeviceId { get; internal set; } = 0;
-
-    /// <summary>
     /// Is portable mediaDevice connected.
     /// </summary>
     public bool IsConnected => device.IsConnected; //{ get; internal set; }
@@ -22,6 +12,22 @@ partial class MediaDevice
     /// </summary>
     public bool IsCaseSensitive { get; set; } = false;
 
+
+    #region USB properties
+
+    /// <summary>
+    /// Interface Path of the portable mediaDevice.
+    /// </summary>
+    /// <remarks>Readable when not connected.</remarks>
+    public string InterfacePath { get; private set; } = "";
+
+    public ManufacturerId ManufacturerId { get; internal set; } = 0;
+
+    public ushort DeviceId { get; internal set; } = 0;
+
+    #endregion
+
+    
 
     #region IPortableDeviceManager
 

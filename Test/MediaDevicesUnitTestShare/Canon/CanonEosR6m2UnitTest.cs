@@ -22,7 +22,7 @@ public class CanonEosR6m2UnitTest : CanonEosUnitTest
         deviceDeviceType = DeviceType.Camera;
         
         // Capability Test
-        deviceSupportedEvents = [Events.DeviceReset, Events.Unknown, Events.StorageFormat, Events.Unknown, Events.Unknown, Events.ObjectRemoved, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.ObjectTransferRequest, Events.Unknown, Events.Unknown, Events.ObjectUpdated, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.ObjectAdded, Events.Unknown];
+        deviceSupportedEvents = [Events.DeviceReset, Events.Unknown, Events.StorageFormat, Events.Unknown, Events.Unknown, Events.ObjectRemoved, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.RequestObjectTransfer, Events.Unknown, Events.Unknown, Events.ObjectInfoChanged, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.ObjectAdded, Events.Unknown];
 
         deviceSupportedCommands = [
             Commands.ObjectEnumerationStartFind,

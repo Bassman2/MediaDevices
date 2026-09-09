@@ -23,7 +23,7 @@ public class AmazonFireHD10Plus11UnitTest : AmazonUnitTest
         deviceSerialNumber = "G001MG0613460HLU";
 
         // Capability Test
-        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectInfoChanged, Events.ObjectAdded];
         this.deviceSupportedCommands = [
             Commands.ObjectEnumerationStartFind,
             Commands.ObjectEnumerationFindNext,

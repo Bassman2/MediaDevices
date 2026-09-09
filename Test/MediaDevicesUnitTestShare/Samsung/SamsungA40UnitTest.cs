@@ -27,7 +27,7 @@ public class SamsungA40UnitTest : SamsungUnitTest
         deviceIsFriendlyNameEditable = true;
         
         // Capability Test
-        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectInfoChanged, Events.ObjectAdded];
         deviceSupportedCommands = [
             Commands.ObjectEnumerationStartFind, 
             Commands.ObjectManagementDeleteObjects,

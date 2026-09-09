@@ -19,7 +19,7 @@ public class CanonPowerShotSX30UnitTest : CanonPowerShotUnitTest
         this.devicePowerSource = PowerSource.Battery;
 
         // Capability Test
-        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated];
+        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectInfoChanged];
         this.deviceSupportedCommands = [Commands.ObjectEnumerationStartFind, Commands.ObjectManagementDeleteObjects];
         this.deviceSupportedContents = [ContentType.Image];
 

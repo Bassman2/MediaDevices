@@ -23,7 +23,7 @@ public class AppleiPhone17ProUnitTest : AppleUnitTest
 
 
         // Device Capability Test
-        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown];
+        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectInfoChanged, Events.ObjectAdded, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown, Events.Unknown];
         deviceSupportedCommands = [
             Commands.ObjectEnumerationStartFind, 
             Commands.ObjectManagementDeleteObjects,

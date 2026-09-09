@@ -2,9 +2,11 @@
 
 partial class MediaDevice
 {
+    // all values from GetDeviceInfo operation
+
     public ushort StandardVersion { get; internal set; }
 
-    public uint VendorExtensionID { get; internal set; }
+    public uint VendorExtensionId { get; internal set; }
 
     public ushort VendorExtensionVersion { get; internal set; }
 
@@ -12,9 +14,9 @@ partial class MediaDevice
 
     public FunctionalMode FunctionalMode { get; internal set; }
 
-    public ushort[] OperationsSupported { get; internal set; }
+    public Commands[] OperationsSupported { get; internal set; }
 
-    public ushort[] EventsSupported { get; internal set; }
+    public Events[] EventsSupported { get; internal set; }
 
     public ushort[] DevicePropertiesSupported { get; internal set; }
 

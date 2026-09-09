@@ -29,7 +29,7 @@ public class GooglePixel6aUnitTest : GoogleUnitTest
         deviceUseDeviceStage = null;
 
         // Capability Test
-        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        this.deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectInfoChanged, Events.ObjectAdded];
         this.deviceSupportedCommands = [
             Commands.ObjectEnumerationStartFind, 
             Commands.ObjectEnumerationFindNext,

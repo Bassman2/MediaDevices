@@ -22,7 +22,7 @@ public class CanonEos60DUnitTest : CanonEosUnitTest
         deviceUseDeviceStage = DeviceTransport.USB;
 
         // Capability Test
-        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.StorageFormat, Events.Unknown, Events.ObjectTransferRequest, Events.ObjectAdded];
+        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectInfoChanged, Events.StorageFormat, Events.Unknown, Events.RequestObjectTransfer, Events.ObjectAdded];
         deviceSupportedCommands = [
             Commands.ObjectEnumerationStartFind,
             Commands.ObjectManagementDeleteObjects,

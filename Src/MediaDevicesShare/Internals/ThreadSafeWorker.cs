@@ -19,11 +19,14 @@ internal sealed class ThreadSafeWorker : IDisposable
     private ThreadSafeWorker()
     {
         thread = new Thread(WorkLoop) { Name = "MediaDeviceWorkerThread", IsBackground = true };
-        if (!thread.TrySetApartmentState(ApartmentState.MTA))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            throw new InvalidOperationException("Failed to set MTA apartment state.");
+            if (!thread.TrySetApartmentState(ApartmentState.MTA))
+            {
+                throw new InvalidOperationException("Failed to set MTA apartment state.");
+            }
         }
-        ThreadId = thread.ManagedThreadId;
+            ThreadId = thread.ManagedThreadId;
         thread.Start();
     }
 

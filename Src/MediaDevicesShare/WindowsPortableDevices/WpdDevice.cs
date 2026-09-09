@@ -86,6 +86,8 @@ internal partial class WpdDevice : IDevice, IDisposable
     public void Dispose()
     { }
 
+    
+
     public void Connect(MediaDeviceAccess access, MediaDeviceShare share, bool enableCache)
     {
 
@@ -234,6 +236,86 @@ internal partial class WpdDevice : IDevice, IDisposable
         MediaDevice.IsFriendlyNameEditable = canWriteInt != 0;
 
         IsConnected = true;
+    }
+
+    public void GetDeviceInfo(MediaDevice mediaDevice)
+    {
+        ThreadSafeWorkerException.ThrowIfNotInside();
+        NotConnectedException.ThrowIfNotConnected(this);
+
+        int err = device!.Capabilities(out deviceCapabilities);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Capabilities));
+        err = device.Content(out deviceContent);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDevice), nameof(IPortableDevice.Content));
+        err = deviceContent.Properties(out deviceProperties);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceContent), nameof(IPortableDeviceContent.Properties));
+        err = deviceProperties.GetValues(WpdItem.RootId, null, out var deviceValues);
+        MediaDeviceException.ThrowIfComError(err, nameof(IPortableDeviceProperties), nameof(IPortableDeviceProperties.GetValues));
+
+        // WPD_DEVICE_PROTOCOL
+        if (deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_PROTOCOL, out uint standardVersion) == OK)
+        {
+            MediaDevice.StandardVersion = (ushort)standardVersion;
+        }
+
+        if (deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_MANUFACTURER, out uint vendorExtensionId) == OK)
+        {
+            MediaDevice.VendorExtensionId = vendorExtensionId;
+        }
+
+        if (deviceValues.GetUnsignedIntegerValue(ref WPD.COMMAND_MTP_EXT_GET_VENDOR_EXTENSION_DESCRIPTION, out uint vendorExtensionVersion) == OK)
+        {
+            MediaDevice.VendorExtensionVersion = (ushort)vendorExtensionVersion;
+        }
+
+        if (deviceValues.GetStringValue(ref WPD.COMMAND_MTP_EXT_GET_VENDOR_EXTENSION_DESCRIPTION, out string vendorExtensionDescription) == OK)
+        {
+            MediaDevice.VendorExtensionDescription = vendorExtensionDescription;
+        }
+
+        // WPD_DEVICE_FUNCTIONAL_MODE  {26B8E7E7-F2A4-4068-B733-559F3BF7BE7E}, 21
+        //if (deviceValues.GetUnsignedIntegerValue(ref WPD.DEVICE_FUNCTIONAL_MODE, out uint functionalMode) == OK)
+        //{
+        //    MediaDevice.FunctionalMode = (FunctionalMode)functionalMode;
+        //}
+
+        //OperationsSupported IPortableDeviceCapabilities::GetSupportedCommands
+        if (deviceCapabilities!.GetSupportedCommands(out IPortableDeviceKeyCollection supportedCommands) == OK)
+        {
+            MediaDevice.OperationsSupported = supportedCommands.Enumerate<Commands>(key => key.ToCommandsEnum()).ToArray();
+        }
+
+        //    EventsSupported IPortableDeviceCapabilities::GetSupportedEvents
+        if (deviceCapabilities!.GetSupportedEvents(out IPortableDevicePropVariantCollection eventsSupported) == OK)
+        {
+            MediaDevice.EventsSupported = eventsSupported.Enumerate<Events>(val => val.ToGuid().ToEventsEnum()).ToArray();
+        }
+
+        //    DevicePropertiesSupported IPortableDeviceProperties::GetSupportedProperties
+
+        //    CaptureFormatsIPortableDeviceCapabilities::GetFunctionalObjects
+
+        //    PlaybackFormatsIPortableDeviceCapabilities::GetSupportedContentTypes
+
+        if (deviceValues.GetStringValue(ref WPD.DEVICE_MANUFACTURER, out string manufacturer) == OK)
+        {
+            MediaDevice.Manufacturer = manufacturer;
+        }
+
+        if (deviceValues.GetStringValue(ref WPD.DEVICE_MODEL, out string model) == OK)
+        {
+            MediaDevice.Model = model;
+        }
+
+        if (deviceValues.GetStringValue(ref WPD.DEVICE_FIRMWARE_VERSION, out string deviceVersion) == OK)
+        {
+            MediaDevice.DeviceVersion = deviceVersion;
+        }
+
+        if (deviceValues.GetStringValue(ref WPD.DEVICE_SERIAL_NUMBER, out string serialNumber) == OK)
+        {
+            MediaDevice.SerialNumber = serialNumber;
+        }
     }
 
     public void Disconnect()

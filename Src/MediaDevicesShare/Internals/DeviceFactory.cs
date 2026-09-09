@@ -28,6 +28,8 @@ internal static partial class DeviceFactory
         throw new NotSupportedException("OS not supported!");
     }
 
+    #region Windows
+
     private static IPortableDeviceManager? deviceManager;
 
     [SupportedOSPlatform("windows")]
@@ -61,6 +63,10 @@ internal static partial class DeviceFactory
         }
     }
 
+    #endregion
+
+    #region Linux
+
     private const string linuxUsbDir = "/sys/bus/usb/devices/";
 
     [SupportedOSPlatform("linux")]
@@ -68,8 +74,7 @@ internal static partial class DeviceFactory
     {
         if (!Directory.Exists(linuxUsbDir))
         {
-            Console.WriteLine("Fehler: /sys/bus/usb/devices/ existiert nicht. Läuft das Programm auf Linux?");
-            yield break; ;
+            throw new Exception("/sys/bus/usb/devices/ does not exists. Does it really run on Linux?");
         }
 
         int foundCount = 0;
@@ -85,12 +90,15 @@ internal static partial class DeviceFactory
             string bInterfaceSubClass = ReadSysfsFile(Path.Combine(devPath, "bInterfaceSubClass"));
             string bInterfaceProtocol = ReadSysfsFile(Path.Combine(devPath, "bInterfaceProtocol"));
 
+            Debug.WriteLine($"Path: {devPath}, bInterfaceClass: {bInterfaceClass}, bInterfaceSubClass: {bInterfaceSubClass}, bInterfaceProtocol: {bInterfaceProtocol}");
+
             bool isMtpOrPtp = false;
 
             // 1. Standard PTP/MTP filter via USB interface class (06/01/01)
             if (bInterfaceClass == "06" && bInterfaceSubClass == "01" && bInterfaceProtocol == "01")
             {
                 isMtpOrPtp = true;
+                Debug.WriteLine("MTP/PTP");
             }
             // 2. Fallback for vendor-specific Android MTP modes (class ff)
             else if (bInterfaceClass == "ff")
@@ -100,6 +108,8 @@ internal static partial class DeviceFactory
                 if (interfaceName.Contains("mtp") || interfaceName.Contains("android"))
                 {
                     isMtpOrPtp = true;
+                    Debug.WriteLine("Android MTP/PTP");
+
                 }
             }
 
@@ -107,14 +117,28 @@ internal static partial class DeviceFactory
             {
                 foundCount++;
 
+                FileInfo fileInfo = new(devPath);
+                string relativeTarget = fileInfo.LinkTarget!;
+
                 // The parent directory contains global device info (manufacturer, IDs)
-                string parentDir = Directory.GetParent(devPath)?.FullName ?? devPath;
+                //string relativeTarget = Directory.GetParent(devPath)?.FullName ?? devPath;
+
+                string absoluteTarget = Path.GetFullPath(Path.Combine(fileInfo.DirectoryName!, relativeTarget));
+
+                string parentDir = Directory.GetParent(absoluteTarget)?.FullName ?? devPath;
 
                 string idVendor = ReadSysfsFile(Path.Combine(parentDir, "idVendor"));
                 string idProduct = ReadSysfsFile(Path.Combine(parentDir, "idProduct"));
                 string manufacturer = ReadSysfsFile(Path.Combine(parentDir, "manufacturer"));
                 string product = ReadSysfsFile(Path.Combine(parentDir, "product"));
                 string serial = ReadSysfsFile(Path.Combine(parentDir, "serial"));
+
+                Debug.WriteLine($"  Manufacturer: {manufacturer}");
+                Debug.WriteLine($"  Product:      {product}");
+                Debug.WriteLine($"  Vendor ID:    0x{idVendor}");
+                Debug.WriteLine($"  Product ID:   0x{idProduct}");
+                Debug.WriteLine($"  Serial No.:   {serial}");
+                Debug.WriteLine($"  Class type:   Class {bInterfaceClass}, Subclass {bInterfaceSubClass}");
 
 
                 var device = new ApplicationLayer(new TransportLayerLinux()); // deviceManager, d);
@@ -134,6 +158,66 @@ internal static partial class DeviceFactory
         }
     }
 
+    /*
+     root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat bMaxPower
+500mA
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat bcdDevice
+0400
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat configuration
+Conf 1
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat descriptors
+@�`h    ���     �$�
+
+                        $$$$�
+
+�       �B
+�root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat dev
+189:1
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat devnum
+2
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat devpath
+1
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat idProduct
+6860
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat idVendor
+04e8
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat ltm_capable
+no
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat manufacturer
+SAMSUNG
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat product
+SAMSUNG_Android
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat version
+ 2.00
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat serial
+R58M81NACKB
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat maxchild
+0
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat quirks
+0x0
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat urbnum
+16
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat uevent
+MAJOR=189
+MINOR=1
+DEVNAME=bus/usb/001/002
+DEVTYPE=usb_device
+DRIVER=usb
+PRODUCT=4e8/6860/400
+TYPE=0/0/0
+BUSNUM=001
+DEVNUM=002
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat tx_lanes
+1
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat speed
+480
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat serial
+R58M81NACKB
+root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat remove
+cat: remove: Permission denied* 
+     * 
+    */
+
     [SupportedOSPlatform("linux")]
     private static string ReadSysfsFile(string path)
     {
@@ -150,6 +234,10 @@ internal static partial class DeviceFactory
         }
         return string.Empty;
     }
+
+    #endregion
+
+    #region MacOS
 
     [SupportedOSPlatform("macos")]
     public static IEnumerable<MediaDevice> GetMacOSDevices()
@@ -193,7 +281,7 @@ internal static partial class DeviceFactory
         IOObjectRelease(iterator);
     }
 
-    #region Helper
+    
 
     [SupportedOSPlatform("macos")]
     private static int GetMacOsIntProperty(uint entry, string key)
@@ -215,11 +303,7 @@ internal static partial class DeviceFactory
         // Reads a CFString attribute from the IOKit object
         return null; // Dummy return for structural overview
     }
-
-    #endregion
-
-    #region LibraryImport
-
+    
     [LibraryImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation", StringMarshalling = StringMarshalling.Utf8)]
     private static partial IntPtr CFStringCreateWithCString(IntPtr alloc, string cStr, uint encoding);
 

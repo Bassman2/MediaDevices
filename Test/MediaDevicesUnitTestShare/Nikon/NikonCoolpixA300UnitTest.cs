@@ -24,7 +24,7 @@ public class NikonCoolpixA300 : NikonUnitTest
         deviceUseDeviceStage = DeviceTransport.USB;
 
         // Device Capability Test
-        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectUpdated, Events.DeviceCapabilitiesUpdated, Events.Unknown, Events.StorageFormat, Events.Unknown, Events.Unknown, Events.ObjectTransferRequest, Events.Unknown, Events.ObjectAdded];
+        deviceSupportedEvents = [Events.DeviceReset, Events.ObjectRemoved, Events.ObjectInfoChanged, Events.DeviceInfoChanged, Events.Unknown, Events.StorageFormat, Events.Unknown, Events.Unknown, Events.RequestObjectTransfer, Events.Unknown, Events.ObjectAdded];
         deviceSupportedCommands = [ 
             Commands.ObjectEnumerationStartFind, 
             Commands.ObjectManagementDeleteObjects,

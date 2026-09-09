@@ -12,20 +12,17 @@ public class TascamDR40UnitTest : TascamUnitTest
         deviceFriendlyName = "Samsung A40";
         deviceManufacture = "Single  ";
         deviceFirmwareVersion = "1.00";
-        deviceModel = "Flash Reader    ";
-        deviceSerialNumber = "058F63356336";
+        //deviceModel = "Flash Reader    ";
+        //deviceSerialNumber = "058F63356336";
         deviceSupportsNonConsumable = null;
         devicePowerSource = PowerSource.External;
         deviceProtocol = "MSC:";
         deviceTransport = null;
         deviceUseDeviceStage = null;
-#if DEBUG
-        deviceIsHidden = true;
-        deviceContainerFunctionalObjectId = null;
-#endif
+
 
         // Capability Test
-        deviceSupportedEvents = [Events.ObjectRemoved, Events.ObjectUpdated, Events.ObjectAdded];
+        deviceSupportedEvents = [Events.ObjectRemoved, Events.ObjectInfoChanged, Events.ObjectAdded];
         deviceSupportedCommands = [
             Commands.ObjectEnumerationStartFind,
             Commands.ObjectManagementDeleteObjects,

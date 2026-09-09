@@ -113,7 +113,7 @@ partial class MediaDevice
     //        Events.ObjectUpdated or
     //        Events.DeviceReset or
     //        Events.StorageFormat or
-    //        Events.ObjectTransferRequest or
+    //        Events.RequestObjectTransfer or
     //        Events.DeviceCapabilitiesUpdated or
     //        Events.DeviceRemoved or
     //        Events.ServiceMethodComplete => new MediaDeviceEventArgs(eventEnum, this, eventParameters),
@@ -153,8 +153,8 @@ partial class MediaDevice
     //    case Events.StorageFormat:
     //        this.StorageFormat?.Invoke(this, eventArgs);
     //        break;
-    //    case Events.ObjectTransferRequest:
-    //        this.ObjectTransferRequest?.Invoke(this, eventArgs);
+    //    case Events.RequestObjectTransfer:
+    //        this.RequestObjectTransfer?.Invoke(this, eventArgs);
     //        break;
     //    case Events.DeviceRemoved:
     //        this.DeviceRemoved?.Invoke(this, eventArgs);
