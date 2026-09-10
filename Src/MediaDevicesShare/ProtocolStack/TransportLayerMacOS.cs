@@ -27,7 +27,12 @@ internal partial class TransportLayerMacOS : ITransportLayer
         return Task.FromException<MtpTransactionResult>(new NotImplementedException());
     }
 
-    public Task UploadFromStreamAsync(Stream sourceStream, uint streamSize, string remoteFileName, uint targetFolderHandle = 4294967295u, CancellationToken cancellationToken = default)
+    public Task DownloadAsync(uint objectHandle, Stream destinationStream, CancellationToken cancellationToken = default)
+    {
+        return Task.FromException(new NotImplementedException());
+    }
+
+    public Task UploadAsync(Stream sourceStream, uint streamSize, string remoteFileName, uint targetFolderHandle = 4294967295u, CancellationToken cancellationToken = default)
     {
         return Task.FromException(new NotImplementedException());
     }

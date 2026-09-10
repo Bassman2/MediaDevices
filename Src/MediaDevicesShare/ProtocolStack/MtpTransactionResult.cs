@@ -4,4 +4,5 @@ internal class MtpTransactionResult
 {
     public MtpResponseCode ResponseCode { get; set; }
     public byte[] Data { get; set; } = [];
+    public Stream? TargetDownloadStream { get; set; }
 }

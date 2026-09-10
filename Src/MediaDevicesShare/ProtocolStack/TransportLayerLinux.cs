@@ -125,7 +125,56 @@ internal partial class TransportLayerLinux : ITransportLayer, IDisposable
         }
     }
 
-    public async Task UploadFromStreamAsync(Stream sourceStream, uint streamSize, string remoteFileName, uint targetFolderHandle = 0xFFFFFFFF, CancellationToken cancellationToken = default)
+    #region Download
+
+    /// <summary>
+    /// Lädt eine Datei anhand ihres ObjectHandles vom Gerät direkt in einen beschreibbaren Stream herunter.
+    /// </summary>
+    public async Task DownloadAsync(uint objectHandle, Stream destinationStream, CancellationToken cancellationToken = default)
+    {
+        if (destinationStream == null) throw new ArgumentNullException(nameof(destinationStream));
+        if (!destinationStream.CanWrite) throw new ArgumentException("Der Zielstream muss beschreibbar sein.", nameof(destinationStream));
+
+        uint txId = Interlocked.Increment(ref globalTransactionId);
+        var tcs = new TaskCompletionSource<MtpTransactionResult>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var resultPlaceholder = new MtpTransactionResult
+        {
+            TargetDownloadStream = destinationStream // Hier dem ReceiveThread den Stream übergeben
+        };
+
+        pendingTransactions[txId] = (resultPlaceholder, tcs);
+
+        using var registration = cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
+
+        try
+        {
+            // Sende den GetObject-Befehl mit dem ObjectHandle als Parameter
+            byte[] cmdPacket = PackageCommand(OperationCodes.GetObject, txId, [objectHandle]);
+            WriteBulk(cmdPacket);
+
+            // Der ReceiveThread übernimmt jetzt das automatische Schreiben in den destinationStream.
+            // Wir warten hier einfach, bis die Response-Phase abgeschlossen ist.
+            MtpTransactionResult response = await tcs.Task;
+
+            if (response.ResponseCode != MtpResponseCode.OK)
+            {
+                throw new IOException($"MTP GetObject fehlgeschlagen mit Code: {response.ResponseCode}");
+            }
+        }
+        finally
+        {
+            pendingTransactions.TryRemove(txId, out _);
+        }
+    }
+
+
+
+    #endregion
+
+    #region Upload
+
+    public async Task UploadAsync(Stream sourceStream, uint streamSize, string remoteFileName, uint targetFolderHandle = 0xFFFFFFFF, CancellationToken cancellationToken = default)
     {
         // --- SCHRITT 1: SendObjectInfo (Metadaten übermitteln wie bisher) ---
         uint txId = Interlocked.Increment(ref globalTransactionId);
@@ -169,6 +218,8 @@ internal partial class TransportLayerLinux : ITransportLayer, IDisposable
             pendingTransactions.TryRemove(txId, out _);
         }
     }
+
+    #endregion
 
     private static byte[] CreateObjectInfoDataset(uint parentHandle, uint fileSize, MtpObjectFormat format, string fileName)
     {
@@ -366,6 +417,82 @@ internal partial class TransportLayerLinux : ITransportLayer, IDisposable
         {
             try
             {
+                // 1. Hole die ersten 4 Bytes (Länge)
+                byte[]? lengthBytes = ReadExact(4);
+                if (lengthBytes == null) break;
+
+                uint packetLength = BitConverter.ToUInt32(lengthBytes, 0);
+                if (packetLength < 12) continue;
+
+                // 2. Hole die restlichen 8 Bytes des MTP-Headers (Typ, Code/OpCode, TxID)
+                byte[]? headerRest = ReadExact(8);
+                if (headerRest == null) break;
+
+                // Header manuell zusammenbauen, da wir ihn stückweise gelesen haben
+                byte[] fullHeaderBytes = new byte[12];
+                Buffer.BlockCopy(lengthBytes, 0, fullHeaderBytes, 0, 4);
+                Buffer.BlockCopy(headerRest, 0, fullHeaderBytes, 4, 8);
+                MtpContainerHeader header = UnpackageHeader(fullHeaderBytes);
+
+                uint payloadLength = packetLength - 12;
+
+                // Prüfen, ob eine Transaktion auf diese ID wartet
+                if (pendingTransactions.TryGetValue(header.TransactionId, out var tx))
+                {
+                    if (header.Type == MtpHeaderType.Data)
+                    {
+                        // --- FALL A: Es ist ein Download-Stream hinterlegt ---
+                        if (tx.Result.TargetDownloadStream != null)
+                        {
+                            uint bytesRemaining = payloadLength;
+                            byte[] buffer = new byte[65536]; // 64 KB temporärer Lese-Puffer
+
+                            while (bytesRemaining > 0 && isRunning)
+                            {
+                                int toRead = (int)Math.Min(buffer.Length, bytesRemaining);
+                                byte[]? chunk = ReadExact(toRead);
+                                if (chunk == null) throw new IOException("USB-Verbindung während des Downloads abgebrochen.");
+
+                                // Direkt in den Zielstream (z.B. die Festplatte) schreiben
+                                tx.Result.TargetDownloadStream.Write(chunk, 0, chunk.Length);
+                                bytesRemaining -= (uint)chunk.Length;
+                            }
+
+                            // Wichtig: Wir springen direkt zum nächsten Paket (warten auf Response)
+                            continue;
+                        }
+
+                        // --- FALL B: Normaler kleiner Daten-Payload (wie GetDeviceInfo) ---
+                        byte[]? payload = ReadExact((int)payloadLength);
+                        if (payload == null) break;
+                        tx.Result.Data = payload;
+                        continue;
+                    }
+                    else if (header.Type == MtpHeaderType.Response)
+                    {
+                        tx.Result.ResponseCode = header.Code;
+                        tx.Tcs.TrySetResult(tx.Result);
+                        continue;
+                    }
+                }
+
+                // Falls das Paket zu keiner aktiven Transaktion gehört (z.B. Events oder unbenutzt)
+                if (payloadLength > 0)
+                {
+                    ReadExact((int)payloadLength); // Daten verwerfen
+                }
+            }
+            catch (Exception ex)
+            {
+                if (isRunning) ErrorOccurred?.Invoke(ex);
+                break;
+            }
+        }
+        /*
+        while (isRunning)
+        {
+            try
+            {
                 // 1. Erstes Längenfeld (4 Bytes) lesen
                 byte[]? lengthBytes = ReadExact(4);
                 if (lengthBytes == null) break;
@@ -397,6 +524,7 @@ internal partial class TransportLayerLinux : ITransportLayer, IDisposable
                 break;
             }
         }
+        */
     }
 
     private void EventReceiveLoop()

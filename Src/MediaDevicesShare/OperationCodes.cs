@@ -9,6 +9,8 @@ public enum OperationCodes : ushort
 
     GetStorageIDs = 0x1004,
 
+    GetObject = 0x1009,
+
     SendObjectInfo = 0x100C,
     SendObject = 0x100D
 }
