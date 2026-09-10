@@ -52,6 +52,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\ApplicationLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\MtpContainerHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\MtpHeaderType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\MtpObjectFormat .cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\MtpResponseCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\MtpTransactionResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProtocolStack\ProtocolLayer.cs" />

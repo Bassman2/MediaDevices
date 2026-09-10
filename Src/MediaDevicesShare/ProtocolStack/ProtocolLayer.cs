@@ -12,7 +12,7 @@ internal class ProtocolLayer
     public void SendCommand(OperationCodes opCode, uint transactionId, uint[]? parameters = null)
     {
         byte[] commandPacket = PackageCommand(opCode, transactionId, parameters);
-        transportLayer.Send(commandPacket);
+        //transportLayer.Send(commandPacket);
     }
 
     public static byte[] PackageCommand(OperationCodes opCode, uint transactionId, uint[]? parameters = null)

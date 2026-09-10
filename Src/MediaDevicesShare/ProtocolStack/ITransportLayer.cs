@@ -1,22 +1,13 @@
 ﻿namespace MediaDevices.ProtocolStack;
 
-internal interface ITransportLayer
+internal interface ITransportLayer : IDisposable
 {
-    public byte BulkInPipe { get; set; }
-    public byte BulkOutPipe { get; set; }
+    event Action<Events, uint[]>? EventReceived;
 
-    /// <summary>
-    /// Öffnet das Gerät und sucht die Endpunkte.
-    /// </summary>
-    bool ConnectToHardware(object deviceIdentifier);
+    void Connect();
+    void Disconnect();
 
-    /// <summary>
-    /// Sendet rohe Bytes synchron an das Gerät (Bulk Out).
-    /// </summary>
-    bool WriteRawBytes(byte[] data);
+    Task<MtpTransactionResult> SendCommandAsync(OperationCodes opCode, uint[]? parameters = null, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Liest rohe Bytes synchron vom Gerät (Bulk In).
-    /// </summary>
-    byte[] ReadRawBytes(int expectedSize);
+    Task UploadFromStreamAsync(Stream sourceStream, uint streamSize, string remoteFileName, uint targetFolderHandle = 0xFFFFFFFF, CancellationToken cancellationToken = default);
 }

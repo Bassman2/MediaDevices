@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Diagnostics.Tracing;
 
 namespace MediaDevices.ProtocolStack;
 
@@ -12,26 +11,30 @@ internal partial class TransportLayerLinux : ITransportLayer, IDisposable
     private int deviceFd = -1;
     private readonly uint endpointIn;
     private readonly uint endpointOut;
+    private readonly uint endpointInterruptIn;
     private readonly uint interfaceNumber;
 
     private readonly ConcurrentDictionary<uint, (MtpTransactionResult Result, TaskCompletionSource<MtpTransactionResult> Tcs)> pendingTransactions = new();
 
     private uint globalTransactionId = 0;  
 
-    private Thread? _receiveThread;
+    private Thread? receiveThread;
+    private Thread? eventReceiveThread; //  separater Thread für MTP-Events
+
     private bool isRunning;
     private readonly object lockObject = new();
 
-    public event Action<MtpContainerHeader, byte[]>? PacketReceived;
+    //public event Action<MtpContainerHeader, byte[]>? PacketReceived;
     public event Action<Exception>? ErrorOccurred;
 
     public event Action<Events, uint[]>? EventReceived;
 
-    public TransportLayerLinux(string devicePath, uint interfaceNumber, uint epIn, uint epOut)
+    public TransportLayerLinux(string devicePath, uint interfaceNumber, uint epIn, uint epOut, uint epInterruptIn)
     {
         this.interfaceNumber = interfaceNumber;
         endpointIn = epIn;
         endpointOut = epOut;
+        endpointInterruptIn = epInterruptIn;
 
         // 1. USB-Gerätedatei öffnen (String wird dank StringMarshalling.Utf8 sauber übergeben)
         deviceFd = Open(devicePath, O_RDWR);
@@ -69,12 +72,12 @@ internal partial class TransportLayerLinux : ITransportLayer, IDisposable
         {
             if (isRunning) return;
             isRunning = true;
-            _receiveThread = new Thread(ReceiveLoop)
-            {
-                IsBackground = true,
-                Name = "MTP_Linux_Native_Receive"
-            };
-            _receiveThread.Start();
+
+            receiveThread = new Thread(ReceiveLoop) { IsBackground = true, Name = "MTP_Bulk_Receive_Thread" };
+            receiveThread.Start();
+
+            eventReceiveThread = new Thread(EventReceiveLoop) { IsBackground = true, Name = "MTP_Interrupt_Event_Thread" };
+            eventReceiveThread.Start();
         }
     }
 
@@ -85,7 +88,8 @@ internal partial class TransportLayerLinux : ITransportLayer, IDisposable
             if (!isRunning) return;
             isRunning = false;
         }
-        _receiveThread?.Join(1000);
+        receiveThread?.Join(1000);
+        eventReceiveThread?.Join(1000);
     }
 
     public async Task<MtpTransactionResult> SendCommandAsync(OperationCodes opCode, uint[]? parameters = null, CancellationToken cancellationToken = default)
@@ -121,7 +125,152 @@ internal partial class TransportLayerLinux : ITransportLayer, IDisposable
         }
     }
 
-    public abstract void ReceiveEvent(Events mtpEvent, uint[] eventData);
+    public async Task UploadFromStreamAsync(Stream sourceStream, uint streamSize, string remoteFileName, uint targetFolderHandle = 0xFFFFFFFF, CancellationToken cancellationToken = default)
+    {
+        // --- SCHRITT 1: SendObjectInfo (Metadaten übermitteln wie bisher) ---
+        uint txId = Interlocked.Increment(ref globalTransactionId);
+        var tcs = new TaskCompletionSource<MtpTransactionResult>(TaskCreationOptions.RunContinuationsAsynchronously);
+        pendingTransactions[txId] = (new MtpTransactionResult(), tcs);
+
+        try
+        {
+            uint[] infoParams = [0x00000000, targetFolderHandle];
+            byte[] objectInfoDataset = CreateObjectInfoDataset(targetFolderHandle, streamSize, MtpObjectFormat.Undefined, remoteFileName);
+
+            WriteBulk(PackageCommand(OperationCodes.SendObjectInfo, txId, infoParams));
+            WriteBulk(PackageData(OperationCodes.SendObjectInfo, txId, objectInfoDataset));
+
+            MtpTransactionResult infoResponse = await tcs.Task;
+            if (infoResponse.ResponseCode != MtpResponseCode.OK)
+                throw new IOException($"SendObjectInfo fehlgeschlagen: {infoResponse.ResponseCode}");
+
+            // --- SCHRITT 2: SendObject (Nutzdaten per Transport-Streamer senden) ---
+            txId = Interlocked.Increment(ref globalTransactionId);
+            tcs = new TaskCompletionSource<MtpTransactionResult>(TaskCreationOptions.RunContinuationsAsynchronously);
+            pendingTransactions[txId] = (new MtpTransactionResult(), tcs);
+
+            // Command senden
+            WriteBulk(PackageCommand(OperationCodes.SendObject, txId, null));
+
+            // NEU: Rufe die Streaming-Methode der Transportschicht auf
+            await StreamBulkOutAsync(sourceStream, streamSize, OperationCodes.SendObject, txId, cancellationToken);
+
+            // Auf Bestätigung des Geräts warten
+            MtpTransactionResult finalResponse = await tcs.Task;
+            if (finalResponse.ResponseCode != MtpResponseCode.OK)
+            {
+                throw new IOException($"Streaming fehlgeschlagen bei SendObject: {finalResponse.ResponseCode}");
+            }
+
+            Console.WriteLine($"Stream erfolgreich als '{remoteFileName}' hochgeladen.");
+        }
+        finally
+        {
+            pendingTransactions.TryRemove(txId, out _);
+        }
+    }
+
+    private static byte[] CreateObjectInfoDataset(uint parentHandle, uint fileSize, MtpObjectFormat format, string fileName)
+    {
+        using MemoryStream ms = new();
+        using BinaryWriter writer = new(ms);
+
+        writer.Write((uint)0x00000000); // StorageID (0x00000000 = Standard-Speicher)
+        writer.Write((ushort)format);    // Object Format
+        writer.Write((ushort)0x0000);   // Protection Status (0 = None)
+        writer.Write(fileSize);         // Object Size (4 Bytes)
+
+        // Thumbing/Format-Spezifische Felder (für normale Dateien mit 0 füllen)
+        writer.Write((ushort)0); writer.Write((uint)0); writer.Write((uint)0);
+        writer.Write((uint)0); writer.Write((uint)0); writer.Write((uint)0);
+        writer.Write((uint)0);
+
+        // Dateiname als MTP-String (Länge in Zeichen inkl. Null-Terminator + UTF-16 Bytes)
+        if (string.IsNullOrEmpty(fileName))
+        {
+            writer.Write((byte)0);
+        }
+        else
+        {
+            writer.Write((byte)(fileName.Length + 1)); // Anzahl Zeichen inkl. \0
+            byte[] stringBytes = System.Text.Encoding.Unicode.GetBytes(fileName);
+            writer.Write(stringBytes);
+            writer.Write((ushort)0); // Null-Terminator (\0)
+        }
+
+        // Datumsfelder (können leer gelassen werden: nur ein 0-Byte jeweils)
+        writer.Write((byte)0); // Date Created
+        writer.Write((byte)0); // Date Modified
+        writer.Write((byte)0); // Keywords
+
+        return ms.ToArray();
+    }
+
+    private byte[] PackageData(OperationCodes opCode, uint transactionId, byte[] payload)
+    {
+        uint totalLength = (uint)(12 + payload.Length);
+        using MemoryStream ms = new();
+        using BinaryWriter writer = new(ms);
+
+        writer.Write(totalLength);
+        writer.Write((ushort)MtpHeaderType.Data);
+        writer.Write((ushort)opCode);
+        writer.Write(transactionId);
+        writer.Write(payload);
+
+        return ms.ToArray();
+    }
+
+    public async Task StreamBulkOutAsync(Stream dataStream, uint contentSize, OperationCodes opCode, uint transactionId, CancellationToken cancellationToken = default)
+    {
+        if (dataStream == null) throw new ArgumentNullException(nameof(dataStream));
+
+        // 1. MTP-Daten-Header bauen (12 Bytes)
+        // Gesamtlänge = 12 Bytes Header + Inhaltsgröße
+        uint totalDataLength = 12 + contentSize;
+
+        using (MemoryStream headerMs = new())
+        using (BinaryWriter headerWriter = new(headerMs))
+        {
+            headerWriter.Write(totalDataLength);
+            headerWriter.Write((ushort)MtpHeaderType.Data);
+            headerWriter.Write((ushort)opCode);
+            headerWriter.Write(transactionId);
+
+            // Header an das USB-Gerät senden
+            Write(headerMs.ToArray());
+        }
+
+        // 2. Stream blockweise lesen und direkt an USB übergeben (64 KB Chunks)
+        byte[] buffer = new byte[65536];
+        uint totalBytesSent = 0;
+
+        while (totalBytesSent < contentSize)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // Berechne, wie viel maximal noch gelesen werden darf
+            int bytesToRead = (int)Math.Min(buffer.Length, contentSize - totalBytesSent);
+
+            int bytesRead = await dataStream.ReadAsync(buffer, 0, bytesToRead, cancellationToken);
+            if (bytesRead <= 0)
+            {
+                throw new EndOfStreamException($"Der Datenstrom endete unerwartet bei {totalBytesSent} von {contentSize} Bytes.");
+            }
+
+            // Wir erstellen ein exakt passendes "Sichtfenster" auf die gelesenen Bytes,
+            // ohne ein neues Array im RAM zu allozieren.
+            ReadOnlySpan<byte> chunkSlice = new ReadOnlySpan<byte>(buffer, 0, bytesRead);
+
+            // Aufruf der neuen WriteBulk-Methode
+            WriteBulk(chunkSlice);
+
+            // Direktes Schreiben des Chunks über ioctl auf das USB-Gerät
+            // Write(buffer, 0, bytesRead);
+
+            totalBytesSent += (uint)bytesRead;
+        }
+    }
 
     private void ProcessIncomingPacket(MtpContainerHeader header, byte[] payload)
     {
@@ -192,6 +341,25 @@ internal partial class TransportLayerLinux : ITransportLayer, IDisposable
         }
     }
 
+    public unsafe void WriteBulk(ReadOnlySpan<byte> buffer)
+    {
+        if (buffer.IsEmpty) return;
+
+        // Pinne den Span fixiert im Speicher, damit der GC ihn während des Systemaufrufs nicht verschiebt
+        fixed (byte* ptr = &MemoryMarshal.GetReference(buffer))
+        {
+            UsbdevfsBulktransfer transfer = new() { Ep = endpointOut, Len = (uint)buffer.Length, Timeout = 5000, Data = (IntPtr)ptr };
+
+            // Direkter nativer Aufruf in den Linux-Kernel via ioctl
+            int result = IoctlBulk(deviceFd, USBDEVFS_BULK, ref transfer);
+            if (result < 0)
+            {
+                int errno = Marshal.GetLastPInvokeError();
+                throw new IOException($"Nativer USB-Schreibfehler (Bulk Out). Errno: {errno}");
+            }
+        }
+    }
+
     private void ReceiveLoop()
     {
         while (isRunning)
@@ -227,6 +395,74 @@ internal partial class TransportLayerLinux : ITransportLayer, IDisposable
             {
                 if (isRunning) ErrorOccurred?.Invoke(ex);
                 break;
+            }
+        }
+    }
+
+    private void EventReceiveLoop()
+    {
+        // Puffergröße für MTP-Events ist klein. Standard-Event-Container hat 12 Bytes Header 
+        // + maximal 3 Parameter à 4 Bytes = 24 Bytes maximale Puffergröße.
+        byte[] eventBuffer = new byte[64];
+
+        while (isRunning)
+        {
+            GCHandle handle = GCHandle.Alloc(eventBuffer, GCHandleType.Pinned);
+            try
+            {
+                UsbdevfsBulktransfer transfer = new()
+                {
+                    Ep = endpointInterruptIn, // Liest vom Interrupt-Endpoint!
+                    Len = (uint)eventBuffer.Length,
+                    Timeout = 1000, // Prüft jede Sekunde, ob der Thread gestoppt werden soll
+                    Data = handle.AddrOfPinnedObject()
+                };
+
+                // Linux nutzt intern USBDEVFS_BULK auch für Interrupt-Abfragen
+                int result = IoctlBulk(deviceFd, USBDEVFS_BULK, ref transfer);
+
+                if (result < 0)
+                {
+                    int errno = Marshal.GetLastPInvokeError();
+                    if (errno == 110) continue; // ETIMEDOUT (Kein Event registriert, Schleife läuft weiter)
+
+                    break; // Schwerwiegender Fehler oder USB-Kabel gezogen
+                }
+
+                if (result >= 12) // Ein gültiger MTP-Header muss mindestens 12 Bytes haben
+                {
+                    // Erstelle ein exaktes Array für das empfangene Event-Paket
+                    byte[] rawPacket = new byte[result];
+                    Buffer.BlockCopy(eventBuffer, 0, rawPacket, 0, result);
+
+                    // Paket auspacken
+                    MtpContainerHeader header = UnpackageHeader(rawPacket);
+
+                    if (header.Type == MtpHeaderType.Event)
+                    {
+                        Events eventCode = (Events)header.Code;
+
+                        // Parameter extrahieren (Nutzdaten nach den ersten 12 Bytes des Headers)
+                        int payloadLen = result - 12;
+                        uint[] eventParameters = new uint[payloadLen / 4];
+                        for (int i = 0; i < eventParameters.Length; i++)
+                        {
+                            eventParameters[i] = BitConverter.ToUInt32(rawPacket, 12 + (i * 4));
+                        }
+
+                        // Event asynchron an die Anwendung weitergeben
+                        Task.Run(() => EventReceived?.Invoke(eventCode, eventParameters));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (isRunning) ErrorOccurred?.Invoke(ex);
+                break;
+            }
+            finally
+            {
+                handle.Free();
             }
         }
     }

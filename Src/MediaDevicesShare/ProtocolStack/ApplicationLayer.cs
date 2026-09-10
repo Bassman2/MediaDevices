@@ -25,7 +25,7 @@ internal class ApplicationLayer : ProtocolLayer, IDevice
             ManufacturerId = (ManufacturerId)manufacturerId,
             DeviceId = deviceId
         };
-        transportLayer.ConnectToHardware(usbPath);
+        //transportLayer.ConnectToHardware(usbPath);
     }
 
     public void GetDeviceInfo()
@@ -36,35 +36,35 @@ internal class ApplicationLayer : ProtocolLayer, IDevice
             parameters: null
         );
 
-        SendRawBytes(commandPacket);
+        //SendRawBytes(commandPacket);
 
-        // 2. Data-Paket empfangen (Enthält die Geräteinformationen)
-        byte[] dataBuffer = ReceiveRawBytes();
-        MtpContainerHeader dataHeader = ProtocolLayer.UnpackageHeader(dataBuffer);
+        //// 2. Data-Paket empfangen (Enthält die Geräteinformationen)
+        //byte[] dataBuffer = ReceiveRawBytes();
+        //MtpContainerHeader dataHeader = ProtocolLayer.UnpackageHeader(dataBuffer);
 
-        if (dataHeader.Type == MtpHeaderType.Data)
-        {
-            // Extrahiere den Payload (die eigentlichen DeviceInfo-Bytes)
-            // Die ersten 12 Bytes sind der Header, der Rest sind die Daten
-            byte[] devInfoPayload = new byte[dataBuffer.Length - 12];
-            Array.Copy(dataBuffer, 12, devInfoPayload, 0, devInfoPayload.Length);
+        //if (dataHeader.Type == MtpHeaderType.Data)
+        //{
+        //    // Extrahiere den Payload (die eigentlichen DeviceInfo-Bytes)
+        //    // Die ersten 12 Bytes sind der Header, der Rest sind die Daten
+        //    byte[] devInfoPayload = new byte[dataBuffer.Length - 12];
+        //    Array.Copy(dataBuffer, 12, devInfoPayload, 0, devInfoPayload.Length);
 
-            // TODO: devInfoPayload parsen (Hersteller, Modell, Seriennummer etc.)
-            Console.WriteLine($"MTP-Datenpaket mit Länge {dataHeader.Length} empfangen.");
-        }
+        //    // TODO: devInfoPayload parsen (Hersteller, Modell, Seriennummer etc.)
+        //    Console.WriteLine($"MTP-Datenpaket mit Länge {dataHeader.Length} empfangen.");
+        //}
 
-        // 3. Response-Paket empfangen (Schließt die Transaktion ab)
-        byte[] responseBuffer = ReceiveRawBytes();
-        MtpContainerHeader responseHeader = ProtocolLayer.UnpackageHeader(responseBuffer);
+        //// 3. Response-Paket empfangen (Schließt die Transaktion ab)
+        //byte[] responseBuffer = ReceiveRawBytes();
+        //MtpContainerHeader responseHeader = ProtocolLayer.UnpackageHeader(responseBuffer);
 
-        if (responseHeader.Code == MtpResponseCode.OK)
-        {
-            Console.WriteLine("GetDeviceInfo erfolgreich abgeschlossen!");
-        }
-        else
-        {
-            Console.WriteLine($"Fehler beim Ausführen des Befehls. Code: {responseHeader.Code}");
-        }
+        //if (responseHeader.Code == MtpResponseCode.OK)
+        //{
+        //    Console.WriteLine("GetDeviceInfo erfolgreich abgeschlossen!");
+        //}
+        //else
+        //{
+        //    Console.WriteLine($"Fehler beim Ausführen des Befehls. Code: {responseHeader.Code}");
+        //}
     }
 
     public void Connect(MediaDeviceAccess access, MediaDeviceShare share, bool enableCache)

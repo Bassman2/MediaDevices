@@ -148,7 +148,7 @@ internal static partial class DeviceFactory
                 ushort deviceId = Convert.ToUInt16(idProduct, 16);
 
 
-                var device = new ApplicationLayer(new TransportLayerLinux(), devPath, manufacturerId, deviceId); 
+                var device = new ApplicationLayer(new TransportLayerLinux(devPath, 0, 0, 0, 0), devPath, manufacturerId, deviceId); 
                 yield return device.MediaDevice;
 
                 //yield return new MediaDevice(devPath, product, product, manufacturer, $"Vendor ID: 0x{idVendor}, Product ID: 0x{idProduct}, Serial No.: {serial} Class type: Class {bInterfaceClass}, Subclass {bInterfaceSubClass}");
@@ -267,11 +267,11 @@ cat: remove: Permission denied*
             // Since IOKit uses tree structures, searching for class 6 covers most cameras/smartphones
             if (deviceClass == 0x06 || name.Contains("MTP", StringComparison.OrdinalIgnoreCase))
             {
-                int vid = GetMacOsIntProperty(deviceEntry, "idVendor");
-                int pid = GetMacOsIntProperty(deviceEntry, "idProduct");
+                ushort vid = (ushort)GetMacOsIntProperty(deviceEntry, "idVendor");
+                ushort pid = (ushort)GetMacOsIntProperty(deviceEntry, "idProduct");
                 string vendor = GetMacOsStringProperty(deviceEntry, "USB Vendor Name") ?? "";
 
-                var device = new ApplicationLayer(new TransportLayerMacOS()); // deviceManager, d);
+                var device = new ApplicationLayer(new TransportLayerMacOS(), "", vid, pid); // deviceManager, d);
                 yield return device.MediaDevice;
 
                 //yield return new MediaDevice("", name, name, vendor, $"Vendor ID: 0x{vid:X4}, Product ID: 0x{pid:X4}");

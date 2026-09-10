@@ -8,4 +8,7 @@ public enum OperationCodes : ushort
     CloseSession = 0x1003,
 
     GetStorageIDs = 0x1004,
+
+    SendObjectInfo = 0x100C,
+    SendObject = 0x100D
 }

@@ -8,6 +8,30 @@ internal partial class TransportLayerMacOS : ITransportLayer
     public byte BulkInPipe { get; set; }
     public byte BulkOutPipe { get; set; }
 
+    // Implement ITransportLayer event
+    public event Action<Events, uint[]>? EventReceived;
+
+    // Implement ITransportLayer methods (stubs)
+    public void Connect()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Disconnect()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<MtpTransactionResult> SendCommandAsync(OperationCodes opCode, uint[]? parameters = null, CancellationToken cancellationToken = default)
+    {
+        return Task.FromException<MtpTransactionResult>(new NotImplementedException());
+    }
+
+    public Task UploadFromStreamAsync(Stream sourceStream, uint streamSize, string remoteFileName, uint targetFolderHandle = 4294967295u, CancellationToken cancellationToken = default)
+    {
+        return Task.FromException(new NotImplementedException());
+    }
+
     public bool ConnectToHardware(object deviceIdentifier)
     {
         var (vid, pid) = ((ushort, ushort))deviceIdentifier;
