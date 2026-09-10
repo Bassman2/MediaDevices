@@ -2,6 +2,19 @@
 
 internal class ProtocolLayer
 {
+    private ITransportLayer transportLayer;
+
+    public ProtocolLayer(ITransportLayer transportLayer)
+    {
+        this.transportLayer = transportLayer;
+    }
+
+    public void SendCommand(OperationCodes opCode, uint transactionId, uint[]? parameters = null)
+    {
+        byte[] commandPacket = PackageCommand(opCode, transactionId, parameters);
+        transportLayer.Send(commandPacket);
+    }
+
     public static byte[] PackageCommand(OperationCodes opCode, uint transactionId, uint[]? parameters = null)
     {
         parameters ??= [];

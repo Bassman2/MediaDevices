@@ -22,7 +22,7 @@ partial class DeviceViewModel
     {
         if (SelectedStillImageFunctionalObject != null)
         {
-            mediaDevice.ObjectAdded += OnStillImage;
+            //mediaDevice.ObjectAdded += OnStillImage;
             mediaDevice.StillImageCaptureInitiate(SelectedStillImageFunctionalObject);
         }
     }

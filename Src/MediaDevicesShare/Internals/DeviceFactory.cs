@@ -1,5 +1,6 @@
 ﻿using MediaDevices.ProtocolStack;
 using MediaDevices.WindowsPortableDevices;
+using System.Globalization;
 
 namespace MediaDevices.Internals;
 
@@ -74,7 +75,7 @@ internal static partial class DeviceFactory
     {
         if (!Directory.Exists(linuxUsbDir))
         {
-            throw new Exception("/sys/bus/usb/devices/ does not exists. Does it really run on Linux?");
+            throw new Exception($"{linuxUsbDir} does not exists. Does it really run on Linux?");
         }
 
         int foundCount = 0;
@@ -140,8 +141,14 @@ internal static partial class DeviceFactory
                 Debug.WriteLine($"  Serial No.:   {serial}");
                 Debug.WriteLine($"  Class type:   Class {bInterfaceClass}, Subclass {bInterfaceSubClass}");
 
+                //ushort manufacturerId = ushort.Parse(idVendor, NumberStyles.HexNumber);
+                //ushort deviceId = ushort.Parse(idProduct, NumberStyles.HexNumber);
 
-                var device = new ApplicationLayer(new TransportLayerLinux()); // deviceManager, d);
+                ushort manufacturerId = Convert.ToUInt16(idVendor, 16);
+                ushort deviceId = Convert.ToUInt16(idProduct, 16);
+
+
+                var device = new ApplicationLayer(new TransportLayerLinux(), devPath, manufacturerId, deviceId); 
                 yield return device.MediaDevice;
 
                 //yield return new MediaDevice(devPath, product, product, manufacturer, $"Vendor ID: 0x{idVendor}, Product ID: 0x{idProduct}, Serial No.: {serial} Class type: Class {bInterfaceClass}, Subclass {bInterfaceSubClass}");

@@ -519,7 +519,7 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
         AutoResetEvent fired = new(false);
 
         var mediaDevice = GetDevice();
-        mediaDevice.ObjectRemoved += (s, a) => fired.Set();
+        //mediaDevice.ObjectRemoved += (s, a) => fired.Set();
         mediaDevice.Connect();
 
         string filePath = GetDeviceTempFile();
@@ -554,21 +554,21 @@ public abstract class WritableUnitTest(string testPath) : ReadonlyUnitTest(testP
         var mediaDevice = GetDevice();
         mediaDevice.Connect(); 
                 
-        mediaDevice.ObjectAdded += (s, a) =>
-        {
-            Trace.WriteLine("ObjectAdded");
-            addEvent.Set();
-        };
-        mediaDevice.ObjectUpdated += (s, a) =>
-        {
-            Trace.WriteLine("ObjectUpdated");
-            addEvent.Set();
-        };
-        mediaDevice.ObjectRemoved += (s, a) => 
-        {
-            Trace.WriteLine("ObjectRemoved");
-            delEvent.Set();
-        };
+        //mediaDevice.ObjectAdded += (s, a) =>
+        //{
+        //    Trace.WriteLine("ObjectAdded");
+        //    addEvent.Set();
+        //};
+        //mediaDevice.ObjectUpdated += (s, a) =>
+        //{
+        //    Trace.WriteLine("ObjectUpdated");
+        //    addEvent.Set();
+        //};
+        //mediaDevice.ObjectRemoved += (s, a) => 
+        //{
+        //    Trace.WriteLine("ObjectRemoved");
+        //    delEvent.Set();
+        //};
 
         mediaDevice.CreateDirectory(folder);
         mediaDevice.DeleteDirectory(folder);

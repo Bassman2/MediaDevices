@@ -18,23 +18,25 @@ internal interface IDevice : IDisposable
 
     #region Events
 
-    event EventHandler<ObjectAddedEventArgs>? ObjectAdded;
+    event EventHandler<MediaDeviceEventArgs>? Event;
 
-    event EventHandler<MediaDeviceEventArgs>? ObjectRemoved;
+    //event EventHandler<ObjectAddedEventArgs>? ObjectAdded;
 
-    event EventHandler<MediaDeviceEventArgs>? ObjectUpdated;
+    //event EventHandler<MediaDeviceEventArgs>? ObjectRemoved;
 
-    event EventHandler<MediaDeviceEventArgs>? DeviceReset;
+    //event EventHandler<MediaDeviceEventArgs>? ObjectUpdated;
 
-    event EventHandler<MediaDeviceEventArgs>? DeviceCapabilitiesUpdated;
+    //event EventHandler<MediaDeviceEventArgs>? DeviceReset;
 
-    event EventHandler<MediaDeviceEventArgs>? StorageFormat;
+    //event EventHandler<MediaDeviceEventArgs>? DeviceCapabilitiesUpdated;
 
-    event EventHandler<MediaDeviceEventArgs>? ObjectTransferRequest;
+    //event EventHandler<MediaDeviceEventArgs>? StorageFormat;
 
-    event EventHandler<MediaDeviceEventArgs>? DeviceRemoved;
+    //event EventHandler<MediaDeviceEventArgs>? ObjectTransferRequest;
 
-    event EventHandler<MediaDeviceEventArgs>? ServiceMethodComplete;
+    //event EventHandler<MediaDeviceEventArgs>? DeviceRemoved;
+
+    //event EventHandler<MediaDeviceEventArgs>? ServiceMethodComplete;
 
     #endregion
 

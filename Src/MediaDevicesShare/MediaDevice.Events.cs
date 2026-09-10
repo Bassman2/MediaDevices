@@ -4,6 +4,13 @@ partial class MediaDevice
 {
     #region events
 
+    public event EventHandler<MediaDeviceEventArgs>? Event
+    {
+        add => device.Event += value;
+        remove => device.Event -= value;
+    }
+
+    /*
     /// <summary>
     /// This event is sent after a new object is available on the mediaDevice.
     /// </summary>
@@ -85,6 +92,7 @@ partial class MediaDevice
         add => device.ServiceMethodComplete += value;
         remove => device.ServiceMethodComplete -= value;
     }   
+    */
 
     #endregion
 

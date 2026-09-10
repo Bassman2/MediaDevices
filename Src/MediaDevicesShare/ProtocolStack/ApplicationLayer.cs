@@ -1,22 +1,71 @@
 ﻿namespace MediaDevices.ProtocolStack;
 
-internal class ApplicationLayer : IDevice
+internal class ApplicationLayer : ProtocolLayer, IDevice
 {
     private bool isConnected;
 
     private readonly ITransportLayer transportLayer;
-
-    public ApplicationLayer(ITransportLayer transportLayer)
-    {
-        this.transportLayer = transportLayer;
-    }
 
     public bool IsConnected => isConnected;
 
     public bool IsCaseSensitive => MediaDevice?.IsCaseSensitive ?? false;
 
     // Backing property - allow internal assignment by factory/creator
-    public MediaDevice MediaDevice { get; internal set; } = null!;
+    public MediaDevice MediaDevice { get; }
+
+    private uint transactionId = 0;
+
+    public ApplicationLayer(ITransportLayer transportLayer, string usbPath, ushort manufacturerId, ushort deviceId)
+        : base(transportLayer)
+    {
+        this.transportLayer = transportLayer;
+        this.MediaDevice = new MediaDevice(this)
+        {
+            UsbPath = usbPath,
+            ManufacturerId = (ManufacturerId)manufacturerId,
+            DeviceId = deviceId
+        };
+        transportLayer.ConnectToHardware(usbPath);
+    }
+
+    public void GetDeviceInfo()
+    {
+        byte[] commandPacket = ProtocolLayer.PackageCommand(
+            OperationCodes.GetDeviceInfo,
+            transactionId,
+            parameters: null
+        );
+
+        SendRawBytes(commandPacket);
+
+        // 2. Data-Paket empfangen (Enthält die Geräteinformationen)
+        byte[] dataBuffer = ReceiveRawBytes();
+        MtpContainerHeader dataHeader = ProtocolLayer.UnpackageHeader(dataBuffer);
+
+        if (dataHeader.Type == MtpHeaderType.Data)
+        {
+            // Extrahiere den Payload (die eigentlichen DeviceInfo-Bytes)
+            // Die ersten 12 Bytes sind der Header, der Rest sind die Daten
+            byte[] devInfoPayload = new byte[dataBuffer.Length - 12];
+            Array.Copy(dataBuffer, 12, devInfoPayload, 0, devInfoPayload.Length);
+
+            // TODO: devInfoPayload parsen (Hersteller, Modell, Seriennummer etc.)
+            Console.WriteLine($"MTP-Datenpaket mit Länge {dataHeader.Length} empfangen.");
+        }
+
+        // 3. Response-Paket empfangen (Schließt die Transaktion ab)
+        byte[] responseBuffer = ReceiveRawBytes();
+        MtpContainerHeader responseHeader = ProtocolLayer.UnpackageHeader(responseBuffer);
+
+        if (responseHeader.Code == MtpResponseCode.OK)
+        {
+            Console.WriteLine("GetDeviceInfo erfolgreich abgeschlossen!");
+        }
+        else
+        {
+            Console.WriteLine($"Fehler beim Ausführen des Befehls. Code: {responseHeader.Code}");
+        }
+    }
 
     public void Connect(MediaDeviceAccess access, MediaDeviceShare share, bool enableCache)
     {
@@ -36,15 +85,17 @@ internal class ApplicationLayer : IDevice
 
     #region Events
 
-    public event EventHandler<ObjectAddedEventArgs>? ObjectAdded;
-    public event EventHandler<MediaDeviceEventArgs>? ObjectRemoved;
-    public event EventHandler<MediaDeviceEventArgs>? ObjectUpdated;
-    public event EventHandler<MediaDeviceEventArgs>? DeviceReset;
-    public event EventHandler<MediaDeviceEventArgs>? DeviceCapabilitiesUpdated;
-    public event EventHandler<MediaDeviceEventArgs>? StorageFormat;
-    public event EventHandler<MediaDeviceEventArgs>? ObjectTransferRequest;
-    public event EventHandler<MediaDeviceEventArgs>? DeviceRemoved;
-    public event EventHandler<MediaDeviceEventArgs>? ServiceMethodComplete;
+    public event EventHandler<MediaDeviceEventArgs>? Event;
+
+    //public event EventHandler<ObjectAddedEventArgs>? ObjectAdded;
+    //public event EventHandler<MediaDeviceEventArgs>? ObjectRemoved;
+    //public event EventHandler<MediaDeviceEventArgs>? ObjectUpdated;
+    //public event EventHandler<MediaDeviceEventArgs>? DeviceReset;
+    //public event EventHandler<MediaDeviceEventArgs>? DeviceCapabilitiesUpdated;
+    //public event EventHandler<MediaDeviceEventArgs>? StorageFormat;
+    //public event EventHandler<MediaDeviceEventArgs>? ObjectTransferRequest;
+    //public event EventHandler<MediaDeviceEventArgs>? DeviceRemoved;
+    //public event EventHandler<MediaDeviceEventArgs>? ServiceMethodComplete;
 
     #endregion
 
@@ -235,15 +286,16 @@ internal class ApplicationLayer : IDevice
         // release any native/protocol resources here in a full implementation
         isConnected = false;
         // Events: clear subscribers
-        ObjectAdded = null;
-        ObjectRemoved = null;
-        ObjectUpdated = null;
-        DeviceReset = null;
-        DeviceCapabilitiesUpdated = null;
-        StorageFormat = null;
-        ObjectTransferRequest = null;
-        DeviceRemoved = null;
-        ServiceMethodComplete = null;
+        Event = null;
+        //ObjectAdded = null;
+        //ObjectRemoved = null;
+        //ObjectUpdated = null;
+        //DeviceReset = null;
+        //DeviceCapabilitiesUpdated = null;
+        //StorageFormat = null;
+        //ObjectTransferRequest = null;
+        //DeviceRemoved = null;
+        //ServiceMethodComplete = null;
     }
 
     #endregion

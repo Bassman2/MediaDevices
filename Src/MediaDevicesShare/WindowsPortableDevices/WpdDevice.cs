@@ -64,18 +64,26 @@ internal partial class WpdDevice : IDevice, IDisposable
         //this.serviceManager = deviceManager;
         this.usbDevice = usbDevice;
 
-        MediaDevice = new MediaDevice(this);
+        
 
         var match = FilterUsbDeviceRegex().Match(usbDevice);
-        if (match.Success)
+        if (!match.Success)
         {
-            MediaDevice.ManufacturerId = (ManufacturerId)ushort.Parse(match.Groups["vid"].Value, NumberStyles.HexNumber);
-            MediaDevice.DeviceId = ushort.Parse(match.Groups["pid"].Value, NumberStyles.HexNumber); 
+            throw new ArgumentException($"Invalid USB device path: {usbDevice}", nameof(usbDevice));
         }
+        uint manufacturerId = uint.Parse(match.Groups["vid"].Value, NumberStyles.HexNumber);
+        uint deviceId = ushort.Parse(match.Groups["pid"].Value, NumberStyles.HexNumber);
 
-        MediaDevice.Description = GetDeviceDescription(deviceManager, usbDevice);
-        MediaDevice.FriendlyName = GetDeviceFriendlyName(deviceManager, usbDevice);
-        MediaDevice.Manufacturer = GetDeviceManufacturer(deviceManager, usbDevice)!;
+        MediaDevice = new MediaDevice(this)
+        {
+            UsbPath = usbDevice,
+            ManufacturerId = (ManufacturerId)manufacturerId,
+            DeviceId = (ushort)deviceId,
+
+            Description = GetDeviceDescription(deviceManager, usbDevice),
+            FriendlyName = GetDeviceFriendlyName(deviceManager, usbDevice),
+            Manufacturer = GetDeviceManufacturer(deviceManager, usbDevice)!
+        };
 
         //this.eventThreadHandler = new(this);
     }

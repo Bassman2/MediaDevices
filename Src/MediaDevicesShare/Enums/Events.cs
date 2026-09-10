@@ -17,8 +17,9 @@ public enum Events : ushort
     /// </summary>
     /// <remarks>WPD_EVENT_NOTIFICATION</remarks>
     [EnumGuid(0x2BA2E40A, 0x6B4C, 0x4295, 0xBB, 0x43, 0x26, 0x32, 0x2B, 0x99, 0xAE, 0xB2)]
-    Undefined = 0x4001,       // Undefined = Notification
+    Undefined = 0x4000,       // Undefined = Notification
 
+    CancelTransaction = 0x4001,
     /// <summary>
     /// This event is sent after a new object is available on the mediaDevice.
     /// </summary>
