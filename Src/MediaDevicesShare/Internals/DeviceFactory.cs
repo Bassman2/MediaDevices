@@ -128,11 +128,57 @@ internal static partial class DeviceFactory
 
                 string parentDir = Directory.GetParent(absoluteTarget)?.FullName ?? devPath;
 
-                string idVendor = ReadSysfsFile(Path.Combine(parentDir, "idVendor"));
-                string idProduct = ReadSysfsFile(Path.Combine(parentDir, "idProduct"));
-                string manufacturer = ReadSysfsFile(Path.Combine(parentDir, "manufacturer"));
-                string product = ReadSysfsFile(Path.Combine(parentDir, "product"));
-                string serial = ReadSysfsFile(Path.Combine(parentDir, "serial"));
+                ushort idVendor = ReadSysfsFileUInt16(parentDir, "idVendor");
+                ushort idProduct = ReadSysfsFileUInt16(parentDir, "idProduct");
+                string manufacturer = ReadSysfsFileString(parentDir, "manufacturer");
+                string product = ReadSysfsFileString(parentDir, "product");
+                string serial = ReadSysfsFileString(parentDir, "serial");
+
+                ushort busNumStr = ReadSysfsFileUInt16(parentDir, "busnum");
+                ushort devNumStr = ReadSysfsFileUInt16(parentDir, "devnum");
+
+                string bInterfaceNumberPath = Path.Combine(parentDir, "bInterfaceNumber");
+
+                uint epIn = 0;
+                uint epOut = 0;
+                uint epInterruptIn = 0;
+
+                foreach (string epDir in Directory.GetDirectories(parentDir, "ep_*"))
+                {
+                    string epName = Path.GetFileName(epDir); // z.B. "ep_81"
+                    string addressHex = epName.Replace("ep_", ""); // "81"
+                    uint epAddress = uint.Parse(addressHex, NumberStyles.HexNumber);
+
+                    // MTP-Standard verwendet Kontroll-Endpunkte (0) nicht für Bulk/Interrupt
+                    if ((epAddress & 0x7F) == 0) continue;
+
+                    string typePath = Path.Combine(epDir, "type");
+                    string directionPath = Path.Combine(epDir, "direction");
+
+                    if (File.Exists(typePath) && File.Exists(directionPath))
+                    {
+                        string type = File.ReadAllText(typePath).Trim().ToLower();      // bulk, interrupt, control
+                        string direction = File.ReadAllText(directionPath).Trim().ToLower(); // in, out
+
+                        if (type == "bulk")
+                        {
+                            if (direction == "in")
+                            {
+                                epIn = epAddress;
+                            }
+                            else if (direction == "out")
+                            {
+                                epOut = epAddress;
+                            }
+                        }
+                        else if (type == "interrupt" && direction == "in")
+                        {
+                            epInterruptIn = epAddress;
+                        }
+                    }
+                }
+
+
 
                 Debug.WriteLine($"  Manufacturer: {manufacturer}");
                 Debug.WriteLine($"  Product:      {product}");
@@ -144,11 +190,9 @@ internal static partial class DeviceFactory
                 //ushort manufacturerId = ushort.Parse(idVendor, NumberStyles.HexNumber);
                 //ushort deviceId = ushort.Parse(idProduct, NumberStyles.HexNumber);
 
-                ushort manufacturerId = Convert.ToUInt16(idVendor, 16);
-                ushort deviceId = Convert.ToUInt16(idProduct, 16);
+                
 
-
-                var device = new ApplicationLayer(new TransportLayerLinux(devPath, 0, 0, 0, 0), devPath, manufacturerId, deviceId); 
+                var device = new ApplicationLayer(new TransportLayerLinux(devPath, 0, 0, 0, 0), devPath, idVendor, idProduct); 
                 yield return device.MediaDevice;
 
                 //yield return new MediaDevice(devPath, product, product, manufacturer, $"Vendor ID: 0x{idVendor}, Product ID: 0x{idProduct}, Serial No.: {serial} Class type: Class {bInterfaceClass}, Subclass {bInterfaceSubClass}");
@@ -165,7 +209,13 @@ internal static partial class DeviceFactory
         }
     }
 
-    /*
+    private static ushort ReadSysfsFileUInt16(string path, string name)
+        => Convert.ToUInt16(File.ReadAllText(Path.Combine(path, name)).Trim(), 16);
+
+    private static string ReadSysfsFileString(string path, string name)
+        => File.ReadAllText(Path.Combine(path, name)).Trim();
+        
+        /*
      root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat bMaxPower
 500mA
 root@Notebook:/sys/devices/platform/vhci_hcd.0/usb1/1-1# cat bcdDevice
