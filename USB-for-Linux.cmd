@@ -7,4 +7,6 @@ usbipd list
 
 rem bind your device with the BUSID
 rem usbipd bind --busid 1-13
+usbipd bind --busid <DEINE-BUSID> --force
+
 usbipd attach --wsl --busid 5-1
