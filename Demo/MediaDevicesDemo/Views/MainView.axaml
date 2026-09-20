@@ -21,7 +21,7 @@
 
         <!-- Menubar -->
         
-        <Menu DockPanel.Dock="Top" > 
+       <!-- <Menu DockPanel.Dock="Top" > 
             <MenuItem Header="_File">
                 <MenuItem Header="E_xit" InputGesture="Alt+F4" Command="{Binding ExitCommand}" />
             </MenuItem>
@@ -35,13 +35,81 @@
             <MenuItem Header="_Help">
                 <MenuItem Header="_About MediaDevices" Command="{Binding AboutCommand}"/>
             </MenuItem>
-        </Menu>
+        </Menu>-->
+
+        <!-- CommandBar -->
+
+        <CommandBar DockPanel.Dock="Top" IsDynamicOverflowEnabled="True" DefaultLabelPosition="Bottom">
+    
+            <!-- Inhalt auf der linken Seite (z.B. ein Titel oder eine Suche) -->
+            <CommandBar.Content>
+                <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center" Margin="5,0">
+                    <!-- Menubar -->
+        
+                    <Menu DockPanel.Dock="Top" > 
+                        <MenuItem Header="_File">
+                            <MenuItem Header="E_xit" InputGesture="Alt+F4" Command="{Binding ExitCommand}" />
+                        </MenuItem>
+                        <MenuItem Header="_Devices">
+                            <MenuItem Header="_Update Device" InputGesture="Ctrl+U" Command="{Binding UpdateDevicesCommand}"/>
+                        </MenuItem>
+                        <MenuItem Header="_Style">
+                            <MenuItem Header="☀️ Light Mode" Command="{Binding SetModeCommand}" CommandParameter="{x:Static en:ThemeVariants.Light}"/>
+                            <MenuItem Header="🌙 Dark Mode" Command="{Binding SetModeCommand}" CommandParameter="{x:Static en:ThemeVariants.Dark}"/>
+                        </MenuItem>
+                        <MenuItem Header="_Help">
+                            <MenuItem Header="_About MediaDevices" Command="{Binding AboutCommand}"/>
+                        </MenuItem>
+                    </Menu>
+            
+                    <!-- Die ComboBox daneben -->
+                    <ComboBox PlaceholderText="Zoom" Width="100" VerticalAlignment="Center">
+                        <ComboBoxItem Content="50%"/>
+                        <ComboBoxItem Content="100%"/>
+                        <ComboBoxItem Content="150%"/>
+                    </ComboBox>
+                </StackPanel>
+            </CommandBar.Content>
+
+            <!-- Primäre Befehle (direkt sichtbar) -->
+            <CommandBar.PrimaryCommands>
+                <CommandBarButton Label="Neu" Command="{Binding UpdateDevicesCommand}">
+                    <CommandBarButton.Icon>
+                        <!-- SymbolIcon, PathIcon oder BitmapIcon verwenden -->
+                        <PathIcon Data="M6,2H14L18,6V18A2,2 0 0,1 16,20H6A2,2 0 0,1 4,18V4A2,2 0 0,1 6,2M13,3.5V7H16.5L13,3.5Z"/>
+                    </CommandBarButton.Icon>
+                </CommandBarButton>
+        
+                <CommandBarButton Label="Öffnen" Command="{Binding UpdateDevicesCommand}">
+                    <CommandBarButton.Icon>
+                        <PathIcon Data="M6,2H14L18,6V18A2,2 0 0,1 16,20H6A2,2 0 0,1 4,18V4A2,2 0 0,1 6,2M13,3.5V7H16.5L13,3.5Z"/>
+                    </CommandBarButton.Icon>
+                </CommandBarButton>
+
+                <CommandBarSeparator />
+
+                <CommandBarToggleButton Label="Fett" >
+                    <CommandBarToggleButton.Icon>
+                        <PathIcon Data="M6,2H14L18,6V18A2,2 0 0,1 16,20H6A2,2 0 0,1 4,18V4A2,2 0 0,1 6,2M13,3.5V7H16.5L13,3.5Z"/>
+                    </CommandBarToggleButton.Icon>
+                </CommandBarToggleButton>
+            </CommandBar.PrimaryCommands>
+
+            <!-- Sekundäre Befehle (Im Drei-Punkte-Drop-Down versteckt) -->
+            <CommandBar.SecondaryCommands>
+                <CommandBarButton Label="Einstellungen" Command="{Binding UpdateDevicesCommand}"/>
+                <CommandBarButton Label="Info" Command="{Binding AboutCommand}"/>
+            </CommandBar.SecondaryCommands>
+    
+        </CommandBar>
+
+        
 
         <!-- Toolbar -->
-
+<!--
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="{StaticResource StatusBackgroundBrush}">
             <Button Content="⚙" Command="{Binding UpdateDevicesCommand}" ToolTip.Tip="Update Devices"/>
-        </StackPanel>
+        </StackPanel>-->
 
         <!-- Statusbar -->
 
