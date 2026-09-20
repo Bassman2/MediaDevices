@@ -1,0 +1,73 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:MediaDevicesDemo.ViewModels"
+        xmlns:en="using:MediaDevicesDemo.Enums"
+        xmlns:views="using:MediaDevicesDemo.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="MediaDevicesDemo.Views.MainView"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Media Devices Demo">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <DockPanel LastChildFill="True">
+
+        <!-- Menubar -->
+        
+        <Menu DockPanel.Dock="Top" > 
+            <MenuItem Header="_File">
+                <MenuItem Header="E_xit" InputGesture="Alt+F4" Command="{Binding ExitCommand}" />
+            </MenuItem>
+            <MenuItem Header="_Devices">
+                <MenuItem Header="_Update Device" InputGesture="Ctrl+U" Command="{Binding UpdateDevicesCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Style">
+                <MenuItem Header="☀️ Light Mode" Command="{Binding SetModeCommand}" CommandParameter="{x:Static en:ThemeVariants.Light}"/>
+                <MenuItem Header="🌙 Dark Mode" Command="{Binding SetModeCommand}" CommandParameter="{x:Static en:ThemeVariants.Dark}"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About MediaDevices" Command="{Binding AboutCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Toolbar -->
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="{StaticResource StatusBackgroundBrush}">
+            <Button Content="⚙" Command="{Binding UpdateDevicesCommand}" ToolTip.Tip="Update Devices"/>
+        </StackPanel>
+
+        <!-- Statusbar -->
+
+        <Border DockPanel.Dock="Bottom" Height="28" Padding="10,0" Background="{DynamicResource StatusBackgroundBrush}">
+            <Grid ColumnDefinitions="Auto, *, Auto" VerticalAlignment="Center">
+                <TextBlock Text="{Binding StatusText}" Foreground="{DynamicResource StatusTextColorBrush}"  VerticalAlignment="Center" FontSize="12"/>
+               <!-- <ProgressBar Grid.Column="1"
+                     IsIndeterminate="True" 
+                     IsVisible="{Binding StarteProzessCommand.IsRunning}" 
+                     Height="6" 
+                     MaxWidth="200"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"/>-->
+                    <!-- Foreground="#4EAAFF"
+                     Background="#005A9E"/> -->     
+                <!-- Zusätzliche Info rechts (z.B. Zeile/Spalte) Foreground="#D4D4D4" -->
+            </Grid>
+        </Border>
+
+        <!-- Main -->
+
+        <TabControl>
+             <TabItem Header="DeviceInfo">
+                 <views:DeviceInfoView/>
+             </TabItem>
+        </TabControl>
+    
+    </DockPanel>
+</Window>

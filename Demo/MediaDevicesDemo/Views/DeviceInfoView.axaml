@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="MediaDevicesDemo.Views.DeviceInfoView">
+  <Grid ColumnDefinitions="*,*">
+      <Grid Grid.Column="0" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+          <Label Grid.Row="0" Content="Standard Version"/>
+          <TextBox Grid.Row="1" Text="sss" Margin="3"/>
+          <Label Grid.Row="2" Content="Vendor"/>
+          <TextBox Grid.Row="3" Text="sss" Margin="3"/>
+          <Label Grid.Row="4" Content="Extension Version"/>
+          <TextBox Grid.Row="5" Text="sss" Margin="3"/>
+          <Label Grid.Row="6" Content="Extensions String"/>
+          <TextBox Grid.Row="7" Text="sss" Margin="3"/>
+          <Label Grid.Row="8" Content="Functional Mode"/>
+          <TextBox Grid.Row="9" Text="sss" Margin="3"/>
+          <Label Grid.Row="10" Content="Manufacturer String"/>
+          <TextBox Grid.Row="11" Text="sss" Margin="3"/>
+          <Label Grid.Row="12" Content="Model String"/>
+          <TextBox Grid.Row="13" Text="sss" Margin="3"/>
+          <Label Grid.Row="14" Content="Device Version String"/>
+          <TextBox Grid.Row="15" Text="sss" Margin="3"/>
+          <Label Grid.Row="16" Content="Serial Number String"/>
+          <TextBox Grid.Row="17" Text="sss" Margin="3"/>
+         
+      </Grid>
+  </Grid> 
+</UserControl>

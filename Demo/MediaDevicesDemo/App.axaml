@@ -1,10 +1,41 @@
 ﻿<Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="using:MediaDevicesDemo.Converters"
              x:Class="MediaDevicesDemo.App"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+
     </Application.Styles>
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- 
+            <conv:EnumToBoolConverter x:Key="EnumToBoolConverter"/>
+            <conv:BoolToBoldConverter x:Key="BoolToBoldConverter"/>
+            <conv:EnumerableToStringConverter x:Key="EnumerableToStringConverter"/>
+            <conv:GroupTypeToStringConverter x:Key="GroupTypeToStringConverter"/>
+            <conv:GroupTypeToInfoConverter x:Key="GroupTypeToInfoConverter"/>
+            -->
+            
+            <ResourceDictionary.ThemeDictionaries>
+                
+                <!-- Farben für den HELLEN Modus -->
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="StatusBackgroundBrush">#F5F7FA</SolidColorBrush> <!-- Sehr helles Grau-Blau -->
+                    <SolidColorBrush x:Key="StatusTextColorBrush">#1A1A1A</SolidColorBrush>
+                </ResourceDictionary>
+                
+                <!-- Farben für den DUNKLEN Modus -->
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="StatusBackgroundBrush">#1E222B</SolidColorBrush> <!-- Dunkles Anthrazit-Blau -->
+                    <SolidColorBrush x:Key="StatusTextColorBrush">#E5E5E5</SolidColorBrush>
+                </ResourceDictionary>
+                
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>
