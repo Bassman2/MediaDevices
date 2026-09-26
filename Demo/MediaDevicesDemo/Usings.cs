@@ -32,6 +32,7 @@ global using CommunityToolkit.Mvvm.DependencyInjection;
 global using CommunityToolkit.Mvvm.Messaging;
 global using CommunityToolkit.Mvvm.Messaging.Messages;
 
+global using AvaloniaToolbox.Services;
 
 
 global using MediaDevicesDemo.Enums;

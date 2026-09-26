@@ -4,6 +4,10 @@
     <Project Path="Demo/MediaDevicesDemoOld/MediaDevicesDemoOld.csproj" />
     <Project Path="Demo/PictureImport/PictureImport.csproj" />
   </Folder>
+  <Folder Name="/Externals/">
+    <Project Path="../AvaloniaToolbox/Src/AvaloniaToolbox100/AvaloniaToolbox100.csproj" />
+    <Project Path="../AvaloniaToolbox/Src/AvaloniaToolboxShare/AvaloniaToolboxShare.shproj" Id="2fb9ec73-8eeb-4be8-8c31-a3571a8bf9b5" />
+  </Folder>
   <Folder Name="/Generator/">
     <Project Path="Generator/FindGenerator/FindGenerator.csproj" />
     <Project Path="Generator/GeneratorLibraryShare/GeneratorLibraryShare.shproj" Id="dca7dd44-310c-48bd-bc75-c4203d5c3200" />

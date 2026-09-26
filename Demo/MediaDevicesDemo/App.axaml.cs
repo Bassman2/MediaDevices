@@ -1,4 +1,5 @@
 ﻿using Avalonia.Markup.Xaml;
+using AvaloniaToolbox.Services;
 using MediaDevicesDemo.Services;
 using MediaDevicesDemo.Views;
 
@@ -15,8 +16,12 @@ public partial class App : Application
         Ioc.Default.ConfigureServices
         (
             new ServiceCollection()
-
                 .AddSingleton<IApplicationService, ApplicationService>()
+                
+                .AddSingleton<SettingsService<AppSettings>>()
+                .AddSingleton<ISettingsService>(sp => sp.GetRequiredService<SettingsService<AppSettings>>())
+                .AddSingleton<ISettingsService<AppSettings>>(sp => sp.GetRequiredService<SettingsService<AppSettings>>())
+                
                 //.AddSingleton<IBusinessLogic, BusinessLogic>()
                 //.AddSingleton<DialogService, DialogService>()
 

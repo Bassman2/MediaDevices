@@ -7,6 +7,7 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel(IApplicationService applicationService)
     {
+        //Ioc.Default.GetRequiredService<TView>();
         this.applicationService = applicationService;
     }
 
